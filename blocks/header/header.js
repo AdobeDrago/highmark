@@ -41,6 +41,17 @@ function decoratePrimaryNav(sectionEl) {
   if (!navList) return sectionEl;
   navList.classList.add('nav-primary');
 
+  // DA wraps a standalone link in a <p> (e.g. `<li><p><a>Plans</a></p><ul>…`),
+  // whereas local `aem up` serves the raw `<li><a>Plans</a><ul>…`. The trigger
+  // lookup and the CSS both expect the anchor as a direct child of the <li>, so
+  // unwrap any <p> that holds a single anchor throughout the nav tree.
+  navList.querySelectorAll('li > p').forEach((p) => {
+    const only = p.children.length === 1 && p.firstElementChild.tagName === 'A';
+    if (only && !p.textContent.replace(p.firstElementChild.textContent, '').trim()) {
+      p.replaceWith(p.firstElementChild);
+    }
+  });
+
   navList.querySelectorAll(':scope > li').forEach((li) => {
     const panel = li.querySelector(':scope > ul');
     const trigger = li.querySelector(':scope > a');
