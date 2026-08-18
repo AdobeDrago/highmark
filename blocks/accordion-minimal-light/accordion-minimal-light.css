@@ -110,11 +110,38 @@
    full-width section sibling. Offset the accordion sections to align in the
    right content column beside the sidebar, matching the source col-lg-9. */
 @media (width >= 900px) {
+  /* Match the sidenav container geometry exactly (border-box, same max-width
+     and 32px side padding) so percentages resolve against the same content
+     width. */
   main .section.accordion-minimal-light-container {
+    box-sizing: border-box;
     max-width: var(--content-max-width, 1200px);
     margin-left: auto;
     margin-right: auto;
-    box-sizing: border-box;
-    padding-left: calc(25% + 40px);
+    padding: 0 32px;
+  }
+
+  /* Drop the default EDS section-inner padding so the content column's left
+     edge is governed solely by the margin-left offset below (matching the
+     sidenav container, whose children are likewise zeroed). */
+  main .section.accordion-minimal-light-container > div {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Offset the accordion block into the right content column with the same
+     rule the sidenav intro uses (25% sidebar + 32px gap), so both left edges
+     line up beside the sidebar. */
+  main .section.accordion-minimal-light-container > .accordion-minimal-light-wrapper,
+  main .section.accordion-minimal-light-container > .default-content-wrapper {
+    margin-left: calc(25% + 32px);
+  }
+
+  /* The block wrapper may carry the default EDS inner padding; zero it so the
+     accordion questions line up flush with their section H2 heading (matching
+     the source, where questions sit at the H2's left edge, not indented). */
+  main .section.accordion-minimal-light-container .accordion-minimal-light {
+    padding-left: 0;
   }
 }

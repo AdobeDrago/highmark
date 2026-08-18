@@ -110,14 +110,21 @@
 
 /* ---- Two-column layout (desktop): sidebar left, content right ----
    The block sits first in its section, so EDS names the section
-   `.cards-minimal-light-sidenav-container`. On desktop we lay the section
-   out as a flex row: the sidebar wrapper takes ~25% (source col-lg-3) and
-   the article content wrapper fills the rest. On mobile everything stacks. */
+   `.cards-minimal-light-sidenav-container`. On the source the sidebar and the
+   ENTIRE right column (intro + every FAQ accordion group) share one two-column
+   row, so the tall sidebar sits beside the tall accordion stack.
+
+   In EDS each accordion group is a SEPARATE section below the sidebar section.
+   If the sidebar took layout height in a flex row, its section would be as tall
+   as the sidebar (much taller than the short intro), pushing the accordion
+   sections down and leaving a large blank gap. So the sidebar is taken OUT OF
+   FLOW (absolutely positioned in a left gutter) — its section collapses to the
+   intro's height, and the following accordion sections, which reserve a
+   matching left gutter, flow up beside it. On mobile everything stacks. */
 @media (width >= 900px) {
   main .section.cards-minimal-light-sidenav-container {
-    display: flex;
-    align-items: flex-start;
-    gap: 32px;
+    position: relative;
+    box-sizing: border-box;
     max-width: var(--content-max-width, 1200px);
     margin: 0 auto;
     padding: 0 32px;
@@ -129,14 +136,20 @@
     padding: 0;
   }
 
+  /* Sidebar: pulled out of flow into the left ~25% gutter so it does not
+     stretch the section height. It visually overlaps the accordion sections
+     that follow (which leave a matching gutter free). */
   main .section.cards-minimal-light-sidenav-container > .cards-minimal-light-sidenav-wrapper {
-    flex: 0 0 25%;
-    max-width: 25%;
+    position: absolute;
+    top: 0;
+    left: 32px;
+    width: calc(25% - 32px);
   }
 
+  /* Content column fills the row; a left offset keeps the intro clear of the
+     absolutely-positioned sidebar (25% gutter + 32px flex gap). */
   main .section.cards-minimal-light-sidenav-container > .default-content-wrapper {
-    flex: 1 1 auto;
-    min-width: 0;
+    margin-left: calc(25% + 32px);
   }
 }
 
@@ -167,5 +180,21 @@ main .section.cards-minimal-light-sidenav-container .default-content-wrapper .bu
 main .section.cards-minimal-light-sidenav-container .default-content-wrapper a.button:hover {
   background: transparent;
   color: var(--link-color);
+  text-decoration: underline;
+}
+
+/* In-page jump links (e.g. the "Popular questions" list on the FAQ landing page)
+   are also standalone bold links that EDS turns into .button, but the source
+   renders them as ordinary blue text links — not the bold navy heading-links
+   used for article listings. Restore the normal link treatment for anchors
+   pointing within the page. */
+main .section.cards-minimal-light-sidenav-container .default-content-wrapper a.button[href^="#"] {
+  font-size: inherit;
+  font-weight: 400;
+  color: var(--link-color);
+}
+
+main .section.cards-minimal-light-sidenav-container .default-content-wrapper a.button[href^="#"]:hover {
+  color: var(--link-hover-color);
   text-decoration: underline;
 }
