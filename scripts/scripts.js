@@ -24,8 +24,13 @@ import {
 function buildHeroBlock(main) {
   const h1 = main.querySelector('h1');
   const picture = main.querySelector('picture');
+  // Skip auto-hero when the h1/picture already belong to an authored block.
+  // At this point sections are not yet decorated, so a classed ancestor div
+  // means the elements live inside an explicit block (e.g. hero-minimal-dark-withimg).
+  const inAuthoredBlock = (el) => el && el.closest('div[class]');
   // eslint-disable-next-line no-bitwise
-  if (h1 && picture && (h1.compareDocumentPosition(picture) & Node.DOCUMENT_POSITION_PRECEDING)) {
+  if (h1 && picture && (h1.compareDocumentPosition(picture) & Node.DOCUMENT_POSITION_PRECEDING)
+    && !inAuthoredBlock(h1) && !inAuthoredBlock(picture)) {
     const section = document.createElement('div');
     section.append(buildBlock('hero', { elems: [picture, h1] }));
     main.prepend(section);

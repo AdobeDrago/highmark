@@ -1,0 +1,42 @@
+{
+  "variantName": "cards-minimal-light-sidenav",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-08-17T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.highmark.com/resources/answers/articles",
+    "originPage": "sidebar-listing (Health Insurance Articles listing page)",
+    "blockPosition": "left-sidebar"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "minimal",
+    "purpose": "section-nav",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "vertical nested list of section links: parent link + bold active current-section link (with accent bar + collapse chevron) + indented child-page links",
+    "buttonCount": 0,
+    "imageCount": 0,
+    "itemCount": 3
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "left-hand vertical section-navigation sidebars on two-column pages (sidebar-listing, sidebar-article, sidebar-faq and related templates)",
+      "hierarchical in-section navigation with a parent, an active current section, and child-page links",
+      "the identical left sidebar shared by all sidebar-listing pages including the FAQ pages"
+    ],
+    "notSuitableFor": [
+      "horizontal icon quick-nav bars (use cards-minimal-dark-iconnav)",
+      "image/text card grids (use cards-minimal-dark-withimg / -withimg-2)",
+      "text/list-only cards (use cards-minimal-dark-list)",
+      "expandable FAQ Q&A (use an accordion variant)"
+    ]
+  },
+  "notes": "NEW variant for the sidebar-listing template. No existing sidebar / section-navigation block existed in the project; nearest neighbor cards-minimal-dark-iconnav is horizontal and icon-based (0% structural match). Built on the cards base per the project convention for nav blocks. Authoring model: one row per nav item; when two cells are present the first cell is a level token (parent | current | child) and the second holds the link, otherwise a single-cell row is treated as a flat child link. decorate() builds a nested <ul>, marks the current item (explicit 'current' token or href matching the page path) with an accent bar and a collapse chevron, and nests child links under it. The same sidebar is reused across all 14 sidebar-listing pages (article listing pages and FAQ pages).",
+  "usage": {
+    "pagesUsing": ["/resources/answers/articles", "/resources/answers/faq/aca-plans"],
+    "reuseCount": 2,
+    "lastUsed": "2026-08-17T00:00:00.000Z"
+  }
+}

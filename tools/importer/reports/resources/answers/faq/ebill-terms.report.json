@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/resources/answers/faq/ebill-terms",
+  "path": "resources/answers/faq/ebill-terms",
+  "timestamp": "2026-08-17T21:42:49.603Z",
+  "title": "Highmark eBill Terms of Use | Highmark",
+  "template": "sidebar-listing",
+  "blocks": [
+    "cards-minimal-light-sidenav",
+    "cards-minimal-light-sidenav"
+  ]
+}

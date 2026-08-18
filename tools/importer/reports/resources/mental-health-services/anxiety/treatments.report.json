@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/resources/mental-health-services/anxiety/treatments",
+  "path": "resources/mental-health-services/anxiety/treatments",
+  "timestamp": "2026-08-18T00:53:25.601Z",
+  "title": "Anxiety Counseling, Medication, Life Changes| Highmark",
+  "template": "sidebar-guide-article",
+  "blocks": [
+    "cards-minimal-light-sidenav",
+    "cards-minimal-light-sidenav"
+  ]
+}

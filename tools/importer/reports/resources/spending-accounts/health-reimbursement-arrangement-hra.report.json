@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/resources/spending-accounts/health-reimbursement-arrangement-hra",
+  "path": "resources/spending-accounts/health-reimbursement-arrangement-hra",
+  "timestamp": "2026-08-18T00:38:30.941Z",
+  "title": "Health Reimbursement Arrangement (HRA) | Highmark",
+  "template": "tabbed-answers-landing",
+  "blocks": [
+    "cards-minimal-dark-iconnav",
+    "columns-minimal-dark"
+  ]
+}

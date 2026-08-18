@@ -1,0 +1,65 @@
+/* Block: hero-minimal-light
+ * Light-blue tinted full-width band with a centered navy heading + intro
+ * paragraph. No background image, no buttons. Values extracted from the source
+ * /resources/answers hero (section.new-hmk-brand-fifteenpercent-splash) via
+ * getComputedStyle at 1280px (desktop) and 390px (mobile).
+ */
+
+/* Full-bleed: cancel the section container max-width + padding so the tinted
+   band spans edge to edge. */
+.hero-minimal-light-container .hero-minimal-light-wrapper {
+  max-width: unset;
+  margin: 0;
+  padding: 0;
+}
+
+.hero-minimal-light {
+  /* Light-blue "splash" tint band — source rgb(217, 235, 246) */
+  background-color: #d9ebf6;
+  color: #003963;
+  padding: 20px 24px 40px;
+  text-align: center;
+}
+
+.hero-minimal-light h1 {
+  margin: 0 0 8px;
+  padding: 24px 0;
+  color: var(--text-color); /* #003963 navy */
+  font-family: var(--heading-font-family);
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 35.2px;
+  letter-spacing: -1.28px;
+  text-align: center;
+}
+
+.hero-minimal-light p {
+  margin: 0 auto 12.8px;
+  color: var(--text-body-color); /* #001446 */
+  font-family: var(--body-font-family);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 21px;
+  text-align: center;
+}
+
+@media (width >= 900px) {
+  .hero-minimal-light {
+    padding: 80px 32px 100px;
+  }
+
+  .hero-minimal-light h1 {
+    margin: 0 0 8px;
+    padding: 28.8px 0;
+    font-size: 56px;
+    line-height: 61.6px;
+    letter-spacing: -2.8px;
+  }
+
+  .hero-minimal-light p {
+    max-width: 853px;
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0 auto 16px;
+  }
+}

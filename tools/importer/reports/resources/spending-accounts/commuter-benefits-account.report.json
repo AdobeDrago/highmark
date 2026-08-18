@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/resources/spending-accounts/commuter-benefits-account",
+  "path": "resources/spending-accounts/commuter-benefits-account",
+  "timestamp": "2026-08-17T23:05:31.409Z",
+  "title": "Commuter Benefits Account | Highmark",
+  "template": "tabbed-answers-landing",
+  "blocks": [
+    "cards-minimal-dark-iconnav",
+    "columns-minimal-dark"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/resources/answers/faq/preventive-diagnostic-screening",
+  "path": "resources/answers/faq/preventive-diagnostic-screening",
+  "timestamp": "2026-08-17T23:22:45.618Z",
+  "title": "Preventive Screening vs. Diagnostic | Highmark",
+  "template": "sidebar-faq",
+  "blocks": [
+    "cards-minimal-light-sidenav",
+    "cards-minimal-light-sidenav",
+    "accordion-minimal-light"
+  ]
+}

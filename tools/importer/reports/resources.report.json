@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/resources",
+  "path": "resources",
+  "timestamp": "2026-08-18T09:34:00.918Z",
+  "title": "Highmark Resources: Help Topics & Answers",
+  "template": "topic-hub-landing",
+  "blocks": [
+    "hero-minimal-dark-withimg",
+    "cards-minimal-dark-withimg",
+    "columns-minimal-dark",
+    "cards-minimal-dark-withimg-2"
+  ]
+}

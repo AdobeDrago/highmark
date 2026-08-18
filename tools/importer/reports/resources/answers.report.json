@@ -1,0 +1,16 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/resources/answers",
+  "path": "resources/answers",
+  "timestamp": "2026-08-17T23:05:17.790Z",
+  "title": "Highmark Answers: Health Insurance FAQs & More",
+  "template": "tabbed-answers-landing",
+  "blocks": [
+    "hero-minimal-light",
+    "cards-minimal-dark-iconnav",
+    "accordion-minimal-light",
+    "cards-minimal-dark-list",
+    "columns-minimal-dark",
+    "columns-minimal-dark"
+  ]
+}
