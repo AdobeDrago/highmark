@@ -169,3 +169,19 @@ main .section.cards-minimal-light-sidenav-container .default-content-wrapper a.b
   color: var(--link-color);
   text-decoration: underline;
 }
+
+/* In-page jump links (e.g. the "Popular questions" list on the FAQ landing page)
+   are also standalone bold links that EDS turns into .button, but the source
+   renders them as ordinary blue text links — not the bold navy heading-links
+   used for article listings. Restore the normal link treatment for anchors
+   pointing within the page. */
+main .section.cards-minimal-light-sidenav-container .default-content-wrapper a.button[href^="#"] {
+  font-size: inherit;
+  font-weight: 400;
+  color: var(--link-color);
+}
+
+main .section.cards-minimal-light-sidenav-container .default-content-wrapper a.button[href^="#"]:hover {
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
