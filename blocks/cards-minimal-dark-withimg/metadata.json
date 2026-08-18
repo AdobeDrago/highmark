@@ -1,0 +1,42 @@
+{
+  "variantName": "cards-minimal-dark-withimg",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-08-17T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.highmark.com/resources",
+    "originPage": "topic-hub-landing (Resources)",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "minimal",
+    "purpose": "feature",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image + heading + text + link",
+    "buttonCount": 1,
+    "imageCount": 3
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "three-up topic/navigation card grids",
+      "landing pages linking to sub-sections with image, title, description and link"
+    ],
+    "notSuitableFor": [
+      "text-only card lists without images",
+      "single side-by-side text+image promos (use columns)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/resources",
+      "/resources/mental-health-services/depression",
+      "/resources/spending-accounts",
+      "/resources/answers"
+    ],
+    "reuseCount": 4,
+    "lastUsed": "2026-08-17T00:00:00.000Z"
+  }
+}

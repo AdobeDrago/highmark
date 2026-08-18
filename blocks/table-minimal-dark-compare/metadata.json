@@ -1,0 +1,42 @@
+{
+  "variantName": "table-minimal-dark-compare",
+  "baseBlock": "table",
+  "version": "1.0.0",
+  "created": "2026-08-17T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.highmark.com/resources/spending-accounts",
+    "originPage": "topic-hub-subnav (Spending Accounts coverage-gap page)",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "minimal",
+    "purpose": "comparison",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "header row + feature rows (label + per-column Yes/No/value cells)",
+    "buttonCount": 0,
+    "imageCount": 0,
+    "columnCount": 4,
+    "rowCount": 11
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "feature comparison tables (rows = features, columns = product/plan options)",
+      "Yes/No/value matrices comparing account or plan types (e.g. HSA/HRA/FSA)",
+      "any tabular data with a header row and repeating labeled data rows"
+    ],
+    "notSuitableFor": [
+      "repeating image/text card grids (use cards variants)",
+      "side-by-side text + image promos (use columns-minimal-dark)",
+      "icon quick-nav bars (use cards-minimal-dark-iconnav)"
+    ]
+  },
+  "notes": "NEW variant for the topic-hub-subnav template, introduced by the Spending Accounts coverage-gap page. The representative depression page has no table, so no existing table variant existed (only the vanilla 'table' block, similarity < 80% since no comparison-purpose table variant was present). decorate() is the vanilla Block Collection table decorator (first row -> thead, remaining rows -> tbody); it uses only generic table element selectors, so no base-block JS class names required renaming. Source column order is HSA, HRA, FSA. Some cells carry superscript footnote markers ([2] on 'Funded by') that reference page-level disclaimers.",
+  "usage": {
+    "pagesUsing": ["/resources/spending-accounts"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-17T00:00:00.000Z"
+  }
+}

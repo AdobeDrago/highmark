@@ -1,0 +1,41 @@
+{
+  "variantName": "cards-minimal-dark-list",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-08-17T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.highmark.com/resources/mental-health-services/depression",
+    "originPage": "topic-hub-subnav (Depression sub-topic detail page)",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "minimal",
+    "purpose": "list",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "heading + bulleted list + link",
+    "buttonCount": 1,
+    "imageCount": 0,
+    "itemCount": 2
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "two-up text/list cards such as Do / Don't guidance",
+      "cards that contain a heading, a bulleted list, and a read-more link",
+      "image-less card groups on sub-topic detail pages"
+    ],
+    "notSuitableFor": [
+      "cards that need a top image (use cards-minimal-dark-withimg or cards-minimal-dark-withimg-2)",
+      "single side-by-side text + image promos (use columns-minimal-dark)",
+      "icon quick-nav bars (use cards-minimal-dark-iconnav)"
+    ]
+  },
+  "notes": "New variant for the topic-hub-subnav template. Text/list-only cards (no images) -- structurally distinct from the existing image card variants. decorate() flattens each row into a single card body containing the heading, list, and CTA link.",
+  "usage": {
+    "pagesUsing": ["/resources/mental-health-services/depression"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-17T00:00:00.000Z"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "variantName": "cards-minimal-dark-withimg-2",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-08-17T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.highmark.com/resources",
+    "originPage": "topic-hub-landing (Resources)",
+    "blockPosition": "bottom"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "minimal",
+    "purpose": "feature",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image + heading + text + link",
+    "buttonCount": 1,
+    "imageCount": 2
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "two-up promo/tool card rows (e.g. Find a Provider / Find a clinic)",
+      "landing pages with a small set of image + title + description + link cards"
+    ],
+    "notSuitableFor": [
+      "text-only card lists without images",
+      "single side-by-side text+image promos (use columns)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/resources",
+      "/resources/mental-health-services/depression"
+    ],
+    "reuseCount": 2,
+    "lastUsed": "2026-08-17T00:00:00.000Z"
+  }
+}

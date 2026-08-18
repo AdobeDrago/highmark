@@ -1,0 +1,348 @@
+{
+  "templates": [
+    {
+      "name": "topic-hub-landing",
+      "urls": [
+        "https://www.highmark.com/resources",
+        "https://www.highmark.com/resources/mental-health-services"
+      ],
+      "coverageGaps": [],
+      "description": "Landing page with full-width hero banner, centered intro, a three-up card grid of topic links, a tinted CTA band, and alternating image/text promo sections above the footer",
+      "blocks": [
+        {
+          "name": "hero-minimal-dark-withimg",
+          "instances": [
+            "div.hero.responsivegrid.section"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg",
+          "instances": [
+            "div.card-block.responsivegrid.section"
+          ]
+        },
+        {
+          "name": "section-glossary-highlight",
+          "instances": [
+            "div.onecard1colpanel.section"
+          ],
+          "section": "highlight"
+        },
+        {
+          "name": "section-columns-accent",
+          "instances": [
+            "div.newcardscomponent-variations.section:nth-of-type(4)"
+          ],
+          "section": "accent"
+        },
+        {
+          "name": "columns-minimal-dark",
+          "instances": [
+            "div.newcardscomponent-variations.section:nth-of-type(4)"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg-2",
+          "instances": [
+            "div.newcardscomponent-variations.section:nth-of-type(5)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "topic-hub-subnav",
+      "urls": [
+        "https://www.highmark.com/resources/mental-health-services/anxiety",
+        "https://www.highmark.com/resources/mental-health-services/depression",
+        "https://www.highmark.com/resources/mental-health-services/eating-disorders",
+        "https://www.highmark.com/resources/spending-accounts"
+      ],
+      "coverageGaps": [],
+      "description": "Sub-topic detail page: full-bleed hero, an icon quick-nav bar linking to child topics, alternating image/text info sections, promo cards, and (on some pages) a comparison table and video call-to-actions.",
+      "blocks": [
+        {
+          "name": "hero-minimal-dark-withimg",
+          "instances": [
+            "div.hero.responsivegrid.section"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-iconnav",
+          "instances": [
+            "div.quicklinks.section"
+          ]
+        },
+        {
+          "name": "columns-minimal-dark",
+          "instances": [
+            "div.newcardscomponent-variations.section:has(.side-card-panel)",
+            "section.container-fluid-fullwidth.section:has(.side-card-panel)"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg",
+          "instances": [
+            "div.newcardscomponent-variations.section:has(ul.gridcardsul):has(.cardThree picture)",
+            "div.newcardscomponent-variations.section:has(ul.gridcardsul):has(.cardThree img)",
+            "section.container-fluid-fullwidth.section:has(.cardText)"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-list",
+          "instances": [
+            "div.newcardscomponent-variations.section:has(ul.gridcardsul):not(:has(picture)):not(:has(img))"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg-2",
+          "instances": [
+            "div.newcardscomponent-variations.section:has(.listWideImg)"
+          ]
+        },
+        {
+          "name": "table-minimal-dark-compare",
+          "instances": [
+            ".dynamic-table-container",
+            "section.container-fluid-fullwidth.section:has(table)"
+          ]
+        },
+        {
+          "name": "section-crisis-highlight",
+          "instances": [
+            "div.onecard1colpanel.section"
+          ],
+          "section": "highlight"
+        }
+      ]
+    },
+    {
+      "name": "tabbed-answers-landing",
+      "urls": [
+        "https://www.highmark.com/resources/answers",
+        "https://www.highmark.com/resources/answers/health-insurance-glossary",
+        "https://www.highmark.com/resources/spending-accounts/commuter-benefits-account",
+        "https://www.highmark.com/resources/spending-accounts/flexible-spending-account-fsa",
+        "https://www.highmark.com/resources/spending-accounts/health-saving-account-hsa",
+        "https://www.highmark.com/resources/spending-accounts/health-reimbursement-arrangement-hra"
+      ],
+      "coverageGaps": [],
+      "description": "Landing page with hero banner, an icon tab/quick-nav bar, an FAQ accordion section, a three-up card grid, and alternating image/text promo and resource sections",
+      "blocks": [
+        {
+          "name": "hero-minimal-light",
+          "instances": [
+            "section.new-hmk-brand-fifteenpercent-splash"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-iconnav",
+          "instances": [
+            "div.quicklinks.section",
+            ".quick-link-list-container.bg-blue"
+          ]
+        },
+        {
+          "name": "accordion-minimal-light",
+          "instances": [
+            "div.col-lg-9 div.accordianTable",
+            ".accordianTable"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-list",
+          "instances": [
+            ".newcardscomponent-variations:has(.cards-variation) .cards-variation"
+          ]
+        },
+        {
+          "name": "columns-minimal-dark",
+          "instances": [
+            ".side-card-panel.new-hmk-brand-blush-twnetyfive",
+            ".newcardscomponent-variations:last-of-type .side-card-panel"
+          ]
+        },
+        {
+          "name": "section-glossary-highlight",
+          "instances": [
+            ".one-card-one-col-panel.new-hmk-brand-darkblue"
+          ],
+          "section": "highlight"
+        }
+      ]
+    },
+    {
+      "name": "sidebar-listing",
+      "urls": [
+        "https://www.highmark.com/resources/answers/articles",
+        "https://www.highmark.com/resources/answers/community-assistance-resources",
+        "https://www.highmark.com/resources/answers/faq",
+        "https://www.highmark.com/resources/answers/faq/aca-plans",
+        "https://www.highmark.com/resources/answers/faq/chip",
+        "https://www.highmark.com/resources/answers/faq/covid",
+        "https://www.highmark.com/resources/answers/faq/ebill-help",
+        "https://www.highmark.com/resources/answers/faq/ebill-terms",
+        "https://www.highmark.com/resources/answers/faq/explanation-of-benefits",
+        "https://www.highmark.com/resources/answers/faq/insurance-terms",
+        "https://www.highmark.com/resources/answers/faq/measles",
+        "https://www.highmark.com/resources/answers/faq/medicare-reservations",
+        "https://www.highmark.com/resources/answers/faq/member-account-login",
+        "https://www.highmark.com/resources/answers/faq/spending-accounts"
+      ],
+      "coverageGaps": [],
+      "description": "Two-column layout with a left-hand section navigation sidebar and a main content column showing a heading, intro, and a list of linked items",
+      "blocks": [
+        {
+          "name": "cards-minimal-light-sidenav",
+          "instances": [
+            "div.d-none.d-lg-block.col-lg-3 div.nav-container"
+          ]
+        },
+        {
+          "name": "accordion-minimal-light",
+          "instances": [
+            "div.col-lg-9 div.accordianTable"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sidebar-article",
+      "urls": [
+        "https://www.highmark.com/resources/answers/articles/spending-accounts",
+        "https://www.highmark.com/resources/mental-health-services/eating-disorders/eating-disorder-types"
+      ],
+      "coverageGaps": [],
+      "description": "Two-column layout with a left-hand section navigation sidebar and a long-form article body of headings, paragraphs, and bulleted lists",
+      "blocks": [
+        {
+          "name": "cards-minimal-light-sidenav",
+          "instances": [
+            "div.d-none.d-lg-block.col-lg-3 div.nav-container"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sidebar-faq",
+      "urls": [
+        "https://www.highmark.com/resources/answers/faq/behavioral-health-medication",
+        "https://www.highmark.com/resources/answers/faq/home-prescription-delivery",
+        "https://www.highmark.com/resources/answers/faq/preventive-diagnostic-screening"
+      ],
+      "coverageGaps": [],
+      "description": "Two-column layout with a left-hand section navigation sidebar, an intro paragraph, and a single FAQ accordion of expandable questions",
+      "blocks": [
+        {
+          "name": "cards-minimal-light-sidenav",
+          "instances": [
+            "div.d-none.d-lg-block.col-lg-3 div.nav-container"
+          ]
+        },
+        {
+          "name": "accordion-minimal-light",
+          "instances": [
+            "div.col-lg-9 div.accordianTable"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sidebar-grouped-faq",
+      "urls": [
+        "https://www.highmark.com/resources/answers/faq/northeastern-ny-blue-fund",
+        "https://www.highmark.com/resources/answers/faq/western-ny-blue-fund"
+      ],
+      "coverageGaps": [],
+      "description": "Two-column layout with a left-hand navigation sidebar, a right-side contact callout box, multiple grouped FAQ accordion sections with back-to-top links, and a tinted CTA band",
+      "blocks": [
+        {
+          "name": "cards-minimal-light-sidenav",
+          "instances": [
+            "div.d-none.d-lg-block.col-lg-3 div.nav-container"
+          ]
+        },
+        {
+          "name": "accordion-minimal-light",
+          "instances": [
+            "div.col-lg-9 div.accordianTable"
+          ]
+        },
+        {
+          "name": "section-cta-highlight",
+          "instances": [
+            "div.one-card-one-col-panel.new-hmk-brand-blush-twnetyfive"
+          ],
+          "section": "highlight"
+        }
+      ]
+    },
+    {
+      "name": "sidebar-guide-article",
+      "urls": [
+        "https://www.highmark.com/resources/mental-health-services/anxiety/treatments",
+        "https://www.highmark.com/resources/mental-health-services/anxiety/warning-signs",
+        "https://www.highmark.com/resources/mental-health-services/depression/depression-types",
+        "https://www.highmark.com/resources/mental-health-services/depression/help-someone-with-depression",
+        "https://www.highmark.com/resources/mental-health-services/eating-disorders/help-someone-with-eating-disorder",
+        "https://www.highmark.com/resources/mental-health-services/why-do-mental-health-conditions-occur"
+      ],
+      "coverageGaps": [],
+      "description": "Two-column layout with a left-hand section navigation sidebar, an article body with an in-page jump-link guide and multiple subsections, and a tinted CTA band above the footer",
+      "blocks": [
+        {
+          "name": "cards-minimal-light-sidenav",
+          "instances": [
+            "div.d-none.d-lg-block.col-lg-3 div.nav-container"
+          ]
+        },
+        {
+          "name": "section-cta-light-blue",
+          "instances": [
+            "div.one-card-one-col-panel.new-hmk-brand-fifteenpercent-splash"
+          ],
+          "section": "light-blue"
+        }
+      ]
+    },
+    {
+      "name": "home",
+      "description": "Highmark home page: hero banner, icon quick-nav bar, alternating card grids and image/text promo panels, and a group-insurance CTA panel",
+      "urls": [
+        "https://www.highmark.com"
+      ],
+      "blocks": [
+        {
+          "name": "hero-minimal-dark-withimg",
+          "instances": [
+            "div.hero.responsivegrid.section"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-iconnav",
+          "instances": [
+            "div.quicklinks.section",
+            ".quick-link-list-container.bg-blue"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg",
+          "instances": [
+            ".card-block.responsivegrid:has(.wideCardWrapper)",
+            ".card-block.responsivegrid:has(.cardWrapper.ghostMode)",
+            ".card-block.responsivegrid:not(:has(.wideCardWrapper)):not(:has(.ghostMode))"
+          ]
+        },
+        {
+          "name": "columns-minimal-dark",
+          "instances": [
+            "div.one-card-one-col-panel.image",
+            ".side-card-panel"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "projectType": "da"
+  }
+}

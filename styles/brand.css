@@ -1,0 +1,33 @@
+/*
+ * brand.css — Highmark brand tokens extracted from https://www.highmark.com/resources
+ * Heading font: sofia-pro (Adobe Fonts kit iaj7yko) · Body font: roboto
+ */
+
+:root {
+  /* fonts */
+  --heading-font-family: sofia-pro, "Helvetica Neue", helvetica, arial, sans-serif;
+  --body-font-family: roboto, "Helvetica Neue", helvetica, arial, sans-serif;
+
+  /* brand colors */
+  --background-color: #fff;
+  --text-color: #003963;         /* Highmark navy — headings / base text */
+  --text-body-color: #001446;    /* body copy navy */
+  --link-color: #0066b1;         /* Highmark blue links */
+  --link-hover-color: #003963;
+
+  /* section tints */
+  --highlight-color: #fef0ec;    /* blush 25 — Health Insurance Glossary band */
+  --accent-color: #f7fbfd;       /* polar — "your entire plan" band */
+  --light-blue-color: #d9ebf6;   /* splash 15 — guide-article CTA band */
+
+  /* heading sizes (desktop) */
+  --heading-size-xxl: 56px;
+  --heading-size-xl: 34px;
+  --heading-size-l: 24px;
+  --heading-size-m: 20px;
+  --heading-size-s: 18px;
+  --heading-size-xs: 16px;
+
+  /* spacing */
+  --content-max-width: 1200px;
+}

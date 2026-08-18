@@ -1,0 +1,120 @@
+/*
+ * Accordion Block — minimal light variant
+ * Light-styled FAQ accordion (white bg, navy questions, light-blue tinted open
+ * answer panels). Values extracted from source computed styles:
+ * https://www.highmark.com/resources/answers/faq/aca-plans
+ *
+ * Decorated DOM (see accordion-minimal-light.js):
+ *   .accordion-minimal-light
+ *     details.accordion-minimal-light-item
+ *       summary.accordion-minimal-light-item-label   (question)
+ *       div.accordion-minimal-light-item-body         (answer)
+ */
+
+/* item — thin dividers top + bottom (#e2e9e9) */
+.accordion-minimal-light .accordion-minimal-light-item {
+  border-top: 1px solid #e2e9e9;
+  border-bottom: 1px solid #e2e9e9;
+}
+
+/* collapse the shared edge between adjacent items into a single divider */
+.accordion-minimal-light .accordion-minimal-light-item + .accordion-minimal-light-item {
+  border-top: none;
+}
+
+/* question row (summary) */
+.accordion-minimal-light .accordion-minimal-light-item-label {
+  position: relative;
+  padding: 18px 40px 10px 0;
+  color: #003963;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.accordion-minimal-light .accordion-minimal-light-item-label::-webkit-details-marker {
+  display: none;
+}
+
+/* CSS chevron — box with bottom + right borders, navy 2px.
+   Closed = points down (v); open = points up (^). */
+.accordion-minimal-light .accordion-minimal-light-item-label::after {
+  content: '';
+  position: absolute;
+  top: 24px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid #003963;
+  border-bottom: 2px solid #003963;
+  transform: translateY(-50%) rotate(45deg);
+  transition: transform 0.2s ease;
+}
+
+.accordion-minimal-light .accordion-minimal-light-item[open] .accordion-minimal-light-item-label::after {
+  transform: translateY(-25%) rotate(-135deg);
+}
+
+/* answer panel — light-blue tint (#f7fbfd), navy text */
+.accordion-minimal-light .accordion-minimal-light-item-body {
+  padding: 20px;
+  background-color: #f7fbfd;
+  color: #003963;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.accordion-minimal-light .accordion-minimal-light-item-body p {
+  margin: 0 0 0.8em;
+  color: #001446;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 21px;
+}
+
+.accordion-minimal-light .accordion-minimal-light-item-body p:last-child {
+  margin-bottom: 0;
+}
+
+.accordion-minimal-light .accordion-minimal-light-item-body ul,
+.accordion-minimal-light .accordion-minimal-light-item-body ol {
+  margin: 0 0 0.8em;
+  padding-left: 20px;
+  color: #001446;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 21px;
+}
+
+.accordion-minimal-light .accordion-minimal-light-item-body li {
+  margin-bottom: 0.25em;
+}
+
+.accordion-minimal-light .accordion-minimal-light-item-body a {
+  color: #0078c1;
+  font-weight: 300;
+  text-decoration: none;
+  word-break: break-word;
+}
+
+.accordion-minimal-light .accordion-minimal-light-item-body a:hover {
+  text-decoration: underline;
+}
+
+/* Two-column alignment on sidebar-listing FAQ pages: the sidebar + H1 sit in a
+   flex row (the sidenav container), but each accordion group is a separate
+   full-width section sibling. Offset the accordion sections to align in the
+   right content column beside the sidebar, matching the source col-lg-9. */
+@media (width >= 900px) {
+  main .section.accordion-minimal-light-container {
+    max-width: var(--content-max-width, 1200px);
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+    padding-left: calc(25% + 40px);
+  }
+}

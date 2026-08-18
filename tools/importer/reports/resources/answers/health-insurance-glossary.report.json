@@ -1,0 +1,11 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/resources/answers/health-insurance-glossary",
+  "path": "resources/answers/health-insurance-glossary",
+  "timestamp": "2026-08-17T23:05:24.936Z",
+  "title": "Health Insurance Glossary | Highmark",
+  "template": "tabbed-answers-landing",
+  "blocks": [
+    "hero-minimal-light"
+  ]
+}

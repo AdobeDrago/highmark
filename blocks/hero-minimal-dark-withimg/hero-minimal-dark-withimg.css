@@ -1,0 +1,101 @@
+/* Block: hero-minimal-dark-withimg
+ * Full-bleed background photo with navy heading + subheading overlaid on the
+ * left, aligned to the centered content container. Values extracted from
+ * https://www.highmark.com/resources hero (getComputedStyle).
+ */
+
+/* Full-bleed: cancel the section container max-width + padding so the photo
+   spans edge to edge. */
+.hero-minimal-dark-withimg-container .hero-minimal-dark-withimg-wrapper {
+  max-width: unset;
+  margin: 0;
+  padding: 0;
+}
+
+.hero-minimal-dark-withimg {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 220px;
+  overflow: hidden;
+}
+
+/* Row 2 = overlay text, constrained to the centered content container */
+.hero-minimal-dark-withimg > div:last-child {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--content-max-width, 1200px);
+  margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+/* Row 1 = background image, absolutely filling the block behind the text */
+.hero-minimal-dark-withimg > div:first-child {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  margin: 0;
+}
+
+.hero-minimal-dark-withimg > div:first-child,
+.hero-minimal-dark-withimg > div:first-child > div,
+.hero-minimal-dark-withimg > div:first-child picture {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.hero-minimal-dark-withimg picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.hero-minimal-dark-withimg h1 {
+  margin: 0;
+  padding: 0 0 14.4px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 1.1;
+  letter-spacing: -0.05em;
+}
+
+.hero-minimal-dark-withimg h2 {
+  margin: 0;
+  padding: 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+
+@media (width >= 900px) {
+  .hero-minimal-dark-withimg {
+    min-height: 384px;
+  }
+
+  .hero-minimal-dark-withimg > div:last-child {
+    padding: 0 32px;
+  }
+
+  .hero-minimal-dark-withimg h1 {
+    padding-bottom: 14.4px;
+    font-size: 56px;
+    line-height: 1.1;
+    letter-spacing: -2.8px;
+  }
+
+  .hero-minimal-dark-withimg h2 {
+    padding: 12.8px 0 0;
+    font-size: 34px;
+    line-height: 1.2;
+    letter-spacing: -1.36px;
+  }
+}

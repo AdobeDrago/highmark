@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/resources/mental-health-services",
+  "path": "resources/mental-health-services",
+  "timestamp": "2026-08-17T19:00:16.792Z",
+  "title": "Mental Health Services | Highmark",
+  "template": "topic-hub-landing",
+  "blocks": [
+    "hero-minimal-dark-withimg",
+    "cards-minimal-dark-withimg",
+    "cards-minimal-dark-withimg-2"
+  ]
+}

@@ -1,0 +1,171 @@
+/* Block: cards-minimal-light-sidenav -- vertical section-navigation sidebar.
+   Values extracted from the source page's left section-nav sidebar
+   (https://www.highmark.com/resources/answers/articles):
+     - every link: roboto 16px / line-height 27.2px (~1.7), navy #003963,
+       no underline; non-active weight is thin, the current item is bold (600)
+     - current item carries a blue (#0078c1) 3px vertical accent bar on the
+       left plus a collapse chevron on the right
+     - list items sit 10px apart; the list has a 16px bottom margin
+     - child links are indented one level under the current item
+   Layout: on desktop the block occupies a ~25% left column beside the main
+   article content (source col-lg-3); on mobile it stacks full width. */
+
+/* ---- Lists ---- */
+.cards-minimal-light-sidenav-item-list {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+}
+
+.cards-minimal-light-sidenav-children {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  padding-left: 32px; /* source: two 18px nesting levels flattened to one */
+}
+
+.cards-minimal-light-sidenav-item {
+  margin: 0 0 10px;
+}
+
+.cards-minimal-light-sidenav-children .cards-minimal-light-sidenav-item:last-child {
+  margin-bottom: 0;
+}
+
+/* ---- Links (all levels: navy, roboto 16px, no underline) ---- */
+.cards-minimal-light-sidenav a {
+  display: flex;
+  align-items: center;
+  color: var(--text-color); /* #003963 */
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 300; /* source computed 100 (thin) -> nearest loaded roboto weight */
+  line-height: 1.7;
+  text-decoration: none;
+}
+
+.cards-minimal-light-sidenav a:hover {
+  color: var(--text-color);
+  text-decoration: underline;
+}
+
+/* ---- Parent item (e.g. "Answers") ---- */
+.cards-minimal-light-sidenav-parent > a { /* stylelint-disable-line no-descending-specificity */
+  font-weight: 300;
+}
+
+/* ---- Current / active section: bold navy with a left accent bar ---- */
+.cards-minimal-light-sidenav-current > a { /* stylelint-disable-line no-descending-specificity */
+  position: relative;
+  padding-left: 16px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.cards-minimal-light-sidenav-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 1.7em; /* one line, matches source 27.2px */
+  background-color: #0078c1;
+  border-radius: 25%;
+}
+
+/* ---- Collapse chevron on the active item ---- */
+.cards-minimal-light-sidenav-arrow {
+  margin-left: auto;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.cards-minimal-light-sidenav-arrow::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--text-color);
+  border-bottom: 2px solid var(--text-color);
+  transform: translate(-50%, -25%) rotate(-135deg); /* chevron up (expanded) */
+  transition: transform 0.2s ease;
+}
+
+.cards-minimal-light-sidenav-arrow[aria-expanded="false"]::before {
+  transform: translate(-50%, -75%) rotate(45deg); /* chevron down (collapsed) */
+}
+
+/* ---- Child page links: same navy, thin, indented under current ---- */
+.cards-minimal-light-sidenav-children a { /* stylelint-disable-line no-descending-specificity */
+  color: var(--text-color);
+  font-weight: 300;
+}
+
+/* ---- Two-column layout (desktop): sidebar left, content right ----
+   The block sits first in its section, so EDS names the section
+   `.cards-minimal-light-sidenav-container`. On desktop we lay the section
+   out as a flex row: the sidebar wrapper takes ~25% (source col-lg-3) and
+   the article content wrapper fills the rest. On mobile everything stacks. */
+@media (width >= 900px) {
+  main .section.cards-minimal-light-sidenav-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    max-width: var(--content-max-width, 1200px);
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  main .section.cards-minimal-light-sidenav-container > div {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  main .section.cards-minimal-light-sidenav-container > .cards-minimal-light-sidenav-wrapper {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+
+  main .section.cards-minimal-light-sidenav-container > .default-content-wrapper {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
+/* Article-listing links in the main content column of a sidebar-listing page.
+   EDS auto-decorates a standalone link in a paragraph as an outlined .button,
+   but the Highmark source renders these as plain bold navy text links. Reset
+   the button treatment within this template's content column. */
+main .section.cards-minimal-light-sidenav-container .default-content-wrapper a.button,
+main .section.cards-minimal-light-sidenav-container .default-content-wrapper .button-container a {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: var(--text-color);
+  font-size: 20px;
+  font-weight: 600;
+  text-transform: none;
+  text-decoration: none;
+  white-space: normal;
+}
+
+main .section.cards-minimal-light-sidenav-container .default-content-wrapper .button-container {
+  margin: 12px 0 4px;
+}
+
+main .section.cards-minimal-light-sidenav-container .default-content-wrapper a.button:hover {
+  background: transparent;
+  color: var(--link-color);
+  text-decoration: underline;
+}

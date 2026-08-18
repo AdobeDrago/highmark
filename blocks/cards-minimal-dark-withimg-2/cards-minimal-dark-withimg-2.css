@@ -1,0 +1,112 @@
+/* Block: cards-minimal-dark-withimg-2 -- two-up promo cards, image-left + text-right */
+
+/* Values extracted from https://www.highmark.com/resources "Find a Provider / Find a clinic" pair */
+
+.cards-minimal-dark-withimg-2 > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+}
+
+/* Card: white surface, soft drop shadow, no border/radius (source: box-shadow rgba(0,0,0,0.16) 0 3px 6px 0) */
+.cards-minimal-dark-withimg-2 > ul > li {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  background-color: var(--background-color);
+  box-shadow: rgb(0 0 0 / 16%) 0 3px 6px 0;
+  border: none;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+/* Image cell -- fixed 200x200 square on the left */
+.cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-image {
+  flex: 0 0 200px;
+  width: 200px;
+  line-height: 0;
+}
+
+.cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-image img {
+  display: block;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+/* Text body -- right side, padding 0 15px */
+.cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 0 15px;
+  text-align: left;
+}
+
+.cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body h3 {
+  margin: 14px 0 13px;
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 26.4px;
+  letter-spacing: -0.72px;
+  color: var(--text-color);
+  text-transform: none;
+}
+
+/* H3 may wrap its text in a link on source -- keep it navy, not link-blue */
+.cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body h3 a:any-link {
+  color: var(--text-color);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p {
+  margin: 0 0 15px;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--text-body-color);
+}
+
+/* CTA -- uppercase bold blue text link. EDS auto-decorates the standalone <p><a>
+   into .button-container / a.button; reset the global pill styling to a text link. */
+.cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p.button-container {
+  margin: 0 0 15px;
+}
+
+.cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body a.button:any-link {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--link-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: normal;
+}
+
+.cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body a.button:hover,
+.cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body a.button:focus {
+  background-color: transparent;
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+/* Two cards side by side on desktop */
+@media (width >= 900px) {
+  .cards-minimal-dark-withimg-2 > ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

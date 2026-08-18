@@ -1,0 +1,16 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/resources/mental-health-services/anxiety",
+  "path": "resources/mental-health-services/anxiety",
+  "timestamp": "2026-08-18T09:34:05.622Z",
+  "title": "Anxiety Warning Signs, Types and Treatments | Highmark",
+  "template": "topic-hub-subnav",
+  "blocks": [
+    "hero-minimal-dark-withimg",
+    "cards-minimal-dark-iconnav",
+    "columns-minimal-dark",
+    "cards-minimal-dark-withimg",
+    "cards-minimal-dark-list",
+    "cards-minimal-dark-withimg-2"
+  ]
+}

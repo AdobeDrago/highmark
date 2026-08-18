@@ -1,0 +1,45 @@
+{
+  "variantName": "cards-minimal-dark-iconnav",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-08-17T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.highmark.com/resources/mental-health-services/depression",
+    "originPage": "topic-hub-subnav (Depression sub-topic detail page)",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "minimal",
+    "purpose": "icon-nav",
+    "imagePattern": "icon"
+  },
+  "contentPattern": {
+    "structure": "horizontal row of icon + linked label items",
+    "buttonCount": 0,
+    "imageCount": 0,
+    "itemCount": 5
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "icon quick-nav / jump-link bars below a hero",
+      "horizontal rows of icon + label links to child topic pages",
+      "sub-topic detail pages that need an in-section topic navigation band"
+    ],
+    "notSuitableFor": [
+      "image + text card grids (use cards-minimal-dark-withimg)",
+      "text/list-only cards (use cards-minimal-dark-list)",
+      "tabbed switchable content panels (use tabs)"
+    ]
+  },
+  "notes": "New variant for the topic-hub-subnav template. Source renders duplicate desktop and mobile copies of the bar; the parser must emit a single clean set of items. Icons in the source are Material Icons ligature names (warning_amber, list_alt, medical_services, diversity_1, menu_book); the decorate() supports either EDS icon spans or an icon token per row and renders a single horizontal <ul> of links.",
+  "usage": {
+    "pagesUsing": [
+      "/resources/mental-health-services/depression",
+      "/resources/spending-accounts",
+      "/resources/answers"
+    ],
+    "reuseCount": 3,
+    "lastUsed": "2026-08-17T00:00:00.000Z"
+  }
+}
