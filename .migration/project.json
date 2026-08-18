@@ -1,9 +1,10 @@
 {
   "sites": {
     "highmark": {
-      "previewOrg": "AdobeDrago",
+      "previewOrg": "adobedrago",
       "previewSite": "highmark",
-      "contentHostUrl": "https://content.da.live/adobedrago/highmark/"
+      "contentHostUrl": "https://content.da.live/adobedrago/highmark/",
+      "libraryUrl": "https://main--highmark--adobedrago.aem.page/docs/library/blocks.json"
     }
   }
 }

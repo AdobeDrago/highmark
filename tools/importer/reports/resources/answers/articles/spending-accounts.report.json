@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/resources/answers/articles/spending-accounts",
+  "path": "resources/answers/articles/spending-accounts",
+  "timestamp": "2026-08-17T23:32:30.506Z",
+  "title": "Learn the Benefits of Using Health Spending Accounts | Highmark",
+  "template": "sidebar-article",
+  "blocks": [
+    "cards-minimal-light-sidenav",
+    "cards-minimal-light-sidenav"
+  ]
+}

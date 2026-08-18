@@ -1,0 +1,42 @@
+{
+  "variantName": "columns-minimal-dark",
+  "baseBlock": "columns",
+  "version": "1.0.0",
+  "created": "2026-08-17T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.highmark.com/resources",
+    "originPage": "topic-hub-landing (Resources)",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "minimal",
+    "purpose": "feature",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "heading + text + link | image",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "two-column text + image promo bands",
+      "side-by-side informational content with a supporting image and CTA"
+    ],
+    "notSuitableFor": [
+      "repeating self-contained card grids (use cards)",
+      "full-width hero banners (use hero)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/resources",
+      "/resources/mental-health-services/depression",
+      "/resources/spending-accounts",
+      "/resources/answers"
+    ],
+    "reuseCount": 4,
+    "lastUsed": "2026-08-17T00:00:00.000Z"
+  }
+}

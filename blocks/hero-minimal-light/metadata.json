@@ -1,0 +1,37 @@
+{
+  "variantName": "hero-minimal-light",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-08-17T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.highmark.com/resources/answers",
+    "originPage": "Highmark Answers landing page (tabbed-answers-landing template)",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "minimal",
+    "purpose": "hero",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "heading + intro",
+    "buttonCount": 0,
+    "imageCount": 0
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "light-tinted top-of-page hero bands with a centered heading and intro paragraph",
+      "landing/answers pages that open with a title + supporting sentence and no hero image"
+    ],
+    "notSuitableFor": [
+      "heroes with a full-bleed background photo (use hero-minimal-dark-withimg)",
+      "heroes that need CTA buttons in the banner"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/resources/answers"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-17T00:00:00.000Z"
+  }
+}

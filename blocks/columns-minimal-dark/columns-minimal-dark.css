@@ -1,0 +1,93 @@
+/* Block: columns-minimal-dark — "Your entire plan at your fingertips" promo.
+   Values extracted from source computed styles at https://www.highmark.com/resources.
+   The light-blue band is provided by `main .section.accent` in styles.css — not here. */
+
+/* Row layout — stacks on mobile */
+.columns-minimal-dark > div {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Content cell */
+.columns-minimal-dark > div > div {
+  order: 1;
+}
+
+.columns-minimal-dark h2 {
+  margin: 0 0 8px;
+  font-family: var(--heading-font-family);
+  font-weight: 600;
+  letter-spacing: -1.36px;
+  color: var(--text-color);
+}
+
+.columns-minimal-dark p {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--text-color);
+}
+
+/* CTA — source is a plain uppercase blue text link, not the bordered pill.
+   Override the global a.button decoration EDS applies. */
+.columns-minimal-dark p.button-container {
+  margin: 24px 0 0;
+}
+
+main .columns-minimal-dark a.button:any-link {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--link-color);
+  font-family: var(--body-font-family);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: normal;
+  line-height: 1.25;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: normal;
+}
+
+main .columns-minimal-dark a.button:hover,
+main .columns-minimal-dark a.button:focus {
+  background-color: transparent;
+  color: var(--link-hover-color);
+  text-decoration: none;
+}
+
+/* Image cell */
+.columns-minimal-dark > div > .columns-minimal-dark-img-col {
+  order: 0;
+}
+
+.columns-minimal-dark img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0;
+}
+
+/* Desktop — side by side, vertically centered, near-equal columns */
+@media (width >= 900px) {
+  .columns-minimal-dark > div {
+    flex-direction: row;
+    align-items: center;
+    gap: 72px;
+  }
+
+  .columns-minimal-dark > div > div {
+    flex: 1;
+    order: unset;
+  }
+
+  .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    order: unset;
+  }
+}

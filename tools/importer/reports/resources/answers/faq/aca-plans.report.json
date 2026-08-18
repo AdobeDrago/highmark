@@ -1,0 +1,16 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/resources/answers/faq/aca-plans",
+  "path": "resources/answers/faq/aca-plans",
+  "timestamp": "2026-08-17T21:42:29.889Z",
+  "title": "Frequently Asked ACA Questions | Highmark",
+  "template": "sidebar-listing",
+  "blocks": [
+    "cards-minimal-light-sidenav",
+    "cards-minimal-light-sidenav",
+    "accordion-minimal-light",
+    "accordion-minimal-light",
+    "accordion-minimal-light",
+    "accordion-minimal-light"
+  ]
+}

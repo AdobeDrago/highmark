@@ -1,0 +1,16 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/resources/answers/faq/measles",
+  "path": "resources/answers/faq/measles",
+  "timestamp": "2026-08-17T21:43:04.730Z",
+  "title": "Measles FAQ: Symptoms, Prevention, Risks and Resources",
+  "template": "sidebar-listing",
+  "blocks": [
+    "cards-minimal-light-sidenav",
+    "cards-minimal-light-sidenav",
+    "accordion-minimal-light",
+    "accordion-minimal-light",
+    "accordion-minimal-light",
+    "accordion-minimal-light"
+  ]
+}

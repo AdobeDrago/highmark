@@ -1,0 +1,19 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/resources/answers/faq/covid",
+  "path": "resources/answers/faq/covid",
+  "timestamp": "2026-08-17T21:42:38.973Z",
+  "title": "Frequently Asked COVID Questions | Highmark",
+  "template": "sidebar-listing",
+  "blocks": [
+    "cards-minimal-light-sidenav",
+    "cards-minimal-light-sidenav",
+    "accordion-minimal-light",
+    "accordion-minimal-light",
+    "accordion-minimal-light",
+    "accordion-minimal-light",
+    "accordion-minimal-light",
+    "accordion-minimal-light",
+    "accordion-minimal-light"
+  ]
+}

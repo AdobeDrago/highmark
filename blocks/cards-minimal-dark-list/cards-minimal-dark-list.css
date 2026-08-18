@@ -1,0 +1,96 @@
+/* Block: cards-minimal-dark-list -- text/list-only cards (no images).
+   Two side-by-side cards, each with a heading, a bulleted list, and an
+   uppercase blue read-more CTA at the bottom. Values extracted from the
+   source Do/Don't list cards on the depression sub-topic page
+   (li.cardThree.listSmlImg): white card, subtle drop shadow, square corners,
+   30px horizontal inner padding, sofia-pro heading, 15px roboto list items. */
+
+.cards-minimal-dark-list > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px 35px;
+}
+
+.cards-minimal-dark-list > ul > li {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-color);
+  box-shadow: rgb(0 0 0 / 16%) 0 3px 6px 0;
+}
+
+.cards-minimal-dark-list .cards-minimal-dark-list-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 0 30px 16px;
+  text-align: left;
+}
+
+.cards-minimal-dark-list .cards-minimal-dark-list-card-body h3 {
+  margin: 20px 0 13px;
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 26.4px;
+  letter-spacing: -0.72px;
+  color: var(--text-color);
+}
+
+.cards-minimal-dark-list .cards-minimal-dark-list-card-body ul {
+  margin: 0 0 16px 8px;
+  padding-left: 8px;
+  list-style: disc outside;
+}
+
+.cards-minimal-dark-list .cards-minimal-dark-list-card-body li {
+  margin: 0 0 15px 8px;
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  line-height: 22.5px;
+  color: var(--text-body-color);
+}
+
+/* CTA -- plain uppercase bold blue link, pushed to the card bottom, right-aligned
+   (source .hmk-brand-buttons.brand-right-content). EDS auto-decorates the
+   standalone <p><a> into .button-container / a.button; reset the global pill
+   styling back to a text link. */
+.cards-minimal-dark-list .cards-minimal-dark-list-card-body p.button-container {
+  margin: 0;
+  margin-top: auto;
+  text-align: right;
+}
+
+.cards-minimal-dark-list .cards-minimal-dark-list-card-body a.button:any-link {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--link-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: normal;
+}
+
+.cards-minimal-dark-list .cards-minimal-dark-list-card-body a.button:hover,
+.cards-minimal-dark-list .cards-minimal-dark-list-card-body a.button:focus {
+  background-color: transparent;
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+/* 2-up grid on desktop */
+@media (width >= 900px) {
+  .cards-minimal-dark-list > ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

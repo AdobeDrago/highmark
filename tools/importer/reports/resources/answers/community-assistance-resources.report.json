@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/resources/answers/community-assistance-resources",
+  "path": "resources/answers/community-assistance-resources",
+  "timestamp": "2026-08-17T21:42:20.566Z",
+  "title": "Community Assistance Resources| Highmark",
+  "template": "sidebar-listing",
+  "blocks": [
+    "cards-minimal-light-sidenav",
+    "cards-minimal-light-sidenav"
+  ]
+}

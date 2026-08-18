@@ -1,0 +1,44 @@
+{
+  "variantName": "accordion-minimal-light",
+  "baseBlock": "accordion",
+  "version": "1.0.0",
+  "created": "2026-08-17T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.highmark.com/resources/answers/faq/aca-plans",
+    "originPage": "sidebar-listing FAQ page (Individual and Family (ACA) FAQ)",
+    "blockPosition": "main-content"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "minimal",
+    "purpose": "faq",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "one row per Q&A item: cell 1 = question label, cell 2 = answer body (paragraphs, bulleted lists, inline links)",
+    "buttonCount": 0,
+    "imageCount": 0,
+    "itemCount": 22
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "light-styled FAQ accordions on white content pages",
+      "grouped FAQ pages under /resources/answers/faq/* (one accordion block per group heading)",
+      "any expandable question/answer list on a light background"
+    ],
+    "notSuitableFor": [
+      "dark-themed accordions on colored/dark bands (create an accordion-minimal-dark variant instead)",
+      "vertical section navigation (use cards-minimal-light-sidenav)",
+      "non-interactive stacked content (use default content)"
+    ]
+  },
+  "notes": "NEW variant. No existing accordion variant was present in blocks/ (only the vanilla 'accordion'); the FAQ on the sidebar-listing pages is light-styled (white background, light-blue tinted open answer panels, dark-blue text), so a light variant was created rather than reusing a non-existent dark one. Built on the vanilla accordion base with renamed CSS classes and matching JS class names. Authoring model unchanged from vanilla: one row per Q&A item (question | answer). On grouped FAQ pages, each H2 group heading and 'BACK TO TOP' link are default content between separate accordion blocks. Reusable across all sidebar-listing / sidebar-faq / sidebar-grouped-faq FAQ pages.",
+  "usage": {
+    "pagesUsing": [
+      "/resources/answers/faq/aca-plans",
+      "/resources/answers"
+    ],
+    "reuseCount": 2,
+    "lastUsed": "2026-08-17T00:00:00.000Z"
+  }
+}

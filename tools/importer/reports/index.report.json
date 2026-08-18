@@ -1,0 +1,18 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com",
+  "path": "index",
+  "timestamp": "2026-08-18T01:04:26.065Z",
+  "title": "Highmark: Health Insurance Plans for Individuals & Businesses",
+  "template": "home",
+  "blocks": [
+    "hero-minimal-dark-withimg",
+    "cards-minimal-dark-iconnav",
+    "cards-minimal-dark-withimg",
+    "cards-minimal-dark-withimg",
+    "cards-minimal-dark-withimg",
+    "columns-minimal-dark",
+    "columns-minimal-dark",
+    "columns-minimal-dark"
+  ]
+}

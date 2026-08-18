@@ -1,0 +1,128 @@
+/* Block: cards-minimal-dark-iconnav -- horizontal icon quick-nav bar.
+   Full-bleed dark-navy band with a centered row of icon-over-label links that
+   jump to child topic pages. Reproduces the source .quicklinks .bg-blue bar.
+   Values extracted from source computed styles (band #003963, item 130px wide,
+   16px 0 padding, Material Icons 24px white, uppercase 14px white labels,
+   hover: bg #e2e9e9 + navy icon/label). */
+
+/* Material Icons ligature webfont (same v145 set the source loads from gstatic). */
+@font-face {
+  font-family: "Material Icons";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/materialicons/v145/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2") format("woff2");
+}
+
+/* Full-bleed: the section wrapper normally caps at 1200px w/ side padding.
+   The navy band must span the full width like the source. */
+.cards-minimal-dark-iconnav-wrapper {
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+
+.cards-minimal-dark-iconnav {
+  background-color: #003963;
+}
+
+/* Row of items: centered, wraps on small screens. */
+.cards-minimal-dark-iconnav > ul {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 960px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0;
+}
+
+.cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
+  display: flex;
+  width: 130px;
+  padding: 16px 0;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.cards-minimal-dark-iconnav-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+  width: 100%;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+}
+
+.cards-minimal-dark-iconnav-link:hover,
+.cards-minimal-dark-iconnav-link:focus {
+  text-decoration: none;
+  color: #fff;
+}
+
+/* Icon: Material Icons ligature glyph, white, stacked above the label. */
+.cards-minimal-dark-iconnav-icon {
+  display: block;
+  font-family: "Material Icons", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 24px;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  color: #fff;
+  font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* If EDS renders the icon as an <img>/<svg> instead of a ligature. */
+.cards-minimal-dark-iconnav-icon img,
+.cards-minimal-dark-iconnav-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Label: uppercase, white, roboto. */
+.cards-minimal-dark-iconnav-label {
+  display: block;
+  margin-top: 2px;
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+/* Hover: light band, navy icon + label. */
+.cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item:hover {
+  background-color: #e2e9e9;
+}
+
+.cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item:hover .cards-minimal-dark-iconnav-icon,
+.cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item:hover .cards-minimal-dark-iconnav-label,
+.cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item:hover .cards-minimal-dark-iconnav-link {
+  color: #003963;
+}
+
+/* Mobile: keep items in one horizontal row, allow scroll if they overflow. */
+@media (width < 700px) {
+  .cards-minimal-dark-iconnav > ul {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
+    flex: 0 0 auto;
+  }
+}

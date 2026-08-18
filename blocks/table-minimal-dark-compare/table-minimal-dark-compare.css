@@ -1,0 +1,87 @@
+/*
+ * table-minimal-dark-compare — Spending Account comparison table.
+ * Values extracted from https://www.highmark.com/resources/spending-accounts (#dynamic-table).
+ * Header bar: bright blue (#00a2e2) with white sofia-pro column labels.
+ * Feature rows: tinted first (label) column (#edf5fa), centered value columns,
+ * navy text, thin grey cell borders (#c9cfd4).
+ */
+
+.table-minimal-dark-compare {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table-minimal-dark-compare table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m);
+}
+
+/* ---- header row (column labels: HSA / HRA / FSA) ---- */
+.table-minimal-dark-compare table thead th {
+  background-color: #00a2e2;
+  color: var(--text-color);
+  padding: 10px;
+  text-align: center;
+  font-weight: 700;
+  border: 1px solid #c9cfd4;
+  vertical-align: middle;
+}
+
+.table-minimal-dark-compare table thead th h1,
+.table-minimal-dark-compare table thead th h2,
+.table-minimal-dark-compare table thead th h3,
+.table-minimal-dark-compare table thead th h4,
+.table-minimal-dark-compare table thead th h5,
+.table-minimal-dark-compare table thead th h6 {
+  margin: 0;
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-l);
+  font-weight: 600;
+  line-height: 1.15;
+  text-align: center;
+  text-transform: none;
+}
+
+/* ---- feature rows ---- */
+.table-minimal-dark-compare table tbody td {
+  background-color: #fff;
+  color: var(--text-color);
+  font-weight: 400;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #c9cfd4;
+  vertical-align: middle;
+}
+
+/* first column = feature label: tinted, left-aligned, emphasized */
+.table-minimal-dark-compare table tbody td:first-child {
+  background-color: #edf5fa;
+  text-align: left;
+  font-weight: 700;
+}
+
+/* paragraphs render inside every cell — collapse their default margins */
+.table-minimal-dark-compare table th p,
+.table-minimal-dark-compare table td p {
+  margin: 0;
+}
+
+/* small screens: allow horizontal scroll; keep header labels readable */
+@media (width < 900px) {
+  .table-minimal-dark-compare table {
+    font-size: var(--body-font-size-s);
+  }
+
+  .table-minimal-dark-compare table thead th h1,
+  .table-minimal-dark-compare table thead th h2,
+  .table-minimal-dark-compare table thead th h3,
+  .table-minimal-dark-compare table thead th h4,
+  .table-minimal-dark-compare table thead th h5,
+  .table-minimal-dark-compare table thead th h6 {
+    font-size: var(--heading-font-size-m);
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/resources/answers/faq/home-prescription-delivery",
+  "path": "resources/answers/faq/home-prescription-delivery",
+  "timestamp": "2026-08-17T23:22:39.695Z",
+  "title": "Home Prescription Delivery & DME FAQ",
+  "template": "sidebar-faq",
+  "blocks": [
+    "cards-minimal-light-sidenav",
+    "cards-minimal-light-sidenav",
+    "accordion-minimal-light",
+    "accordion-minimal-light"
+  ]
+}

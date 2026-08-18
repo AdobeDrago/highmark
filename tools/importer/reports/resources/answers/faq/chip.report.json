@@ -1,0 +1,15 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/resources/answers/faq/chip",
+  "path": "resources/answers/faq/chip",
+  "timestamp": "2026-08-17T21:42:33.991Z",
+  "title": "Frequently Asked CHIP Questions | Highmark",
+  "template": "sidebar-listing",
+  "blocks": [
+    "cards-minimal-light-sidenav",
+    "cards-minimal-light-sidenav",
+    "accordion-minimal-light",
+    "accordion-minimal-light",
+    "accordion-minimal-light"
+  ]
+}
