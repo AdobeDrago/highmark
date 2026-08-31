@@ -328,3 +328,38 @@ main .section.dark h2,
 main .section.dark h3 {
   color: #fff;
 }
+
+/* blue — splash band (Special Enrollment CTA) */
+main .section.blue {
+  background-color: var(--light-blue-color);
+  margin: 0;
+  padding: 56px 0;
+}
+
+/* blue sections use a filled CTA button even without the .primary class */
+main .section.blue a.button:any-link {
+  border-color: var(--link-color);
+  background-color: var(--link-color);
+  color: #fff;
+}
+
+main .section.blue a.button:hover,
+main .section.blue a.button:focus {
+  border-color: var(--link-hover-color);
+  background-color: var(--link-hover-color);
+}
+
+/* center — center the section's title and CTA; supporting copy stays left-aligned */
+main .section.center > div {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+main .section.center .default-content-wrapper > :first-child {
+  text-align: center;
+}
+
+main .section.center .button-container {
+  text-align: center;
+}
