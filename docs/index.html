@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Highmark — Edge Delivery Services Migration</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <a class="topnav-logo" href="#overview">
+    <span class="mark">H</span>
+    highmark
+  </a>
+  <div class="topnav-divider"></div>
+  <span class="topnav-title">Edge Delivery Services Migration</span>
+  <span class="topnav-badge">In progress</span>
+</nav>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" aria-label="Page navigation">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Project</div>
+      <a class="sidebar-link active" href="#overview">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2h5v5H2zm7 0h5v5H9zM2 9h5v5H2zm7 0h5v5H9z"/></svg>
+        Overview
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Migration status <span class="nav-status ns-progress">In progress</span></div>
+      <a class="sidebar-link" href="#status">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+        What's live
+      </a>
+      <a class="sidebar-link" href="#timeline">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0114.25 14H1.75A1.75 1.75 0 010 12.25v-8.5zm1.75-.25a.25.25 0 00-.25.25v.5h13v-.5a.25.25 0 00-.25-.25H1.75zM1.5 5.5v6.75c0 .138.112.25.25.25h12.5a.25.25 0 00.25-.25V5.5h-13z"/></svg>
+        Recent work
+      </a>
+      <a class="sidebar-link" href="#scope">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+        Migration scope
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Block library</div>
+      <a class="sidebar-link" href="#block-library">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3.5A1.5 1.5 0 012.5 2h2A1.5 1.5 0 016 3.5v2A1.5 1.5 0 014.5 7h-2A1.5 1.5 0 011 5.5v-2zm5.5 0A1.5 1.5 0 018 2h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 7H8A1.5 1.5 0 016.5 5.5v-2zm-5.5 5A1.5 1.5 0 012.5 7h2A1.5 1.5 0 016 8.5v2A1.5 1.5 0 014.5 12h-2A1.5 1.5 0 011 10.5v-2zm5.5 0A1.5 1.5 0 018 7h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 12H8A1.5 1.5 0 016.5 10.5v-2z"/></svg>
+        All blocks
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Reference</div>
+      <a class="sidebar-link" href="#reference">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"/></svg>
+        Links &amp; sources
+      </a>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    <div class="main-inner">
+
+      <!-- PAGE HERO -->
+      <div class="page-hero" id="overview">
+        <div class="page-hero-eyebrow">Highmark · Edge Delivery Services</div>
+        <h1>Highmark EDS Migration</h1>
+        <p class="page-hero-sub">Tracking the migration of highmark.com to <strong>Adobe Edge Delivery Services (EDS)</strong>, authored through <strong>Document Authoring (DA)</strong>. This page summarizes what's live, recent work, and the block library available for building new pages.</p>
+      </div>
+
+      <!-- MIGRATION STATUS -->
+      <section class="doc-section" id="status">
+        <h2>
+          <span class="section-icon icon-blue">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+          </span>
+          What's live
+          <span class="status-badge sb-progress">In progress</span>
+        </h2>
+        <div class="section-rule"></div>
+        <p>The <strong>home page</strong> and <strong>/resources</strong> section of highmark.com have been migrated to EDS. Additional pages and sections are being added incrementally as blocks and page templates are built out.</p>
+
+        <div class="url-grid">
+          <a class="url-card" href="https://main--highmark--adobedrago.aem.page/" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot"></span>Preview</span>
+            <span class="url-card-title">Preview environment</span>
+            <span class="url-card-url">main--highmark--adobedrago.aem.page</span>
+            <span class="url-card-desc">Latest authored content, pre-publish.</span>
+          </a>
+          <a class="url-card" href="https://main--highmark--adobedrago.aem.live/" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot"></span>Live</span>
+            <span class="url-card-title">Live environment</span>
+            <span class="url-card-url">main--highmark--adobedrago.aem.live</span>
+            <span class="url-card-desc">Published, production-facing site.</span>
+          </a>
+          <a class="url-card" href="https://da.live/#/adobedrago/highmark" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot"></span>Author</span>
+            <span class="url-card-title">Document Authoring</span>
+            <span class="url-card-url">da.live/#/adobedrago/highmark</span>
+            <span class="url-card-desc">Where content is authored and edited.</span>
+          </a>
+          <a class="url-card" href="https://github.com/AdobeDrago/highmark" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot"></span>Repo</span>
+            <span class="url-card-title">GitHub repository</span>
+            <span class="url-card-url">github.com/AdobeDrago/highmark</span>
+            <span class="url-card-desc">Blocks, styles, scripts, and this docs page.</span>
+          </a>
+        </div>
+
+        <div class="notice info">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
+          <span><strong>Status.</strong> Core page structure and the shared block library are in place. Styling variants (dark/minimal/light treatments, section color and centering options, a shop-specific card layout) are being layered on top as new page types are migrated.</span>
+        </div>
+      </section>
+
+      <!-- RECENT WORK -->
+      <section class="doc-section" id="timeline">
+        <h2>
+          <span class="section-icon icon-purple">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0114.25 14H1.75A1.75 1.75 0 010 12.25v-8.5zm1.75-.25a.25.25 0 00-.25.25v.5h13v-.5a.25.25 0 00-.25-.25H1.75zM1.5 5.5v6.75c0 .138.112.25.25.25h12.5a.25.25 0 00.25-.25V5.5h-13z"/></svg>
+          </span>
+          Recent work
+        </h2>
+        <div class="section-rule"></div>
+        <table class="spec-table">
+          <thead><tr><th>Date</th><th>Change</th></tr></thead>
+          <tbody>
+            <tr><td>2026-08-31</td><td>Added blue and centered section styling</td></tr>
+            <tr><td>2026-08-26</td><td>Added <code class="code-inline">cards.shop</code> variant styling</td></tr>
+            <tr><td>2026-08-18</td><td>Fixed blank gap below intro on sidebar FAQ pages</td></tr>
+            <tr><td>2026-08-18</td><td>Fixed FAQ jump-links styled as bold navy heading-links</td></tr>
+            <tr><td>2026-08-18</td><td>Fixed primary nav megamenu on DA (unwrapped <code class="code-inline">&lt;p&gt;</code>-wrapped nav links)</td></tr>
+            <tr><td>2026-08-18</td><td>Migrated highmark.com home + <code class="code-inline">/resources</code> to Edge Delivery Services</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- MIGRATION SCOPE -->
+      <section class="doc-section" id="scope">
+        <h2>
+          <span class="section-icon icon-orange">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M4.5 2A2.5 2.5 0 002 4.5v7A2.5 2.5 0 004.5 14h7a2.5 2.5 0 002.5-2.5v-7A2.5 2.5 0 0011.5 2h-7zM5 5.5A.5.5 0 015.5 5h5a.5.5 0 010 1h-5A.5.5 0 015 5.5zm0 2.5a.5.5 0 01.5-.5h5a.5.5 0 010 1h-5A.5.5 0 015 8zm.5 2a.5.5 0 000 1h3a.5.5 0 000-1h-3z"/></svg>
+          </span>
+          Migration scope
+        </h2>
+        <div class="section-rule"></div>
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-mark cm-done">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+            </span>
+            <span class="check-body">
+              <span class="check-title">Home page</span>
+              <span class="check-note">Migrated and live on EDS.</span>
+            </span>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+            </span>
+            <span class="check-body">
+              <span class="check-title">/resources section</span>
+              <span class="check-note">Migrated, including FAQ page fixes for nav and layout.</span>
+            </span>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-partial">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 8a1 1 0 011-1h10a1 1 0 010 2H3a1 1 0 01-1-1z"/></svg>
+            </span>
+            <span class="check-body">
+              <span class="check-title">Shared block library</span>
+              <span class="check-note">Core blocks in place; new styling variants added as additional page types are migrated.</span>
+            </span>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-todo">
+              <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg>
+            </span>
+            <span class="check-body">
+              <span class="check-title">/medicare</span>
+              <span class="check-note">Planned — source: <code class="code-inline">medicare.highmark.com/home</code>.</span>
+            </span>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-todo">
+              <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg>
+            </span>
+            <span class="check-body">
+              <span class="check-title">/shop</span>
+              <span class="check-note">Planned — source: <code class="code-inline">shop.highmark.com/home.html</code>.</span>
+            </span>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-todo">
+              <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg>
+            </span>
+            <span class="check-body">
+              <span class="check-title">Remaining highmark.com sections</span>
+              <span class="check-note">Not yet started — planned for future migration passes.</span>
+            </span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- BLOCK LIBRARY -->
+      <section class="doc-section" id="block-library">
+        <h2>
+          <span class="section-icon icon-blue">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3.5A1.5 1.5 0 012.5 2h2A1.5 1.5 0 016 3.5v2A1.5 1.5 0 014.5 7h-2A1.5 1.5 0 011 5.5v-2zm5.5 0A1.5 1.5 0 018 2h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 7H8A1.5 1.5 0 016.5 5.5v-2zm-5.5 5A1.5 1.5 0 012.5 7h2A1.5 1.5 0 016 8.5v2A1.5 1.5 0 014.5 12h-2A1.5 1.5 0 011 10.5v-2zm5.5 0A1.5 1.5 0 018 7h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 12H8A1.5 1.5 0 016.5 10.5v-2z"/></svg>
+          </span>
+          Block library
+        </h2>
+        <div class="section-rule"></div>
+        <p>Reference list of blocks currently in <code class="code-inline">/blocks</code>. Descriptions below are placeholders pending a full authoring pass — see each block's source for exact behavior.</p>
+
+        <h3>Layout <span class="group-tag">7 blocks</span></h3>
+        <div class="block-grid">
+          <div class="block-card"><div class="block-card-header"><span class="block-card-name">hero</span></div><div class="block-card-desc">Standard page hero/banner.</div></div>
+          <div class="block-card"><div class="block-card-header"><span class="block-card-name">hero-minimal-light</span></div><div class="block-card-desc">Light, minimal hero variant.</div></div>
+          <div class="block-card"><div class="block-card-header"><span class="block-card-name">hero-minimal-dark-withimg</span></div><div class="block-card-desc">Dark hero variant with supporting image.</div></div>
+          <div class="block-card"><div class="block-card-header"><span class="block-card-name">columns</span></div><div class="block-card-desc">Multi-column content layout.</div></div>
+          <div class="block-card"><div class="block-card-header"><span class="block-card-name">columns-minimal-dark</span></div><div class="block-card-desc">Dark, minimal columns variant.</div></div>
+          <div class="block-card"><div class="block-card-header"><span class="block-card-name">cards</span></div><div class="block-card-desc">Standard card grid, includes the <code class="code-inline">shop</code> styling variant.</div></div>
+          <div class="block-card"><div class="block-card-header"><span class="block-card-name">cards-minimal-dark-iconnav / -list / -withimg / -withimg-2</span></div><div class="block-card-desc">Dark, minimal card variants for icon navigation, lists, and image treatments.</div></div>
+          <div class="block-card"><div class="block-card-header"><span class="block-card-name">cards-minimal-light-sidenav</span></div><div class="block-card-desc">Light card variant paired with a side navigation layout.</div></div>
+        </div>
+
+        <h3>Navigation <span class="group-tag">3 blocks</span></h3>
+        <div class="block-grid">
+          <div class="block-card"><div class="block-card-header"><span class="block-card-name">header</span></div><div class="block-card-desc">Site header, including the primary nav megamenu.</div></div>
+          <div class="block-card"><div class="block-card-header"><span class="block-card-name">footer</span></div><div class="block-card-desc">Site footer.</div></div>
+          <div class="block-card"><div class="block-card-header"><span class="block-card-name">tabs</span></div><div class="block-card-desc">Tabbed content sections.</div></div>
+        </div>
+
+        <h3>Content <span class="group-tag">5 blocks</span></h3>
+        <div class="block-grid">
+          <div class="block-card"><div class="block-card-header"><span class="block-card-name">accordion</span></div><div class="block-card-desc">Collapsible content sections, used for FAQ pages.</div></div>
+          <div class="block-card"><div class="block-card-header"><span class="block-card-name">accordion-minimal-light</span></div><div class="block-card-desc">Light, minimal accordion variant.</div></div>
+          <div class="block-card"><div class="block-card-header"><span class="block-card-name">quote</span></div><div class="block-card-desc">Pull-quote / testimonial block.</div></div>
+          <div class="block-card"><div class="block-card-header"><span class="block-card-name">embed</span></div><div class="block-card-desc">Embedded third-party content (video, social, etc.).</div></div>
+          <div class="block-card"><div class="block-card-header"><span class="block-card-name">video</span></div><div class="block-card-desc">Video player block.</div></div>
+        </div>
+
+        <h3>Interactive <span class="group-tag">5 blocks</span></h3>
+        <div class="block-grid">
+          <div class="block-card"><div class="block-card-header"><span class="block-card-name">modal</span></div><div class="block-card-desc">Modal/dialog overlay.</div></div>
+          <div class="block-card"><div class="block-card-header"><span class="block-card-name">search</span></div><div class="block-card-desc">Site search UI.</div></div>
+          <div class="block-card"><div class="block-card-header"><span class="block-card-name">form</span></div><div class="block-card-desc">Form fields and submission handling.</div></div>
+          <div class="block-card"><div class="block-card-header"><span class="block-card-name">table</span></div><div class="block-card-desc">Standard data table.</div></div>
+          <div class="block-card"><div class="block-card-header"><span class="block-card-name">table-minimal-dark-compare</span></div><div class="block-card-desc">Dark comparison-table variant.</div></div>
+        </div>
+
+        <h3>Utility <span class="group-tag">2 blocks</span></h3>
+        <div class="block-grid">
+          <div class="block-card"><div class="block-card-header"><span class="block-card-name">fragment</span></div><div class="block-card-desc">Reusable content fragment include.</div></div>
+          <div class="block-card"><div class="block-card-header"><span class="block-card-name">carousel</span></div><div class="block-card-desc">Rotating content carousel.</div></div>
+        </div>
+      </section>
+
+      <!-- REFERENCE -->
+      <section class="doc-section" id="reference">
+        <h2>
+          <span class="section-icon icon-green">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"/></svg>
+          </span>
+          Links &amp; sources
+        </h2>
+        <div class="section-rule"></div>
+        <table class="spec-table">
+          <thead><tr><th>Resource</th><th>Location</th></tr></thead>
+          <tbody>
+            <tr><td>GitHub repo</td><td><code class="code-inline">AdobeDrago/highmark</code>, branch <code class="code-inline">main</code></td></tr>
+            <tr><td>Content source</td><td><code class="code-inline">content.da.live/adobedrago/highmark/</code></td></tr>
+            <tr><td>Block library manifest</td><td><code class="code-inline">main--highmark--adobedrago.aem.page/docs/library/blocks.json</code></td></tr>
+            <tr><td>Preview</td><td><code class="code-inline">main--highmark--adobedrago.aem.page</code></td></tr>
+            <tr><td>Live</td><td><code class="code-inline">main--highmark--adobedrago.aem.live</code></td></tr>
+          </tbody>
+        </table>
+
+        <div class="notice tip">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
+          <span><strong>Maintaining this page.</strong> This is a hand-authored static page in <code class="code-inline">/docs</code> (no build step). Update <code class="code-inline">index.html</code> directly as the migration progresses — new blocks, new live sections, and status changes.</span>
+        </div>
+      </section>
+
+      <div class="doc-footer">
+        <span>Highmark EDS Migration docs</span>
+        <span>·</span>
+        <span>Updated 2026-09-10</span>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+</body>
+</html>
