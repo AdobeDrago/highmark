@@ -16,6 +16,12 @@
   color: var(--background-color);
 }
 
+/* light variant — navy heading for heroes set over a light background image
+   (default white heading is intended for dark hero images). */
+.hero.light h1 {
+  color: var(--text-color);
+}
+
 .hero picture {
   position: absolute;
   z-index: -1;
