@@ -178,6 +178,10 @@ async function loadEager(doc) {
 async function autoOpenShopZipModal() {
   if (!window.location.pathname.startsWith('/shop')) return;
   try {
+    // Fill any {{region}}/{{zip}} tokens for returning visitors, then open the
+    // modal only when no ZIP is stored yet.
+    const { default: applyZipTokens } = await import(`${window.hlx.codeBasePath}/blocks/zip-modal/zip-tokens.js`);
+    applyZipTokens();
     const { autoOpenZipModal } = await import(`${window.hlx.codeBasePath}/blocks/zip-modal/zip-modal.js`);
     autoOpenZipModal();
   } catch (e) {

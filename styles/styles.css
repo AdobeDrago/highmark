@@ -92,6 +92,16 @@ footer .footer[data-block-status="loaded"] {
   visibility: visible;
 }
 
+/* Lines that contain {{region}}/{{zip}} tokens stay hidden until the
+   ZIP/county modal has been submitted and values are available. */
+.zip-token-line {
+  display: none;
+}
+
+.zip-token-line.zip-token-ready {
+  display: revert;
+}
+
 @media (width >= 900px) {
   body[data-breadcrumbs] {
     --header-height: calc(var(--nav-height) + var(--breadcrumbs-height));
