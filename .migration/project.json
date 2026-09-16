@@ -1,10 +1,10 @@
 {
   "sites": {
     "highmark": {
+      "libraryUrl": "https://main--highmark--adobedrago.aem.page/docs/library/blocks.json",
       "previewOrg": "adobedrago",
       "previewSite": "highmark",
-      "contentHostUrl": "https://content.da.live/adobedrago/highmark/",
-      "libraryUrl": "https://main--highmark--adobedrago.aem.page/docs/library/blocks.json"
+      "contentHostUrl": "https://content.da.live/adobedrago/highmark/"
     }
   }
 }
