@@ -169,21 +169,28 @@ async function loadEager(doc) {
 }
 
 /**
- * Loads everything that doesn't need to be delayed.
- * @param {Element} doc The container element
- */
-/**
- * Auto-opens the ZIP/county modal on shop pages when no ZIP is stored.
+ * Fills any {{region}}/{{zip}} tokens on the page from a stored selection, and
+ * auto-opens the ZIP/county modal when a page opts in via metadata.
+ * Authors enable the modal by adding a `ZIP Modal: true` row to the page
+ * Metadata. Token substitution runs regardless so pages that only display the
+ * personalized lines never show raw tokens.
  */
 async function autoOpenShopZipModal() {
-  if (!window.location.pathname.startsWith('/shop')) return;
+  const flag = getMetadata('zip-modal').toLowerCase();
+  const modalEnabled = flag === 'true' || flag === 'yes' || flag === 'on';
+  const hasTokens = /\{\{\s*(region|zip)\s*\}\}/i.test(document.body.textContent);
+  if (!modalEnabled && !hasTokens) return;
+
   try {
-    // Fill any {{region}}/{{zip}} tokens for returning visitors, then open the
-    // modal only when no ZIP is stored yet.
+    // Fill tokens (hides token lines until a value exists) for every page that
+    // has them or opts into the modal.
     const { default: applyZipTokens } = await import(`${window.hlx.codeBasePath}/blocks/zip-modal/zip-tokens.js`);
     applyZipTokens();
-    const { autoOpenZipModal } = await import(`${window.hlx.codeBasePath}/blocks/zip-modal/zip-modal.js`);
-    autoOpenZipModal();
+
+    if (modalEnabled) {
+      const { autoOpenZipModal } = await import(`${window.hlx.codeBasePath}/blocks/zip-modal/zip-modal.js`);
+      autoOpenZipModal();
+    }
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error('ZIP modal failed to load', e);
