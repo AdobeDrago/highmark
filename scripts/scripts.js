@@ -172,6 +172,20 @@ async function loadEager(doc) {
  * Loads everything that doesn't need to be delayed.
  * @param {Element} doc The container element
  */
+/**
+ * Auto-opens the ZIP/county modal on shop pages when no ZIP is stored.
+ */
+async function autoOpenShopZipModal() {
+  if (!window.location.pathname.startsWith('/shop')) return;
+  try {
+    const { autoOpenZipModal } = await import(`${window.hlx.codeBasePath}/blocks/zip-modal/zip-modal.js`);
+    autoOpenZipModal();
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error('ZIP modal failed to load', e);
+  }
+}
+
 async function loadLazy(doc) {
   autolinkModals(doc);
 
@@ -187,6 +201,8 @@ async function loadLazy(doc) {
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
+
+  autoOpenShopZipModal();
 }
 
 /**
