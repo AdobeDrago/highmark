@@ -1,6 +1,7 @@
 import { createModal } from '../modal/modal.js';
 import { loadCSS } from '../../scripts/aem.js';
 import createField from '../form/form-fields.js';
+import applyZipTokens from './zip-tokens.js';
 
 const STORAGE_KEY = 'shop-zip-county';
 const FORM_PATH = '/shop/zip-county-form.json';
@@ -139,6 +140,7 @@ export async function openZipModal() {
     }
 
     setStoredZip(zip, county);
+    applyZipTokens();
     block.querySelector('dialog').close();
   });
 
