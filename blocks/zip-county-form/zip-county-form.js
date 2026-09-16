@@ -18,19 +18,30 @@ async function fetchSheet(path) {
 }
 
 /**
- * Reads authored config from the block: any links point at the form-definition
- * sheet and/or the region sheet. Falls back to the shop defaults.
+ * Resolves the sheet paths. Authors may override them via a block row whose
+ * label is `Form` or `Regions` and whose value is a sheet path (with or
+ * without a `.json` suffix — Document Authoring rewrites `.json` links, so the
+ * plain text value is used rather than an anchor href). Falls back to defaults.
  * @param {Element} block
  * @returns {{formPath: string, regionsPath: string}}
  */
 function readConfig(block) {
-  const links = [...block.querySelectorAll('a')]
-    .map((a) => {
-      try { return new URL(a.href).pathname; } catch (e) { return a.getAttribute('href'); }
-    })
-    .filter(Boolean);
-  const formPath = links.find((l) => l.includes('form')) || DEFAULT_FORM_PATH;
-  const regionsPath = links.find((l) => l.includes('region')) || DEFAULT_REGIONS_PATH;
+  const normalize = (val) => {
+    if (!val) return null;
+    const clean = val.trim().replace(/-json$/, '.json');
+    return clean.endsWith('.json') ? clean : `${clean}.json`;
+  };
+  let formPath = DEFAULT_FORM_PATH;
+  let regionsPath = DEFAULT_REGIONS_PATH;
+  block.querySelectorAll(':scope > div').forEach((row) => {
+    const cells = row.querySelectorAll(':scope > div');
+    if (cells.length < 2) return;
+    const key = cells[0].textContent.trim().toLowerCase();
+    const value = normalize(cells[1].textContent);
+    if (!value) return;
+    if (key === 'form') formPath = value;
+    if (key === 'regions' || key === 'region') regionsPath = value;
+  });
   return { formPath, regionsPath };
 }
 
