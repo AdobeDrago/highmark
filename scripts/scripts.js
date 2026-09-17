@@ -170,14 +170,16 @@ async function loadEager(doc) {
 
 /**
  * Fills any {{region}}/{{zip}} tokens on the page from a stored selection, and
- * auto-opens the ZIP/county modal when a page opts in via metadata.
- * Authors enable the modal by adding a `ZIP Modal: true` row to the page
- * Metadata. Token substitution runs regardless so pages that only display the
- * personalized lines never show raw tokens.
+ * auto-opens the ZIP/county modal on any page whose `theme` metadata is `shop`.
+ * The modal only actually opens when no ZIP is stored in localStorage. Token
+ * substitution runs regardless so pages that only display the personalized
+ * lines never show raw tokens.
  */
 async function autoOpenShopZipModal() {
-  const flag = getMetadata('zip-modal').toLowerCase();
-  const modalEnabled = flag === 'true' || flag === 'yes' || flag === 'on';
+  // Enabled on any page whose `theme` metadata is `shop`. The modal itself is a
+  // no-op when a ZIP is already stored (see autoOpenZipModal -> getStoredZip in
+  // zip-modal.js).
+  const modalEnabled = getMetadata('theme').toLowerCase() === 'shop';
   const hasTokens = /\{\{\s*(region|zip)\s*\}\}/i.test(document.body.textContent);
   if (!modalEnabled && !hasTokens) return;
 
