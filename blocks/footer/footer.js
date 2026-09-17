@@ -5,17 +5,23 @@ import { getMetadata } from '../../scripts/aem.js';
  * file at /content/footer.plain.html; DA/EDS serves it at `${footerPath}.plain.html`.
  */
 async function fetchFooter() {
-  let resp = await fetch('/content/footer.plain.html');
-  if (!resp.ok) {
-    const footerMeta = getMetadata('footer');
-    const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
-    resp = await fetch(`${footerPath}.plain.html`);
+  try {
+    let resp = await fetch('/content/footer.plain.html');
+    if (!resp.ok) {
+      const footerMeta = getMetadata('footer');
+      const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
+      resp = await fetch(`${footerPath}.plain.html`);
+    }
+    if (!resp.ok) return null;
+    const html = await resp.text();
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    return tmp;
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error('Footer fragment failed to load', e);
+    return null;
   }
-  if (!resp.ok) return null;
-  const html = await resp.text();
-  const tmp = document.createElement('div');
-  tmp.innerHTML = html;
-  return tmp;
 }
 
 /**
