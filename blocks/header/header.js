@@ -4,16 +4,20 @@ import { getMetadata } from '../../scripts/aem.js';
 const isDesktop = window.matchMedia('(min-width: 992px)');
 
 /**
- * Fetch the nav fragment. Dual-fetch: localhost / `aem up` serves the plain
- * file at /content/nav.plain.html; DA/EDS serves it at `${navPath}.plain.html`.
+ * Fetch the nav fragment. Try the standard (metadata-driven) path first —
+ * `${navPath}.plain.html`, which is what both the published EDS site and the
+ * local dev server serve. Only fall back to /content/nav.plain.html if that
+ * misses, so environments that serve at the root never fire a 404 first (a 404
+ * resolves normally, so try/catch can't suppress it — the browser still logs
+ * the failed request; the only fix is to not make the failing request).
  */
 async function fetchNav() {
   try {
-    let resp = await fetch('/content/nav.plain.html');
+    const navMeta = getMetadata('nav');
+    const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
+    let resp = await fetch(`${navPath}.plain.html`);
     if (!resp.ok) {
-      const navMeta = getMetadata('nav');
-      const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
-      resp = await fetch(`${navPath}.plain.html`);
+      resp = await fetch('/content/nav.plain.html');
     }
     if (!resp.ok) return null;
     const html = await resp.text();

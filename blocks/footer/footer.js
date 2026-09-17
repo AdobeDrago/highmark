@@ -1,16 +1,20 @@
 import { getMetadata } from '../../scripts/aem.js';
 
 /**
- * Fetch the footer fragment. Dual-fetch: localhost / `aem up` serves the plain
- * file at /content/footer.plain.html; DA/EDS serves it at `${footerPath}.plain.html`.
+ * Fetch the footer fragment. Try the standard (metadata-driven) path first —
+ * `${footerPath}.plain.html`, which is what both the published EDS site and the
+ * local dev server serve. Only fall back to /content/footer.plain.html if that
+ * misses, so environments that serve at the root never fire a 404 first (a 404
+ * resolves normally, so try/catch can't suppress it — the browser still logs
+ * the failed request; the only fix is to not make the failing request).
  */
 async function fetchFooter() {
   try {
-    let resp = await fetch('/content/footer.plain.html');
+    const footerMeta = getMetadata('footer');
+    const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
+    let resp = await fetch(`${footerPath}.plain.html`);
     if (!resp.ok) {
-      const footerMeta = getMetadata('footer');
-      const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
-      resp = await fetch(`${footerPath}.plain.html`);
+      resp = await fetch('/content/footer.plain.html');
     }
     if (!resp.ok) return null;
     const html = await resp.text();
