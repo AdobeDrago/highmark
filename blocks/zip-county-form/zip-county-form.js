@@ -42,16 +42,12 @@ async function buildForm(fieldDefs, regions) {
   fields.forEach((field) => { if (field) form.append(field); });
 
   const zipInput = form.querySelector('input[name="zip"]');
-  const countySelect = form.querySelector('select[name="county"]');
+  const countyInput = form.querySelector('input[name="county"]');
 
-  // Populate the county select from the region sheet so options stay data-driven.
-  if (countySelect) {
-    regions.forEach((r) => {
-      const option = document.createElement('option');
-      option.text = r.Option;
-      option.value = r.Value || r.Option;
-      countySelect.add(option);
-    });
+  // County is auto-populated from the ZIP lookup, never typed by the user.
+  if (countyInput) {
+    countyInput.readOnly = true;
+    countyInput.setAttribute('tabindex', '-1');
   }
 
   // group fields into their fieldsets (mirrors blocks/form/form.js)
@@ -65,14 +61,15 @@ async function buildForm(fieldDefs, regions) {
   const stored = getStoredZip();
   if (stored) {
     if (zipInput && stored.zipCode) zipInput.value = stored.zipCode;
-    if (countySelect && stored.region) countySelect.value = stored.region;
+    if (countyInput && stored.region) countyInput.value = stored.region;
   }
 
-  // auto-select the region for a recognised ZIP
-  if (zipInput && countySelect) {
+  // Populate the county from the region sheet as the ZIP is typed; clear it
+  // when the ZIP no longer matches a known region.
+  if (zipInput && countyInput) {
     zipInput.addEventListener('input', () => {
       const match = regions.find((r) => r.ZIP === zipInput.value.trim());
-      if (match) countySelect.value = match.Value || match.Option;
+      countyInput.value = match ? (match.Value || match.Option) : '';
     });
   }
 
@@ -100,18 +97,15 @@ export default async function decorate(block) {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const zip = (form.querySelector('input[name="zip"]')?.value || '').trim();
-    const county = form.querySelector('select[name="county"]')?.value || '';
+    const match = regions.find((r) => r.ZIP === zip);
+    const county = match ? (match.Value || match.Option) : '';
 
     if (!/^\d{5}$/.test(zip)) {
       showError('Please enter a valid 5-digit ZIP code.');
       return;
     }
-    if (!regions.some((r) => r.ZIP === zip)) {
+    if (!match) {
       showError('We could not find that ZIP code. Please check and try again.');
-      return;
-    }
-    if (!county) {
-      showError('Please select the county in which you reside.');
       return;
     }
 
