@@ -42,8 +42,7 @@
   color: #0a2a43;
 }
 
-.zip-county-form form fieldset input,
-.zip-county-form form fieldset select {
+.zip-county-form form fieldset input {
   width: 100%;
   max-width: none;
   border: none;
@@ -55,25 +54,19 @@
   background: transparent;
 }
 
-.zip-county-form form fieldset select {
+/* County is auto-filled from the ZIP lookup and not editable. */
+.zip-county-form form fieldset input[name="county"] {
   color: #0a2a43;
-  cursor: pointer;
-  appearance: none;
-  padding-right: 28px;
-  background-image:
-    linear-gradient(45deg, transparent 50%, #1478bd 50%),
-    linear-gradient(135deg, #1478bd 50%, transparent 50%);
-  background-position:
-    calc(100% - 12px) calc(50% + 2px),
-    calc(100% - 6px) calc(50% + 2px);
-  background-size: 6px 6px, 6px 6px;
-  background-repeat: no-repeat;
+  cursor: default;
+}
+
+.zip-county-form form fieldset input[name="county"]::placeholder {
+  color: #6b7a88;
+  font-weight: 400;
 }
 
 .zip-county-form form fieldset input:hover,
-.zip-county-form form fieldset select:hover,
-.zip-county-form form fieldset input:focus,
-.zip-county-form form fieldset select:focus {
+.zip-county-form form fieldset input:focus {
   border: none;
   outline: none;
 }
