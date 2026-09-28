@@ -99,3 +99,14 @@
     letter-spacing: -1.36px;
   }
 }
+
+.hero-minimal-dark-withimg a.button:any-link {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.hero-minimal-dark-withimg a.button:hover,
+.hero-minimal-dark-withimg a.button:focus {
+  background-color: #0066b1;
+  color: #fff;
+}

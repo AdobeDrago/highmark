@@ -297,7 +297,7 @@ main .section.light {
 main .section.highlight {
   background-color: var(--highlight-color);
   margin: 0;
-  padding: 56px 0;
+  padding: 0;
   text-align: center;
 }
 
@@ -359,14 +359,14 @@ main .section.blue a.button:focus {
   background-color: var(--link-hover-color);
 }
 
-/* center — center the section's title and CTA; supporting copy stays left-aligned */
-main .section.center > div {
+/* center — center all text, buttons, and content in the section */
+main .section.center > div:not(.cards-minimal-dark-withimg-icons) {
   max-width: 760px;
   margin-left: auto;
   margin-right: auto;
 }
 
-main .section.center .default-content-wrapper > :first-child {
+main .section.center .default-content-wrapper:not(.cards-minimal-dark-withimg-icons) {
   text-align: center;
 }
 

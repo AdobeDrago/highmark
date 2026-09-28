@@ -1,43 +1,42 @@
-/* Block: cards-minimal-dark-withimg -- image-top, heading, copy, uppercase blue CTA */
+/* Block: cards-minimal-dark-withimg-icons -- image-top, heading, copy, uppercase blue CTA */
 
 /* Values extracted from https://www.highmark.com/resources card grid computed styles */
 
-.cards-minimal-dark-withimg {
+.cards-minimal-dark-withimg-icons {
   padding: 0;
 }
 
-.cards-minimal-dark-withimg > ul {
+.cards-minimal-dark-withimg-icons > ul {
   list-style: none;
   margin: 0 auto;
   padding: 0;
   display: grid;
-  grid-template-columns: 470px;
+  grid-template-columns: 375px;
   gap: 30px;
   justify-content: center;
 }
 
-.cards-minimal-dark-withimg > ul > li {
+.cards-minimal-dark-withimg-icons > ul > li {
   display: flex;
   flex-direction: column;
   background-color: var(--background-color);
   border-radius: 4px;
-  box-shadow: rgb(0 0 0 / 15%) 0 3px 6px 0;
   overflow: hidden;
 }
 
 /* Image on top -- source ratio 370x200 (37/20) */
-.cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-image {
+.cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-image {
   line-height: 0;
 }
 
-.cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-image img {
+.cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-image img {
   width: 100%;
   aspect-ratio: 37 / 20;
   object-fit: cover;
 }
 
 /* Body -- padding 20px, fills remaining height so CTA can sit at the bottom */
-.cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body {
+.cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -45,7 +44,7 @@
   text-align: left;
 }
 
-.cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body h3 {
+.cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
   margin: 0 0 10px;
   font-family: var(--heading-font-family);
   font-size: 24px;
@@ -55,7 +54,7 @@
   color: var(--text-color);
 }
 
-.cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body p {
+.cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p {
   margin: 0 0 16px;
   font-family: var(--body-font-family);
   font-size: 16px;
@@ -66,13 +65,13 @@
 /* CTA -- plain uppercase bold blue link, right-aligned at card bottom.
    EDS auto-decorates the standalone <p><a> into .button-container / a.button;
    reset the global pill styling back to a text link. */
-.cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body p.button-container {
+.cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p.button-container {
   margin: 0;
   margin-top: auto;
   text-align: right;
 }
 
-.cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body a.button:any-link {
+.cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:any-link {
   display: inline;
   margin: 0;
   padding: 0;
@@ -90,25 +89,16 @@
   white-space: normal;
 }
 
-.cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body a.button:hover,
-.cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body a.button:focus {
+.cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:hover,
+.cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:focus {
   background-color: transparent;
   color: var(--link-hover-color);
   text-decoration: underline;
 }
 
-/* Three cards — reduce width to fit on one line */
-.cards-minimal-dark-withimg > ul:has(> li:nth-child(3):last-child) {
-  grid-template-columns: 375px;
-}
-
 /* Responsive grid on desktop */
 @media (width >= 900px) {
-  .cards-minimal-dark-withimg > ul {
-    grid-template-columns: repeat(auto-fill, minmax(470px, 470px));
-  }
-
-  .cards-minimal-dark-withimg > ul:has(> li:nth-child(3):last-child) {
-    grid-template-columns: repeat(3, 375px);
+  .cards-minimal-dark-withimg-icons > ul {
+    grid-template-columns: repeat(auto-fill, minmax(375px, 375px));
   }
 }
