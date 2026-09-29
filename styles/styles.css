@@ -76,6 +76,13 @@ body.appear {
   display: block;
 }
 
+/* Body text is weight 300, so the browser default for bold (`bolder`) only
+   reaches 400 and looks the same as body text. Pin bold explicitly. */
+strong,
+b {
+  font-weight: 700;
+}
+
 header {
   /* Size to the nav's actual content (3 bands ~172px), not a fixed 64px —
      otherwise the nav overflows and overlaps the top of the page content. */

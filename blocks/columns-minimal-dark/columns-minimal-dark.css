@@ -2,94 +2,39 @@
    Values extracted from source computed styles at https://www.highmark.com/resources.
    The light-blue band is provided by `main .section.accent` in styles.css — not here. */
 
+/* Text is left-aligned on the source even inside sections whose style centers
+   content (e.g. `light-blue`). */
 .columns-minimal-dark {
-  background-color: #f7fbfd;
+  text-align: left;
 }
 
-/* Highlight variant — use section background */
-.highlight .columns-minimal-dark {
-  background-color: transparent;
-}
-
-/* Row layout - image with content overlay */
+/* Row layout — stacks on mobile */
 .columns-minimal-dark > div {
-  position: relative;
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
-}
-
-/* Highlight variant — normal two-column layout */
-.highlight .columns-minimal-dark > div {
-  width: 100%;
-  margin-left: 0;
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-/* Image column - displays picture element */
-.columns-minimal-dark > div > .columns-minimal-dark-img-col {
-  width: 100%;
-}
-
-/* Content column - absolutely positioned overlay */
-.columns-minimal-dark > div > .columns-minimal-dark-content-col {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  z-index: 1;
-  padding: 0 15px;
-  text-align: left;
-}
-
-/* Highlight variant — content not positioned absolutely */
-.highlight .columns-minimal-dark > div > .columns-minimal-dark-content-col {
-  position: static;
-  width: 100%;
-  padding: 0;
-}
-
-/* Right-aligned variant */
-.columns-minimal-dark.columns-minimal-dark-right > div > .columns-minimal-dark-content-col {
-  left: auto;
-  right: 0;
+/* Content cell */
+.columns-minimal-dark > div > div {
+  order: 1;
 }
 
 .columns-minimal-dark h2 {
-  margin: 0 0 0.5rem;
-  padding: 1.2rem 0 0.5rem;
+  margin: 0 0 8px;
   font-family: var(--heading-font-family);
   font-weight: 600;
-  font-size: 34px;
   letter-spacing: -1.36px;
-  line-height: 1.2;
-  color: #004362;
-  text-align: left;
+  color: var(--text-color);
 }
 
 .columns-minimal-dark p {
   margin: 0;
-  font-family: sofia-pro, sans-serif;
+  font-family: var(--body-font-family);
   font-size: 16px;
   font-weight: 400;
-  letter-spacing: -0.25px;
-  line-height: 1.4;
-  color: #004362;
-}
-
-.columns-minimal-dark ul {
-  padding: 0;
-  margin: 0;
-}
-
-.columns-minimal-dark p + ul,
-.columns-minimal-dark p + p {
-  padding-top: 10px;
+  line-height: 24px;
+  color: var(--text-color);
 }
 
 /* CTA — source is a plain uppercase blue text link, not the bordered pill.
@@ -100,102 +45,55 @@
 
 main .columns-minimal-dark a.button:any-link {
   display: inline-block;
-  margin: 16px 0;
-  padding: 16px 24px;
-  border: 1px solid #003963;
-  border-radius: 5px;
-  background-color: transparent;
-  color: #003963;
-  font-family: roboto, sans-serif;
-  font-weight: bold;
-  font-size: 16px;
-  letter-spacing: normal;
-  line-height: 1.25;
-  text-align: center;
-  text-transform: uppercase;
-  white-space: normal;
-  text-decoration: none;
-}
-
-main .columns-minimal-dark a.button:hover,
-main .columns-minimal-dark a.button:focus {
-  background-color: #003963;
-  color: #fff;
-  text-decoration: none;
-}
-
-main .columns-minimal-dark a.button:active {
-  border: 1px solid #00223c;
-  background-color: #00223c;
-  color: #fff;
-  text-decoration: none;
-}
-
-/* Highlight variant — button-container as text link */
-.highlight .columns-minimal-dark .button-container a.button:any-link {
-  display: inline;
   margin: 0;
   padding: 0;
   border: none;
   border-radius: 0;
   background-color: transparent;
   color: var(--link-color);
-  font-weight: bold;
+  font-family: var(--body-font-family);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: normal;
+  line-height: 1.25;
+  text-align: left;
   text-transform: uppercase;
+  white-space: normal;
 }
 
-.highlight .columns-minimal-dark .button-container a.button:hover,
-.highlight .columns-minimal-dark .button-container a.button:focus {
+main .columns-minimal-dark a.button:hover,
+main .columns-minimal-dark a.button:focus {
   background-color: transparent;
   color: var(--link-hover-color);
-  text-decoration: underline;
+  text-decoration: none;
+}
+
+/* Image cell */
+.columns-minimal-dark > div > .columns-minimal-dark-img-col {
+  order: 0;
 }
 
 .columns-minimal-dark img {
   display: block;
   width: 100%;
   height: auto;
+  border-radius: 0;
 }
 
-/* Tablet — heading sizing */
-@media (width >= 768px) and (width < 992px) {
-  .columns-minimal-dark h2 {
-    font-size: 28px;
-    letter-spacing: -0.78px;
-    line-height: 1.1;
-  }
-}
-
-/* Desktop — content with padding and max-width */
-@media (width >= 992px) {
-  .columns-minimal-dark > div > .columns-minimal-dark-content-col {
-    width: 480px;
-    padding: 0 0 0 80px;
-  }
-
-  .columns-minimal-dark h2 {
-    padding: 1.5rem 0 0;
-  }
-
-  .columns-minimal-dark.columns-minimal-dark-right > div > .columns-minimal-dark-content-col {
-    width: 480px;
-    padding: 0 80px 0 0;
-  }
-
-  .highlight .columns-minimal-dark > div {
+/* Desktop — side by side, vertically centered, near-equal columns */
+@media (width >= 900px) {
+  .columns-minimal-dark > div {
     flex-direction: row;
+    align-items: center;
     gap: 72px;
   }
 
-  .highlight .columns-minimal-dark > div > .columns-minimal-dark-content-col {
-    width: 50%;
+  .columns-minimal-dark > div > div {
+    flex: 1;
+    order: unset;
   }
 
-  .highlight .columns-minimal-dark > div > .columns-minimal-dark-img-col {
-    width: 50%;
-  }
-
-  .highlight .columns-minimal-dark.columns-minimal-dark-right > div {
-    flex-direction: row-reverse;
+  .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    order: unset;
   }
 }

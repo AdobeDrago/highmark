@@ -11,3 +11,5 @@ migration-work/navigation-validation/
 migration-work/footer-validation/
 /content/
 .env
+/import-work/
+/drafts/
