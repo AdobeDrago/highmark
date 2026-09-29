@@ -1,5 +1,7 @@
 import {
   buildBlock,
+  decorateBlock,
+  loadBlock,
   loadHeader,
   loadFooter,
   decorateButtons,
@@ -148,6 +150,10 @@ async function loadEager(doc) {
   decorateTemplateAndTheme();
   if (getMetadata('breadcrumbs').toLowerCase() === 'true') {
     doc.body.dataset.breadcrumbs = true;
+    // reserve the row now so the page doesn't shift when the trail loads
+    const wrapper = doc.createElement('div');
+    wrapper.className = 'breadcrumbs-wrapper';
+    doc.querySelector('header')?.after(wrapper);
   }
   const main = doc.querySelector('main');
   if (main) {
@@ -199,6 +205,18 @@ async function autoOpenShopZipModal() {
   }
 }
 
+/**
+ * Loads the breadcrumbs block into the row reserved in loadEager.
+ * @param {Element} wrapper the .breadcrumbs-wrapper element, if any
+ */
+async function loadBreadcrumbs(wrapper) {
+  if (!wrapper) return;
+  const block = buildBlock('breadcrumbs', '');
+  wrapper.append(block);
+  decorateBlock(block);
+  await loadBlock(block);
+}
+
 async function loadLazy(doc) {
   autolinkModals(doc);
 
@@ -210,6 +228,7 @@ async function loadLazy(doc) {
   if (hash && element) element.scrollIntoView();
 
   loadHeader(doc.querySelector('header'));
+  loadBreadcrumbs(doc.querySelector('.breadcrumbs-wrapper'));
   loadFooter(doc.querySelector('footer'));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);

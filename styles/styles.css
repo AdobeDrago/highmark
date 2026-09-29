@@ -32,8 +32,14 @@
 
   /* nav heights */
   --nav-height: 64px;
-  --breadcrumbs-height: 34px;
+  --breadcrumbs-height: 44px;
   --header-height: var(--nav-height);
+}
+
+@media (width >= 992px) {
+  :root {
+    --breadcrumbs-height: 94px;
+  }
 }
 
 /* fallback fonts */
@@ -82,6 +88,14 @@ header {
   min-height: var(--header-height);
 }
 
+@media (width >= 992px) {
+  /* reserve the loaded 3-band desktop header so the page (and the
+     breadcrumbs row) don't shift down when the header block loads */
+  header {
+    min-height: 172px;
+  }
+}
+
 header .header,
 footer .footer {
   visibility: hidden;
@@ -102,10 +116,9 @@ footer .footer[data-block-status="loaded"] {
   display: revert;
 }
 
-@media (width >= 900px) {
-  body[data-breadcrumbs] {
-    --header-height: calc(var(--nav-height) + var(--breadcrumbs-height));
-  }
+/* breadcrumbs row (below the header): reserved before the block loads */
+.breadcrumbs-wrapper {
+  min-height: var(--breadcrumbs-height);
 }
 
 h1,
