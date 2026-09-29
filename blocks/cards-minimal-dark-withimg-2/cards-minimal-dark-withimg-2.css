@@ -1,20 +1,25 @@
-/* Block: cards-minimal-dark-withimg-2 -- two-up promo cards, image-left + text-right */
+/* Block: cards-minimal-dark-withimg-2 -- two-up promo cards.
+   Mobile: stacked 300px cards, 300x120 image on top, centered text.
+   Desktop (>= 900px): 520px cards, 200x200 image left + text right. */
 
-/* Values extracted from https://www.highmark.com/resources "Find a Provider / Find a clinic" pair */
+/* Values extracted from https://www.highmark.com/resources ("Find a Provider / Find a clinic"),
+   /resources/mental-health-services/* and /plans/individual-families ("Let us help you / Meet with an expert").
+   All instances share the same source component (li.listWideImg). */
 
 .cards-minimal-dark-withimg-2 > ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 300px);
+  justify-content: center;
   gap: 30px;
 }
 
 /* Card: white surface, soft drop shadow, no border/radius (source: box-shadow rgba(0,0,0,0.16) 0 3px 6px 0) */
 .cards-minimal-dark-withimg-2 > ul > li {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: stretch;
   background-color: var(--background-color);
   box-shadow: rgb(0 0 0 / 16%) 0 3px 6px 0;
@@ -23,37 +28,36 @@
   overflow: hidden;
 }
 
-/* Image cell -- fixed 200x200 square on the left */
+/* Image cell -- mobile: full card width x 120px (the 300x120 rendition) */
 .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-image {
-  flex: 0 0 200px;
-  width: 200px;
+  flex: 0 0 auto;
+  width: 100%;
   line-height: 0;
 }
 
 .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-image img {
   display: block;
-  width: 200px;
-  height: 200px;
+  width: 100%;
+  height: 120px;
   object-fit: cover;
   border-radius: 0;
 }
 
-/* Text body -- right side, padding 0 15px */
+/* Text body -- padding 0 15px. Block (not flex) so sibling margins collapse like the source. */
 .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body {
   flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
+  display: block;
   padding: 0 15px;
-  text-align: left;
+  text-align: center;
 }
 
 .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body h3 {
   margin: 14px 0 13px;
   font-family: var(--heading-font-family);
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 600;
-  line-height: 26.4px;
-  letter-spacing: -0.72px;
+  line-height: 24.2px;
+  letter-spacing: -0.4px;
   color: var(--text-color);
   text-transform: none;
 }
@@ -66,17 +70,19 @@
 }
 
 .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p {
-  margin: 0 0 15px;
+  margin: 0 0 3px;
   font-family: var(--body-font-family);
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 15px;
+  line-height: 21px;
+  letter-spacing: -0.2px;
   color: var(--text-body-color);
 }
 
 /* CTA -- uppercase bold blue text link. EDS auto-decorates the standalone <p><a>
    into .button-container / a.button; reset the global pill styling to a text link. */
 .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p.button-container {
-  margin: 0 0 15px;
+  margin: 15px 0 20px;
+  letter-spacing: normal;
 }
 
 .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body a.button:any-link {
@@ -90,7 +96,7 @@
   font-family: var(--body-font-family);
   font-size: 16px;
   font-weight: 700;
-  line-height: 1.5;
+  line-height: 20px;
   letter-spacing: normal;
   text-transform: uppercase;
   text-decoration: none;
@@ -104,9 +110,133 @@
   text-decoration: underline;
 }
 
-/* Two cards side by side on desktop */
+/* Phone CTA: "Call" label + tel: link (source: span.wideCardTextTwo + a.wideCardTextThree.tel).
+   Only authored on plans/individual-families -- no other instance has a tel: link in this block. */
+.cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p:has(> a[href^="tel:"]) {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 27px;
+  letter-spacing: normal;
+  color: var(--text-body-color);
+}
+
+.cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p > a[href^="tel:"]:any-link {
+  display: block;
+  padding: 0 0 20px;
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 27px;
+  color: rgb(0 120 193);
+  text-decoration: none;
+}
+
+/* Below desktop the source li carries margin-left: 8px, nudging the centered
+   cards 4px right (card x=49 @390, x=77 @768). */
+@media (width < 900px) {
+  .cards-minimal-dark-withimg-2 > ul {
+    padding-left: 8px;
+  }
+
+  /* plans/individual-families (.section.light, 40px section padding): source
+     wrapper is 50px top / 20px + 30px li margin bottom -> +10px each side. */
+  body.shop .section.light .cards-minimal-dark-withimg-2 {
+    padding: 10px 0;
+  }
+}
+
+/* Tablet (source 767-991px): two 290px cards side by side, 42px apart,
+   290x116 image on top, centered text. */
+@media (width >= 768px) and (width < 900px) {
+  .cards-minimal-dark-withimg-2 > ul {
+    grid-template-columns: repeat(2, 290px);
+    column-gap: 42px;
+    align-items: start;
+  }
+
+  .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-image img {
+    height: 116px;
+  }
+
+  .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body h3 {
+    font-size: 24px;
+    line-height: 26.4px;
+    letter-spacing: -0.44px;
+  }
+
+  .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p {
+    margin: 0;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p.button-container {
+    margin: 15px 0 20px;
+    letter-spacing: normal;
+  }
+
+  /* "Call" label grows to 20px/30px; the tel link keeps 18px/27px */
+  .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p:has(> a[href^="tel:"]) {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: normal;
+  }
+
+  /* source 60px top / 30px + 30px li margin bottom vs 40px section padding */
+  body.shop .section.light .cards-minimal-dark-withimg-2 {
+    padding: 20px 0;
+  }
+}
+
+/* Desktop: two 520px cards, 42px apart, centered; image left 200x200, text left-aligned */
 @media (width >= 900px) {
   .cards-minimal-dark-withimg-2 > ul {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 520px));
+    column-gap: 42px;
+  }
+
+  .cards-minimal-dark-withimg-2 > ul > li {
+    flex-direction: row;
+  }
+
+  .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-image {
+    flex: 0 0 200px;
+    width: 200px;
+  }
+
+  .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-image img {
+    width: 200px;
+    height: 200px;
+  }
+
+  .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body {
+    text-align: left;
+  }
+
+  .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body h3 {
+    font-size: 24px;
+    line-height: 26.4px;
+    letter-spacing: -0.72px;
+  }
+
+  .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p {
+    margin: 0 0 15px;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p.button-container {
+    margin: 0 0 15px;
+    letter-spacing: normal;
+  }
+
+  .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p:has(> a[href^="tel:"]) {
+    margin: 0;
+    font-size: 24px;
+    line-height: 36px;
+    letter-spacing: normal;
   }
 }

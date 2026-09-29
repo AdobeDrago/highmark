@@ -19,6 +19,7 @@
   --highlight-color: #fef0ec;    /* blush 25 — Health Insurance Glossary band */
   --accent-color: #f7fbfd;       /* polar — "your entire plan" band */
   --light-blue-color: #d9ebf6;   /* splash 15 — guide-article CTA band */
+  --grey-color: #f1f4f4;         /* paper grey — plans "Why choose Highmark" band */
 
   /* heading sizes (desktop) */
   --heading-size-xxl: 56px;

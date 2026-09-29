@@ -12,6 +12,9 @@
  * Source note: the matched section also contains a centered intro
  * (H2 "How can we help?" + description) that is default content, not part of
  * the cards block. It is preserved as default content emitted before the block.
+ *
+ * Also verified (no code change) on https://www.highmark.com/plans/individual-families
+ * section 5 (section.new-hmk-brand-papergrey .card-block.responsivegrid).
  */
 export default function parse(element, { document }) {
   // --- Leading default content (intro heading + description) ---

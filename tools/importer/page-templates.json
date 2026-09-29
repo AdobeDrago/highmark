@@ -1,6 +1,199 @@
 {
   "templates": [
     {
+      "name": "plans",
+      "urls": [
+        "https://www.highmark.com/plans/individual-families"
+      ],
+      "representativeUrl": "https://www.highmark.com/plans/individual-families",
+      "description": "Plans landing page: full-bleed hero, navy intro band, icon feature card rows, photo banner, image card grid on grey, image/text columns on light blue, wide help cards, blush CTA band and footnotes",
+      "blocks": [
+        {
+          "name": "hero-minimal-dark-withimg",
+          "instances": [
+            "div.hero.responsivegrid.section",
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.image)"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg-icons",
+          "instances": [
+            "div.card-block.responsivegrid.section:has(.cardWrapper.ghostMode)"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg",
+          "instances": [
+            "section.container-fluid-fullwidth.section:has(.new-hmk-brand-papergrey) .card-block.responsivegrid"
+          ]
+        },
+        {
+          "name": "columns-minimal-dark",
+          "instances": [
+            "div.newcardscomponent-variations.section:has(.side-card-panel)"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg-2",
+          "instances": [
+            "div.newcardscomponent-variations.section:has(.cards-variation)"
+          ]
+        }
+      ],
+      "urlPattern": "/plans/*",
+      "sections": [
+        {
+          "id": "1",
+          "name": "hero",
+          "selector": [
+            "div.hero.responsivegrid.section"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-minimal-dark-withimg"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "2",
+          "name": "intro-navy",
+          "selector": [
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.new-hmk-brand-togatherblue)"
+          ],
+          "style": "dark, center",
+          "blocks": [],
+          "defaultContent": [
+            ".one-card-content-center-container h2.d-lg-block",
+            ".one-card-content-center-container .body-text.d-lg-block"
+          ]
+        },
+        {
+          "id": "3",
+          "name": "lost-coverage",
+          "selector": [
+            "div.card-block.responsivegrid.section:has(.wideCardWrapper)"
+          ],
+          "style": "center",
+          "blocks": [
+            "cards-minimal-dark-withimg-icons"
+          ],
+          "defaultContent": [
+            ".cardBlockTitleContainer h2",
+            ".cardBlockTitleContainer .cardDescription"
+          ]
+        },
+        {
+          "id": "4",
+          "name": "comparison-tool-banner",
+          "selector": [
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.image)"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-minimal-dark-withimg"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "5",
+          "name": "why-highmark",
+          "selector": [
+            "section.container-fluid-fullwidth.section:has(.new-hmk-brand-papergrey)"
+          ],
+          "style": "grey",
+          "blocks": [
+            "cards-minimal-dark-withimg"
+          ],
+          "defaultContent": [
+            ".cardBlockTitleContainer h2",
+            ".cardBlockTitleContainer .cardDescription"
+          ]
+        },
+        {
+          "id": "6",
+          "name": "aca-basics",
+          "selector": [
+            "div.card-block.responsivegrid.section:has(.cardWrapper.ghostMode):not(:has(.wideCardWrapper)):not(:has(.cardWrapper:nth-of-type(4)))"
+          ],
+          "style": "center",
+          "blocks": [
+            "cards-minimal-dark-withimg-icons"
+          ],
+          "defaultContent": [
+            ".cardBlockTitleContainer h2",
+            ".cardBlockTitleContainer .cardDescription",
+            ".hmk-brand-buttons.brand-center-content a"
+          ]
+        },
+        {
+          "id": "7",
+          "name": "open-enrollment",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(.side-card-panel)"
+          ],
+          "style": "blue",
+          "blocks": [
+            "columns-minimal-dark"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "8",
+          "name": "benefits",
+          "selector": [
+            "div.card-block.responsivegrid.section:has(.cardWrapper.ghostMode):not(:has(.wideCardWrapper)):has(.cardWrapper:nth-of-type(4))"
+          ],
+          "style": "center",
+          "blocks": [
+            "cards-minimal-dark-withimg-icons"
+          ],
+          "defaultContent": [
+            ".cardBlockTitleContainer h2",
+            ".cardBlockTitleContainer .cardDescription",
+            ".hmk-brand-buttons.brand-center-content a"
+          ]
+        },
+        {
+          "id": "9",
+          "name": "help-cards",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(.cards-variation)"
+          ],
+          "style": "light",
+          "blocks": [
+            "cards-minimal-dark-withimg-2"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "10",
+          "name": "closing-cta",
+          "selector": [
+            "div.onecard1colpanel.section:has(.new-hmk-brand-blush-twnetyfive)"
+          ],
+          "style": "highlight",
+          "blocks": [],
+          "defaultContent": [
+            ".one-card-content-center-container h2.d-lg-block",
+            ".one-card-content-center-container .body-text.d-lg-block",
+            ".hmk-brand-buttons.brand-center-content a"
+          ]
+        },
+        {
+          "id": "11",
+          "name": "footnotes",
+          "selector": [
+            "section.container-fluid-fullwidth.section:has(.cmp-text):not(:has(.card-block))"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            ".cmp-text p"
+          ]
+        }
+      ]
+    },
+    {
       "name": "topic-hub-landing",
       "urls": [
         "https://www.highmark.com/resources",
@@ -47,7 +240,8 @@
             "div.newcardscomponent-variations.section:nth-of-type(5)"
           ]
         }
-      ]
+      ],
+      "urlPattern": "/*"
     },
     {
       "name": "topic-hub-subnav",
@@ -113,7 +307,8 @@
           ],
           "section": "highlight"
         }
-      ]
+      ],
+      "urlPattern": "/resources/*"
     },
     {
       "name": "tabbed-answers-landing",
@@ -168,7 +363,8 @@
           ],
           "section": "highlight"
         }
-      ]
+      ],
+      "urlPattern": "/resources/*"
     },
     {
       "name": "sidebar-listing",
@@ -203,7 +399,8 @@
             "div.col-lg-9 div.accordianTable"
           ]
         }
-      ]
+      ],
+      "urlPattern": "/resources/answers/*"
     },
     {
       "name": "sidebar-article",
@@ -220,7 +417,8 @@
             "div.d-none.d-lg-block.col-lg-3 div.nav-container"
           ]
         }
-      ]
+      ],
+      "urlPattern": "/resources/*"
     },
     {
       "name": "sidebar-faq",
@@ -244,7 +442,8 @@
             "div.col-lg-9 div.accordianTable"
           ]
         }
-      ]
+      ],
+      "urlPattern": "/resources/answers/faq/*"
     },
     {
       "name": "sidebar-grouped-faq",
@@ -274,7 +473,8 @@
           ],
           "section": "highlight"
         }
-      ]
+      ],
+      "urlPattern": "/resources/answers/faq/*"
     },
     {
       "name": "sidebar-guide-article",
@@ -302,7 +502,8 @@
           ],
           "section": "light-blue"
         }
-      ]
+      ],
+      "urlPattern": "/resources/mental-health-services/*"
     },
     {
       "name": "home",
@@ -339,7 +540,8 @@
             ".side-card-panel"
           ]
         }
-      ]
+      ],
+      "urlPattern": "/"
     }
   ],
   "metadata": {
