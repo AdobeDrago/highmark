@@ -1,0 +1,202 @@
+/* Block: columns-minimal-dark-overlay — homepage promo bands.
+   Full-bleed image with the text overlaid on it; inside a `highlight` section it
+   falls back to a normal two-column layout. Split out of columns-minimal-dark
+   (which keeps the side-by-side layout the rest of the site uses). */
+
+.columns-minimal-dark-overlay {
+  background-color: #f7fbfd;
+}
+
+/* Highlight variant — use section background */
+.highlight .columns-minimal-dark-overlay {
+  background-color: transparent;
+}
+
+/* Row layout - image with content overlay */
+.columns-minimal-dark-overlay > div {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}
+
+/* Highlight variant — normal two-column layout */
+.highlight .columns-minimal-dark-overlay > div {
+  width: 100%;
+  margin-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Image column - displays picture element */
+.columns-minimal-dark-overlay > div > .columns-minimal-dark-overlay-img-col {
+  width: 100%;
+}
+
+/* Content column - absolutely positioned overlay */
+.columns-minimal-dark-overlay > div > .columns-minimal-dark-overlay-content-col {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 1;
+  padding: 0 15px;
+  text-align: left;
+}
+
+/* Highlight variant — content not positioned absolutely */
+.highlight .columns-minimal-dark-overlay > div > .columns-minimal-dark-overlay-content-col {
+  position: static;
+  width: 100%;
+  padding: 0;
+}
+
+/* Right-aligned variant */
+.columns-minimal-dark-overlay.columns-minimal-dark-overlay-right > div > .columns-minimal-dark-overlay-content-col {
+  left: auto;
+  right: 0;
+}
+
+.columns-minimal-dark-overlay h2 {
+  margin: 0 0 0.5rem;
+  padding: 1.2rem 0 0.5rem;
+  font-family: var(--heading-font-family);
+  font-weight: 600;
+  font-size: 34px;
+  letter-spacing: -1.36px;
+  line-height: 1.2;
+  color: #004362;
+  text-align: left;
+}
+
+.columns-minimal-dark-overlay p {
+  margin: 0;
+  font-family: sofia-pro, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.25px;
+  line-height: 1.4;
+  color: #004362;
+}
+
+.columns-minimal-dark-overlay ul {
+  padding: 0;
+  margin: 0;
+}
+
+.columns-minimal-dark-overlay p + ul,
+.columns-minimal-dark-overlay p + p {
+  padding-top: 10px;
+}
+
+/* CTA — source is a plain uppercase blue text link, not the bordered pill.
+   Override the global a.button decoration EDS applies. */
+.columns-minimal-dark-overlay p.button-container {
+  margin: 24px 0 0;
+}
+
+main .columns-minimal-dark-overlay a.button:any-link {
+  display: inline-block;
+  margin: 16px 0;
+  padding: 16px 24px;
+  border: 1px solid #003963;
+  border-radius: 5px;
+  background-color: transparent;
+  color: #003963;
+  font-family: roboto, sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  letter-spacing: normal;
+  line-height: 1.25;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: normal;
+  text-decoration: none;
+}
+
+main .columns-minimal-dark-overlay a.button:hover,
+main .columns-minimal-dark-overlay a.button:focus {
+  background-color: #003963;
+  color: #fff;
+  text-decoration: none;
+}
+
+main .columns-minimal-dark-overlay a.button:active {
+  border: 1px solid #00223c;
+  background-color: #00223c;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Highlight variant — button-container as text link */
+.highlight .columns-minimal-dark-overlay .button-container a.button:any-link {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--link-color);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.highlight .columns-minimal-dark-overlay .button-container a.button:hover,
+.highlight .columns-minimal-dark-overlay .button-container a.button:focus {
+  background-color: transparent;
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+.columns-minimal-dark-overlay img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Tablet — heading sizing */
+@media (width >= 768px) and (width < 992px) {
+  .columns-minimal-dark-overlay h2 {
+    font-size: 28px;
+    letter-spacing: -0.78px;
+    line-height: 1.1;
+  }
+}
+
+/* Desktop — content with padding and max-width */
+@media (width >= 992px) {
+  .columns-minimal-dark-overlay > div > .columns-minimal-dark-overlay-content-col {
+    width: 480px;
+    padding: 0 0 0 80px;
+  }
+
+  .columns-minimal-dark-overlay h2 {
+    padding: 1.5rem 0 0;
+  }
+
+  .columns-minimal-dark-overlay.columns-minimal-dark-overlay-right > div > .columns-minimal-dark-overlay-content-col {
+    width: 480px;
+    padding: 0 80px 0 0;
+  }
+
+  .highlight .columns-minimal-dark-overlay > div {
+    flex-direction: row;
+    gap: 72px;
+  }
+
+  .highlight .columns-minimal-dark-overlay > div > .columns-minimal-dark-overlay-content-col {
+    width: 50%;
+  }
+
+  .highlight .columns-minimal-dark-overlay > div > .columns-minimal-dark-overlay-img-col {
+    width: 50%;
+  }
+
+  .highlight .columns-minimal-dark-overlay.columns-minimal-dark-overlay-right > div {
+    flex-direction: row-reverse;
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "variantName": "columns-minimal-dark-overlay",
+  "baseBlock": "columns",
+  "version": "1.0.0",
+  "created": "2026-09-29T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.highmark.com",
+    "originPage": "home (Homepage)",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "minimal",
+    "purpose": "feature",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "heading + text + link | image",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "homepage promo bands with the text overlaid on a full-bleed image",
+      "two-column text + image bands inside a highlight section on the homepage"
+    ],
+    "notSuitableFor": [
+      "side-by-side text + image promos on interior pages (use columns-minimal-dark)",
+      "full-width hero banners (use hero)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/"],
+    "reuseCount": 1,
+    "lastUsed": "2026-09-29T00:00:00.000Z"
+  },
+  "notes": "Split out of columns-minimal-dark, whose overlay layout (commit 1ab8975) was built for the homepage but broke the side-by-side bands on every interior page. This block is that overlay implementation, renamed; columns-minimal-dark was restored to its earlier side-by-side layout."
+}
