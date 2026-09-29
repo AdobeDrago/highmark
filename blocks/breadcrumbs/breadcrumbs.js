@@ -1,9 +1,10 @@
 /*
  * Breadcrumbs
  * Auto-built under the header on pages with the `Breadcrumbs: true` metadata.
- * The trail is derived from the URL path: every ancestor path that exists as a
- * page is shown, labelled with its `Breadcrumb Title` metadata or, failing that,
- * its title without the " | …" site suffix. Missing ancestors are skipped.
+ * The trail is derived from the URL path: every ancestor path that is a
+ * published page (listed in the query index) is shown, labelled with its
+ * `Breadcrumb Title` metadata or, failing that, its title without the " | …"
+ * site suffix. Other ancestors are skipped.
  */
 
 import { getMetadata } from '../../scripts/aem.js';
@@ -37,7 +38,23 @@ export function ancestorPaths(pathname) {
 }
 
 /**
- * Fetches an ancestor page and returns its crumb, or null when it doesn't exist.
+ * Paths of published pages, from the site query index. Looking ancestors up here
+ * first avoids requesting pages that don't exist (404s log console errors).
+ * @returns {Promise<Set<string>>}
+ */
+async function publishedPaths() {
+  try {
+    const resp = await fetch('/query-index.json?limit=5000');
+    if (!resp.ok) return new Set();
+    const { data = [] } = await resp.json();
+    return new Set(data.map((row) => row.path));
+  } catch {
+    return new Set();
+  }
+}
+
+/**
+ * Fetches a published ancestor page and returns its crumb.
  * @param {string} path
  * @returns {Promise<{path: string, label: string}|null>}
  */
@@ -132,8 +149,11 @@ export default async function decorate(block) {
   block.replaceChildren(nav, actions);
 
   // ancestors load after first render; the row keeps its height meanwhile
-  const crumbs = (await Promise.all(ancestorPaths(window.location.pathname).map(fetchCrumb)))
-    .filter(Boolean);
+  const ancestors = ancestorPaths(window.location.pathname);
+  if (!ancestors.length) return;
+  const published = await publishedPaths();
+  const existing = ancestors.filter((path) => published.has(path));
+  const crumbs = (await Promise.all(existing.map(fetchCrumb))).filter(Boolean);
   if (!crumbs.length) return;
   list.lastElementChild.before(...crumbs.map(({ path, label }) => crumbItem(label, path)));
   const parent = crumbs[crumbs.length - 1];
