@@ -1,0 +1,175 @@
+/* Breadcrumbs row under the header. Values measured from highmark.com:
+   mobile (< 992px) shows a "‹ parent" back link + icon-only print/share;
+   desktop shows the full trail + PRINT / SHARE, 94px tall. */
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: var(--breadcrumbs-height);
+  padding: 0 30px;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.breadcrumbs nav {
+  min-width: 0;
+}
+
+/* ---- full trail (desktop) ---- */
+.breadcrumbs .breadcrumbs-list {
+  display: none;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 32px 0;
+  list-style: none;
+  font-weight: 300;
+}
+
+.breadcrumbs .breadcrumbs-list li {
+  display: flex;
+  padding: 3.2px 3.2px 3.2px 8px;
+  color: #6c757d;
+}
+
+.breadcrumbs .breadcrumbs-list li:first-child {
+  padding-left: 0;
+}
+
+.breadcrumbs .breadcrumbs-list li + li::before {
+  content: '/';
+  padding-right: 8px;
+  color: #6c757d;
+}
+
+.breadcrumbs .breadcrumbs-list a:any-link {
+  color: #0078c1;
+}
+
+/* ---- back link (mobile) ---- */
+.breadcrumbs .breadcrumbs-back:any-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 0;
+  color: #0078c1;
+  font-weight: 400;
+}
+
+.breadcrumbs .breadcrumbs-back::before {
+  content: '';
+  flex: none;
+  width: 24px;
+  height: 24px;
+  background-color: currentcolor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* ---- print / share ---- */
+.breadcrumbs .breadcrumbs-actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  align-self: flex-start;
+  position: relative;
+}
+
+.breadcrumbs .breadcrumbs-actions button {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 2px 10px 2px 6px;
+  background: none;
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: normal;
+  text-transform: uppercase;
+}
+
+.breadcrumbs .breadcrumbs-actions button:hover,
+.breadcrumbs .breadcrumbs-actions button:focus-visible {
+  background: none;
+  color: #0078c1;
+}
+
+.breadcrumbs .breadcrumbs-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 5px;
+  background-color: currentcolor;
+  mask: url('/icons/print.svg') center / contain no-repeat;
+}
+
+.breadcrumbs .breadcrumbs-share .breadcrumbs-icon {
+  mask-image: url('/icons/share.svg');
+}
+
+.breadcrumbs .breadcrumbs-action-label {
+  display: none;
+}
+
+.breadcrumbs .breadcrumbs-status:not(:empty) {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 1;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: var(--text-color);
+  color: #fff;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+@media (width >= 992px) {
+  /* 1200px container; the trail starts at its left edge and the buttons stop
+     10% short of its right edge (source col-lg-11 row) */
+  .breadcrumbs {
+    box-sizing: content-box;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+
+  .breadcrumbs .breadcrumbs-list {
+    display: flex;
+  }
+
+  .breadcrumbs .breadcrumbs-back:any-link {
+    display: none;
+  }
+
+  .breadcrumbs .breadcrumbs-actions {
+    align-self: center;
+    margin-right: 10%;
+  }
+
+  .breadcrumbs .breadcrumbs-actions button {
+    padding: 2px 6px;
+  }
+
+  .breadcrumbs .breadcrumbs-action-label {
+    display: inline;
+  }
+
+  /* sidebar layouts: the trail starts at the content column (the section nav
+     sits below, beside the article) and the buttons reach the container edge */
+  body:has(main > .cards-minimal-light-sidenav-container:first-child) .breadcrumbs nav {
+    margin-left: 25%;
+  }
+
+  body:has(main > .cards-minimal-light-sidenav-container:first-child) .breadcrumbs .breadcrumbs-actions {
+    margin-right: 0;
+  }
+}
+
+@media print {
+  .breadcrumbs .breadcrumbs-actions {
+    display: none;
+  }
+}

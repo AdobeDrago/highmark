@@ -32,8 +32,14 @@
 
   /* nav heights */
   --nav-height: 64px;
-  --breadcrumbs-height: 34px;
+  --breadcrumbs-height: 44px;
   --header-height: var(--nav-height);
+}
+
+@media (width >= 992px) {
+  :root {
+    --breadcrumbs-height: 94px;
+  }
 }
 
 /* fallback fonts */
@@ -89,6 +95,14 @@ header {
   min-height: var(--header-height);
 }
 
+@media (width >= 992px) {
+  /* reserve the loaded 3-band desktop header so the page (and the
+     breadcrumbs row) don't shift down when the header block loads */
+  header {
+    min-height: 172px;
+  }
+}
+
 header .header,
 footer .footer {
   visibility: hidden;
@@ -109,10 +123,9 @@ footer .footer[data-block-status="loaded"] {
   display: revert;
 }
 
-@media (width >= 900px) {
-  body[data-breadcrumbs] {
-    --header-height: calc(var(--nav-height) + var(--breadcrumbs-height));
-  }
+/* breadcrumbs row (below the header): reserved before the block loads */
+.breadcrumbs-wrapper {
+  min-height: var(--breadcrumbs-height);
 }
 
 h1,
@@ -380,3 +393,769 @@ main .section.center .default-content-wrapper:not(.cards-minimal-dark-withimg-ic
 main .section.center .button-container {
   text-align: center;
 }
+
+/* grey — paper-grey band (plans "Why choose a Highmark health plan?") */
+main .section.grey {
+  background-color: var(--grey-color);
+  margin: 0;
+}
+
+/* stylelint-disable no-descending-specificity */
+
+/*
+ * Plans page (theme=shop) default-content layout, values from the source.
+ * Card-grid sections (center, grey): centered intro above the cards.
+ * Text bands (dark center, highlight): centered heading + copy + CTA.
+ */
+body.shop main > .section > div {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+body.shop main .section > .default-content-wrapper h2 {
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.72px;
+}
+
+body.shop main .section.grey:not(.dark),
+body.shop main .section.center:not(.dark) {
+  margin: 0;
+  padding: 60px 0 50px;
+}
+
+body.shop main .section.grey:not(.dark) > .default-content-wrapper:first-child,
+body.shop main .section.center:not(.dark) > .default-content-wrapper:first-child {
+  margin: 0 auto 16px;
+  text-align: center;
+}
+
+body.shop main .section.grey:not(.dark) > .default-content-wrapper:first-child h2,
+body.shop main .section.center:not(.dark) > .default-content-wrapper:first-child h2 {
+  margin: 0 0 16px;
+}
+
+body.shop main .section.grey:not(.dark) > .default-content-wrapper:first-child h2 + p,
+body.shop main .section.center:not(.dark) > .default-content-wrapper:first-child h2 + p {
+  margin: 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+body.shop main .section.center:not(.dark) > .default-content-wrapper p.button-container {
+  margin: 16px 0;
+}
+
+body.shop main .section.center:not(.dark) > .default-content-wrapper a.button:any-link,
+body.shop main .section.highlight > .default-content-wrapper a.button:any-link {
+  margin: 0;
+  line-height: 24px;
+}
+
+body.shop main .section.dark.center,
+body.shop main .section.highlight {
+  margin: 0;
+  padding: 32px 0 48px;
+}
+
+body.shop main .section.dark.center > .default-content-wrapper,
+body.shop main .section.highlight > .default-content-wrapper {
+  margin: 0 auto;
+}
+
+body.shop main .section.dark.center h2,
+body.shop main .section.highlight h2 {
+  margin: 0 0 8px;
+}
+
+body.shop main .section.dark.center p:not(.button-container),
+body.shop main .section.highlight p:not(.button-container) {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.25px;
+}
+
+body.shop main .section.highlight h2,
+body.shop main .section.highlight p:not(.button-container) {
+  color: #004362;
+}
+
+body.shop main .section.highlight > .default-content-wrapper p.button-container {
+  margin: 32px 0 16px;
+}
+
+body.shop main .section.blue {
+  padding: 32px 0;
+}
+
+/* footnotes — superscript marker + subscript note don't grow the line */
+body.shop main .default-content-wrapper p > sub {
+  font-size: 12px;
+  line-height: inherit;
+  vertical-align: baseline;
+}
+
+body.shop main .default-content-wrapper p:has(> sub) > sup {
+  font-size: 12px;
+  line-height: 1;
+}
+
+body.shop main .section:has(> .default-content-wrapper > p > sub) {
+  padding-top: 40px;
+  padding-bottom: 24px;
+}
+
+body.shop main .default-content-wrapper p:has(> sub) {
+  min-height: 21px;
+  margin: 0 0 16px;
+  font-size: 15px;
+  line-height: 21px;
+}
+
+@media (width >= 900px) {
+  body.shop main > .section > div {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.shop main > .section > .default-content-wrapper {
+    padding-left: 64px;
+    padding-right: 64px;
+  }
+
+  body.shop main .section > .default-content-wrapper h2 {
+    font-size: 28px;
+  }
+
+  body.shop main .section.grey:not(.dark) > .default-content-wrapper:first-child h2 + p,
+  body.shop main .section.center:not(.dark) > .default-content-wrapper:first-child h2 + p,
+  body.shop main .section.dark.center p:not(.button-container),
+  body.shop main .section.highlight p:not(.button-container) {
+    font-size: 18px;
+    line-height: 23.4px;
+  }
+
+  body.shop main .default-content-wrapper p:has(> sub) {
+    min-height: 19.5px;
+    line-height: 19.5px;
+  }
+}
+
+@media (width >= 992px) {
+  body.shop main .section > .default-content-wrapper h2 {
+    font-size: 34px;
+    line-height: 1.2;
+    letter-spacing: -1.36px;
+  }
+
+  body.shop main .section.grey:not(.dark) > .default-content-wrapper:first-child,
+  body.shop main .section.center:not(.dark) > .default-content-wrapper:first-child {
+    max-width: 580px;
+    padding: 0;
+  }
+
+  body.shop main .section.grey:not(.dark) > .default-content-wrapper:first-child h2 + p,
+  body.shop main .section.center:not(.dark) > .default-content-wrapper:first-child h2 + p {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  /* card grids sit in a row with 15px above/below */
+  body.shop main .section.grey:not(.dark) > div[class$="-wrapper"]:not(.default-content-wrapper),
+  body.shop main .section.center:not(.dark) > div[class$="-wrapper"]:not(.default-content-wrapper) {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+
+  body.shop main .section.dark.center,
+  body.shop main .section.highlight {
+    padding: 64px 0;
+  }
+
+  body.shop main .section.dark.center > .default-content-wrapper,
+  body.shop main .section.highlight > .default-content-wrapper {
+    max-width: 780px;
+    padding: 0;
+  }
+
+  body.shop main .section.dark.center p:not(.button-container),
+  body.shop main .section.highlight p:not(.button-container) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  body.shop main .section.blue {
+    padding: 56px 0;
+  }
+
+  body.shop main .section.light {
+    padding: 60px 0 56px;
+  }
+
+  body.shop main .default-content-wrapper p:has(> sub) {
+    min-height: 24px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+/* ==========================================================================
+ * CHIP pages (template=chip -> body.chip), values measured from
+ * highmark.com/western-pennsylvania/chip/* at 1440 / 1024 / 768 / 390.
+ *
+ * Section order in EDS: (1) sidenav section, (2) main article, (3) right-rail
+ * callout (default content), (4) optional full-width CTA band (.light.center).
+ *
+ * Source layout at >= 992px: a container of min(1200px, 100% - 2 * 83px) with
+ * the left nav in col-lg-3 (25%), then col-lg-9 split into the article
+ * (9/12 of 75% = 56.25%) and the right rail (3/12 of 75% = 18.75%). Nav and
+ * rail columns have 15px gutters; nav + rail content keeps 20px free on the
+ * right. The CTA band is full-bleed below. Below 992px the nav and the rail
+ * are hidden (d-none d-lg-block on the source) and the article runs full
+ * width with 64px (768-991) / 30px (< 768) side padding.
+ * ========================================================================== */
+body.chip main > .section {
+  margin: 0;
+}
+
+body.chip main > .section > div {
+  max-width: none;
+  padding: 0 30px;
+}
+
+body.chip main {
+  padding-bottom: 40px;
+}
+
+/* article: closing spacer component (40px; 60px at >= 992px) */
+body.chip main > .cards-minimal-light-sidenav-container + .section {
+  padding-bottom: 40px;
+}
+
+/* -- article default content -- */
+body.chip main > .section:not(.light) > .default-content-wrapper h1 {
+  margin: 0 0 8px;
+  padding: 24px 0;
+  font-size: 32px;
+  line-height: 35.2px;
+  letter-spacing: -1.28px;
+}
+
+body.chip main > .section:not(.light) > .default-content-wrapper h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.chip main > .section:not(.light) > .default-content-wrapper h3 {
+  margin: 0 0 8px;
+  padding: 16px 0;
+  font-size: 22px;
+  line-height: 24.2px;
+  letter-spacing: -0.4px;
+}
+
+/* source places a 20px spacer component before each in-article h3 */
+body.chip main > .section:not(.light) > .default-content-wrapper h3:not(:first-child) {
+  padding-top: 36px;
+}
+
+/* ...but a 40px spacer when the h3 opens a sub-topic right after an h2's
+   intro + CTA link (doctors-drugs "Where to go for care") */
+body.chip main > .section:not(.light) > .default-content-wrapper h2 + p + .button-container + h3 {
+  padding-top: 56px;
+}
+
+body.chip main > .section:not(.light) > .default-content-wrapper h5 {
+  margin: 0 0 12.8px;
+  font-size: 17px;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+body.chip main > .section:not(.light) > .default-content-wrapper p {
+  margin: 0 0 12.8px;
+  font-size: 15px;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+/* lead-in paragraph right under the page title (source span.p1) */
+body.chip main > .section:not(.light) > .default-content-wrapper h1 + p {
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+/* 20px spacer between the lead-in and a following h2 */
+body.chip main > .section:not(.light) > .default-content-wrapper h1 + p + h2 {
+  padding-top: 39.2px;
+}
+
+body.chip main > .section:not(.light) > .default-content-wrapper ul {
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: disc;
+}
+
+body.chip main > .section:not(.light) > .default-content-wrapper li {
+  margin: 0 0 13px 18px;
+  font-size: 15px;
+  font-weight: 100;
+  line-height: 22.5px;
+}
+
+body.chip main > .section:not(.light) > .default-content-wrapper a:any-link {
+  color: #0078c1;
+}
+
+body.chip main > .section:not(.light) > .default-content-wrapper strong {
+  font-weight: 700;
+}
+
+/* standalone CTA links: EDS decorates them as .button, the source renders
+   plain bold blue text links */
+body.chip main > .section:not(.light) > .default-content-wrapper a.button:any-link {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #0078c1;
+  font-size: inherit;
+  font-weight: 700;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+  white-space: normal;
+}
+
+body.chip main > .section:not(.light) > .default-content-wrapper a.button:hover,
+body.chip main > .section:not(.light) > .default-content-wrapper a.button:focus {
+  background: transparent;
+  color: #0078c1;
+  text-decoration: underline;
+}
+
+/* main article: a link alone in a plain paragraph (no <strong>) is a regular
+   weight-300 text link on the source ("Drug Formulary", "Provider Directory") */
+body.chip main > .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a.button:not(.primary):any-link {
+  font-weight: 300;
+}
+
+/* main article links darken to #0056b3 on hover/focus */
+body.chip main > .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a:any-link:hover,
+body.chip main > .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a:any-link:focus {
+  color: #0056b3;
+}
+
+/* link lists (ul whose items are a single link): no bullets, 5px link padding */
+body.chip main > .section:not(.light) > .default-content-wrapper ul:has(> li > a:only-child) {
+  list-style: none;
+}
+
+body.chip main > .section:not(.light) > .default-content-wrapper ul:has(> li > a:only-child) > li {
+  margin: 0;
+}
+
+body.chip main > .section:not(.light) > .default-content-wrapper ul:has(> li > a:only-child) a {
+  display: inline-block;
+  padding: 5px 0;
+}
+
+/* 20px spacer between a link list and the next text block */
+body.chip main > .section:not(.light) > .default-content-wrapper ul:has(> li > a:only-child) + p:not(:has(> picture)) {
+  padding-top: 20px;
+}
+
+/* same 20px spacer before a bold item title when the previous item had no
+   link list (chip-resources "24/7 Nurseline" -> "Blue 365 Deals") */
+body.chip main > .section:not(.light) > .default-content-wrapper p:not(:has(strong)) + p:has(> strong:first-child):not(:has(a)) {
+  padding-top: 20px;
+}
+
+/* "picture_as_pdf" Material icon ligature authored as <em> inside PDF links */
+body.chip main > .section:not(.light) > .default-content-wrapper a > em {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin: 0 6px 0 2px;
+  background-color: currentcolor;
+  font-size: 0;
+  vertical-align: text-bottom;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3H19v1h1.5V11H19v2h-1.5V7h3v1.5zM9 9.5h1v-1H9v1zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm10 5.5h1v-3h-1v3z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* leading icon in link lists uses the outlined glyph with 10px after it */
+body.chip main > .section:not(.light) > .default-content-wrapper li > a > em {
+  margin: 0 10px 0 0;
+  vertical-align: middle;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm12 6V9c0-.55-.45-1-1-1h-2v5h2c.55 0 1-.45 1-1zm-2-3h1v3h-1V9zm4 2h1v-1h-1V9h1V8h-2v5h1zm-8 0h1c.55 0 1-.45 1-1V9c0-.55-.45-1-1-1H9v5h1v-2zm0-2h1v1h-1V9z'/%3E%3C/svg%3E");
+}
+
+/* trailing external-link glyph (:external-link: icon token). Source is the
+   Font Awesome 5 fa-external-link-alt glyph in #0078c1 (baked into
+   /icons/external-link.svg): a 1.125em x 1em box whose bottom sits 0.13em
+   below the baseline; 7px before / 2px after it inside CTA text links, 10px
+   before it in link lists */
+body.chip main > .section:not(.light) > .default-content-wrapper .icon-external-link {
+  width: 1.125em;
+  height: 1em;
+  margin: 0 2px 0 7px;
+  vertical-align: -0.13em;
+}
+
+body.chip main > .section:not(.light) > .default-content-wrapper li > a > .icon-external-link {
+  margin: 0 0 0 10px;
+}
+
+/* footnote markers */
+body.chip main > .section:not(.light) > .default-content-wrapper sup {
+  font-size: 12px;
+  line-height: 0;
+}
+
+/* illustrations: own row, 40px spacer above; phone = 9/12 cols offset 1 */
+body.chip main > .section:not(.light) > .default-content-wrapper p:has(> picture) {
+  margin: 0;
+  padding-top: 40px;
+  line-height: 0;
+}
+
+body.chip main > .section:not(.light) > .default-content-wrapper p:has(> picture) img {
+  display: block;
+  width: 75%;
+  margin-left: 8.333%;
+}
+
+/* hero illustration directly under the lead-in: 10/12 cols, no spacer */
+body.chip main > .section:not(.light) > .default-content-wrapper h1 + p + p:has(> picture) {
+  padding-top: 0;
+}
+
+body.chip main > .section:not(.light) > .default-content-wrapper h1 + p + p:has(> picture) img {
+  width: 83.333%;
+}
+
+/* footnotes after a table: 20px spacer */
+body.chip main > .section:not(.light) > [class$="-wrapper"]:not(.default-content-wrapper) + .default-content-wrapper {
+  padding-top: 20px;
+}
+
+/* -- CTA band (doctors-drugs "Ready to apply?"): polar, centered -- */
+body.chip main > .section.light {
+  padding: 32px 0 48px;
+}
+
+body.chip main > .section.light > div {
+  max-width: none;
+  margin: 0 auto;
+}
+
+body.chip main > .section.light h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0 8px;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.chip main > .section.light p:not(.button-container) {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.25px;
+}
+
+body.chip main > .section.light .button-container {
+  margin: 0;
+}
+
+body.chip main > .section.light a.button:any-link {
+  margin: 32px 0 16px;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+@media (width >= 768px) {
+  body.chip main {
+    padding-bottom: 60px;
+  }
+
+  body.chip main > .section > div {
+    padding: 0 64px;
+  }
+
+  body.chip main > .section:not(.light) > .default-content-wrapper h1 {
+    padding: 28.8px 0;
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  body.chip main > .section:not(.light) > .default-content-wrapper h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.chip main > .section:not(.light) > .default-content-wrapper h3 {
+    font-size: 24px;
+    line-height: 26.4px;
+    letter-spacing: -0.44px;
+  }
+
+  body.chip main > .section:not(.light) > .default-content-wrapper h5 {
+    margin-bottom: 16px;
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  body.chip main > .section:not(.light) > .default-content-wrapper p {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.chip main > .section:not(.light) > .default-content-wrapper h1 + p {
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  /* tablet/desktop illustrations are centered: 8/12 cols (6/12 after a
+     link list), 10/12 for the hero illustration */
+  body.chip main > .section:not(.light) > .default-content-wrapper p:has(> picture) img {
+    width: 66.667%;
+    margin: 0 auto;
+  }
+
+  body.chip main > .section:not(.light) > .default-content-wrapper ul + p:has(> picture) img {
+    width: 50%;
+  }
+
+  body.chip main > .section.light h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.chip main > .section.light p:not(.button-container) {
+    font-size: 18px;
+    line-height: 23.4px;
+  }
+}
+
+@media (width < 992px) {
+  /* source: left nav and right rail are d-none below lg */
+  body.chip main > .section.cards-minimal-light-sidenav-container,
+  body.chip main > .cards-minimal-light-sidenav-container + .section + .section:not(.light) {
+    display: none;
+  }
+}
+
+@media (width >= 992px) {
+  body.chip main {
+    --chip-content-width: min(1200px, 100% - 166px);
+
+    display: grid;
+    grid-template-columns:
+      1fr
+      calc(var(--chip-content-width) * 0.25)
+      calc(var(--chip-content-width) * 0.5625)
+      calc(var(--chip-content-width) * 0.1875)
+      1fr;
+    align-items: start;
+  }
+
+  /* any other section spans the three content columns */
+  body.chip main > .section {
+    grid-column: 2 / 5;
+  }
+
+  body.chip main > .section > div {
+    padding: 0;
+  }
+
+  /* left nav: overrides the block's absolutely-positioned gutter layout */
+  body.chip main > .section.cards-minimal-light-sidenav-container {
+    position: static;
+    grid-row: 1;
+    grid-column: 2;
+    max-width: none;
+    margin: 0;
+    padding: 0 15px;
+  }
+
+  body.chip main > .section.cards-minimal-light-sidenav-container > .cards-minimal-light-sidenav-wrapper {
+    position: static;
+    width: auto;
+  }
+
+  /* source nav root (.nav-container) keeps 20px free on the right: 270px box,
+     250px list */
+  body.chip main > .section.cards-minimal-light-sidenav-container .cards-minimal-light-sidenav {
+    padding-right: 20px;
+  }
+
+  /* article */
+  body.chip main > .cards-minimal-light-sidenav-container + .section {
+    grid-row: 1;
+    grid-column: 3;
+    padding-bottom: 60px;
+  }
+
+  /* ...40px when the full-bleed CTA band follows (doctors-drugs) */
+  body.chip main:has(> .section.light) > .cards-minimal-light-sidenav-container + .section {
+    padding-bottom: 40px;
+  }
+
+  /* right rail */
+  body.chip main > .cards-minimal-light-sidenav-container + .section + .section:not(.light) {
+    grid-row: 1;
+    grid-column: 4;
+    padding: 0 15px;
+  }
+
+  /* full-bleed CTA band */
+  body.chip main > .section.light {
+    grid-column: 1 / -1;
+    padding: 64px 0;
+  }
+
+  body.chip main > .section.light > div {
+    max-width: 780px;
+  }
+
+  body.chip main > .section.light h2 {
+    padding: 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.chip main > .section.light p:not(.button-container) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  body.chip main > .section:not(.light) > .default-content-wrapper h1 {
+    font-size: 56px;
+    line-height: 61.6px;
+    letter-spacing: -2.8px;
+  }
+
+  body.chip main > .section:not(.light) > .default-content-wrapper h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.chip main > .section:not(.light) > .default-content-wrapper h1 + p + h2 {
+    padding-top: 44px;
+  }
+
+  body.chip main > .section:not(.light) > .default-content-wrapper h3 {
+    letter-spacing: -0.72px;
+  }
+
+  body.chip main > .section:not(.light) > .default-content-wrapper h5 {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  body.chip main > .section:not(.light) > .default-content-wrapper p {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  body.chip main > .section:not(.light) > .default-content-wrapper h1 + p {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  body.chip main > .section:not(.light) > .default-content-wrapper li {
+    margin-bottom: 15px;
+  }
+
+  body.chip main > .section:not(.light) > .default-content-wrapper ul:has(> li > a:only-child) > li {
+    margin: 0;
+  }
+
+  /* the spacer before an illustration that follows a PDF link list grows to
+     60px at lg (chip-resources "Prevention" illustration) */
+  body.chip main > .section:not(.light) > .default-content-wrapper ul:has(> li > a > em) + p:has(> picture) {
+    padding-top: 60px;
+  }
+}
+
+/* right-rail callout box ("Ready to Apply?" / "Need help?") — only shown at
+   >= 992px; paper-grey box, 20px padding, blue 51x5 rule under the title */
+body.chip main > .cards-minimal-light-sidenav-container + .section + .section:not(.light) > .default-content-wrapper {
+  margin-right: 20px;
+  padding: 20px;
+  background-color: var(--grey-color);
+}
+
+body.chip main > .cards-minimal-light-sidenav-container + .section + .section:not(.light) > .default-content-wrapper h3 {
+  margin: 0;
+  padding: 0;
+  font-size: 24px;
+  line-height: 26.4px;
+  letter-spacing: -0.72px;
+}
+
+body.chip main > .cards-minimal-light-sidenav-container + .section + .section:not(.light) > .default-content-wrapper h3::after {
+  content: "";
+  display: block;
+  width: 51px;
+  height: 5px;
+  margin: 10px 0;
+  border-radius: 2px;
+  background-color: #0078c1;
+}
+
+body.chip main > .cards-minimal-light-sidenav-container + .section + .section:not(.light) > .default-content-wrapper p {
+  margin: 0;
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+body.chip main > .cards-minimal-light-sidenav-container + .section + .section:not(.light) > .default-content-wrapper p.button-container {
+  margin-top: 16px;
+  line-height: 20px;
+}
+
+body.chip main > .cards-minimal-light-sidenav-container + .section + .section:not(.light) > .default-content-wrapper a.button:any-link {
+  color: var(--link-color);
+  line-height: 20px;
+  text-transform: uppercase;
+}
+
+/* stylelint-enable no-descending-specificity */

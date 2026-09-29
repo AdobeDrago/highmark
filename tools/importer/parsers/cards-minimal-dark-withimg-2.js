@@ -49,7 +49,19 @@ export default function parse(element, { document }) {
     const contentCell = [];
     if (heading) contentCell.push(heading);
     contentCell.push(...paragraphs);
-    contentCell.push(...links);
+    links.forEach((a) => {
+      // Additive: a phone link can be preceded by a plain-text label
+      // (<span class="wideCardTextTwo">Call</span> <a class="tel">…</a>, plans page).
+      // Keep that label with the link; links without a label are pushed unchanged.
+      const label = a.previousElementSibling;
+      if (label && label.matches('span.wideCardTextTwo') && label.textContent.trim()) {
+        const p = document.createElement('p');
+        p.append(`${label.textContent.trim()} `, a);
+        contentCell.push(p);
+      } else {
+        contentCell.push(a);
+      }
+    });
 
     // 2-column row: [ image | content ]
     cells.push([image || '', contentCell]);

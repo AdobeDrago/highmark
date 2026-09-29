@@ -96,4 +96,48 @@ main .columns-minimal-dark a.button:focus {
   .columns-minimal-dark > div > .columns-minimal-dark-img-col {
     order: unset;
   }
+
+  /* Blue variant — desktop side-by-side: 555px photo | 550px text, centered */
+  .section.blue > .columns-minimal-dark-wrapper {
+    padding: 0;
+  }
+
+  .section.blue .columns-minimal-dark {
+    padding: 24px 0;
+  }
+
+  .section.blue .columns-minimal-dark > div {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .section.blue .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    flex: 0 1 555px;
+    width: auto;
+    margin: 0 24px;
+  }
+
+  .section.blue .columns-minimal-dark > div > .columns-minimal-dark-content-col {
+    flex: 0 1 550px;
+    box-sizing: border-box;
+    width: auto;
+    max-width: 720px;
+    margin: 0 0 0 24px;
+    padding: 0 24px;
+  }
+
+  .section.blue .columns-minimal-dark h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    letter-spacing: -1.36px;
+    line-height: 1.2;
+  }
+
+  .section.blue .columns-minimal-dark p {
+    margin: 0 0 16px;
+    font-size: 16px;
+    letter-spacing: -0.1px;
+    line-height: 24px;
+  }
 }
