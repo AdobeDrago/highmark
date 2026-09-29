@@ -97,9 +97,215 @@ main .columns-minimal-dark a.button:focus {
     order: unset;
   }
 
-  /* Blue variant — desktop side-by-side: 555px photo | 550px text, centered */
+}
+
+/* Blue variant — "Prepare for Open Enrollment" side panel (plans/individual-families).
+   Photo left | text right, inside the light-blue `.section.blue` band.
+   Values extracted from https://www.highmark.com/plans/individual-families
+   (.side-card-panel). Authored order is [content | image]; image moved first via order.
+   The JS only tags the picture cell (`.columns-minimal-dark-img-col`), so the text cell
+   is targeted as `div:not(.columns-minimal-dark-img-col)`. Source stacks below 992px. */
+.section.blue .columns-minimal-dark > div {
+  flex-direction: column;
+  gap: 0;
+}
+
+.section.blue .columns-minimal-dark > div > div {
+  flex: 0 1 auto;
+}
+
+.section.blue .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+  order: -1;
+}
+
+.section.blue .columns-minimal-dark h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  letter-spacing: -0.72px;
+  line-height: 1.1;
+  color: var(--text-color);
+}
+
+.section.blue .columns-minimal-dark p {
+  margin: 0 0 12.8px;
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 300;
+  letter-spacing: -0.2px;
+  line-height: 21px;
+  color: var(--text-body-color);
+}
+
+.section.blue .columns-minimal-dark ul {
+  margin: 0 0 16px 8px;
+  padding: 0;
+  list-style: disc outside;
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 100;
+  line-height: 22.5px;
+  color: var(--text-body-color);
+}
+
+.section.blue .columns-minimal-dark li {
+  margin: 0 0 0 8px;
+}
+
+.section.blue .columns-minimal-dark li strong {
+  font-weight: 700;
+}
+
+/* CTA — plain uppercase blue text link (overrides the filled `.section.blue` button).
+   The text cell is a block box, so the ul's 16px bottom margin supplies the gap. */
+.section.blue .columns-minimal-dark p.button-container {
+  margin: 0;
+}
+
+main .section.blue .columns-minimal-dark a.button:any-link {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--link-color);
+  font-family: var(--body-font-family);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: left;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+main .section.blue .columns-minimal-dark a.button:hover,
+main .section.blue .columns-minimal-dark a.button:focus {
+  border: 0;
+  background-color: transparent;
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+/* Blue variant — tablet: source container insets 64px from 768px; panel max 768px,
+   photo/text max 720px, centered (544–991px); larger heading and tighter paragraph. */
+@media (width >= 544px) and (width < 992px) {
+  /* Source band is 48px top/bottom here; `.section.blue` supplies 32px, the block the
+     remaining 16px (same split as desktop: 56px section + 24px block = 80px). */
+  .section.blue .columns-minimal-dark {
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 16px 0;
+  }
+
+  .section.blue .columns-minimal-dark > div > div {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body main > .section.blue > div.columns-minimal-dark-wrapper {
+    padding: 0 64px;
+  }
+
+  .section.blue .columns-minimal-dark h2 {
+    font-size: 28px;
+    letter-spacing: -0.78px;
+    line-height: 30.8px;
+  }
+
+  .section.blue .columns-minimal-dark p {
+    margin: 0 0 16px;
+    letter-spacing: -0.4px;
+    line-height: 19.5px;
+  }
+}
+
+/* CHIP landing variant — "Enhanced Member Supports and Case Management" side panel
+   (western-pennsylvania/chip, body.chip-landing, `.section.light`).
+   Values extracted from https://www.highmark.com/western-pennsylvania/chip?zg=false
+   (.side-card-panel). Authored order is [content | image]:
+   mobile/tablet stacks photo above text; >= 992px text left | photo right.
+   The band background / vertical padding is owned by styles.css (`.section.light`). */
+body.chip-landing main > .section > .columns-minimal-dark-wrapper {
+  padding: 0 30px;
+}
+
+body.chip-landing main .section .columns-minimal-dark > div {
+  flex-direction: column;
+  gap: 0;
+}
+
+body.chip-landing main .section .columns-minimal-dark > div > div {
+  flex: 0 1 auto;
+}
+
+body.chip-landing main .section .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+  order: -1;
+}
+
+body.chip-landing main .section .columns-minimal-dark h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  letter-spacing: -0.72px;
+  line-height: 28.6px;
+}
+
+body.chip-landing main .section .columns-minimal-dark p.button-container {
+  display: flex;
+  margin: 0;
+}
+
+body.chip-landing main .section .columns-minimal-dark a.button:any-link {
+  display: block;
+  margin: 16px 0;
+  padding: 16px 24px;
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  color: var(--text-color);
+  line-height: 24px;
+  text-align: center;
+}
+
+body.chip-landing main .section .columns-minimal-dark a.button:hover,
+body.chip-landing main .section .columns-minimal-dark a.button:focus {
+  background-color: var(--text-color);
+  color: #fff;
+}
+
+@media (width >= 544px) and (width < 992px) {
+  body.chip-landing main .section .columns-minimal-dark {
+    max-width: 768px;
+    margin: 0 auto;
+  }
+
+  body.chip-landing main .section .columns-minimal-dark > div > div {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+@media (width >= 768px) {
+  body.chip-landing main > .section > .columns-minimal-dark-wrapper {
+    padding: 0 64px;
+  }
+
+  body.chip-landing main .section .columns-minimal-dark h2 {
+    font-size: 28px;
+    letter-spacing: -0.78px;
+    line-height: 30.8px;
+  }
+}
+
+@media (width >= 992px) {
+  /* Blue variant — desktop side-by-side: 555px photo | 550px text, centered.
+     Source container insets 83px (content max 1200px). */
   .section.blue > .columns-minimal-dark-wrapper {
-    padding: 0;
+    padding: 0 83px;
   }
 
   .section.blue .columns-minimal-dark {
@@ -118,7 +324,7 @@ main .columns-minimal-dark a.button:focus {
     margin: 0 24px;
   }
 
-  .section.blue .columns-minimal-dark > div > .columns-minimal-dark-content-col {
+  .section.blue .columns-minimal-dark > div > div:not(.columns-minimal-dark-img-col) {
     flex: 0 1 550px;
     box-sizing: border-box;
     width: auto;
@@ -142,100 +348,7 @@ main .columns-minimal-dark a.button:focus {
   }
 }
 
-/* CHIP landing variant — "Enhanced Member Supports and Case Management" side panel
-   (western-pennsylvania/chip, body.chip-landing, `.section.light`).
-   Values extracted from https://www.highmark.com/western-pennsylvania/chip?zg=false
-   (.side-card-panel). Authored order is [content | image]:
-   mobile/tablet stacks photo above text; >= 992px text left | photo right.
-   The band background / vertical padding is owned by styles.css (`.section.light`). */
-body.chip-landing main > .section > .columns-minimal-dark-wrapper {
-  padding: 0 30px;
-}
-
-body.chip-landing main .section .columns-minimal-dark > div {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-left: 0;
-}
-
-body.chip-landing main .section .columns-minimal-dark > div > .columns-minimal-dark-img-col {
-  order: -1;
-  width: 100%;
-}
-
-body.chip-landing main .section .columns-minimal-dark > div > .columns-minimal-dark-content-col {
-  position: static;
-  display: block;
-  width: 100%;
-  padding: 0;
-  z-index: auto;
-}
-
-body.chip-landing main .section .columns-minimal-dark h2 {
-  margin: 0 0 8px;
-  padding: 19.2px 0;
-  font-size: 26px;
-  letter-spacing: -0.72px;
-  line-height: 28.6px;
-  color: var(--text-color);
-}
-
-body.chip-landing main .section .columns-minimal-dark p {
-  margin: 0;
-  font-family: var(--body-font-family);
-  font-size: 16px;
-  font-weight: 400;
-  letter-spacing: normal;
-  line-height: 24px;
-  color: var(--text-color);
-}
-
-body.chip-landing main .section .columns-minimal-dark p + p {
-  padding-top: 0;
-}
-
-body.chip-landing main .section .columns-minimal-dark p.button-container {
-  display: flex;
-  margin: 0;
-}
-
-body.chip-landing main .section .columns-minimal-dark a.button:any-link {
-  display: block;
-  margin: 16px 0;
-  padding: 16px 24px;
-  border: 1px solid var(--text-color);
-  border-radius: 5px;
-  font-family: var(--body-font-family);
-  font-weight: 700;
-  line-height: 24px;
-}
-
-@media (width >= 544px) and (width < 992px) {
-  body.chip-landing main .section .columns-minimal-dark {
-    max-width: 768px;
-    margin: 0 auto;
-  }
-
-  body.chip-landing main .section .columns-minimal-dark > div > .columns-minimal-dark-img-col,
-  body.chip-landing main .section .columns-minimal-dark > div > .columns-minimal-dark-content-col {
-    max-width: 720px;
-    margin: 0 auto;
-  }
-}
-
-@media (width >= 768px) {
-  body.chip-landing main > .section > .columns-minimal-dark-wrapper {
-    padding: 0 64px;
-  }
-
-  body.chip-landing main .section .columns-minimal-dark h2 {
-    font-size: 28px;
-    letter-spacing: -0.78px;
-    line-height: 30.8px;
-  }
-}
-
+/* CHIP landing — text left (550px) | photo right (555px), centered */
 @media (width >= 992px) {
   body.chip-landing main > .section > .columns-minimal-dark-wrapper {
     padding: 0 83px;
@@ -247,10 +360,9 @@ body.chip-landing main .section .columns-minimal-dark a.button:any-link {
     justify-content: center;
   }
 
-  body.chip-landing main .section .columns-minimal-dark > div > .columns-minimal-dark-content-col {
+  body.chip-landing main .section .columns-minimal-dark > div > div:not(.columns-minimal-dark-img-col) {
     flex: 0 1 550px;
     box-sizing: border-box;
-    width: auto;
     max-width: 720px;
     margin: 0 auto 0 0;
     padding: 0 24px;
@@ -259,7 +371,6 @@ body.chip-landing main .section .columns-minimal-dark a.button:any-link {
   body.chip-landing main .section .columns-minimal-dark > div > .columns-minimal-dark-img-col {
     order: 0;
     flex: 0 1 555px;
-    width: auto;
     max-width: 555px;
     margin: 0 24px;
   }
