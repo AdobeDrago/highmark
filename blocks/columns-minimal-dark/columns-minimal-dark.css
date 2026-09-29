@@ -168,7 +168,6 @@ main .columns-minimal-dark a.button:active {
 
 /* Desktop — content with padding and max-width */
 @media (width >= 992px) {
-
   .columns-minimal-dark > div > .columns-minimal-dark-content-col {
     width: 480px;
     padding: 0 0 0 80px;
