@@ -35,9 +35,10 @@
       "/resources/mental-health-services/depression",
       "/resources/spending-accounts",
       "/resources/answers",
-      "/plans/individual-families"
+      "/plans/individual-families",
+      "/western-pennsylvania/chip"
     ],
-    "reuseCount": 5,
-    "lastUsed": "2026-09-29T13:56:05.000Z"
+    "reuseCount": 6,
+    "lastUsed": "2026-09-29T21:10:31.752882Z"
   }
 }

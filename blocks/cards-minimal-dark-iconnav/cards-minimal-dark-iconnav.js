@@ -16,9 +16,13 @@ export default function decorate(block) {
     }
     link.className = 'cards-minimal-dark-iconnav-link';
 
-    // Icon: prefer an EDS icon span, else the first cell's material-icon
-    // ligature token (e.g. "warning_amber", "list_alt").
+    // Icon: prefer an EDS icon span, then an authored image (<picture>/<img>)
+    // in the first cell, else the first cell's material-icon ligature token
+    // (e.g. "warning_amber", "list_alt").
     const iconSpan = row.querySelector('span.icon, i');
+    const cells = [...row.children];
+    const iconCell = cells.length > 1 ? cells[0] : null;
+    const iconImage = iconCell ? iconCell.querySelector('picture, img') : null;
     const icon = document.createElement('span');
     icon.className = 'cards-minimal-dark-iconnav-icon';
     if (iconSpan) {
@@ -26,6 +30,10 @@ export default function decorate(block) {
       if (iconSpan.className && iconSpan.className.includes('icon-')) {
         icon.classList.add(...[...iconSpan.classList].filter((c) => c.startsWith('icon')));
       }
+    } else if (iconImage) {
+      // Image icon (e.g. white line-art SVG): keep the authored picture/img.
+      icon.classList.add('cards-minimal-dark-iconnav-icon-img');
+      icon.append(iconImage);
     } else {
       // First cell holds the Material Icons ligature name as plain text.
       const firstCell = row.querySelector(':scope > div');

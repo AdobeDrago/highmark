@@ -222,3 +222,64 @@ main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-bo
     width: 470px;
   }
 }
+
+/* CHIP landing ("Get care with CHIP - Highmark Healthy Kids"): source component
+   .cards-variation li.listSmlImg (https://www.highmark.com/western-pennsylvania/chip).
+   Same icon-on-top card, but transparent, with no body padding: heading/copy/CTA sit flush with the
+   icon canvas. Single 400px column up to 991px (300px at 390), 370px cards 34px apart from 992px. */
+body.chip-landing .cards-minimal-dark-withimg-icons > ul > li {
+  background-color: transparent;
+  border-radius: 0;
+}
+
+body.chip-landing .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body {
+  padding: 0;
+}
+
+/* h3.titleHead: margin 20px 0 13px (the heading never gets the underline rule here -- every card has a CTA) */
+/* stylelint-disable-next-line no-descending-specificity */
+body.chip-landing .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
+  margin: 20px 0 13px;
+}
+
+/* span.cardsText p: no padding (margins as in the base rules) */
+body.chip-landing .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p {
+  padding: 0;
+}
+
+/* .hmk-brand-buttons.mb-3: 16px below the CTA, CTA box shrinks to its text */
+body.chip-landing main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p.button-container {
+  margin: 0 0 16px;
+}
+
+body.chip-landing main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:any-link {
+  width: fit-content;
+}
+
+/* Tablet (768-991px): heading 32px/35.2px + 3px bottom padding */
+@media (width >= 768px) and (width < 992px) {
+  body.chip-landing .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
+    padding-bottom: 3px;
+    font-size: 32px;
+    line-height: 35.2px;
+  }
+}
+
+/* 900-991px: the source keeps the single 400px column (the base block switches to rows at 900px) */
+@media (width >= 900px) and (width < 992px) {
+  body.chip-landing .cards-minimal-dark-withimg-icons > ul {
+    display: grid;
+  }
+
+  body.chip-landing .cards-minimal-dark-withimg-icons > ul > li {
+    width: auto;
+  }
+}
+
+/* >= 992px: 370px cards, 34px apart, 30px between rows, top-aligned (heights follow content) */
+@media (width >= 992px) {
+  body.chip-landing .cards-minimal-dark-withimg-icons > ul {
+    gap: 30px 34px;
+    align-items: flex-start;
+  }
+}

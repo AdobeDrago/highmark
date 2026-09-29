@@ -33,9 +33,10 @@
     "pagesUsing": [
       "/resources",
       "/resources/mental-health-services/depression",
-      "/plans/individual-families"
+      "/plans/individual-families",
+      "/western-pennsylvania/chip"
     ],
-    "reuseCount": 3,
-    "lastUsed": "2026-09-29T13:56:05.000Z"
+    "reuseCount": 4,
+    "lastUsed": "2026-09-29T21:10:31.752882Z"
   }
 }

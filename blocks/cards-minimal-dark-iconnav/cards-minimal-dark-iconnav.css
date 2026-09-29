@@ -126,3 +126,72 @@
     flex: 0 0 auto;
   }
 }
+
+/* ------------------------------------------------------------------
+   CHIP landing (template=chip-landing): 6 image-icon quick links.
+   Source: .quicklinks .quick-link-list-container.bg-blue
+   - mobile (<768): items flex equally across the viewport (labels wrap),
+     padding 16px 0, icon 20x25, label 14px/21px
+   - 768-991: items 130px (shrink to fit), padding 16px 0, label 14px/21px
+   - >=992: 960px inner, items 160px, padding 16px 12px, label 16px/24px
+   Hover: bg #e2e9e9, navy label + navy icon (source swaps to *-hover.svg).
+   ------------------------------------------------------------------ */
+body.chip-landing .cards-minimal-dark-iconnav > ul {
+  flex-wrap: nowrap;
+  justify-content: center;
+  overflow: visible;
+}
+
+body.chip-landing .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
+  flex: 1 1 0;
+  width: auto;
+  padding: 16px 0;
+}
+
+body.chip-landing .cards-minimal-dark-iconnav-icon-img {
+  line-height: 0;
+}
+
+body.chip-landing .cards-minimal-dark-iconnav-icon-img picture {
+  display: block;
+}
+
+body.chip-landing .cards-minimal-dark-iconnav-icon-img img {
+  display: block;
+  width: 20px;
+  height: 25px;
+  margin: 0 auto;
+}
+
+body.chip-landing .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item .cards-minimal-dark-iconnav-label {
+  margin-top: 0;
+  font-size: 14px;
+  line-height: 21px;
+
+  /* source never splits a word (e.g. RESOURCES keeps its min-content width) */
+  word-break: normal;
+}
+
+body.chip-landing .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item:hover .cards-minimal-dark-iconnav-icon-img img {
+  /* white line icon -> Highmark navy (#003963), stands in for the source's *-hover.svg */
+  filter: brightness(0) saturate(100%) invert(15%) sepia(61%) saturate(2651%) hue-rotate(188deg) brightness(92%) contrast(101%);
+}
+
+@media (width >= 768px) {
+  body.chip-landing .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
+    flex: 0 1 auto;
+    width: 130px;
+  }
+}
+
+@media (width >= 992px) {
+  body.chip-landing .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
+    width: 160px;
+    padding: 16px 12px;
+  }
+
+  body.chip-landing .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item .cards-minimal-dark-iconnav-label {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
