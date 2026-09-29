@@ -9,3 +9,7 @@ helix-importer-ui
 .idea
 migration-work/navigation-validation/
 migration-work/footer-validation/
+/content/
+.env
+/import-work/
+/drafts/
