@@ -85,3 +85,144 @@
     font-size: var(--heading-font-size-m);
   }
 }
+
+/*
+ * CHIP pages (template=chip -> body.chip): monthly premiums / copayments tables.
+ * Values extracted from https://www.highmark.com/western-pennsylvania/chip/chip-eligibility-and-costs
+ * (.dynamic-table-container table.d-md-table). Navy header (#003963), paper-grey
+ * label column (#f1f4f4), dark slate borders (#39454e), empty top-left corner.
+ * Scoped to body.chip so the spending-accounts (bright-blue header) instance is unchanged.
+ */
+
+/* source .dynamic-table-container: padding 0 5px (desktop; mobile keeps the
+   scroll box flush so the sticky label column has no gap beside it) */
+@media (width >= 900px) {
+  body.chip .table-minimal-dark-compare {
+    box-sizing: border-box;
+    padding: 0 5px;
+  }
+}
+
+body.chip .table-minimal-dark-compare table {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* footnote stars: raised without affecting the line box (source sup) */
+body.chip .table-minimal-dark-compare table sup {
+  position: relative;
+  top: -6px;
+  font-size: 12px;
+  line-height: 0;
+  vertical-align: baseline;
+}
+
+/* source cells: 10px padding + 16px bottom margin on the inner h5/p */
+body.chip .table-minimal-dark-compare table thead th,
+body.chip .table-minimal-dark-compare table tbody td {
+  padding: 10px 10px 26px;
+  border: 1px solid #39454e;
+  vertical-align: middle;
+}
+
+body.chip .table-minimal-dark-compare table thead th {
+  background-color: var(--text-color);
+}
+
+/* empty top-left corner cell: no fill, no border */
+body.chip .table-minimal-dark-compare table thead th:first-child:empty {
+  background-color: transparent;
+  border: 0;
+  padding: 1px;
+}
+
+body.chip .table-minimal-dark-compare table th h5,
+body.chip .table-minimal-dark-compare table td h5 {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 30px;
+  letter-spacing: -0.3px;
+}
+
+body.chip .table-minimal-dark-compare table thead th h5 {
+  color: #fff;
+  text-align: center;
+}
+
+/* value cells */
+body.chip .table-minimal-dark-compare table tbody td {
+  background-color: transparent;
+  color: var(--text-body-color);
+  font-weight: 300;
+  letter-spacing: -0.1px;
+  text-align: center;
+}
+
+/* label column */
+body.chip .table-minimal-dark-compare table tbody td:first-child {
+  background-color: var(--grey-color);
+  color: var(--text-color);
+  font-weight: 700;
+  letter-spacing: normal;
+  text-align: left;
+}
+
+body.chip .table-minimal-dark-compare table tbody td:first-child h5 {
+  color: var(--text-color);
+  text-align: left;
+}
+
+/*
+ * CHIP mobile: the source swaps in a transposed copy (not imported). Keep the
+ * desktop table readable instead: source mobile column widths (110px label,
+ * 100px values), horizontal scroll, and a sticky label column.
+ */
+@media (width < 900px) {
+  body.chip .table-minimal-dark-compare {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* separate borders so the sticky column keeps its own edges while scrolling */
+  body.chip .table-minimal-dark-compare table {
+    max-width: none;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  body.chip .table-minimal-dark-compare table thead th,
+  body.chip .table-minimal-dark-compare table tbody td {
+    min-width: 100px;
+    border-width: 0 1px 1px 0;
+  }
+
+  body.chip .table-minimal-dark-compare table thead th {
+    border-top-width: 1px;
+  }
+
+  body.chip .table-minimal-dark-compare table thead th:first-child,
+  body.chip .table-minimal-dark-compare table tbody td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    min-width: 110px;
+  }
+
+  body.chip .table-minimal-dark-compare table tbody td:first-child {
+    border-left-width: 1px;
+  }
+
+  body.chip .table-minimal-dark-compare table thead th:first-child:empty {
+    background-color: var(--background-color);
+  }
+
+  body.chip .table-minimal-dark-compare table thead th:first-child:empty + th {
+    border-left-width: 1px;
+  }
+
+  body.chip .table-minimal-dark-compare table tbody tr:first-child td:first-child {
+    border-top-width: 1px;
+  }
+}

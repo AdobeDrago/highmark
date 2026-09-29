@@ -6,7 +6,7 @@
         "https://www.highmark.com/plans/individual-families"
       ],
       "representativeUrl": "https://www.highmark.com/plans/individual-families",
-      "description": "Plans landing page: full-bleed hero, navy intro band, icon feature card rows, photo banner, image card grid on grey, image/text columns on light blue, wide help cards, blush CTA band and footnotes",
+      "description": "To be named in naming step",
       "blocks": [
         {
           "name": "hero-minimal-dark-withimg",
@@ -40,7 +40,6 @@
           ]
         }
       ],
-      "urlPattern": "/plans/*",
       "sections": [
         {
           "id": "1",
@@ -189,6 +188,93 @@
           "blocks": [],
           "defaultContent": [
             ".cmp-text p"
+          ]
+        }
+      ],
+      "urlPattern": "/plans/*"
+    },
+    {
+      "name": "chip",
+      "urls": [
+        "https://www.highmark.com/western-pennsylvania/chip/chip-eligibility-and-costs",
+        "https://www.highmark.com/western-pennsylvania/chip/chip-resources",
+        "https://www.highmark.com/western-pennsylvania/chip/doctors-drugs"
+      ],
+      "representativeUrl": "https://www.highmark.com/western-pennsylvania/chip/chip-eligibility-and-costs",
+      "description": "Western PA CHIP article page: left CHIP section nav, main article (headings, lists, pricing tables on some pages), a small grey right-rail callout, and on some pages a light-blue centered CTA band",
+      "blocks": [
+        {
+          "name": "cards-minimal-light-sidenav",
+          "instances": [
+            "div.d-none.d-lg-block.col-lg-3 div.nav-container:has(.sidenav)"
+          ]
+        },
+        {
+          "name": "table-minimal-dark-compare",
+          "instances": [
+            ".dynamic-table-container:has(table.d-md-table)"
+          ]
+        }
+      ],
+      "urlPattern": "/western-pennsylvania/chip/*",
+      "sections": [
+        {
+          "id": "1",
+          "name": "sidenav",
+          "selector": [
+            "div.d-none.d-lg-block.col-lg-3 div.nav-container:has(.sidenav)"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-minimal-light-sidenav"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "2",
+          "name": "main-content",
+          "selector": [
+            "div.col-lg-9 > div.row > div.col-lg-9 div.page__par"
+          ],
+          "style": null,
+          "blocks": [
+            "table-minimal-dark-compare"
+          ],
+          "defaultContent": [
+            "div.col-lg-9 > div.row > div.col-lg-9 div.page__par h1",
+            "div.col-lg-9 > div.row > div.col-lg-9 div.page__par h2",
+            "div.col-lg-9 > div.row > div.col-lg-9 div.page__par h3",
+            "div.col-lg-9 > div.row > div.col-lg-9 div.page__par p",
+            "div.col-lg-9 > div.row > div.col-lg-9 div.page__par ul",
+            "div.col-lg-9 > div.row > div.col-lg-9 div.page__par img"
+          ]
+        },
+        {
+          "id": "3",
+          "name": "right-rail-callout",
+          "selector": [
+            "div.rightRail .rightrail-container"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "div.rightRail .rightrail-container h2, div.rightRail .rightrail-container h3",
+            "div.rightRail .rightrail-container p",
+            "div.rightRail .rightrail-container a"
+          ]
+        },
+        {
+          "id": "4",
+          "name": "cta-band",
+          "selector": [
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.new-hmk-brand-polar)"
+          ],
+          "style": "light, center",
+          "blocks": [],
+          "defaultContent": [
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.new-hmk-brand-polar) h2",
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.new-hmk-brand-polar) p",
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.new-hmk-brand-polar) a"
           ]
         }
       ]

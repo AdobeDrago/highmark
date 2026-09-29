@@ -4,7 +4,7 @@
      - every link: roboto 16px / line-height 27.2px (~1.7), navy #003963,
        no underline; non-active weight is thin, the current item is bold (600)
      - current item carries a blue (#0078c1) 3px vertical accent bar on the
-       left plus a collapse chevron on the right
+       left plus, when it has child pages, a collapse chevron on the right
      - list items sit 10px apart; the list has a 16px bottom margin
      - child links are indented one level under the current item
    Layout: on desktop the block occupies a ~25% left column beside the main
@@ -26,6 +26,13 @@
 
 .cards-minimal-light-sidenav-item {
   margin: 0 0 10px;
+}
+
+/* unstyled wrapper <li> that holds the section-guide sibling list (ul > li >
+   ul); its list's 10px top margin collapses with the parent item's gap */
+.cards-minimal-light-sidenav-group {
+  margin: 0;
+  padding: 0;
 }
 
 .cards-minimal-light-sidenav-children .cards-minimal-light-sidenav-item:last-child {
@@ -106,6 +113,29 @@
 .cards-minimal-light-sidenav-children a { /* stylelint-disable-line no-descending-specificity */
   color: var(--text-color);
   font-weight: 300;
+}
+
+/* ---- Section-guide shape (parent + flat sibling list, e.g. CHIP and the
+   mental-health guides). Values from the source .sidenav on
+   /western-pennsylvania/chip/* and /resources/mental-health-services/*:
+     - sibling list indented 18px (ul padding-left)
+     - every link reserves 24px on the right (a padding-right)
+     - the current sibling is bold (600) and pulled 15px left so its 3px
+       accent bar sits in the indent while its label lines up with the
+       other siblings (a margin-left -15px + label offset 15px)
+     - no collapse chevron (the JS omits it in this shape) ---- */
+.cards-minimal-light-sidenav-guide a { /* stylelint-disable-line no-descending-specificity */
+  padding-right: 24px;
+}
+
+.cards-minimal-light-sidenav-guide .cards-minimal-light-sidenav-children {
+  padding-left: 18px;
+}
+
+.cards-minimal-light-sidenav-guide .cards-minimal-light-sidenav-current > a { /* stylelint-disable-line no-descending-specificity */
+  margin-left: -15px;
+  padding-left: 15px;
+  font-weight: 600;
 }
 
 /* ---- Two-column layout (desktop): sidebar left, content right ----
