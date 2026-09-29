@@ -40,6 +40,20 @@ export default function parse(element, { document }) {
   let cards = Array.from(element.querySelectorAll('.cardWrapper > .card.cardBlock'));
   if (!cards.length) cards = Array.from(element.querySelectorAll('.card.cardBlock, .cardBlock'));
 
+  // Additive fallback (chip-landing, "Get care with CHIP"): small-image card list
+  //   .cards-variation > .container-sm-img
+  //     > div > h2.cardsTitle, div > p.cardsPara                -> default content BEFORE block
+  //     > ul.cardul > li.listSmlImg
+  //         > img.smallImage + div > h3.titleHead, hr.breakLineNone,
+  //           span.cardsText p, .hmk-brand-buttons a.textButton
+  // Only used when no .cardBlock cards exist, so the card-block path is unchanged.
+  // Iteration is keyed on the block-level <li> (not the CTA anchors).
+  let smlImgList = false;
+  if (!cards.length) {
+    cards = Array.from(element.querySelectorAll('li.listSmlImg'));
+    smlImgList = cards.length > 0;
+  }
+
   // Empty-block guard
   if (!cards.length) {
     element.replaceWith(...element.childNodes);
@@ -49,7 +63,14 @@ export default function parse(element, { document }) {
   // --- Leading default content (intro heading + description) ---
   const introEls = [];
   const introContainer = element.querySelector('.cardBlockTitleContainer');
-  if (introContainer) {
+  if (smlImgList) {
+    const introHeading = element.querySelector('h2.cardsTitle');
+    if (introHeading) {
+      unwrapDeadAnchors(introHeading);
+      introEls.push(introHeading);
+    }
+    introEls.push(...Array.from(element.querySelectorAll('p.cardsPara')));
+  } else if (introContainer) {
     const introHeading = introContainer.querySelector('h1, h2, h3');
     if (introHeading) {
       unwrapDeadAnchors(introHeading);
@@ -75,7 +96,7 @@ export default function parse(element, { document }) {
   // --- Trailing default content (centered CTA outside the cards) ---
   const trailingEls = [];
   Array.from(element.querySelectorAll('.hmk-brand-buttons.brand-center-content a'))
-    .filter((a) => !a.closest('.card, .cardBlock, .cardWrapper'))
+    .filter((a) => !a.closest('.card, .cardBlock, .cardWrapper, li.listSmlImg'))
     .forEach((a) => {
       const p = document.createElement('p');
       if (hasHref(a)) {
@@ -91,7 +112,10 @@ export default function parse(element, { document }) {
   const cells = [];
   cards.forEach((card) => {
     const image = card.querySelector('picture, img');
-    const textRoot = card.querySelector('.cardText') || card;
+    // li.listSmlImg: text lives in the <div> after the icon (hr.breakLineNone is never collected).
+    const textRoot = card.querySelector('.cardText')
+      || (smlImgList && card.querySelector(':scope > div'))
+      || card;
 
     const heading = textRoot.querySelector('h1, h2, h3, h4, h5, h6');
     unwrapDeadAnchors(heading);

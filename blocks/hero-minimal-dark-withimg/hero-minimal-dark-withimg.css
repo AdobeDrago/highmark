@@ -144,7 +144,9 @@ main .hero-minimal-dark-withimg a.button:focus {
  * panel (.left-content-sub.global-white, padding 20/20/35) instead of
  * overlaying the text. Photo follows the source art-direction crops:
  * 375x200 at <= 425px, 784x288 at 426-1024px. Scoped to body.shop + h1 so
- * the index/resources heroes are untouched.
+ * the index/resources heroes are untouched. The CHIP landing hero
+ * (template=chip-landing) stacks identically (same computed values), so it
+ * shares these rules via :is(), which keeps the body.shop specificity.
  * ------------------------------------------------------------------ */
 @media (width < 992px) {
   /* both heroes on the shop page are full-bleed below 992px: cancel the
@@ -154,28 +156,28 @@ main .hero-minimal-dark-withimg a.button:focus {
     padding-right: 0;
   }
 
-  body.shop .hero-minimal-dark-withimg:has(h1) {
+  :is(body.shop, body.chip-landing) .hero-minimal-dark-withimg:has(h1) {
     display: block;
     min-height: 0;
   }
 
-  body.shop .hero-minimal-dark-withimg:has(h1) > div:last-child {
+  :is(body.shop, body.chip-landing) .hero-minimal-dark-withimg:has(h1) > div:last-child {
     max-width: none;
     padding: 20px 20px 35px;
     background-color: #fff;
   }
 
-  body.shop .hero-minimal-dark-withimg:has(h1) > div:first-child {
+  :is(body.shop, body.chip-landing) .hero-minimal-dark-withimg:has(h1) > div:first-child {
     position: static;
   }
 
-  body.shop .hero-minimal-dark-withimg:has(h1) > div:first-child,
-  body.shop .hero-minimal-dark-withimg:has(h1) > div:first-child > div,
-  body.shop .hero-minimal-dark-withimg:has(h1) > div:first-child picture {
+  :is(body.shop, body.chip-landing) .hero-minimal-dark-withimg:has(h1) > div:first-child,
+  :is(body.shop, body.chip-landing) .hero-minimal-dark-withimg:has(h1) > div:first-child > div,
+  :is(body.shop, body.chip-landing) .hero-minimal-dark-withimg:has(h1) > div:first-child picture {
     height: auto;
   }
 
-  body.shop .hero-minimal-dark-withimg:has(h1) picture img {
+  :is(body.shop, body.chip-landing) .hero-minimal-dark-withimg:has(h1) picture img {
     display: block;
     height: auto;
     aspect-ratio: 784 / 288;
@@ -185,7 +187,7 @@ main .hero-minimal-dark-withimg a.button:focus {
     object-position: 100% 50%;
   }
 
-  body.shop .hero-minimal-dark-withimg:has(h1) h1 {
+  :is(body.shop, body.chip-landing) .hero-minimal-dark-withimg:has(h1) h1 {
     max-width: none;
     margin: 5px 0 0;
     padding: 15px;
@@ -194,7 +196,7 @@ main .hero-minimal-dark-withimg a.button:focus {
     letter-spacing: -1.44px;
   }
 
-  body.shop .hero-minimal-dark-withimg:has(h1) h2 {
+  :is(body.shop, body.chip-landing) .hero-minimal-dark-withimg:has(h1) h2 {
     max-width: none;
     padding: 15px;
     font-size: 20px;
@@ -202,17 +204,17 @@ main .hero-minimal-dark-withimg a.button:focus {
     letter-spacing: -0.44px;
   }
 
-  body.shop .hero-minimal-dark-withimg:has(h1) p.button-container {
+  :is(body.shop, body.chip-landing) .hero-minimal-dark-withimg:has(h1) p.button-container {
     margin: 0 15px;
   }
 
-  body.shop main .hero-minimal-dark-withimg:has(h1) a.button:any-link {
+  :is(body.shop, body.chip-landing) main .hero-minimal-dark-withimg:has(h1) a.button:any-link {
     margin: 16px 0;
   }
 }
 
 @media (width < 768px) {
-  body.shop .hero-minimal-dark-withimg:has(h1) h1 {
+  :is(body.shop, body.chip-landing) .hero-minimal-dark-withimg:has(h1) h1 {
     margin-top: 16px;
     padding-top: 0;
     font-size: 32px;
@@ -220,13 +222,13 @@ main .hero-minimal-dark-withimg a.button:focus {
     letter-spacing: -1.28px;
   }
 
-  body.shop .hero-minimal-dark-withimg:has(h1) h2 {
+  :is(body.shop, body.chip-landing) .hero-minimal-dark-withimg:has(h1) h2 {
     letter-spacing: -0.4px;
   }
 }
 
 @media (width <= 425px) {
-  body.shop .hero-minimal-dark-withimg:has(h1) picture img {
+  :is(body.shop, body.chip-landing) .hero-minimal-dark-withimg:has(h1) picture img {
     aspect-ratio: 375 / 200;
   }
 }
@@ -379,5 +381,44 @@ main .hero-minimal-dark-withimg:not(:has(h1)) a.button:focus {
   body.shop .hero-minimal-dark-withimg:not(:has(h1)) p:not(.button-container) {
     font-size: 18px;
     line-height: 23.4px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * CHIP landing hero (template=chip-landing,
+ * /western-pennsylvania/chip). Mobile/tablet stacking comes from the shared
+ * :is(body.shop, body.chip-landing) rules above; only the source
+ * art-direction crops differ: 768x288 on tablet, 414x200 at <= 425px.
+ * Desktop (>= 992px, source d-lg): white text over the photo, band height
+ * follows the 1500x400 photo. Text column is x = 150; the h1/h2 are 120% of
+ * an 80%-of-2/3 column minus the 150px inset, i.e. 64vw - 180px
+ * (741px at 1440).
+ * ------------------------------------------------------------------ */
+@media (width < 992px) {
+  body.chip-landing .hero-minimal-dark-withimg:has(h1) picture img {
+    aspect-ratio: 768 / 288;
+  }
+}
+
+@media (width <= 425px) {
+  body.chip-landing .hero-minimal-dark-withimg:has(h1) picture img {
+    aspect-ratio: 414 / 200;
+  }
+}
+
+@media (width >= 992px) {
+  body.chip-landing .hero-minimal-dark-withimg:has(h1) {
+    min-height: max(384px, calc(100vw * 400 / 1500));
+  }
+
+  body.chip-landing .hero-minimal-dark-withimg:has(h1) > div:last-child {
+    max-width: none;
+    padding: 0 0 0 150px;
+  }
+
+  body.chip-landing .hero-minimal-dark-withimg:has(h1) h1,
+  body.chip-landing .hero-minimal-dark-withimg:has(h1) h2 {
+    max-width: calc(64vw - 180px);
+    color: #fff;
   }
 }

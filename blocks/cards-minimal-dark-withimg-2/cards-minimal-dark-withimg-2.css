@@ -240,3 +240,101 @@
     letter-spacing: normal;
   }
 }
+
+/* ==========================================================================
+   CHIP landing (western-pennsylvania/chip, body.chip-landing): "FAQs" +
+   "contact info" cards. The contact card authors a body paragraph that starts
+   with a tel: link (phone + TTY + hours) and a tel: "GET CONNECTED" CTA, so the
+   plans-page "Call" tel styling above is undone here: the hours paragraph is
+   regular body copy with an inline rgb(0 120 193) phone link, and the CTA is
+   the standard uppercase text link.
+   Outer section padding (50/20, 60/30, 60/20) lives in styles.css; the block
+   adds the source's trailing li/ul margins below the cards: card bottom to
+   next section is 51px (< 768), 60px (768-991), 56px (>= 992) on source.
+   ========================================================================== */
+body.chip-landing .cards-minimal-dark-withimg-2 {
+  padding: 0 0 31px;
+}
+
+body.chip-landing .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p:has(> a[href^="tel:"]) {
+  margin: 0 0 3px;
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: inherit;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+  color: var(--text-body-color);
+}
+
+body.chip-landing .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p > a[href^="tel:"]:any-link {
+  display: inline;
+  padding: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  color: rgb(0 120 193);
+  text-decoration: none;
+}
+
+body.chip-landing .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p.button-container:has(> a[href^="tel:"]) {
+  margin: 15px 0 20px;
+  letter-spacing: normal;
+}
+
+body.chip-landing .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p > a.button[href^="tel:"]:any-link {
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: normal;
+  color: var(--link-color);
+  text-transform: uppercase;
+}
+
+body.chip-landing .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p > a.button[href^="tel:"]:hover,
+body.chip-landing .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p > a.button[href^="tel:"]:focus {
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+@media (width >= 768px) and (width < 900px) {
+  body.chip-landing .cards-minimal-dark-withimg-2 {
+    padding: 0 0 30px;
+  }
+
+  body.chip-landing .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p:has(> a[href^="tel:"]) {
+    margin: 0;
+    font-size: 15px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.chip-landing .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p.button-container:has(> a[href^="tel:"]) {
+    margin: 15px 0 20px;
+    letter-spacing: normal;
+  }
+}
+
+@media (width >= 900px) {
+  /* source li margin-left: 8px nudges the centered pair 4px right (x=183) */
+  body.chip-landing .cards-minimal-dark-withimg-2 {
+    padding: 0 0 36px;
+  }
+
+  body.chip-landing .cards-minimal-dark-withimg-2 > ul {
+    padding-left: 8px;
+  }
+
+  body.chip-landing .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p:has(> a[href^="tel:"]) {
+    margin: 0 0 15px;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  /* source cards are a fixed 200px tall; drop the CTA's trailing 15px margin
+     so the 2-line contact card does not grow to 202px */
+  body.chip-landing .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p.button-container:has(> a[href^="tel:"]) {
+    margin: 0;
+    letter-spacing: normal;
+  }
+}

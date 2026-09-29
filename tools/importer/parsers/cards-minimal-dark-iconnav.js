@@ -46,7 +46,18 @@ export default function parse(element, { document }) {
     const label = (labelEl ? labelEl.textContent : anchor.textContent || '').trim();
 
     // Build a clean icon cell (the ligature name, e.g. "warning_amber").
-    const iconText = icon ? icon.textContent.trim() : '';
+    let iconText = icon ? icon.textContent.trim() : '';
+
+    // Additive, opt-in (chip-landing): icons are <img class="quicklinks-img whiteimage">
+    // (+ a d-none .bgimage hover copy) rather than material-icons ligatures. Only used
+    // when the template's sections transformer marks the element with
+    // data-iconnav-image-icons, so other templates' output is unchanged.
+    if (!icon && element.hasAttribute('data-iconnav-image-icons')) {
+      const img = item.querySelector('img.whiteimage')
+        || item.querySelector('img.quicklinks-img:not(.bgimage)')
+        || item.querySelector('img:not(.bgimage)');
+      if (img) iconText = img;
+    }
 
     // Build a clean link that carries only the label text (drop nested icon markup).
     const link = document.createElement('a');

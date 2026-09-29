@@ -1152,3 +1152,220 @@ body.chip main > .cards-minimal-light-sidenav-container + .section + .section:no
 }
 
 /* stylelint-enable no-descending-specificity */
+
+/* stylelint-disable no-descending-specificity */
+
+/*
+ * CHIP landing page (template=chip-landing -> body.chip-landing), values
+ * measured from highmark.com/western-pennsylvania/chip at 1440/768/390.
+ * Section outer spacing + default content only; block internals are styled
+ * in the blocks' own CSS.
+ *
+ * - sections butt against each other (no 40px section margins)
+ * - CTA bands (light-blue, highlight, light center): 32px 0 48px below lg,
+ *   64px 0 at lg; 30px gutters (64px on tablet), 780px text column at lg;
+ *   sofia-pro heading + lead, outlined 58px CTA with 16px margins
+ * - "Get care" intro above the icon cards: 50/40 (60/50 from sm) padding,
+ *   bold sofia-pro lead, 766px column at lg
+ * - columns band (polar): 32 / 48 (sm) / 80 (lg) vertical padding
+ * - help cards: 50/20, 60/30 (sm), 60/20 (lg) vertical padding
+ */
+body.chip-landing main > .section {
+  margin: 0;
+}
+
+/* -- CTA bands -- */
+body.chip-landing main > .section.light-blue,
+body.chip-landing main > .section.highlight,
+body.chip-landing main > .section.light.center {
+  margin: 0;
+  padding: 32px 0 48px;
+  text-align: center;
+}
+
+body.chip-landing main > .section.light-blue > .default-content-wrapper,
+body.chip-landing main > .section.highlight > .default-content-wrapper,
+body.chip-landing main > .section.light.center > .default-content-wrapper {
+  max-width: none;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+body.chip-landing main > .section.light-blue > .default-content-wrapper h2,
+body.chip-landing main > .section.highlight > .default-content-wrapper h2,
+body.chip-landing main > .section.light.center > .default-content-wrapper h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0 8px;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.chip-landing main > .section.light-blue > .default-content-wrapper p:not(.button-container),
+body.chip-landing main > .section.highlight > .default-content-wrapper p:not(.button-container),
+body.chip-landing main > .section.light.center > .default-content-wrapper p:not(.button-container) {
+  margin: 0;
+  color: var(--text-body-color);
+  font-family: var(--heading-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.25px;
+}
+
+body.chip-landing main > .section.light-blue > .default-content-wrapper p.button-container,
+body.chip-landing main > .section.highlight > .default-content-wrapper p.button-container,
+body.chip-landing main > .section.light.center > .default-content-wrapper p.button-container {
+  margin: 16px 0 0;
+}
+
+body.chip-landing main > .section.light-blue > .default-content-wrapper a.button:any-link,
+body.chip-landing main > .section.highlight > .default-content-wrapper a.button:any-link,
+body.chip-landing main > .section.light.center > .default-content-wrapper a.button:any-link {
+  margin: 16px 0;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+/* -- "Get care" intro above the icon cards; the bottom padding includes the
+   source's 30px margin below the last card -- */
+body.chip-landing main > .section.cards-minimal-dark-withimg-icons-container {
+  padding: 50px 0 70px;
+}
+
+body.chip-landing main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper {
+  max-width: none;
+  margin: 0 auto;
+  padding: 0 max(15px, 2.5vw);
+  text-align: center;
+}
+
+body.chip-landing main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper h2 {
+  margin: 0 0 20px;
+  padding: 0;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.chip-landing main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper p {
+  margin: 0 0 30px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+/* -- columns band + help cards: outer vertical padding -- */
+body.chip-landing main > .section.columns-minimal-dark-container {
+  padding: 32px 0;
+}
+
+body.chip-landing main > .section.cards-minimal-dark-withimg-2-container {
+  padding: 50px 0 20px;
+}
+
+@media (width >= 576px) {
+  body.chip-landing main > .section.cards-minimal-dark-withimg-icons-container {
+    padding: 60px 0 80px;
+  }
+
+  body.chip-landing main > .section.columns-minimal-dark-container {
+    padding: 48px 0;
+  }
+
+  body.chip-landing main > .section.cards-minimal-dark-withimg-2-container {
+    padding: 60px 0 30px;
+  }
+}
+
+@media (width >= 768px) {
+  body.chip-landing main > .section.light-blue > .default-content-wrapper,
+  body.chip-landing main > .section.highlight > .default-content-wrapper,
+  body.chip-landing main > .section.light.center > .default-content-wrapper {
+    padding: 0 64px;
+  }
+
+  body.chip-landing main > .section.light-blue > .default-content-wrapper h2,
+  body.chip-landing main > .section.highlight > .default-content-wrapper h2,
+  body.chip-landing main > .section.light.center > .default-content-wrapper h2,
+  body.chip-landing main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.chip-landing main > .section.light-blue > .default-content-wrapper p:not(.button-container),
+  body.chip-landing main > .section.highlight > .default-content-wrapper p:not(.button-container),
+  body.chip-landing main > .section.light.center > .default-content-wrapper p:not(.button-container) {
+    font-size: 18px;
+    line-height: 23.4px;
+  }
+
+  body.chip-landing main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper p {
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.chip-landing main > .section.light-blue,
+  body.chip-landing main > .section.highlight,
+  body.chip-landing main > .section.light.center {
+    padding: 64px 0;
+  }
+
+  body.chip-landing main > .section.light-blue > .default-content-wrapper,
+  body.chip-landing main > .section.highlight > .default-content-wrapper,
+  body.chip-landing main > .section.light.center > .default-content-wrapper {
+    max-width: 780px;
+    padding: 0;
+  }
+
+  body.chip-landing main > .section.light-blue > .default-content-wrapper h2,
+  body.chip-landing main > .section.highlight > .default-content-wrapper h2,
+  body.chip-landing main > .section.light.center > .default-content-wrapper h2 {
+    padding: 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.chip-landing main > .section.light-blue > .default-content-wrapper p:not(.button-container),
+  body.chip-landing main > .section.highlight > .default-content-wrapper p:not(.button-container),
+  body.chip-landing main > .section.light.center > .default-content-wrapper p:not(.button-container) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  body.chip-landing main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper {
+    max-width: 766px;
+    padding: 0;
+  }
+
+  body.chip-landing main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper h2 {
+    font-size: 34px;
+    line-height: 37.4px;
+    letter-spacing: -1.36px;
+  }
+
+  body.chip-landing main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper p {
+    margin-bottom: 40px;
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  body.chip-landing main > .section.columns-minimal-dark-container {
+    padding: 80px 0;
+  }
+
+  body.chip-landing main > .section.cards-minimal-dark-withimg-2-container {
+    padding: 60px 0 20px;
+  }
+}
+
+/* stylelint-enable no-descending-specificity */

@@ -343,3 +343,133 @@ main .section.blue .columns-minimal-dark a.button:focus {
     line-height: 24px;
   }
 }
+
+/* CHIP landing variant — "Enhanced Member Supports and Case Management" side panel
+   (western-pennsylvania/chip, body.chip-landing, `.section.light`).
+   Values extracted from https://www.highmark.com/western-pennsylvania/chip?zg=false
+   (.side-card-panel). Authored order is [content | image]:
+   mobile/tablet stacks photo above text; >= 992px text left | photo right.
+   The band background / vertical padding is owned by styles.css (`.section.light`). */
+body.chip-landing main > .section > .columns-minimal-dark-wrapper {
+  padding: 0 30px;
+}
+
+body.chip-landing main .section .columns-minimal-dark > div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-left: 0;
+}
+
+body.chip-landing main .section .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+  order: -1;
+  width: 100%;
+}
+
+body.chip-landing main .section .columns-minimal-dark > div > .columns-minimal-dark-content-col {
+  position: static;
+  display: block;
+  width: 100%;
+  padding: 0;
+  z-index: auto;
+}
+
+body.chip-landing main .section .columns-minimal-dark h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  letter-spacing: -0.72px;
+  line-height: 28.6px;
+  color: var(--text-color);
+}
+
+body.chip-landing main .section .columns-minimal-dark p {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 24px;
+  color: var(--text-color);
+}
+
+body.chip-landing main .section .columns-minimal-dark p + p {
+  padding-top: 0;
+}
+
+body.chip-landing main .section .columns-minimal-dark p.button-container {
+  display: flex;
+  margin: 0;
+}
+
+body.chip-landing main .section .columns-minimal-dark a.button:any-link {
+  display: block;
+  margin: 16px 0;
+  padding: 16px 24px;
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  font-family: var(--body-font-family);
+  font-weight: 700;
+  line-height: 24px;
+}
+
+@media (width >= 544px) and (width < 992px) {
+  body.chip-landing main .section .columns-minimal-dark {
+    max-width: 768px;
+    margin: 0 auto;
+  }
+
+  body.chip-landing main .section .columns-minimal-dark > div > .columns-minimal-dark-img-col,
+  body.chip-landing main .section .columns-minimal-dark > div > .columns-minimal-dark-content-col {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+@media (width >= 768px) {
+  body.chip-landing main > .section > .columns-minimal-dark-wrapper {
+    padding: 0 64px;
+  }
+
+  body.chip-landing main .section .columns-minimal-dark h2 {
+    font-size: 28px;
+    letter-spacing: -0.78px;
+    line-height: 30.8px;
+  }
+}
+
+@media (width >= 992px) {
+  body.chip-landing main > .section > .columns-minimal-dark-wrapper {
+    padding: 0 83px;
+  }
+
+  body.chip-landing main .section .columns-minimal-dark > div {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  body.chip-landing main .section .columns-minimal-dark > div > .columns-minimal-dark-content-col {
+    flex: 0 1 550px;
+    box-sizing: border-box;
+    width: auto;
+    max-width: 720px;
+    margin: 0 auto 0 0;
+    padding: 0 24px;
+  }
+
+  body.chip-landing main .section .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    order: 0;
+    flex: 0 1 555px;
+    width: auto;
+    max-width: 555px;
+    margin: 0 24px;
+  }
+
+  body.chip-landing main .section .columns-minimal-dark h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    letter-spacing: -1.36px;
+    line-height: 40.8px;
+  }
+}

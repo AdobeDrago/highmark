@@ -44,7 +44,12 @@ export default function parse(element, { document }) {
     unwrapDeadHeadingLinks(heading);
     const paragraphs = Array.from(card.querySelectorAll('.wideCardText p, .type2Txt p, p'));
     // CTA: real button links only (title anchor has no href)
-    const links = Array.from(card.querySelectorAll('a.textButton, a.button, a[class*="button"], a[href]'));
+    // Additive: links already inside a collected paragraph (e.g. chip-landing's
+    // "<p><a href="tel:…">1-800-…</a> (TTY 711)<br>hours</p>") stay in that paragraph;
+    // pulling them out broke the sentence and let html2md merge the number into the
+    // adjacent same-href CTA. Cards without in-paragraph links are unaffected.
+    const links = Array.from(card.querySelectorAll('a.textButton, a.button, a[class*="button"], a[href]'))
+      .filter((a) => !paragraphs.some((p) => p.contains(a)));
 
     const contentCell = [];
     if (heading) contentCell.push(heading);
