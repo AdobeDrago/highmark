@@ -11,6 +11,9 @@
  *   Row 2: [ heading + paragraph(s) + CTA link | image ]
  *
  * Per authoring analysis the content column comes first, image column second.
+ *
+ * Also verified (no code change) on https://www.highmark.com/plans/individual-families
+ * section 7 (.side-card-panel, incl. the state/date bullet list).
  */
 export default function parse(element, { document }) {
   const textArea = element.querySelector('.text-area') || element;

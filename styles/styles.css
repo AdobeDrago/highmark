@@ -373,3 +373,220 @@ main .section.center .default-content-wrapper:not(.cards-minimal-dark-withimg-ic
 main .section.center .button-container {
   text-align: center;
 }
+
+/* grey — paper-grey band (plans "Why choose a Highmark health plan?") */
+main .section.grey {
+  background-color: var(--grey-color);
+  margin: 0;
+}
+
+/* stylelint-disable no-descending-specificity */
+
+/*
+ * Plans page (theme=shop) default-content layout, values from the source.
+ * Card-grid sections (center, grey): centered intro above the cards.
+ * Text bands (dark center, highlight): centered heading + copy + CTA.
+ */
+body.shop main > .section > div {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+body.shop main .section > .default-content-wrapper h2 {
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.72px;
+}
+
+body.shop main .section.grey:not(.dark),
+body.shop main .section.center:not(.dark) {
+  margin: 0;
+  padding: 60px 0 50px;
+}
+
+body.shop main .section.grey:not(.dark) > .default-content-wrapper:first-child,
+body.shop main .section.center:not(.dark) > .default-content-wrapper:first-child {
+  margin: 0 auto 16px;
+  text-align: center;
+}
+
+body.shop main .section.grey:not(.dark) > .default-content-wrapper:first-child h2,
+body.shop main .section.center:not(.dark) > .default-content-wrapper:first-child h2 {
+  margin: 0 0 16px;
+}
+
+body.shop main .section.grey:not(.dark) > .default-content-wrapper:first-child h2 + p,
+body.shop main .section.center:not(.dark) > .default-content-wrapper:first-child h2 + p {
+  margin: 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+body.shop main .section.center:not(.dark) > .default-content-wrapper p.button-container {
+  margin: 16px 0;
+}
+
+body.shop main .section.center:not(.dark) > .default-content-wrapper a.button:any-link,
+body.shop main .section.highlight > .default-content-wrapper a.button:any-link {
+  margin: 0;
+  line-height: 24px;
+}
+
+body.shop main .section.dark.center,
+body.shop main .section.highlight {
+  margin: 0;
+  padding: 32px 0 48px;
+}
+
+body.shop main .section.dark.center > .default-content-wrapper,
+body.shop main .section.highlight > .default-content-wrapper {
+  margin: 0 auto;
+}
+
+body.shop main .section.dark.center h2,
+body.shop main .section.highlight h2 {
+  margin: 0 0 8px;
+}
+
+body.shop main .section.dark.center p:not(.button-container),
+body.shop main .section.highlight p:not(.button-container) {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.25px;
+}
+
+body.shop main .section.highlight h2,
+body.shop main .section.highlight p:not(.button-container) {
+  color: #004362;
+}
+
+body.shop main .section.highlight > .default-content-wrapper p.button-container {
+  margin: 32px 0 16px;
+}
+
+body.shop main .section.blue {
+  padding: 32px 0;
+}
+
+/* footnotes — superscript marker + subscript note don't grow the line */
+body.shop main .default-content-wrapper p > sub {
+  font-size: 12px;
+  line-height: inherit;
+  vertical-align: baseline;
+}
+
+body.shop main .default-content-wrapper p:has(> sub) > sup {
+  font-size: 12px;
+  line-height: 1;
+}
+
+body.shop main .section:has(> .default-content-wrapper > p > sub) {
+  padding-top: 40px;
+  padding-bottom: 24px;
+}
+
+body.shop main .default-content-wrapper p:has(> sub) {
+  min-height: 21px;
+  margin: 0 0 16px;
+  font-size: 15px;
+  line-height: 21px;
+}
+
+@media (width >= 900px) {
+  body.shop main > .section > div {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.shop main > .section > .default-content-wrapper {
+    padding-left: 64px;
+    padding-right: 64px;
+  }
+
+  body.shop main .section > .default-content-wrapper h2 {
+    font-size: 28px;
+  }
+
+  body.shop main .section.grey:not(.dark) > .default-content-wrapper:first-child h2 + p,
+  body.shop main .section.center:not(.dark) > .default-content-wrapper:first-child h2 + p,
+  body.shop main .section.dark.center p:not(.button-container),
+  body.shop main .section.highlight p:not(.button-container) {
+    font-size: 18px;
+    line-height: 23.4px;
+  }
+
+  body.shop main .default-content-wrapper p:has(> sub) {
+    min-height: 19.5px;
+    line-height: 19.5px;
+  }
+}
+
+@media (width >= 992px) {
+  body.shop main .section > .default-content-wrapper h2 {
+    font-size: 34px;
+    line-height: 1.2;
+    letter-spacing: -1.36px;
+  }
+
+  body.shop main .section.grey:not(.dark) > .default-content-wrapper:first-child,
+  body.shop main .section.center:not(.dark) > .default-content-wrapper:first-child {
+    max-width: 580px;
+    padding: 0;
+  }
+
+  body.shop main .section.grey:not(.dark) > .default-content-wrapper:first-child h2 + p,
+  body.shop main .section.center:not(.dark) > .default-content-wrapper:first-child h2 + p {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  /* card grids sit in a row with 15px above/below */
+  body.shop main .section.grey:not(.dark) > div[class$="-wrapper"]:not(.default-content-wrapper),
+  body.shop main .section.center:not(.dark) > div[class$="-wrapper"]:not(.default-content-wrapper) {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+
+  body.shop main .section.dark.center,
+  body.shop main .section.highlight {
+    padding: 64px 0;
+  }
+
+  body.shop main .section.dark.center > .default-content-wrapper,
+  body.shop main .section.highlight > .default-content-wrapper {
+    max-width: 780px;
+    padding: 0;
+  }
+
+  body.shop main .section.dark.center p:not(.button-container),
+  body.shop main .section.highlight p:not(.button-container) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  body.shop main .section.blue {
+    padding: 56px 0;
+  }
+
+  body.shop main .section.light {
+    padding: 60px 0 56px;
+  }
+
+  body.shop main .default-content-wrapper p:has(> sub) {
+    min-height: 24px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+/* stylelint-enable no-descending-specificity */

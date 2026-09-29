@@ -100,13 +100,284 @@
   }
 }
 
-.hero-minimal-dark-withimg a.button:any-link {
-  background-color: #007bff;
+/* Heading + subheading heroes (index, resources, plans/individual-families…):
+   source .content-wrapper is 80% of a 2/3 column minus 150px inset = 618px
+   at 1440, and the subheading is 85% of that (525px). Scoped to h1 + h2 so
+   the h1 + p shop heroes are untouched. */
+@media (width >= 900px) {
+  .hero-minimal-dark-withimg:has(h1 + h2) h1 {
+    max-width: 618px;
+  }
+
+  .hero-minimal-dark-withimg:has(h1 + h2) h2 {
+    max-width: 525px;
+    padding-bottom: 24px;
+  }
+
+  .hero-minimal-dark-withimg p.button-container {
+    margin: 0;
+  }
+
+  .hero-minimal-dark-withimg a.button:any-link {
+    margin: 16px 0;
+  }
+}
+
+/* Primary CTA: solid Highmark blue, no border (source .brand-button-normal) */
+main .hero-minimal-dark-withimg a.button:any-link {
+  border: 0;
+  background-color: var(--link-color);
+  color: #fff;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+main .hero-minimal-dark-withimg a.button:hover,
+main .hero-minimal-dark-withimg a.button:focus {
+  background-color: var(--link-hover-color);
   color: #fff;
 }
 
-.hero-minimal-dark-withimg a.button:hover,
-.hero-minimal-dark-withimg a.button:focus {
-  background-color: #0066b1;
+/* ------------------------------------------------------------------
+ * Plans page (theme=shop) top hero, mobile + tablet only (< 992px).
+ * Source /plans/individual-families stacks the photo above a white text
+ * panel (.left-content-sub.global-white, padding 20/20/35) instead of
+ * overlaying the text. Photo follows the source art-direction crops:
+ * 375x200 at <= 425px, 784x288 at 426-1024px. Scoped to body.shop + h1 so
+ * the index/resources heroes are untouched.
+ * ------------------------------------------------------------------ */
+@media (width < 992px) {
+  /* both heroes on the shop page are full-bleed below 992px: cancel the
+     body.shop page gutter on the block wrapper */
+  body.shop main > .section > .hero-minimal-dark-withimg-wrapper {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  body.shop .hero-minimal-dark-withimg:has(h1) {
+    display: block;
+    min-height: 0;
+  }
+
+  body.shop .hero-minimal-dark-withimg:has(h1) > div:last-child {
+    max-width: none;
+    padding: 20px 20px 35px;
+    background-color: #fff;
+  }
+
+  body.shop .hero-minimal-dark-withimg:has(h1) > div:first-child {
+    position: static;
+  }
+
+  body.shop .hero-minimal-dark-withimg:has(h1) > div:first-child,
+  body.shop .hero-minimal-dark-withimg:has(h1) > div:first-child > div,
+  body.shop .hero-minimal-dark-withimg:has(h1) > div:first-child picture {
+    height: auto;
+  }
+
+  body.shop .hero-minimal-dark-withimg:has(h1) picture img {
+    display: block;
+    height: auto;
+    aspect-ratio: 784 / 288;
+
+    /* authored desktop photo has the subjects on the right; the source
+       mobile/tablet crops centre them */
+    object-position: 100% 50%;
+  }
+
+  body.shop .hero-minimal-dark-withimg:has(h1) h1 {
+    max-width: none;
+    margin: 5px 0 0;
+    padding: 15px;
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  body.shop .hero-minimal-dark-withimg:has(h1) h2 {
+    max-width: none;
+    padding: 15px;
+    font-size: 20px;
+    line-height: 22px;
+    letter-spacing: -0.44px;
+  }
+
+  body.shop .hero-minimal-dark-withimg:has(h1) p.button-container {
+    margin: 0 15px;
+  }
+
+  body.shop main .hero-minimal-dark-withimg:has(h1) a.button:any-link {
+    margin: 16px 0;
+  }
+}
+
+@media (width < 768px) {
+  body.shop .hero-minimal-dark-withimg:has(h1) h1 {
+    margin-top: 16px;
+    padding-top: 0;
+    font-size: 32px;
+    line-height: 35.2px;
+    letter-spacing: -1.28px;
+  }
+
+  body.shop .hero-minimal-dark-withimg:has(h1) h2 {
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width <= 425px) {
+  body.shop .hero-minimal-dark-withimg:has(h1) picture img {
+    aspect-ratio: 375 / 200;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * Photo banner variant — block content has an h2 but no h1
+ * (e.g. "Highmark plans comparison tool" on /plans/individual-families).
+ * Source: .one-card-one-col-panel.image — shorter band, h2 + body copy +
+ * outlined .brand-button-light CTA. Mobile stacks image above text.
+ * ------------------------------------------------------------------ */
+.hero-minimal-dark-withimg:not(:has(h1)) {
+  display: block;
+  min-height: 0;
+}
+
+.hero-minimal-dark-withimg:not(:has(h1)) > div:first-child {
+  position: static;
+  height: 208px;
+}
+
+/* source swaps to a 375x200 mobile crop centred on the subject; the
+   authored desktop photo has the subject on the right, so bias the crop */
+.hero-minimal-dark-withimg:not(:has(h1)) picture img {
+  object-position: 90% 50%;
+}
+
+.hero-minimal-dark-withimg:not(:has(h1)) > div:last-child {
+  padding: 0 30px 16px;
+}
+
+.hero-minimal-dark-withimg:not(:has(h1)) h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0 8px;
+  color: #004362;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+.hero-minimal-dark-withimg:not(:has(h1)) p {
+  margin: 0;
+  color: #004362;
+  font-family: var(--heading-font-family);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 21px;
+  letter-spacing: -0.25px;
+}
+
+.hero-minimal-dark-withimg:not(:has(h1)) p.button-container {
+  margin-top: 16px;
+}
+
+/* Outlined CTA (source .brand-button-light) */
+main .hero-minimal-dark-withimg:not(:has(h1)) a.button:any-link {
+  margin: 16px 0 0;
+  border: 1px solid var(--text-color);
+  background-color: transparent;
+  color: var(--text-color);
+}
+
+main .hero-minimal-dark-withimg:not(:has(h1)) a.button:hover,
+main .hero-minimal-dark-withimg:not(:has(h1)) a.button:focus {
+  background-color: var(--text-color);
   color: #fff;
+}
+
+@media (width >= 900px) {
+  /* band height follows the 1500x320 source photo */
+  .hero-minimal-dark-withimg:not(:has(h1)) {
+    display: flex;
+    min-height: calc(100vw * 320 / 1500);
+  }
+
+  .hero-minimal-dark-withimg:not(:has(h1)) > div:first-child {
+    position: absolute;
+    height: 100%;
+  }
+
+  .hero-minimal-dark-withimg:not(:has(h1)) picture img {
+    object-position: 50% 50%;
+  }
+
+  /* 1200px text container (x = 120 at 1440), content column 480px */
+  .hero-minimal-dark-withimg:not(:has(h1)) > div:last-child {
+    max-width: calc(var(--content-max-width, 1200px) + 64px);
+    padding: 34px 32px;
+  }
+
+  .hero-minimal-dark-withimg:not(:has(h1)) > div:last-child > div {
+    max-width: 480px;
+  }
+
+  .hero-minimal-dark-withimg:not(:has(h1)) h2 {
+    padding: 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  .hero-minimal-dark-withimg:not(:has(h1)) p {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .hero-minimal-dark-withimg:not(:has(h1)) p.button-container {
+    margin-top: 16px;
+  }
+
+  main .hero-minimal-dark-withimg:not(:has(h1)) a.button:any-link {
+    margin: 16px 0;
+  }
+}
+
+/* Plans page (theme=shop) comparison banner, mobile + tablet (< 992px).
+   Source .one-card-one-panel: full-bleed photo on top using the art-directed
+   crops (375x200 at <= 425px, 768x288 at 426-1024px), text in a container
+   with 30px gutters (< 768) / 64px gutters (768-991). */
+@media (width < 992px) {
+  body.shop .hero-minimal-dark-withimg:not(:has(h1)) > div:first-child,
+  body.shop .hero-minimal-dark-withimg:not(:has(h1)) > div:first-child > div,
+  body.shop .hero-minimal-dark-withimg:not(:has(h1)) > div:first-child picture {
+    height: auto;
+  }
+
+  body.shop .hero-minimal-dark-withimg:not(:has(h1)) picture img {
+    display: block;
+    height: auto;
+    aspect-ratio: 768 / 288;
+  }
+}
+
+@media (width <= 425px) {
+  body.shop .hero-minimal-dark-withimg:not(:has(h1)) picture img {
+    aspect-ratio: 375 / 200;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.shop .hero-minimal-dark-withimg:not(:has(h1)) > div:last-child {
+    padding: 0 64px 16px;
+  }
+
+  body.shop .hero-minimal-dark-withimg:not(:has(h1)) h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.shop .hero-minimal-dark-withimg:not(:has(h1)) p:not(.button-container) {
+    font-size: 18px;
+    line-height: 23.4px;
+  }
 }

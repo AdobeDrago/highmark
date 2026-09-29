@@ -18,6 +18,7 @@ export default function transform(hookName, element, payload) {
       '#ZN_bmb74MCuuQ38dlc',   // Qualtrics website-feedback snippet (cleaned.html:2)
       '.mega-menu-overlay',    // nav mega-menu overlay (cleaned.html:81)
       '#modalIeDetect',        // legacy IE-detection modal (cleaned.html:1637)
+      '#onetrust-consent-sdk', // OneTrust cookie banner + preference center (plans cleaned.html:2631)
     ]);
   }
 
