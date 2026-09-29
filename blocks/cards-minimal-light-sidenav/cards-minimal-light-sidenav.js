@@ -60,22 +60,26 @@ export default function decorate(block) {
   };
 
   // Build the active anchor (accent bar + collapse chevron) and its child list.
+  // The chevron only exists when there is a child list to collapse — the
+  // source's section-guide shape (sibling pages, e.g. CHIP / mental-health
+  // guides) shows just the accent bar on the current page.
   const makeCurrentAnchor = (it, childList) => {
     const a = makeLink(it);
     a.classList.add('active');
+    if (childList === null) a.setAttribute('aria-current', 'page');
 
     const bar = document.createElement('span');
     bar.className = 'cards-minimal-light-sidenav-bar';
     a.prepend(bar);
 
-    const arrow = document.createElement('button');
-    arrow.type = 'button';
-    arrow.className = 'cards-minimal-light-sidenav-arrow';
-    arrow.setAttribute('aria-label', 'Toggle section');
-    arrow.setAttribute('aria-expanded', 'true');
-    a.append(arrow);
-
     if (childList) {
+      const arrow = document.createElement('button');
+      arrow.type = 'button';
+      arrow.className = 'cards-minimal-light-sidenav-arrow';
+      arrow.setAttribute('aria-label', 'Toggle section');
+      arrow.setAttribute('aria-expanded', 'true');
+      a.append(arrow);
+
       arrow.addEventListener('click', (e) => {
         e.preventDefault();
         const expanded = arrow.getAttribute('aria-expanded') === 'true';
@@ -87,9 +91,11 @@ export default function decorate(block) {
   };
 
   if (guideMode) {
-    // Parent link(s) sit at the top level; every sibling/current page goes into
-    // a single indented list beneath, in source order. The current sibling gets
-    // the accent-bar treatment inline (no separate collapsible section).
+    // Parent link(s) sit at the top level; every sibling/current page goes
+    // into a single indented list beneath (in a group <li>), in source order.
+    // The current sibling gets the accent-bar treatment inline (no separate
+    // collapsible section).
+    rootUl.classList.add('cards-minimal-light-sidenav-guide');
     const siblingList = document.createElement('ul');
     siblingList.className = 'cards-minimal-light-sidenav-children';
 
@@ -110,7 +116,14 @@ export default function decorate(block) {
       }
     });
 
-    if (siblingList.children.length) rootUl.append(siblingList);
+    // Valid nesting, as on the source: the sibling <ul> lives in its own
+    // (unstyled) <li> of the root list — ul > li > ul.
+    if (siblingList.children.length) {
+      const group = document.createElement('li');
+      group.className = 'cards-minimal-light-sidenav-group';
+      group.append(siblingList);
+      rootUl.append(group);
+    }
     block.replaceChildren(rootUl);
     return;
   }
@@ -138,6 +151,15 @@ export default function decorate(block) {
       rootUl.append(li);
     }
   });
+
+  // No child pages under the current item (e.g. the FAQ pages): the source
+  // shows only the accent bar, so drop the empty list and its chevron.
+  if (childList && !childList.children.length) {
+    const current = childList.closest('li');
+    current.querySelector('.cards-minimal-light-sidenav-arrow')?.remove();
+    current.querySelector('a')?.setAttribute('aria-current', 'page');
+    childList.remove();
+  }
 
   block.replaceChildren(rootUl);
 }

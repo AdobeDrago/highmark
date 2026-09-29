@@ -35,8 +35,14 @@
   },
   "notes": "NEW variant for the sidebar-listing template. No existing sidebar / section-navigation block existed in the project; nearest neighbor cards-minimal-dark-iconnav is horizontal and icon-based (0% structural match). Built on the cards base per the project convention for nav blocks. Authoring model: one row per nav item; when two cells are present the first cell is a level token (parent | current | child) and the second holds the link, otherwise a single-cell row is treated as a flat child link. decorate() builds a nested <ul>, marks the current item (explicit 'current' token or href matching the page path) with an accent bar and a collapse chevron, and nests child links under it. The same sidebar is reused across all 14 sidebar-listing pages (article listing pages and FAQ pages).",
   "usage": {
-    "pagesUsing": ["/resources/answers/articles", "/resources/answers/faq/aca-plans"],
-    "reuseCount": 2,
-    "lastUsed": "2026-08-17T00:00:00.000Z"
+    "pagesUsing": [
+      "/resources/answers/articles",
+      "/resources/answers/faq/aca-plans",
+      "/western-pennsylvania/chip/chip-eligibility-and-costs",
+      "/western-pennsylvania/chip/chip-resources",
+      "/western-pennsylvania/chip/doctors-drugs"
+    ],
+    "reuseCount": 5,
+    "lastUsed": "2026-09-29T17:20:01.000Z"
   }
 }
