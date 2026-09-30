@@ -7,9 +7,9 @@ Tracks every page the [highmark.com](https://www.highmark.com/) homepage links t
 | Tier | What | Visibility | Status |
 |------|------|------------|--------|
 | P1 | Header links visible at load | every page, always on screen | 4/9 done, 3 to do |
-| P2 | Homepage body links | the most-visited page | 3/8 done, 2 in progress, 1 preview only, 2 to do |
-| P3 | Footer links | every page, low prominence | 0/15 done, 13 in progress, 1 deferred |
-| P4 | Header megamenu items | every page, one click in | 30/47 done, 9 preview only, 7 to do |
+| P2 | Homepage body links | the most-visited page | 6/8 done, 2 to do |
+| P3 | Footer links | every page, low prominence | 13/15 done, 1 deferred |
+| P4 | Header megamenu items | every page, one click in | 37/47 done, 4 preview only, 5 to do |
 | P5 | ZIP-gated regional pages | behind the ZIP gate (nav items with no plain link) | 5/87 live |
 
 **Statuses:** **Live** = published on `main--highmark--adobedrago.aem.live`. **Preview only** = in DA and previewed, not published. **To do** = not in DA. **Redirect only** / **External** = the source link redirects, so there is nothing to import; our site still needs the redirect or an updated link. There is no `/redirects` sheet in DA yet, so the first redirect means creating one. Only **Live** items are checked.
@@ -33,45 +33,47 @@ Before importing a page, check the `nav-group*` branches' `tools/importer/urls-*
 - [x] `/member/member-guide/find-care` (Find Care) **Live**
 - [x] `/resources/answers` (Highmark Answers) **Live**
 - [x] `/resources/mental-health-services` (Mental Health) **Live**
-- [ ] `/about/corporate-responsibility/bright-blue-futures` (Highmark Bright Blue Futures) **Preview only** in progress: art-golk-merkle `nav-group4` (on preview)
+- [x] `/about/corporate-responsibility/bright-blue-futures` (Highmark Bright Blue Futures) **Live** imported by the `nav-group4` batch
 - [ ] `/newsroom/press-releases` (Press Releases) **To do**
 - [ ] `/because-life` (learn about us) **To do**
-- [ ] `/privacy` (Digital Privacy Policy) **On preview (publishes after the legal CSS merges)**
-- [ ] `/terms-service` (Terms of Service) **On preview (publishes after the legal CSS merges)**
+- [x] `/privacy` (Digital Privacy Policy) **Live** its 8 standalone links render as buttons until the legal template update merges
+- [x] `/terms-service` (Terms of Service) **Live**
 
 ## P3: footer links
 
-- [ ] `/non-discrimination` (Non Discrimination Policy) **On preview (publishes after the legal CSS merges)**
-- [ ] `/fraud` (Fraud Prevention) **On preview (publishes after the legal CSS merges)**
+- [x] `/non-discrimination` (Non Discrimination Policy) **Live**
+- [x] `/fraud` (Fraud Prevention) **Live**
 - [ ] `/western-pennsylvania/medical-policy` (Medical Policy) **Deferred** ZIP-gated regional page; deferred to the P5 decision
-- [ ] `/cms-onc-interoperability` (CMS Interoperability Patient Access Rule) **On preview (publishes after the legal CSS merges)**
-- [ ] `/cms-onc-interoperability-prior-authorization-rule` (CMS Interoperability Prior Authorization Rule) **On preview (publishes after the legal CSS merges)**
-- [ ] `/accessibility-statement` (Accessibility Statement) **On preview (publishes after the legal CSS merges)**
-- [ ] `/sms-texting` (SMS Texting) **On preview (publishes after the legal CSS merges)**
+- [x] `/cms-onc-interoperability` (CMS Interoperability Patient Access Rule) **Live** republish after the legal template update merges (brand button fix is on preview)
+- [x] `/cms-onc-interoperability-prior-authorization-rule` (CMS Interoperability Prior Authorization Rule) **Live** republish after the legal template update merges (brand button and address line-break fixes are on preview)
+- [x] `/accessibility-statement` (Accessibility Statement) **Live**
+- [x] `/sms-texting` (SMS Texting) **Live**
 - [ ] `/privacy-center` (Privacy Center) **Redirect only** source redirects to /privacy-center/announcements: add a redirect
-- [ ] `/privacy-center/announcements` (Privacy Center: Announcements) **On preview (publishes after the legal CSS merges)**
-- [ ] `/no-surprises-act` (No Surprises Act) **On preview (publishes after the legal CSS merges)**
-- [ ] `/transparency-in-coverage` (Transparency in Coverage) **On preview (publishes after the legal CSS merges)**
-- [ ] `/network-access` (Network Access & Adequacy) **On preview (publishes after the legal CSS merges)**
-- [ ] `/mandates` (State Law Requirements) **On preview (publishes after the legal CSS merges)**
-- [ ] `/gdpr` (GDPR) **On preview (publishes after the legal CSS merges)**
-- [ ] `/ohca` (OHCA Statement) **On preview (publishes after the legal CSS merges)**
+- [x] `/privacy-center/announcements` (Privacy Center: Announcements) **Live**
+- [x] `/no-surprises-act` (No Surprises Act) **Live**
+- [x] `/transparency-in-coverage` (Transparency in Coverage) **Live**
+- [x] `/network-access` (Network Access & Adequacy) **Live** republish after the legal template update merges ("LEARN MORE" PDF link fix is on preview)
+- [x] `/mandates` (State Law Requirements) **Live**
+- [x] `/gdpr` (GDPR) **Live**
+- [x] `/ohca` (OHCA Statement) **Live**
 
-Sub-pages the batch pages link to (side navs and links); not linked from the homepage, and missing here, so these links 404 until they are imported:
+Sub-pages the footer pages link to (side navs and links); not linked from the homepage. 6/10 live:
 
-- [ ] `/fraud/red-flags` **To do** linked from `/fraud`
-- [ ] `/fraud/contact` **To do** linked from `/fraud`
-- [ ] `/fraud/senior-fraud-prevention` **To do** linked from `/fraud`
-- [ ] `/privacy-center/privacy-policies-and-practices` **To do** linked from `/privacy-center/announcements`
-- [ ] `/privacy-center/state-specific-notices` **To do** linked from `/privacy-center/announcements`
-- [ ] `/privacy-center/terms-of-service` **To do** linked from `/privacy-center/announcements`
-- [ ] `/privacy-center/health-information-exchanges` **To do** linked from `/privacy-center/announcements`
-- [ ] `/privacy-center/privacy-forms` **To do** linked from `/privacy-center/announcements`
-- [ ] `/transparency-in-coverage/claims-payment-policies-and-other-information` **To do** linked from `/transparency-in-coverage`
-- [ ] `/privacy/digital-privacy-policy` **To do** linked from `/privacy`
+- [x] `/fraud/red-flags` **Live** linked from `/fraud`
+- [x] `/fraud/contact` **Live** linked from `/fraud`
+- [x] `/fraud/senior-fraud-prevention` **Live** linked from `/fraud`
+- [ ] `/privacy-center/privacy-policies-and-practices` **Preview only** linked from `/privacy-center/announcements`; publishes after the legal template update merges
+- [x] `/privacy-center/state-specific-notices` **Live** linked from `/privacy-center/announcements`
+- [ ] `/privacy-center/terms-of-service` **Preview only** linked from `/privacy-center/announcements`; publishes after the legal template update merges
+- [x] `/privacy-center/health-information-exchanges` **Live** linked from `/privacy-center/announcements`
+- [ ] `/privacy-center/privacy-forms` **Preview only** linked from `/privacy-center/announcements`; publishes after the legal template update merges
+- [ ] `/transparency-in-coverage/claims-payment-policies-and-other-information` **Preview only** linked from `/transparency-in-coverage`; publishes after the legal template update merges
+- [x] `/privacy/digital-privacy-policy` **Live** linked from `/privacy`
 
 Also in P3:
 
+- [ ] Legal template update awaiting merge (`styles/templates/legal.css`, `icons/pdf.svg`): lists, letter-spacing, in-text link blue, standalone links as text links, centered outlined brand buttons, the two-column grid, PDF-link icons. After it merges: publish the 4 held sub-pages above, and republish `/cms-onc-interoperability`, `/cms-onc-interoperability-prior-authorization-rule` and `/network-access`.
+- [ ] `/privacy-center` has no page or redirect: the "Privacy Center" side-nav parent link 404s on the six `/privacy-center/*` pages, and their breadcrumbs skip that level. A `/redirects` sheet entry (`/privacy-center` to `/privacy-center/announcements`, as on the source) fixes the link.
 - [ ] Our `/footer` fragment: the CSI Policy link points at a mangled relative path (`/content/dam/…/csipolicy-pdf`); it needs the source's absolute PDF URL.
 - [ ] Our `/footer` fragment is older than the source footer: the source also links CMS Interoperability Prior Authorization Rule and Privacy Center.
 
@@ -109,19 +111,19 @@ Also in P3:
 - [ ] `/resources/spending-accounts/flexible-spending-account-fsa` (Flexible Savings Accounts (FSA)) **Preview only** drafted in DA 2026-09-16 and previewed, never published: review and publish
 - [x] `/resources/spending-accounts/health-reimbursement-arrangement-hra` (Health Reimbursement Arrangement (HRA)) **Live**
 - [ ] `/resources/spending-accounts/commuter-benefits-account` (Commuter Benefits) **Preview only** drafted in DA 2026-09-16 and previewed, never published: review and publish
-- [x] `/about/our-story` (Our Story) **Live** imported 2026-09-29; art-golk-merkle `nav-group4` also lists it: coordinate before their import overwrites it
-- [ ] `/about/our-story/mission-vision` (Mission, Vision & Core Behaviors) **Preview only** in progress: art-golk-merkle `nav-group4` (on preview)
-- [ ] `/about/our-story/our-businesses` (Our Businesses) **Preview only** in progress: art-golk-merkle `nav-group4` (on preview)
-- [ ] `/about/our-story/leadership-team-board` (Leadership Team & Board) **Preview only** in progress: art-golk-merkle `nav-group4` (on preview)
-- [ ] `/about/corporate-responsibility` (Corporate Responsibility) **Preview only** in progress: art-golk-merkle `nav-group4` (on preview)
-- [ ] `/about/corporate-responsibility/valuing-our-people` (Valuing Our People) **Preview only** in progress: art-golk-merkle `nav-group4` (on preview)
+- [x] `/about/our-story` (Our Story) **Live** imported 2026-09-29; the `nav-group4` batch re-published it 2026-09-30 with breadcrumbs and `template: about-article` metadata (body unchanged)
+- [x] `/about/our-story/mission-vision` (Mission, Vision & Core Behaviors) **Live** imported by the `nav-group4` batch
+- [x] `/about/our-story/our-businesses` (Our Businesses) **Live** imported by the `nav-group4` batch
+- [x] `/about/our-story/leadership-team-board` (Leadership Team & Board) **Live** imported by the `nav-group4` batch
+- [x] `/about/corporate-responsibility` (Corporate Responsibility) **Live** imported by the `nav-group4` batch
+- [x] `/about/corporate-responsibility/valuing-our-people` (Valuing Our People) **Live** imported by the `nav-group4` batch
 - [ ] `/about/corporate-responsibility/integrity-ethics` (Integrity & Ethics) **External** source redirects to highmarkhealth.org: point our nav link there
-- [ ] `/about/corporate-responsibility/social-determinants-of-health` (Social Determinants of Health) **Preview only** in progress: art-golk-merkle `nav-group4` (on preview)
-- [ ] `/about/corporate-responsibility/sustainability` (Sustainability) **Preview only** in progress: art-golk-merkle `nav-group4` (on preview)
+- [x] `/about/corporate-responsibility/social-determinants-of-health` (Social Determinants of Health) **Live** imported by the `nav-group4` batch
+- [x] `/about/corporate-responsibility/sustainability` (Sustainability) **Live** imported by the `nav-group4` batch
 - [ ] `/about/events` (Events) **To do**
-- [ ] `/newsroom/media-relations-contacts` (Media Relations Contacts) **To do**
+- [ ] `/newsroom/media-relations-contacts` (Media Relations Contacts) **Preview only**
 - [ ] `/newsroom/news-alert` (News Alert) **To do**
-- [ ] `/newsroom/weekly-capitol-hill-report` (Weekly Capitol Hill Report) **To do**
+- [ ] `/newsroom/weekly-capitol-hill-report` (Weekly Capitol Hill Report) **Preview only**
 - [x] `/resources/answers/faq` (Frequently Asked Questions) **Live**
 - [ ] `/about/corporate-responsibility/blue-fund` (Blue Fund) **To do**
 
