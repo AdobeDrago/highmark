@@ -607,6 +607,20 @@ body.shop main .default-content-wrapper p:has(> sub) {
     font-size: 16px;
     line-height: 24px;
   }
+  
+  body.shop main .section:has(> .default-content-wrapper > p > sub) {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  h1#our-story {
+      padding: 1.8rem 0;
+  }
+
+  h2#highmarks-corporate-profile,
+  h2#highmarks-history {
+      padding: 1.5rem 0;
+  }
 }
 
 /* ==========================================================================
@@ -919,6 +933,10 @@ body.chip main > .section.light a.button:any-link {
   margin: 32px 0 16px;
   line-height: 24px;
   letter-spacing: normal;
+}
+
+main .section.blue .columns-minimal-dark a.button:hover, main .section.blue .columns-minimal-dark a.button:focus {
+    color: var(--link-color);
 }
 
 @media (width >= 768px) {

@@ -256,6 +256,10 @@ body.chip-landing main .cards-minimal-dark-withimg-icons .cards-minimal-dark-wit
   width: fit-content;
 }
 
+main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:hover, main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:focus {
+    color: var(--link-color);
+}
+
 /* Tablet (768-991px): heading 32px/35.2px + 3px bottom padding */
 @media (width >= 768px) and (width < 992px) {
   body.chip-landing .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
