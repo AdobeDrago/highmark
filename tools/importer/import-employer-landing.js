@@ -237,6 +237,7 @@ export default {
       meta.breadcrumbs = 'true';
       if (crumbLabel) meta['Breadcrumb Title'] = crumbLabel;
     }
+    meta['Breadcrumb Title'] = 'Employer';
     meta.template = 'employer-landing';
     main.append(WebImporter.Blocks.getMetadataBlock(document, meta));
     WebImporter.rules.transformBackgroundImages(main, document);
