@@ -1507,6 +1507,282 @@
           "defaultContent": []
         }
       ]
+    },
+    {
+      "name": "about-article",
+      "urls": [
+        "https://www.highmark.com/about/our-story",
+        "https://www.highmark.com/about/our-story/mission-vision",
+        "https://www.highmark.com/about/our-story/our-businesses",
+        "https://www.highmark.com/about/corporate-responsibility",
+        "https://www.highmark.com/about/corporate-responsibility/valuing-our-people",
+        "https://www.highmark.com/about/corporate-responsibility/social-determinants-of-health",
+        "https://www.highmark.com/about/corporate-responsibility/sustainability"
+      ],
+      "representativeUrl": "https://www.highmark.com/about/our-story/mission-vision",
+      "description": "About / Corporate Responsibility article: left section navigation, long-form article (headings, paragraphs, lists, images) and an optional right-rail callout",
+      "urlPattern": "/about/*",
+      "blocks": [
+        {
+          "name": "cards-minimal-light-sidenav",
+          "instances": [
+            "div.d-none.d-lg-block.col-lg-3 div.nav-container:has(.sidenav)",
+            "div.d-none.d-lg-block.col-lg-3 div.nav-container"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "1",
+          "name": "sidenav",
+          "selector": [
+            "div.d-none.d-lg-block.col-lg-3 div.nav-container:has(.sidenav)",
+            "div.d-none.d-lg-block.col-lg-3 div.nav-container"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-minimal-light-sidenav"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "2",
+          "name": "article",
+          "selector": [
+            "div.col-lg-9 > div.row > div.col-lg-9 div.page__par",
+            "div.col-lg-9 div.page__par"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": []
+        },
+        {
+          "id": "3",
+          "name": "right-rail",
+          "selector": [
+            "div.rightRail"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "leadership",
+      "urls": [
+        "https://www.highmark.com/about/our-story/leadership-team-board"
+      ],
+      "representativeUrl": "https://www.highmark.com/about/our-story/leadership-team-board",
+      "description": "Leadership Team & Board: left section navigation, leader photo card grids (leadership team, market leaders), Board of Directors feature and member name list",
+      "urlPattern": "/about/our-story/leadership-team-board",
+      "blocks": [
+        {
+          "name": "cards-minimal-light-sidenav",
+          "instances": [
+            "div.d-none.d-lg-block.col-lg-3 div.nav-container:has(.sidenav)",
+            "div.d-none.d-lg-block.col-lg-3 div.nav-container"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg",
+          "instances": [
+            "div.gridcontrol:has(section.hmk-home_cardwrapper)"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "1",
+          "name": "sidenav",
+          "selector": [
+            "div.d-none.d-lg-block.col-lg-3 div.nav-container:has(.sidenav)",
+            "div.d-none.d-lg-block.col-lg-3 div.nav-container"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-minimal-light-sidenav"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "2",
+          "name": "title",
+          "selector": [
+            "div.col-lg-9 > div.row > div.col-lg-9 div.page__par"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": []
+        },
+        {
+          "id": "3",
+          "name": "leaders-and-board",
+          "selector": [
+            "div.col-lg-9 > div.row > div.col-lg-12"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-minimal-dark-withimg",
+            "columns-minimal-dark"
+          ],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "bright-blue-futures",
+      "urls": [
+        "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures"
+      ],
+      "representativeUrl": "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures",
+      "description": "Bright Blue Futures corporate-giving landing: photo hero, logo, alternating white/polar side panels, illustration cards, blush report CTA, wide program cards, splash CTA band, video disclaimer footnote.",
+      "urlPattern": "/about/corporate-responsibility/bright-blue-futures",
+      "blocks": [
+        {
+          "name": "hero-minimal-dark-withimg",
+          "instances": [
+            "div.hero.responsivegrid.section"
+          ]
+        },
+        {
+          "name": "columns-minimal-dark",
+          "instances": [
+            "div.newcardscomponent-variations.section:has(.side-card-panel)"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg-icons",
+          "instances": [
+            "div.newcardscomponent-variations.section:has(li.listSmlImg)"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg-2",
+          "instances": [
+            "div.newcardscomponent-variations.section:has(li.listWideImg)"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "hero",
+          "name": "Hero",
+          "selector": [
+            "div.hero.responsivegrid.section"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-minimal-dark-withimg"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "logo",
+          "name": "Logo",
+          "selector": [
+            "section.container-fluid-fullwidth.section:has(img.image-comp-img)"
+          ],
+          "style": "center",
+          "blocks": [],
+          "defaultContent": [
+            "img.image-comp-img"
+          ]
+        },
+        {
+          "id": "side-panel-white",
+          "name": "Side panel (white)",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(.side-card-panel:not(.new-hmk-brand-polar))"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-minimal-dark"
+          ],
+          "defaultContent": [],
+          "repeat": true
+        },
+        {
+          "id": "side-panel-polar",
+          "name": "Side panel (polar band)",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(.side-card-panel.new-hmk-brand-polar)"
+          ],
+          "style": "light",
+          "blocks": [
+            "columns-minimal-dark"
+          ],
+          "defaultContent": [],
+          "repeat": true
+        },
+        {
+          "id": "focus-areas",
+          "name": "Focus areas cards",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(li.listSmlImg)"
+          ],
+          "style": "center",
+          "blocks": [
+            "cards-minimal-dark-withimg-icons"
+          ],
+          "defaultContent": [
+            "div.newcardscomponent-variations.section:has(li.listSmlImg) h2.cardsTitle",
+            "div.newcardscomponent-variations.section:has(li.listSmlImg) p.cardsPara"
+          ]
+        },
+        {
+          "id": "impact-report",
+          "name": "Community Impact Report (blush)",
+          "selector": [
+            "section.container-fluid-fullwidth.section:has(.new-hmk-brand-blush-twnetyfive)"
+          ],
+          "style": "highlight, center",
+          "blocks": [],
+          "defaultContent": [
+            ".one-card-content-center-container h2.d-lg-block",
+            ".one-card-content-center-container .body-text.d-lg-block",
+            ".hmk-brand-buttons a"
+          ]
+        },
+        {
+          "id": "program-cards",
+          "name": "Program wide cards",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(li.listWideImg)"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-minimal-dark-withimg-2"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "blue-fund",
+          "name": "Introducing Blue Fund (splash)",
+          "selector": [
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.new-hmk-brand-fifteenpercent-splash)"
+          ],
+          "style": "light-blue, center",
+          "blocks": [],
+          "defaultContent": [
+            ".one-card-content-center-container h2.d-lg-block",
+            ".one-card-content-center-container .body-text.d-lg-block",
+            ".hmk-brand-buttons a"
+          ]
+        },
+        {
+          "id": "footnotes",
+          "name": "Video disclaimer footnote",
+          "selector": [
+            "section.container-fluid-fullwidth.section:has(> div.container):has(.cmp-text)"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            ".cmp-text p"
+          ]
+        }
+      ]
     }
   ],
   "metadata": {

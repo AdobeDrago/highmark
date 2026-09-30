@@ -1,0 +1,472 @@
+/* Template "about-article" (page metadata template=about-article -> body.about-article).
+   Loaded by scripts/scripts.js (TEMPLATE_STYLES) before the first section renders.
+
+   Values measured from highmark.com/about/our-story/* and
+   /about/corporate-responsibility/* (?zg=false) at 1440 / 768 / 390.
+
+   EDS section order: (1) left section nav (cards-minimal-light-sidenav),
+   (2) the article as default content, (3) optional right-rail callout
+   (default content: h3 + p, "Need assistance?" on SDoH).
+
+   Source layout at >= 992px: a container of min(1200px, 100% - 2 * 83px);
+   the nav in col-lg-3 (25%), then col-lg-9 split into the article
+   (9/12 of 75% = 56.25%, 675px at 1440) and the right rail (3/12 of 75% =
+   18.75%). Nav and rail columns have 15px gutters and keep 20px free on the
+   right. Below 992px the nav and the rail are hidden (d-none d-lg-block) and
+   the article runs full width with 30px (< 768) / 64px (768-991) padding. */
+
+/* rules are grouped by content element and breakpoint; pattern selectors
+   (:has / sibling chains) intentionally follow the base element rules */
+/* stylelint-disable no-descending-specificity */
+
+body.about-article main {
+  padding-bottom: 40px;
+}
+
+body.about-article main > .section {
+  margin: 0;
+}
+
+body.about-article main > .section > div {
+  max-width: none;
+  padding: 0 30px;
+}
+
+/* -- article default content -- */
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper {
+  display: flow-root; /* contains the floated logo / affiliate columns */
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1 {
+  margin: 0 0 8px;
+  padding: 24px 0;
+  font-size: 32px;
+  line-height: 35.2px;
+  letter-spacing: -1.28px;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h3 {
+  margin: 0 0 8px;
+  padding: 16px 0;
+  font-size: 22px;
+  line-height: 24.2px;
+  letter-spacing: -0.4px;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p {
+  margin: 0 0 12.8px;
+  color: var(--text-body-color);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+/* SDoH lead-ins: the source wraps the first paragraph and the callout intro
+   in span.p1 (sofia-pro 600, navy); the import drops the span, so the first
+   one is keyed to the page title */
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] + p,
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p {
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+/* 20px spacer component between the intro paragraph and the first h2
+   (sustainability) */
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1 + p + h2 {
+  padding-top: 39.2px;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper ul {
+  margin: 0 0 16px 20px;
+  padding: 0 0 0 12px;
+  list-style: disc;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper li {
+  margin: 0 0 5px 18px;
+  color: var(--text-body-color);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper strong {
+  font-weight: 700;
+}
+
+/* value / behaviour descriptions under a single bold bullet (mission-vision)
+   are indented 40px */
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper ul:has(> li:only-child > strong:only-child) + p {
+  margin-left: 40px;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a:any-link {
+  color: #0078c1;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a:any-link:hover,
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a:any-link:focus {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* bold CTA links (<p><strong><a>): EDS decorates them as .button, the source
+   renders plain bold blue text links */
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.button-container {
+  margin: 0 0 12.8px;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a.button:any-link {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #0078c1;
+  font-size: inherit;
+  font-weight: 700;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+  white-space: normal;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a.button:hover,
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a.button:focus {
+  background: transparent;
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* blush-25 callout box (SDoH "SDoH programs for members"): the first h2 that
+   is followed by an intro and a bold CTA link. Source: 20px spacer, then a
+   blush container (container padding 30 / 64 / 83px) holding 20px spacer +
+   h2 + p + CTA + 20px spacer, then another 20px spacer */
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a),
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p,
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p + p {
+  margin: 0;
+  padding-right: 30px;
+  padding-left: 30px;
+  background-color: var(--highlight-color);
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) {
+  margin-top: 32.8px;
+  padding-top: 39.2px;
+  padding-bottom: 27.2px;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p {
+  padding-bottom: 12.8px;
+}
+
+/* the callout CTA is right-aligned on the source (inline text-align: right) */
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p + p {
+  margin-bottom: 20px;
+  padding-bottom: 32.8px;
+  text-align: right;
+}
+
+/* article closing on a bold CTA link (SDoH): 60px spacer (80px at >= 992) */
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper:has(> p:last-child > strong > a) {
+  padding-bottom: 60px;
+}
+
+/* logo row (sustainability): consecutive image paragraphs form a grid,
+   2-up below 768px, 4-up above; images fill their column */
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p:has(> picture) {
+  box-sizing: border-box;
+  float: left;
+  width: 50%;
+  margin: 0;
+  padding: 0 0 20px;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p:has(> picture) img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* affiliate list (our-businesses "Dental / Foundation / Health-related
+   insurance"): bold label + line break + link, two columns from 768px */
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p:has(> strong:first-child + br + a) + p:not(:has(> strong:first-child + br + a)) {
+  clear: both;
+}
+
+/* -- right-rail callout: light-blue (splash 15) box, 20px padding, blue
+   51 x 5 rule under the title -- */
+body.about-article .cards-minimal-light-sidenav-container + .section + .section > .default-content-wrapper {
+  margin-right: 20px;
+  padding: 20px;
+  background-color: var(--light-blue-color);
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section + .section > .default-content-wrapper h3 {
+  margin: 0;
+  padding: 0;
+  color: var(--text-color);
+  font-size: 24px;
+  line-height: 26.4px;
+  letter-spacing: -0.72px;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section + .section > .default-content-wrapper h3::after {
+  content: "";
+  display: block;
+  width: 51px;
+  height: 4px;
+  margin: 10px 0;
+  border-top: 1px solid rgb(0 0 0 / 10%);
+  border-radius: 2px;
+  background-color: #0078c1;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section + .section > .default-content-wrapper p {
+  margin: 0;
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+@media (width >= 768px) {
+  body.about-article main {
+    padding-bottom: 60px;
+  }
+
+  body.about-article main > .section > div {
+    padding: 0 64px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1 {
+    padding: 28.8px 0;
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h3 {
+    font-size: 24px;
+    line-height: 26.4px;
+    letter-spacing: -0.44px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p,
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.button-container {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] + p,
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p {
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a),
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p,
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p + p {
+    margin-bottom: 0;
+    padding-right: 64px;
+    padding-left: 64px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) {
+    margin-top: 36px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p {
+    padding-bottom: 16px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p + p {
+    margin-bottom: 20px;
+    padding-bottom: 36px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p:has(> picture) {
+    width: 25%;
+    padding: 0 10px 25px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p:has(> strong:first-child + br + a) {
+    float: left;
+    width: 50%;
+  }
+}
+
+@media (width < 992px) {
+  /* source: left nav and right rail are d-none below lg */
+  body.about-article main > .section.cards-minimal-light-sidenav-container,
+  body.about-article .cards-minimal-light-sidenav-container + .section + .section {
+    display: none;
+  }
+}
+
+@media (width >= 992px) {
+  body.about-article main {
+    --about-content-width: min(1200px, 100% - 166px);
+
+    display: grid;
+    grid-template-columns:
+      1fr
+      calc(var(--about-content-width) * 0.25)
+      calc(var(--about-content-width) * 0.5625)
+      calc(var(--about-content-width) * 0.1875)
+      1fr;
+    align-items: start;
+  }
+
+  /* any other section spans the three content columns */
+  body.about-article main > .section {
+    grid-column: 2 / 5;
+  }
+
+  body.about-article main > .section > div {
+    padding: 0;
+  }
+
+  /* left nav: overrides the block's absolutely-positioned gutter layout */
+  body.about-article main > .section.cards-minimal-light-sidenav-container {
+    position: static;
+    grid-row: 1;
+    grid-column: 2;
+    max-width: none;
+    margin: 0;
+    padding: 0 15px;
+  }
+
+  body.about-article main > .section.cards-minimal-light-sidenav-container > .cards-minimal-light-sidenav-wrapper {
+    position: static;
+    width: auto;
+  }
+
+  /* source nav root (.nav-container) keeps 20px free on the right */
+  body.about-article main > .section.cards-minimal-light-sidenav-container .cards-minimal-light-sidenav {
+    padding-right: 20px;
+  }
+
+  /* source nav: parent link, then the current page indented 18px (its 3px
+     accent bar sits in the indent: link pulled 15px left, label 15px in),
+     children another 18px in; every link reserves 24px on the right, where
+     the current item's 24px-wide chevron toggle sits (the block's own
+     section-guide shape already follows these rules) */
+  body.about-article .cards-minimal-light-sidenav a {
+    padding-right: 24px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-item-list:not(.cards-minimal-light-sidenav-guide) > .cards-minimal-light-sidenav-current {
+    padding-left: 18px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-item-list:not(.cards-minimal-light-sidenav-guide) > .cards-minimal-light-sidenav-current > a {
+    margin-left: -15px;
+    padding-left: 15px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-arrow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 24px;
+    height: 27.2px;
+    margin: 0;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-item-list:not(.cards-minimal-light-sidenav-guide) .cards-minimal-light-sidenav-children {
+    padding-left: 18px;
+  }
+
+  /* article */
+  body.about-article main > .cards-minimal-light-sidenav-container + .section {
+    grid-row: 1;
+    grid-column: 3;
+  }
+
+  /* right rail */
+  body.about-article main > .cards-minimal-light-sidenav-container + .section + .section {
+    grid-row: 1;
+    grid-column: 4;
+    padding: 0 15px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1 {
+    font-size: 56px;
+    line-height: 61.6px;
+    letter-spacing: -2.8px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1 + p + h2 {
+    padding-top: 44px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h3 {
+    letter-spacing: -0.72px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p,
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.button-container {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] + p,
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a),
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p,
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p + p {
+    padding-right: 83px;
+    padding-left: 83px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) {
+    padding-top: 44px;
+    padding-bottom: 32px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper:has(> p:last-child > strong > a) {
+    padding-bottom: 80px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p:has(> picture) {
+    padding: 0 10px 30px;
+  }
+}
