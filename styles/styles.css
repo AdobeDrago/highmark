@@ -1465,8 +1465,8 @@ body.chip-landing main > .section.cards-minimal-dark-withimg-2-container {
  * callout (grey). The spending-accounts highlight band holds a table and keeps its
  * own layout. Values from
  * https://www.highmark.com/resources/mental-health-services/mental-health-resources
+ * Source sections sit flush against each other (no default section margins).
  */
-/* Source sections sit flush against each other (no default section margins). */
 body.topic-hub-subnav main > .section {
   margin: 0;
 }
