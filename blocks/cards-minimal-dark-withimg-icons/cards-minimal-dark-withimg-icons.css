@@ -172,7 +172,7 @@ main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-bo
 main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:hover,
 main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:focus {
   background-color: transparent;
-  color: var(--link-hover-color);
+  color: var(--link-color);
   text-decoration: underline;
 }
 
@@ -264,10 +264,6 @@ body.topic-hub-subnav main .cards-minimal-dark-withimg-icons .cards-minimal-dark
 body.chip-landing main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:any-link,
 body.topic-hub-subnav main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:any-link {
   width: fit-content;
-}
-
-main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:hover, main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:focus {
-    color: var(--link-color);
 }
 
 /* Tablet (768-991px): heading 32px/35.2px + 3px bottom padding */

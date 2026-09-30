@@ -21,6 +21,12 @@
   box-shadow: rgb(0 0 0 / 16%) 0 3px 6px 0;
 }
 
+.cards-minimal-dark-list .cards-minimal-dark-list-card-body ul {
+  margin: 0 0 16px 8px;
+  padding-left: 8px;
+  list-style: disc outside;
+}
+
 body.topic-hub-subnav .cards-minimal-dark-list > ul {
   display: flex;
   flex-flow: column wrap;
@@ -44,12 +50,6 @@ body.topic-hub-subnav .cards-minimal-dark-list > ul {
   line-height: 26.4px;
   letter-spacing: -0.72px;
   color: var(--text-color);
-}
-
-.cards-minimal-dark-list .cards-minimal-dark-list-card-body ul {
-  margin: 0 0 16px 8px;
-  padding-left: 8px;
-  list-style: disc outside;
 }
 
 .cards-minimal-dark-list .cards-minimal-dark-list-card-body li {
