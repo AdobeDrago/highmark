@@ -1,0 +1,526 @@
+/* Template "employer-landing" (page metadata template=employer-landing -> body.employer-landing).
+   Loaded by scripts/scripts.js (TEMPLATE_STYLES) before the first section renders.
+
+   Values extracted (getComputedStyle) from https://www.highmark.com/employer?zg=false
+   at 390 / 768 / 800 / 1000 / 1200 / 1440. Source breakpoints: < 768 mobile,
+   768-991 tablet (everything stacked except the hero), >= 992 desktop.
+   Source bands sit flush against each other (no margins between sections). */
+
+/* Rules are grouped by section; selectors in different groups target
+   disjoint elements, so source order across groups does not matter. */
+/* stylelint-disable no-descending-specificity */
+
+body.employer-landing main > .section {
+  margin: 0;
+}
+
+/* ==========================================================================
+   1. Landing hero (div.hide-bgimg.bgimg-pos.hero-sec)
+   The band height follows the art-directed photo: 375x460 (<= 428px),
+   788x460 (429-768px), 1500x500 (>= 769px). Navy text is always overlaid,
+   vertically centred in a 2/3-width column, 30px from the left edge
+   (150px from 1025px). Heading 90% / subheading 85% of that column.
+   ========================================================================== */
+body.employer-landing main .hero-minimal-dark-withimg {
+  display: block;
+  min-height: 0;
+}
+
+body.employer-landing main .hero-minimal-dark-withimg > div:first-child {
+  position: static;
+}
+
+body.employer-landing main .hero-minimal-dark-withimg > div:first-child,
+body.employer-landing main .hero-minimal-dark-withimg > div:first-child > div,
+body.employer-landing main .hero-minimal-dark-withimg > div:first-child picture {
+  height: auto;
+}
+
+body.employer-landing main .hero-minimal-dark-withimg picture img {
+  display: block;
+  height: auto;
+  aspect-ratio: 375 / 460;
+  object-fit: cover;
+  object-position: 55% 50%;
+}
+
+body.employer-landing main .hero-minimal-dark-withimg > div:last-child {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+body.employer-landing main .hero-minimal-dark-withimg > div:last-child > div {
+  box-sizing: border-box;
+  width: calc(100% * 2 / 3);
+  padding: 0 0 0 30px;
+}
+
+body.employer-landing main .hero-minimal-dark-withimg h1 {
+  max-width: 90%;
+  margin: 0;
+  padding: 0 0 10px;
+  font-size: 32px;
+  line-height: 35.2px;
+  letter-spacing: -1.28px;
+}
+
+body.employer-landing main .hero-minimal-dark-withimg h2 {
+  max-width: 85%;
+  margin: 0;
+  padding: 10px 0 19.2px;
+  font-size: 20px;
+  line-height: 22px;
+  letter-spacing: -0.72px;
+}
+
+body.employer-landing main .hero-minimal-dark-withimg p.button-container {
+  margin: 0;
+}
+
+body.employer-landing main .hero-minimal-dark-withimg a.button:any-link {
+  margin: 16px 0;
+}
+
+@media (width >= 429px) {
+  body.employer-landing main .hero-minimal-dark-withimg picture img {
+    aspect-ratio: 788 / 460;
+    object-position: 60% 50%;
+  }
+}
+
+@media (width >= 768px) {
+  body.employer-landing main .hero-minimal-dark-withimg h1 {
+    margin-top: 5px;
+    padding-bottom: 14.4px;
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  body.employer-landing main .hero-minimal-dark-withimg h2 {
+    padding-top: 12.8px;
+    letter-spacing: -0.78px;
+  }
+}
+
+@media (width >= 769px) {
+  body.employer-landing main .hero-minimal-dark-withimg picture img {
+    aspect-ratio: 1500 / 500;
+    object-position: 50% 50%;
+  }
+}
+
+@media (width >= 900px) {
+  body.employer-landing main .hero-minimal-dark-withimg:has(h1 + h2) h1 {
+    max-width: 90%;
+  }
+
+  body.employer-landing main .hero-minimal-dark-withimg:has(h1 + h2) h2 {
+    max-width: 85%;
+  }
+}
+
+@media (width >= 992px) {
+  body.employer-landing main .hero-minimal-dark-withimg h1 {
+    font-size: 56px;
+    line-height: 61.6px;
+    letter-spacing: -2.8px;
+  }
+
+  body.employer-landing main .hero-minimal-dark-withimg h2 {
+    padding-bottom: 24px;
+    line-height: 24px;
+    letter-spacing: -1.36px;
+  }
+}
+
+@media (width >= 1025px) {
+  body.employer-landing main .hero-minimal-dark-withimg > div:last-child > div {
+    padding-left: 150px;
+  }
+
+  body.employer-landing main .hero-minimal-dark-withimg h1 {
+    margin-top: 0;
+  }
+
+  body.employer-landing main .hero-minimal-dark-withimg h2 {
+    font-size: 34px;
+    line-height: 40.8px;
+  }
+}
+
+/* ==========================================================================
+   2. "Tell us about your business" (.cards-variation > .container-sm-img
+   with li.listSmlImg icon cards) - padding 50/40 (60/50 from 768px) plus the
+   30px margin under the last card; 360px column below 768px, then 2.5vw
+   gutters up to 800px, 766px from 992px; bold sofia-pro lead. Cards:
+   transparent, no body padding, 300 / 400 / 3 x 370px (34px apart, in a
+   1180px row), top-aligned.
+   ========================================================================== */
+body.employer-landing main > .section.cards-minimal-dark-withimg-icons-container {
+  padding: 50px 0 70px;
+}
+
+body.employer-landing main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper {
+  max-width: none;
+  margin: 0 auto;
+  padding: 0 max(15px, 2.5vw);
+  text-align: center;
+}
+
+body.employer-landing main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper h2 {
+  margin: 0 0 20px;
+  padding: 0;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.employer-landing main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper p {
+  margin: 0 0 30px;
+  padding: 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+body.employer-landing main .cards-minimal-dark-withimg-icons > ul > li {
+  background-color: transparent;
+  border-radius: 0;
+}
+
+body.employer-landing main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body {
+  padding: 0;
+}
+
+body.employer-landing main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
+  margin: 20px 0 13px;
+}
+
+body.employer-landing main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p {
+  padding: 0;
+}
+
+body.employer-landing main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p.button-container {
+  margin: 0 0 16px;
+}
+
+body.employer-landing main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:any-link {
+  width: fit-content;
+}
+
+@media (width < 768px) {
+  body.employer-landing main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper {
+    max-width: 360px;
+    padding: 0 15px;
+  }
+
+  body.employer-landing main .cards-minimal-dark-withimg-icons > ul {
+    grid-template-columns: minmax(0, 300px);
+  }
+}
+
+@media (width >= 768px) {
+  body.employer-landing main > .section.cards-minimal-dark-withimg-icons-container {
+    padding: 60px 0 80px;
+  }
+
+  body.employer-landing main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper {
+    max-width: 800px;
+  }
+
+  body.employer-landing main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.employer-landing main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper p {
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.employer-landing main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
+    padding-bottom: 3px;
+    font-size: 32px;
+    line-height: 35.2px;
+  }
+}
+
+/* 900-991px: the source keeps the single 400px column */
+@media (width >= 900px) and (width < 992px) {
+  body.employer-landing main .cards-minimal-dark-withimg-icons > ul {
+    display: grid;
+  }
+
+  body.employer-landing main .cards-minimal-dark-withimg-icons > ul > li {
+    width: auto;
+  }
+}
+
+@media (width >= 992px) {
+  body.employer-landing main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper {
+    max-width: 766px;
+    padding: 0;
+  }
+
+  body.employer-landing main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper h2 {
+    font-size: 34px;
+    line-height: 37.4px;
+    letter-spacing: -1.36px;
+  }
+
+  body.employer-landing main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper p {
+    margin-bottom: 40px;
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  body.employer-landing main > .section > .cards-minimal-dark-withimg-icons-wrapper {
+    max-width: 1180px;
+    padding: 0;
+  }
+
+  body.employer-landing main .cards-minimal-dark-withimg-icons > ul {
+    gap: 30px 34px;
+    align-items: flex-start;
+  }
+}
+
+/* ==========================================================================
+   3-5. Side card panels (.side-card-panel, polar / white / polar)
+   Stacked photo -> text below 992px (photo first even when authored
+   second); desktop 555px photo + 550px text column (24px inner padding),
+   centred in 1200px (83px gutters). Band padding 32 / 48 (from 576px) /
+   80px, gutters 30 / 64px; 720px column at 768-991px.
+   Body copy is the source's bare 16px/24px navy text node (block default).
+   ========================================================================== */
+body.employer-landing main > .section.columns-minimal-dark-container {
+  padding: 32px 0;
+}
+
+body.employer-landing main > .section > .columns-minimal-dark-wrapper {
+  max-width: none;
+  padding: 0 30px;
+}
+
+body.employer-landing main .columns-minimal-dark > div {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+
+body.employer-landing main .columns-minimal-dark > div > div {
+  flex: 0 1 auto;
+  order: 1;
+}
+
+body.employer-landing main .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+  order: 0;
+}
+
+body.employer-landing main .columns-minimal-dark h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+/* the source text node ends in a <br>: one 24px blank line above the CTA */
+body.employer-landing main .columns-minimal-dark p.button-container {
+  margin: 24px 0 0;
+  line-height: 20px;
+}
+
+body.employer-landing main .columns-minimal-dark a.button:any-link {
+  line-height: 20px;
+}
+
+body.employer-landing main .columns-minimal-dark a.button:hover,
+body.employer-landing main .columns-minimal-dark a.button:focus {
+  text-decoration: underline;
+}
+
+@media (width >= 576px) {
+  body.employer-landing main > .section.columns-minimal-dark-container {
+    padding: 48px 0;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.employer-landing main .columns-minimal-dark {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+@media (width >= 768px) {
+  body.employer-landing main > .section > .columns-minimal-dark-wrapper {
+    padding: 0 64px;
+  }
+
+  body.employer-landing main .columns-minimal-dark h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+}
+
+@media (width >= 992px) {
+  body.employer-landing main > .section.columns-minimal-dark-container {
+    padding: 80px 0;
+  }
+
+  body.employer-landing main > .section > .columns-minimal-dark-wrapper {
+    max-width: 1200px;
+    padding: 0 83px;
+  }
+
+  body.employer-landing main .columns-minimal-dark > div {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  body.employer-landing main .columns-minimal-dark > div > div,
+  body.employer-landing main .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    order: 0;
+  }
+
+  body.employer-landing main .columns-minimal-dark > div > div {
+    box-sizing: border-box;
+    flex: 0 1 550px;
+    padding: 0 24px;
+  }
+
+  body.employer-landing main .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    flex: 0 1 555px;
+    margin: 0 24px;
+    padding: 0;
+  }
+
+  /* photo | text: 24px between the photo margin and the text column */
+  body.employer-landing main .columns-minimal-dark > div > .columns-minimal-dark-img-col + div {
+    margin-left: 24px;
+  }
+
+  /* text | photo: the text column's auto right margin takes the free space
+     (47px at 1200px content, 0 once the columns shrink) */
+  body.employer-landing main .columns-minimal-dark > div > div:has(+ .columns-minimal-dark-img-col) {
+    margin-right: auto;
+  }
+
+  body.employer-landing main .columns-minimal-dark h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+}
+
+/* ==========================================================================
+   6. "Find a plan that fits your business needs" (.one-card-one-col-panel,
+   blush) - padding 32/48 (64/64 from 992px), 30 / 64px gutters, 780px
+   column; #004362 sofia-pro heading + regular lead; outlined 58px button
+   (16px group margin + 16px button margins).
+   ========================================================================== */
+body.employer-landing main > .section.highlight {
+  padding: 32px 0 48px;
+}
+
+body.employer-landing main > .section.highlight > .default-content-wrapper {
+  max-width: none;
+  padding: 0 30px;
+}
+
+body.employer-landing main .section.highlight h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0 8px;
+  color: #004362;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.employer-landing main .section.highlight p:not(.button-container) {
+  margin: 0;
+  color: #004362;
+  font-family: var(--heading-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.25px;
+}
+
+body.employer-landing main .section.highlight p.button-container {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0 0;
+}
+
+body.employer-landing main .section.highlight a.button:any-link {
+  display: block;
+  margin: 16px 0;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+@media (width >= 576px) and (width < 768px) {
+  body.employer-landing main .section.highlight p:not(.button-container) {
+    font-size: 18px;
+    line-height: 25.2px;
+  }
+}
+
+@media (width >= 768px) {
+  body.employer-landing main > .section.highlight > .default-content-wrapper {
+    padding: 0 64px;
+  }
+
+  body.employer-landing main .section.highlight h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.employer-landing main .section.highlight p:not(.button-container) {
+    font-size: 18px;
+    line-height: 23.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.employer-landing main > .section.highlight {
+    padding: 64px 0;
+  }
+
+  body.employer-landing main > .section.highlight > .default-content-wrapper {
+    max-width: 780px;
+    padding: 0;
+  }
+
+  body.employer-landing main .section.highlight h2 {
+    padding: 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.employer-landing main .section.highlight p:not(.button-container) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}

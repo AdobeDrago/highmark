@@ -1244,6 +1244,269 @@
           "defaultContent": []
         }
       ]
+    },
+    {
+      "name": "employer-landing",
+      "urls": [
+        "https://www.highmark.com/employer"
+      ],
+      "representativeUrl": "https://www.highmark.com/employer",
+      "description": "Employer landing page: landing hero, business-size icon cards, alternating photo/text side panels, blush CTA band",
+      "urlPattern": "/employer",
+      "blocks": [
+        {
+          "name": "hero-minimal-dark-withimg",
+          "instances": [
+            "div.hero.responsivegrid.section"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg-icons",
+          "instances": [
+            "div.newcardscomponent-variations.section:has(li.listSmlImg)"
+          ]
+        },
+        {
+          "name": "columns-minimal-dark",
+          "instances": [
+            "section.container-fluid-fullwidth.section:has(.side-card-panel)",
+            "div.newcardscomponent-variations.section:has(.side-card-panel)"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "1",
+          "name": "hero",
+          "selector": [
+            "div.hero.responsivegrid.section"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-minimal-dark-withimg"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "2",
+          "name": "business-size",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(li.listSmlImg)"
+          ],
+          "style": "center",
+          "blocks": [
+            "cards-minimal-dark-withimg-icons"
+          ],
+          "defaultContent": [
+            "div.newcardscomponent-variations.section:has(li.listSmlImg) h2.cardsTitle",
+            "div.newcardscomponent-variations.section:has(li.listSmlImg) p.cardsPara"
+          ]
+        },
+        {
+          "id": "3",
+          "name": "enhancing-experience",
+          "selector": [
+            "section.container-fluid-fullwidth.section:has(.side-card-panel)"
+          ],
+          "style": "light",
+          "blocks": [
+            "columns-minimal-dark"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "4",
+          "name": "managing-cost",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(.side-card-panel:not(.new-hmk-brand-polar))"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-minimal-dark"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "5",
+          "name": "improving-outcomes",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(.side-card-panel.new-hmk-brand-polar)"
+          ],
+          "style": "light",
+          "blocks": [
+            "columns-minimal-dark"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "6",
+          "name": "find-plan-callout",
+          "selector": [
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.new-hmk-brand-blush-twnetyfive)"
+          ],
+          "style": "highlight, center",
+          "blocks": [],
+          "defaultContent": [
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.new-hmk-brand-blush-twnetyfive) h2",
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.new-hmk-brand-blush-twnetyfive) p",
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.new-hmk-brand-blush-twnetyfive) a"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "employer-subpage",
+      "urls": [
+        "https://www.highmark.com/employer/cost-management",
+        "https://www.highmark.com/employer/care-management",
+        "https://www.highmark.com/employer/client-resources",
+        "https://www.highmark.com/employer/solutions",
+        "https://www.highmark.com/employer/thought-leadership"
+      ],
+      "representativeUrl": "https://www.highmark.com/employer/cost-management",
+      "description": "Employer sub-landing pages: dark/light centered intro, variable repeated photo/text side panels, icon or photo card grids, quicklinks bar, blush callout/closing CTA, footnotes",
+      "urlPattern": "/employer/*",
+      "blocks": [
+        {
+          "name": "columns-minimal-dark",
+          "instances": [
+            "div.newcardscomponent-variations.section:has(.side-card-panel)"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg-icons",
+          "instances": [
+            "div.newcardscomponent-variations.section:has(.cards-variation li.listSmlImg):not(:has(li.cardThree))"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-iconnav",
+          "instances": [
+            "div.quicklinks.section"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg",
+          "instances": [
+            "div.newcardscomponent-variations.section:has(.cards-variation li.cardThree)"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "intro-navy",
+          "name": "Intro (navy)",
+          "selector": [
+            "section.container-fluid-fullwidth.section:has(.new-hmk-brand-togatherblue):has(h1)"
+          ],
+          "style": "dark, center",
+          "blocks": [],
+          "defaultContent": []
+        },
+        {
+          "id": "intro-light",
+          "name": "Intro (polar)",
+          "selector": [
+            "section.container-fluid-fullwidth.section:has(.new-hmk-brand-polar):has(h1)"
+          ],
+          "style": "light, center",
+          "blocks": [],
+          "defaultContent": []
+        },
+        {
+          "id": "side-panel-white",
+          "name": "Side panel (white)",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(.side-card-panel):not(:has(.side-card-panel.new-hmk-brand-polar)):not(:has(.side-card-panel.global-helionlightblue))"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-minimal-dark"
+          ],
+          "defaultContent": [],
+          "repeat": true
+        },
+        {
+          "id": "side-panel-light",
+          "name": "Side panel (polar band)",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(.side-card-panel.new-hmk-brand-polar)",
+            "div.newcardscomponent-variations.section:has(.side-card-panel.global-helionlightblue)"
+          ],
+          "style": "light",
+          "blocks": [
+            "columns-minimal-dark"
+          ],
+          "defaultContent": [],
+          "repeat": true
+        },
+        {
+          "id": "icon-cards",
+          "name": "Icon cards",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(.cards-variation li.listSmlImg):not(:has(li.cardThree))"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-minimal-dark-withimg-icons"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "quicklinks",
+          "name": "Quicklinks bar",
+          "selector": [
+            "div.quicklinks.section"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-minimal-dark-iconnav"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "article-cards",
+          "name": "Latest articles",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(.cards-variation li.cardThree)"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-minimal-dark-withimg"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "callout-blush",
+          "name": "Blush callout",
+          "selector": [
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.new-hmk-brand-blush-twnetyfive)"
+          ],
+          "style": "highlight, center",
+          "blocks": [],
+          "defaultContent": []
+        },
+        {
+          "id": "closing-cta",
+          "name": "Closing CTA",
+          "selector": [
+            "section.container-fluid-fullwidth.section:has(.new-hmk-brand-blush-twnetyfive)"
+          ],
+          "style": "highlight, center",
+          "blocks": [],
+          "defaultContent": []
+        },
+        {
+          "id": "footnotes",
+          "name": "Footnotes",
+          "selector": [
+            "section.container-fluid-fullwidth.section:has(> .container):not(:has(h1, h2, [class*=\"new-hmk-brand\"]))"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": []
+        }
+      ]
     }
   ],
   "metadata": {

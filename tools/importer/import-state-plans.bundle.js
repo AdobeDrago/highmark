@@ -167,6 +167,26 @@ var CustomImportScript = (() => {
     }
     return null;
   }
+  function queryAll(root, selectors) {
+    const found = [];
+    (Array.isArray(selectors) ? selectors : [selectors]).forEach((sel) => {
+      if (!sel) return;
+      try {
+        root.querySelectorAll(sel).forEach((el) => {
+          if (!found.includes(el)) found.push(el);
+        });
+      } catch (e) {
+      }
+    });
+    return found;
+  }
+  function hasContentBefore(node, root) {
+    const range = root.ownerDocument.createRange();
+    range.setStart(root, 0);
+    range.setEndBefore(node);
+    const frag = range.cloneContents();
+    return !!(frag.textContent.trim() || frag.querySelector("img, picture"));
+  }
   function sharedCleanup(root) {
     root.querySelectorAll('a.headNoLink:not([href]), a.headNoLink[href=""]').forEach((a) => {
       a.replaceWith(...a.childNodes);
@@ -185,30 +205,36 @@ var CustomImportScript = (() => {
       sharedCleanup(element);
       for (let i = sections.length - 1; i >= 0; i -= 1) {
         const section = sections[i];
-        if (i === 0 && !section.style) continue;
-        const sectionEl = querySection(element, section.selector);
-        if (!sectionEl) continue;
-        const hr = document.createElement("hr");
-        if (section.style) hr.setAttribute(SECTION_MARKER_ATTR, section.id);
-        sectionEl.before(hr);
+        const targets = section.repeat ? queryAll(element, section.selector) : [querySection(element, section.selector)].filter(Boolean);
+        targets.reverse().forEach((sectionEl) => {
+          const hr = document.createElement("hr");
+          if (section.style) hr.setAttribute(SECTION_MARKER_ATTR, section.id);
+          sectionEl.before(hr);
+        });
       }
     }
     if (hookName === "afterTransform") {
       for (let i = sections.length - 1; i >= 0; i -= 1) {
         const section = sections[i];
         if (!section.style) continue;
-        const marker = element.querySelector(`[${SECTION_MARKER_ATTR}="${section.id}"]`);
-        const anchor = marker || querySection(element, section.selector);
-        if (!anchor) continue;
-        const metadataBlock = WebImporter.Blocks.createBlock(document, {
-          name: "Section Metadata",
-          cells: { style: section.style }
-        });
-        anchor.after(metadataBlock);
-        if (marker) {
-          marker.removeAttribute(SECTION_MARKER_ATTR);
-          if (i === 0) marker.remove();
+        let anchors = [...element.querySelectorAll(`[${SECTION_MARKER_ATTR}="${section.id}"]`)];
+        if (!anchors.length) {
+          const el = querySection(element, section.selector);
+          anchors = el ? [el] : [];
         }
+        anchors.forEach((anchor) => {
+          const metadataBlock = WebImporter.Blocks.createBlock(document, {
+            name: "Section Metadata",
+            cells: { style: section.style }
+          });
+          anchor.after(metadataBlock);
+          if (anchor.tagName === "HR") anchor.removeAttribute(SECTION_MARKER_ATTR);
+        });
+      }
+      let first = element.querySelector("hr");
+      while (first && !hasContentBefore(first, element)) {
+        first.remove();
+        first = element.querySelector("hr");
       }
     }
   }

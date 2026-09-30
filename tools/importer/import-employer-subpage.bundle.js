@@ -35,35 +35,160 @@ var CustomImportScript = (() => {
   };
   var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-  // tools/importer/import-learn-about-medicare.js
-  var import_learn_about_medicare_exports = {};
-  __export(import_learn_about_medicare_exports, {
-    default: () => import_learn_about_medicare_default
+  // tools/importer/import-employer-subpage.js
+  var import_employer_subpage_exports = {};
+  __export(import_employer_subpage_exports, {
+    default: () => import_employer_subpage_default
   });
 
-  // tools/importer/parsers/hero-minimal-light.js
+  // tools/importer/parsers/columns-minimal-dark.js
   function parse(element, { document: document2 }) {
-    const bgImage = element.querySelector('picture img, img[class*="image"]');
-    const heading = element.querySelector('h1, h2, .banner-heading, [class*="banner-heading"]');
-    const paragraph = element.querySelector("p");
-    if (!heading && !paragraph && !bgImage) {
+    const textArea = element.querySelector(".text-area") || element;
+    const imageArea = element.querySelector(".image-area") || element;
+    const image = imageArea.querySelector("picture, img");
+    const heading = textArea.querySelector("h1, h2, h3, h4");
+    const bodyBlocks = Array.from(textArea.querySelectorAll(":scope > div"));
+    const isCta = (a) => a.matches('a.textButton, a.button, a[class*="button"]') || !!a.closest("b, strong");
+    const links = Array.from(textArea.querySelectorAll('a.textButton, a.button, a[class*="button"], a[href]')).filter((a) => (a.getAttribute("href") || "").trim()).filter((a) => isCta(a) || !bodyBlocks.some((b) => b.contains(a)));
+    if (!heading && bodyBlocks.length === 0 && !image) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
+    const contentCell = [];
+    if (heading) contentCell.push(heading);
+    contentCell.push(...bodyBlocks);
+    contentCell.push(...links);
+    const imageCell = image ? [image] : [""];
+    const imageLeft = !!element.querySelector(".image-area.left-content");
+    const cells = [imageLeft ? [imageCell, contentCell] : [contentCell, imageCell]];
+    const block = WebImporter.Blocks.createBlock(document2, { name: "columns-minimal-dark", cells });
+    element.replaceWith(block);
+  }
+
+  // tools/importer/parsers/cards-minimal-dark-withimg-icons.js
+  function parse2(element, { document: document2 }) {
+    const hasHref = (a) => {
+      const href = (a.getAttribute("href") || "").trim();
+      return !!href && href !== "#";
+    };
+    const unwrapDeadAnchors = (root) => {
+      if (!root) return;
+      root.querySelectorAll("a").forEach((a) => {
+        if (!hasHref(a)) a.replaceWith(...a.childNodes);
+      });
+    };
+    let cards = Array.from(element.querySelectorAll(".cardWrapper > .card.cardBlock"));
+    if (!cards.length) cards = Array.from(element.querySelectorAll(".card.cardBlock, .cardBlock"));
+    let smlImgList = false;
+    if (!cards.length) {
+      cards = Array.from(element.querySelectorAll("li.listSmlImg"));
+      smlImgList = cards.length > 0;
+    }
+    if (!cards.length) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
+    const introEls = [];
+    const introContainer = element.querySelector(".cardBlockTitleContainer");
+    if (smlImgList) {
+      const introHeading = element.querySelector("h2.cardsTitle");
+      if (introHeading) {
+        unwrapDeadAnchors(introHeading);
+        introEls.push(introHeading);
+      }
+      introEls.push(...Array.from(element.querySelectorAll("p.cardsPara")));
+    } else if (introContainer) {
+      const introHeading = introContainer.querySelector("h1, h2, h3");
+      if (introHeading) {
+        unwrapDeadAnchors(introHeading);
+        introEls.push(introHeading);
+      }
+      const introDesc = introContainer.querySelector(".cardDescription");
+      if (introDesc) {
+        const descParas = Array.from(introDesc.querySelectorAll(":scope > p"));
+        if (descParas.length) {
+          introEls.push(...descParas);
+        } else if (introDesc.textContent.trim()) {
+          const p = document2.createElement("p");
+          p.append(...introDesc.childNodes);
+          introEls.push(p);
+        }
+      } else {
+        const p = introContainer.querySelector("p");
+        if (p) introEls.push(p);
+      }
+    }
+    const trailingEls = [];
+    Array.from(element.querySelectorAll(".hmk-brand-buttons.brand-center-content a")).filter((a) => !a.closest(".card, .cardBlock, .cardWrapper, li.listSmlImg")).forEach((a) => {
+      const p = document2.createElement("p");
+      if (hasHref(a)) {
+        p.append(a);
+      } else {
+        p.append(...a.childNodes);
+      }
+      trailingEls.push(p);
+    });
+    const cells = [];
+    cards.forEach((card) => {
+      const image = card.querySelector("picture, img");
+      const textRoot = card.querySelector(".cardText") || smlImgList && card.querySelector(":scope > div") || card;
+      const heading = textRoot.querySelector("h1, h2, h3, h4, h5, h6");
+      unwrapDeadAnchors(heading);
+      let paragraphs = Array.from(textRoot.querySelectorAll(":scope > p"));
+      if (!paragraphs.length) {
+        paragraphs = Array.from(textRoot.querySelectorAll("p")).filter((p) => !p.closest(".hmk-brand-buttons"));
+      }
+      const ctas = Array.from(textRoot.querySelectorAll(".hmk-brand-buttons a, a.textButton")).filter((a, i, arr) => arr.indexOf(a) === i).filter((a) => !paragraphs.some((p) => p.contains(a)));
+      const contentCell = [];
+      if (heading) contentCell.push(heading);
+      contentCell.push(...paragraphs);
+      ctas.forEach((a) => {
+        const p = document2.createElement("p");
+        if (hasHref(a)) {
+          p.append(a);
+        } else {
+          p.append(...a.childNodes);
+        }
+        contentCell.push(p);
+      });
+      cells.push([image || "", contentCell]);
+    });
+    const block = WebImporter.Blocks.createBlock(document2, { name: "cards-minimal-dark-withimg-icons", cells });
+    element.replaceWith(...introEls, block, ...trailingEls);
+  }
+
+  // tools/importer/parsers/cards-minimal-dark-iconnav.js
+  function parse3(element, { document: document2 }) {
+    const list = element.querySelector(".quick-link-list-inner:not(.quick-link-list-mobile-inner)") || element.querySelector(".quick-link-list-inner") || element;
+    const items = Array.from(list.querySelectorAll(".quick-link-item"));
+    if (items.length === 0) {
       element.replaceWith(...element.childNodes);
       return;
     }
     const cells = [];
-    if (bgImage) {
-      cells.push([bgImage]);
-    }
-    const contentCell = [];
-    if (heading) contentCell.push(heading);
-    if (paragraph) contentCell.push(paragraph);
-    cells.push([contentCell]);
-    const block = WebImporter.Blocks.createBlock(document2, { name: "hero-minimal-light", cells });
+    items.forEach((item) => {
+      const anchor = item.querySelector("a");
+      if (!anchor) return;
+      const href = anchor.getAttribute("href") || "";
+      const icon = item.querySelector('i.material-icons, i.material-icons-outlined, i[class*="material-icons"]');
+      const labelEl = item.querySelector(".quick-link-text");
+      const label = (labelEl ? labelEl.textContent : anchor.textContent || "").trim();
+      let iconText = icon ? icon.textContent.trim() : "";
+      if (!icon && element.hasAttribute("data-iconnav-image-icons")) {
+        const img = item.querySelector("img.whiteimage") || item.querySelector("img.quicklinks-img:not(.bgimage)") || item.querySelector("img:not(.bgimage)");
+        if (img) iconText = img;
+      }
+      const link = document2.createElement("a");
+      link.setAttribute("href", href);
+      link.textContent = label;
+      cells.push([iconText, link]);
+    });
+    const block = WebImporter.Blocks.createBlock(document2, { name: "cards-minimal-dark-iconnav", cells });
     element.replaceWith(block);
   }
 
   // tools/importer/parsers/cards-minimal-dark-withimg.js
-  function parse2(element, { document: document2 }) {
+  function parse4(element, { document: document2 }) {
     const introEls = [];
     const introContainer = element.querySelector(".cardBlockTitleContainer");
     if (introContainer) {
@@ -237,53 +362,130 @@ var CustomImportScript = (() => {
     }
   }
 
-  // tools/importer/import-learn-about-medicare.js
+  // tools/importer/import-employer-subpage.js
   var parsers = {
-    "hero-minimal-light": parse,
-    "cards-minimal-dark-withimg": parse2
+    "columns-minimal-dark": parse,
+    "cards-minimal-dark-withimg-icons": parse2,
+    "cards-minimal-dark-iconnav": parse3,
+    "cards-minimal-dark-withimg": parse4
   };
   var transformers = [
     transform,
     transform2
   ];
   var PAGE_TEMPLATE = {
-    "name": "learn-about-medicare",
-    "description": 'Medicare article hub: light-blue intro hero, 3-up grid of 18 article image cards, blush "Understand your Medicare options" CTA band and disclaimers',
+    "name": "employer-subpage",
+    "description": "Employer sub-landing pages: dark/light centered intro, variable repeated photo/text side panels, icon or photo card grids, quicklinks bar, blush callout/closing CTA, footnotes",
     "urls": [
-      "https://www.highmark.com/plans/medicare/learn-about-medicare"
+      "https://www.highmark.com/employer/cost-management",
+      "https://www.highmark.com/employer/care-management",
+      "https://www.highmark.com/employer/client-resources",
+      "https://www.highmark.com/employer/solutions",
+      "https://www.highmark.com/employer/thought-leadership"
     ],
     "blocks": [
       {
-        "name": "hero-minimal-light",
+        "name": "columns-minimal-dark",
         "instances": [
-          "section.container-fluid-fullwidth.section:has(.new-hmk-brand-fifteenpercent-splash)"
+          "div.newcardscomponent-variations.section:has(.side-card-panel)"
+        ]
+      },
+      {
+        "name": "cards-minimal-dark-withimg-icons",
+        "instances": [
+          "div.newcardscomponent-variations.section:has(.cards-variation li.listSmlImg):not(:has(li.cardThree))"
+        ]
+      },
+      {
+        "name": "cards-minimal-dark-iconnav",
+        "instances": [
+          "div.quicklinks.section"
         ]
       },
       {
         "name": "cards-minimal-dark-withimg",
         "instances": [
-          "div.newcardscomponent-variations.section:has(ul.gridcardsul):has(.cardThree img)"
+          "div.newcardscomponent-variations.section:has(.cards-variation li.cardThree)"
         ]
       }
     ],
     "sections": [
       {
-        "id": "1",
-        "name": "intro",
+        "id": "intro-navy",
+        "name": "Intro (navy)",
         "selector": [
-          "section.container-fluid-fullwidth.section:has(.new-hmk-brand-fifteenpercent-splash)"
+          "section.container-fluid-fullwidth.section:has(.new-hmk-brand-togatherblue):has(h1)"
+        ],
+        "style": "dark, center",
+        "blocks": [],
+        "defaultContent": []
+      },
+      {
+        "id": "intro-light",
+        "name": "Intro (polar)",
+        "selector": [
+          "section.container-fluid-fullwidth.section:has(.new-hmk-brand-polar):has(h1)"
+        ],
+        "style": "light, center",
+        "blocks": [],
+        "defaultContent": []
+      },
+      {
+        "id": "side-panel-white",
+        "name": "Side panel (white)",
+        "selector": [
+          "div.newcardscomponent-variations.section:has(.side-card-panel):not(:has(.side-card-panel.new-hmk-brand-polar)):not(:has(.side-card-panel.global-helionlightblue))"
         ],
         "style": null,
         "blocks": [
-          "hero-minimal-light"
+          "columns-minimal-dark"
+        ],
+        "defaultContent": [],
+        "repeat": true
+      },
+      {
+        "id": "side-panel-light",
+        "name": "Side panel (polar band)",
+        "selector": [
+          "div.newcardscomponent-variations.section:has(.side-card-panel.new-hmk-brand-polar)",
+          "div.newcardscomponent-variations.section:has(.side-card-panel.global-helionlightblue)"
+        ],
+        "style": "light",
+        "blocks": [
+          "columns-minimal-dark"
+        ],
+        "defaultContent": [],
+        "repeat": true
+      },
+      {
+        "id": "icon-cards",
+        "name": "Icon cards",
+        "selector": [
+          "div.newcardscomponent-variations.section:has(.cards-variation li.listSmlImg):not(:has(li.cardThree))"
+        ],
+        "style": null,
+        "blocks": [
+          "cards-minimal-dark-withimg-icons"
         ],
         "defaultContent": []
       },
       {
-        "id": "2",
-        "name": "article-cards",
+        "id": "quicklinks",
+        "name": "Quicklinks bar",
         "selector": [
-          "div.newcardscomponent-variations.section:has(ul.gridcardsul):has(.cardThree img)"
+          "div.quicklinks.section"
+        ],
+        "style": null,
+        "blocks": [
+          "cards-minimal-dark-iconnav"
+        ],
+        "defaultContent": []
+      },
+      {
+        "id": "article-cards",
+        "name": "Latest articles",
+        "selector": [
+          "div.newcardscomponent-variations.section:has(.cards-variation li.cardThree)"
         ],
         "style": null,
         "blocks": [
@@ -292,8 +494,18 @@ var CustomImportScript = (() => {
         "defaultContent": []
       },
       {
-        "id": "3",
-        "name": "options-cta",
+        "id": "callout-blush",
+        "name": "Blush callout",
+        "selector": [
+          "div.onecard1colpanel.section:has(.one-card-one-col-panel.new-hmk-brand-blush-twnetyfive)"
+        ],
+        "style": "highlight, center",
+        "blocks": [],
+        "defaultContent": []
+      },
+      {
+        "id": "closing-cta",
+        "name": "Closing CTA",
         "selector": [
           "section.container-fluid-fullwidth.section:has(.new-hmk-brand-blush-twnetyfive)"
         ],
@@ -302,10 +514,10 @@ var CustomImportScript = (() => {
         "defaultContent": []
       },
       {
-        "id": "4",
-        "name": "disclaimers",
+        "id": "footnotes",
+        "name": "Footnotes",
         "selector": [
-          "section.container-fluid-fullwidth.section:has(> div.container)"
+          'section.container-fluid-fullwidth.section:has(> .container):not(:has(h1, h2, [class*="new-hmk-brand"]))'
         ],
         "style": null,
         "blocks": [],
@@ -345,7 +557,7 @@ var CustomImportScript = (() => {
     console.log(`Found ${pageBlocks.length} block instances on page`);
     return pageBlocks;
   }
-  var import_learn_about_medicare_default = {
+  var import_employer_subpage_default = {
     transform: (payload) => {
       const {
         document: document2,
@@ -361,6 +573,17 @@ var CustomImportScript = (() => {
         ".experiencefragment:has(.footer-list)",
         "div.breadcrumb"
       ]);
+      [
+        ["small-group-plans-link", "/employer/solutions/small-business"],
+        ["large-group-plans-link", "/employer/solutions/large-business"],
+        ["national-group-plans-link", "/employer/solutions/national-business"]
+      ].forEach(([id, href]) => {
+        main.querySelectorAll(`a#${id}[href="#"]`).forEach((a) => a.setAttribute("href", href));
+      });
+      main.querySelectorAll("div.quicklinks.section").forEach((el) => {
+        if (!el.querySelector('i[class*="material-icons"]')) el.setAttribute("data-iconnav-image-icons", "");
+      });
+      WebImporter.DOMUtils.remove(main, ["div.spacing.section"]);
       executeTransformers("beforeTransform", main, payload);
       const pageBlocks = findBlocksOnPage(document2, PAGE_TEMPLATE);
       pageBlocks.forEach((block) => {
@@ -384,7 +607,7 @@ var CustomImportScript = (() => {
         meta.breadcrumbs = "true";
         if (crumbLabel) meta["Breadcrumb Title"] = crumbLabel;
       }
-      meta.template = "learn-about-medicare";
+      meta.template = "employer-subpage";
       main.append(WebImporter.Blocks.getMetadataBlock(document2, meta));
       WebImporter.rules.transformBackgroundImages(main, document2);
       WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
@@ -401,5 +624,5 @@ var CustomImportScript = (() => {
       }];
     }
   };
-  return __toCommonJS(import_learn_about_medicare_exports);
+  return __toCommonJS(import_employer_subpage_exports);
 })();

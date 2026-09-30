@@ -145,7 +145,10 @@ export function decorateMain(main) {
  * Page templates with their own stylesheet (styles/templates/<template>.css),
  * selected by the page's `template` metadata.
  */
-const TEMPLATE_STYLES = ['state-plans', 'get-help', 'learn-about-medicare', 'blue-neighbors', 'find-care'];
+const TEMPLATE_STYLES = [
+  'state-plans', 'get-help', 'learn-about-medicare', 'blue-neighbors', 'find-care',
+  'employer-landing', 'employer-subpage',
+];
 
 /**
  * Loads everything needed to get to LCP.
