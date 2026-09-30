@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Status and working notes for the Highmark AEM Edge Delivery Services project. Updated 2026-09-29.
+Status and working notes for the Highmark AEM Edge Delivery Services project. Updated 2026-09-30.
 
 ## Project
 
@@ -27,7 +27,7 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 
 | Page | Notes |
 |------|-------|
-| `/shop/home` | Hero + 3 plan cards + Special Enrollment + Learn More. Canonical home. |
+| `/shop/home` | Hero + ZIP location line (CHANGE AREA) + 3 plan cards + Special Enrollment + Learn More; the Marketplace and brochure links follow the visitor's region. Canonical home. `template: shop-home` scopes its page CSS (`body.shop-home`). |
 | `/shop/beta/home` | Same content as home (mirrors source `/beta/home`). |
 | `/shop/info-pages/contact-us` | Call / Request a Call / Member Benefits / Direct Store. |
 | `/shop/info-pages/find-a-doctor` | Find a Doctor + Find a Pharmacy links. |
@@ -43,18 +43,21 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 
 - Blocks: `blocks/zip-modal/` (opener + `zip-store.js` localStorage helpers + `zip-tokens.js` token substitution) and `blocks/zip-county-form/` (sheet-driven form).
 - Modal content is an authored fragment at `/modals/zip-county` (heading + subtitle + `zip-county-form` block) — the aem.live modal pattern.
-- Data sheets: `/shop/zip-county-form.json` (form definition) and `/shop/zip-regions.json` (ZIP → region, `ZIP`/`Option`/`Value` columns). County is a read-only field filled from the ZIP match as the user types (#18).
-- **Trigger:** auto-opens on any page whose `theme` metadata is `shop`, only when no ZIP is stored in `localStorage` (key `shop-zip-county`). Gate lives in `scripts/scripts.js` (`autoOpenShopZipModal`).
-- **Tokens:** `{{region}}` / `{{zip}}` anywhere in a shop doc are filled from the stored selection; token lines stay hidden until a value exists.
+- Data sheets: `/shop/zip-county-form.json` (form definition) and `/shop/zip-regions.json` (ZIP → region: `ZIP`/`Option`/`Value`, plus optional `County`, `State`, `Region Code`, `Marketplace`). It holds one sample ZIP per region, not full ZIP coverage. County is a read-only field filled from the ZIP match as the user types (#18): the `County` column, falling back to the region.
+- **Trigger:** auto-opens on any page whose `theme` metadata is `shop`, only when no ZIP is stored in `localStorage` (key `shop-zip-county`). Gate lives in `scripts/scripts.js` (`autoOpenShopZipModal`). Links to `/modals/zip-county` (e.g. CHANGE AREA, "find out more") open the same styled modal (`autolinkModals`).
+- **Tokens:** `{{zip}}`, `{{region}}` and any `zip-regions` column, lowercased and hyphenated (`{{county}}`, `{{state}}`, `{{region-code}}`, `{{marketplace}}`), are filled from the stored selection. They work in text and in link URLs; the pipeline percent-encodes braces in hrefs and `zip-tokens.js` decodes them. A line stays hidden until every token in it is filled. Filled links that leave highmark.com, or open a PDF, get `target="_blank"`.
 - **Persistence:** currently `localStorage`. Wiring into the app's Redux/IndexedDB store is tracked in issue #9.
 
 ## Open PRs
 
-- **#19** — Migrate Individual & Families plans page (branch `plans-individual-families`). Adds a `plans` import template for `https://www.highmark.com/plans/individual-families`, a `cards-minimal-dark-withimg-icons` parser, and a `highmark-plans-sections` transformer.
+- None (as of 2026-09-30; the offshore team's `develop` work merged as #28).
 
 ## Known follow-ups
 
 - Issue #9: move ZIP persistence from `localStorage` to the app's Redux/IndexedDB store.
+- Real ZIP coverage: `/shop/zip-regions` only knows its sample ZIPs, so most real ZIPs are rejected by the modal. ShopX looks ZIPs up through `api.hmhs.com/sxesvc/api/v2/zipCode/countyList`, which only allows `shop.highmark.com` (CORS) and needs its app session.
+- `/shop/home` still differs from ShopX in the shop header (title bar + region label, nav items), the Special Enrollment copy alignment, and the footer (ShopX's is light with per-region legal text).
+- `/shop/beta/home`: its token lines lost their tokens ("Showing plans for · ZIP", "availability in ."), so they show empty.
 - `zip-county-form` ignores its authored sheet paths: `readConfig` only reads `<a>` hrefs, but the `/modals/zip-county` fragment holds the paths as plain text, so the block always falls back to its built-in defaults (which match today's paths). #13 would have read the row text instead, but was closed unmerged.
 
 ## Conventions

@@ -1,10 +1,16 @@
 import createField from '../form/form-fields.js';
 import { loadCSS } from '../../scripts/aem.js';
-import { getStoredZip, setStoredZip } from '../zip-modal/zip-store.js';
+import {
+  DEFAULT_REGIONS_PATH, fetchRegions, findRegion, getStoredZip, setStoredZip,
+} from '../zip-modal/zip-store.js';
 import applyZipTokens from '../zip-modal/zip-tokens.js';
 
 const DEFAULT_FORM_PATH = '/shop/zip-county-form.json';
-const DEFAULT_REGIONS_PATH = '/shop/zip-regions.json';
+
+// Region stored for the ZIP (used by {{region}}), and the County field's label:
+// the sheet's County column when present, else the region.
+const regionOf = (row) => row.Value || row.Option || '';
+const countyOf = (row) => row.County || regionOf(row);
 
 async function fetchSheet(path) {
   try {
@@ -61,15 +67,16 @@ async function buildForm(fieldDefs, regions) {
   const stored = getStoredZip();
   if (stored) {
     if (zipInput && stored.zipCode) zipInput.value = stored.zipCode;
-    if (countyInput && stored.region) countyInput.value = stored.region;
+    const storedRow = stored.zipCode && findRegion(regions, stored.zipCode);
+    if (countyInput) countyInput.value = storedRow ? countyOf(storedRow) : (stored.region || '');
   }
 
   // Populate the county from the region sheet as the ZIP is typed; clear it
   // when the ZIP no longer matches a known region.
   if (zipInput && countyInput) {
     zipInput.addEventListener('input', () => {
-      const match = regions.find((r) => r.ZIP === zipInput.value.trim());
-      countyInput.value = match ? (match.Value || match.Option) : '';
+      const match = findRegion(regions, zipInput.value.trim());
+      countyInput.value = match ? countyOf(match) : '';
     });
   }
 
@@ -81,7 +88,7 @@ export default async function decorate(block) {
   const { formPath, regionsPath } = readConfig(block);
   const [fieldDefs, regions] = await Promise.all([
     fetchSheet(formPath),
-    fetchSheet(regionsPath),
+    fetchRegions(regionsPath),
   ]);
 
   const form = await buildForm(fieldDefs, regions);
@@ -97,8 +104,7 @@ export default async function decorate(block) {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const zip = (form.querySelector('input[name="zip"]')?.value || '').trim();
-    const match = regions.find((r) => r.ZIP === zip);
-    const county = match ? (match.Value || match.Option) : '';
+    const match = findRegion(regions, zip);
 
     if (!/^\d{5}$/.test(zip)) {
       showError('Please enter a valid 5-digit ZIP code.');
@@ -109,13 +115,14 @@ export default async function decorate(block) {
       return;
     }
 
-    setStoredZip(zip, county);
-    applyZipTokens();
+    const region = regionOf(match);
+    setStoredZip(zip, region);
+    applyZipTokens(document.body, regions);
 
     // Close the enclosing modal dialog, if any, and let listeners react.
     block.dispatchEvent(new CustomEvent('zip-county-submit', {
       bubbles: true,
-      detail: { zip, county },
+      detail: { zip, region, county: countyOf(match) },
     }));
     block.closest('dialog')?.close();
   });

@@ -56,6 +56,13 @@ function autolinkModals(doc) {
     const origin = e.target.closest('a');
     if (origin && origin.href && origin.href.includes('/modals/')) {
       e.preventDefault();
+      // The ZIP/county fragment opens in its own styled modal, same as when it auto-opens.
+      const { pathname } = new URL(origin.href);
+      if (pathname.startsWith('/modals/zip-county')) {
+        const { openZipModal } = await import(`${window.hlx.codeBasePath}/blocks/zip-modal/zip-modal.js`);
+        openZipModal(pathname);
+        return;
+      }
       const { openModal } = await import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`);
       openModal(origin.href);
     }
@@ -190,25 +197,27 @@ async function loadEager(doc) {
 }
 
 /**
- * Fills any {{region}}/{{zip}} tokens on the page from a stored selection, and
- * auto-opens the ZIP/county modal on any page whose `theme` metadata is `shop`.
- * The modal only actually opens when no ZIP is stored in localStorage. Token
- * substitution runs regardless so pages that only display the personalized
- * lines never show raw tokens.
+ * Fills any ZIP tokens ({{region}}, {{zip}}, {{county}}, ... in text or link
+ * URLs) on the page from a stored selection, and auto-opens the ZIP/county
+ * modal on any page whose `theme` metadata is `shop`. The modal only actually
+ * opens when no ZIP is stored in localStorage. Token substitution runs
+ * regardless so pages that only display the personalized lines never show
+ * raw tokens.
  */
 async function autoOpenShopZipModal() {
   // Enabled on any page whose `theme` metadata is `shop`. The modal itself is a
   // no-op when a ZIP is already stored (see autoOpenZipModal -> getStoredZip in
   // zip-modal.js).
   const modalEnabled = getMetadata('theme').toLowerCase() === 'shop';
-  const hasTokens = /\{\{\s*(region|zip)\s*\}\}/i.test(document.body.textContent);
+  const hasTokens = /\{\{\s*[a-z0-9-]+\s*\}\}/i.test(document.body.textContent)
+    || !!document.querySelector('main a[href*="%7B%7B"]');
   if (!modalEnabled && !hasTokens) return;
 
   try {
     // Fill tokens (hides token lines until a value exists) for every page that
     // has them or opts into the modal.
     const { default: applyZipTokens } = await import(`${window.hlx.codeBasePath}/blocks/zip-modal/zip-tokens.js`);
-    applyZipTokens();
+    await applyZipTokens();
 
     if (modalEnabled) {
       const { autoOpenZipModal } = await import(`${window.hlx.codeBasePath}/blocks/zip-modal/zip-modal.js`);
