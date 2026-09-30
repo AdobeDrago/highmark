@@ -1,0 +1,564 @@
+/* Template "leadership" (page metadata template=leadership -> body.leadership).
+   Loaded by scripts/scripts.js (TEMPLATE_STYLES) before the first section renders.
+
+   Values extracted via getComputedStyle from
+   https://www.highmark.com/about/our-story/leadership-team-board?zg=false
+   at 390 / 768 / 1024 / 1440 (source breakpoints: 768 tablet, 992 desktop).
+
+   EDS sections: (1) left sidenav, (2) h1, (3) article: two people-card grids,
+   the "Board of Directors" feature (columns-minimal-dark), the board-member
+   list and a closing paragraph.
+
+   Source layout at >= 992px: container min(1200px, 100% - 2 * 83px); the nav
+   sits in col-lg-3 (25%, 15px gutters, 20px free on the right) and the
+   article in col-lg-9 (75%); the h1 is limited to 9/12 of the article. Below
+   992px the nav is hidden (d-none d-lg-block) and the article runs full
+   width with 64px (768-991) / 30px (< 768) side padding.
+
+   Every rule targets a distinct block/wrapper of this one template, so the
+   specificity ordering lint is off (same convention as the other templates). */
+
+/* stylelint-disable no-descending-specificity */
+
+body.leadership main > .section {
+  margin: 0;
+}
+
+body.leadership main > .section > div {
+  max-width: none;
+  margin: 0;
+  padding: 0 30px;
+}
+
+/* ---------- h1 ---------- */
+body.leadership main > .section > .default-content-wrapper h1 {
+  margin: 0 0 8px;
+  padding: 24px 0;
+  font-size: 32px;
+  line-height: 35.2px;
+  letter-spacing: -1.28px;
+}
+
+/* ---------- article default content (section h2s, board list, closing line) ---------- */
+body.leadership main > .section.cards-minimal-dark-withimg-container {
+  padding-bottom: 52.8px; /* closing p margin 12.8px + footer margin 40px */
+}
+
+body.leadership main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper {
+  max-width: none;
+  margin: 0;
+  text-align: left;
+}
+
+body.leadership main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.leadership main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper p,
+body.leadership main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper li {
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+  color: var(--text-body-color);
+}
+
+body.leadership main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper a:any-link {
+  color: #0078c1;
+}
+
+/* board members: the source is a two-column borderless table (1px cell
+   padding, 30px spacer column); each name is a paragraph (margin-bottom
+   12.8px / 16px). Columns are independent stacks, as in the table. */
+body.leadership main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper ul {
+  width: fit-content;
+  margin: 40px 0 0;
+  padding: 1px;
+  list-style: none;
+  columns: 2;
+  column-gap: 32px;
+}
+
+/* the table splits the 21 names 11 | 10 whatever wraps; keep that split (the
+   forced break also keeps each column's last bottom margin, as in the table) */
+body.leadership main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper li:nth-child(12) {
+  break-before: column;
+}
+
+body.leadership main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper li {
+  margin: 0 0 12.8px;
+  break-inside: avoid;
+}
+
+/* closing "Learn more..." line: follows an empty 1-line paragraph on the source */
+body.leadership main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper ul + p {
+  margin: 33.8px 0 0;
+}
+
+/* ---------- people cards (cards-minimal-dark-withimg) ----------
+   Source: 3-up (>= 992) / 2-up (768-991) / 1-up columns with 10px side
+   padding (none on mobile) and 30px / 25px / 20px bottom padding; three
+   empty padding-only columns close each grid. Card: white, square, 0.16
+   shadow, photo at natural ratio, text inset 10px 10px 20px, title 18px bold
+   #0078c1, description at a fixed height (68px / 57px) on tablet+, then a
+   row with READ BIO on the left and the LinkedIn glyph on the right. */
+body.leadership main .cards-minimal-dark-withimg > ul {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px 0;
+  align-items: start;
+  padding: 0 0 80px;
+}
+
+body.leadership main .cards-minimal-dark-withimg > ul > li {
+  border-radius: 0;
+  box-shadow: rgb(0 0 0 / 16%) 0 3px 6px 0;
+}
+
+body.leadership main .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-content: start;
+  box-sizing: border-box;
+  padding: 10px 10px 20px;
+}
+
+body.leadership main .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body h3 {
+  grid-column: 1 / -1;
+  margin: 0 0 16px;
+  padding: 0;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 27px;
+  letter-spacing: normal;
+}
+
+body.leadership main .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body h3 a:any-link {
+  color: #0078c1;
+}
+
+body.leadership main .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body p {
+  grid-column: 1 / -1;
+  margin: 0 0 12.8px;
+  padding: 0;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+  color: var(--text-body-color);
+}
+
+body.leadership main .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body p.button-container {
+  grid-column: 1;
+  display: block;
+  min-height: 21px;
+  margin: 0;
+  line-height: 20px;
+}
+
+body.leadership main .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body p.button-container:has(a[href*="linkedin.com"]) {
+  grid-column: 2;
+  justify-self: end;
+}
+
+/* LinkedIn: the source shows only the Font Awesome "linkedin" glyph (20px,
+   8px side padding -> 34x20); the link text stays in the DOM for assistive
+   tech but is pushed out of view. */
+body.leadership main .cards-minimal-dark-withimg a.button[href*="linkedin.com"]:any-link {
+  position: relative;
+  width: 34px;
+  height: 20px;
+  overflow: hidden;
+  text-indent: 100%;
+  white-space: nowrap;
+}
+
+body.leadership main .cards-minimal-dark-withimg a.button[href*="linkedin.com"]::before {
+  content: "";
+  position: absolute;
+  top: 1.25px;
+  left: 8px;
+  width: 17.5px;
+  height: 17.5px;
+  background-color: currentcolor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 32 448 448'%3E%3Cpath d='M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-19 30.6-39.2 63-39.2 67.2 0 79.7 44.3 79.7 101.9V416z'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+/* ---------- Board of Directors feature (columns-minimal-dark) ----------
+   Source: photo 4/12 | text 7/12 (offset 1/12) from 768px, stacked below.
+   Text: h3 name link, bold title + bio at 6/7 of the text column, then
+   READ BIO (bold #0078c1) with the LinkedIn logo (rgb(40 103 178), 28x24
+   png) on the same row: the logo sits at 5/7 of the text column (3/4 + 6px
+   on mobile) and is one grid column wide. */
+body.leadership main .columns-minimal-dark > div {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+}
+
+body.leadership main .columns-minimal-dark > div > div {
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+body.leadership main .columns-minimal-dark > div > div:not(.columns-minimal-dark-img-col) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+body.leadership main .columns-minimal-dark > div > div:not(.columns-minimal-dark-img-col) > * {
+  flex: 0 0 100%;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+body.leadership main .columns-minimal-dark h3 {
+  margin: 0 0 8px;
+  padding: 16px 0;
+  font-size: 22px;
+  line-height: 24.2px;
+  letter-spacing: -0.4px;
+}
+
+body.leadership main .columns-minimal-dark h3 a:any-link {
+  color: #0078c1;
+}
+
+body.leadership main .columns-minimal-dark p {
+  margin: 0 0 12.8px;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+  color: var(--text-body-color);
+}
+
+body.leadership main .columns-minimal-dark p strong {
+  font-weight: 700;
+}
+
+body.leadership main .columns-minimal-dark > div > div > p.button-container:not(:has(a[href*="linkedin.com"])) {
+  flex-basis: calc(75% + 6px);
+}
+
+body.leadership main .columns-minimal-dark > div > div > p.button-container:has(a[href*="linkedin.com"]) {
+  flex-basis: calc(100% / 12 - 12px);
+  margin: 0;
+}
+
+body.leadership main .columns-minimal-dark a.button:any-link {
+  display: inline;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: #0078c1;
+  font-size: inherit;
+  font-weight: 700;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+}
+
+body.leadership main .columns-minimal-dark a.button[href*="linkedin.com"]:any-link {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 28 / 24;
+  overflow: hidden;
+  text-indent: 100%;
+  white-space: nowrap;
+}
+
+body.leadership main .columns-minimal-dark a.button[href*="linkedin.com"]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  aspect-ratio: 1;
+  background-color: rgb(40 103 178);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 32 448 448'%3E%3Cpath d='M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-19 30.6-39.2 63-39.2 67.2 0 79.7 44.3 79.7 101.9V416z'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+body.leadership main .columns-minimal-dark a.button:hover,
+body.leadership main .columns-minimal-dark a.button:focus {
+  background: none;
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+/* ---------- left sidenav (cards-minimal-light-sidenav, >= 992 only) ----------
+   Source .sidenav: roboto 16px / 27.2px navy links with 24px free on the
+   right, items 10px apart; the current page sits one 18px level in with its
+   3px accent bar pulled 15px into the indent and a 24px collapse chevron at
+   the right; its child pages are indented a further 18px. */
+body.leadership main .cards-minimal-light-sidenav a {
+  padding-right: 24px;
+}
+
+body.leadership main .cards-minimal-light-sidenav-current {
+  padding-left: 18px;
+}
+
+body.leadership main .cards-minimal-light-sidenav-current > a {
+  margin-left: -15px;
+  padding-left: 15px;
+}
+
+body.leadership main .cards-minimal-light-sidenav-children {
+  padding-left: 18px;
+}
+
+body.leadership main .cards-minimal-light-sidenav .cards-minimal-light-sidenav-arrow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 24px;
+  height: 27.2px;
+  margin: 0;
+  border-radius: 0;
+  letter-spacing: normal;
+}
+
+body.leadership main .cards-minimal-light-sidenav .cards-minimal-light-sidenav-arrow::before {
+  border-color: var(--text-body-color);
+}
+
+@media (width >= 768px) {
+  body.leadership main > .section > div {
+    padding: 0 64px;
+  }
+
+  body.leadership main > .section.cards-minimal-dark-withimg-container {
+    padding-bottom: 76px; /* closing p margin 16px + footer margin 60px */
+  }
+
+  body.leadership main > .section > .default-content-wrapper h1 {
+    padding: 28.8px 0;
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  body.leadership main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.leadership main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper p,
+  body.leadership main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper li {
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.leadership main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper li {
+    margin-bottom: 16px;
+  }
+
+  body.leadership main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper ul + p {
+    margin-top: 35.5px;
+  }
+
+  /* cards: 2-up, 25px column padding; the empty columns add one row (odd
+     card count) or two rows (even) of 25px */
+  body.leadership main .cards-minimal-dark-withimg > ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px 20px;
+    padding: 0 10px 75px;
+  }
+
+  body.leadership main .cards-minimal-dark-withimg > ul:has(> li:nth-child(odd):last-child) {
+    padding-bottom: 50px;
+  }
+
+  body.leadership main .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body {
+    min-height: 200px;
+  }
+
+  body.leadership main .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body p {
+    height: 57px;
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.leadership main .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body p.button-container {
+    height: auto;
+    margin: 0;
+    line-height: 20px;
+  }
+
+  /* board feature: photo 4/12 | text 7/12 after a 1/12 offset */
+  body.leadership main .columns-minimal-dark > div {
+    flex-direction: row;
+  }
+
+  body.leadership main .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    flex: 0 0 33.333%;
+    width: auto;
+  }
+
+  body.leadership main .columns-minimal-dark > div > div:not(.columns-minimal-dark-img-col) {
+    flex: 0 0 58.333%;
+    width: auto;
+    margin-left: 8.333%;
+  }
+
+  body.leadership main .columns-minimal-dark h3 {
+    font-size: 24px;
+    line-height: 26.4px;
+    letter-spacing: -0.44px;
+  }
+
+  body.leadership main .columns-minimal-dark p {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.leadership main .columns-minimal-dark > div > div > p:not(.button-container) {
+    flex-basis: calc(100% * 6 / 7);
+  }
+
+  body.leadership main .columns-minimal-dark > div > div > p.button-container:not(:has(a[href*="linkedin.com"])) {
+    flex-basis: calc(100% * 5 / 7);
+  }
+
+  body.leadership main .columns-minimal-dark > div > div > p.button-container:has(a[href*="linkedin.com"]) {
+    flex-basis: calc(100% / 7 - 32px);
+  }
+}
+
+@media (width < 992px) {
+  body.leadership main > .section.cards-minimal-light-sidenav-container {
+    display: none;
+  }
+}
+
+@media (width >= 992px) {
+  body.leadership main {
+    --leadership-content-width: min(1200px, 100% - 166px);
+
+    display: grid;
+    grid-template-columns:
+      1fr
+      calc(var(--leadership-content-width) * 0.25)
+      calc(var(--leadership-content-width) * 0.75)
+      1fr;
+    align-items: start;
+  }
+
+  body.leadership main > .section {
+    grid-column: 3;
+  }
+
+  body.leadership main > .section > div {
+    padding: 0;
+  }
+
+  /* left nav: overrides the block's absolutely-positioned gutter layout */
+  body.leadership main > .section.cards-minimal-light-sidenav-container {
+    position: static;
+    grid-row: 1 / span 2;
+    grid-column: 2;
+    max-width: none;
+    margin: 0;
+    padding: 0 15px;
+  }
+
+  body.leadership main > .section.cards-minimal-light-sidenav-container > .cards-minimal-light-sidenav-wrapper {
+    position: static;
+    width: auto;
+  }
+
+  body.leadership main > .section.cards-minimal-light-sidenav-container .cards-minimal-light-sidenav {
+    padding-right: 20px;
+  }
+
+  body.leadership main > .cards-minimal-light-sidenav-container + .section {
+    grid-row: 1;
+  }
+
+  body.leadership main > .cards-minimal-light-sidenav-container + .section + .section {
+    grid-row: 2;
+  }
+
+  body.leadership main > .section > .default-content-wrapper h1 {
+    max-width: 75%;
+    font-size: 56px;
+    line-height: 61.6px;
+    letter-spacing: -2.8px;
+  }
+
+  body.leadership main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.leadership main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper p,
+  body.leadership main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper li {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  body.leadership main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper ul + p {
+    margin-top: 40px;
+  }
+
+  body.leadership main .cards-minimal-dark-withimg > ul,
+  body.leadership main .cards-minimal-dark-withimg > ul:has(> li:nth-child(odd):last-child) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 30px 20px;
+    padding: 0 10px 60px;
+  }
+
+  body.leadership main .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body {
+    min-height: 0;
+  }
+
+  body.leadership main .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body p {
+    height: 68px;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  body.leadership main .columns-minimal-dark h3 {
+    letter-spacing: -0.72px;
+  }
+
+  body.leadership main .columns-minimal-dark p {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  body.leadership main .columns-minimal-dark > div > div > p.button-container:has(a[href*="linkedin.com"]) {
+    flex-basis: calc(100% / 7 - 41.5px);
+  }
+}
+
+/* narrow desktop (source max-width 1160px): 15px / 22.5px description at a
+   fixed 180px, card text box 315px tall */
+@media (width >= 992px) and (width <= 1160px) {
+  body.leadership main .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body {
+    min-height: 315px;
+  }
+
+  body.leadership main .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body p {
+    height: 180px;
+    font-size: 15px;
+    line-height: 22.5px;
+  }
+}

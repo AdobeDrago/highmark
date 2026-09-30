@@ -1,0 +1,17 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures?zg=false",
+  "path": "about/corporate-responsibility/bright-blue-futures",
+  "timestamp": "2026-09-30T18:19:49.316Z",
+  "title": "Highmark Bright Blue Futures | Corporate Giving",
+  "template": "bright-blue-futures",
+  "blocks": [
+    "hero-minimal-dark-withimg",
+    "columns-minimal-dark",
+    "columns-minimal-dark",
+    "columns-minimal-dark",
+    "columns-minimal-dark",
+    "cards-minimal-dark-withimg-icons",
+    "cards-minimal-dark-withimg-2"
+  ]
+}

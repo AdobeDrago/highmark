@@ -154,7 +154,7 @@ export function decorateMain(main) {
  */
 const TEMPLATE_STYLES = [
   'state-plans', 'get-help', 'learn-about-medicare', 'blue-neighbors', 'find-care',
-  'employer-landing', 'employer-subpage',
+  'employer-landing', 'employer-subpage', 'about-article', 'leadership', 'bright-blue-futures',
 ];
 
 /**

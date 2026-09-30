@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/about/corporate-responsibility/social-determinants-of-health?zg=false",
+  "path": "about/corporate-responsibility/social-determinants-of-health",
+  "timestamp": "2026-09-30T19:03:31.394Z",
+  "title": "Social Determinants of Health (SDoH)",
+  "template": "about-article",
+  "blocks": [
+    "cards-minimal-light-sidenav",
+    "cards-minimal-light-sidenav"
+  ]
+}

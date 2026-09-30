@@ -219,7 +219,7 @@ body.topic-hub-subnav .columns-minimal-dark-overlay > div {
 }
 
 /* Eating disorders "Elizabeth's story" panel uses splash blue 25 */
-body.topic-hub-subnav .columns-minimal-dark-overlay:has(img[src*="eatdisorder-"]) > div {
+body.topic-hub-subnav .columns-minimal-dark-overlay:has(h2#elizabeths-story) > div {
   background-color: #bfe2f4;
 }
 
@@ -271,7 +271,7 @@ body.topic-hub-subnav main .columns-minimal-dark-overlay .button-container a.but
     aspect-ratio: 768 / 220;
   }
 
-  body.topic-hub-subnav .columns-minimal-dark-overlay:has(img[src*="eatdisorder-"]) img {
+  body.topic-hub-subnav .columns-minimal-dark-overlay:has(h2#elizabeths-story) img {
     aspect-ratio: 784 / 288;
   }
 

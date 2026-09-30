@@ -58,7 +58,18 @@ export default function parse(element, { document }) {
   if (parent) cells.push(rowFor('parent', parent));
 
   // --- Shape 1: article/listing — children live in ul.subnavitem-list ---
-  const subnavList = element.querySelector('ul.subnavitem-list, .subnavitem-list');
+  // Only the current page's own child list counts: siblings with children carry a
+  // collapsed (not .show) ul.subnavitem-list that the source doesn't display
+  // (about/corporate-responsibility/* list Bright Blue Futures' 12 children there).
+  // Row structure is unchanged: [ level | link ].
+  const activeLink = element.querySelector('a.active');
+  const subnavList = element.querySelector('ul.subnavitem-list.show')
+    || (activeLink && activeLink.parentElement.querySelector(':scope > ul.subnavitem-list'))
+    || (!activeLink && element.querySelector('ul.subnavitem-list, .subnavitem-list'));
+  const inCollapsedList = (a) => {
+    const list = a.closest('ul.subnavitem-list');
+    return !!list && list !== subnavList && list.classList.contains('collapse') && !list.classList.contains('show');
+  };
   if (subnavList) {
     // Active / current item (level: current).
     const current = element.querySelector('a.active, a[aria-expanded="true"]');
@@ -75,7 +86,7 @@ export default function parse(element, { document }) {
     // the one carrying .active (or matching the current page) is "current".
     const siblingAnchors = Array.from(
       element.querySelectorAll('ul.sidenav-item-list ul a[href], .sidenav-item-list ul a[href], ul li ul a[href]'),
-    ).filter((a) => a !== parent);
+    ).filter((a) => a !== parent && !inCollapsedList(a));
 
     // De-duplicate while preserving DOM order.
     const seen = new Set();
