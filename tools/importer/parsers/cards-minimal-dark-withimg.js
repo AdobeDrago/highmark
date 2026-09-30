@@ -30,6 +30,44 @@ export default function parse(element, { document }) {
   // --- Cards ---
   let cards = Array.from(element.querySelectorAll('.card.cardBlock, .cardBlock, .card'));
 
+  // Additive branch (about/our-story/leadership-team-board): people cards
+  //   div.gridcontrol .hmk-col-lg-3 > .cardwrapper > section.hmk-home_cardwrapper
+  //     > .hmk-homewrapper_img img.card-wrapper-img
+  //     + .hmk-homewrapper_content > .hmk-cardwrapper_title a (name -> bio page),
+  //       p.hmk-homecarddesc (job title), .hmk-brand-buttons a ("Read Bio", LinkedIn icon)
+  // Rows keep the library structure: [ photo | name heading + title + Read Bio + LinkedIn ].
+  if (!cards.length) {
+    const people = Array.from(element.querySelectorAll('section.hmk-home_cardwrapper'));
+    if (people.length) {
+      const peopleCells = people.map((person) => {
+        const photo = person.querySelector('img');
+        const nameLink = person.querySelector('.hmk-cardwrapper_title a');
+        const h3 = document.createElement('h3');
+        if (nameLink) {
+          const a = document.createElement('a');
+          a.setAttribute('href', nameLink.getAttribute('href'));
+          a.textContent = nameLink.textContent.trim();
+          h3.append(a);
+        }
+        const text = [h3];
+        const desc = person.querySelector('p.hmk-homecarddesc');
+        if (desc) text.push(desc);
+        person.querySelectorAll('.hmk-brand-buttons a[href]').forEach((a) => {
+          const p = document.createElement('p');
+          const link = document.createElement('a');
+          link.setAttribute('href', a.getAttribute('href'));
+          // the LinkedIn CTA is an icon-only link on the source; give it a text label
+          link.textContent = a.querySelector('.fa-linkedin') ? 'LinkedIn' : a.textContent.trim();
+          p.append(link);
+          text.push(p);
+        });
+        return [photo || '', text];
+      });
+      element.replaceWith(WebImporter.Blocks.createBlock(document, { name: 'cards-minimal-dark-withimg', cells: peopleCells }));
+      return;
+    }
+  }
+
   // Additive fallback (mental-health topic pages, e.g. "Anxiety types and treatments"):
   // shadowed small-image card list
   //   .cards-variation > .container-sm-img

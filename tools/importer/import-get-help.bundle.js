@@ -350,6 +350,9 @@ var CustomImportScript = (() => {
       a.replaceWith(...a.childNodes);
     });
     root.querySelectorAll('a[href="tel:"]').forEach((a) => a.remove());
+    root.querySelectorAll("a.textButton").forEach((a) => {
+      if (!a.textContent.trim() && !a.querySelector("img, picture")) a.remove();
+    });
     root.querySelectorAll("li.listWideImg picture").forEach((picture) => {
       const img = picture.querySelector("img");
       const desktop = picture.querySelector('source[media*="992"][srcset]');

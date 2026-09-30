@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/about/our-story?zg=false",
+  "path": "about/our-story",
+  "timestamp": "2026-09-30T19:03:02.859Z",
+  "title": "Highmark: Our Story",
+  "template": "about-article",
+  "blocks": [
+    "cards-minimal-light-sidenav",
+    "cards-minimal-light-sidenav"
+  ]
+}

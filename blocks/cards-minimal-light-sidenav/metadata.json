@@ -41,9 +41,17 @@
       "/western-pennsylvania/chip/chip-eligibility-and-costs",
       "/western-pennsylvania/chip/chip-resources",
       "/western-pennsylvania/chip/doctors-drugs",
-      "/western-pennsylvania/chip/what-is-chip"
+      "/western-pennsylvania/chip/what-is-chip",
+      "/about/our-story",
+      "/about/our-story/mission-vision",
+      "/about/our-story/our-businesses",
+      "/about/our-story/leadership-team-board",
+      "/about/corporate-responsibility",
+      "/about/corporate-responsibility/valuing-our-people",
+      "/about/corporate-responsibility/social-determinants-of-health",
+      "/about/corporate-responsibility/sustainability"
     ],
-    "reuseCount": 6,
-    "lastUsed": "2026-09-29T22:59:16.710Z"
+    "reuseCount": 14,
+    "lastUsed": "2026-09-30T19:10:48.000Z"
   }
 }

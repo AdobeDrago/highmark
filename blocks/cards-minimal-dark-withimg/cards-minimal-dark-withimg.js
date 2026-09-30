@@ -13,8 +13,16 @@ export default function decorate(block) {
     ul.append(li);
   });
 
-  // replace images with optimized versions
-  ul.querySelectorAll('picture > img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
+  // replace images with optimized versions, keeping the authored intrinsic size so the
+  // card reserves the image height before it loads (no layout shift)
+  ul.querySelectorAll('picture > img').forEach((img) => {
+    const picture = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+    const optimized = picture.querySelector('img');
+    ['width', 'height'].forEach((attr) => {
+      if (img.hasAttribute(attr)) optimized.setAttribute(attr, img.getAttribute(attr));
+    });
+    img.closest('picture').replaceWith(picture);
+  });
 
   block.replaceChildren(ul);
 }
