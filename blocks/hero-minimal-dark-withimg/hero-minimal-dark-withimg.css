@@ -524,7 +524,7 @@ main .hero-minimal-dark-withimg .button-container:has(.primary) ~ .button-contai
     object-position: 100% 50%;
   }
 
-  body.topic-hub-subnav .hero-minimal-dark-withimg:has(h1) picture img:is([src*="eatdisorder-"], [src*="mhresources-hero"], [src*="spending-account-"]) {
+  body.topic-hub-subnav .hero-minimal-dark-withimg:has(h1:is(#eating-disorders, #mental-health-resources, [id^="spending-accounts"])) picture img {
     aspect-ratio: 784 / 288;
   }
 
@@ -546,7 +546,7 @@ main .hero-minimal-dark-withimg .button-container:has(.primary) ~ .button-contai
   }
 
   /* spending-accounts keeps its panel text left-aligned */
-  body.topic-hub-subnav .hero-minimal-dark-withimg:has(h1):has(img[src*="spending-account-"]) > div:last-child {
+  body.topic-hub-subnav .hero-minimal-dark-withimg:has(h1[id^="spending-accounts"]) > div:last-child {
     text-align: left;
   }
 }
@@ -570,7 +570,7 @@ main .hero-minimal-dark-withimg .button-container:has(.primary) ~ .button-contai
     aspect-ratio: 414 / 200;
   }
 
-  body.topic-hub-subnav .hero-minimal-dark-withimg:has(h1) picture img:is([src*="eatdisorder-"], [src*="mhresources-hero"], [src*="spending-account-"]) {
+  body.topic-hub-subnav .hero-minimal-dark-withimg:has(h1:is(#eating-disorders, #mental-health-resources, [id^="spending-accounts"])) picture img {
     aspect-ratio: 375 / 200;
   }
 }

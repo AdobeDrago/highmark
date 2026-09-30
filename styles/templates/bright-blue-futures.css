@@ -138,25 +138,25 @@ body.bright-blue-futures main .hero-minimal-dark-withimg h2 {
 }
 
 /* ==========================================================================
-   2. Bright Blue Futures logo (section.center, image component 4/6 of a
+   2. Bright Blue Futures logo (the section.center holding only a picture; image component 4/6 of a
    6/12 column = 1/3 of the viewport, centred). Spacer 20 / 20 / 40px
    above, nothing below.
    ========================================================================== */
-body.bright-blue-futures main > .section.center:has(img[src*="bright-blue-future-logo"]) {
+body.bright-blue-futures main > .section.center:has(> .default-content-wrapper > p:only-child > picture) {
   padding: 20px 0 0;
 }
 
-body.bright-blue-futures main > .section.center:has(img[src*="bright-blue-future-logo"]) > .default-content-wrapper {
+body.bright-blue-futures main > .section.center:has(> .default-content-wrapper > p:only-child > picture) > .default-content-wrapper {
   max-width: none;
   padding: 0;
 }
 
-body.bright-blue-futures main > .section.center:has(img[src*="bright-blue-future-logo"]) p {
+body.bright-blue-futures main > .section.center:has(> .default-content-wrapper > p:only-child > picture) p {
   margin: 0;
   line-height: 0;
 }
 
-body.bright-blue-futures main > .section.center:has(img[src*="bright-blue-future-logo"]) img {
+body.bright-blue-futures main > .section.center:has(> .default-content-wrapper > p:only-child > picture) img {
   display: block;
   width: calc(100vw / 3);
   height: auto;
@@ -164,7 +164,7 @@ body.bright-blue-futures main > .section.center:has(img[src*="bright-blue-future
 }
 
 @media (width >= 992px) {
-  body.bright-blue-futures main > .section.center:has(img[src*="bright-blue-future-logo"]) {
+  body.bright-blue-futures main > .section.center:has(> .default-content-wrapper > p:only-child > picture) {
     padding-top: 40px;
   }
 }
