@@ -382,3 +382,169 @@ body.chip-landing main .section .columns-minimal-dark a.button:focus {
     line-height: 40.8px;
   }
 }
+
+/* Topic sub-pages variant — side card panel (body.topic-hub-subnav: mental-health topic
+   pages + /resources/spending-accounts). White (default) or polar (`.section.light`) band.
+   Values extracted from
+   https://www.highmark.com/resources/mental-health-services/substance-use-disorders and
+   https://www.highmark.com/resources/mental-health-services/mental-health-resources
+   (.side-card-panel). The block wrapper carries the band's vertical padding so trailing
+   default content (spending-accounts footnotes) sits outside the panel.
+   Rows are authored [content | image] (photo right) or [image | content] (photo left);
+   below 992px the photo stacks above the text. */
+body.topic-hub-subnav main > .section.columns-minimal-dark-container {
+  margin: 0;
+  padding: 0;
+}
+
+body.topic-hub-subnav main > .section > .columns-minimal-dark-wrapper {
+  padding: 32px 30px;
+}
+
+body.topic-hub-subnav main .section .columns-minimal-dark.block > div {
+  flex-direction: column;
+  gap: 0;
+}
+
+body.topic-hub-subnav main .section .columns-minimal-dark.block > div > div {
+  flex: 0 1 auto;
+}
+
+body.topic-hub-subnav main .section .columns-minimal-dark.block > div > .columns-minimal-dark-img-col {
+  order: -1;
+}
+
+body.topic-hub-subnav main .section .columns-minimal-dark.block h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  letter-spacing: -0.72px;
+  line-height: 28.6px;
+}
+
+/* Rich-text bodies (paragraph + list, or several paragraphs) use the lighter body copy;
+   a single plain paragraph keeps the block's 16px / 400 navy text. */
+body.topic-hub-subnav main .section .columns-minimal-dark.block > div > div:has(> ul) > p:not(.button-container),
+body.topic-hub-subnav main .section .columns-minimal-dark.block > div > div:has(> p + p:not(.button-container)) > p:not(.button-container) {
+  margin: 0 0 12.8px;
+  font-size: 15px;
+  font-weight: 300;
+  letter-spacing: -0.2px;
+  line-height: 21px;
+  color: var(--text-body-color);
+}
+
+/* Footnote markers (spending-accounts "See disclaimer below¹") don't grow the line box */
+body.topic-hub-subnav main .section .columns-minimal-dark.block sub,
+body.topic-hub-subnav main .section .columns-minimal-dark.block sup {
+  font-size: 75%;
+  line-height: 0;
+}
+
+body.topic-hub-subnav main .section .columns-minimal-dark.block ul {
+  margin: 0 0 16px 8px;
+  padding: 0;
+  list-style: disc outside;
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 100;
+  line-height: 22.5px;
+  color: var(--text-body-color);
+}
+
+body.topic-hub-subnav main .section .columns-minimal-dark.block li {
+  margin: 0 0 0 8px;
+}
+
+body.topic-hub-subnav main .section .columns-minimal-dark.block li strong {
+  font-weight: 700;
+}
+
+body.topic-hub-subnav main .section .columns-minimal-dark.block p.button-container {
+  margin: 16px 0 0;
+}
+
+@media (width >= 544px) {
+  body.topic-hub-subnav main > .section > .columns-minimal-dark-wrapper {
+    padding: 48px 30px;
+  }
+}
+
+@media (width >= 544px) and (width < 992px) {
+  body.topic-hub-subnav main .section .columns-minimal-dark.block {
+    max-width: 768px;
+    margin: 0 auto;
+  }
+
+  body.topic-hub-subnav main .section .columns-minimal-dark.block > div > div {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+@media (width >= 768px) {
+  body.topic-hub-subnav main > .section > .columns-minimal-dark-wrapper {
+    padding: 48px 64px;
+  }
+
+  body.topic-hub-subnav main .section .columns-minimal-dark.block h2 {
+    font-size: 28px;
+    letter-spacing: -0.78px;
+    line-height: 30.8px;
+  }
+
+  body.topic-hub-subnav main .section .columns-minimal-dark.block > div > div:has(> ul) > p:not(.button-container),
+  body.topic-hub-subnav main .section .columns-minimal-dark.block > div > div:has(> p + p:not(.button-container)) > p:not(.button-container) {
+    margin: 0 0 16px;
+    letter-spacing: -0.4px;
+    line-height: 19.5px;
+  }
+}
+
+/* Topic sub-pages — desktop side by side: 550px text | 555px photo, centered in a
+   1200px row (container insets 83px). Photo-right rows push the photo to the edge. */
+@media (width >= 992px) {
+  body.topic-hub-subnav main > .section > .columns-minimal-dark-wrapper {
+    padding: 80px 83px;
+  }
+
+  body.topic-hub-subnav main .section .columns-minimal-dark.block > div {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  body.topic-hub-subnav main .section .columns-minimal-dark.block > div > div:not(.columns-minimal-dark-img-col) {
+    flex: 0 1 550px;
+    box-sizing: border-box;
+    max-width: 720px;
+    margin: 0 auto 0 0;
+    padding: 0 24px;
+  }
+
+  body.topic-hub-subnav main .section .columns-minimal-dark.block > div > .columns-minimal-dark-img-col + div {
+    margin: 0 0 0 24px;
+  }
+
+  body.topic-hub-subnav main .section .columns-minimal-dark.block > div > .columns-minimal-dark-img-col {
+    order: 0;
+    flex: 0 1 555px;
+    max-width: 555px;
+    margin: 0 24px;
+  }
+
+  body.topic-hub-subnav main .section .columns-minimal-dark.block h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    letter-spacing: -1.36px;
+    line-height: 40.8px;
+  }
+
+  body.topic-hub-subnav main .section .columns-minimal-dark.block > div > div:has(> ul) > p:not(.button-container),
+  body.topic-hub-subnav main .section .columns-minimal-dark.block > div > div:has(> p + p:not(.button-container)) > p:not(.button-container) {
+    font-size: 16px;
+    letter-spacing: -0.1px;
+    line-height: 24px;
+  }
+}

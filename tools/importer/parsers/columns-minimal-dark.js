@@ -38,8 +38,11 @@ export default function parse(element, { document }) {
 
   const imageCell = image ? [image] : [''];
 
-  // Single 2-column row: [ content | image ]
-  const cells = [[contentCell, imageCell]];
+  // Single 2-column row: [ content | image ], or [ image | content ] when the
+  // source places the image on the left (.image-area.left-content, e.g.
+  // mental-health-resources "Break the stigma"). The block renders DOM order on desktop.
+  const imageLeft = !!element.querySelector('.image-area.left-content');
+  const cells = [imageLeft ? [imageCell, contentCell] : [contentCell, imageCell]];
 
   const block = WebImporter.Blocks.createBlock(document, { name: 'columns-minimal-dark', cells });
   element.replaceWith(block);

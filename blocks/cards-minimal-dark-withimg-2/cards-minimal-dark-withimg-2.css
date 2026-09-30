@@ -343,3 +343,51 @@ body.chip-landing .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-ca
     letter-spacing: normal;
   }
 }
+
+/* ==========================================================================
+   Topic sub-pages (template=topic-hub-subnav -> body.topic-hub-subnav):
+   closing "takeaway" band (substance-use-disorders, anxiety, depression,
+   eating-disorders, mental-health-resources-teens-children). Source
+   div.cards-variation.new-hmk-brand-polar: #f7fbfd band flush against the
+   previous section and the footer; div.wideImgContainer padding 50/20 (< 768),
+   60/30 (768-991), 60/20 (>= 992); li margin-bottom 30px, plus 6px of trailing
+   ul/li box on desktop -> card bottom to band bottom 50 / 60 / 56px.
+   Section heights: 691 / 410 / 316 (substance-use) at 390 / 768 / 1440.
+   mental-health-resources renders the same component on white (no polar
+   class); the importer emits no section style, so that page opts out with
+   Section Metadata "Style: white".
+   ========================================================================== */
+body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-2-container {
+  margin: 0;
+  padding: 50px 0 20px;
+  background-color: var(--light-color);
+}
+
+body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-2-container.white {
+  background-color: transparent;
+}
+
+body.topic-hub-subnav .cards-minimal-dark-withimg-2 {
+  padding: 0 0 30px;
+}
+
+@media (width >= 768px) {
+  body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-2-container {
+    padding: 60px 0 30px;
+  }
+}
+
+@media (width >= 900px) {
+  body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-2-container {
+    padding: 60px 0 20px;
+  }
+
+  /* source li margin-left: 8px nudges the centered pair 4px right (x=183) */
+  body.topic-hub-subnav .cards-minimal-dark-withimg-2 {
+    padding: 0 0 36px;
+  }
+
+  body.topic-hub-subnav .cards-minimal-dark-withimg-2 > ul {
+    padding-left: 8px;
+  }
+}

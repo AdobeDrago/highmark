@@ -315,7 +315,8 @@ var CustomImportScript = (() => {
       "https://www.highmark.com/western-pennsylvania/chip/chip-eligibility-and-costs",
       "https://www.highmark.com/western-pennsylvania/chip/chip-resources",
       "https://www.highmark.com/western-pennsylvania/chip/doctors-drugs",
-      "https://www.highmark.com/western-pennsylvania/chip/what-is-chip"
+      "https://www.highmark.com/western-pennsylvania/chip/what-is-chip",
+      "https://www.highmark.com/western-pennsylvania/chip/chip-enhanced-member-supports-and-case-management"
     ],
     "blocks": [
       {

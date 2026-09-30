@@ -347,7 +347,8 @@
         "https://www.highmark.com/western-pennsylvania/chip/chip-eligibility-and-costs",
         "https://www.highmark.com/western-pennsylvania/chip/chip-resources",
         "https://www.highmark.com/western-pennsylvania/chip/doctors-drugs",
-        "https://www.highmark.com/western-pennsylvania/chip/what-is-chip"
+        "https://www.highmark.com/western-pennsylvania/chip/what-is-chip",
+        "https://www.highmark.com/western-pennsylvania/chip/chip-enhanced-member-supports-and-case-management"
       ],
       "representativeUrl": "https://www.highmark.com/western-pennsylvania/chip/chip-eligibility-and-costs",
       "description": "Western PA CHIP article page: left CHIP section nav, main article (headings, lists, pricing tables or an FAQ accordion on some pages), a small grey right-rail callout, and on some pages a light-blue centered CTA band",
@@ -492,7 +493,10 @@
         "https://www.highmark.com/resources/mental-health-services/anxiety",
         "https://www.highmark.com/resources/mental-health-services/depression",
         "https://www.highmark.com/resources/mental-health-services/eating-disorders",
-        "https://www.highmark.com/resources/spending-accounts"
+        "https://www.highmark.com/resources/spending-accounts",
+        "https://www.highmark.com/resources/mental-health-services/substance-use-disorders",
+        "https://www.highmark.com/resources/mental-health-services/mental-health-resources-teens-children",
+        "https://www.highmark.com/resources/mental-health-services/mental-health-resources"
       ],
       "coverageGaps": [],
       "description": "Sub-topic detail page: full-bleed hero, an icon quick-nav bar linking to child topics, alternating image/text info sections, promo cards, and (on some pages) a comparison table and video call-to-actions.",
@@ -521,7 +525,14 @@
           "instances": [
             "div.newcardscomponent-variations.section:has(ul.gridcardsul):has(.cardThree picture)",
             "div.newcardscomponent-variations.section:has(ul.gridcardsul):has(.cardThree img)",
-            "section.container-fluid-fullwidth.section:has(.cardText)"
+            "section.container-fluid-fullwidth.section:has(.cardText)",
+            "div.card-block.responsivegrid.section:has(.cardBlock)"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg-icons",
+          "instances": [
+            "div.newcardscomponent-variations.section:has(li.listSmlImg:not(.cardThree))"
           ]
         },
         {
@@ -544,11 +555,31 @@
           ]
         },
         {
+          "name": "columns-minimal-dark-overlay",
+          "instances": [
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.image)"
+          ]
+        },
+        {
           "name": "section-crisis-highlight",
           "instances": [
-            "div.onecard1colpanel.section"
+            "div.onecard1colpanel.section:not(:has(.one-card-one-col-panel.image)):not(:has(.new-hmk-brand-papergrey))"
           ],
           "section": "highlight"
+        },
+        {
+          "name": "section-grey",
+          "instances": [
+            "div.onecard1colpanel.section:has(.new-hmk-brand-papergrey)"
+          ],
+          "section": "grey"
+        },
+        {
+          "name": "section-white",
+          "instances": [
+            "div.newcardscomponent-variations.section:has(.listWideImg):not(:has(.new-hmk-brand-polar))"
+          ],
+          "section": "white"
         }
       ],
       "urlPattern": "/resources/*"

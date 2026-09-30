@@ -226,33 +226,43 @@ main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-bo
 /* CHIP landing ("Get care with CHIP - Highmark Healthy Kids"): source component
    .cards-variation li.listSmlImg (https://www.highmark.com/western-pennsylvania/chip).
    Same icon-on-top card, but transparent, with no body padding: heading/copy/CTA sit flush with the
-   icon canvas. Single 400px column up to 991px (300px at 390), 370px cards 34px apart from 992px. */
-body.chip-landing .cards-minimal-dark-withimg-icons > ul > li {
+   icon canvas. Single 400px column up to 991px (300px at 390), 370px cards 34px apart from 992px.
+   The topic sub-pages (template=topic-hub-subnav, "Relaxation techniques" on
+   /resources/mental-health-services/mental-health-resources) use the identical .cards-variation
+   li.listSmlImg markup and computed values, so they share these rules. */
+body.chip-landing .cards-minimal-dark-withimg-icons > ul > li,
+body.topic-hub-subnav .cards-minimal-dark-withimg-icons > ul > li {
   background-color: transparent;
   border-radius: 0;
 }
 
-body.chip-landing .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body {
+body.chip-landing .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body,
+body.topic-hub-subnav .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body {
   padding: 0;
 }
 
 /* h3.titleHead: margin 20px 0 13px (the heading never gets the underline rule here -- every card has a CTA) */
-/* stylelint-disable-next-line no-descending-specificity */
-body.chip-landing .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
+/* stylelint-disable no-descending-specificity */
+body.chip-landing .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3,
+body.topic-hub-subnav .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
   margin: 20px 0 13px;
 }
+/* stylelint-enable no-descending-specificity */
 
 /* span.cardsText p: no padding (margins as in the base rules) */
-body.chip-landing .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p {
+body.chip-landing .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p,
+body.topic-hub-subnav .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p {
   padding: 0;
 }
 
 /* .hmk-brand-buttons.mb-3: 16px below the CTA, CTA box shrinks to its text */
-body.chip-landing main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p.button-container {
+body.chip-landing main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p.button-container,
+body.topic-hub-subnav main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p.button-container {
   margin: 0 0 16px;
 }
 
-body.chip-landing main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:any-link {
+body.chip-landing main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:any-link,
+body.topic-hub-subnav main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:any-link {
   width: fit-content;
 }
 
@@ -262,7 +272,8 @@ main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-bo
 
 /* Tablet (768-991px): heading 32px/35.2px + 3px bottom padding */
 @media (width >= 768px) and (width < 992px) {
-  body.chip-landing .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
+  body.chip-landing .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3,
+  body.topic-hub-subnav .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
     padding-bottom: 3px;
     font-size: 32px;
     line-height: 35.2px;
@@ -271,19 +282,98 @@ main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-bo
 
 /* 900-991px: the source keeps the single 400px column (the base block switches to rows at 900px) */
 @media (width >= 900px) and (width < 992px) {
-  body.chip-landing .cards-minimal-dark-withimg-icons > ul {
+  body.chip-landing .cards-minimal-dark-withimg-icons > ul,
+  body.topic-hub-subnav .cards-minimal-dark-withimg-icons > ul {
     display: grid;
   }
 
-  body.chip-landing .cards-minimal-dark-withimg-icons > ul > li {
+  body.chip-landing .cards-minimal-dark-withimg-icons > ul > li,
+  body.topic-hub-subnav .cards-minimal-dark-withimg-icons > ul > li {
     width: auto;
   }
 }
 
 /* >= 992px: 370px cards, 34px apart, 30px between rows, top-aligned (heights follow content) */
 @media (width >= 992px) {
-  body.chip-landing .cards-minimal-dark-withimg-icons > ul {
+  body.chip-landing .cards-minimal-dark-withimg-icons > ul,
+  body.topic-hub-subnav .cards-minimal-dark-withimg-icons > ul {
     gap: 30px 34px;
     align-items: flex-start;
+  }
+}
+
+/* Topic sub-pages: "Relaxation techniques" intro above the cards (source div.container-sm-img
+   h2.cardsTitle + p.cardsPara, https://www.highmark.com/resources/mental-health-services/mental-health-resources).
+   Same values as the CHIP landing intro: 50/40 (60/50 from 576px) section padding -- the bottom
+   padding includes the source's 30px margin below the last card -- centered bold sofia-pro lead,
+   15px (2.5vw) gutters, 766px column from 992px. The source band butts against the crisis
+   callout above and the grey callout below (no 40px section margins). */
+body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-icons-container {
+  margin: 0;
+  padding: 50px 0 70px;
+}
+
+body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper {
+  max-width: none;
+  margin: 0 auto;
+  padding: 0 max(15px, 2.5vw);
+  text-align: center;
+}
+
+body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper h2 {
+  margin: 0 0 20px;
+  padding: 0;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper p {
+  margin: 0 0 30px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+@media (width >= 576px) {
+  body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-icons-container {
+    padding: 60px 0 80px;
+  }
+}
+
+@media (width >= 768px) {
+  body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper p {
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper {
+    max-width: 766px;
+    padding: 0;
+  }
+
+  body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper h2 {
+    font-size: 34px;
+    line-height: 37.4px;
+    letter-spacing: -1.36px;
+  }
+
+  body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper p {
+    margin-bottom: 40px;
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
   }
 }
