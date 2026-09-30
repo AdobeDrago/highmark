@@ -40,9 +40,10 @@
       "/resources/answers/faq/aca-plans",
       "/western-pennsylvania/chip/chip-eligibility-and-costs",
       "/western-pennsylvania/chip/chip-resources",
-      "/western-pennsylvania/chip/doctors-drugs"
+      "/western-pennsylvania/chip/doctors-drugs",
+      "/western-pennsylvania/chip/what-is-chip"
     ],
-    "reuseCount": 5,
-    "lastUsed": "2026-09-29T17:20:01.000Z"
+    "reuseCount": 6,
+    "lastUsed": "2026-09-29T22:59:16.710Z"
   }
 }

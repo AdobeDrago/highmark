@@ -36,9 +36,10 @@
   "usage": {
     "pagesUsing": [
       "/resources/answers/faq/aca-plans",
-      "/resources/answers"
+      "/resources/answers",
+      "/western-pennsylvania/chip/what-is-chip"
     ],
-    "reuseCount": 2,
-    "lastUsed": "2026-08-17T00:00:00.000Z"
+    "reuseCount": 3,
+    "lastUsed": "2026-09-29T22:59:16.710Z"
   }
 }
