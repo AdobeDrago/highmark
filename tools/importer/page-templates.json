@@ -1783,6 +1783,69 @@
           ]
         }
       ]
+    },
+    {
+      "name": "media-contacts",
+      "urls": [
+        "https://www.highmark.com/newsroom/media-relations-contacts"
+      ],
+      "representativeUrl": "https://www.highmark.com/newsroom/media-relations-contacts",
+      "description": "Newsroom media contacts: intro, then regional groups (h2 region, optional h3 sub-region) each with a two-up grid of contact cards (name, phone, mailto link)",
+      "urlPattern": "/newsroom/media-relations-contacts",
+      "blocks": [
+        {
+          "name": "cards-minimal-dark-list",
+          "instances": [
+            "div.gridcontrol"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "1",
+          "name": "intro-and-regions",
+          "selector": [
+            "main .page__par"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-minimal-dark-list"
+          ],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "capitol-hill-report",
+      "urls": [
+        "https://www.highmark.com/newsroom/weekly-capitol-hill-report"
+      ],
+      "representativeUrl": "https://www.highmark.com/newsroom/weekly-capitol-hill-report",
+      "description": "Weekly Capitol Hill Report: intro, then a flat newest-first list of dated reports, each an h2 date + Download PDF button",
+      "urlPattern": "/newsroom/weekly-capitol-hill-report",
+      "blocks": [],
+      "sections": [
+        {
+          "id": "1",
+          "name": "intro",
+          "selector": [
+            "main .page__par"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": []
+        },
+        {
+          "id": "2",
+          "name": "reports",
+          "selector": [
+            "main .page__par .aem-Grid > section.container-fluid-fullwidth"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": []
+        }
+      ]
     }
   ],
   "metadata": {

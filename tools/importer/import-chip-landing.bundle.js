@@ -331,6 +331,9 @@ var CustomImportScript = (() => {
       WebImporter.DOMUtils.remove(element, [
         ".d-block.d-lg-none"
       ]);
+      element.querySelectorAll('a[href^="/content/dam/"]').forEach((a) => {
+        a.setAttribute("href", `https://www.highmark.com${a.getAttribute("href")}`);
+      });
       WebImporter.DOMUtils.remove(element, [
         "link",
         "noscript",

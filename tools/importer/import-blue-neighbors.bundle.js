@@ -142,7 +142,7 @@ var CustomImportScript = (() => {
 
   // tools/importer/parsers/cards-minimal-dark-list.js
   function parse3(element, { document: document2 }) {
-    const regions = Array.from(element.querySelectorAll("div.gridcontrol div.hmk-col-lg-6"));
+    const regions = Array.from(element.querySelectorAll("div.gridcontrol div.hmk-col-lg-6")).filter((region) => region.textContent.trim());
     if (regions.length) {
       const regionCells = regions.map((region) => {
         const cell = [];
@@ -263,6 +263,9 @@ var CustomImportScript = (() => {
       WebImporter.DOMUtils.remove(element, [
         ".d-block.d-lg-none"
       ]);
+      element.querySelectorAll('a[href^="/content/dam/"]').forEach((a) => {
+        a.setAttribute("href", `https://www.highmark.com${a.getAttribute("href")}`);
+      });
       WebImporter.DOMUtils.remove(element, [
         "link",
         "noscript",

@@ -1,0 +1,18 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/newsroom/media-relations-contacts?zg=false",
+  "path": "newsroom/media-relations-contacts",
+  "timestamp": "2026-09-30T20:31:43.131Z",
+  "title": "Media Relations Contacts",
+  "template": "media-contacts",
+  "blocks": [
+    "cards-minimal-dark-list",
+    "cards-minimal-dark-list",
+    "cards-minimal-dark-list",
+    "cards-minimal-dark-list",
+    "cards-minimal-dark-list",
+    "cards-minimal-dark-list",
+    "cards-minimal-dark-list",
+    "cards-minimal-dark-list"
+  ]
+}
