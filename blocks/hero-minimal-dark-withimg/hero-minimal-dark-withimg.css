@@ -76,6 +76,15 @@
   letter-spacing: -0.04em;
 }
 
+.section.hero-minimal-dark-withimg-container {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+.hero-minimal-dark-withimg-container .hero-minimal-dark-withimg-wrapper{
+    padding-left: 0;
+    padding-right: 0;
+}
+
 @media (width >= 900px) {
   .hero-minimal-dark-withimg {
     min-height: 384px;
