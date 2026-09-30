@@ -1138,6 +1138,64 @@ body.chip main > .section.light a.button:any-link {
   }
 }
 
+/* articles that open with an illustration instead of a lead-in paragraph
+   (chip-enhanced-member-supports-and-case-management): the illustrations stay
+   offset one column at every width — 10/12 cols for the opening one, 9/12 for
+   the rest — with no spacer after a bullet list, and the first h2 keeps the
+   regular heading padding (no lead-in spacer) */
+body.chip main > .section:not(.light) > .default-content-wrapper:has(> h1 + p > picture) p:has(> picture) img {
+  width: 75%;
+  margin: 0 0 0 8.333%;
+}
+
+body.chip main > .section:not(.light) > .default-content-wrapper h1 + p:has(> picture) {
+  padding-top: 0;
+}
+
+body.chip main > .section:not(.light) > .default-content-wrapper:has(> h1 + p > picture) h1 + p:has(> picture) img {
+  width: 83.333%;
+}
+
+body.chip main > .section:not(.light) > .default-content-wrapper:has(> h1 + p > picture) ul + p:has(> picture) {
+  padding-top: 0;
+}
+
+body.chip main > .section:not(.light) > .default-content-wrapper h1 + p:has(> picture) + h2 {
+  padding-top: 19.2px;
+}
+
+/* handout lists: a bold label per item with a nested list of language links
+   ("Family Wellness" > English / Spanish), circle bullets on the nested list */
+body.chip main > .section:not(.light) > .default-content-wrapper li > p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 22.5px;
+}
+
+body.chip main > .section:not(.light) > .default-content-wrapper li > ul:has(> li > a:only-child) {
+  margin: 0;
+  list-style: circle;
+}
+
+body.chip main > .section:not(.light) > .default-content-wrapper li > ul:has(> li > a:only-child) > li {
+  margin: 0 0 13px 18px;
+}
+
+body.chip main > .section:not(.light) > .default-content-wrapper li > ul:has(> li > a:only-child) a {
+  display: inline;
+  padding: 0;
+}
+
+@media (width >= 992px) {
+  body.chip main > .section:not(.light) > .default-content-wrapper h1 + p:has(> picture) + h2 {
+    padding-top: 24px;
+  }
+
+  body.chip main > .section:not(.light) > .default-content-wrapper li > ul:has(> li > a:only-child) > li {
+    margin-bottom: 15px;
+  }
+}
+
 /* right-rail callout box ("Ready to Apply?" / "Need help?") — only shown at
    >= 992px; paper-grey box, 20px padding, blue 51x5 rule under the title */
 body.chip main > .cards-minimal-light-sidenav-container + .section + .section:not(.light) > .default-content-wrapper {
@@ -1398,6 +1456,85 @@ body.chip-landing main > .section.cards-minimal-dark-withimg-2-container {
 
   body.chip-landing main > .section.cards-minimal-dark-withimg-2-container {
     padding: 60px 0 20px;
+  }
+}
+
+/*
+ * Topic sub-pages (template=topic-hub-subnav: mental-health topics, spending accounts).
+ * Centered callout bands: the blush crisis callout (highlight) and the paper-grey
+ * callout (grey). The spending-accounts highlight band holds a table and keeps its
+ * own layout. Values from
+ * https://www.highmark.com/resources/mental-health-services/mental-health-resources
+ */
+/* Source sections sit flush against each other (no default section margins). */
+body.topic-hub-subnav main > .section {
+  margin: 0;
+}
+
+body.topic-hub-subnav main > .section.highlight:not(.table-minimal-dark-compare-container),
+body.topic-hub-subnav main > .section.grey {
+  padding: 32px 0 48px;
+  text-align: center;
+}
+
+body.topic-hub-subnav main > .section.highlight:not(.table-minimal-dark-compare-container) > .default-content-wrapper,
+body.topic-hub-subnav main > .section.grey > .default-content-wrapper {
+  max-width: 840px;
+  padding: 0 30px;
+}
+
+body.topic-hub-subnav main > .section.highlight:not(.table-minimal-dark-compare-container) h2,
+body.topic-hub-subnav main > .section.grey h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0 8px;
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.72px;
+  color: #004362;
+}
+
+body.topic-hub-subnav main > .section.highlight:not(.table-minimal-dark-compare-container) p,
+body.topic-hub-subnav main > .section.grey p {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.25px;
+  color: #004362;
+}
+
+body.topic-hub-subnav main > .section.highlight:not(.table-minimal-dark-compare-container) p.button-container,
+body.topic-hub-subnav main > .section.grey p.button-container {
+  margin: 16px 0 0;
+}
+
+body.topic-hub-subnav main > .section.highlight:not(.table-minimal-dark-compare-container) a.button:any-link,
+body.topic-hub-subnav main > .section.grey a.button:any-link {
+  display: inline-block;
+  margin: 16px 0;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+@media (width >= 992px) {
+  body.topic-hub-subnav main > .section.highlight:not(.table-minimal-dark-compare-container),
+  body.topic-hub-subnav main > .section.grey {
+    padding: 64px 0;
+  }
+
+  body.topic-hub-subnav main > .section.highlight:not(.table-minimal-dark-compare-container) h2,
+  body.topic-hub-subnav main > .section.grey h2 {
+    padding: 0;
+    font-size: 34px;
+    line-height: 1.2;
+    letter-spacing: -1.36px;
+  }
+
+  body.topic-hub-subnav main > .section.highlight:not(.table-minimal-dark-compare-container) p,
+  body.topic-hub-subnav main > .section.grey p {
+    font-size: 20px;
+    line-height: 28px;
   }
 }
 

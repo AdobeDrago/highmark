@@ -32,9 +32,10 @@
   "usage": {
     "pagesUsing": [
       "/plans/individual-families",
-      "/western-pennsylvania/chip"
+      "/western-pennsylvania/chip",
+      "/resources/mental-health-services/mental-health-resources"
     ],
-    "reuseCount": 2,
-    "lastUsed": "2026-09-29T21:10:31.752882Z"
+    "reuseCount": 3,
+    "lastUsed": "2026-09-30T13:08:27.359629Z"
   }
 }

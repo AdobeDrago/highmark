@@ -30,9 +30,12 @@
     ]
   },
   "usage": {
-    "pagesUsing": ["/"],
-    "reuseCount": 1,
-    "lastUsed": "2026-09-29T00:00:00.000Z"
+    "pagesUsing": [
+      "/",
+      "/resources/mental-health-services/substance-use-disorders"
+    ],
+    "reuseCount": 2,
+    "lastUsed": "2026-09-30T13:08:27.359629Z"
   },
   "notes": "Split out of columns-minimal-dark, whose overlay layout (commit 1ab8975) was built for the homepage but broke the side-by-side bands on every interior page. This block is that overlay implementation, renamed; columns-minimal-dark was restored to its earlier side-by-side layout."
 }

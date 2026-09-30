@@ -200,3 +200,123 @@ main .columns-minimal-dark-overlay a.button:active {
     flex-direction: row-reverse;
   }
 }
+
+/* ------------------------------------------------------------------
+ * Topic sub-pages (template=topic-hub-subnav: mental-health topics)
+ * "X's story" panel. Source stacks below 992px: image on top
+ * (375x200 crop < 768, 768x220 crop 768-991), then the text on the
+ * polar band with a centered CTA. At >= 992px the text overlays the
+ * image, vertically centered, aligned to the 1200px container.
+ * ------------------------------------------------------------------ */
+body.topic-hub-subnav .columns-minimal-dark-overlay {
+  background-color: transparent;
+}
+
+body.topic-hub-subnav .columns-minimal-dark-overlay > div {
+  display: flex;
+  flex-direction: column-reverse;
+  background-color: var(--accent-color);
+}
+
+/* Eating disorders "Elizabeth's story" panel uses splash blue 25 */
+body.topic-hub-subnav .columns-minimal-dark-overlay:has(img[src*="eatdisorder-"]) > div {
+  background-color: #bfe2f4;
+}
+
+body.topic-hub-subnav .columns-minimal-dark-overlay > div > .columns-minimal-dark-overlay-content-col {
+  position: static;
+  display: block;
+  width: auto;
+  padding: 0 30px;
+}
+
+body.topic-hub-subnav .columns-minimal-dark-overlay img {
+  aspect-ratio: 375 / 200;
+  object-fit: cover;
+  object-position: 70% center;
+}
+
+body.topic-hub-subnav .columns-minimal-dark-overlay h2 {
+  font-size: 26px;
+  letter-spacing: -0.72px;
+  line-height: 1.1;
+}
+
+body.topic-hub-subnav .columns-minimal-dark-overlay p {
+  font-size: 15px;
+  line-height: 21px;
+}
+
+body.topic-hub-subnav .columns-minimal-dark-overlay p + p {
+  padding-top: 0;
+}
+
+body.topic-hub-subnav .columns-minimal-dark-overlay p.button-container {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0 0;
+}
+
+body.topic-hub-subnav main .columns-minimal-dark-overlay .button-container a.button:any-link {
+  margin: 16px 0;
+  line-height: 24px;
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.topic-hub-subnav .columns-minimal-dark-overlay > div > .columns-minimal-dark-overlay-content-col {
+    padding: 0 64px;
+  }
+
+  body.topic-hub-subnav .columns-minimal-dark-overlay img {
+    aspect-ratio: 768 / 220;
+  }
+
+  body.topic-hub-subnav .columns-minimal-dark-overlay:has(img[src*="eatdisorder-"]) img {
+    aspect-ratio: 784 / 288;
+  }
+
+  body.topic-hub-subnav .columns-minimal-dark-overlay h2 {
+    font-size: 28px;
+    letter-spacing: -0.78px;
+  }
+
+  body.topic-hub-subnav .columns-minimal-dark-overlay p {
+    font-size: 18px;
+    line-height: 1.3;
+  }
+}
+
+@media (width >= 992px) {
+  body.topic-hub-subnav .columns-minimal-dark-overlay > div {
+    display: block;
+  }
+
+  body.topic-hub-subnav .columns-minimal-dark-overlay > div > .columns-minimal-dark-overlay-content-col {
+    position: absolute;
+    left: max(83px, calc(50vw - 600px));
+    display: flex;
+    width: 480px;
+    padding: 0;
+  }
+
+  body.topic-hub-subnav .columns-minimal-dark-overlay img {
+    aspect-ratio: auto;
+    object-fit: fill;
+  }
+
+  body.topic-hub-subnav .columns-minimal-dark-overlay h2 {
+    padding: 0;
+    font-size: 34px;
+    letter-spacing: -1.36px;
+    line-height: 1.2;
+  }
+
+  body.topic-hub-subnav .columns-minimal-dark-overlay p {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  body.topic-hub-subnav .columns-minimal-dark-overlay p.button-container {
+    justify-content: flex-start;
+  }
+}
