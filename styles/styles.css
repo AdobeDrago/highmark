@@ -641,6 +641,144 @@ body.shop main .default-content-wrapper p:has(> sub) {
 }
 
 /* ==========================================================================
+ * Shop home (template=shop-home -> body.shop-home), values measured from
+ * shop.highmark.com/home.html (ZIP 15222) at 1280 / 1024 / 768 / 390. The
+ * source steps its type sizes at 768px and 992px. Card and hero-heading
+ * rules live in the cards and hero-minimal-dark-withimg block CSS.
+ * ========================================================================== */
+
+/* ZIP location line under the hero ("{{county}} County, {{state}} {{zip}}"
+   plus CHANGE AREA), right-aligned to the source's 1067px content column. */
+body.shop-home main > .section.zip-location {
+  margin: 0;
+}
+
+body.shop-home main > .section.zip-location > .default-content-wrapper {
+  max-width: 1127px;
+  padding-top: 20px;
+  padding-bottom: 23px;
+  text-align: right;
+}
+
+body.shop-home main .section.zip-location p {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 22.5px;
+  color: #000;
+  text-transform: uppercase;
+}
+
+body.shop-home main .section.zip-location p a:any-link {
+  font-size: 15px;
+  font-weight: 400;
+  color: #0078c1;
+  text-decoration: none;
+}
+
+body.shop-home main .section.zip-location p a:hover,
+body.shop-home main .section.zip-location p a:focus {
+  text-decoration: underline;
+}
+
+/* the plan cards sit right under the location line */
+body.shop-home main > .section.cards-container {
+  margin-top: 0;
+  margin-bottom: 101px;
+}
+
+/* Learn More: centered heading, copy with the region's brochure link, and
+   the book illustration. */
+body.shop-home main .section.learn-more > .default-content-wrapper {
+  text-align: center;
+}
+
+body.shop-home main .section.learn-more h2 {
+  margin: 0 0 8px;
+  padding: 16px 0;
+  font-size: 24px;
+  line-height: 26.4px;
+  letter-spacing: -0.72px;
+  color: #00304d;
+}
+
+body.shop-home main .section.learn-more h3 {
+  max-width: 853px;
+  margin: 0 auto 8px;
+  padding: 12.8px 0;
+  font-size: 20px;
+  line-height: 22px;
+  letter-spacing: -0.4px;
+  color: #00304d;
+}
+
+body.shop-home main .section.learn-more h3 a:any-link {
+  color: #0078c1;
+}
+
+/* new-tab links (the brochure PDF) get the source's external-link icon */
+body.shop-home main .section.learn-more a[target="_blank"]::after {
+  content: "";
+  display: inline-block;
+  width: 0.7em;
+  height: 0.7em;
+  margin-left: 0.25em;
+  background-color: currentcolor;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cline x1='10' y1='14' x2='21' y2='3'/%3E%3C/svg%3E");
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  mask-position: center;
+}
+
+body.shop-home main .section.learn-more img {
+  width: 163px;
+  height: auto;
+}
+
+@media (width >= 768px) {
+  body.shop-home main > .section.cards-container {
+    margin-bottom: 106px;
+  }
+
+  body.shop-home main .section.learn-more h2 {
+    font-size: 26px;
+    line-height: 28.6px;
+    letter-spacing: -0.78px;
+  }
+
+  body.shop-home main .section.learn-more h3 {
+    font-size: 22px;
+    line-height: 24.2px;
+    letter-spacing: -0.44px;
+  }
+
+  body.shop-home main .section.learn-more img {
+    width: 320px;
+  }
+}
+
+@media (width >= 992px) {
+  body.shop-home main > .section.zip-location > .default-content-wrapper {
+    padding-top: 40px;
+  }
+
+  body.shop-home main > .section.cards-container {
+    margin-bottom: 111px;
+  }
+
+  body.shop-home main .section.learn-more h2 {
+    font-size: 34px;
+    line-height: 40.8px;
+  }
+
+  body.shop-home main .section.learn-more h3 {
+    font-size: 24px;
+    line-height: 36px;
+  }
+}
+
+/* ==========================================================================
  * CHIP pages (template=chip -> body.chip), values measured from
  * highmark.com/western-pennsylvania/chip/* at 1440 / 1024 / 768 / 390.
  *
