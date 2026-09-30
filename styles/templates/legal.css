@@ -13,117 +13,174 @@
 
 /* ------------------------------------------------------------------
  * 1. Typography: headings margin 0 / 8px plus the source's vertical padding
- * (h1 24 / 28.8, h2 19.2 / 24, h3 16), paragraphs 16px apart (12.8px < 768)
+ * (h1 24 / 28.8, h2 19.2 / 24, h3 16), paragraphs 16px apart (12.8px < 768),
+ * the source's negative letter-spacing (per breakpoint; list items have
+ * none), and its in-text link blue (#0078c1; CTAs stay --link-color).
  * ------------------------------------------------------------------ */
-body.legal main .default-content-wrapper :is(h1, h2, h3, h4, h5, h6) {
+body.legal main :is(.default-content-wrapper, .columns) :is(h1, h2, h3, h4, h5, h6) {
   margin: 0 0 8px;
   color: var(--text-color);
   font-family: var(--heading-font-family);
   font-weight: 600;
 }
 
-body.legal main .default-content-wrapper h1 {
+body.legal main :is(.default-content-wrapper, .columns) h1 {
   padding: 24px 0;
   font-size: 32px;
   line-height: 35.2px;
+  letter-spacing: -1.28px;
 }
 
-body.legal main .default-content-wrapper h2 {
+body.legal main :is(.default-content-wrapper, .columns) h2 {
   padding: 19.2px 0;
   font-size: 26px;
   line-height: 28.6px;
+  letter-spacing: -0.72px;
 }
 
-body.legal main .default-content-wrapper h3 {
+body.legal main :is(.default-content-wrapper, .columns) h3 {
   padding: 16px 0;
   font-size: 22px;
   line-height: 24.2px;
+  letter-spacing: -0.4px;
 }
 
 /* h5 is the source's lead-text style (its own h5s and span.p1 paragraphs) */
-body.legal main .default-content-wrapper h5 {
+body.legal main :is(.default-content-wrapper, .columns) h5 {
   margin-bottom: 12.8px;
   padding: 0;
   font-size: 17px;
   line-height: 23.8px;
+  letter-spacing: -0.2px;
 }
 
-body.legal main .default-content-wrapper :is(p, li) {
+body.legal main :is(.default-content-wrapper, .columns) :is(p, li) {
   color: var(--text-body-color);
   font-size: 15px;
   line-height: 21px;
 }
 
-body.legal main .default-content-wrapper p {
+body.legal main :is(.default-content-wrapper, .columns) p {
   margin: 0 0 12.8px;
+  letter-spacing: -0.2px;
+}
+
+body.legal main :is(.default-content-wrapper, .columns) :is(p, li, h5) a:any-link:not(.button) {
+  color: #0078c1;
 }
 
 @media (width >= 768px) {
-  body.legal main .default-content-wrapper h1 {
+  body.legal main :is(.default-content-wrapper, .columns) h1 {
     padding: 28.8px 0;
     font-size: 36px;
     line-height: 39.6px;
+    letter-spacing: -1.44px;
   }
 
-  body.legal main .default-content-wrapper h2 {
+  body.legal main :is(.default-content-wrapper, .columns) h2 {
     font-size: 28px;
     line-height: 30.8px;
+    letter-spacing: -0.78px;
   }
 
-  body.legal main .default-content-wrapper h3 {
+  body.legal main :is(.default-content-wrapper, .columns) h3 {
     font-size: 24px;
     line-height: 26.4px;
+    letter-spacing: -0.44px;
   }
 
-  body.legal main .default-content-wrapper h5 {
+  body.legal main :is(.default-content-wrapper, .columns) h5 {
     margin-bottom: 16px;
     font-size: 18px;
     line-height: 23.4px;
+    letter-spacing: -0.4px;
   }
 
-  body.legal main .default-content-wrapper :is(p, li) {
+  body.legal main :is(.default-content-wrapper, .columns) :is(p, li) {
     line-height: 19.5px;
   }
 
-  body.legal main .default-content-wrapper p {
+  body.legal main :is(.default-content-wrapper, .columns) p {
     margin-bottom: 16px;
+    letter-spacing: -0.4px;
   }
 }
 
 @media (width >= 992px) {
-  body.legal main .default-content-wrapper h1 {
+  body.legal main :is(.default-content-wrapper, .columns) h1 {
     font-size: 56px;
     line-height: 61.6px;
+    letter-spacing: -2.8px;
   }
 
-  body.legal main .default-content-wrapper h2 {
+  body.legal main :is(.default-content-wrapper, .columns) h2 {
     padding: 24px 0;
     font-size: 34px;
     line-height: 40.8px;
+    letter-spacing: -1.36px;
   }
 
-  body.legal main .default-content-wrapper h5 {
+  body.legal main :is(.default-content-wrapper, .columns) h3 {
+    letter-spacing: -0.72px;
+  }
+
+  body.legal main :is(.default-content-wrapper, .columns) h5 {
     font-size: 20px;
     line-height: 30px;
+    letter-spacing: -0.3px;
   }
 
-  body.legal main .default-content-wrapper :is(p, li) {
+  body.legal main :is(.default-content-wrapper, .columns) :is(p, li) {
     font-size: 16px;
     line-height: 24px;
+  }
+
+  body.legal main :is(.default-content-wrapper, .columns) p {
+    letter-spacing: -0.1px;
   }
 }
 
 /* ------------------------------------------------------------------
- * 2. Text-link CTAs. The source's .textButton links (authored as
- * <em><a> -> .button.secondary) are plain uppercase blue links, not
- * boxed buttons; outlined brand buttons stay the default .button. Beats
- * the side-nav section's own button reset.
+ * 2. Links on their own line. decorateButtons makes each one a .button;
+ * the source has three kinds, authored as:
+ *   <p><a>          plain text link (bold when the link text is bold)
+ *   <p><em><a>      .textButton CTA: uppercase blue link (.secondary)
+ *   <p><strong><a>  brand button: outlined, centered (.primary)
+ * The PDF icon (:pdf:) follows links to PDFs. All of this beats the side-nav
+ * section's own button reset.
  * ------------------------------------------------------------------ */
-body.legal main .default-content-wrapper p.button-container:has(> em > a.button.secondary) {
+body.legal main .section :is(.default-content-wrapper, .columns) p.button-container:has(> a.button) {
+  margin: 0 0 12.8px;
+}
+
+body.legal main :is(.default-content-wrapper, .columns) p.button-container > a.button:any-link:not(.primary, .secondary) {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: #0078c1;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: inherit;
+  text-transform: none;
+  text-decoration: none;
+  white-space: normal;
+}
+
+body.legal main :is(.default-content-wrapper, .columns) p.button-container > a.button:not(.primary, .secondary):hover,
+body.legal main :is(.default-content-wrapper, .columns) p.button-container > a.button:not(.primary, .secondary):focus {
+  background: transparent;
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+body.legal main :is(.default-content-wrapper, .columns) p.button-container:has(> em > a.button.secondary) {
   margin: 0 0 16px;
 }
 
-body.legal main .default-content-wrapper a.button.secondary:any-link {
+body.legal main :is(.default-content-wrapper, .columns) a.button.secondary:any-link {
   display: inline-block;
   margin: 0;
   padding: 0;
@@ -142,11 +199,55 @@ body.legal main .default-content-wrapper a.button.secondary:any-link {
   white-space: normal;
 }
 
-body.legal main .default-content-wrapper a.button.secondary:hover,
-body.legal main .default-content-wrapper a.button.secondary:focus {
+body.legal main :is(.default-content-wrapper, .columns) a.button.secondary:hover,
+body.legal main :is(.default-content-wrapper, .columns) a.button.secondary:focus {
   background: transparent;
   color: var(--link-hover-color);
   text-decoration: underline;
+}
+
+body.legal main .section :is(.default-content-wrapper, .columns) p.button-container:has(> strong > a.button.primary) {
+  margin: 0 0 16px;
+  text-align: center;
+}
+
+body.legal main :is(.default-content-wrapper, .columns) a.button.primary:any-link {
+  display: inline-block;
+  margin: 0;
+  padding: 16px 24px;
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: normal;
+}
+
+body.legal main :is(.default-content-wrapper, .columns) a.button.primary:hover,
+body.legal main :is(.default-content-wrapper, .columns) a.button.primary:focus {
+  border-color: var(--text-color);
+  background: var(--text-color);
+  color: #fff;
+  text-decoration: none;
+}
+
+body.legal main .icon.icon-pdf {
+  width: 20px;
+  height: 20px;
+  margin: 0 0 -2px 2px;
+  vertical-align: text-bottom;
+}
+
+@media (width >= 768px) {
+  body.legal main .section :is(.default-content-wrapper, .columns) p.button-container:has(> a.button) {
+    margin-bottom: 16px;
+  }
 }
 
 /* ------------------------------------------------------------------
@@ -168,6 +269,85 @@ body.legal main .section:not(.on-this-page) .default-content-wrapper ul:has(> li
 body.legal main .default-content-wrapper ul:has(> li > a[href^="#"]) a:any-link {
   color: #0078c1;
   font-weight: 300;
+}
+
+/* ------------------------------------------------------------------
+ * 3b. Lists and superscripts. Bullets (every width): 20px + 12px indent,
+ * items 16px / 26px w400, 5px apart. Numbers: 40px indent, items
+ * 14px / 21px 13px apart; 15px / 16.5px from 768; 15px / 22.5px 15px
+ * apart from 992 (nested: 5px). The anchor lists above and the "On this
+ * page" grid keep their own rules. Pages whose source lists use the
+ * "insidebullets" item style carry section style inside-bullets (items
+ * 18px further in). Superscripts don't stretch the line (normalize.css).
+ * ------------------------------------------------------------------ */
+body.legal main .section:not(.on-this-page) :is(.default-content-wrapper, .columns) ul {
+  margin: 0 0 16px 20px;
+  padding-left: 12px;
+}
+
+body.legal main .section:not(.on-this-page) :is(.default-content-wrapper, .columns) ul > li {
+  margin-bottom: 5px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+}
+
+body.legal main .section:not(.on-this-page) :is(.default-content-wrapper, .columns) ol {
+  margin: 0 0 16px;
+  padding-left: 40px;
+}
+
+body.legal main .section:not(.on-this-page) :is(.default-content-wrapper, .columns) ol > li {
+  margin-bottom: 13px;
+  font-size: 14px;
+  line-height: 21px;
+}
+
+body.legal main .section:not(.on-this-page) :is(.default-content-wrapper, .columns) li > ol > li {
+  margin-bottom: 5px;
+}
+
+body.legal main .section:not(.on-this-page) :is(.default-content-wrapper, .columns) li > :is(ul, ol) {
+  margin-bottom: 0;
+}
+
+/* the source's "insidebullets" items (whole pages; section style inside-bullets): 18px further in */
+body.legal main .section.inside-bullets :is(.default-content-wrapper, .columns) :is(ul, ol) > li {
+  margin-left: 18px;
+}
+
+/* a list with nested lists comes out "loose": the pipeline wraps each item's text in a <p> */
+body.legal main :is(.default-content-wrapper, .columns) li > p {
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+body.legal main :is(.default-content-wrapper, .columns) sup {
+  position: relative;
+  top: -0.5em;
+  font-size: 75%;
+  line-height: 0;
+  vertical-align: baseline;
+}
+
+@media (width >= 768px) {
+  body.legal main .section:not(.on-this-page) :is(.default-content-wrapper, .columns) ol > li {
+    font-size: 15px;
+    line-height: 16.5px;
+  }
+}
+
+@media (width >= 992px) {
+  body.legal main .section:not(.on-this-page) :is(.default-content-wrapper, .columns) ol > li {
+    margin-bottom: 15px;
+    line-height: 22.5px;
+  }
+
+  body.legal main .section:not(.on-this-page) :is(.default-content-wrapper, .columns) li > ol > li {
+    margin-bottom: 5px;
+  }
 }
 
 /* ------------------------------------------------------------------
@@ -299,4 +479,75 @@ body.legal main > .section.light-blue > div.default-content-wrapper {
  * ------------------------------------------------------------------ */
 body.legal main:has(.accordion-minimal-light) > .section > div.accordion-minimal-light-wrapper {
   margin-bottom: 60px;
+}
+
+/* ------------------------------------------------------------------
+ * 7. Two-column grid (columns block: the claims-payment region cards).
+ * >= 992: two 50% columns filling the 743px article column, text inset
+ * 10px; stacked below (inset 10px from 768). Space after each card:
+ * 50 / 25 / 20px; above the grid 20px; below it 40 / 20 / 0px (the
+ * source's spacing components).
+ * ------------------------------------------------------------------ */
+body.legal main > .section > div.columns-wrapper {
+  padding-top: 20px;
+  padding-bottom: 0;
+}
+
+body.legal main .columns > div {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+
+body.legal main .columns > div > div {
+  flex: none;
+  padding: 0 0 20px;
+}
+
+body.legal main .columns > div > div > :last-child,
+body.legal main .columns > div > div > p.button-container:last-child:has(> em > a.button.secondary) {
+  margin-bottom: 0;
+}
+
+@media (width >= 768px) {
+  body.legal main > .section > div.columns-wrapper {
+    padding-bottom: 20px;
+  }
+
+  body.legal main .columns > div > div {
+    padding: 0 10px 25px;
+  }
+}
+
+@media (width >= 992px) {
+  body.legal main > .section > div.columns-wrapper {
+    box-sizing: border-box;
+    max-width: 743px;
+    margin: 0 auto;
+    padding: 20px 0 40px;
+  }
+
+  body.legal main .columns > div {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  body.legal main .columns > div > div {
+    flex: 1 1 0;
+    padding: 0 10px 50px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 8. Images on their own line (the region map, the video thumbnail):
+ * block-level, at most the column width, no space below (the source's
+ * image components have no margin).
+ * ------------------------------------------------------------------ */
+body.legal main .default-content-wrapper p:has(> picture:only-child, > a:only-child > picture:only-child) {
+  margin-bottom: 0;
+}
+
+body.legal main .default-content-wrapper p > picture img,
+body.legal main .default-content-wrapper p > a > picture img {
+  display: block;
 }
