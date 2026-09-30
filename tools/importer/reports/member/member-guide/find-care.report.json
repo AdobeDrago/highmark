@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/member/member-guide/find-care?zg=false",
+  "path": "member/member-guide/find-care",
+  "timestamp": "2026-09-30T16:06:59.548Z",
+  "title": "Find Care - Find a Provider | Highmark",
+  "template": "find-care",
+  "blocks": [
+    "hero-minimal-dark-withimg",
+    "cards-minimal-dark-list"
+  ]
+}

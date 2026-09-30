@@ -1,0 +1,732 @@
+/* Template "get-help" (page metadata template=get-help -> body.get-help).
+   Loaded by scripts/scripts.js (TEMPLATE_STYLES) before the first section renders.
+
+   Values extracted (getComputedStyle) from
+   https://www.highmark.com/plans/medicare/get-help and
+   https://www.highmark.com/plans/individual-families/get-help at 390 / 768 /
+   992 / 1200 / 1440. Source breakpoints: < 768 (mobile), 768-991 (tablet),
+   >= 992 (desktop, d-lg). Source containers: 30px gutters (< 768), 64px
+   (768-991), max-width 1366px with 83px gutters (>= 992, 1200px content).
+   Source sections sit flush against each other (no margins between bands). */
+
+/* stylelint-disable no-descending-specificity */
+
+body.get-help main > .section {
+  margin: 0;
+}
+
+/* ------------------------------------------------------------------
+ * 1. Secondary banner (hero-minimal-dark-withimg with h1)
+ * < 992: photo on top (784x288 tablet / 375x200 mobile crops), navy title
+ * on a light-blue splash panel (padding 35px).
+ * >= 992: navy title over the photo, text inset 150px, 580px column,
+ * band height follows the 1500x400 photo.
+ * ------------------------------------------------------------------ */
+body.get-help .hero-minimal-dark-withimg:has(h1) {
+  display: block;
+  min-height: 0;
+}
+
+body.get-help .hero-minimal-dark-withimg:has(h1) > div:first-child {
+  position: static;
+}
+
+body.get-help .hero-minimal-dark-withimg:has(h1) > div:first-child,
+body.get-help .hero-minimal-dark-withimg:has(h1) > div:first-child > div,
+body.get-help .hero-minimal-dark-withimg:has(h1) > div:first-child picture {
+  height: auto;
+}
+
+body.get-help .hero-minimal-dark-withimg:has(h1) picture img {
+  display: block;
+  height: auto;
+  aspect-ratio: 784 / 288;
+  object-position: 100% 50%;
+}
+
+body.get-help .hero-minimal-dark-withimg:has(h1) > div:last-child {
+  max-width: none;
+  padding: 35px;
+  background-color: var(--light-blue-color);
+}
+
+body.get-help .hero-minimal-dark-withimg:has(h1) h1 {
+  max-width: none;
+  margin: 0 0 8px;
+  padding: 0 0 12px;
+  font-size: 32px;
+  line-height: 35.2px;
+  letter-spacing: -1.28px;
+}
+
+body.get-help .hero-minimal-dark-withimg:has(h1) h2 {
+  max-width: none;
+  margin: 0 0 8px;
+  padding: 0 0 22px;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.get-help .hero-minimal-dark-withimg:has(h1) p.button-container {
+  margin: 0;
+}
+
+body.get-help main .hero-minimal-dark-withimg:has(h1) a.button:any-link {
+  margin: 16px 0;
+}
+
+@media (width <= 425px) {
+  body.get-help .hero-minimal-dark-withimg:has(h1) picture img {
+    aspect-ratio: 375 / 200;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.get-help .hero-minimal-dark-withimg:has(h1) h1 {
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  body.get-help .hero-minimal-dark-withimg:has(h1) h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+}
+
+@media (width >= 992px) {
+  body.get-help .hero-minimal-dark-withimg:has(h1) {
+    display: flex;
+    min-height: calc(100vw * 400 / 1500);
+  }
+
+  body.get-help .hero-minimal-dark-withimg:has(h1) > div:first-child {
+    position: absolute;
+  }
+
+  body.get-help .hero-minimal-dark-withimg:has(h1) > div:first-child,
+  body.get-help .hero-minimal-dark-withimg:has(h1) > div:first-child > div,
+  body.get-help .hero-minimal-dark-withimg:has(h1) > div:first-child picture {
+    height: 100%;
+  }
+
+  body.get-help .hero-minimal-dark-withimg:has(h1) picture img {
+    height: 100%;
+    aspect-ratio: auto;
+    object-position: 50% 50%;
+  }
+
+  body.get-help .hero-minimal-dark-withimg:has(h1) > div:last-child {
+    padding: 0 150px;
+    background-color: transparent;
+  }
+
+  body.get-help .hero-minimal-dark-withimg:has(h1) h1,
+  body.get-help .hero-minimal-dark-withimg:has(h1) h2 {
+    max-width: 580px;
+  }
+
+  body.get-help .hero-minimal-dark-withimg:has(h1) h1 {
+    font-size: 56px;
+    line-height: 61.6px;
+    letter-spacing: -2.8px;
+  }
+
+  body.get-help .hero-minimal-dark-withimg:has(h1) h2 {
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * Shared default-content gutters (30 / 64 / 83px, 1200px content)
+ * ------------------------------------------------------------------ */
+body.get-help main > .section > .default-content-wrapper {
+  max-width: 1200px;
+  padding: 0 30px;
+}
+
+@media (width >= 768px) {
+  body.get-help main > .section > .default-content-wrapper {
+    padding: 0 64px;
+  }
+}
+
+@media (width >= 992px) {
+  body.get-help main > .section > .default-content-wrapper {
+    padding: 0 83px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 2. Navy intro band (.section.dark.center)
+ * ------------------------------------------------------------------ */
+body.get-help main > .section.dark.center {
+  padding: 32px 0 48px;
+}
+
+body.get-help main .section.dark.center h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0 8px;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.get-help main .section.dark.center p {
+  margin: 0;
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.25px;
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.get-help main .section.dark.center h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.get-help main .section.dark.center p {
+    font-size: 18px;
+    line-height: 23.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.get-help main > .section.dark.center {
+    padding: 64px 0;
+  }
+
+  body.get-help main > .section.dark.center > .default-content-wrapper {
+    max-width: 780px;
+    padding: 0;
+  }
+
+  body.get-help main .section.dark.center h2 {
+    padding: 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.get-help main .section.dark.center p {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 3 + 6. Side card panels (columns-minimal-dark in .light / .highlight)
+ * Source .side-card-panel: stacked photo -> text below 992px (photo first
+ * even when authored second); >= 992 555px photo | 550px text, centered.
+ * Band padding 32 / 48 / 80px.
+ * ------------------------------------------------------------------ */
+body.get-help main > .section.columns-minimal-dark-container {
+  padding: 32px 0;
+  text-align: left;
+}
+
+body.get-help main > .section > .columns-minimal-dark-wrapper {
+  padding: 0 30px;
+}
+
+body.get-help .columns-minimal-dark > div {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+
+body.get-help .columns-minimal-dark > div > div {
+  flex: 0 1 auto;
+  order: 1;
+}
+
+body.get-help .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+  order: 0;
+}
+
+body.get-help .columns-minimal-dark h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  color: var(--text-color);
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.get-help .columns-minimal-dark p {
+  margin: 0 0 12.8px;
+  color: var(--text-body-color);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+body.get-help .columns-minimal-dark ul {
+  margin: 0 0 16px 8px;
+  padding: 0;
+  list-style: disc outside;
+  color: var(--text-body-color);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 100;
+  line-height: 22.5px;
+}
+
+body.get-help .columns-minimal-dark li {
+  margin: 0 0 0 8px;
+}
+
+/* CTA: the uppercase copy link inside the rich text (rgb(0 120 193)),
+   followed by the source's empty 16px button row */
+body.get-help .columns-minimal-dark p.button-container {
+  margin: 0 0 16px;
+}
+
+body.get-help main .columns-minimal-dark a.button:any-link {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  color: rgb(0 120 193);
+  font-family: var(--body-font-family);
+  font-size: inherit;
+  font-weight: 700;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-transform: uppercase;
+  white-space: normal;
+}
+
+body.get-help main .columns-minimal-dark a.button:hover,
+body.get-help main .columns-minimal-dark a.button:focus {
+  background-color: transparent;
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+/* individual-families advisor panel: its CTA is the source's standalone
+   .textButton (16px/20px, link blue, no trailing row) */
+body.get-help .section.light .columns-minimal-dark p.button-container:has(> a[href$="/aca"]) {
+  margin: 0;
+  line-height: 20px;
+}
+
+body.get-help main .section.light .columns-minimal-dark a.button[href$="/aca"]:any-link {
+  display: inline-block;
+  color: var(--link-color);
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: normal;
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.get-help main > .section.columns-minimal-dark-container {
+    padding: 48px 0;
+  }
+
+  body.get-help main > .section > .columns-minimal-dark-wrapper {
+    padding: 0 64px;
+  }
+
+  body.get-help .columns-minimal-dark h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.get-help .columns-minimal-dark p {
+    margin: 0 0 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.get-help main > .section.columns-minimal-dark-container {
+    padding: 80px 0;
+  }
+
+  body.get-help main > .section > .columns-minimal-dark-wrapper {
+    padding: 0 83px;
+  }
+
+  body.get-help .columns-minimal-dark > div {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* desktop keeps the authored order: photo | text or text | photo */
+  body.get-help .columns-minimal-dark > div > div,
+  body.get-help .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    order: 0;
+  }
+
+  body.get-help .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    flex: 0 1 555px;
+    max-width: 555px;
+    margin: 0 24px;
+  }
+
+  body.get-help .columns-minimal-dark > div > div:not(.columns-minimal-dark-img-col) {
+    flex: 0 1 550px;
+    box-sizing: border-box;
+    max-width: 720px;
+    margin: 0 0 0 24px;
+    padding: 0 24px;
+  }
+
+  body.get-help .columns-minimal-dark > div > div:not(.columns-minimal-dark-img-col):first-child {
+    margin: 0 47px 0 0;
+  }
+
+  body.get-help .columns-minimal-dark h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.get-help .columns-minimal-dark p {
+    margin: 0 0 16px;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 4. Photo banner (hero-minimal-dark-withimg without h1, Medicare only)
+ * < 992: art-directed crops 768x288 (426-991) / 375x200 (<= 425), text
+ * gutters 30 / 64px. >= 992: 1500x320 band, text vertically centred.
+ * ------------------------------------------------------------------ */
+@media (width < 992px) {
+  body.get-help .hero-minimal-dark-withimg:not(:has(h1)) > div:first-child,
+  body.get-help .hero-minimal-dark-withimg:not(:has(h1)) > div:first-child > div,
+  body.get-help .hero-minimal-dark-withimg:not(:has(h1)) > div:first-child picture {
+    height: auto;
+  }
+
+  body.get-help .hero-minimal-dark-withimg:not(:has(h1)) picture img {
+    display: block;
+    height: auto;
+    aspect-ratio: 768 / 288;
+  }
+}
+
+@media (width <= 425px) {
+  body.get-help .hero-minimal-dark-withimg:not(:has(h1)) picture img {
+    aspect-ratio: 375 / 200;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.get-help .hero-minimal-dark-withimg:not(:has(h1)) > div:last-child {
+    padding: 0 64px 16px;
+  }
+
+  body.get-help .hero-minimal-dark-withimg:not(:has(h1)) h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.get-help .hero-minimal-dark-withimg:not(:has(h1)) p:not(.button-container) {
+    font-size: 18px;
+    line-height: 23.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.get-help .hero-minimal-dark-withimg:not(:has(h1)) > div:last-child {
+    padding: 20px 32px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 5. "Why choose Highmark?" (.section.center + icon cards + CTA)
+ * Source .cardBlockContent: padding 60px 0 50px; 580px centred intro;
+ * cards carry a 15px margin (31px below the intro, 16px above the CTA).
+ * ------------------------------------------------------------------ */
+body.get-help main > .section.center:not(.dark, .light-blue) {
+  padding: 60px 0 50px;
+}
+
+body.get-help main > .section.center:not(.dark, .light-blue) > .default-content-wrapper:first-child {
+  margin: 0 auto 16px;
+  text-align: center;
+}
+
+body.get-help main .section.center:not(.dark, .light-blue) > .default-content-wrapper:first-child h2 {
+  margin: 0 0 16px;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.get-help main .section.center:not(.dark, .light-blue) > .default-content-wrapper:first-child p {
+  margin: 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 27px;
+  letter-spacing: -0.2px;
+}
+
+body.get-help main .section.center .cards-minimal-dark-withimg-icons > ul {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+body.get-help main .section.center:not(.dark, .light-blue) > .default-content-wrapper:last-child p.button-container {
+  margin: 0;
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.get-help main .section.center:not(.dark, .light-blue) > .default-content-wrapper:first-child h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.get-help main .section.center:not(.dark, .light-blue) > .default-content-wrapper:first-child p {
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.get-help main > .section.center:not(.dark, .light-blue) > .default-content-wrapper:first-child {
+    max-width: 580px;
+    padding: 0;
+  }
+
+  body.get-help main .section.center:not(.dark, .light-blue) > .default-content-wrapper:first-child h2 {
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.get-help main .section.center:not(.dark, .light-blue) > .default-content-wrapper:first-child p {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+}
+
+/* Outlined CTAs (source .brand-button-light): 16px/24px, 58px tall */
+body.get-help main .section.center > .default-content-wrapper a.button:any-link {
+  margin: 16px 0;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+/* ------------------------------------------------------------------
+ * 7. Help cards (cards-minimal-dark-withimg-2)
+ * Source .wideImgContainer: padding 50/20 (< 768), 60/30 (768-991),
+ * 60/20 (>= 992) + the li's 30px bottom margin.
+ * ------------------------------------------------------------------ */
+body.get-help main > .section.cards-minimal-dark-withimg-2-container {
+  padding: 50px 0;
+}
+
+/* phone CTA: the same uppercase text link as "schedule today" */
+body.get-help .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p.button-container:has(> a[href^="tel:"]) {
+  margin: 15px 0 20px;
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: normal;
+  color: var(--text-body-color);
+}
+
+body.get-help .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p > a.button[href^="tel:"]:any-link {
+  display: inline;
+  padding: 0;
+  color: var(--link-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: normal;
+  text-transform: uppercase;
+}
+
+body.get-help .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p > a.button[href^="tel:"]:hover,
+body.get-help .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p > a.button[href^="tel:"]:focus {
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+@media (width >= 768px) {
+  body.get-help main > .section.cards-minimal-dark-withimg-2-container {
+    padding: 60px 0;
+  }
+}
+
+@media (width >= 900px) {
+  /* source li margin-left: 8px nudges the centred pair 4px right */
+  body.get-help .cards-minimal-dark-withimg-2 > ul {
+    padding-left: 8px;
+  }
+
+  body.get-help .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p.button-container:has(> a[href^="tel:"]) {
+    margin: 0;
+  }
+}
+
+/* source cards are inline-blocks: the 30px li margin plus the line box
+   descent put 56px under the cards at >= 992 */
+@media (width >= 992px) {
+  body.get-help main > .section.cards-minimal-dark-withimg-2-container {
+    padding: 60px 0 56px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 8. Member CTA band (.section.light-blue.center)
+ * Source: spacer 0/20 top (< 992 / >= 992), 20/40 bottom; lead copy is
+ * sofia-pro 600 navy; outlined phone button.
+ * ------------------------------------------------------------------ */
+body.get-help main > .section.light-blue {
+  padding: 0 0 20px;
+}
+
+/* when the band closes the page (no footnote after it, e.g.
+   individual-families) the source keeps its 20px top spacer below 992px */
+body.get-help main > .section.light-blue:last-child {
+  padding-top: 20px;
+}
+
+body.get-help main .section.light-blue h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.get-help main .section.light-blue p:not(.button-container) {
+  margin: 0 auto 12.8px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+body.get-help main .section.light-blue p.button-container {
+  margin: 0;
+}
+
+body.get-help main .section.light-blue a.button:any-link {
+  margin: 16px 0;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+@media (width < 768px) {
+  body.get-help main > .section.light-blue > .default-content-wrapper {
+    padding: 0 32px;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.get-help main .section.light-blue h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.get-help main .section.light-blue p:not(.button-container) {
+    margin-bottom: 16px;
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.get-help main > .section.light-blue {
+    padding: 20px 0 40px;
+  }
+
+  body.get-help main .section.light-blue h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  /* copy column is 6 of 12 columns (720px); copy with an authored line
+     break (Medicare) gets 8 columns (960px) so the first line fits */
+  body.get-help main .section.light-blue p:not(.button-container) {
+    max-width: 720px;
+    margin-bottom: 16px;
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  body.get-help main .section.light-blue p:not(.button-container):has(> br) {
+    max-width: 960px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 9. Footnote / job code (plain section starting with a <sup> marker)
+ * ------------------------------------------------------------------ */
+body.get-help main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) {
+  display: flow-root;
+  padding: 20px 0 0;
+}
+
+body.get-help main .section:has(> .default-content-wrapper > p:first-child > sup:first-child) p {
+  margin: 0 0 12.8px;
+  font-size: 15px;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+  text-align: center;
+}
+
+/* marker: 11.25px, raised 5.625px without opening up the line box */
+body.get-help main .section:has(> .default-content-wrapper > p:first-child > sup:first-child) sup {
+  position: relative;
+  top: -0.5em;
+  font-size: 11.25px;
+  line-height: 0;
+  vertical-align: baseline;
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.get-help main .section:has(> .default-content-wrapper > p:first-child > sup:first-child) p {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.get-help main .section:has(> .default-content-wrapper > p:first-child > sup:first-child) p {
+    margin-bottom: 16px;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+}

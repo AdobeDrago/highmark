@@ -1,0 +1,369 @@
+/* Template "state-plans" (page metadata template=state-plans -> body.state-plans).
+   Loaded by scripts/scripts.js (TEMPLATE_STYLES) before the first section renders.
+
+   Pages: /plans/d-snp, /plans/medicaid. Values are getComputedStyle
+   extractions from the source pages (highmark.com, ?zg=false) at 390, 768
+   and 1440. Source breakpoints: < 768 mobile, 768-991 tablet, >= 992 desktop
+   (bootstrap containers: 540 at >= 576, 720 at >= 768, 780-wide text column
+   at >= 992). Sections:
+   1. secondary banner (hero-minimal-dark-withimg): centred white h1 + h2 on
+      Together Blue; solid navy band below 992px, 1500x300 photo above.
+   2. eligibility article (default content): 750px column, state h3s with
+      uppercase blue text-link CTAs (.textButton), 20px top / 80px bottom
+      spacers.
+   3. "light-blue, center" callout (.one-card-one-col-panel splash) with an
+      outlined .brand-button-light CTA. */
+
+/* ------------------------------------------------------------------
+ * 1. Secondary banner
+ * ------------------------------------------------------------------ */
+body.state-plans main > .section.hero-minimal-dark-withimg-container {
+  margin-bottom: 0;
+}
+
+body.state-plans .hero-minimal-dark-withimg {
+  display: block;
+  min-height: 0;
+  padding-top: 24px;
+  background-color: var(--text-color);
+}
+
+/* source swaps the banner photo for a 1px placeholder below 1025px and
+   paints the band solid Together Blue */
+body.state-plans .hero-minimal-dark-withimg > div:first-child {
+  display: none;
+}
+
+body.state-plans .hero-minimal-dark-withimg > div:last-child {
+  max-width: none;
+  padding: 35px 20px;
+  text-align: center;
+}
+
+body.state-plans .hero-minimal-dark-withimg h1 {
+  max-width: none;
+  margin: 0 0 8px;
+  padding: 0 0 12px;
+  color: #fff;
+  font-size: 32px;
+  line-height: 35.2px;
+  letter-spacing: -1.28px;
+}
+
+body.state-plans .hero-minimal-dark-withimg h2 {
+  max-width: none;
+  margin: 0 0 8px;
+  padding: 0 0 22px;
+  color: #fff;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+@media (width >= 768px) {
+  body.state-plans .hero-minimal-dark-withimg h1 {
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  body.state-plans .hero-minimal-dark-withimg h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+}
+
+@media (width >= 992px) {
+  /* band height follows the 1500x300 banner photo (288px at 1440); the
+     text block is vertically centred over it */
+  body.state-plans .hero-minimal-dark-withimg {
+    display: flex;
+    align-items: center;
+    min-height: calc(100vw * 300 / 1500);
+    padding: 16px 0;
+    box-sizing: border-box;
+  }
+
+  body.state-plans .hero-minimal-dark-withimg > div:first-child {
+    display: block;
+  }
+
+  body.state-plans .hero-minimal-dark-withimg > div:last-child {
+    padding: 0 150px;
+  }
+
+  body.state-plans .hero-minimal-dark-withimg h1,
+  body.state-plans .hero-minimal-dark-withimg h2 {
+    max-width: 780px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  body.state-plans .hero-minimal-dark-withimg h1 {
+    font-size: 56px;
+    line-height: 61.6px;
+    letter-spacing: -2.8px;
+  }
+
+  body.state-plans .hero-minimal-dark-withimg h2 {
+    padding-top: 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 2. Eligibility article (default content)
+ * ------------------------------------------------------------------ */
+body.state-plans main > .section:not(.light-blue, .hero-minimal-dark-withimg-container) {
+  margin: 0;
+}
+
+body.state-plans main > .section:not(.light-blue) > .default-content-wrapper {
+  box-sizing: border-box;
+  padding: 20px 30px 80px;
+}
+
+body.state-plans main > .section:not(.light-blue) > .default-content-wrapper h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.state-plans main > .section:not(.light-blue) > .default-content-wrapper h3 {
+  margin: 0 0 8px;
+  padding: 16px 0;
+  font-size: 22px;
+  line-height: 24.2px;
+  letter-spacing: -0.4px;
+}
+
+body.state-plans main > .section:not(.light-blue) > .default-content-wrapper p {
+  margin: 0 0 12.8px;
+  font-size: 15px;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+/* lead paragraph under the first h2: source wraps it in span.p1, a navy
+   sofia-pro semibold lead */
+body.state-plans main > .section:not(.light-blue) > .default-content-wrapper > :where(h2:first-child) + p {
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+body.state-plans main > .section:not(.light-blue) > .default-content-wrapper ul {
+  margin: 0 0 16px;
+  padding: 0;
+  list-style-position: inside;
+}
+
+body.state-plans main > .section:not(.light-blue) > .default-content-wrapper li {
+  margin: 0 0 13px;
+  font-size: 15px;
+  font-weight: 100;
+  line-height: 22.5px;
+  letter-spacing: normal;
+}
+
+body.state-plans main > .section:not(.light-blue) > .default-content-wrapper a:any-link:not(.button) {
+  color: #0078c1;
+}
+
+/* state CTAs: source .textButton.textButtonSm — plain uppercase blue text
+   link, not the outlined EDS button */
+body.state-plans main > .section:not(.light-blue) > .default-content-wrapper p.button-container {
+  margin: 0 0 20px;
+}
+
+body.state-plans main > .section:not(.light-blue) > .default-content-wrapper a.button:any-link {
+  display: inline-block;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background-color: transparent;
+  color: var(--link-color);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: normal;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: normal;
+}
+
+body.state-plans main > .section:not(.light-blue) > .default-content-wrapper a.button:hover,
+body.state-plans main > .section:not(.light-blue) > .default-content-wrapper a.button:focus {
+  background-color: transparent;
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+@media (width >= 576px) {
+  body.state-plans main > .section:not(.light-blue) > .default-content-wrapper {
+    max-width: 540px;
+  }
+}
+
+@media (width >= 768px) {
+  body.state-plans main > .section:not(.light-blue) > .default-content-wrapper {
+    max-width: 720px;
+  }
+
+  body.state-plans main > .section:not(.light-blue) > .default-content-wrapper h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.state-plans main > .section:not(.light-blue) > .default-content-wrapper h3 {
+    font-size: 24px;
+    line-height: 26.4px;
+    letter-spacing: -0.44px;
+  }
+
+  body.state-plans main > .section:not(.light-blue) > .default-content-wrapper p {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.state-plans main > .section:not(.light-blue) > .default-content-wrapper > :where(h2:first-child) + p {
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.state-plans main > .section:not(.light-blue) > .default-content-wrapper {
+    max-width: 810px;
+  }
+
+  body.state-plans main > .section:not(.light-blue) > .default-content-wrapper h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.state-plans main > .section:not(.light-blue) > .default-content-wrapper h3 {
+    letter-spacing: -0.72px;
+  }
+
+  body.state-plans main > .section:not(.light-blue) > .default-content-wrapper p {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  body.state-plans main > .section:not(.light-blue) > .default-content-wrapper > :where(h2:first-child) + p {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  body.state-plans main > .section:not(.light-blue) > .default-content-wrapper li {
+    margin-bottom: 15px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 3. "Not eligible…" light-blue callout
+ * ------------------------------------------------------------------ */
+body.state-plans main > .section.light-blue {
+  padding: 32px 0 48px;
+}
+
+body.state-plans main > .section.light-blue > .default-content-wrapper {
+  box-sizing: border-box;
+  max-width: none;
+  padding: 0 15px;
+}
+
+body.state-plans main > .section.light-blue > .default-content-wrapper h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0 8px;
+  color: #004362;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.state-plans main > .section.light-blue > .default-content-wrapper p {
+  margin: 0;
+  color: #004362;
+  font-family: var(--heading-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.25px;
+}
+
+body.state-plans main > .section.light-blue > .default-content-wrapper p.button-container {
+  margin-top: 16px;
+}
+
+body.state-plans main > .section.light-blue > .default-content-wrapper a.button:any-link {
+  margin: 16px 0;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+@media (width >= 576px) {
+  body.state-plans main > .section.light-blue > .default-content-wrapper {
+    max-width: 540px;
+  }
+
+  body.state-plans main > .section.light-blue > .default-content-wrapper p:not(.button-container) {
+    font-size: 18px;
+    line-height: 25.2px;
+  }
+}
+
+@media (width >= 768px) {
+  body.state-plans main > .section.light-blue > .default-content-wrapper {
+    max-width: 720px;
+  }
+
+  body.state-plans main > .section.light-blue > .default-content-wrapper h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.state-plans main > .section.light-blue > .default-content-wrapper p:not(.button-container) {
+    line-height: 23.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.state-plans main > .section.light-blue {
+    padding: 64px 0;
+  }
+
+  body.state-plans main > .section.light-blue > .default-content-wrapper {
+    max-width: 810px;
+  }
+
+  body.state-plans main > .section.light-blue > .default-content-wrapper h2 {
+    padding: 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.state-plans main > .section.light-blue > .default-content-wrapper p:not(.button-container) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}

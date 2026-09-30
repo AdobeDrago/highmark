@@ -1,0 +1,452 @@
+/* Template "find-care" (page metadata template=find-care -> body.find-care).
+   Loaded by scripts/scripts.js (TEMPLATE_STYLES) before the first section renders.
+
+   Values extracted (getComputedStyle) from
+   https://www.highmark.com/member/member-guide/find-care at 390 / 768 / 1024 /
+   1200 / 1440. Source breakpoints: < 768 (mobile), 768-991 (tablet),
+   >= 992 (desktop, d-lg). Source containers: 30px gutters (< 768), 64px
+   (768-991), max-width 1366px with 83px gutters (>= 992); the article and
+   the card columns nest a second container with the same gutters. */
+
+/* stylelint-disable no-descending-specificity */
+
+/* ------------------------------------------------------------------
+ * Section 1 — secondary banner (hero-minimal-dark-withimg)
+ * < 992: photo on top (784x288 tablet / 375x200 mobile crops), white
+ * title on a solid Together Blue band (padding 35px).
+ * >= 992: navy title over the photo, text inset 150px, 580px column,
+ * band height follows the 1366x400 photo (min 376px).
+ * ------------------------------------------------------------------ */
+body.find-care main > .section.hero-minimal-dark-withimg-container {
+  margin-bottom: 0;
+}
+
+body.find-care .hero-minimal-dark-withimg {
+  display: block;
+  min-height: 0;
+}
+
+body.find-care .hero-minimal-dark-withimg > div:first-child {
+  position: static;
+  overflow: hidden;
+}
+
+body.find-care .hero-minimal-dark-withimg > div:first-child,
+body.find-care .hero-minimal-dark-withimg > div:first-child > div,
+body.find-care .hero-minimal-dark-withimg > div:first-child picture {
+  height: auto;
+}
+
+body.find-care .hero-minimal-dark-withimg picture img {
+  display: block;
+  height: auto;
+  aspect-ratio: 375 / 200;
+
+  /* authored desktop photo has the subject on the right; the source
+     mobile/tablet crops centre her */
+  object-position: 100% 50%;
+
+  /* source swaps to tighter art-directed crops below 992px: zoom the
+     desktop photo in on the subject */
+  transform: scale(1.25);
+  transform-origin: 85% 20%;
+}
+
+body.find-care .hero-minimal-dark-withimg > div:last-child {
+  max-width: none;
+  padding: 35px;
+  background-color: var(--dark-color);
+}
+
+body.find-care .hero-minimal-dark-withimg h1 {
+  max-width: none;
+  margin: 0 0 8px;
+  padding: 0 0 12px;
+  color: #fff;
+  font-size: 32px;
+  line-height: 35.2px;
+  letter-spacing: -1.28px;
+}
+
+body.find-care .hero-minimal-dark-withimg h2 {
+  max-width: none;
+  margin: 0 0 8px;
+  padding: 0 0 22px;
+  color: #fff;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+/* ------------------------------------------------------------------
+ * Section 2 — intro article (default content) + region cards
+ * ------------------------------------------------------------------ */
+body.find-care main > .section.cards-minimal-dark-list-container {
+  margin: 0;
+}
+
+body.find-care main > .section.cards-minimal-dark-list-container > .default-content-wrapper {
+  max-width: none;
+  padding: 0 60px;
+}
+
+body.find-care main > .section.cards-minimal-dark-list-container > .default-content-wrapper h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.find-care main > .section.cards-minimal-dark-list-container > .default-content-wrapper h5 {
+  margin: 0 0 12.8px;
+  font-size: 17px;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+body.find-care main > .section.cards-minimal-dark-list-container > .default-content-wrapper h3 {
+  margin: 0 0 8px;
+  padding: 16px 0;
+  font-size: 22px;
+  line-height: 24.2px;
+  letter-spacing: -0.4px;
+}
+
+body.find-care main > .section.cards-minimal-dark-list-container > .default-content-wrapper p {
+  margin: 0 0 12.8px;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+/* cards: plain single column (no card background / shadow), 2-up >= 992 */
+body.find-care .cards-minimal-dark-list-wrapper {
+  max-width: none;
+  padding: 0 30px;
+}
+
+body.find-care .cards-minimal-dark-list > ul {
+  display: block;
+}
+
+body.find-care .cards-minimal-dark-list > ul > li {
+  display: block;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+body.find-care .cards-minimal-dark-list .cards-minimal-dark-list-card-body {
+  display: block;
+  padding: 0 30px 20px;
+}
+
+body.find-care .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3 {
+  margin: 0 0 8px;
+  padding: 16px 0;
+  font-size: 22px;
+  line-height: 24.2px;
+  letter-spacing: -0.4px;
+}
+
+body.find-care .cards-minimal-dark-list > ul > li:first-child .cards-minimal-dark-list-card-body h3 {
+  margin-bottom: 0;
+}
+
+body.find-care .cards-minimal-dark-list .cards-minimal-dark-list-card-body p {
+  margin: 0 0 12.8px;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+body.find-care .cards-minimal-dark-list .cards-minimal-dark-list-card-body ul {
+  margin: 0 0 16px 20px;
+  padding: 0 0 0 12px;
+}
+
+body.find-care .cards-minimal-dark-list .cards-minimal-dark-list-card-body li {
+  margin: 0 0 5px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+}
+
+/* FIND CARE: left-aligned text link directly under the list */
+body.find-care .cards-minimal-dark-list .cards-minimal-dark-list-card-body p.button-container {
+  margin: 0;
+  text-align: left;
+}
+
+body.find-care .cards-minimal-dark-list .cards-minimal-dark-list-card-body a.button:any-link {
+  display: inline-block;
+  vertical-align: top;
+}
+
+/* ------------------------------------------------------------------
+ * Section 3 — "highlight, center" blush callout
+ * ------------------------------------------------------------------ */
+body.find-care main .section.highlight {
+  padding: 32px 0 48px;
+}
+
+body.find-care main .section.highlight > .default-content-wrapper {
+  max-width: none;
+  padding: 0 30px;
+}
+
+body.find-care main .section.highlight h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0 8px;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.find-care main .section.highlight p:not(.button-container) {
+  margin: 0;
+  color: var(--text-body-color);
+  font-family: var(--heading-font-family);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 21px;
+  letter-spacing: -0.25px;
+}
+
+body.find-care main .section.highlight p.button-container {
+  margin: 16px 0 0;
+}
+
+/* outlined CTA (source .brand-button-light) */
+body.find-care main .section.highlight a.button:any-link {
+  margin: 16px 0;
+  padding: 16px 24px;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+/* ------------------------------------------------------------------
+ * Tablet (768-991)
+ * ------------------------------------------------------------------ */
+@media (width >= 768px) {
+  body.find-care .hero-minimal-dark-withimg picture img {
+    aspect-ratio: 784 / 288;
+    transform: scale(1.15);
+    transform-origin: 100% 10%;
+  }
+
+  body.find-care .hero-minimal-dark-withimg h1 {
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  body.find-care .hero-minimal-dark-withimg h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.find-care main > .section.cards-minimal-dark-list-container {
+    margin: 20px 0;
+  }
+
+  body.find-care main > .section.cards-minimal-dark-list-container > .default-content-wrapper {
+    padding: 0 128px;
+  }
+
+  body.find-care main > .section.cards-minimal-dark-list-container > .default-content-wrapper h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.find-care main > .section.cards-minimal-dark-list-container > .default-content-wrapper h5 {
+    margin-bottom: 16px;
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  body.find-care main > .section.cards-minimal-dark-list-container > .default-content-wrapper h3 {
+    font-size: 24px;
+    line-height: 26.4px;
+    letter-spacing: -0.44px;
+  }
+
+  body.find-care main > .section.cards-minimal-dark-list-container > .default-content-wrapper p {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.find-care .cards-minimal-dark-list-wrapper {
+    padding: 40px 64px 0;
+  }
+
+  body.find-care .cards-minimal-dark-list .cards-minimal-dark-list-card-body {
+    padding: 0 74px 25px;
+  }
+
+  body.find-care .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3 {
+    font-size: 24px;
+    line-height: 26.4px;
+    letter-spacing: -0.44px;
+  }
+
+  body.find-care .cards-minimal-dark-list .cards-minimal-dark-list-card-body p {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.find-care main .section.highlight > .default-content-wrapper {
+    padding: 0 64px;
+  }
+
+  body.find-care main .section.highlight h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.find-care main .section.highlight p:not(.button-container) {
+    font-size: 18px;
+    line-height: 23.4px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * Desktop (>= 992)
+ * ------------------------------------------------------------------ */
+@media (width >= 992px) {
+  body.find-care .hero-minimal-dark-withimg {
+    display: flex;
+    align-items: center;
+    min-height: max(376px, calc(100vw * 400 / 1366));
+  }
+
+  body.find-care .hero-minimal-dark-withimg > div:first-child {
+    position: absolute;
+  }
+
+  body.find-care .hero-minimal-dark-withimg > div:first-child,
+  body.find-care .hero-minimal-dark-withimg > div:first-child > div,
+  body.find-care .hero-minimal-dark-withimg > div:first-child picture {
+    height: 100%;
+  }
+
+  body.find-care .hero-minimal-dark-withimg picture img {
+    height: 100%;
+    aspect-ratio: auto;
+    object-position: 50% 50%;
+    transform: none;
+  }
+
+  body.find-care .hero-minimal-dark-withimg > div:last-child {
+    padding: 0 0 0 150px;
+    background-color: transparent;
+  }
+
+  body.find-care .hero-minimal-dark-withimg h1,
+  body.find-care .hero-minimal-dark-withimg h2 {
+    max-width: 580px;
+    color: var(--text-color);
+  }
+
+  body.find-care .hero-minimal-dark-withimg h1 {
+    font-size: 56px;
+    line-height: 61.6px;
+    letter-spacing: -2.8px;
+  }
+
+  body.find-care .hero-minimal-dark-withimg h2 {
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.find-care main > .section.cards-minimal-dark-list-container {
+    margin: 40px 0;
+  }
+
+  /* 1366px container (83px gutters) > inner container (83px gutters) */
+  body.find-care main > .section.cards-minimal-dark-list-container > .default-content-wrapper {
+    box-sizing: border-box;
+    max-width: 1366px;
+    padding: 0 166px;
+  }
+
+  body.find-care main > .section.cards-minimal-dark-list-container > .default-content-wrapper h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.find-care main > .section.cards-minimal-dark-list-container > .default-content-wrapper h5 {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  body.find-care main > .section.cards-minimal-dark-list-container > .default-content-wrapper h3 {
+    letter-spacing: -0.72px;
+  }
+
+  body.find-care main > .section.cards-minimal-dark-list-container > .default-content-wrapper p {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  body.find-care .cards-minimal-dark-list-wrapper {
+    box-sizing: border-box;
+    max-width: 1366px;
+    padding: 60px 83px 0;
+  }
+
+  body.find-care .cards-minimal-dark-list > ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+
+  /* column: 0 10px 30px padding + 83px inner container, 20px spacer under the CTA */
+  body.find-care .cards-minimal-dark-list .cards-minimal-dark-list-card-body {
+    padding: 0 93px 50px;
+  }
+
+  body.find-care .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3 {
+    letter-spacing: -0.72px;
+  }
+
+  body.find-care .cards-minimal-dark-list .cards-minimal-dark-list-card-body p {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  body.find-care main .section.highlight {
+    padding: 64px 0;
+  }
+
+  body.find-care main .section.highlight > .default-content-wrapper {
+    max-width: 780px;
+    padding: 0;
+  }
+
+  body.find-care main .section.highlight h2 {
+    padding: 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.find-care main .section.highlight p:not(.button-container) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}

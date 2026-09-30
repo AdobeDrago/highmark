@@ -24,6 +24,30 @@
  * is captured completely.
  */
 export default function parse(element, { document }) {
+  // Additive branch (member-guide/find-care): region grid, no section intro
+  //   div.gridcontrol > .row > div.hmk-col-lg-6 (one per region)
+  //     > .cmp-text > h3 + p + ul (cities)   and   .button a.textButton ("FIND CARE")
+  // Cards (no images): one 1-column row per card [ heading + description + CTA ].
+  const regions = Array.from(element.querySelectorAll('div.gridcontrol div.hmk-col-lg-6'));
+  if (regions.length) {
+    const regionCells = regions.map((region) => {
+      const cell = [];
+      const text = region.querySelector('.cmp-text') || region;
+      [...text.querySelectorAll('h2, h3, h4, p, ul, ol')].filter((el) => !el.closest('li')).forEach((el) => {
+        el.removeAttribute('style');
+        cell.push(el);
+      });
+      region.querySelectorAll('.button a[href], a.textButton[href]').forEach((a) => {
+        const p = document.createElement('p');
+        p.append(a);
+        cell.push(p);
+      });
+      return [cell];
+    });
+    element.replaceWith(WebImporter.Blocks.createBlock(document, { name: 'cards-minimal-dark-list', cells: regionCells }));
+    return;
+  }
+
   // --- Leading default content (section heading + intro) ---
   const introEls = [];
   const introHeading = element.querySelector('h2.cardsTitle, .cardsTitle, h1, h2');
@@ -48,8 +72,15 @@ export default function parse(element, { document }) {
     const list = listWrap ? listWrap.querySelector('ul, ol') : card.querySelector('.typeThreeTxt ul, .typeThreeTxt ol');
     const cta = card.querySelector('a.textButton, a.button, a[class*="button"], .hmk-brand-buttons a, a');
 
+    // Card copy paragraphs (blue-neighbors event cards: description + bold date line);
+    // Do/Don't cards have only the list, so their output is unchanged.
+    const paras = listWrap
+      ? Array.from(listWrap.querySelectorAll('p')).filter((p) => p.closest('li') === card && p.textContent.trim())
+      : [];
+
     const contentCell = [];
     if (heading) contentCell.push(heading);
+    contentCell.push(...paras);
     if (list) contentCell.push(list);
     if (cta) {
       // Emit a clean link carrying only its label text.

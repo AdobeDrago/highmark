@@ -44,6 +44,30 @@ var CustomImportScript = (() => {
   // tools/importer/parsers/hero-minimal-dark-withimg.js
   function parse(element, { document: document2 }) {
     var _a;
+    const banner = element.querySelector(".secondaryBannerContent");
+    if (banner) {
+      const bannerImg = banner.querySelector("img.desktopImage") || banner.querySelector("picture img, img");
+      const wrapper = banner.querySelector(".contentWrapper") || banner;
+      const pick = (sel) => wrapper.querySelector(`${sel}.d-lg-block`) || wrapper.querySelector(sel);
+      const clean = (el) => {
+        if (!el) return null;
+        const h = document2.createElement(el.tagName.toLowerCase());
+        h.textContent = el.textContent.replace(/\s+/g, " ").trim();
+        return h;
+      };
+      const title = clean(pick("h1.bannerHeadingText") || wrapper.querySelector("h1"));
+      const sub = clean(pick(".bannerSubHeadingText"));
+      const ctas = Array.from(wrapper.querySelectorAll(".buttonGroup a[href]"));
+      if (!title && !sub && !bannerImg) {
+        element.replaceWith(...element.childNodes);
+        return;
+      }
+      const bannerCells = [];
+      if (bannerImg) bannerCells.push([bannerImg]);
+      bannerCells.push([[title, sub, ...ctas].filter(Boolean)]);
+      element.replaceWith(WebImporter.Blocks.createBlock(document2, { name: "hero-minimal-dark-withimg", cells: bannerCells }));
+      return;
+    }
     const bgImage = element.querySelector('picture img, img[class*="image"], img');
     const heroWrapper = element.querySelector(".left-content.d-lg-block .content-wrapper") || element.querySelector(".left-content .content-wrapper") || element.querySelector(".content-wrapper");
     const contentWrapper = heroWrapper || element.querySelector(".one-card-content-left-container") || element;
@@ -129,7 +153,8 @@ var CustomImportScript = (() => {
     const image = imageArea.querySelector("picture, img");
     const heading = textArea.querySelector("h1, h2, h3, h4");
     const bodyBlocks = Array.from(textArea.querySelectorAll(":scope > div"));
-    const links = Array.from(textArea.querySelectorAll('a.textButton, a.button, a[class*="button"], a[href]'));
+    const isCta = (a) => a.matches('a.textButton, a.button, a[class*="button"]') || !!a.closest("b, strong");
+    const links = Array.from(textArea.querySelectorAll('a.textButton, a.button, a[class*="button"], a[href]')).filter((a) => (a.getAttribute("href") || "").trim()).filter((a) => isCta(a) || !bodyBlocks.some((b) => b.contains(a)));
     if (!heading && bodyBlocks.length === 0 && !image) {
       element.replaceWith(...element.childNodes);
       return;
@@ -199,6 +224,25 @@ var CustomImportScript = (() => {
 
   // tools/importer/parsers/cards-minimal-dark-list.js
   function parse5(element, { document: document2 }) {
+    const regions = Array.from(element.querySelectorAll("div.gridcontrol div.hmk-col-lg-6"));
+    if (regions.length) {
+      const regionCells = regions.map((region) => {
+        const cell = [];
+        const text = region.querySelector(".cmp-text") || region;
+        [...text.querySelectorAll("h2, h3, h4, p, ul, ol")].filter((el) => !el.closest("li")).forEach((el) => {
+          el.removeAttribute("style");
+          cell.push(el);
+        });
+        region.querySelectorAll(".button a[href], a.textButton[href]").forEach((a) => {
+          const p = document2.createElement("p");
+          p.append(a);
+          cell.push(p);
+        });
+        return [cell];
+      });
+      element.replaceWith(WebImporter.Blocks.createBlock(document2, { name: "cards-minimal-dark-list", cells: regionCells }));
+      return;
+    }
     const introEls = [];
     const introHeading = element.querySelector("h2.cardsTitle, .cardsTitle, h1, h2");
     const introDesc = element.querySelector("p.cardsPara, .cardsPara, .container-sm-img > div > p");
@@ -215,8 +259,10 @@ var CustomImportScript = (() => {
       const listWrap = card.querySelector("span.cardsText, .cardsText");
       const list = listWrap ? listWrap.querySelector("ul, ol") : card.querySelector(".typeThreeTxt ul, .typeThreeTxt ol");
       const cta = card.querySelector('a.textButton, a.button, a[class*="button"], .hmk-brand-buttons a, a');
+      const paras = listWrap ? Array.from(listWrap.querySelectorAll("p")).filter((p) => p.closest("li") === card && p.textContent.trim()) : [];
       const contentCell = [];
       if (heading) contentCell.push(heading);
+      contentCell.push(...paras);
       if (list) contentCell.push(list);
       if (cta) {
         const link = document2.createElement("a");

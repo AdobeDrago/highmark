@@ -816,6 +816,434 @@
         }
       ],
       "urlPattern": "/"
+    },
+    {
+      "name": "state-plans",
+      "urls": [
+        "https://www.highmark.com/plans/d-snp",
+        "https://www.highmark.com/plans/medicaid"
+      ],
+      "representativeUrl": "https://www.highmark.com/plans/d-snp",
+      "description": "State plan landing page (D-SNP, Medicaid): secondary banner, eligibility article with one heading + text + visit CTA per state, and a centered light-blue \"Not eligible?\" callout",
+      "urlPattern": "/plans/*",
+      "blocks": [
+        {
+          "name": "hero-minimal-dark-withimg",
+          "instances": [
+            "div.secondary-banner.responsivegrid"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "1",
+          "name": "secondary-banner",
+          "selector": [
+            "div.secondary-banner.responsivegrid"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-minimal-dark-withimg"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "2",
+          "name": "article-body",
+          "selector": [
+            "section.editable-template-content"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": []
+        },
+        {
+          "id": "3",
+          "name": "not-eligible-callout",
+          "selector": [
+            "div.onecard1colpanel:has(.one-card-one-col-panel.new-hmk-brand-fifteenpercent-splash)"
+          ],
+          "style": "light-blue, center",
+          "blocks": [],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "get-help",
+      "urls": [
+        "https://www.highmark.com/plans/medicare/get-help",
+        "https://www.highmark.com/plans/individual-families/get-help"
+      ],
+      "representativeUrl": "https://www.highmark.com/plans/medicare/get-help",
+      "description": "Plan specialist help page: secondary banner, navy intro band, advisor side panels, optional photo banner, icon cards, two help cards (schedule / call) and a light-blue member CTA",
+      "urlPattern": "/plans/*/get-help",
+      "blocks": [
+        {
+          "name": "hero-minimal-dark-withimg",
+          "instances": [
+            "div.secondary-banner.responsivegrid",
+            "div.onecard1colpanel:has(.one-card-one-col-panel.image)"
+          ]
+        },
+        {
+          "name": "columns-minimal-dark",
+          "instances": [
+            "div.newcardscomponent-variations:has(.side-card-panel)"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg-icons",
+          "instances": [
+            "div.card-block.responsivegrid:has(.cardWrapper.ghostMode)"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg-2",
+          "instances": [
+            "div.newcardscomponent-variations:has(.cards-variation):not(:has(.side-card-panel))"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "1",
+          "name": "hero",
+          "selector": [
+            "div.secondary-banner.responsivegrid"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-minimal-dark-withimg"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "2",
+          "name": "navy-intro",
+          "selector": [
+            "div.onecard1colpanel:has(.one-card-one-col-panel.new-hmk-brand-togatherblue)"
+          ],
+          "style": "dark, center",
+          "blocks": [],
+          "defaultContent": []
+        },
+        {
+          "id": "3",
+          "name": "advisor-panel",
+          "selector": [
+            "div.newcardscomponent-variations:has(.side-card-panel.new-hmk-brand-polar)"
+          ],
+          "style": "light",
+          "blocks": [
+            "columns-minimal-dark"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "4",
+          "name": "photo-banner",
+          "selector": [
+            "div.onecard1colpanel:has(.one-card-one-col-panel.image)"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-minimal-dark-withimg"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "5",
+          "name": "why-highmark",
+          "selector": [
+            "div.card-block.responsivegrid:has(.cardWrapper.ghostMode)"
+          ],
+          "style": "center",
+          "blocks": [
+            "cards-minimal-dark-withimg-icons"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "6",
+          "name": "blush-panel",
+          "selector": [
+            "div.newcardscomponent-variations:has(.side-card-panel.new-hmk-brand-blush-twnetyfive)"
+          ],
+          "style": "highlight",
+          "blocks": [
+            "columns-minimal-dark"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "7",
+          "name": "help-cards",
+          "selector": [
+            "div.newcardscomponent-variations:has(.cards-variation):not(:has(.side-card-panel))"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-minimal-dark-withimg-2"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "8",
+          "name": "member-cta",
+          "selector": [
+            "section.container-fluid-fullwidth.aem-GridColumn:has(.new-hmk-brand-fifteenpercent-splash)"
+          ],
+          "style": "light-blue, center",
+          "blocks": [],
+          "defaultContent": []
+        },
+        {
+          "id": "9",
+          "name": "footnotes",
+          "selector": [
+            "section.container-fluid-fullwidth.aem-GridColumn:not(:has(.new-hmk-brand-fifteenpercent-splash)):has(.cmp-text)"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "learn-about-medicare",
+      "urls": [
+        "https://www.highmark.com/plans/medicare/learn-about-medicare"
+      ],
+      "representativeUrl": "https://www.highmark.com/plans/medicare/learn-about-medicare",
+      "description": "Medicare article hub: light-blue intro hero, 3-up grid of 18 article image cards, blush \"Understand your Medicare options\" CTA band and disclaimers",
+      "urlPattern": "/plans/medicare/learn-about-medicare",
+      "blocks": [
+        {
+          "name": "hero-minimal-light",
+          "instances": [
+            "section.container-fluid-fullwidth.section:has(.new-hmk-brand-fifteenpercent-splash)"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg",
+          "instances": [
+            "div.newcardscomponent-variations.section:has(ul.gridcardsul):has(.cardThree img)"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "1",
+          "name": "intro",
+          "selector": [
+            "section.container-fluid-fullwidth.section:has(.new-hmk-brand-fifteenpercent-splash)"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-minimal-light"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "2",
+          "name": "article-cards",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(ul.gridcardsul):has(.cardThree img)"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-minimal-dark-withimg"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "3",
+          "name": "options-cta",
+          "selector": [
+            "section.container-fluid-fullwidth.section:has(.new-hmk-brand-blush-twnetyfive)"
+          ],
+          "style": "highlight, center",
+          "blocks": [],
+          "defaultContent": []
+        },
+        {
+          "id": "4",
+          "name": "disclaimers",
+          "selector": [
+            "section.container-fluid-fullwidth.section:has(> div.container)"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "blue-neighbors",
+      "urls": [
+        "https://www.highmark.com/plans/medicare/blue-neighbors"
+      ],
+      "representativeUrl": "https://www.highmark.com/plans/medicare/blue-neighbors",
+      "description": "Blue Neighbors volunteer program: secondary banner, centered polar intro with logo, request/become-a-volunteer side panels, monthly event text cards, wide help cards and compliance code",
+      "urlPattern": "/plans/medicare/blue-neighbors",
+      "blocks": [
+        {
+          "name": "hero-minimal-dark-withimg",
+          "instances": [
+            "div.secondary-banner.responsivegrid"
+          ]
+        },
+        {
+          "name": "columns-minimal-dark",
+          "instances": [
+            "section#request div.newcardscomponent-variations:has(.side-card-panel)"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-list",
+          "instances": [
+            "div.newcardscomponent-variations.section:has(ul.gridcardsul):not(:has(.listWideImg))"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg-2",
+          "instances": [
+            "div.newcardscomponent-variations.section:has(.listWideImg)"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "1",
+          "name": "banner",
+          "selector": [
+            "div.secondary-banner.responsivegrid"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-minimal-dark-withimg"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "2",
+          "name": "intro",
+          "selector": [
+            "div.onecard1colpanel.section"
+          ],
+          "style": "light, center",
+          "blocks": [],
+          "defaultContent": []
+        },
+        {
+          "id": "3",
+          "name": "request-volunteer",
+          "selector": [
+            "section#request div.newcardscomponent-variations:first-child"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-minimal-dark"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "4",
+          "name": "become-volunteer",
+          "selector": [
+            "section#request div.newcardscomponent-variations:nth-child(2)"
+          ],
+          "style": "light",
+          "blocks": [
+            "columns-minimal-dark"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "5",
+          "name": "events",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(ul.gridcardsul):not(:has(.listWideImg))"
+          ],
+          "style": "center",
+          "blocks": [
+            "cards-minimal-dark-list"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "6",
+          "name": "questions",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(.listWideImg)"
+          ],
+          "style": "light",
+          "blocks": [
+            "cards-minimal-dark-withimg-2"
+          ],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "find-care",
+      "urls": [
+        "https://www.highmark.com/member/member-guide/find-care"
+      ],
+      "representativeUrl": "https://www.highmark.com/member/member-guide/find-care",
+      "description": "Find Care: secondary banner, intro article on choosing a region, 2x3 grid of region cards with FIND CARE links, blush \"Interested in becoming a member?\" callout",
+      "urlPattern": "/member/member-guide/find-care",
+      "blocks": [
+        {
+          "name": "hero-minimal-dark-withimg",
+          "instances": [
+            "div.secondary-banner.responsivegrid"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-list",
+          "instances": [
+            "div.gridcontrol"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "1",
+          "name": "banner",
+          "selector": [
+            "div.secondary-banner.responsivegrid"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-minimal-dark-withimg"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "2",
+          "name": "finding-care",
+          "selector": [
+            "#login > div.aem-Grid > section.container-fluid-fullwidth.aem-GridColumn.aem-GridColumn--default--12"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-minimal-dark-list"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "3",
+          "name": "become-a-member",
+          "selector": [
+            "div.onecard1colpanel.section:has(.new-hmk-brand-blush-twnetyfive)"
+          ],
+          "style": "highlight, center",
+          "blocks": [],
+          "defaultContent": []
+        }
+      ]
     }
   ],
   "metadata": {

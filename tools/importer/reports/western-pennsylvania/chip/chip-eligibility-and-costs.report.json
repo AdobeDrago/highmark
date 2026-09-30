@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/western-pennsylvania/chip/chip-eligibility-and-costs?zg=false",
+  "path": "western-pennsylvania/chip/chip-eligibility-and-costs",
+  "timestamp": "2026-09-30T13:22:01.251Z",
+  "title": "CHIP Eligibility and Costs | Highmark Blue Cross Blue Shield",
+  "template": "chip",
+  "blocks": [
+    "cards-minimal-light-sidenav",
+    "table-minimal-dark-compare",
+    "table-minimal-dark-compare"
+  ]
+}

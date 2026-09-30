@@ -142,12 +142,23 @@ export function decorateMain(main) {
 }
 
 /**
+ * Page templates with their own stylesheet (styles/templates/<template>.css),
+ * selected by the page's `template` metadata.
+ */
+const TEMPLATE_STYLES = ['state-plans', 'get-help', 'learn-about-medicare', 'blue-neighbors', 'find-care'];
+
+/**
  * Loads everything needed to get to LCP.
  * @param {Element} doc The container element
  */
 async function loadEager(doc) {
   doc.documentElement.lang = 'en';
   decorateTemplateAndTheme();
+  const template = toClassName(getMetadata('template'));
+  // start the template stylesheet now; it must apply before the first section shows
+  const templateStyles = TEMPLATE_STYLES.includes(template)
+    ? loadCSS(`${window.hlx.codeBasePath}/styles/templates/${template}.css`)
+    : null;
   if (getMetadata('breadcrumbs').toLowerCase() === 'true') {
     doc.body.dataset.breadcrumbs = true;
     // reserve the row now so the page doesn't shift when the trail loads
@@ -158,6 +169,7 @@ async function loadEager(doc) {
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
+    await templateStyles;
     doc.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);
   }

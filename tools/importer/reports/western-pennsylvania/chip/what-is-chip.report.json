@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/western-pennsylvania/chip/what-is-chip?zg=false",
+  "path": "western-pennsylvania/chip/what-is-chip",
+  "timestamp": "2026-09-30T13:22:17.711Z",
+  "title": "What is CHIP? | Highmark Blue Cross Blue Shield",
+  "template": "chip",
+  "blocks": [
+    "cards-minimal-light-sidenav",
+    "accordion-minimal-light"
+  ]
+}

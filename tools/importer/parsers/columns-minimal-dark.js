@@ -23,7 +23,15 @@ export default function parse(element, { document }) {
   const heading = textArea.querySelector('h1, h2, h3, h4');
   // Body copy: text-area direct <div> blocks (excludes the button wrapper section)
   const bodyBlocks = Array.from(textArea.querySelectorAll(':scope > div'));
-  const links = Array.from(textArea.querySelectorAll('a.textButton, a.button, a[class*="button"], a[href]'));
+  // CTA links; skip placeholder anchors with no href (get-help side panels carry an
+  // empty a.textButton) so they don't become empty links.
+  // CTAs (button-classed or bold-wrapped links: <p><b><a>TALK TO A SPECIALIST</a></b>)
+  // are appended after the copy. Plain links inside running text stay inline
+  // (blue-neighbors "Visit highmark.findhelp.com, or call…").
+  const isCta = (a) => a.matches('a.textButton, a.button, a[class*="button"]') || !!a.closest('b, strong');
+  const links = Array.from(textArea.querySelectorAll('a.textButton, a.button, a[class*="button"], a[href]'))
+    .filter((a) => (a.getAttribute('href') || '').trim())
+    .filter((a) => isCta(a) || !bodyBlocks.some((b) => b.contains(a)));
 
   // Empty-block guard
   if (!heading && bodyBlocks.length === 0 && !image) {

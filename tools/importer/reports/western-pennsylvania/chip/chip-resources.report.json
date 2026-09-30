@@ -1,0 +1,11 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/western-pennsylvania/chip/chip-resources?zg=false",
+  "path": "western-pennsylvania/chip/chip-resources",
+  "timestamp": "2026-09-30T13:22:05.883Z",
+  "title": "CHIP Resources | Highmark Blue Cross Blue Shield",
+  "template": "chip",
+  "blocks": [
+    "cards-minimal-light-sidenav"
+  ]
+}

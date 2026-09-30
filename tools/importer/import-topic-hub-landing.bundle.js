@@ -43,11 +43,61 @@ var CustomImportScript = (() => {
 
   // tools/importer/parsers/hero-minimal-dark-withimg.js
   function parse(element, { document: document2 }) {
+    var _a;
+    const banner = element.querySelector(".secondaryBannerContent");
+    if (banner) {
+      const bannerImg = banner.querySelector("img.desktopImage") || banner.querySelector("picture img, img");
+      const wrapper = banner.querySelector(".contentWrapper") || banner;
+      const pick = (sel) => wrapper.querySelector(`${sel}.d-lg-block`) || wrapper.querySelector(sel);
+      const clean = (el) => {
+        if (!el) return null;
+        const h = document2.createElement(el.tagName.toLowerCase());
+        h.textContent = el.textContent.replace(/\s+/g, " ").trim();
+        return h;
+      };
+      const title = clean(pick("h1.bannerHeadingText") || wrapper.querySelector("h1"));
+      const sub = clean(pick(".bannerSubHeadingText"));
+      const ctas = Array.from(wrapper.querySelectorAll(".buttonGroup a[href]"));
+      if (!title && !sub && !bannerImg) {
+        element.replaceWith(...element.childNodes);
+        return;
+      }
+      const bannerCells = [];
+      if (bannerImg) bannerCells.push([bannerImg]);
+      bannerCells.push([[title, sub, ...ctas].filter(Boolean)]);
+      element.replaceWith(WebImporter.Blocks.createBlock(document2, { name: "hero-minimal-dark-withimg", cells: bannerCells }));
+      return;
+    }
     const bgImage = element.querySelector('picture img, img[class*="image"], img');
-    const contentWrapper = element.querySelector(".left-content.d-lg-block .content-wrapper") || element.querySelector(".left-content .content-wrapper") || element.querySelector(".content-wrapper") || element;
-    const heading = contentWrapper.querySelector('h1, h2, .banner-heading, [class*="banner-heading"]');
+    const heroWrapper = element.querySelector(".left-content.d-lg-block .content-wrapper") || element.querySelector(".left-content .content-wrapper") || element.querySelector(".content-wrapper");
+    const contentWrapper = heroWrapper || element.querySelector(".one-card-content-left-container") || element;
+    let heading = contentWrapper.querySelector('h1, h2, .banner-heading, [class*="banner-heading"]');
+    if (!heroWrapper && heading && /\bd-none\b|\bd-lg-none\b/.test(heading.className || "")) {
+      const cleanHeading = document2.createElement(heading.tagName.toLowerCase());
+      cleanHeading.append(...heading.childNodes);
+      heading = cleanHeading;
+    }
     const subheading = contentWrapper.querySelector('h2.banner-sub-heading-sub, h3.banner-sub-heading-sub, .banner-sub-heading-sub, [class*="sub-heading"]');
     const ctaLinks = Array.from(contentWrapper.querySelectorAll('a.button, a.cta, a[class*="cta"], a[class*="button"]'));
+    if (!heroWrapper && bgImage) {
+      const desktopSource = (_a = bgImage.closest("picture")) == null ? void 0 : _a.querySelector('source[media*="992"][srcset]');
+      const desktopSrc = desktopSource && desktopSource.getAttribute("srcset").split(",")[0].trim().split(/\s+/)[0];
+      if (desktopSrc) bgImage.setAttribute("src", desktopSrc);
+    }
+    const bodyParas = [];
+    if (!heroWrapper && !subheading) {
+      const bodyText = contentWrapper.querySelector(".body-text.d-lg-block") || contentWrapper.querySelector(".body-text");
+      if (bodyText) {
+        const paras = Array.from(bodyText.querySelectorAll(":scope > p"));
+        if (paras.length) {
+          bodyParas.push(...paras);
+        } else if (bodyText.textContent.trim()) {
+          const p = document2.createElement("p");
+          p.append(...bodyText.childNodes);
+          bodyParas.push(p);
+        }
+      }
+    }
     if (!heading && !subheading && !bgImage) {
       element.replaceWith(...element.childNodes);
       return;
@@ -59,6 +109,7 @@ var CustomImportScript = (() => {
     const contentCell = [];
     if (heading) contentCell.push(heading);
     if (subheading) contentCell.push(subheading);
+    contentCell.push(...bodyParas);
     contentCell.push(...ctaLinks);
     cells.push([contentCell]);
     const block = WebImporter.Blocks.createBlock(document2, { name: "hero-minimal-dark-withimg", cells });
@@ -75,7 +126,15 @@ var CustomImportScript = (() => {
       if (introHeading) introEls.push(introHeading);
       if (introDesc) introEls.push(introDesc);
     }
-    const cards = Array.from(element.querySelectorAll(".card.cardBlock, .cardBlock, .card"));
+    let cards = Array.from(element.querySelectorAll(".card.cardBlock, .cardBlock, .card"));
+    if (!cards.length) {
+      cards = Array.from(element.querySelectorAll("li.cardThree")).filter((li) => li.querySelector("picture, img"));
+      if (cards.length) {
+        const introHeading = element.querySelector("h2.cardsTitle");
+        if (introHeading) introEls.push(introHeading);
+        introEls.push(...Array.from(element.querySelectorAll("p.cardsPara")));
+      }
+    }
     if (cards.length === 0) {
       element.replaceWith(...element.childNodes);
       return;
@@ -131,11 +190,20 @@ var CustomImportScript = (() => {
       const heading = card.querySelector('h1, h2, h3, h4, [class*="titleHead"]');
       unwrapDeadHeadingLinks(heading);
       const paragraphs = Array.from(card.querySelectorAll(".wideCardText p, .type2Txt p, p"));
-      const links = Array.from(card.querySelectorAll('a.textButton, a.button, a[class*="button"], a[href]'));
+      const links = Array.from(card.querySelectorAll('a.textButton, a.button, a[class*="button"], a[href]')).filter((a) => !paragraphs.some((p) => p.contains(a)));
       const contentCell = [];
       if (heading) contentCell.push(heading);
       contentCell.push(...paragraphs);
-      contentCell.push(...links);
+      links.forEach((a) => {
+        const label = a.previousElementSibling;
+        if (label && label.matches("span.wideCardTextTwo") && label.textContent.trim()) {
+          const p = document2.createElement("p");
+          p.append(`${label.textContent.trim()} `, a);
+          contentCell.push(p);
+        } else {
+          contentCell.push(a);
+        }
+      });
       cells.push([image || "", contentCell]);
     });
     const block = WebImporter.Blocks.createBlock(document2, { name: "cards-minimal-dark-withimg-2", cells });
@@ -149,7 +217,8 @@ var CustomImportScript = (() => {
     const image = imageArea.querySelector("picture, img");
     const heading = textArea.querySelector("h1, h2, h3, h4");
     const bodyBlocks = Array.from(textArea.querySelectorAll(":scope > div"));
-    const links = Array.from(textArea.querySelectorAll('a.textButton, a.button, a[class*="button"], a[href]'));
+    const isCta = (a) => a.matches('a.textButton, a.button, a[class*="button"]') || !!a.closest("b, strong");
+    const links = Array.from(textArea.querySelectorAll('a.textButton, a.button, a[class*="button"], a[href]')).filter((a) => (a.getAttribute("href") || "").trim()).filter((a) => isCta(a) || !bodyBlocks.some((b) => b.contains(a)));
     if (!heading && bodyBlocks.length === 0 && !image) {
       element.replaceWith(...element.childNodes);
       return;
@@ -159,7 +228,8 @@ var CustomImportScript = (() => {
     contentCell.push(...bodyBlocks);
     contentCell.push(...links);
     const imageCell = image ? [image] : [""];
-    const cells = [[contentCell, imageCell]];
+    const imageLeft = !!element.querySelector(".image-area.left-content");
+    const cells = [imageLeft ? [imageCell, contentCell] : [contentCell, imageCell]];
     const block = WebImporter.Blocks.createBlock(document2, { name: "columns-minimal-dark", cells });
     element.replaceWith(block);
   }
@@ -173,8 +243,10 @@ var CustomImportScript = (() => {
         // Qualtrics website-feedback snippet (cleaned.html:2)
         ".mega-menu-overlay",
         // nav mega-menu overlay (cleaned.html:81)
-        "#modalIeDetect"
+        "#modalIeDetect",
         // legacy IE-detection modal (cleaned.html:1637)
+        "#onetrust-consent-sdk"
+        // OneTrust cookie banner + preference center (plans cleaned.html:2631)
       ]);
     }
     if (hookName === TransformHook.afterTransform) {
