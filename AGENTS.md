@@ -9,6 +9,7 @@ Status and working notes for the Highmark AEM Edge Delivery Services project. Up
 - **Content source:** `https://content.da.live/adobedrago/highmark/` — edit at `https://da.live/edit#/adobedrago/highmark/<path>`.
 - **Preview:** `https://main--highmark--adobedrago.aem.page/<path>`
 - **Live:** `https://main--highmark--adobedrago.aem.live/<path>`
+- **Migration checklist:** [`MIGRATION-CHECKLIST.md`](MIGRATION-CHECKLIST.md) tracks every page the highmark.com homepage links to, by priority, with its status here.
 - **Local dev:** `aem up` → `http://localhost:3000/<path>`, proxying content from the preview host above. Add `--html-folder content` to also serve local-only HTML from `content/` at `/content/<path>`; the header/footer fall back to `/content/{nav,footer}.plain.html` when their metadata path misses.
 
 ### Content vs. code

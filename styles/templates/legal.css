@@ -1,0 +1,302 @@
+/* Template "legal" (page metadata template=legal -> body.legal).
+   Loaded by scripts/scripts.js (TEMPLATE_STYLES) before the first section renders.
+
+   The footer's legal pages (/accessibility-statement, /privacy, /terms-service,
+   /mandates, /network-access, /fraud, ...). Values extracted (getComputedStyle)
+   from the highmark.com originals at 390 / 768 / 1280. Source breakpoints:
+   < 768 (mobile, 30px gutters), 768-991 (tablet, 64px gutters), >= 992
+   (desktop). Desktop article column: 743px, centered, on full-width pages;
+   627px beside the side nav (or where the side-nav pages' accordion column
+   sits). Below 992 the side nav is hidden and the article runs full width. */
+
+/* stylelint-disable no-descending-specificity */
+
+/* ------------------------------------------------------------------
+ * 1. Typography: headings margin 0 / 8px plus the source's vertical padding
+ * (h1 24 / 28.8, h2 19.2 / 24, h3 16), paragraphs 16px apart (12.8px < 768)
+ * ------------------------------------------------------------------ */
+body.legal main .default-content-wrapper :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0 0 8px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-weight: 600;
+}
+
+body.legal main .default-content-wrapper h1 {
+  padding: 24px 0;
+  font-size: 32px;
+  line-height: 35.2px;
+}
+
+body.legal main .default-content-wrapper h2 {
+  padding: 19.2px 0;
+  font-size: 26px;
+  line-height: 28.6px;
+}
+
+body.legal main .default-content-wrapper h3 {
+  padding: 16px 0;
+  font-size: 22px;
+  line-height: 24.2px;
+}
+
+/* h5 is the source's lead-text style (its own h5s and span.p1 paragraphs) */
+body.legal main .default-content-wrapper h5 {
+  margin-bottom: 12.8px;
+  padding: 0;
+  font-size: 17px;
+  line-height: 23.8px;
+}
+
+body.legal main .default-content-wrapper :is(p, li) {
+  color: var(--text-body-color);
+  font-size: 15px;
+  line-height: 21px;
+}
+
+body.legal main .default-content-wrapper p {
+  margin: 0 0 12.8px;
+}
+
+@media (width >= 768px) {
+  body.legal main .default-content-wrapper h1 {
+    padding: 28.8px 0;
+    font-size: 36px;
+    line-height: 39.6px;
+  }
+
+  body.legal main .default-content-wrapper h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+  }
+
+  body.legal main .default-content-wrapper h3 {
+    font-size: 24px;
+    line-height: 26.4px;
+  }
+
+  body.legal main .default-content-wrapper h5 {
+    margin-bottom: 16px;
+    font-size: 18px;
+    line-height: 23.4px;
+  }
+
+  body.legal main .default-content-wrapper :is(p, li) {
+    line-height: 19.5px;
+  }
+
+  body.legal main .default-content-wrapper p {
+    margin-bottom: 16px;
+  }
+}
+
+@media (width >= 992px) {
+  body.legal main .default-content-wrapper h1 {
+    font-size: 56px;
+    line-height: 61.6px;
+  }
+
+  body.legal main .default-content-wrapper h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 40.8px;
+  }
+
+  body.legal main .default-content-wrapper h5 {
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  body.legal main .default-content-wrapper :is(p, li) {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 2. Text-link CTAs. The source's .textButton links (authored as
+ * <em><a> -> .button.secondary) are plain uppercase blue links, not
+ * boxed buttons; outlined brand buttons stay the default .button. Beats
+ * the side-nav section's own button reset.
+ * ------------------------------------------------------------------ */
+body.legal main .default-content-wrapper p.button-container:has(> em > a.button.secondary) {
+  margin: 0 0 16px;
+}
+
+body.legal main .default-content-wrapper a.button.secondary:any-link {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: var(--link-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: normal;
+  text-align: left;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: normal;
+}
+
+body.legal main .default-content-wrapper a.button.secondary:hover,
+body.legal main .default-content-wrapper a.button.secondary:focus {
+  background: transparent;
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+/* ------------------------------------------------------------------
+ * 3. In-page anchor lists (state lists on /mandates, /network-access):
+ * no bullets, 8px apart, lighter blue links
+ * ------------------------------------------------------------------ */
+body.legal main .section:not(.on-this-page) .default-content-wrapper ul:has(> li > a[href^="#"]) {
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+
+body.legal main .section:not(.on-this-page) .default-content-wrapper ul:has(> li > a[href^="#"]) > li {
+  margin: 0 0 8px;
+  font-size: 15px;
+  line-height: 22.5px;
+}
+
+body.legal main .default-content-wrapper ul:has(> li > a[href^="#"]) a:any-link {
+  color: #0078c1;
+  font-weight: 300;
+}
+
+/* ------------------------------------------------------------------
+ * 4. Article column
+ * < 992: one full-width column (64px / 30px gutters), side nav hidden.
+ * >= 992: 743px centered; on pages with a side nav or accordions every
+ * section uses the side-nav geometry (1200px box, 32px padding) with the
+ * article at 25% + 6px, 627px wide (x = 362 at 1280, as on the source).
+ * ------------------------------------------------------------------ */
+@media (width < 992px) {
+  body.legal .cards-minimal-light-sidenav-wrapper {
+    display: none;
+  }
+
+  body.legal main > .section:is(.cards-minimal-light-sidenav-container, .accordion-minimal-light-container) {
+    max-width: none;
+    padding: 0;
+  }
+
+  body.legal main > .section > div {
+    max-width: none;
+    margin: 0;
+    padding: 0 30px;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.legal main > .section > div {
+    padding: 0 64px;
+  }
+}
+
+@media (width >= 992px) {
+  body.legal main > .section > .default-content-wrapper {
+    box-sizing: border-box;
+    max-width: 743px;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  body.legal main:has(.cards-minimal-light-sidenav, .accordion-minimal-light) > .section {
+    box-sizing: border-box;
+    max-width: var(--content-max-width, 1200px);
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 32px;
+  }
+
+  body.legal main:has(.cards-minimal-light-sidenav, .accordion-minimal-light) > .section > div:not(.cards-minimal-light-sidenav-wrapper) {
+    box-sizing: border-box;
+    max-width: 627px;
+    margin: 0 0 0 calc(25% + 6px);
+    padding: 0;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 5. Panels inside the column: the "On this page" box (/privacy) and the
+ * "We're here for you" callout (light-blue section, /network-access,
+ * /mandates). After the column rules, which reset wrapper padding; the
+ * column rules still place them (>= 992), and below 992 they sit inside
+ * the gutters.
+ * ------------------------------------------------------------------ */
+body.legal main > .section.on-this-page > div.default-content-wrapper {
+  box-sizing: border-box;
+  padding: 24px 28px;
+  background-color: var(--light-color);
+}
+
+body.legal main > .section.on-this-page ul {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+body.legal main > .section.on-this-page li {
+  margin: 0;
+}
+
+body.legal main > .section.light-blue {
+  background: none;
+}
+
+body.legal main > .section.light-blue > div.default-content-wrapper {
+  box-sizing: border-box;
+  padding: 40px 28px;
+  background-color: #edf5fa;
+  text-align: center;
+}
+
+@media (width < 992px) {
+  body.legal main > .section.light-blue {
+    padding: 0;
+  }
+
+  body.legal main > .section:is(.on-this-page, .light-blue) > div.default-content-wrapper {
+    margin: 0 30px;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.legal main > .section:is(.on-this-page, .light-blue) > div.default-content-wrapper {
+    margin: 0 64px;
+  }
+}
+
+@media (width >= 768px) {
+  body.legal main > .section.on-this-page > div.default-content-wrapper {
+    padding: 28px 52px 32px;
+  }
+
+  body.legal main > .section.on-this-page ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding-left: 10px;
+  }
+
+  body.legal main > .section.light-blue > div.default-content-wrapper {
+    padding: 56px 52px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 6. Accordion groups (/privacy): 60px from one group to the next h2 (whose
+ * own 24px padding comes on top). After the column rules, whose margin
+ * shorthand would reset it.
+ * ------------------------------------------------------------------ */
+body.legal main:has(.accordion-minimal-light) > .section > div.accordion-minimal-light-wrapper {
+  margin-bottom: 60px;
+}
