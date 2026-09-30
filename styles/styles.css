@@ -400,6 +400,23 @@ main .section.grey {
   margin: 0;
 }
 
+
+/* grey card-list bands (/member/member-guide "Learn about health plan
+   benefits…", /plans "Plans for your business needs"): source
+   .new-hmk-brand-papergrey has 60px of grey above the heading, 16px heading
+   to intro, 31px intro to cards and 65px below the cards. */
+main .section.grey.cards-minimal-dark-list-container {
+  padding: 60px 0 65px;
+}
+
+main .section.grey.cards-minimal-dark-list-container > .default-content-wrapper h2 {
+  margin: 0 0 16px;
+}
+
+main .section.grey.cards-minimal-dark-list-container > .default-content-wrapper h2 + p {
+  margin: 0 0 31px;
+}
+
 /* stylelint-disable no-descending-specificity */
 
 /*
@@ -870,6 +887,32 @@ body.chip main > .section:not(.light) > .default-content-wrapper h1 + p + p:has(
 /* footnotes after a table: 20px spacer */
 body.chip main > .section:not(.light) > [class$="-wrapper"]:not(.default-content-wrapper) + .default-content-wrapper {
   padding-top: 20px;
+}
+
+/* article with an accordion (what-is-chip "What's covered?"): the block's own
+   CSS offsets its container section for the FAQ sidebar layout (32px side
+   padding, 25% + 32px left offset); inside the CHIP grid the article column
+   already provides the geometry, so neutralise that offset */
+body.chip main > .section.accordion-minimal-light-container {
+  max-width: none;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+body.chip main > .section.accordion-minimal-light-container > .default-content-wrapper,
+body.chip main > .section.accordion-minimal-light-container > .accordion-minimal-light-wrapper {
+  margin-left: 0;
+}
+
+/* 20px spacer component between the link list and the accordion */
+body.chip main > .section:not(.light) > .default-content-wrapper + .accordion-minimal-light-wrapper {
+  padding-top: 20px;
+}
+
+/* the source accordion component carries a 60px bottom margin at every
+   breakpoint, replacing the article's 40px closing spacer */
+body.chip main > .cards-minimal-light-sidenav-container + .section:has(> .accordion-minimal-light-wrapper:last-child) {
+  padding-bottom: 60px;
 }
 
 /* -- CTA band (doctors-drugs "Ready to apply?"): polar, centered -- */

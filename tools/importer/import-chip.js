@@ -4,6 +4,7 @@
 // PARSER IMPORTS
 import cardsMinimalLightSidenavParser from './parsers/cards-minimal-light-sidenav.js';
 import tableMinimalDarkCompareParser from './parsers/table-minimal-dark-compare.js';
+import accordionMinimalLightParser from './parsers/accordion-minimal-light.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/highmark-cleanup.js';
@@ -13,6 +14,7 @@ import sectionsTransformer from './transformers/highmark-chip-sections.js';
 const parsers = {
   'cards-minimal-light-sidenav': cardsMinimalLightSidenavParser,
   'table-minimal-dark-compare': tableMinimalDarkCompareParser,
+  'accordion-minimal-light': accordionMinimalLightParser,
 };
 
 // TRANSFORMER REGISTRY — cleanup first, then section boundaries/metadata.
@@ -24,11 +26,12 @@ const transformers = [
 // PAGE TEMPLATE CONFIGURATION — embedded from page-templates.json
 const PAGE_TEMPLATE = {
   "name": "chip",
-  "description": "Western PA CHIP article page: left CHIP section nav, main article (headings, lists, pricing tables on some pages), a small grey right-rail callout, and on some pages a light-blue centered CTA band",
+  "description": "Western PA CHIP article page: left CHIP section nav, main article (headings, lists, pricing tables or an FAQ accordion on some pages), a small grey right-rail callout, and on some pages a light-blue centered CTA band",
   "urls": [
     "https://www.highmark.com/western-pennsylvania/chip/chip-eligibility-and-costs",
     "https://www.highmark.com/western-pennsylvania/chip/chip-resources",
-    "https://www.highmark.com/western-pennsylvania/chip/doctors-drugs"
+    "https://www.highmark.com/western-pennsylvania/chip/doctors-drugs",
+    "https://www.highmark.com/western-pennsylvania/chip/what-is-chip"
   ],
   "blocks": [
     {
@@ -41,6 +44,12 @@ const PAGE_TEMPLATE = {
       "name": "table-minimal-dark-compare",
       "instances": [
         ".dynamic-table-container:has(table.d-md-table)"
+      ]
+    },
+    {
+      "name": "accordion-minimal-light",
+      "instances": [
+        "div.col-lg-9 > div.row > div.col-lg-9 div.page__par .accordianTable"
       ]
     }
   ],
@@ -65,12 +74,14 @@ const PAGE_TEMPLATE = {
       ],
       "style": null,
       "blocks": [
-        "table-minimal-dark-compare"
+        "table-minimal-dark-compare",
+        "accordion-minimal-light"
       ],
       "defaultContent": [
         "div.col-lg-9 > div.row > div.col-lg-9 div.page__par h1",
         "div.col-lg-9 > div.row > div.col-lg-9 div.page__par h2",
         "div.col-lg-9 > div.row > div.col-lg-9 div.page__par h3",
+        "div.col-lg-9 > div.row > div.col-lg-9 div.page__par h5",
         "div.col-lg-9 > div.row > div.col-lg-9 div.page__par p",
         "div.col-lg-9 > div.row > div.col-lg-9 div.page__par ul",
         "div.col-lg-9 > div.row > div.col-lg-9 div.page__par img"
