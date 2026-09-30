@@ -1,0 +1,15 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/plans/individual-families/get-help?zg=false",
+  "path": "plans/individual-families/get-help",
+  "timestamp": "2026-09-30T16:06:51.373Z",
+  "title": "Get Help Choosing a ACA Plan | Highmark ACA Specialists",
+  "template": "get-help",
+  "blocks": [
+    "hero-minimal-dark-withimg",
+    "columns-minimal-dark",
+    "columns-minimal-dark",
+    "cards-minimal-dark-withimg-icons",
+    "cards-minimal-dark-withimg-2"
+  ]
+}

@@ -15,6 +15,39 @@
  * single content wrapper (desktop preferred) to avoid duplicated text.
  */
 export default function parse(element, { document }) {
+  // Additive branch (plans/d-snp, plans/medicaid, get-help, blue-neighbors, find-care):
+  // div.secondary-banner.responsivegrid
+  //   .secondaryBannerContent > picture (img.desktopImage = desktop rendition)
+  //     + .contentWrapper > h1.bannerHeadingText + h2.bannerSubHeadingText, each twice:
+  //       mobile (.d-block.d-lg-none) first, then desktop (.d-lg-block.d-none)
+  //     + .buttonGroup (usually empty)
+  // Same block structure: Row 2 [ background image ], Row 3 [ title + subheading + CTA ].
+  const banner = element.querySelector('.secondaryBannerContent');
+  if (banner) {
+    const bannerImg = banner.querySelector('img.desktopImage') || banner.querySelector('picture img, img');
+    const wrapper = banner.querySelector('.contentWrapper') || banner;
+    const pick = (sel) => wrapper.querySelector(`${sel}.d-lg-block`) || wrapper.querySelector(sel);
+    // Re-create headings without the responsive visibility classes (d-none) so they survive.
+    const clean = (el) => {
+      if (!el) return null;
+      const h = document.createElement(el.tagName.toLowerCase());
+      h.textContent = el.textContent.replace(/\s+/g, ' ').trim();
+      return h;
+    };
+    const title = clean(pick('h1.bannerHeadingText') || wrapper.querySelector('h1'));
+    const sub = clean(pick('.bannerSubHeadingText'));
+    const ctas = Array.from(wrapper.querySelectorAll('.buttonGroup a[href]'));
+    if (!title && !sub && !bannerImg) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
+    const bannerCells = [];
+    if (bannerImg) bannerCells.push([bannerImg]);
+    bannerCells.push([[title, sub, ...ctas].filter(Boolean)]);
+    element.replaceWith(WebImporter.Blocks.createBlock(document, { name: 'hero-minimal-dark-withimg', cells: bannerCells }));
+    return;
+  }
+
   // --- Background image (Row 2, optional) ---
   const bgImage = element.querySelector('picture img, img[class*="image"], img');
 

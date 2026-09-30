@@ -1,0 +1,18 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/plans/individual-families",
+  "path": "plans/individual-families",
+  "timestamp": "2026-09-30T16:04:35.898Z",
+  "title": "Affordable ACA Health Insurance Plans for Individuals and Families",
+  "template": "plans",
+  "blocks": [
+    "hero-minimal-dark-withimg",
+    "hero-minimal-dark-withimg",
+    "cards-minimal-dark-withimg-icons",
+    "cards-minimal-dark-withimg-icons",
+    "cards-minimal-dark-withimg-icons",
+    "cards-minimal-dark-withimg",
+    "columns-minimal-dark",
+    "cards-minimal-dark-withimg-2"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/plans/medicare/blue-neighbors?zg=false",
+  "path": "plans/medicare/blue-neighbors",
+  "timestamp": "2026-09-30T16:15:48.958Z",
+  "title": "Blue Neighbors - Volunteers for Seniors | Highmark",
+  "template": "blue-neighbors",
+  "blocks": [
+    "hero-minimal-dark-withimg",
+    "columns-minimal-dark",
+    "columns-minimal-dark",
+    "cards-minimal-dark-list",
+    "cards-minimal-dark-withimg-2"
+  ]
+}

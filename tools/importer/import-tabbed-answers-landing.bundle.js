@@ -78,7 +78,11 @@ var CustomImportScript = (() => {
       const icon = item.querySelector('i.material-icons, i.material-icons-outlined, i[class*="material-icons"]');
       const labelEl = item.querySelector(".quick-link-text");
       const label = (labelEl ? labelEl.textContent : anchor.textContent || "").trim();
-      const iconText = icon ? icon.textContent.trim() : "";
+      let iconText = icon ? icon.textContent.trim() : "";
+      if (!icon && element.hasAttribute("data-iconnav-image-icons")) {
+        const img = item.querySelector("img.whiteimage") || item.querySelector("img.quicklinks-img:not(.bgimage)") || item.querySelector("img:not(.bgimage)");
+        if (img) iconText = img;
+      }
       const link = document2.createElement("a");
       link.setAttribute("href", href);
       link.textContent = label;
@@ -132,6 +136,25 @@ var CustomImportScript = (() => {
 
   // tools/importer/parsers/cards-minimal-dark-list.js
   function parse4(element, { document: document2 }) {
+    const regions = Array.from(element.querySelectorAll("div.gridcontrol div.hmk-col-lg-6"));
+    if (regions.length) {
+      const regionCells = regions.map((region) => {
+        const cell = [];
+        const text = region.querySelector(".cmp-text") || region;
+        [...text.querySelectorAll("h2, h3, h4, p, ul, ol")].filter((el) => !el.closest("li")).forEach((el) => {
+          el.removeAttribute("style");
+          cell.push(el);
+        });
+        region.querySelectorAll(".button a[href], a.textButton[href]").forEach((a) => {
+          const p = document2.createElement("p");
+          p.append(a);
+          cell.push(p);
+        });
+        return [cell];
+      });
+      element.replaceWith(WebImporter.Blocks.createBlock(document2, { name: "cards-minimal-dark-list", cells: regionCells }));
+      return;
+    }
     const introEls = [];
     const introHeading = element.querySelector("h2.cardsTitle, .cardsTitle, h1, h2");
     const introDesc = element.querySelector("p.cardsPara, .cardsPara, .container-sm-img > div > p");
@@ -148,8 +171,10 @@ var CustomImportScript = (() => {
       const listWrap = card.querySelector("span.cardsText, .cardsText");
       const list = listWrap ? listWrap.querySelector("ul, ol") : card.querySelector(".typeThreeTxt ul, .typeThreeTxt ol");
       const cta = card.querySelector('a.textButton, a.button, a[class*="button"], .hmk-brand-buttons a, a');
+      const paras = listWrap ? Array.from(listWrap.querySelectorAll("p")).filter((p) => p.closest("li") === card && p.textContent.trim()) : [];
       const contentCell = [];
       if (heading) contentCell.push(heading);
+      contentCell.push(...paras);
       if (list) contentCell.push(list);
       if (cta) {
         const link = document2.createElement("a");
@@ -170,7 +195,8 @@ var CustomImportScript = (() => {
     const image = imageArea.querySelector("picture, img");
     const heading = textArea.querySelector("h1, h2, h3, h4");
     const bodyBlocks = Array.from(textArea.querySelectorAll(":scope > div"));
-    const links = Array.from(textArea.querySelectorAll('a.textButton, a.button, a[class*="button"], a[href]'));
+    const isCta = (a) => a.matches('a.textButton, a.button, a[class*="button"]') || !!a.closest("b, strong");
+    const links = Array.from(textArea.querySelectorAll('a.textButton, a.button, a[class*="button"], a[href]')).filter((a) => (a.getAttribute("href") || "").trim()).filter((a) => isCta(a) || !bodyBlocks.some((b) => b.contains(a)));
     if (!heading && bodyBlocks.length === 0 && !image) {
       element.replaceWith(...element.childNodes);
       return;
@@ -180,7 +206,8 @@ var CustomImportScript = (() => {
     contentCell.push(...bodyBlocks);
     contentCell.push(...links);
     const imageCell = image ? [image] : [""];
-    const cells = [[contentCell, imageCell]];
+    const imageLeft = !!element.querySelector(".image-area.left-content");
+    const cells = [imageLeft ? [imageCell, contentCell] : [contentCell, imageCell]];
     const block = WebImporter.Blocks.createBlock(document2, { name: "columns-minimal-dark", cells });
     element.replaceWith(block);
   }
@@ -194,8 +221,10 @@ var CustomImportScript = (() => {
         // Qualtrics website-feedback snippet (cleaned.html:2)
         ".mega-menu-overlay",
         // nav mega-menu overlay (cleaned.html:81)
-        "#modalIeDetect"
+        "#modalIeDetect",
         // legacy IE-detection modal (cleaned.html:1637)
+        "#onetrust-consent-sdk"
+        // OneTrust cookie banner + preference center (plans cleaned.html:2631)
       ]);
     }
     if (hookName === TransformHook.afterTransform) {

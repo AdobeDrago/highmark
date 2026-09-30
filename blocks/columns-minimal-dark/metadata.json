@@ -39,9 +39,12 @@
       "/western-pennsylvania/chip",
       "/resources/mental-health-services/substance-use-disorders",
       "/resources/mental-health-services/mental-health-resources-teens-children",
-      "/resources/mental-health-services/mental-health-resources"
+      "/resources/mental-health-services/mental-health-resources",
+      "/plans/medicare/get-help",
+      "/plans/individual-families/get-help",
+      "/plans/medicare/blue-neighbors"
     ],
-    "reuseCount": 9,
-    "lastUsed": "2026-09-30T13:08:27.359629Z"
+    "reuseCount": 12,
+    "lastUsed": "2026-09-30T16:18:04.000Z"
   }
 }

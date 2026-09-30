@@ -1,0 +1,642 @@
+/* Template "blue-neighbors" (page metadata template=blue-neighbors -> body.blue-neighbors).
+   Loaded by scripts/scripts.js (TEMPLATE_STYLES) before the first section renders.
+
+   Values extracted (getComputedStyle) from
+   https://www.highmark.com/plans/medicare/blue-neighbors at 390 / 768 / 1440.
+   Source breakpoints: < 768 mobile, 768-991 tablet (everything stacked),
+   >= 992 desktop (overlay hero, side-by-side panels, 2-up event cards). */
+
+/* Rules are grouped by section; selectors in different sections target
+   disjoint elements, so source order across groups does not matter. */
+/* stylelint-disable no-descending-specificity */
+
+/* Source bands abut each other: no 40px gaps between sections */
+body.blue-neighbors main > .section {
+  margin: 0;
+}
+
+/* ==========================================================================
+   1. Hero (.secondaryBannerContent) - photo stacked above a 35px-padded text
+   panel below 992px; text overlaid 150px from the left edge on desktop.
+   ========================================================================== */
+body.blue-neighbors main .hero-minimal-dark-withimg h1 {
+  max-width: none;
+  margin: 0 0 8px;
+  padding: 0 0 12px;
+  font-size: 32px;
+  line-height: 35.2px;
+  letter-spacing: -1.28px;
+}
+
+body.blue-neighbors main .hero-minimal-dark-withimg h2 {
+  max-width: none;
+  margin: 0 0 8px;
+  padding: 0 0 22px;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.blue-neighbors main .hero-minimal-dark-withimg p.button-container {
+  margin: 0;
+}
+
+body.blue-neighbors main .hero-minimal-dark-withimg a.button:any-link {
+  margin: 16px 0;
+}
+
+@media (width < 992px) {
+  body.blue-neighbors main .hero-minimal-dark-withimg {
+    display: block;
+    min-height: 0;
+  }
+
+  body.blue-neighbors main .hero-minimal-dark-withimg > div:first-child {
+    position: static;
+  }
+
+  body.blue-neighbors main .hero-minimal-dark-withimg > div:first-child,
+  body.blue-neighbors main .hero-minimal-dark-withimg > div:first-child > div,
+  body.blue-neighbors main .hero-minimal-dark-withimg > div:first-child picture {
+    height: auto;
+  }
+
+  body.blue-neighbors main .hero-minimal-dark-withimg picture img {
+    display: block;
+    height: auto;
+    aspect-ratio: 390 / 188;
+    object-position: 100% 50%;
+  }
+
+  body.blue-neighbors main .hero-minimal-dark-withimg > div:last-child {
+    max-width: none;
+    margin: 0;
+    padding: 35px;
+    background-color: var(--background-color);
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.blue-neighbors main .hero-minimal-dark-withimg picture img {
+    aspect-ratio: 768 / 288;
+  }
+
+  body.blue-neighbors main .hero-minimal-dark-withimg h1 {
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  body.blue-neighbors main .hero-minimal-dark-withimg h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+}
+
+@media (width >= 992px) {
+  body.blue-neighbors main .hero-minimal-dark-withimg {
+    min-height: 384px;
+  }
+
+  body.blue-neighbors main .hero-minimal-dark-withimg > div:last-child {
+    max-width: none;
+    padding: 0 150px;
+  }
+
+  body.blue-neighbors main .hero-minimal-dark-withimg h1 {
+    max-width: 580px;
+    font-size: 56px;
+    line-height: 61.6px;
+    letter-spacing: -2.8px;
+  }
+
+  body.blue-neighbors main .hero-minimal-dark-withimg h2 {
+    max-width: 580px;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+}
+
+/* ==========================================================================
+   2. Intro band (.one-card-one-col-panel, polar): logo + "Celebrating Over
+   25 Years" - padding 32/48 below 992px, 64/64 desktop; 330 / 640 / 780px
+   content column; sofia-pro #004362 heading and lead copy.
+   ========================================================================== */
+body.blue-neighbors main > .section.light.center {
+  padding: 32px 0 48px;
+}
+
+body.blue-neighbors main > .section.light.center > .default-content-wrapper {
+  max-width: none;
+  padding: 0 30px;
+}
+
+body.blue-neighbors main > .section.light.center > .default-content-wrapper > p:has(> picture) {
+  margin: 0;
+  line-height: 0;
+}
+
+body.blue-neighbors main > .section.light.center > .default-content-wrapper > p > picture img {
+  display: block;
+  width: 300px;
+  height: auto;
+  margin: 0 auto;
+}
+
+body.blue-neighbors main > .section.light.center > .default-content-wrapper h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0 8px;
+  color: #004362;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.blue-neighbors main > .section.light.center > .default-content-wrapper > p:not(:has(> picture)) {
+  margin: 0;
+  color: #004362;
+  font-family: var(--heading-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.25px;
+}
+
+@media (width >= 768px) {
+  body.blue-neighbors main > .section.light.center > .default-content-wrapper {
+    padding: 0 64px;
+  }
+
+  body.blue-neighbors main > .section.light.center > .default-content-wrapper h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.blue-neighbors main > .section.light.center > .default-content-wrapper > p:not(:has(> picture)) {
+    font-size: 18px;
+    line-height: 23.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.blue-neighbors main > .section.light.center {
+    padding: 64px 0;
+  }
+
+  body.blue-neighbors main > .section.light.center > .default-content-wrapper {
+    max-width: 780px;
+    padding: 0 32px;
+  }
+
+  body.blue-neighbors main > .section.light.center > .default-content-wrapper > p:has(> picture) {
+    margin-bottom: 48px;
+  }
+
+  body.blue-neighbors main > .section.light.center > .default-content-wrapper h2 {
+    padding: 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.blue-neighbors main > .section.light.center > .default-content-wrapper > p:not(:has(> picture)) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}
+
+/* ==========================================================================
+   3-4. "Request a Volunteer" (white) / "Become a Volunteer" (polar) side
+   panels (.side-card-panel) - stacked image-over-text below 992px; desktop
+   555px illustration + 550px text column (24px inner padding), centered.
+   ========================================================================== */
+body.blue-neighbors main > .section.columns-minimal-dark-container {
+  padding: 32px 0;
+}
+
+body.blue-neighbors main > .section > .columns-minimal-dark-wrapper {
+  max-width: none;
+  padding: 0 30px;
+}
+
+body.blue-neighbors main .columns-minimal-dark h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+/* "Request a Volunteer" body copy is light roboto; the "Become" copy keeps
+   the block's 16px/24px navy text (source renders it as a bare text node). */
+body.blue-neighbors main > .section:not(.light) .columns-minimal-dark p:not(.button-container) {
+  margin: 0 0 12.8px;
+  color: var(--text-body-color);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+/* fine print: 75% size on the paragraph's line-height */
+body.blue-neighbors main .columns-minimal-dark p > sub {
+  font-size: 75%;
+  line-height: inherit;
+  vertical-align: baseline;
+}
+
+body.blue-neighbors main .columns-minimal-dark p.button-container {
+  margin: 16px 0 0;
+}
+
+/* highmark.findhelp.com is an inline link inside the fine print on the
+   source; keep it small, light and unstyled rather than a bold CTA, tucked
+   directly under the fine print. */
+body.blue-neighbors main > .section:not(.light) .columns-minimal-dark p:has(> sub):has(+ p.button-container > a[href*="findhelp.com"]) {
+  margin-bottom: 0;
+}
+
+body.blue-neighbors main .columns-minimal-dark p.button-container:has(> a[href*="findhelp.com"]) {
+  margin: 0;
+  line-height: 16px;
+}
+
+body.blue-neighbors main .columns-minimal-dark a.button[href*="findhelp.com"]:any-link {
+  color: rgb(0 120 193);
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 16px;
+  letter-spacing: -0.1px;
+  text-transform: none;
+}
+
+@media (width < 992px) {
+  body.blue-neighbors main .columns-minimal-dark > div {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  body.blue-neighbors main .columns-minimal-dark > div > div {
+    order: 1;
+  }
+
+  body.blue-neighbors main .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    order: 0;
+  }
+}
+
+@media (width >= 768px) {
+  body.blue-neighbors main > .section.columns-minimal-dark-container {
+    padding: 48px 0;
+  }
+
+  body.blue-neighbors main > .section > .columns-minimal-dark-wrapper {
+    padding: 0 64px;
+  }
+
+  body.blue-neighbors main .columns-minimal-dark h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.blue-neighbors main > .section:not(.light) .columns-minimal-dark p:not(.button-container) {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.blue-neighbors main > .section.columns-minimal-dark-container {
+    padding: 80px 0;
+  }
+
+  body.blue-neighbors main > .section > .columns-minimal-dark-wrapper {
+    max-width: 1200px;
+    padding: 0 32px;
+  }
+
+  body.blue-neighbors main .columns-minimal-dark > div {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+  }
+
+  body.blue-neighbors main .columns-minimal-dark > div > div {
+    box-sizing: border-box;
+    flex: 0 1 550px;
+    padding: 0 24px;
+  }
+
+  body.blue-neighbors main .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    flex: 0 1 555px;
+    margin: 0 24px;
+    padding: 0;
+  }
+
+  /* image | text ("Request"): 24px between image margin and text column */
+  body.blue-neighbors main .columns-minimal-dark > div > .columns-minimal-dark-img-col + div {
+    margin-left: 24px;
+  }
+
+  /* text | image ("Become"): text column carries a 47px right margin */
+  body.blue-neighbors main .columns-minimal-dark > div > div:has(+ .columns-minimal-dark-img-col) {
+    margin-right: 47px;
+  }
+
+  body.blue-neighbors main .columns-minimal-dark h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.blue-neighbors main > .section:not(.light) .columns-minimal-dark p:not(.button-container) {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+}
+
+/* ==========================================================================
+   5. "Monthly Virtual Events" (.cards-variation > .container-sm-img):
+   padding 50/40 (< 768) or 60/50; sofia-pro semibold intro; fixed-width
+   white event cards (300 / 400 / 2 x 370px) with a 51x5 blue rule under
+   the title and a left-aligned JOIN EVENT link.
+   ========================================================================== */
+body.blue-neighbors main > .section.cards-minimal-dark-list-container {
+  padding: 50px 0 40px;
+}
+
+body.blue-neighbors main > .section.cards-minimal-dark-list-container > .default-content-wrapper {
+  max-width: none;
+  padding: 0 15px;
+}
+
+body.blue-neighbors main > .section.cards-minimal-dark-list-container > .default-content-wrapper h2 {
+  margin: 0 0 20px;
+  color: var(--text-color);
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.blue-neighbors main > .section.cards-minimal-dark-list-container > .default-content-wrapper p {
+  margin: 0 0 30px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+body.blue-neighbors main > .section.cards-minimal-dark-list-container > .default-content-wrapper p a:any-link {
+  color: rgb(0 120 193);
+}
+
+body.blue-neighbors main > .section > .cards-minimal-dark-list-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+body.blue-neighbors main .cards-minimal-dark-list {
+  padding-bottom: 30px;
+}
+
+body.blue-neighbors main .cards-minimal-dark-list > ul {
+  grid-template-columns: 300px;
+  justify-content: center;
+  gap: 30px;
+}
+
+body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-body {
+  padding: 0 20px 16px;
+}
+
+body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3 {
+  margin: 20px 0 15px;
+  font-size: 22px;
+  line-height: 24.2px;
+  letter-spacing: -0.4px;
+}
+
+/* source hr.breakLine: 51 x 4px rgb(0 120 193) + 1px rgb(0 0 0 / 10%) top border */
+body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3::after {
+  content: "";
+  display: block;
+  width: 51px;
+  height: 4px;
+  margin-top: 13px;
+  border-top: 1px solid rgb(0 0 0 / 10%);
+  background-color: rgb(0 120 193);
+}
+
+body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-body p.button-container {
+  text-align: left;
+}
+
+@media (width >= 768px) {
+  body.blue-neighbors main > .section.cards-minimal-dark-list-container {
+    padding: 60px 0 50px;
+  }
+
+  body.blue-neighbors main > .section.cards-minimal-dark-list-container > .default-content-wrapper {
+    padding: 0 19.2px;
+  }
+
+  body.blue-neighbors main > .section.cards-minimal-dark-list-container > .default-content-wrapper h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.blue-neighbors main > .section.cards-minimal-dark-list-container > .default-content-wrapper p {
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  body.blue-neighbors main .cards-minimal-dark-list > ul {
+    grid-template-columns: 400px;
+  }
+
+  body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3 {
+    font-size: 32px;
+    line-height: 35.2px;
+    letter-spacing: -0.44px;
+  }
+
+  body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3::after {
+    margin-top: 16px;
+  }
+}
+
+@media (width >= 992px) {
+  body.blue-neighbors main > .section.cards-minimal-dark-list-container > .default-content-wrapper {
+    max-width: 766px;
+    padding: 0;
+  }
+
+  body.blue-neighbors main > .section.cards-minimal-dark-list-container > .default-content-wrapper h2 {
+    font-size: 34px;
+    line-height: 37.4px;
+    letter-spacing: -1.36px;
+  }
+
+  body.blue-neighbors main > .section.cards-minimal-dark-list-container > .default-content-wrapper p {
+    margin-bottom: 40px;
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  /* inline-block cards: 30px margin-right on the 2nd card shifts the pair 15px left */
+  body.blue-neighbors main .cards-minimal-dark-list > ul {
+    grid-template-columns: repeat(2, 370px);
+    column-gap: 34px;
+    padding-right: 30px;
+  }
+
+  body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-body {
+    padding: 0 30px 16px;
+  }
+
+  body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3 {
+    font-size: 24px;
+    line-height: 26.4px;
+    letter-spacing: -0.72px;
+  }
+
+  body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3::after {
+    margin-top: 13px;
+  }
+}
+
+/* ==========================================================================
+   6. "Questions?" / "Send Us a Message" - #edf5fa band
+   (section.global-helionlightblue, not the site's #f7fbfd light) behind the
+   cards (.cards-variation padding 50/20, 60/30, 60/20) and the Y0037
+   compliance code below them.
+   ========================================================================== */
+body.blue-neighbors main > .section.cards-minimal-dark-withimg-2-container {
+  padding: 0;
+  background-color: #edf5fa;
+}
+
+body.blue-neighbors main > .section > .cards-minimal-dark-withimg-2-wrapper {
+  max-width: none;
+  padding: 50px 0 20px;
+}
+
+body.blue-neighbors main .cards-minimal-dark-withimg-2 {
+  padding-bottom: 30px;
+}
+
+/* stacked card illustrations are 300 x 114 (< 768) / 290 x 110 (768-899).
+   The source swaps in a wide mobile SVG; the authored square desktop SVG is
+   letterboxed on its own #f7fbfd backdrop instead of being cropped. */
+body.blue-neighbors main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-image img {
+  height: 114px;
+  object-fit: contain;
+  background-color: var(--light-color);
+}
+
+/* phone CTA is a plain uppercase text link here, like EMAIL US */
+body.blue-neighbors main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p.button-container:has(> a[href^="tel:"]) {
+  margin: 15px 0 20px;
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  color: var(--text-body-color);
+}
+
+body.blue-neighbors main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p > a.button[href^="tel:"]:any-link {
+  display: inline;
+  padding: 0;
+  color: var(--link-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+body.blue-neighbors main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p > a.button[href^="tel:"]:hover,
+body.blue-neighbors main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p > a.button[href^="tel:"]:focus {
+  color: var(--link-hover-color);
+}
+
+body.blue-neighbors main > .section.cards-minimal-dark-withimg-2-container > .default-content-wrapper {
+  max-width: none;
+  padding: 0 30px;
+}
+
+body.blue-neighbors main > .section.cards-minimal-dark-withimg-2-container > .default-content-wrapper p {
+  margin: 0 0 12.8px;
+  font-size: 15px;
+  line-height: 21px;
+}
+
+@media (width >= 768px) {
+  body.blue-neighbors main > .section > .cards-minimal-dark-withimg-2-wrapper {
+    padding: 60px 0 30px;
+  }
+
+  body.blue-neighbors main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-image img {
+    height: 110px;
+  }
+
+  body.blue-neighbors main > .section.cards-minimal-dark-withimg-2-container > .default-content-wrapper {
+    padding: 0 64px;
+  }
+
+  body.blue-neighbors main > .section.cards-minimal-dark-withimg-2-container > .default-content-wrapper p {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+  }
+}
+
+@media (width >= 900px) {
+  body.blue-neighbors main > .section > .cards-minimal-dark-withimg-2-wrapper {
+    padding: 60px 0 20px;
+  }
+
+  /* source li margin-left: 8px nudges the centered pair 4px right (x=183);
+     li margin-bottom 30px + 6px trailing inline-block box */
+  body.blue-neighbors main .cards-minimal-dark-withimg-2 {
+    padding-bottom: 36px;
+  }
+
+  body.blue-neighbors main .cards-minimal-dark-withimg-2 > ul {
+    padding-left: 8px;
+  }
+
+  body.blue-neighbors main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-image img {
+    height: 200px;
+  }
+
+  body.blue-neighbors main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p.button-container:has(> a[href^="tel:"]) {
+    margin: 0 0 15px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+@media (width >= 992px) {
+  body.blue-neighbors main > .section.cards-minimal-dark-withimg-2-container > .default-content-wrapper {
+    max-width: 1200px;
+    padding: 0 32px;
+  }
+
+  body.blue-neighbors main > .section.cards-minimal-dark-withimg-2-container > .default-content-wrapper p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
