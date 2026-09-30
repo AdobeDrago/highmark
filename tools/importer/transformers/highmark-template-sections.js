@@ -19,7 +19,8 @@
  *
  * Shared cleanup for these pages (beforeTransform, so parsers see the cleaned DOM):
  *  - heading links without an href (a.headNoLink) are unwrapped to plain text
- *  - hidden placeholder phone links (a[href="tel:"]) are removed
+ *  - hidden placeholder phone links (a[href="tel:"]) and label-less a.textButton
+ *    CTAs are removed
  *  - wide help cards (li.listWideImg): the desktop rendition
  *    (<source media="(min-width: 992px)">) is promoted onto the <img>
  */
@@ -68,6 +69,11 @@ function sharedCleanup(root) {
     a.replaceWith(...a.childNodes);
   });
   root.querySelectorAll('a[href="tel:"]').forEach((a) => a.remove());
+  // hidden placeholder CTAs with no label (bright-blue-futures panels end with an
+  // empty a.textButton) would become empty links
+  root.querySelectorAll('a.textButton').forEach((a) => {
+    if (!a.textContent.trim() && !a.querySelector('img, picture')) a.remove();
+  });
   root.querySelectorAll('li.listWideImg picture').forEach((picture) => {
     const img = picture.querySelector('img');
     const desktop = picture.querySelector('source[media*="992"][srcset]');

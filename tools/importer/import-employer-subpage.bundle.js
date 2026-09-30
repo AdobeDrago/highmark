@@ -199,6 +199,36 @@ var CustomImportScript = (() => {
     }
     let cards = Array.from(element.querySelectorAll(".card.cardBlock, .cardBlock, .card"));
     if (!cards.length) {
+      const people = Array.from(element.querySelectorAll("section.hmk-home_cardwrapper"));
+      if (people.length) {
+        const peopleCells = people.map((person) => {
+          const photo = person.querySelector("img");
+          const nameLink = person.querySelector(".hmk-cardwrapper_title a");
+          const h3 = document2.createElement("h3");
+          if (nameLink) {
+            const a = document2.createElement("a");
+            a.setAttribute("href", nameLink.getAttribute("href"));
+            a.textContent = nameLink.textContent.trim();
+            h3.append(a);
+          }
+          const text = [h3];
+          const desc = person.querySelector("p.hmk-homecarddesc");
+          if (desc) text.push(desc);
+          person.querySelectorAll(".hmk-brand-buttons a[href]").forEach((a) => {
+            const p = document2.createElement("p");
+            const link = document2.createElement("a");
+            link.setAttribute("href", a.getAttribute("href"));
+            link.textContent = a.querySelector(".fa-linkedin") ? "LinkedIn" : a.textContent.trim();
+            p.append(link);
+            text.push(p);
+          });
+          return [photo || "", text];
+        });
+        element.replaceWith(WebImporter.Blocks.createBlock(document2, { name: "cards-minimal-dark-withimg", cells: peopleCells }));
+        return;
+      }
+    }
+    if (!cards.length) {
       cards = Array.from(element.querySelectorAll("li.cardThree")).filter((li) => li.querySelector("picture, img"));
       if (cards.length) {
         const introHeading = element.querySelector("h2.cardsTitle");
@@ -315,6 +345,9 @@ var CustomImportScript = (() => {
       a.replaceWith(...a.childNodes);
     });
     root.querySelectorAll('a[href="tel:"]').forEach((a) => a.remove());
+    root.querySelectorAll("a.textButton").forEach((a) => {
+      if (!a.textContent.trim() && !a.querySelector("img, picture")) a.remove();
+    });
     root.querySelectorAll("li.listWideImg picture").forEach((picture) => {
       const img = picture.querySelector("img");
       const desktop = picture.querySelector('source[media*="992"][srcset]');
