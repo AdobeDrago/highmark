@@ -80,10 +80,6 @@
     margin-bottom: 0;
     margin-top: 0;
 }
-.hero-minimal-dark-withimg-container .hero-minimal-dark-withimg-wrapper{
-    padding-left: 0;
-    padding-right: 0;
-}
 
 @media (width >= 900px) {
   .hero-minimal-dark-withimg {
@@ -430,7 +426,13 @@ main .hero-minimal-dark-withimg:not(:has(h1)) a.button:focus {
     max-width: calc(64vw - 180px);
     color: #fff;
   }
+
+  .hero-minimal-dark-withimg-container .hero-minimal-dark-withimg-wrapper{
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
+
 /* ------------------------------------------------------------------
  * Primary + secondary CTA pair (e.g. /member/member-guide: bold
  * MEMBER LOGIN + plain REGISTER). Source .buttonGroup: the second CTA is

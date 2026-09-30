@@ -21,6 +21,13 @@
   box-shadow: rgb(0 0 0 / 16%) 0 3px 6px 0;
 }
 
+body.topic-hub-subnav .cards-minimal-dark-list > ul {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  gap: 0;
+}
+
 .cards-minimal-dark-list .cards-minimal-dark-list-card-body {
   display: flex;
   flex-direction: column;
@@ -166,13 +173,6 @@ body.topic-hub-subnav main > .section.cards-minimal-dark-list-container > .defau
   line-height: 23.8px;
   letter-spacing: -0.2px;
   color: var(--text-color);
-}
-
-body.topic-hub-subnav .cards-minimal-dark-list > ul {
-  display: flex;
-  flex-flow: column wrap;
-  align-items: center;
-  gap: 0;
 }
 
 body.topic-hub-subnav .cards-minimal-dark-list > ul > li {
