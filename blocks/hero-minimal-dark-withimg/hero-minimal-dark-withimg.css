@@ -422,3 +422,97 @@ main .hero-minimal-dark-withimg:not(:has(h1)) a.button:focus {
     color: #fff;
   }
 }
+
+/* ------------------------------------------------------------------
+ * Topic sub-page hero (template=topic-hub-subnav: mental-health topic
+ * pages + /resources/spending-accounts), mobile + tablet (< 992px).
+ * Source .sub-hero-sec stacks the photo above a light-blue splash panel
+ * (.left-content-sub.new-hmk-brand-fifteenpercent-splash, padding
+ * 20/20/35) below d-lg. Photo follows the source art-direction crops:
+ * 768x288 at 426-1024px and 414x200 at <= 425px; the eating-disorders,
+ * mental-health-resources and spending-accounts heroes use 784x288 and
+ * 375x200 crops instead. Desktop (>= 992px) keeps the overlay layout.
+ * ------------------------------------------------------------------ */
+@media (width < 992px) {
+  body.topic-hub-subnav .hero-minimal-dark-withimg:has(h1) {
+    display: block;
+    min-height: 0;
+  }
+
+  body.topic-hub-subnav .hero-minimal-dark-withimg:has(h1) > div:last-child {
+    max-width: none;
+    padding: 20px 20px 35px;
+    background-color: var(--light-blue-color);
+    text-align: center;
+  }
+
+  body.topic-hub-subnav .hero-minimal-dark-withimg:has(h1) > div:first-child {
+    position: static;
+  }
+
+  body.topic-hub-subnav .hero-minimal-dark-withimg:has(h1) > div:first-child,
+  body.topic-hub-subnav .hero-minimal-dark-withimg:has(h1) > div:first-child > div,
+  body.topic-hub-subnav .hero-minimal-dark-withimg:has(h1) > div:first-child picture {
+    height: auto;
+  }
+
+  body.topic-hub-subnav .hero-minimal-dark-withimg:has(h1) picture img {
+    display: block;
+    height: auto;
+    aspect-ratio: 768 / 288;
+
+    /* authored desktop photos have the subject on the right; the source
+       mobile/tablet crops centre it */
+    object-position: 100% 50%;
+  }
+
+  body.topic-hub-subnav .hero-minimal-dark-withimg:has(h1) picture img:is([src*="eatdisorder-"], [src*="mhresources-hero"], [src*="spending-account-"]) {
+    aspect-ratio: 784 / 288;
+  }
+
+  body.topic-hub-subnav .hero-minimal-dark-withimg:has(h1) h1 {
+    max-width: none;
+    margin: 5px 0 0;
+    padding: 15px;
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  body.topic-hub-subnav .hero-minimal-dark-withimg:has(h1) h2 {
+    max-width: none;
+    padding: 15px;
+    font-size: 20px;
+    line-height: 22px;
+    letter-spacing: -0.44px;
+  }
+
+  /* spending-accounts keeps its panel text left-aligned */
+  body.topic-hub-subnav .hero-minimal-dark-withimg:has(h1):has(img[src*="spending-account-"]) > div:last-child {
+    text-align: left;
+  }
+}
+
+@media (width < 768px) {
+  body.topic-hub-subnav .hero-minimal-dark-withimg:has(h1) h1 {
+    margin-top: 16px;
+    padding-top: 0;
+    font-size: 32px;
+    line-height: 35.2px;
+    letter-spacing: -1.28px;
+  }
+
+  body.topic-hub-subnav .hero-minimal-dark-withimg:has(h1) h2 {
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width <= 425px) {
+  body.topic-hub-subnav .hero-minimal-dark-withimg:has(h1) picture img {
+    aspect-ratio: 414 / 200;
+  }
+
+  body.topic-hub-subnav .hero-minimal-dark-withimg:has(h1) picture img:is([src*="eatdisorder-"], [src*="mhresources-hero"], [src*="spending-account-"]) {
+    aspect-ratio: 375 / 200;
+  }
+}

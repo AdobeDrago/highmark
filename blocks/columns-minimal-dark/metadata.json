@@ -36,9 +36,12 @@
       "/resources/spending-accounts",
       "/resources/answers",
       "/plans/individual-families",
-      "/western-pennsylvania/chip"
+      "/western-pennsylvania/chip",
+      "/resources/mental-health-services/substance-use-disorders",
+      "/resources/mental-health-services/mental-health-resources-teens-children",
+      "/resources/mental-health-services/mental-health-resources"
     ],
-    "reuseCount": 6,
-    "lastUsed": "2026-09-29T21:10:31.752882Z"
+    "reuseCount": 9,
+    "lastUsed": "2026-09-30T13:08:27.359629Z"
   }
 }

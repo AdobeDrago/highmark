@@ -1,0 +1,16 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/resources/mental-health-services/mental-health-resources-teens-children",
+  "path": "resources/mental-health-services/mental-health-resources-teens-children",
+  "timestamp": "2026-09-30T13:53:31.088Z",
+  "title": "Mental Health Resources for Teens and Children | Highmark",
+  "template": "topic-hub-subnav",
+  "blocks": [
+    "hero-minimal-dark-withimg",
+    "cards-minimal-dark-iconnav",
+    "columns-minimal-dark",
+    "cards-minimal-dark-withimg",
+    "cards-minimal-dark-withimg",
+    "cards-minimal-dark-withimg-2"
+  ]
+}

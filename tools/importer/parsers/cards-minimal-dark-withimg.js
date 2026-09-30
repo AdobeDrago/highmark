@@ -28,7 +28,27 @@ export default function parse(element, { document }) {
   }
 
   // --- Cards ---
-  const cards = Array.from(element.querySelectorAll('.card.cardBlock, .cardBlock, .card'));
+  let cards = Array.from(element.querySelectorAll('.card.cardBlock, .cardBlock, .card'));
+
+  // Additive fallback (mental-health topic pages, e.g. "Anxiety types and treatments"):
+  // shadowed small-image card list
+  //   .cards-variation > .container-sm-img
+  //     > div > h2.cardsTitle, div > p.cardsPara                 -> default content BEFORE block
+  //     > ul.cardul > li.cardThree.listSmlImg
+  //         > img.smallImage + div.typeThreeTxt > h3.titleHead, hr.breakLineNone,
+  //           span.cardsText p, .hmk-brand-buttons a.textButton
+  // Only used when no .cardBlock cards exist, so the card-block path is unchanged.
+  // Rows keep the library structure: [ image | heading + description + CTA ];
+  // the shared card loop below reads h3.titleHead, span.cardsText p and a.textButton.
+  if (!cards.length) {
+    cards = Array.from(element.querySelectorAll('li.cardThree'))
+      .filter((li) => li.querySelector('picture, img'));
+    if (cards.length) {
+      const introHeading = element.querySelector('h2.cardsTitle');
+      if (introHeading) introEls.push(introHeading);
+      introEls.push(...Array.from(element.querySelectorAll('p.cardsPara')));
+    }
+  }
 
   // Empty-block guard
   if (cards.length === 0) {

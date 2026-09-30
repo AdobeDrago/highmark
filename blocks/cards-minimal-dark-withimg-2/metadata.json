@@ -34,9 +34,12 @@
       "/resources",
       "/resources/mental-health-services/depression",
       "/plans/individual-families",
-      "/western-pennsylvania/chip"
+      "/western-pennsylvania/chip",
+      "/resources/mental-health-services/substance-use-disorders",
+      "/resources/mental-health-services/mental-health-resources-teens-children",
+      "/resources/mental-health-services/mental-health-resources"
     ],
-    "reuseCount": 4,
-    "lastUsed": "2026-09-29T21:10:31.752882Z"
+    "reuseCount": 7,
+    "lastUsed": "2026-09-30T13:08:27.359629Z"
   }
 }

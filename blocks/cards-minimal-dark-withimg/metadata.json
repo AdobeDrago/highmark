@@ -35,9 +35,12 @@
       "/resources/mental-health-services/depression",
       "/resources/spending-accounts",
       "/resources/answers",
-      "/plans/individual-families"
+      "/plans/individual-families",
+      "/resources/mental-health-services/substance-use-disorders",
+      "/resources/mental-health-services/mental-health-resources-teens-children",
+      "/resources/mental-health-services/mental-health-resources"
     ],
-    "reuseCount": 5,
-    "lastUsed": "2026-09-29T13:56:05.000Z"
+    "reuseCount": 8,
+    "lastUsed": "2026-09-30T13:08:27.359629Z"
   }
 }
