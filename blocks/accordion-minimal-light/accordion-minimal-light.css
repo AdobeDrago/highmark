@@ -108,12 +108,15 @@
 /* Two-column alignment on sidebar-listing FAQ pages: the sidebar + H1 sit in a
    flex row (the sidenav container), but each accordion group is a separate
    full-width section sibling. Offset the accordion sections to align in the
-   right content column beside the sidebar, matching the source col-lg-9. */
+   right content column beside the sidebar, matching the source col-lg-9.
+   Not applied on CHIP pages (body.chip), whose three-column grid in
+   styles.css already places the article section; :where() keeps the original
+   specificity for the sidebar pages. */
 @media (width >= 900px) {
   /* Match the sidenav container geometry exactly (border-box, same max-width
      and 32px side padding) so percentages resolve against the same content
      width. */
-  main .section.accordion-minimal-light-container {
+  :where(body:not(.chip)) main .section.accordion-minimal-light-container {
     box-sizing: border-box;
     max-width: var(--content-max-width, 1200px);
     margin-left: auto;
@@ -124,7 +127,7 @@
   /* Drop the default EDS section-inner padding so the content column's left
      edge is governed solely by the margin-left offset below (matching the
      sidenav container, whose children are likewise zeroed). */
-  main .section.accordion-minimal-light-container > div {
+  :where(body:not(.chip)) main .section.accordion-minimal-light-container > div {
     max-width: none;
     margin: 0;
     padding: 0;
@@ -133,15 +136,113 @@
   /* Offset the accordion block into the right content column with the same
      rule the sidenav intro uses (25% sidebar + 32px gap), so both left edges
      line up beside the sidebar. */
-  main .section.accordion-minimal-light-container > .accordion-minimal-light-wrapper,
-  main .section.accordion-minimal-light-container > .default-content-wrapper {
+  :where(body:not(.chip)) main .section.accordion-minimal-light-container > .accordion-minimal-light-wrapper,
+  :where(body:not(.chip)) main .section.accordion-minimal-light-container > .default-content-wrapper {
     margin-left: calc(25% + 32px);
   }
 
   /* The block wrapper may carry the default EDS inner padding; zero it so the
      accordion questions line up flush with their section H2 heading (matching
      the source, where questions sit at the H2's left edge, not indented). */
-  main .section.accordion-minimal-light-container .accordion-minimal-light {
+  :where(body:not(.chip)) main .section.accordion-minimal-light-container .accordion-minimal-light {
     padding-left: 0;
+  }
+}
+
+/* ==========================================================================
+ * CHIP article accordion (body.chip), values measured from
+ * highmark.com/western-pennsylvania/chip/what-is-chip at 1440 / 768 / 390.
+ * Source: item padding-top 10px + trigger padding 8px 0; heading span is
+ * col-11 with 0 15px padding and a bottom margin; chevron 9.6px box at
+ * right 32px; answer panel list indented 18px with 10px top padding.
+ * Spacing above/below the block (20px spacer, 60px closing margin) lives in
+ * styles.css with the rest of the CHIP article layout.
+ * ========================================================================== */
+
+body.chip .accordion-minimal-light .accordion-minimal-light-item-label {
+  padding: 18px calc(8.3333% + 15px) 20.8px 15px;
+  font-family: var(--heading-font-family);
+  font-size: 16px;
+  line-height: 22.4px;
+  letter-spacing: -0.2px;
+}
+
+/* EDS wraps the label text in a <p>; the source heading has no extra margin */
+body.chip .accordion-minimal-light .accordion-minimal-light-item-label p {
+  margin: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}
+
+body.chip .accordion-minimal-light .accordion-minimal-light-item .accordion-minimal-light-item-label::after {
+  top: 29.44px;
+  right: 32px;
+  width: 9.6px;
+  height: 9.6px;
+  box-sizing: border-box;
+  transform: translateY(-60%) rotate(45deg);
+}
+
+body.chip .accordion-minimal-light .accordion-minimal-light-item[open] .accordion-minimal-light-item-label::after {
+  transform: translateY(-50%) rotate(-135deg);
+}
+
+body.chip .accordion-minimal-light .accordion-minimal-light-item-body {
+  padding: 10px;
+}
+
+body.chip .accordion-minimal-light .accordion-minimal-light-item-body ul,
+body.chip .accordion-minimal-light .accordion-minimal-light-item-body ol {
+  margin: 0 0 16px;
+  padding: 10px 0 0 18px;
+  font-size: 15px;
+  font-weight: 100;
+}
+
+body.chip .accordion-minimal-light .accordion-minimal-light-item-body li {
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-weight: 100;
+  line-height: 21px;
+}
+
+body.chip .accordion-minimal-light .accordion-minimal-light-item-body a {
+  font-weight: 100;
+}
+
+/* external-link icon: 14px glyph, 7px before / 2px after the link text */
+body.chip .accordion-minimal-light .accordion-minimal-light-item-body .icon-external-link {
+  width: 1.125em;
+  height: 1em;
+  margin: 0 2px 0 7px;
+  vertical-align: -0.13em;
+}
+
+@media (width >= 768px) {
+  body.chip .accordion-minimal-light .accordion-minimal-light-item-label {
+    padding-bottom: 24px;
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  body.chip .accordion-minimal-light .accordion-minimal-light-item .accordion-minimal-light-item-label::after {
+    top: 31.05px;
+  }
+
+  body.chip .accordion-minimal-light .accordion-minimal-light-item-body {
+    padding: 20px;
+  }
+}
+
+@media (width >= 992px) {
+  body.chip .accordion-minimal-light .accordion-minimal-light-item-label {
+    line-height: 27px;
+    letter-spacing: -0.3px;
+  }
+
+  body.chip .accordion-minimal-light .accordion-minimal-light-item .accordion-minimal-light-item-label::after {
+    top: 32.4px;
   }
 }

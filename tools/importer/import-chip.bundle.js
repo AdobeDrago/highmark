@@ -118,6 +118,48 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
+  // tools/importer/parsers/accordion-minimal-light.js
+  function parse3(element, { document: document2 }) {
+    const leadingEls = [];
+    const heading = element.querySelector("h2.maintitle, .maintitle, h2");
+    if (heading) leadingEls.push(heading);
+    const items = Array.from(element.querySelectorAll("div.collapsible-item, .collapsible-item"));
+    if (items.length === 0) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
+    const cells = [];
+    items.forEach((item) => {
+      const trigger = item.querySelector("button.accordion-trigger, .accordion-trigger");
+      const headingSpan = item.querySelector(
+        "span.collapsible-item-heading, .collapsible-item-heading"
+      );
+      let titleEl;
+      if (headingSpan) {
+        titleEl = document2.createElement("p");
+        titleEl.textContent = (headingSpan.textContent || "").replace(/\s+/g, " ").trim();
+      } else if (trigger) {
+        titleEl = document2.createElement("p");
+        titleEl.textContent = (trigger.textContent || "").replace(/\s+/g, " ").trim();
+      } else {
+        titleEl = document2.createElement("p");
+      }
+      const desc = item.querySelector(
+        "div.collapsible-item-description, .collapsible-item-description"
+      );
+      const contentCell = [];
+      if (desc) {
+        contentCell.push(...Array.from(desc.childNodes));
+      }
+      cells.push([titleEl, contentCell.length ? contentCell : ""]);
+    });
+    const block = WebImporter.Blocks.createBlock(document2, {
+      name: "accordion-minimal-light",
+      cells
+    });
+    element.replaceWith(...leadingEls, block);
+  }
+
   // tools/importer/transformers/highmark-cleanup.js
   var TransformHook = { beforeTransform: "beforeTransform", afterTransform: "afterTransform" };
   function transform(hookName, element, payload) {
@@ -259,7 +301,8 @@ var CustomImportScript = (() => {
   // tools/importer/import-chip.js
   var parsers = {
     "cards-minimal-light-sidenav": parse,
-    "table-minimal-dark-compare": parse2
+    "table-minimal-dark-compare": parse2,
+    "accordion-minimal-light": parse3
   };
   var transformers = [
     transform,
@@ -267,11 +310,12 @@ var CustomImportScript = (() => {
   ];
   var PAGE_TEMPLATE = {
     "name": "chip",
-    "description": "Western PA CHIP article page: left CHIP section nav, main article (headings, lists, pricing tables on some pages), a small grey right-rail callout, and on some pages a light-blue centered CTA band",
+    "description": "Western PA CHIP article page: left CHIP section nav, main article (headings, lists, pricing tables or an FAQ accordion on some pages), a small grey right-rail callout, and on some pages a light-blue centered CTA band",
     "urls": [
       "https://www.highmark.com/western-pennsylvania/chip/chip-eligibility-and-costs",
       "https://www.highmark.com/western-pennsylvania/chip/chip-resources",
-      "https://www.highmark.com/western-pennsylvania/chip/doctors-drugs"
+      "https://www.highmark.com/western-pennsylvania/chip/doctors-drugs",
+      "https://www.highmark.com/western-pennsylvania/chip/what-is-chip"
     ],
     "blocks": [
       {
@@ -284,6 +328,12 @@ var CustomImportScript = (() => {
         "name": "table-minimal-dark-compare",
         "instances": [
           ".dynamic-table-container:has(table.d-md-table)"
+        ]
+      },
+      {
+        "name": "accordion-minimal-light",
+        "instances": [
+          "div.col-lg-9 > div.row > div.col-lg-9 div.page__par .accordianTable"
         ]
       }
     ],
@@ -308,12 +358,14 @@ var CustomImportScript = (() => {
         ],
         "style": null,
         "blocks": [
-          "table-minimal-dark-compare"
+          "table-minimal-dark-compare",
+          "accordion-minimal-light"
         ],
         "defaultContent": [
           "div.col-lg-9 > div.row > div.col-lg-9 div.page__par h1",
           "div.col-lg-9 > div.row > div.col-lg-9 div.page__par h2",
           "div.col-lg-9 > div.row > div.col-lg-9 div.page__par h3",
+          "div.col-lg-9 > div.row > div.col-lg-9 div.page__par h5",
           "div.col-lg-9 > div.row > div.col-lg-9 div.page__par p",
           "div.col-lg-9 > div.row > div.col-lg-9 div.page__par ul",
           "div.col-lg-9 > div.row > div.col-lg-9 div.page__par img"
