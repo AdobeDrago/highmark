@@ -35,10 +35,10 @@ var CustomImportScript = (() => {
   };
   var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-  // tools/importer/import-get-help.js
-  var import_get_help_exports = {};
-  __export(import_get_help_exports, {
-    default: () => import_get_help_default
+  // tools/importer/import-employer-landing.js
+  var import_employer_landing_exports = {};
+  __export(import_employer_landing_exports, {
+    default: () => import_employer_landing_default
   });
 
   // tools/importer/parsers/hero-minimal-dark-withimg.js
@@ -116,32 +116,8 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
-  // tools/importer/parsers/columns-minimal-dark.js
-  function parse2(element, { document: document2 }) {
-    const textArea = element.querySelector(".text-area") || element;
-    const imageArea = element.querySelector(".image-area") || element;
-    const image = imageArea.querySelector("picture, img");
-    const heading = textArea.querySelector("h1, h2, h3, h4");
-    const bodyBlocks = Array.from(textArea.querySelectorAll(":scope > div"));
-    const isCta = (a) => a.matches('a.textButton, a.button, a[class*="button"]') || !!a.closest("b, strong");
-    const links = Array.from(textArea.querySelectorAll('a.textButton, a.button, a[class*="button"], a[href]')).filter((a) => (a.getAttribute("href") || "").trim()).filter((a) => isCta(a) || !bodyBlocks.some((b) => b.contains(a)));
-    if (!heading && bodyBlocks.length === 0 && !image) {
-      element.replaceWith(...element.childNodes);
-      return;
-    }
-    const contentCell = [];
-    if (heading) contentCell.push(heading);
-    contentCell.push(...bodyBlocks);
-    contentCell.push(...links);
-    const imageCell = image ? [image] : [""];
-    const imageLeft = !!element.querySelector(".image-area.left-content");
-    const cells = [imageLeft ? [imageCell, contentCell] : [contentCell, imageCell]];
-    const block = WebImporter.Blocks.createBlock(document2, { name: "columns-minimal-dark", cells });
-    element.replaceWith(block);
-  }
-
   // tools/importer/parsers/cards-minimal-dark-withimg-icons.js
-  function parse3(element, { document: document2 }) {
+  function parse2(element, { document: document2 }) {
     const hasHref = (a) => {
       const href = (a.getAttribute("href") || "").trim();
       return !!href && href !== "#";
@@ -232,45 +208,27 @@ var CustomImportScript = (() => {
     element.replaceWith(...introEls, block, ...trailingEls);
   }
 
-  // tools/importer/parsers/cards-minimal-dark-withimg-2.js
-  function parse4(element, { document: document2 }) {
-    const cards = Array.from(element.querySelectorAll("li.listWideImg, .listWideImg, .cardul > li"));
-    if (cards.length === 0) {
+  // tools/importer/parsers/columns-minimal-dark.js
+  function parse3(element, { document: document2 }) {
+    const textArea = element.querySelector(".text-area") || element;
+    const imageArea = element.querySelector(".image-area") || element;
+    const image = imageArea.querySelector("picture, img");
+    const heading = textArea.querySelector("h1, h2, h3, h4");
+    const bodyBlocks = Array.from(textArea.querySelectorAll(":scope > div"));
+    const isCta = (a) => a.matches('a.textButton, a.button, a[class*="button"]') || !!a.closest("b, strong");
+    const links = Array.from(textArea.querySelectorAll('a.textButton, a.button, a[class*="button"], a[href]')).filter((a) => (a.getAttribute("href") || "").trim()).filter((a) => isCta(a) || !bodyBlocks.some((b) => b.contains(a)));
+    if (!heading && bodyBlocks.length === 0 && !image) {
       element.replaceWith(...element.childNodes);
       return;
     }
-    const unwrapDeadHeadingLinks = (heading) => {
-      if (!heading) return;
-      heading.querySelectorAll("a").forEach((a) => {
-        const href = (a.getAttribute("href") || "").trim();
-        if (!href || href === "#") {
-          a.replaceWith(...a.childNodes);
-        }
-      });
-    };
-    const cells = [];
-    cards.forEach((card) => {
-      const image = card.querySelector("picture, img");
-      const heading = card.querySelector('h1, h2, h3, h4, [class*="titleHead"]');
-      unwrapDeadHeadingLinks(heading);
-      const paragraphs = Array.from(card.querySelectorAll(".wideCardText p, .type2Txt p, p"));
-      const links = Array.from(card.querySelectorAll('a.textButton, a.button, a[class*="button"], a[href]')).filter((a) => !paragraphs.some((p) => p.contains(a)));
-      const contentCell = [];
-      if (heading) contentCell.push(heading);
-      contentCell.push(...paragraphs);
-      links.forEach((a) => {
-        const label = a.previousElementSibling;
-        if (label && label.matches("span.wideCardTextTwo") && label.textContent.trim()) {
-          const p = document2.createElement("p");
-          p.append(`${label.textContent.trim()} `, a);
-          contentCell.push(p);
-        } else {
-          contentCell.push(a);
-        }
-      });
-      cells.push([image || "", contentCell]);
-    });
-    const block = WebImporter.Blocks.createBlock(document2, { name: "cards-minimal-dark-withimg-2", cells });
+    const contentCell = [];
+    if (heading) contentCell.push(heading);
+    contentCell.push(...bodyBlocks);
+    contentCell.push(...links);
+    const imageCell = image ? [image] : [""];
+    const imageLeft = !!element.querySelector(".image-area.left-content");
+    const cells = [imageLeft ? [imageCell, contentCell] : [contentCell, imageCell]];
+    const block = WebImporter.Blocks.createBlock(document2, { name: "columns-minimal-dark", cells });
     element.replaceWith(block);
   }
 
@@ -397,48 +355,40 @@ var CustomImportScript = (() => {
     }
   }
 
-  // tools/importer/import-get-help.js
+  // tools/importer/import-employer-landing.js
   var parsers = {
     "hero-minimal-dark-withimg": parse,
-    "columns-minimal-dark": parse2,
-    "cards-minimal-dark-withimg-icons": parse3,
-    "cards-minimal-dark-withimg-2": parse4
+    "cards-minimal-dark-withimg-icons": parse2,
+    "columns-minimal-dark": parse3
   };
   var transformers = [
     transform,
     transform2
   ];
   var PAGE_TEMPLATE = {
-    "name": "get-help",
-    "description": "Plan specialist help page: secondary banner, navy intro band, advisor side panels, optional photo banner, icon cards, two help cards (schedule / call) and a light-blue member CTA",
+    "name": "employer-landing",
+    "description": "Employer landing page: landing hero, business-size icon cards, alternating photo/text side panels, blush CTA band",
     "urls": [
-      "https://www.highmark.com/plans/medicare/get-help",
-      "https://www.highmark.com/plans/individual-families/get-help"
+      "https://www.highmark.com/employer"
     ],
     "blocks": [
       {
         "name": "hero-minimal-dark-withimg",
         "instances": [
-          "div.secondary-banner.responsivegrid",
-          "div.onecard1colpanel:has(.one-card-one-col-panel.image)"
-        ]
-      },
-      {
-        "name": "columns-minimal-dark",
-        "instances": [
-          "div.newcardscomponent-variations:has(.side-card-panel)"
+          "div.hero.responsivegrid.section"
         ]
       },
       {
         "name": "cards-minimal-dark-withimg-icons",
         "instances": [
-          "div.card-block.responsivegrid:has(.cardWrapper.ghostMode)"
+          "div.newcardscomponent-variations.section:has(li.listSmlImg)"
         ]
       },
       {
-        "name": "cards-minimal-dark-withimg-2",
+        "name": "columns-minimal-dark",
         "instances": [
-          "div.newcardscomponent-variations:has(.cards-variation):not(:has(.side-card-panel))"
+          "section.container-fluid-fullwidth.section:has(.side-card-panel)",
+          "div.newcardscomponent-variations.section:has(.side-card-panel)"
         ]
       }
     ],
@@ -447,7 +397,7 @@ var CustomImportScript = (() => {
         "id": "1",
         "name": "hero",
         "selector": [
-          "div.secondary-banner.responsivegrid"
+          "div.hero.responsivegrid.section"
         ],
         "style": null,
         "blocks": [
@@ -457,19 +407,24 @@ var CustomImportScript = (() => {
       },
       {
         "id": "2",
-        "name": "navy-intro",
+        "name": "business-size",
         "selector": [
-          "div.onecard1colpanel:has(.one-card-one-col-panel.new-hmk-brand-togatherblue)"
+          "div.newcardscomponent-variations.section:has(li.listSmlImg)"
         ],
-        "style": "dark, center",
-        "blocks": [],
-        "defaultContent": []
+        "style": "center",
+        "blocks": [
+          "cards-minimal-dark-withimg-icons"
+        ],
+        "defaultContent": [
+          "div.newcardscomponent-variations.section:has(li.listSmlImg) h2.cardsTitle",
+          "div.newcardscomponent-variations.section:has(li.listSmlImg) p.cardsPara"
+        ]
       },
       {
         "id": "3",
-        "name": "advisor-panel",
+        "name": "enhancing-experience",
         "selector": [
-          "div.newcardscomponent-variations:has(.side-card-panel.new-hmk-brand-polar)"
+          "section.container-fluid-fullwidth.section:has(.side-card-panel)"
         ],
         "style": "light",
         "blocks": [
@@ -479,71 +434,41 @@ var CustomImportScript = (() => {
       },
       {
         "id": "4",
-        "name": "photo-banner",
+        "name": "managing-cost",
         "selector": [
-          "div.onecard1colpanel:has(.one-card-one-col-panel.image)"
+          "div.newcardscomponent-variations.section:has(.side-card-panel:not(.new-hmk-brand-polar))"
         ],
         "style": null,
-        "blocks": [
-          "hero-minimal-dark-withimg"
-        ],
-        "defaultContent": []
-      },
-      {
-        "id": "5",
-        "name": "why-highmark",
-        "selector": [
-          "div.card-block.responsivegrid:has(.cardWrapper.ghostMode)"
-        ],
-        "style": "center",
-        "blocks": [
-          "cards-minimal-dark-withimg-icons"
-        ],
-        "defaultContent": []
-      },
-      {
-        "id": "6",
-        "name": "blush-panel",
-        "selector": [
-          "div.newcardscomponent-variations:has(.side-card-panel.new-hmk-brand-blush-twnetyfive)"
-        ],
-        "style": "highlight",
         "blocks": [
           "columns-minimal-dark"
         ],
         "defaultContent": []
       },
       {
-        "id": "7",
-        "name": "help-cards",
+        "id": "5",
+        "name": "improving-outcomes",
         "selector": [
-          "div.newcardscomponent-variations:has(.cards-variation):not(:has(.side-card-panel))"
+          "div.newcardscomponent-variations.section:has(.side-card-panel.new-hmk-brand-polar)"
         ],
-        "style": null,
+        "style": "light",
         "blocks": [
-          "cards-minimal-dark-withimg-2"
+          "columns-minimal-dark"
         ],
         "defaultContent": []
       },
       {
-        "id": "8",
-        "name": "member-cta",
+        "id": "6",
+        "name": "find-plan-callout",
         "selector": [
-          "section.container-fluid-fullwidth.aem-GridColumn:has(.new-hmk-brand-fifteenpercent-splash)"
+          "div.onecard1colpanel.section:has(.one-card-one-col-panel.new-hmk-brand-blush-twnetyfive)"
         ],
-        "style": "light-blue, center",
+        "style": "highlight, center",
         "blocks": [],
-        "defaultContent": []
-      },
-      {
-        "id": "9",
-        "name": "footnotes",
-        "selector": [
-          "section.container-fluid-fullwidth.aem-GridColumn:not(:has(.new-hmk-brand-fifteenpercent-splash)):has(.cmp-text)"
-        ],
-        "style": null,
-        "blocks": [],
-        "defaultContent": []
+        "defaultContent": [
+          "div.onecard1colpanel.section:has(.one-card-one-col-panel.new-hmk-brand-blush-twnetyfive) h2",
+          "div.onecard1colpanel.section:has(.one-card-one-col-panel.new-hmk-brand-blush-twnetyfive) p",
+          "div.onecard1colpanel.section:has(.one-card-one-col-panel.new-hmk-brand-blush-twnetyfive) a"
+        ]
       }
     ]
   };
@@ -579,7 +504,7 @@ var CustomImportScript = (() => {
     console.log(`Found ${pageBlocks.length} block instances on page`);
     return pageBlocks;
   }
-  var import_get_help_default = {
+  var import_employer_landing_default = {
     transform: (payload) => {
       const {
         document: document2,
@@ -595,6 +520,14 @@ var CustomImportScript = (() => {
         ".experiencefragment:has(.footer-list)",
         "div.breadcrumb"
       ]);
+      main.querySelectorAll('a[href="#anchor"]').forEach((a) => a.setAttribute("href", "#enhancing-the-experience"));
+      [
+        ["small-group-plans-link", "/employer/solutions/small-business"],
+        ["large-group-plans-link", "/employer/solutions/large-business"],
+        ["national-group-plans-link", "/employer/solutions/national-business"]
+      ].forEach(([id, href]) => {
+        main.querySelectorAll(`a#${id}[href="#"]`).forEach((a) => a.setAttribute("href", href));
+      });
       executeTransformers("beforeTransform", main, payload);
       const pageBlocks = findBlocksOnPage(document2, PAGE_TEMPLATE);
       pageBlocks.forEach((block) => {
@@ -618,7 +551,7 @@ var CustomImportScript = (() => {
         meta.breadcrumbs = "true";
         if (crumbLabel) meta["Breadcrumb Title"] = crumbLabel;
       }
-      meta.template = "get-help";
+      meta.template = "employer-landing";
       main.append(WebImporter.Blocks.getMetadataBlock(document2, meta));
       WebImporter.rules.transformBackgroundImages(main, document2);
       WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
@@ -635,5 +568,5 @@ var CustomImportScript = (() => {
       }];
     }
   };
-  return __toCommonJS(import_get_help_exports);
+  return __toCommonJS(import_employer_landing_exports);
 })();

@@ -8,8 +8,11 @@
  * get-help, learn-about-medicare, blue-neighbors and find-care.
  *
  * Each section.selector is an array of candidate selectors tried in order; the
- * first match wins. Sections whose selectors match nothing are skipped (never
- * guessed). Same before/after hook + marker pattern as
+ * first match wins. With `repeat: true` every element matched by any of the
+ * selectors becomes its own section (employer sub-pages repeat 1-4 side panels,
+ * each styled from its own band). Sections whose selectors match nothing are
+ * skipped (never guessed). A break with no content before it (the page opens
+ * with that section) is dropped, so no empty first section is created. Same before/after hook + marker pattern as
  * highmark-chip-landing-sections.js: <hr> breaks go in beforeTransform (while every
  * section element still exists), Section Metadata in afterTransform, anchored to
  * the marker <hr> (or the surviving original element).
@@ -38,6 +41,28 @@ function querySection(root, selectors) {
   return null;
 }
 
+function queryAll(root, selectors) {
+  const found = [];
+  (Array.isArray(selectors) ? selectors : [selectors]).forEach((sel) => {
+    if (!sel) return;
+    try {
+      root.querySelectorAll(sel).forEach((el) => { if (!found.includes(el)) found.push(el); });
+    } catch (e) {
+      // invalid selector: skip
+    }
+  });
+  return found;
+}
+
+// true when any text or image precedes `node` inside `root` (document order)
+function hasContentBefore(node, root) {
+  const range = root.ownerDocument.createRange();
+  range.setStart(root, 0);
+  range.setEndBefore(node);
+  const frag = range.cloneContents();
+  return !!(frag.textContent.trim() || frag.querySelector('img, picture'));
+}
+
 function sharedCleanup(root) {
   root.querySelectorAll('a.headNoLink:not([href]), a.headNoLink[href=""]').forEach((a) => {
     a.replaceWith(...a.childNodes);
@@ -60,13 +85,14 @@ export default function transform(hookName, element, payload) {
     // Reverse order so each pending section stays where querySelector found it.
     for (let i = sections.length - 1; i >= 0; i -= 1) {
       const section = sections[i];
-      if (i === 0 && !section.style) continue; // first section: no leading break
-      const sectionEl = querySection(element, section.selector);
-      if (!sectionEl) continue;
-
-      const hr = document.createElement('hr');
-      if (section.style) hr.setAttribute(SECTION_MARKER_ATTR, section.id);
-      sectionEl.before(hr);
+      const targets = section.repeat
+        ? queryAll(element, section.selector)
+        : [querySection(element, section.selector)].filter(Boolean);
+      targets.reverse().forEach((sectionEl) => {
+        const hr = document.createElement('hr');
+        if (section.style) hr.setAttribute(SECTION_MARKER_ATTR, section.id);
+        sectionEl.before(hr);
+      });
     }
   }
 
@@ -75,20 +101,27 @@ export default function transform(hookName, element, payload) {
       const section = sections[i];
       if (!section.style) continue;
 
-      const marker = element.querySelector(`[${SECTION_MARKER_ATTR}="${section.id}"]`);
-      const anchor = marker || querySection(element, section.selector);
-      if (!anchor) continue;
-
-      const metadataBlock = WebImporter.Blocks.createBlock(document, {
-        name: 'Section Metadata',
-        cells: { style: section.style },
-      });
-      anchor.after(metadataBlock);
-
-      if (marker) {
-        marker.removeAttribute(SECTION_MARKER_ATTR);
-        if (i === 0) marker.remove(); // section 0 never gets a real leading break
+      let anchors = [...element.querySelectorAll(`[${SECTION_MARKER_ATTR}="${section.id}"]`)];
+      if (!anchors.length) {
+        const el = querySection(element, section.selector);
+        anchors = el ? [el] : [];
       }
+      anchors.forEach((anchor) => {
+        const metadataBlock = WebImporter.Blocks.createBlock(document, {
+          name: 'Section Metadata',
+          cells: { style: section.style },
+        });
+        anchor.after(metadataBlock);
+        if (anchor.tagName === 'HR') anchor.removeAttribute(SECTION_MARKER_ATTR);
+      });
+    }
+
+    // Breaks with nothing before them (the page opens with that section; site chrome
+    // was removed by highmark-cleanup.js) would create an empty first section.
+    let first = element.querySelector('hr');
+    while (first && !hasContentBefore(first, element)) {
+      first.remove();
+      first = element.querySelector('hr');
     }
   }
 }

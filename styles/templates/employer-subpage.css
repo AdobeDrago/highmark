@@ -1,0 +1,939 @@
+/* Template "employer-subpage" (page metadata template=employer-subpage -> body.employer-subpage).
+   Loaded by scripts/scripts.js (TEMPLATE_STYLES) before the first section renders.
+
+   Values extracted (getComputedStyle) from https://www.highmark.com/employer/
+   cost-management, care-management, client-resources, solutions and
+   thought-leadership (?zg=false) at 390 / 768 / 1440.
+   Source breakpoints: < 768 mobile, 768-991 tablet (everything stacked),
+   >= 992 desktop. Source bands butt against each other (no section margins).
+
+   A few source components differ per page while the authored content is
+   identical, so they are keyed on the page's h1:
+   - care-management: side-panel CTAs are outlined buttons (not text links)
+   - care-management + client-resources: the closing blush callout is a
+     one-card-one-col panel (64px padding, 780px column, regular-weight copy)
+   - cost-management: the closing callout copy is 6/12 columns (8/12 elsewhere)
+   - thought-leadership: podcast panel on #edf5fa, CTA left with a 16px gap */
+
+/* Rules are grouped by section; selectors in different groups target
+   disjoint elements, so source order across groups does not matter. */
+/* stylelint-disable no-descending-specificity */
+
+body.employer-subpage main > .section {
+  margin: 0;
+}
+
+/* ==========================================================================
+   1. Intro band (first section: "dark, center" navy, or "light, center"
+   polar on thought-leadership). Source spacers 20 / 20 / 40px above the h1;
+   below the GET STARTED button 20 / 40 / 60px (40px under the lead copy
+   when there is no button). h1 is 10/12 columns on mobile, full width from
+   768px; lead copy 10/12 (8/12 on thought-leadership at 768) and 6/12 >= 992.
+   ========================================================================== */
+body.employer-subpage main > .section:first-child {
+  padding: 20px 0;
+}
+
+body.employer-subpage main > .section:first-child:not(:has(a.button)) {
+  padding-bottom: 40px;
+}
+
+body.employer-subpage main > .section:first-child > .default-content-wrapper {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+body.employer-subpage main > .section:first-child h1 {
+  width: 83.333%;
+  margin: 0 auto 8px;
+  padding: 24px 0;
+  font-size: 32px;
+  line-height: 35.2px;
+  letter-spacing: -1.28px;
+}
+
+body.employer-subpage main > .section:first-child p:not(.button-container) {
+  width: 83.333%;
+  margin: 0 auto 12.8px;
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+/* polar band: "in the navy" #004362 heading and copy */
+body.employer-subpage main > .section.light:first-child h1,
+body.employer-subpage main > .section.light:first-child p:not(.button-container) {
+  color: #004362;
+}
+
+body.employer-subpage main > .section:first-child p.button-container {
+  margin: 0;
+}
+
+/* .brand-button-dark: white 1px outline + label, 153 x 58 */
+body.employer-subpage main > .section.dark:first-child a.button:any-link {
+  margin: 16px 0;
+  border-color: #fff;
+  color: #fff;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+body.employer-subpage main > .section.dark:first-child a.button:hover,
+body.employer-subpage main > .section.dark:first-child a.button:focus {
+  background-color: #fff;
+  color: var(--text-color);
+}
+
+@media (width >= 768px) {
+  body.employer-subpage main > .section:first-child {
+    padding-bottom: 40px;
+  }
+
+  body.employer-subpage main > .section:first-child h1 {
+    width: auto;
+    padding: 28.8px 0;
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  body.employer-subpage main > .section:first-child p:not(.button-container) {
+    margin-bottom: 16px;
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  body.employer-subpage main > .section.light:first-child p:not(.button-container) {
+    width: 66.667%;
+  }
+}
+
+@media (width >= 992px) {
+  body.employer-subpage main > .section:first-child {
+    padding: 40px 0 60px;
+  }
+
+  body.employer-subpage main > .section:first-child:not(:has(a.button)) {
+    padding-bottom: 40px;
+  }
+
+  body.employer-subpage main > .section:first-child h1 {
+    font-size: 56px;
+    line-height: 61.6px;
+    letter-spacing: -2.8px;
+  }
+
+  body.employer-subpage main > .section:first-child p:not(.button-container),
+  body.employer-subpage main > .section.light:first-child p:not(.button-container) {
+    width: 50%;
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+}
+
+/* ==========================================================================
+   2. Side card panels (columns-minimal-dark, white or polar band).
+   Source .side-card-panel: stacked photo -> text below 992px (photo first
+   even when authored second), CTA centred under the copy; >= 992 555px
+   photo | 550px text column (24px inner padding) in a 1200px container,
+   vertically centred. Band padding 32 / 48 / 80px; gutters 30 / 64 / 83px.
+   ========================================================================== */
+body.employer-subpage main > .section.columns-minimal-dark-container {
+  padding: 32px 0;
+}
+
+body.employer-subpage main > .section > .columns-minimal-dark-wrapper {
+  max-width: none;
+  padding: 0 30px;
+}
+
+body.employer-subpage .columns-minimal-dark > div {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+
+body.employer-subpage .columns-minimal-dark > div > div {
+  flex: 0 1 auto;
+  order: 1;
+}
+
+body.employer-subpage .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+  order: 0;
+}
+
+body.employer-subpage .columns-minimal-dark .columns-minimal-dark-img-col img {
+  aspect-ratio: 555 / 312;
+  object-fit: cover;
+}
+
+body.employer-subpage .columns-minimal-dark h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+/* the copy is one rich-text run on the source; the importer splits the
+   pharmacy footnote marker into its own paragraph - run them back together */
+body.employer-subpage .columns-minimal-dark p:has(+ p > sup:only-child),
+body.employer-subpage .columns-minimal-dark p:has(> sup:only-child),
+body.employer-subpage .columns-minimal-dark p:has(> sup:only-child) + p {
+  display: inline;
+}
+
+body.employer-subpage .columns-minimal-dark p:has(> sup:only-child) + p::before {
+  content: " ";
+}
+
+body.employer-subpage .columns-minimal-dark p > sup {
+  position: relative;
+  top: -0.5em;
+  font-size: 12px;
+  line-height: inherit;
+  vertical-align: baseline;
+}
+
+/* CTA: .textButton (16px/20px bold uppercase link blue), centred while
+   stacked. The source copy ends in "<br>&nbsp;", i.e. a blank 24px line
+   above the link. */
+body.employer-subpage .columns-minimal-dark p.button-container {
+  margin: 24px 0 0;
+  line-height: 20px;
+  text-align: center;
+}
+
+body.employer-subpage main .columns-minimal-dark a.button:any-link {
+  line-height: 20px;
+  text-align: center;
+}
+
+/* care-management: outlined .brand-button-light CTAs (16px margins, 58px tall) */
+body.employer-subpage main:has(h1#employee-health-care-management) .columns-minimal-dark p.button-container {
+  margin-top: 0;
+  line-height: 24px;
+}
+
+body.employer-subpage main:has(h1#employee-health-care-management) .columns-minimal-dark a.button:any-link {
+  margin: 16px 0;
+  padding: 16px 24px;
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  color: var(--text-color);
+  line-height: 24px;
+  white-space: nowrap;
+}
+
+body.employer-subpage main:has(h1#employee-health-care-management) .columns-minimal-dark a.button:hover,
+body.employer-subpage main:has(h1#employee-health-care-management) .columns-minimal-dark a.button:focus {
+  background-color: var(--text-color);
+  color: #fff;
+}
+
+/* thought-leadership podcast panel: helion light blue band, CTA left-aligned
+   16px below the copy (.hmk-brand-buttons.mt-3) */
+body.employer-subpage main:has(h1#education-for-employers) > .section.light.columns-minimal-dark-container {
+  background-color: #edf5fa;
+}
+
+body.employer-subpage main:has(h1#education-for-employers) .columns-minimal-dark p.button-container {
+  margin-top: 16px;
+  text-align: left;
+}
+
+@media (width >= 768px) {
+  body.employer-subpage main > .section.columns-minimal-dark-container {
+    padding: 48px 0;
+  }
+
+  body.employer-subpage main > .section > .columns-minimal-dark-wrapper {
+    padding: 0 64px;
+  }
+
+  body.employer-subpage .columns-minimal-dark h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+}
+
+@media (width >= 992px) {
+  body.employer-subpage main > .section.columns-minimal-dark-container {
+    padding: 80px 0;
+  }
+
+  body.employer-subpage main > .section > .columns-minimal-dark-wrapper {
+    box-sizing: border-box;
+    max-width: 1366px;
+    padding: 0 83px;
+  }
+
+  body.employer-subpage .columns-minimal-dark > div {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* desktop keeps the authored order: photo | text or text | photo */
+  body.employer-subpage .columns-minimal-dark > div > div,
+  body.employer-subpage .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    order: 0;
+  }
+
+  body.employer-subpage .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    flex: 0 1 555px;
+    max-width: 555px;
+    margin: 0 24px;
+  }
+
+  body.employer-subpage .columns-minimal-dark > div > div:not(.columns-minimal-dark-img-col) {
+    flex: 0 1 550px;
+    box-sizing: border-box;
+    max-width: 550px;
+    margin: 0 0 0 24px;
+    padding: 0 24px;
+  }
+
+  body.employer-subpage .columns-minimal-dark > div > div:not(.columns-minimal-dark-img-col):first-child {
+    margin: 0 47px 0 0;
+  }
+
+  body.employer-subpage .columns-minimal-dark h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.employer-subpage .columns-minimal-dark p.button-container {
+    text-align: left;
+  }
+}
+
+/* ==========================================================================
+   3. Icon cards (cards-minimal-dark-withimg-icons) - source .cards-variation
+   .container-sm-img li.listSmlImg: transparent cards, no body padding, one
+   300px (< 768) / 400px (768-991) column, 370px cards 34px apart >= 992
+   (a 2-card row sits 15px left of centre: the source's 2nd card carries
+   30px side margins). Band padding 50/40 (< 576) or 60/50, plus the 30px
+   margin under every card. Solutions has a centred h2 + lead above them.
+   ========================================================================== */
+body.employer-subpage main > .section.cards-minimal-dark-withimg-icons-container {
+  padding: 50px 0 40px;
+}
+
+body.employer-subpage main > .section.cards-minimal-dark-withimg-icons-container > div {
+  box-sizing: border-box;
+  max-width: none;
+  padding: 0 max(15px, 2.5vw);
+}
+
+body.employer-subpage .cards-minimal-dark-withimg-icons > ul,
+body.employer-subpage .cards-minimal-dark-withimg-icons > ul:has(> li:nth-child(2):last-child) {
+  grid-template-columns: 300px;
+  gap: 30px;
+  padding: 0 0 30px;
+}
+
+body.employer-subpage .cards-minimal-dark-withimg-icons > ul > li {
+  background-color: transparent;
+  border-radius: 0;
+}
+
+body.employer-subpage .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body {
+  padding: 0;
+}
+
+body.employer-subpage .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
+  margin: 20px 0 13px;
+  font-size: 22px;
+  line-height: 24.2px;
+  letter-spacing: -0.4px;
+}
+
+body.employer-subpage .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p {
+  padding: 0;
+}
+
+body.employer-subpage main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p.button-container {
+  margin: 0 0 16px;
+}
+
+body.employer-subpage main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:any-link {
+  width: fit-content;
+}
+
+/* Solutions intro: h2.cardsTitle + p.cardsPara */
+body.employer-subpage main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper {
+  text-align: center;
+}
+
+body.employer-subpage main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper h2 {
+  margin: 0 0 20px;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.employer-subpage main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper p {
+  margin: 0 0 30px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+@media (width >= 576px) {
+  body.employer-subpage main > .section.cards-minimal-dark-withimg-icons-container {
+    padding: 60px 0 50px;
+  }
+}
+
+@media (width >= 768px) {
+  body.employer-subpage .cards-minimal-dark-withimg-icons > ul,
+  body.employer-subpage .cards-minimal-dark-withimg-icons > ul:has(> li:nth-child(2):last-child) {
+    grid-template-columns: 400px;
+  }
+
+  body.employer-subpage main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.employer-subpage main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper p {
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.employer-subpage .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
+    padding-bottom: 3px;
+    font-size: 32px;
+    line-height: 35.2px;
+    letter-spacing: -0.44px;
+  }
+}
+
+/* 900-991px: the source keeps the single 400px column */
+@media (width >= 900px) and (width < 992px) {
+  body.employer-subpage .cards-minimal-dark-withimg-icons > ul {
+    display: grid;
+  }
+
+  body.employer-subpage .cards-minimal-dark-withimg-icons > ul > li,
+  body.employer-subpage .cards-minimal-dark-withimg-icons > ul:has(> li:nth-child(2):last-child) > li {
+    width: auto;
+  }
+}
+
+@media (width >= 992px) {
+  body.employer-subpage main > .section.cards-minimal-dark-withimg-icons-container > div {
+    max-width: 1180px;
+    padding: 0;
+  }
+
+  body.employer-subpage .cards-minimal-dark-withimg-icons > ul {
+    gap: 30px 34px;
+    align-items: flex-start;
+  }
+
+  body.employer-subpage .cards-minimal-dark-withimg-icons > ul > li,
+  body.employer-subpage .cards-minimal-dark-withimg-icons > ul:has(> li:nth-child(2):last-child) > li {
+    flex: 0 0 370px;
+    width: 370px;
+  }
+
+  body.employer-subpage .cards-minimal-dark-withimg-icons > ul:has(> li:nth-child(2):last-child) {
+    padding-right: 30px;
+  }
+
+  body.employer-subpage .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
+    font-size: 24px;
+    line-height: 26.4px;
+    letter-spacing: -0.72px;
+  }
+
+  body.employer-subpage main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper {
+    max-width: 766px;
+  }
+
+  body.employer-subpage main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper h2 {
+    font-size: 34px;
+    line-height: 37.4px;
+    letter-spacing: -1.36px;
+  }
+
+  body.employer-subpage main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper p {
+    margin-bottom: 40px;
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+}
+
+/* ==========================================================================
+   4. Thought-leadership quick links (cards-minimal-dark-iconnav) + the
+   "Explore older articles in the categories above" line.
+   Source .quick-link-list-container.bg-blue: items share the width equally
+   (< 768), 130px (768-991), 160px with 12px side padding and 16px/24px
+   labels in a 960px row (>= 992). The line below sits after a 20px spacer,
+   sofia-pro semibold navy, centred.
+   ========================================================================== */
+body.employer-subpage .cards-minimal-dark-iconnav > ul {
+  flex-wrap: nowrap;
+  justify-content: center;
+  overflow: visible;
+}
+
+body.employer-subpage .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
+  box-sizing: border-box;
+  flex: 1 1 0;
+  width: auto;
+  padding: 16px 0;
+}
+
+body.employer-subpage .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item .cards-minimal-dark-iconnav-label {
+  margin-top: 0;
+  font-size: 14px;
+  line-height: 21px;
+  word-break: normal;
+}
+
+body.employer-subpage main > .section.cards-minimal-dark-iconnav-container > .default-content-wrapper {
+  max-width: none;
+  padding: 20px 0 12.8px;
+  text-align: center;
+}
+
+body.employer-subpage main > .section.cards-minimal-dark-iconnav-container > .default-content-wrapper p {
+  margin: 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+@media (width >= 768px) {
+  body.employer-subpage .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
+    flex: 0 1 auto;
+    width: 130px;
+  }
+
+  body.employer-subpage main > .section.cards-minimal-dark-iconnav-container > .default-content-wrapper {
+    padding-bottom: 16px;
+  }
+
+  body.employer-subpage main > .section.cards-minimal-dark-iconnav-container > .default-content-wrapper p {
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.employer-subpage .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
+    width: 160px;
+    padding: 16px 12px;
+  }
+
+  body.employer-subpage .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item .cards-minimal-dark-iconnav-label {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  body.employer-subpage main > .section.cards-minimal-dark-iconnav-container > .default-content-wrapper p {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+}
+
+/* ==========================================================================
+   5. "Latest Articles" (cards-minimal-dark-withimg) - source cardThree grid:
+   300 / 400px single column, 3-up 370px cards 34px apart >= 992; natural
+   card heights, square corners, 0.16 shadow, 20 / 30px text inset, CTA left.
+   Band padding 50/40 (< 576) or 60/50, plus 30px under every card.
+   ========================================================================== */
+body.employer-subpage main > .section.cards-minimal-dark-withimg-container {
+  padding: 50px 0 40px;
+}
+
+body.employer-subpage main > .section.cards-minimal-dark-withimg-container > div {
+  box-sizing: border-box;
+  max-width: none;
+  padding: 0 max(15px, 2.5vw);
+}
+
+body.employer-subpage main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper h2 {
+  margin: 0 0 20px;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.employer-subpage .cards-minimal-dark-withimg > ul {
+  grid-template-columns: 300px;
+  gap: 30px;
+  align-items: start;
+  padding: 0 0 30px;
+}
+
+body.employer-subpage .cards-minimal-dark-withimg > ul > li {
+  border-radius: 0;
+  box-shadow: rgb(0 0 0 / 16%) 0 3px 6px 0;
+}
+
+body.employer-subpage .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-image img {
+  aspect-ratio: 37 / 20;
+}
+
+body.employer-subpage .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body {
+  padding: 0 20px;
+}
+
+body.employer-subpage .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body h3 {
+  margin: 20px 0 13px;
+  font-size: 22px;
+  line-height: 24.2px;
+  letter-spacing: -0.4px;
+}
+
+body.employer-subpage .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body p {
+  margin: 0 0 12.8px;
+  padding: 0;
+  font-weight: 300;
+}
+
+body.employer-subpage .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body p.button-container {
+  margin: 0 0 16px;
+  justify-content: flex-start;
+}
+
+@media (width >= 576px) {
+  body.employer-subpage main > .section.cards-minimal-dark-withimg-container {
+    padding: 60px 0 50px;
+  }
+}
+
+@media (width >= 768px) {
+  body.employer-subpage main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.employer-subpage .cards-minimal-dark-withimg > ul,
+  body.employer-subpage .cards-minimal-dark-withimg > ul:has(> li:nth-child(3):last-child) {
+    grid-template-columns: 400px;
+  }
+
+  body.employer-subpage .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body p:not(.button-container) {
+    margin-bottom: 16px;
+    font-size: 15px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.employer-subpage .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body h3 {
+    padding-bottom: 3px;
+    font-size: 32px;
+    line-height: 35.2px;
+    letter-spacing: -0.44px;
+  }
+}
+
+@media (width >= 992px) {
+  body.employer-subpage main > .section.cards-minimal-dark-withimg-container > div {
+    max-width: 1180px;
+    padding: 0;
+  }
+
+  body.employer-subpage main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper {
+    max-width: 766px;
+  }
+
+  body.employer-subpage main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper h2 {
+    font-size: 34px;
+    line-height: 37.4px;
+    letter-spacing: -1.36px;
+  }
+
+  /* inline-block cards: 34px apart, rows 31px apart (30px margin + line box) */
+  body.employer-subpage .cards-minimal-dark-withimg > ul,
+  body.employer-subpage .cards-minimal-dark-withimg > ul:has(> li:nth-child(3):last-child) {
+    grid-template-columns: repeat(auto-fill, 370px);
+    gap: 31px 34px;
+  }
+
+  body.employer-subpage .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body {
+    padding: 0 30px;
+  }
+
+  body.employer-subpage .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body h3 {
+    font-size: 24px;
+    line-height: 26.4px;
+    letter-spacing: -0.72px;
+  }
+
+  body.employer-subpage .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body p:not(.button-container) {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+}
+
+/* ==========================================================================
+   6. Closing blush callout (.section.highlight.center) - source
+   .new-hmk-brand-blush-twnetyfive band: spacers 20 / 20 / 40px above,
+   20 / 40 / 60px below the outlined button (40px below 768 on
+   thought-leadership); h2 10/12 columns on mobile; sofia-pro semibold navy
+   lead 10/12, 8/12, 8/12 columns (6/12 on cost-management >= 992).
+   ========================================================================== */
+body.employer-subpage main > .section.highlight {
+  padding: 20px 0;
+}
+
+body.employer-subpage main:has(h1#education-for-employers) > .section.highlight {
+  padding-bottom: 40px;
+}
+
+body.employer-subpage main > .section.highlight > .default-content-wrapper {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+body.employer-subpage main > .section.highlight h2 {
+  width: 83.333%;
+  margin: 0 auto 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.employer-subpage main > .section.highlight p:not(.button-container) {
+  width: 83.333%;
+  margin: 0 auto 12.8px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+body.employer-subpage main > .section.highlight p.button-container {
+  margin: 0;
+}
+
+/* .brand-button-light: 16px/24px label, 58px tall */
+body.employer-subpage main > .section.highlight a.button:any-link {
+  margin: 16px 0;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+@media (width >= 768px) {
+  body.employer-subpage main > .section.highlight,
+  body.employer-subpage main:has(h1#education-for-employers) > .section.highlight {
+    padding: 20px 0 40px;
+  }
+
+  body.employer-subpage main > .section.highlight h2 {
+    width: auto;
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.employer-subpage main > .section.highlight p:not(.button-container) {
+    width: 66.667%;
+    margin-bottom: 16px;
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.employer-subpage main > .section.highlight,
+  body.employer-subpage main:has(h1#education-for-employers) > .section.highlight {
+    padding: 40px 0 60px;
+  }
+
+  body.employer-subpage main > .section.highlight h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.employer-subpage main > .section.highlight p:not(.button-container) {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  body.employer-subpage main:has(h1#cost-management-solutions) > .section.highlight p:not(.button-container) {
+    width: 50%;
+  }
+}
+
+/* care-management + client-resources: .one-card-one-col-panel on blush -
+   padding 32/48 (< 992) or 64/64, 30 / 64px gutters, 780px column >= 992,
+   #004362 heading and regular-weight sofia-pro copy, button 32px below. */
+body.employer-subpage main:is(:has(h1#employee-health-care-management), :has(h1#highmark-client-resources-for-employers)) > .section.highlight {
+  padding: 32px 0 48px;
+}
+
+body.employer-subpage main:is(:has(h1#employee-health-care-management), :has(h1#highmark-client-resources-for-employers)) > .section.highlight > .default-content-wrapper {
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+body.employer-subpage main:is(:has(h1#employee-health-care-management), :has(h1#highmark-client-resources-for-employers)) > .section.highlight h2 {
+  width: auto;
+  padding: 19.2px 0 8px;
+  color: #004362;
+}
+
+body.employer-subpage main:is(:has(h1#employee-health-care-management), :has(h1#highmark-client-resources-for-employers)) > .section.highlight p:not(.button-container) {
+  width: auto;
+  margin: 0;
+  color: #004362;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.25px;
+}
+
+body.employer-subpage main:is(:has(h1#employee-health-care-management), :has(h1#highmark-client-resources-for-employers)) > .section.highlight p.button-container {
+  margin-top: 16px;
+}
+
+@media (width >= 768px) {
+  body.employer-subpage main:is(:has(h1#employee-health-care-management), :has(h1#highmark-client-resources-for-employers)) > .section.highlight {
+    padding: 32px 0 48px;
+  }
+
+  body.employer-subpage main:is(:has(h1#employee-health-care-management), :has(h1#highmark-client-resources-for-employers)) > .section.highlight > .default-content-wrapper {
+    padding: 0 64px;
+  }
+
+  body.employer-subpage main:is(:has(h1#employee-health-care-management), :has(h1#highmark-client-resources-for-employers)) > .section.highlight p:not(.button-container) {
+    width: auto;
+    margin: 0;
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.25px;
+  }
+}
+
+@media (width >= 992px) {
+  body.employer-subpage main:is(:has(h1#employee-health-care-management), :has(h1#highmark-client-resources-for-employers)) > .section.highlight {
+    padding: 64px 0;
+  }
+
+  body.employer-subpage main:is(:has(h1#employee-health-care-management), :has(h1#highmark-client-resources-for-employers)) > .section.highlight > .default-content-wrapper {
+    max-width: 780px;
+    padding: 0;
+  }
+
+  body.employer-subpage main:is(:has(h1#employee-health-care-management), :has(h1#highmark-client-resources-for-employers)) > .section.highlight h2 {
+    padding: 0;
+  }
+
+  body.employer-subpage main:is(:has(h1#employee-health-care-management), :has(h1#highmark-client-resources-for-employers)) > .section.highlight p:not(.button-container) {
+    width: auto;
+    font-size: 20px;
+    line-height: 28px;
+  }
+}
+
+/* ==========================================================================
+   7. Footnote (cost-management: plain section starting with a <sup> marker)
+   Spacers 40 / 20px (< 992) or 60 / 40px; 30 / 64 / 83px gutters; 12px
+   (0.75em) marker and fine print that never open up the line box.
+   ========================================================================== */
+body.employer-subpage main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) {
+  display: flow-root;
+  padding: 40px 0 20px;
+}
+
+body.employer-subpage main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) > .default-content-wrapper {
+  box-sizing: border-box;
+  max-width: none;
+  padding: 0 30px;
+}
+
+body.employer-subpage main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) p {
+  margin: 0 0 12.8px;
+  font-size: 15px;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+body.employer-subpage main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) p > sup,
+body.employer-subpage main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) p > sub {
+  position: relative;
+  font-size: 75%;
+  line-height: inherit;
+  vertical-align: baseline;
+}
+
+body.employer-subpage main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) p > sup {
+  top: -0.5em;
+}
+
+body.employer-subpage main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) p > sub {
+  top: 0.25em;
+}
+
+@media (width >= 768px) {
+  body.employer-subpage main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) > .default-content-wrapper {
+    padding: 0 64px;
+  }
+
+  body.employer-subpage main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) p {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.employer-subpage main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) {
+    padding: 60px 0 40px;
+  }
+
+  body.employer-subpage main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) > .default-content-wrapper {
+    max-width: 1366px;
+    padding: 0 83px;
+  }
+
+  body.employer-subpage main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) p {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+}
