@@ -76,6 +76,11 @@
   letter-spacing: -0.04em;
 }
 
+.section.hero-minimal-dark-withimg-container {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
 @media (width >= 900px) {
   .hero-minimal-dark-withimg {
     min-height: 384px;
@@ -420,6 +425,59 @@ main .hero-minimal-dark-withimg:not(:has(h1)) a.button:focus {
   body.chip-landing .hero-minimal-dark-withimg:has(h1) h2 {
     max-width: calc(64vw - 180px);
     color: #fff;
+  }
+
+  .hero-minimal-dark-withimg-container .hero-minimal-dark-withimg-wrapper{
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * Primary + secondary CTA pair (e.g. /member/member-guide: bold
+ * MEMBER LOGIN + plain REGISTER). Source .buttonGroup: the second CTA is
+ * the outlined .brand-button-light; the pair stacks with a 24px gap below
+ * 768px and sits in one row with a 33px gap from 768px up.
+ * ------------------------------------------------------------------ */
+
+/* 1. Secondary style: a button that follows a primary one is outlined */
+main .hero-minimal-dark-withimg .button-container:has(.primary) ~ .button-container a.button:not(.primary):any-link {
+  border: 1px solid var(--text-color);
+  background-color: transparent;
+  color: var(--text-color);
+}
+
+main .hero-minimal-dark-withimg .button-container:has(.primary) ~ .button-container a.button:not(.primary):hover,
+main .hero-minimal-dark-withimg .button-container:has(.primary) ~ .button-container a.button:not(.primary):focus {
+  background-color: var(--text-color);
+  color: #fff;
+}
+
+/* 2. Mobile (stacked): only the CTAs' own 12px margins separate them */
+.hero-minimal-dark-withimg p.button-container:has(.primary):has(+ .button-container) {
+  margin-bottom: 0;
+}
+
+.hero-minimal-dark-withimg p.button-container:has(.primary) + .button-container {
+  margin-top: 0;
+}
+
+/* 3. Single row from 768px up */
+@media (width >= 768px) {
+  .hero-minimal-dark-withimg > div:last-child > div:has(> .button-container .primary):has(> .button-container + .button-container) {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    align-items: center;
+    column-gap: 33px;
+  }
+
+  /* headings span the full row so the buttons sit on their own line */
+  .hero-minimal-dark-withimg > div:last-child > div:has(> .button-container .primary):has(> .button-container + .button-container) > :not(.button-container) {
+    grid-column: 1 / -1;
+  }
+
+  .hero-minimal-dark-withimg > div:last-child > div:has(> .button-container .primary):has(> .button-container + .button-container) > .button-container {
+    margin: 0;
   }
 }
 

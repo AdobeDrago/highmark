@@ -123,7 +123,7 @@
 .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body a.button:hover,
 .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body a.button:focus {
   background-color: transparent;
-  color: var(--link-hover-color);
+  color: var(--link-color);
   text-decoration: underline;
 }
 

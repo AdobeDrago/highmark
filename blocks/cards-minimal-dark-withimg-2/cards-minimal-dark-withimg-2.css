@@ -106,7 +106,7 @@
 .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body a.button:hover,
 .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body a.button:focus {
   background-color: transparent;
-  color: var(--link-hover-color);
+  color: var(--link-color);
   text-decoration: underline;
 }
 
@@ -131,6 +131,11 @@
   line-height: 27px;
   color: rgb(0 120 193);
   text-decoration: none;
+}
+
+.cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p > a[href^="tel:"]:any-link:hover, 
+.cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p > a[href^="tel:"]:any-link:focus {
+    text-decoration: underline;
 }
 
 /* Below desktop the source li carries margin-left: 8px, nudging the centered

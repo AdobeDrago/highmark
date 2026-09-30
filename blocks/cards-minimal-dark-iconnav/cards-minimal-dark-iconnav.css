@@ -102,6 +102,37 @@
   text-transform: uppercase;
 }
 
+/* ------------------------------------------------------------------
+   Authored image icons: the icon image sits in the block's first cell
+   (e.g. home page PLANS / FIND CARE / MEMBER LOGIN / GET HELP).
+   Source .quicklink img.quicklinks-img: 20x25 box around a 20x20 white line
+   icon, label directly under it; on hover the source swaps to a navy
+   *-hover.svg. Authors can use either colour of icon (the navy one stays
+   visible in the document); a filter renders any icon white on the band and
+   navy on hover, so one image is enough.
+   ------------------------------------------------------------------ */
+.cards-minimal-dark-iconnav-icon.cards-minimal-dark-iconnav-icon-img {
+  line-height: 0;
+}
+
+.cards-minimal-dark-iconnav-icon-img picture {
+  display: block;
+}
+
+.cards-minimal-dark-iconnav-icon.cards-minimal-dark-iconnav-icon-img img {
+  display: block;
+  width: 20px;
+  height: 25px;
+  margin: 0 auto;
+
+  /* any line-icon colour -> white */
+  filter: brightness(0) invert(1);
+}
+
+.cards-minimal-dark-iconnav-icon-img + .cards-minimal-dark-iconnav-label {
+  margin-top: 0;
+}
+
 /* Hover: light band, navy icon + label. */
 .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item:hover {
   background-color: #e2e9e9;
@@ -111,6 +142,11 @@
 .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item:hover .cards-minimal-dark-iconnav-label,
 .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item:hover .cards-minimal-dark-iconnav-link {
   color: #003963;
+}
+
+.cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item:hover .cards-minimal-dark-iconnav-icon-img img {
+  /* any line-icon colour -> Highmark navy (#003963), stands in for the source's *-hover.svg */
+  filter: brightness(0) saturate(100%) invert(15%) sepia(61%) saturate(2651%) hue-rotate(188deg) brightness(92%) contrast(101%);
 }
 
 /* Mobile: keep items in one horizontal row, allow scroll if they overflow. */
@@ -148,21 +184,6 @@ body.chip-landing .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconn
   padding: 16px 0;
 }
 
-body.chip-landing .cards-minimal-dark-iconnav-icon-img {
-  line-height: 0;
-}
-
-body.chip-landing .cards-minimal-dark-iconnav-icon-img picture {
-  display: block;
-}
-
-body.chip-landing .cards-minimal-dark-iconnav-icon-img img {
-  display: block;
-  width: 20px;
-  height: 25px;
-  margin: 0 auto;
-}
-
 body.chip-landing .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item .cards-minimal-dark-iconnav-label {
   margin-top: 0;
   font-size: 14px;
@@ -170,11 +191,6 @@ body.chip-landing .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconn
 
   /* source never splits a word (e.g. RESOURCES keeps its min-content width) */
   word-break: normal;
-}
-
-body.chip-landing .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item:hover .cards-minimal-dark-iconnav-icon-img img {
-  /* white line icon -> Highmark navy (#003963), stands in for the source's *-hover.svg */
-  filter: brightness(0) saturate(100%) invert(15%) sepia(61%) saturate(2651%) hue-rotate(188deg) brightness(92%) contrast(101%);
 }
 
 @media (width >= 768px) {

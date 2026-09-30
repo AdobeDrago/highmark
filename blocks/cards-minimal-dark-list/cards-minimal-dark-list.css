@@ -21,6 +21,19 @@
   box-shadow: rgb(0 0 0 / 16%) 0 3px 6px 0;
 }
 
+.cards-minimal-dark-list .cards-minimal-dark-list-card-body ul {
+  margin: 0 0 16px 8px;
+  padding-left: 8px;
+  list-style: disc outside;
+}
+
+body.topic-hub-subnav .cards-minimal-dark-list > ul {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  gap: 0;
+}
+
 .cards-minimal-dark-list .cards-minimal-dark-list-card-body {
   display: flex;
   flex-direction: column;
@@ -37,12 +50,6 @@
   line-height: 26.4px;
   letter-spacing: -0.72px;
   color: var(--text-color);
-}
-
-.cards-minimal-dark-list .cards-minimal-dark-list-card-body ul {
-  margin: 0 0 16px 8px;
-  padding-left: 8px;
-  list-style: disc outside;
 }
 
 .cards-minimal-dark-list .cards-minimal-dark-list-card-body li {
@@ -95,6 +102,35 @@
   }
 }
 
+/* 3-card rows (e.g. /member/member-guide "Learn about health plan benefits",
+   /resources/answers): source .cardWrapper / li.cardThree -- centered,
+   wrapping rows of 370px cards, 30px apart: 3 per row once the 1170px row
+   fits, 2 per row with the odd card centered below that, and a single
+   centered column (up to 400px) on mobile/tablet. The .section.center style
+   caps wrappers at 760px, so widen the wrapper to fit 3 x 370 + 2 x 30 plus
+   the 32px side padding. */
+main .section > div.cards-minimal-dark-list-wrapper:has(> .cards-minimal-dark-list > ul > li:nth-child(3):last-child) {
+  max-width: calc(1170px + 64px);
+}
+
+.cards-minimal-dark-list > ul:has(> li:nth-child(3):last-child) {
+  grid-template-columns: minmax(0, 400px);
+  justify-content: center;
+  gap: 30px;
+}
+
+@media (width >= 900px) {
+  .cards-minimal-dark-list > ul:has(> li:nth-child(3):last-child) {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .cards-minimal-dark-list > ul:has(> li:nth-child(3):last-child) > li {
+    flex: 0 0 370px;
+    width: 370px;
+  }
+}
+
 /*
  * Topic sub-pages (template=topic-hub-subnav: mental-health topics).
  * "How to help someone with ..." Do / Don't section. Values extracted from
@@ -137,13 +173,6 @@ body.topic-hub-subnav main > .section.cards-minimal-dark-list-container > .defau
   line-height: 23.8px;
   letter-spacing: -0.2px;
   color: var(--text-color);
-}
-
-body.topic-hub-subnav .cards-minimal-dark-list > ul {
-  display: flex;
-  flex-flow: column wrap;
-  align-items: center;
-  gap: 0;
 }
 
 body.topic-hub-subnav .cards-minimal-dark-list > ul > li {
