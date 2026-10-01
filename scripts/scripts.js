@@ -155,7 +155,7 @@ export function decorateMain(main) {
 const TEMPLATE_STYLES = [
   'state-plans', 'get-help', 'learn-about-medicare', 'blue-neighbors', 'find-care',
   'employer-landing', 'employer-subpage', 'about-article', 'leadership', 'bright-blue-futures',
-  'media-contacts', 'capitol-hill-report', 'legal',
+  'media-contacts', 'capitol-hill-report', 'legal', 'contact', 'language-assistance',
 ];
 
 /**
@@ -249,7 +249,10 @@ async function loadLazy(doc) {
   await loadSections(main);
 
   const { hash } = window.location;
-  const element = hash ? doc.getElementById(hash.substring(1)) : false;
+  // ids of non-Latin headings (language-assistance: #中文) arrive percent-encoded
+  let id = hash.substring(1);
+  try { id = decodeURIComponent(id); } catch { /* malformed escape: use as is */ }
+  const element = hash ? doc.getElementById(id) : false;
   if (hash && element) element.scrollIntoView();
 
   loadHeader(doc.querySelector('header'));

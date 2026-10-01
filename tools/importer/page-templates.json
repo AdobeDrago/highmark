@@ -1846,6 +1846,80 @@
           "defaultContent": []
         }
       ]
+    },
+    {
+      "name": "contact",
+      "urls": [
+        "https://www.highmark.com/contact"
+      ],
+      "representativeUrl": "https://www.highmark.com/contact",
+      "description": "Contact Us: intro, Members / Providers / Reporting Fraud guidance, mailing address, blush warning callout (the source contact form is not migrated)",
+      "urlPattern": "/contact",
+      "blocks": [],
+      "sections": [
+        {
+          "id": "1",
+          "name": "intro-and-guidance",
+          "selector": [
+            "main .page__par > section > .parent-width > section > .aem-Grid > .cmp-text"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": []
+        },
+        {
+          "id": "2",
+          "name": "warning-callout",
+          "selector": [
+            "main .page__par > section > .parent-width > section > .aem-Grid > section.container-fluid-fullwidth"
+          ],
+          "style": "highlight",
+          "blocks": [],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "language-assistance",
+      "urls": [
+        "https://www.highmark.com/language-assistance"
+      ],
+      "representativeUrl": "https://www.highmark.com/language-assistance",
+      "description": "Language Assistance: intro, index of 26 language jump links, one notice (h2 + paragraph) per language, back-to-top link",
+      "urlPattern": "/language-assistance",
+      "blocks": [],
+      "sections": [
+        {
+          "id": "1",
+          "name": "intro-and-index",
+          "selector": [
+            "section#langtop > .aem-Grid > div.cmp-text:has(h1)"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": []
+        },
+        {
+          "id": "2",
+          "name": "notices",
+          "selector": [
+            "section#langtop > .aem-Grid > section.container-fluid-fullwidth"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": []
+        },
+        {
+          "id": "3",
+          "name": "back-to-top",
+          "selector": [
+            "section#langtop > .aem-Grid > div.cmp-text:last-child"
+          ],
+          "style": "center",
+          "blocks": [],
+          "defaultContent": []
+        }
+      ]
     }
   ],
   "metadata": {
