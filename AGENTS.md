@@ -9,6 +9,7 @@ Status and working notes for the Highmark AEM Edge Delivery Services project. Up
 - **Content source:** `https://content.da.live/adobedrago/highmark/` — edit at `https://da.live/edit#/adobedrago/highmark/<path>`.
 - **Preview:** `https://main--highmark--adobedrago.aem.page/<path>`
 - **Live:** `https://main--highmark--adobedrago.aem.live/<path>`
+- **Migration checklist:** [`MIGRATION-CHECKLIST.md`](MIGRATION-CHECKLIST.md) tracks every page the highmark.com homepage links to, by priority, with its status here.
 - **Local dev:** `aem up` → `http://localhost:3000/<path>`, proxying content from the preview host above. Add `--html-folder content` to also serve local-only HTML from `content/` at `/content/<path>`; the header/footer fall back to `/content/{nav,footer}.plain.html` when their metadata path misses.
 
 ### Content vs. code
@@ -48,9 +49,18 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 - **Tokens:** `{{zip}}`, `{{region}}` and any `zip-regions` column, lowercased and hyphenated (`{{county}}`, `{{state}}`, `{{region-code}}`, `{{marketplace}}`), are filled from the stored selection. They work in text and in link URLs; the pipeline percent-encodes braces in hrefs and `zip-tokens.js` decodes them. A line stays hidden until every token in it is filled. Filled links that leave highmark.com, or open a PDF, get `target="_blank"`.
 - **Persistence:** currently `localStorage`. Wiring into the app's Redux/IndexedDB store is tracked in issue #9.
 
+## Legal pages (`template: legal`)
+
+The footer's legal pages and their sub-pages (`/privacy`, `/fraud/*`, `/privacy-center/*`, ...) set `Template: legal` and `Breadcrumbs: true`; `styles/templates/legal.css` matches the highmark.com originals at 390 / 768 / 1280. Authoring conventions in these pages:
+
+- A link alone in a paragraph is a plain text link. `_link_` (italic) is the uppercase text CTA (the source's `.textButton`). `**link**` (bold) is the outlined, centered brand button.
+- `:pdf:` after a PDF link's text adds the PDF icon (`icons/pdf.svg`).
+- Two-column content (e.g. the claims-payment region cards) is a `columns` block, two cells per row.
+- Images go in DA next to the page (`/<dir>/.<page>/<file>`); SVGs over 40 KB are rasterized first (EDS rejects them).
+
 ## Open PRs
 
-- None (as of 2026-09-30; the offshore team's `develop` work merged as #28).
+- #34 (`nav-group5`, art-golk-merkle): Newsroom media contacts and Weekly Capitol Hill Report (both on preview). As of 2026-09-30.
 
 ## Known follow-ups
 
@@ -58,6 +68,7 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 - Real ZIP coverage: `/shop/zip-regions` only knows its sample ZIPs, so most real ZIPs are rejected by the modal. ShopX looks ZIPs up through `api.hmhs.com/sxesvc/api/v2/zipCode/countyList`, which only allows `shop.highmark.com` (CORS) and needs its app session.
 - `/shop/home` still differs from ShopX in the shop header (title bar + region label, nav items), the Special Enrollment copy alignment, and the footer (ShopX's is light with per-region legal text).
 - `/shop/beta/home`: its token lines lost their tokens ("Showing plans for · ZIP", "availability in ."), so they show empty.
+- Legal pages: the source separates content chunks with fixed "spacing" components (40px desktop / 20px tablet / 0 mobile) that have no EDS equivalent, so some of our pages run 2-8% shorter. `/privacy-center` has no page or redirect (no `/redirects` sheet yet), so the "Privacy Center" side-nav link 404s and the `/privacy-center/*` breadcrumbs skip that level. `/fraud/contact` links to `/fraud/fraud-form`, the source's 55-field Health Care Fraud Form (it posts to an AEM servlet, `/bin/hmk/genericmailer`), which 404s here until a form solution is chosen.
 - `zip-county-form` ignores its authored sheet paths: `readConfig` only reads `<a>` hrefs, but the `/modals/zip-county` fragment holds the paths as plain text, so the block always falls back to its built-in defaults (which match today's paths). #13 would have read the row text instead, but was closed unmerged.
 
 ## Conventions
