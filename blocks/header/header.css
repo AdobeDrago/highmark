@@ -296,8 +296,10 @@ header nav .nav-drawer-icons {
 @media (width < 992px) {
   header nav .nav-hamburger {
     display: block;
+    flex: 0 0 auto;
     order: 3;
     z-index: 40;
+    margin: 0; /* not the global button margin */
   }
 
   /* hide the desktop utility bar and desktop icon row on mobile */
@@ -316,8 +318,18 @@ header nav .nav-drawer-icons {
     box-sizing: border-box;
   }
 
+  /* the logo shrinks (keeping its proportions) to leave room for the hamburger:
+     at a fixed 36px height it is 351px wide and pushed the button past 390px screens */
+  header nav .nav-brand {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
   header nav .nav-brand img {
-    height: 36px;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 36px;
   }
 
   /* primary row becomes a full-screen slide-in drawer */
