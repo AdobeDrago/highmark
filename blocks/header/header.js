@@ -108,14 +108,19 @@ function decoratePrimaryNav(sectionEl) {
   return sectionEl;
 }
 
-/** Build the search form (controls are created in JS, per the DA contract). */
+/**
+ * Build the search form (controls are created in JS, per the DA contract).
+ * Searches go to highmark.com's results page (same `q` and `rows` params as the source)
+ * until the site has its own search.
+ */
 function buildSearch() {
   const form = document.createElement('form');
   form.className = 'nav-search';
   form.setAttribute('role', 'search');
-  form.action = '/search';
+  form.action = 'https://www.highmark.com/search-results.html';
   form.innerHTML = `
     <input type="search" name="q" placeholder="Search Highmark" aria-label="Search Highmark">
+    <input type="hidden" name="rows" value="10">
     <button type="submit" aria-label="Search"><span class="nav-search-icon" aria-hidden="true"></span></button>`;
   return form;
 }
