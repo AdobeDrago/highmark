@@ -543,6 +543,7 @@ body.shop main .default-content-wrapper p:has(> sub) {
     padding-left: 32px;
     padding-right: 32px;
   }
+  
   body.shop main > .section > div.hero-minimal-dark-withimg-wrapper {
     padding-left: 0;
     padding-right: 0;
