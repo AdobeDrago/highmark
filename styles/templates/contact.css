@@ -1,0 +1,276 @@
+/* Template "contact" (page metadata template=contact -> body.contact).
+   Loaded by scripts/scripts.js (TEMPLATE_STYLES) before the first section renders.
+
+   Values extracted (getComputedStyle) from https://www.highmark.com/contact?zg=false
+   at 390 / 768 / 800 / 1024 / 1440. Source breakpoints: < 768 (30px gutters),
+   768-991 (64px gutters), >= 992 (1366px container, 83px padding, content in
+   the centred col-lg-8 -> 2/3 of min(1200px, 100% - 166px), 800px at 1440).
+
+   EDS sections: (1) default content: h1, intro, h2 Members / Providers /
+   Reporting Fraud + copy (the PDF link is auto-decorated into a.button and
+   carries a trailing :external-link: icon), h3 "Our mailing address is:" +
+   address paragraph (a 6/12 column from 768px on the source); (2) `highlight`
+   section with the "DO NOT USE THE FORM" warning: on the source a left-aligned
+   blush box inside the content column (text in a 10/12 column offset 1,
+   40px spacer above, 20px below).
+
+   The source contact form below the box is not migrated; the 40px / 60px
+   (>= 768) gap after the box is the source's spacing before the footer. */
+
+/* stylelint-disable no-descending-specificity */
+
+/* ------------------------------------------------------------------
+ * Sections + content column
+ * ------------------------------------------------------------------ */
+body.contact main > .section {
+  margin: 0;
+}
+
+/* source spacer between the address and the blush box (20px, 40px >= 768) */
+body.contact main > .section:first-of-type {
+  padding-bottom: 20px;
+}
+
+body.contact main > .section > .default-content-wrapper {
+  box-sizing: border-box;
+  max-width: none;
+  margin: 0;
+  padding: 0 30px;
+}
+
+/* ------------------------------------------------------------------
+ * Section 1 — headings + copy
+ * ------------------------------------------------------------------ */
+body.contact main > .section:first-of-type > .default-content-wrapper h1 {
+  margin: 0 0 8px;
+  padding: 24px 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 35.2px;
+  letter-spacing: -1.28px;
+}
+
+body.contact main > .section:first-of-type > .default-content-wrapper h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.contact main > .section:first-of-type > .default-content-wrapper p {
+  margin: 0 0 12.8px;
+  padding: 0;
+  color: var(--text-body-color);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+  overflow-wrap: break-word;
+}
+
+/* source sup (bootstrap): 75%, raised without growing the line */
+body.contact main > .section:first-of-type > .default-content-wrapper sup {
+  position: relative;
+  top: -0.5em;
+  font-size: 75%;
+  line-height: 0;
+  vertical-align: baseline;
+}
+
+/* "Our mailing address is:" — 20px spacer above it (source spacing
+   component; padding so it does not collapse into the copy margin) */
+body.contact main > .section:first-of-type > .default-content-wrapper h3 {
+  margin: 0 0 8px;
+  padding: 36px 0 16px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 24.2px;
+  letter-spacing: -0.44px;
+}
+
+/* ------------------------------------------------------------------
+ * PDF link — the source is a plain inline text link, not a button
+ * ------------------------------------------------------------------ */
+body.contact main > .section:first-of-type > .default-content-wrapper p.button-container a.button:any-link {
+  display: inline;
+  max-width: none;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background-color: transparent;
+  color: #0078c1;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: inherit;
+  text-decoration: none;
+  text-overflow: clip;
+  text-transform: none;
+  white-space: normal;
+}
+
+body.contact main > .section:first-of-type > .default-content-wrapper p.button-container a.button:hover {
+  background-color: transparent;
+  color: rgb(0 86 179);
+  text-decoration: underline;
+}
+
+body.contact main > .section:first-of-type > .default-content-wrapper p.button-container a.button:focus:not(:hover) {
+  background-color: transparent;
+  color: #0078c1;
+}
+
+/* trailing external-link glyph (:external-link: token -> span.icon).
+   Source: Font Awesome fa-external-link-alt, 1.125em x 1em, 7px before /
+   2px after, bottom 0.13em below the baseline, in the body navy (the SVG
+   file is baked in link blue, so it is painted through a mask) */
+body.contact main > .section:first-of-type > .default-content-wrapper .icon-external-link {
+  width: 1.125em;
+  height: 1em;
+  margin: 0 2px 0 7px;
+  vertical-align: -0.13em;
+  background-color: var(--text-body-color);
+  mask: url("/icons/external-link.svg") center / contain no-repeat;
+}
+
+body.contact main > .section:first-of-type > .default-content-wrapper .icon-external-link img {
+  display: block;
+  visibility: hidden;
+}
+
+/* ------------------------------------------------------------------
+ * Section 2 — "DO NOT USE THE FORM" blush box in the content column
+ * ------------------------------------------------------------------ */
+body.contact main > .section.highlight {
+  margin: 0 0 40px;
+  padding: 0 30px;
+  background-color: transparent;
+  text-align: start;
+}
+
+body.contact main > .section.highlight > .default-content-wrapper {
+  padding: 40px 0 20px;
+  background-color: var(--highlight-color);
+}
+
+body.contact main > .section.highlight > .default-content-wrapper p {
+  margin: 0 calc(100% / 12) 12.8px;
+  padding: 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+  text-align: start;
+}
+
+/* ------------------------------------------------------------------
+ * Tablet (768-991)
+ * ------------------------------------------------------------------ */
+@media (width >= 768px) {
+  body.contact main > .section:first-of-type {
+    padding-bottom: 40px;
+  }
+
+  body.contact main > .section > .default-content-wrapper {
+    padding: 0 64px;
+  }
+
+  body.contact main > .section:first-of-type > .default-content-wrapper h1 {
+    padding: 28.8px 0;
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  body.contact main > .section:first-of-type > .default-content-wrapper h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.contact main > .section:first-of-type > .default-content-wrapper p {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  /* mailing address: 6/12 column */
+  body.contact main > .section:first-of-type > .default-content-wrapper h3,
+  body.contact main > .section:first-of-type > .default-content-wrapper h3 + p {
+    width: 50%;
+  }
+
+  body.contact main > .section:first-of-type > .default-content-wrapper h3 {
+    font-size: 24px;
+    line-height: 26.4px;
+  }
+
+  body.contact main > .section.highlight {
+    margin-bottom: 60px;
+    padding: 0 64px;
+  }
+
+  body.contact main > .section.highlight > .default-content-wrapper {
+    padding: 40px 0 20px;
+  }
+
+  body.contact main > .section.highlight > .default-content-wrapper p {
+    margin-bottom: 16px;
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * Desktop (>= 992): centred 2/3 column of min(1200px, 100% - 166px)
+ * ------------------------------------------------------------------ */
+@media (width >= 992px) {
+  body.contact main > .section > .default-content-wrapper,
+  body.contact main > .section.highlight > .default-content-wrapper {
+    width: calc(min(1200px, 100% - 166px) * 2 / 3);
+    margin: 0 auto;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  body.contact main > .section.highlight {
+    padding: 0;
+  }
+
+  body.contact main > .section:first-of-type > .default-content-wrapper h1 {
+    font-size: 56px;
+    line-height: 61.6px;
+    letter-spacing: -2.8px;
+  }
+
+  body.contact main > .section:first-of-type > .default-content-wrapper h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.contact main > .section:first-of-type > .default-content-wrapper p {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  body.contact main > .section.highlight > .default-content-wrapper p {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+}

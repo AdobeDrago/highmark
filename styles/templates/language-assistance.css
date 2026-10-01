@@ -1,0 +1,276 @@
+/* Template "language-assistance" (page metadata template=language-assistance -> body.language-assistance).
+   Loaded by scripts/scripts.js (TEMPLATE_STYLES) before the first section renders.
+
+   Values extracted via getComputedStyle from
+   https://www.highmark.com/language-assistance?zg=false at 390 / 767 / 768 /
+   800 / 992 / 1024 / 1200 / 1440 (source breakpoints: 768 tablet, 992 desktop).
+
+   EDS sections: (1) h1 + intro + ul of 26 language jump links,
+   (2) 26 notices (h2 language name + one paragraph), (3) `center`: bold
+   "BACK TO TOP" link (auto-decorated as p.button-container > strong > a.button).
+
+   Source layout: same content column as capitol-hill-report / media-contacts
+   (30px gutters < 768, 64px 768-991, centred 2/3 of min(1200px, 100% - 166px)
+   >= 992 -> 800px at 1440).
+   Vertical rhythm comes from AEM spacer components:
+   - intro -> index grid: 20px (< 768) / 40px (>= 768)
+   - index grid: one cell per link, 50% / 33.33% / 25% wide, cell padding
+     0 0 20px / 0 10px 25px / 0 10px 30px, link in a <p> (body margin below)
+   - every notice: 20px spacer, then h2 + p
+   - last notice -> BACK TO TOP: 60px (< 768) / 80px (>= 768)
+   - BACK TO TOP <p> margin, then 40px / 60px to the footer.
+
+   Every rule targets a distinct element of this one template, so the
+   specificity ordering lint is off (same convention as the other templates). */
+
+/* stylelint-disable no-descending-specificity */
+
+/* ------------------------------------------------------------------
+ * Sections + content column
+ * ------------------------------------------------------------------ */
+body.language-assistance main > .section {
+  margin: 0;
+}
+
+body.language-assistance main > .section > .default-content-wrapper {
+  max-width: none;
+  margin: 0;
+  padding: 0 30px;
+}
+
+/* ------------------------------------------------------------------
+ * Section 1: h1 + intro + language index
+ * ------------------------------------------------------------------ */
+body.language-assistance main > .section:first-of-type > .default-content-wrapper h1 {
+  margin: 0 0 8px;
+  padding: 24px 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 35.2px;
+  letter-spacing: -1.28px;
+}
+
+/* intro, index links and notice copy share the source body-text style */
+body.language-assistance main > .section > .default-content-wrapper p,
+body.language-assistance main > .section:first-of-type > .default-content-wrapper > ul {
+  color: var(--text-body-color);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+body.language-assistance main > .section > .default-content-wrapper p {
+  margin: 0 0 12.8px;
+}
+
+/* intro: the source wraps it in a lead span (span.p1, sofia-pro semibold navy) */
+body.language-assistance main > .section:first-of-type > .default-content-wrapper > h1 + p {
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+/* index grid: reads left-to-right like the source flex row (no CSS columns) */
+body.language-assistance main > .section:first-of-type > .default-content-wrapper > ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 32.8px 0 0; /* 20px spacer; collapses with the intro's 12.8px margin */
+  padding: 0;
+  list-style: none;
+}
+
+/* cell padding 20px + the link paragraph's 12.8px margin */
+body.language-assistance main > .section:first-of-type > .default-content-wrapper > ul > li {
+  margin: 0;
+  padding: 0 0 32.8px;
+}
+
+body.language-assistance main > .section > .default-content-wrapper a:any-link {
+  color: #0078c1;
+  text-decoration: none;
+}
+
+body.language-assistance main > .section > .default-content-wrapper a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* ------------------------------------------------------------------
+ * Section 2: notices (h2 + p)
+ * ------------------------------------------------------------------ */
+body.language-assistance main > .section:first-of-type + .section > .default-content-wrapper h2 {
+  margin: 32.8px 0 8px; /* 20px spacer + the previous notice's 12.8px p margin (collapsed) */
+  padding: 19.2px 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+/* after the index grid (last cell padding already included) only the spacer */
+body.language-assistance main > .section:first-of-type + .section > .default-content-wrapper > h2:first-child {
+  margin-top: 20px;
+}
+
+/* Right-to-left notices (Arabic, Farsi, Urdu, Yiddish) are right-aligned on
+   the source. The content carries no dir/lang, so each heading/paragraph
+   takes its base direction from its own first strong character and aligns
+   to its own start edge: RTL text -> right, LTR text -> left. */
+body.language-assistance main > .section:first-of-type + .section > .default-content-wrapper > h2,
+body.language-assistance main > .section:first-of-type + .section > .default-content-wrapper > p {
+  text-align: start;
+  unicode-bidi: plaintext;
+}
+
+/* ------------------------------------------------------------------
+ * Section 3 (center): BACK TO TOP — a bold plain link on the source
+ * ------------------------------------------------------------------ */
+body.language-assistance main > .section:last-of-type {
+  padding: 60px 0 40px; /* spacer above; gap to the footer below */
+}
+
+body.language-assistance main > .section:last-of-type > .default-content-wrapper p.button-container {
+  margin: 0 0 12.8px;
+  text-align: center;
+}
+
+body.language-assistance main > .section:last-of-type > .default-content-wrapper a.button:any-link {
+  display: inline;
+  max-width: none;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background-color: transparent;
+  color: #0078c1;
+  font-family: var(--body-font-family);
+  font-size: inherit;
+  font-weight: 700;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-align: inherit;
+  text-decoration: none;
+  text-transform: none;
+  white-space: normal;
+}
+
+body.language-assistance main > .section:last-of-type > .default-content-wrapper a.button:hover {
+  background-color: transparent;
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+body.language-assistance main > .section:last-of-type > .default-content-wrapper a.button:focus:not(:hover) {
+  background-color: transparent;
+  color: #0078c1;
+}
+
+/* ------------------------------------------------------------------
+ * Tablet 768-991
+ * ------------------------------------------------------------------ */
+@media (width >= 768px) {
+  body.language-assistance main > .section > .default-content-wrapper {
+    padding: 0 64px;
+  }
+
+  body.language-assistance main > .section:first-of-type > .default-content-wrapper h1 {
+    padding: 28.8px 0;
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  body.language-assistance main > .section > .default-content-wrapper p,
+  body.language-assistance main > .section:first-of-type > .default-content-wrapper > ul {
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.language-assistance main > .section > .default-content-wrapper p,
+  body.language-assistance main > .section:last-of-type > .default-content-wrapper p.button-container {
+    margin-bottom: 16px;
+  }
+
+  body.language-assistance main > .section:first-of-type > .default-content-wrapper > h1 + p {
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  body.language-assistance main > .section:first-of-type > .default-content-wrapper > ul {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 56px; /* 40px spacer + the intro's 16px margin (collapsed) */
+  }
+
+  /* cell padding 0 10px 25px + the link paragraph's 16px margin */
+  body.language-assistance main > .section:first-of-type > .default-content-wrapper > ul > li {
+    padding: 0 10px 41px;
+  }
+
+  body.language-assistance main > .section:first-of-type + .section > .default-content-wrapper h2 {
+    margin-top: 36px; /* 20px spacer + 16px p margin */
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.language-assistance main > .section:last-of-type {
+    padding: 80px 0 60px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * Desktop >= 992: centred 2/3 column (800px at >= 1366)
+ * ------------------------------------------------------------------ */
+@media (width >= 992px) {
+  body.language-assistance main > .section > .default-content-wrapper {
+    width: calc(min(1200px, 100% - 166px) * 2 / 3);
+    max-width: none;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  body.language-assistance main > .section:first-of-type > .default-content-wrapper h1 {
+    font-size: 56px;
+    line-height: 61.6px;
+    letter-spacing: -2.8px;
+  }
+
+  body.language-assistance main > .section > .default-content-wrapper p,
+  body.language-assistance main > .section:first-of-type > .default-content-wrapper > ul {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  body.language-assistance main > .section:first-of-type > .default-content-wrapper > h1 + p {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  body.language-assistance main > .section:first-of-type > .default-content-wrapper > ul {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  /* cell padding 0 10px 30px + the link paragraph's 16px margin */
+  body.language-assistance main > .section:first-of-type > .default-content-wrapper > ul > li {
+    padding-bottom: 46px;
+  }
+
+  body.language-assistance main > .section:first-of-type + .section > .default-content-wrapper h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+}
