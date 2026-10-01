@@ -60,7 +60,7 @@ The footer's legal pages and their sub-pages (`/privacy`, `/fraud/*`, `/privacy-
 
 ## Open PRs
 
-- None (as of 2026-09-30; the offshore team's `develop` work merged as #28).
+- #34 (`nav-group5`, art-golk-merkle): Newsroom media contacts and Weekly Capitol Hill Report (both on preview). As of 2026-09-30.
 
 ## Known follow-ups
 
@@ -68,7 +68,7 @@ The footer's legal pages and their sub-pages (`/privacy`, `/fraud/*`, `/privacy-
 - Real ZIP coverage: `/shop/zip-regions` only knows its sample ZIPs, so most real ZIPs are rejected by the modal. ShopX looks ZIPs up through `api.hmhs.com/sxesvc/api/v2/zipCode/countyList`, which only allows `shop.highmark.com` (CORS) and needs its app session.
 - `/shop/home` still differs from ShopX in the shop header (title bar + region label, nav items), the Special Enrollment copy alignment, and the footer (ShopX's is light with per-region legal text).
 - `/shop/beta/home`: its token lines lost their tokens ("Showing plans for · ZIP", "availability in ."), so they show empty.
-- Legal pages: the source separates content chunks with fixed "spacing" components (40px desktop / 20px tablet / 0 mobile) that have no EDS equivalent, so some of our pages run 2-8% shorter. `/privacy-center` has no page or redirect (no `/redirects` sheet yet), so the "Privacy Center" side-nav link 404s and the `/privacy-center/*` breadcrumbs skip that level.
+- Legal pages: the source separates content chunks with fixed "spacing" components (40px desktop / 20px tablet / 0 mobile) that have no EDS equivalent, so some of our pages run 2-8% shorter. `/privacy-center` has no page or redirect (no `/redirects` sheet yet), so the "Privacy Center" side-nav link 404s and the `/privacy-center/*` breadcrumbs skip that level. `/fraud/contact` links to `/fraud/fraud-form`, the source's 55-field Health Care Fraud Form (it posts to an AEM servlet, `/bin/hmk/genericmailer`), which 404s here until a form solution is chosen.
 - `zip-county-form` ignores its authored sheet paths: `readConfig` only reads `<a>` hrefs, but the `/modals/zip-county` fragment holds the paths as plain text, so the block always falls back to its built-in defaults (which match today's paths). #13 would have read the row text instead, but was closed unmerged.
 
 ## Conventions

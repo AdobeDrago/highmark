@@ -36,7 +36,7 @@ Before importing a page, check the `nav-group*` branches' `tools/importer/urls-*
 - [x] `/about/corporate-responsibility/bright-blue-futures` (Highmark Bright Blue Futures) **Live** imported by the `nav-group4` batch
 - [ ] `/newsroom/press-releases` (Press Releases) **To do**
 - [ ] `/because-life` (learn about us) **To do**
-- [x] `/privacy` (Digital Privacy Policy) **Live** its 8 standalone links render as buttons until the legal template update merges
+- [x] `/privacy` (Digital Privacy Policy) **Live**
 - [x] `/terms-service` (Terms of Service) **Live**
 
 ## P3: footer links
@@ -44,35 +44,36 @@ Before importing a page, check the `nav-group*` branches' `tools/importer/urls-*
 - [x] `/non-discrimination` (Non Discrimination Policy) **Live**
 - [x] `/fraud` (Fraud Prevention) **Live**
 - [ ] `/western-pennsylvania/medical-policy` (Medical Policy) **Deferred** ZIP-gated regional page; deferred to the P5 decision
-- [x] `/cms-onc-interoperability` (CMS Interoperability Patient Access Rule) **Live** republish after the legal template update merges (brand button fix is on preview)
-- [x] `/cms-onc-interoperability-prior-authorization-rule` (CMS Interoperability Prior Authorization Rule) **Live** republish after the legal template update merges (brand button and address line-break fixes are on preview)
+- [x] `/cms-onc-interoperability` (CMS Interoperability Patient Access Rule) **Live**
+- [x] `/cms-onc-interoperability-prior-authorization-rule` (CMS Interoperability Prior Authorization Rule) **Live**
 - [x] `/accessibility-statement` (Accessibility Statement) **Live**
 - [x] `/sms-texting` (SMS Texting) **Live**
 - [ ] `/privacy-center` (Privacy Center) **Redirect only** source redirects to /privacy-center/announcements: add a redirect
 - [x] `/privacy-center/announcements` (Privacy Center: Announcements) **Live**
 - [x] `/no-surprises-act` (No Surprises Act) **Live**
 - [x] `/transparency-in-coverage` (Transparency in Coverage) **Live**
-- [x] `/network-access` (Network Access & Adequacy) **Live** republish after the legal template update merges ("LEARN MORE" PDF link fix is on preview)
+- [x] `/network-access` (Network Access & Adequacy) **Live**
 - [x] `/mandates` (State Law Requirements) **Live**
 - [x] `/gdpr` (GDPR) **Live**
 - [x] `/ohca` (OHCA Statement) **Live**
 
-Sub-pages the footer pages link to (side navs and links); not linked from the homepage. 6/10 live:
+Sub-pages the footer pages link to (side navs and links); not linked from the homepage. 10/11 live:
 
 - [x] `/fraud/red-flags` **Live** linked from `/fraud`
 - [x] `/fraud/contact` **Live** linked from `/fraud`
 - [x] `/fraud/senior-fraud-prevention` **Live** linked from `/fraud`
-- [ ] `/privacy-center/privacy-policies-and-practices` **Preview only** linked from `/privacy-center/announcements`; publishes after the legal template update merges
+- [x] `/privacy-center/privacy-policies-and-practices` **Live** linked from `/privacy-center/announcements`
 - [x] `/privacy-center/state-specific-notices` **Live** linked from `/privacy-center/announcements`
-- [ ] `/privacy-center/terms-of-service` **Preview only** linked from `/privacy-center/announcements`; publishes after the legal template update merges
+- [x] `/privacy-center/terms-of-service` **Live** linked from `/privacy-center/announcements`
 - [x] `/privacy-center/health-information-exchanges` **Live** linked from `/privacy-center/announcements`
-- [ ] `/privacy-center/privacy-forms` **Preview only** linked from `/privacy-center/announcements`; publishes after the legal template update merges
-- [ ] `/transparency-in-coverage/claims-payment-policies-and-other-information` **Preview only** linked from `/transparency-in-coverage`; publishes after the legal template update merges
+- [x] `/privacy-center/privacy-forms` **Live** linked from `/privacy-center/announcements`
+- [x] `/transparency-in-coverage/claims-payment-policies-and-other-information` **Live** linked from `/transparency-in-coverage`
 - [x] `/privacy/digital-privacy-policy` **Live** linked from `/privacy`
+- [ ] `/fraud/fraud-form` **To do** linked from `/fraud/contact`; the Health Care Fraud Form (55 fields, posts to the source's `/bin/hmk/genericmailer`): needs a form-handling decision, not just an import
 
 Also in P3:
 
-- [ ] Legal template update awaiting merge (`styles/templates/legal.css`, `icons/pdf.svg`): lists, letter-spacing, in-text link blue, standalone links as text links, centered outlined brand buttons, the two-column grid, PDF-link icons. After it merges: publish the 4 held sub-pages above, and republish `/cms-onc-interoperability`, `/cms-onc-interoperability-prior-authorization-rule` and `/network-access`.
+- [x] Legal template update (PR #36, 2026-09-30): lists, letter-spacing, in-text link blue, standalone links as text links, centered outlined brand buttons, the two-column grid, PDF-link icons; the held sub-pages and the pages it affected are published.
 - [ ] `/privacy-center` has no page or redirect: the "Privacy Center" side-nav parent link 404s on the six `/privacy-center/*` pages, and their breadcrumbs skip that level. A `/redirects` sheet entry (`/privacy-center` to `/privacy-center/announcements`, as on the source) fixes the link.
 - [ ] Our `/footer` fragment: the CSI Policy link points at a mangled relative path (`/content/dam/…/csipolicy-pdf`); it needs the source's absolute PDF URL.
 - [ ] Our `/footer` fragment is older than the source footer: the source also links CMS Interoperability Prior Authorization Rule and Privacy Center.
