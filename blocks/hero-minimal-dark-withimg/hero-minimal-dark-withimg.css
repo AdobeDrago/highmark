@@ -156,7 +156,7 @@ main .hero-minimal-dark-withimg a.button:focus {
 @media (width < 992px) {
   /* both heroes on the shop page are full-bleed below 992px: cancel the
      body.shop page gutter on the block wrapper */
-  body.shop main > .section > .hero-minimal-dark-withimg-wrapper {
+  body.shop main > .section > div.hero-minimal-dark-withimg-wrapper {
     padding-left: 0;
     padding-right: 0;
   }
@@ -427,7 +427,7 @@ main .hero-minimal-dark-withimg:not(:has(h1)) a.button:focus {
     color: #fff;
   }
 
-  body.shop main > .section > div.hero-minimal-dark-withimg-container .hero-minimal-dark-withimg-wrapper{
+  body.shop main > .section > div.hero-minimal-dark-withimg-container > div.hero-minimal-dark-withimg-wrapper{
     padding-left: 0;
     padding-right: 0;
   }
