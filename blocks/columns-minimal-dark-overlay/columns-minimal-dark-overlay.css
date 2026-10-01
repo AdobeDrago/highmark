@@ -167,6 +167,14 @@ main .columns-minimal-dark-overlay a.button:active {
   }
 }
 
+/* Below desktop the overlaid text column is width: 100% plus 15px side padding;
+   count the padding inside it so it doesn't run 30px past the screen (homepage) */
+@media (width < 992px) {
+  .columns-minimal-dark-overlay > div > .columns-minimal-dark-overlay-content-col {
+    box-sizing: border-box;
+  }
+}
+
 /* Desktop — content with padding and max-width */
 @media (width >= 992px) {
   .columns-minimal-dark-overlay > div > .columns-minimal-dark-overlay-content-col {
