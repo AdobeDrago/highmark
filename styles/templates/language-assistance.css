@@ -134,16 +134,16 @@ body.language-assistance main > .section:first-of-type + .section > .default-con
 /* ------------------------------------------------------------------
  * Section 3 (center): BACK TO TOP — a bold plain link on the source
  * ------------------------------------------------------------------ */
-body.language-assistance main > .section:last-of-type {
+body.language-assistance main > .section.center {
   padding: 60px 0 40px; /* spacer above; gap to the footer below */
 }
 
-body.language-assistance main > .section:last-of-type > .default-content-wrapper p.button-container {
+body.language-assistance main > .section.center > .default-content-wrapper p.button-container {
   margin: 0 0 12.8px;
   text-align: center;
 }
 
-body.language-assistance main > .section:last-of-type > .default-content-wrapper a.button:any-link {
+body.language-assistance main > .section.center > .default-content-wrapper a.button:any-link {
   display: inline;
   max-width: none;
   margin: 0;
@@ -163,13 +163,13 @@ body.language-assistance main > .section:last-of-type > .default-content-wrapper
   white-space: normal;
 }
 
-body.language-assistance main > .section:last-of-type > .default-content-wrapper a.button:hover {
+body.language-assistance main > .section.center > .default-content-wrapper a.button:hover {
   background-color: transparent;
   color: #0056b3;
   text-decoration: underline;
 }
 
-body.language-assistance main > .section:last-of-type > .default-content-wrapper a.button:focus:not(:hover) {
+body.language-assistance main > .section.center > .default-content-wrapper a.button:focus:not(:hover) {
   background-color: transparent;
   color: #0078c1;
 }
@@ -196,7 +196,7 @@ body.language-assistance main > .section:last-of-type > .default-content-wrapper
   }
 
   body.language-assistance main > .section > .default-content-wrapper p,
-  body.language-assistance main > .section:last-of-type > .default-content-wrapper p.button-container {
+  body.language-assistance main > .section.center > .default-content-wrapper p.button-container {
     margin-bottom: 16px;
   }
 
@@ -223,7 +223,7 @@ body.language-assistance main > .section:last-of-type > .default-content-wrapper
     letter-spacing: -0.78px;
   }
 
-  body.language-assistance main > .section:last-of-type {
+  body.language-assistance main > .section.center {
     padding: 80px 0 60px;
   }
 }
