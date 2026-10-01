@@ -28,7 +28,9 @@ export default function parse(element, { document }) {
   //   div.gridcontrol > .row > div.hmk-col-lg-6 (one per region)
   //     > .cmp-text > h3 + p + ul (cities)   and   .button a.textButton ("FIND CARE")
   // Cards (no images): one 1-column row per card [ heading + description + CTA ].
-  const regions = Array.from(element.querySelectorAll('div.gridcontrol div.hmk-col-lg-6'));
+  // Empty grid cells (media-relations-contacts pads an odd row with one) are skipped.
+  const regions = Array.from(element.querySelectorAll('div.gridcontrol div.hmk-col-lg-6'))
+    .filter((region) => region.textContent.trim());
   if (regions.length) {
     const regionCells = regions.map((region) => {
       const cell = [];

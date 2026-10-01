@@ -1,0 +1,187 @@
+/* Template "capitol-hill-report" (page metadata template=capitol-hill-report -> body.capitol-hill-report).
+   Loaded by scripts/scripts.js (TEMPLATE_STYLES) before the first section renders.
+
+   Values extracted via getComputedStyle from
+   https://www.highmark.com/newsroom/weekly-capitol-hill-report?zg=false
+   at 390 / 768 / 1024 / 1440 (source breakpoints: 768 tablet, 992 desktop).
+
+   EDS sections: (1) h1 + intro paragraph, (2) the report list: repeated
+   h2 (date) + p.button-container > a.button ("download pdf") pairs.
+
+   Source layout: main.container has 30px (< 768) / 64px (768-991) side
+   padding; at >= 992px it is min(1366px, 100%) wide with 83px padding and
+   the content sits in the centered col-lg-8 (2/3 of min(1200px, 100% - 166px),
+   800px at 1440) between two empty col-lg-2 columns.
+   Each report is an AEM grid row: date text column + button column + a 20px
+   spacer. < 768: date full width, button column 7/12 below it (button
+   centered in it); 768-991: 8/4 columns; >= 992: 9/3 columns with an extra
+   20px spacer above the button. The button is centered in its column.
+
+   Every rule targets a distinct element of this one template, so the
+   specificity ordering lint is off (same convention as the other templates). */
+
+/* stylelint-disable no-descending-specificity */
+
+body.capitol-hill-report main > .section {
+  margin: 0;
+}
+
+body.capitol-hill-report main > .section > .default-content-wrapper {
+  max-width: none;
+  margin: 0;
+  padding: 0 30px;
+}
+
+/* source: 40px (< 768) / 60px (>= 768) between the last row spacer and the footer */
+body.capitol-hill-report main > .section:last-of-type {
+  padding-bottom: 40px;
+}
+
+/* ---------- section 1: h1 + intro ---------- */
+body.capitol-hill-report main > .section:first-of-type > .default-content-wrapper h1 {
+  width: 66.6667%; /* aem-GridColumn--phone--8 */
+  margin: 0 0 8px;
+  padding: 24px 0;
+  font-size: 32px;
+  line-height: 35.2px;
+  letter-spacing: -1.28px;
+}
+
+body.capitol-hill-report main > .section:first-of-type > .default-content-wrapper p {
+  margin: 0 0 12.8px;
+  color: var(--text-body-color);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+/* ---------- section 2: report rows (h2 date + p.button-container) ---------- */
+body.capitol-hill-report main > .section:first-of-type + .section > .default-content-wrapper h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.capitol-hill-report main > .section:first-of-type + .section > .default-content-wrapper > p.button-container {
+  display: flex;
+  justify-content: center;
+  width: 58.3333%; /* 7/12 on phones */
+  margin: 0 0 20px; /* row spacer */
+}
+
+body.capitol-hill-report main > .section:first-of-type + .section > .default-content-wrapper > p.button-container a.button:any-link {
+  display: block;
+  margin: 16px 0;
+  border: 0;
+  border-radius: 5px;
+  padding: 16px 24px;
+  background-color: var(--link-color);
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: normal;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: normal;
+}
+
+body.capitol-hill-report main > .section:first-of-type + .section > .default-content-wrapper > p.button-container a.button:hover {
+  background-color: var(--link-hover-color);
+  color: #fff;
+}
+
+body.capitol-hill-report main > .section:first-of-type + .section > .default-content-wrapper > p.button-container a.button:focus:not(:hover) {
+  background-color: var(--link-color);
+  color: #fff;
+}
+
+/* ---------- tablet 768-991 ---------- */
+@media (width >= 768px) {
+  body.capitol-hill-report main > .section > .default-content-wrapper {
+    padding: 0 64px;
+  }
+
+  body.capitol-hill-report main > .section:last-of-type {
+    padding-bottom: 60px;
+  }
+
+  body.capitol-hill-report main > .section:first-of-type > .default-content-wrapper h1 {
+    width: auto;
+    padding: 28.8px 0;
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  body.capitol-hill-report main > .section:first-of-type > .default-content-wrapper p {
+    margin: 0 0 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.capitol-hill-report main > .section:first-of-type + .section > .default-content-wrapper {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  body.capitol-hill-report main > .section:first-of-type + .section > .default-content-wrapper h2 {
+    grid-column: 1;
+    padding: 19.2px 0;
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  /* the 20px row spacer spans both columns: the button cell carries it */
+  body.capitol-hill-report main > .section:first-of-type + .section > .default-content-wrapper > p.button-container {
+    grid-column: 2;
+    width: auto;
+  }
+
+  /* dates without a button still occupy a full row */
+  body.capitol-hill-report main > .section:first-of-type + .section > .default-content-wrapper h2:not(:has(+ p.button-container)) {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---------- desktop >= 992 ---------- */
+@media (width >= 992px) {
+  body.capitol-hill-report main > .section > .default-content-wrapper {
+    width: calc(min(1200px, 100% - 166px) * 2 / 3);
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  body.capitol-hill-report main > .section:first-of-type > .default-content-wrapper h1 {
+    font-size: 56px;
+    line-height: 61.6px;
+    letter-spacing: -2.8px;
+  }
+
+  body.capitol-hill-report main > .section:first-of-type > .default-content-wrapper p {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  body.capitol-hill-report main > .section:first-of-type + .section > .default-content-wrapper {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+  }
+
+  body.capitol-hill-report main > .section:first-of-type + .section > .default-content-wrapper h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.capitol-hill-report main > .section:first-of-type + .section > .default-content-wrapper > p.button-container {
+    padding-top: 20px; /* top spacer in the button column */
+  }
+}

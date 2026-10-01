@@ -39,6 +39,12 @@ export default function transform(hookName, element, payload) {
       '.d-block.d-lg-none',
     ]);
 
+    // Documents (PDFs etc.) stay on the Highmark DAM; a relative /content/dam/ link
+    // would 404 on the EDS site, so point it at www.highmark.com.
+    element.querySelectorAll('a[href^="/content/dam/"]').forEach((a) => {
+      a.setAttribute('href', `https://www.highmark.com${a.getAttribute('href')}`);
+    });
+
     // Leftover non-content elements.
     WebImporter.DOMUtils.remove(element, [
       'link',
