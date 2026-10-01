@@ -183,7 +183,7 @@ main .section.blue .columns-minimal-dark a.button:hover,
 main .section.blue .columns-minimal-dark a.button:focus {
   border: 0;
   background-color: transparent;
-  color: var(--link-hover-color);
+  color: var(--link-color);
   text-decoration: underline;
 }
 
