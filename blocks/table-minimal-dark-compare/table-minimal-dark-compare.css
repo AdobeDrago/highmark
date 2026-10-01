@@ -226,3 +226,131 @@ body.chip .table-minimal-dark-compare table tbody td:first-child h5 {
     border-top-width: 1px;
   }
 }
+
+/*
+ * "data" variant (Table Minimal Dark Compare (data)) — spending-account detail
+ * tables (FSA limits, commuter limits, HSA coverage / savings).
+ * Values extracted from https://www.highmark.com/resources/spending-accounts/
+ * flexible-spending-account-fsa, commuter-benefits-account and
+ * health-saving-account-hsa (.dynamic-table-container table#dynamic-table).
+ * Source tiers: < 768px, 768-991px, >= 992px.
+ * Plain value tables (no bold labels) get the navy header and a plain centred
+ * first column; tables whose first column holds bold labels keep the bright
+ * blue header and the tinted label column; an empty top-left corner cell
+ * left-aligns the label column.
+ */
+
+/* data and CHIP tables never share a page; their rules do not compete */
+/* stylelint-disable no-descending-specificity */
+
+/* source .dynamic-table-container: padding 0 5px */
+.table-minimal-dark-compare.data {
+  box-sizing: border-box;
+  padding: 0 5px;
+}
+
+.table-minimal-dark-compare.data table thead th {
+  background-color: var(--text-color);
+  padding: 10px;
+}
+
+/* header labels: h3 with 16px block padding + 8px bottom margin */
+.table-minimal-dark-compare.data table thead th h1,
+.table-minimal-dark-compare.data table thead th h2,
+.table-minimal-dark-compare.data table thead th h3,
+.table-minimal-dark-compare.data table thead th h4,
+.table-minimal-dark-compare.data table thead th h5,
+.table-minimal-dark-compare.data table thead th h6 {
+  margin: 0 0 8px;
+  padding: 16px 0;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.4px;
+}
+
+/* body cells: 10px padding + the source paragraph's bottom margin */
+.table-minimal-dark-compare.data table tbody td {
+  padding: 10px 10px 22.8px;
+  color: var(--text-body-color);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+  text-align: center;
+}
+
+.table-minimal-dark-compare.data table td p {
+  margin: 0 0 12.8px;
+}
+
+.table-minimal-dark-compare.data table td p:last-child {
+  margin-bottom: 0;
+}
+
+.table-minimal-dark-compare.data table td strong {
+  font-weight: 700;
+}
+
+@media (width >= 768px) {
+  .table-minimal-dark-compare.data table thead th h1,
+  .table-minimal-dark-compare.data table thead th h2,
+  .table-minimal-dark-compare.data table thead th h3,
+  .table-minimal-dark-compare.data table thead th h4,
+  .table-minimal-dark-compare.data table thead th h5,
+  .table-minimal-dark-compare.data table thead th h6 {
+    font-size: 24px;
+    letter-spacing: -0.44px;
+  }
+
+  .table-minimal-dark-compare.data table tbody td {
+    padding-bottom: 26px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  .table-minimal-dark-compare.data table td p {
+    margin-bottom: 16px;
+  }
+}
+
+@media (width >= 992px) {
+  .table-minimal-dark-compare.data table thead th h1,
+  .table-minimal-dark-compare.data table thead th h2,
+  .table-minimal-dark-compare.data table thead th h3,
+  .table-minimal-dark-compare.data table thead th h4,
+  .table-minimal-dark-compare.data table thead th h5,
+  .table-minimal-dark-compare.data table thead th h6 {
+    letter-spacing: -0.72px;
+  }
+
+  .table-minimal-dark-compare.data table tbody td {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+}
+
+/* first column: plain white, centred, regular weight (FSA account types) */
+.table-minimal-dark-compare.data table tbody td:first-child {
+  background-color: #fff;
+  font-weight: 300;
+  text-align: center;
+}
+
+/* bold label column (commuter / HSA): tinted cells under a bright-blue header */
+.table-minimal-dark-compare.data table:has(tbody td:first-child strong) thead th {
+  background-color: #00a2e2;
+}
+
+.table-minimal-dark-compare.data table:has(tbody td:first-child strong) tbody td:first-child {
+  background-color: #edf5fa;
+}
+
+/* empty top-left corner (HSA): labels are left-aligned */
+.table-minimal-dark-compare.data table:has(thead th:first-child:empty) tbody td:first-child {
+  text-align: left;
+}
+
+/* stylelint-enable no-descending-specificity */

@@ -212,6 +212,41 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
+  // tools/importer/parsers/table-minimal-dark-compare.js
+  function parse6(element, { document: document2 }) {
+    const table = element.querySelector("table");
+    if (!table) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
+    const rows = Array.from(table.querySelectorAll(":scope > tbody > tr, :scope > tr"));
+    if (rows.length === 0) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
+    let colCount = 0;
+    rows.forEach((row) => {
+      const c = row.querySelectorAll(":scope > th, :scope > td").length;
+      if (c > colCount) colCount = c;
+    });
+    const cells = [];
+    rows.forEach((row) => {
+      const rowCells = Array.from(row.querySelectorAll(":scope > th, :scope > td"));
+      const outRow = rowCells.map((cell) => {
+        const inner = Array.from(cell.children);
+        if (inner.length > 0) return inner;
+        const text = (cell.textContent || "").trim();
+        return text;
+      });
+      while (outRow.length < colCount) outRow.push("");
+      cells.push(outRow);
+    });
+    const variant = element.getAttribute("data-block-variant");
+    const name = variant ? `table-minimal-dark-compare (${variant})` : "table-minimal-dark-compare";
+    const block = WebImporter.Blocks.createBlock(document2, { name, cells });
+    element.replaceWith(block);
+  }
+
   // tools/importer/transformers/highmark-cleanup.js
   var TransformHook = { beforeTransform: "beforeTransform", afterTransform: "afterTransform" };
   function transform(hookName, element, payload) {
@@ -291,6 +326,7 @@ var CustomImportScript = (() => {
 
   // tools/importer/import-tabbed-answers-landing.js
   var parsers = {
+    "table-minimal-dark-compare": parse6,
     "hero-minimal-light": parse,
     "cards-minimal-dark-iconnav": parse2,
     "accordion-minimal-light": parse3,
@@ -313,6 +349,9 @@ var CustomImportScript = (() => {
       "https://www.highmark.com/resources/spending-accounts/health-reimbursement-arrangement-hra"
     ],
     blocks: [
+      // spending-accounts data tables (FSA limits, commuter limits, HSA limits / savings): without
+      // a block the raw <table> became a block named after its first header cell in DA
+      { name: "table-minimal-dark-compare", instances: [".dynamic-table-container"] },
       { name: "hero-minimal-light", instances: ["section.new-hmk-brand-fifteenpercent-splash"] },
       { name: "cards-minimal-dark-iconnav", instances: ["div.quicklinks.section", ".quick-link-list-container.bg-blue"] },
       { name: "accordion-minimal-light", instances: ["div.col-lg-9 div.accordianTable", ".accordianTable"] },
@@ -369,6 +408,7 @@ var CustomImportScript = (() => {
         params
       } = payload;
       const main = document2.body;
+      main.querySelectorAll(".dynamic-table-container").forEach((el) => el.setAttribute("data-block-variant", "data"));
       executeTransformers("beforeTransform", main, payload);
       const pageBlocks = findBlocksOnPage(document2, PAGE_TEMPLATE);
       pageBlocks.forEach((block) => {

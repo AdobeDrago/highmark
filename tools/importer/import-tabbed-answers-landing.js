@@ -7,6 +7,7 @@ import cardsMinimalDarkIconnavParser from './parsers/cards-minimal-dark-iconnav.
 import accordionMinimalLightParser from './parsers/accordion-minimal-light.js';
 import cardsMinimalDarkListParser from './parsers/cards-minimal-dark-list.js';
 import columnsMinimalDarkParser from './parsers/columns-minimal-dark.js';
+import tableMinimalDarkCompareParser from './parsers/table-minimal-dark-compare.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/highmark-cleanup.js';
@@ -14,6 +15,7 @@ import sectionsTransformer from './transformers/highmark-answers-sections.js';
 
 // PARSER REGISTRY — section-* entries are styled by the sections transformer.
 const parsers = {
+  'table-minimal-dark-compare': tableMinimalDarkCompareParser,
   'hero-minimal-light': heroMinimalLightParser,
   'cards-minimal-dark-iconnav': cardsMinimalDarkIconnavParser,
   'accordion-minimal-light': accordionMinimalLightParser,
@@ -40,6 +42,9 @@ const PAGE_TEMPLATE = {
     'https://www.highmark.com/resources/spending-accounts/health-reimbursement-arrangement-hra',
   ],
   blocks: [
+    // spending-accounts data tables (FSA limits, commuter limits, HSA limits / savings): without
+    // a block the raw <table> became a block named after its first header cell in DA
+    { name: 'table-minimal-dark-compare', instances: ['.dynamic-table-container'] },
     { name: 'hero-minimal-light', instances: ['section.new-hmk-brand-fifteenpercent-splash'] },
     { name: 'cards-minimal-dark-iconnav', instances: ['div.quicklinks.section', '.quick-link-list-container.bg-blue'] },
     { name: 'accordion-minimal-light', instances: ['div.col-lg-9 div.accordianTable', '.accordianTable'] },
@@ -103,6 +108,10 @@ export default {
     } = payload;
 
     const main = document.body;
+
+    // Data tables on these pages (FSA / commuter / HSA limits) are the table block's
+    // "data" variant, not the HSA/HRA/FSA comparison look.
+    main.querySelectorAll('.dynamic-table-container').forEach((el) => el.setAttribute('data-block-variant', 'data'));
 
     // 1. beforeTransform (cleanup + section breaks)
     executeTransformers('beforeTransform', main, payload);
