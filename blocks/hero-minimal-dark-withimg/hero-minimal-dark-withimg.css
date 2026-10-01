@@ -427,7 +427,7 @@ main .hero-minimal-dark-withimg:not(:has(h1)) a.button:focus {
     color: #fff;
   }
 
-  .hero-minimal-dark-withimg-container .hero-minimal-dark-withimg-wrapper{
+  body.shop main > .section > div.hero-minimal-dark-withimg-container .hero-minimal-dark-withimg-wrapper{
     padding-left: 0;
     padding-right: 0;
   }
