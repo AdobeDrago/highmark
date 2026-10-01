@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Status and working notes for the Highmark AEM Edge Delivery Services project. Updated 2026-09-30.
+Status and working notes for the Highmark AEM Edge Delivery Services project. Updated 2026-10-01.
 
 ## Project
 
@@ -49,6 +49,16 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 - **Tokens:** `{{zip}}`, `{{region}}` and any `zip-regions` column, lowercased and hyphenated (`{{county}}`, `{{state}}`, `{{region-code}}`, `{{marketplace}}`), are filled from the stored selection. They work in text and in link URLs; the pipeline percent-encodes braces in hrefs and `zip-tokens.js` decodes them. A line stays hidden until every token in it is filled. Filled links that leave highmark.com, or open a PDF, get `target="_blank"`.
 - **Persistence:** currently `localStorage`. Wiring into the app's Redux/IndexedDB store is tracked in issue #9.
 
+## Redirects (highmark.com fallback)
+
+- `/redirects` (a DA sheet, published) sends every internal link that would 404 to the same page on highmark.com. It also mirrors the source's own redirects: `/about` → `/about/our-story`, `/privacy-center` → `/privacy-center/announcements`, Integrity & Ethics → highmarkhealth.org. 136 rows as of 2026-10-01.
+- **Redirects take precedence over pages:** a row hides any page published at that path. Don't hand-edit the sheet. After each import batch, run `node tools/redirects/build-redirects.mjs --upload` (it drops rows for paths that now have a DA document), check preview, then publish `/redirects.json`.
+- Paths with a DA document are never redirected, so an unpublished draft 404s on live until it is published. Drafts that should stay redirected go in the script's `FORCE` list.
+- The nav's ZIP-gated items point at Western PA pages for now: the CHIP items are our pages, and the Individual & Family items redirect to highmark.com. "Shop Individual and Family Plans" goes to `/shop/home`, and "My Location" opens the ZIP modal.
+- The header search box sends searches to highmark.com's results page (`blocks/header/header.js`).
+- Link to pages on this site with relative paths. An absolute `https://www.highmark.com/...` link leaves the site even when we have the page; imports often keep the source's absolute links. Absolute links to pages we haven't migrated are fine.
+- A paragraph that holds only a link renders as a button. Put link lists in one paragraph, one link per line (as on the `/resources/answers/faq` topic list), so long labels don't become buttons that overflow on phones.
+
 ## Legal pages (`template: legal`)
 
 The footer's legal pages and their sub-pages (`/privacy`, `/fraud/*`, `/privacy-center/*`, ...) set `Template: legal` and `Breadcrumbs: true`; `styles/templates/legal.css` matches the highmark.com originals at 390 / 768 / 1280. Authoring conventions in these pages:
@@ -60,15 +70,18 @@ The footer's legal pages and their sub-pages (`/privacy`, `/fraud/*`, `/privacy-
 
 ## Open PRs
 
-- #34 (`nav-group5`, art-golk-merkle): Newsroom media contacts and Weekly Capitol Hill Report (both on preview). As of 2026-09-30.
+- #44 (`fix-fsa-commuter-tables`, art-golk-merkle): fixes the FSA, Commuter Benefits and HSA data tables. The FSA and Commuter Benefits pages stay unpublished until it merges. As of 2026-10-01.
 
 ## Known follow-ups
 
 - Issue #9: move ZIP persistence from `localStorage` to the app's Redux/IndexedDB store.
 - Real ZIP coverage: `/shop/zip-regions` only knows its sample ZIPs, so most real ZIPs are rejected by the modal. ShopX looks ZIPs up through `api.hmhs.com/sxesvc/api/v2/zipCode/countyList`, which only allows `shop.highmark.com` (CORS) and needs its app session.
 - `/shop/home` still differs from ShopX in the shop header (title bar + region label, nav items), the Special Enrollment copy alignment, and the footer (ShopX's is light with per-region legal text).
-- `/shop/beta/home`: its token lines lost their tokens ("Showing plans for · ZIP", "availability in ."), so they show empty.
-- Legal pages: the source separates content chunks with fixed "spacing" components (40px desktop / 20px tablet / 0 mobile) that have no EDS equivalent, so some of our pages run 2-8% shorter. `/privacy-center` has no page or redirect (no `/redirects` sheet yet), so the "Privacy Center" side-nav link 404s and the `/privacy-center/*` breadcrumbs skip that level. `/fraud/contact` links to `/fraud/fraud-form`, the source's 55-field Health Care Fraud Form (it posts to an AEM servlet, `/bin/hmk/genericmailer`), which 404s here until a form solution is chosen.
+- `/shop/beta/home`: its token lines lost their tokens ("Showing plans for · ZIP", "availability in ."), so they show empty. Its SHOP PLANS, Get Started and brochure links are ShopX-relative paths that 404 here.
+- `/shop/home` was moved in DA to `/shop/index.html` and published as `/shop/` (mer81531, 2026-10-01). The live `/shop/home` is now a copy with no DA source. The move also stripped the ZIP tokens from `/shop/`'s location line, which shows "County," with no values, the same loss as `/shop/beta/home`. Agree with art-golk which URL is canonical, then restore the tokens.
+- Still 404 on live (2026-10-01): FSA and Commuter Benefits in the header (held for #44), `/reservations/aca` on `/resources/answers/faq/insurance-terms` (broken on the source too), and the `/shop/beta/home` links above.
+- The `/resources` sub-pages Lamont imported on 2026-09-16 (published 2026-10-01) have no template, like the live FAQ pages: no breadcrumbs, and the FAQ side navs list only the current topic.
+- Legal pages: the source separates content chunks with fixed "spacing" components (40px desktop / 20px tablet / 0 mobile) that have no EDS equivalent, so some of our pages run 2-8% shorter. `/privacy-center` has no page of its own; it redirects to `/privacy-center/announcements`, as on the source. `/fraud/contact` links to `/fraud/fraud-form`, the source's 55-field Health Care Fraud Form (it posts to an AEM servlet, `/bin/hmk/genericmailer`), which redirects to the source form until a form solution is chosen.
 - `zip-county-form` ignores its authored sheet paths: `readConfig` only reads `<a>` hrefs, but the `/modals/zip-county` fragment holds the paths as plain text, so the block always falls back to its built-in defaults (which match today's paths). #13 would have read the row text instead, but was closed unmerged.
 
 ## Conventions
