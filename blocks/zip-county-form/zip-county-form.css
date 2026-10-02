@@ -54,15 +54,50 @@
   background: transparent;
 }
 
-/* County is auto-filled from the ZIP lookup and not editable. */
-.zip-county-form form fieldset input[name="county"] {
-  color: #0a2a43;
+/* County: the ZIP's counties; chosen automatically when there is only one */
+.zip-county-form form fieldset select {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  padding: 0 32px 0 0;
+  font-family: var(--body-font-family);
+  font-size: 24px;
+  font-weight: 700;
+  color: #111;
+  background: transparent url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%230a2a43" d="M7 10l5 5 5-5z"/></svg>') no-repeat right center / 28px;
+  appearance: none;
+  cursor: pointer;
+}
+
+/* the prompt ("Enter ZIP first", "Select your county") */
+.zip-county-form form fieldset select:disabled,
+.zip-county-form form fieldset select:invalid {
+  color: #6b7a88;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.zip-county-form form fieldset select:disabled {
   cursor: default;
 }
 
-.zip-county-form form fieldset input[name="county"]::placeholder {
-  color: #6b7a88;
-  font-weight: 400;
+.zip-county-form form fieldset select:focus {
+  outline: none;
+}
+
+.zip-county-form form fieldset .field-wrapper:focus-within {
+  border-color: #1478bd;
+}
+
+/* the field an error message refers to (ShopX turns it red) */
+.zip-county-form form fieldset .field-wrapper.invalid {
+  border-color: #b00020;
+}
+
+.zip-county-form form fieldset .field-wrapper.invalid label {
+  color: #b00020;
 }
 
 .zip-county-form form fieldset input:hover,
@@ -93,9 +128,16 @@
 }
 
 .zip-county-form-error {
-  margin: 16px 0 0;
+  margin: -8px 0 20px;
   color: #b00020;
   font-size: 15px;
   font-weight: 600;
   text-align: center;
+}
+
+/* phones: less padding in the white card, so the fields keep room for a county name */
+@media (width < 600px) {
+  .zip-county-form form fieldset {
+    padding: 32px 20px;
+  }
 }
