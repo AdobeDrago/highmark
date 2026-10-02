@@ -1,6 +1,6 @@
 /*
  * Search
- * Site search over the query index, laid out like highmark.com's results page:
+ * Site search over the search index, laid out like highmark.com's results page:
  * a search bar, "Showing N of M results for …", a title + description list with
  * "Show more results" paging, and search tips when nothing matches.
  *
@@ -11,7 +11,12 @@
 /** Shortest query the box searches as you type (Enter searches any length). */
 export const MIN_QUERY_LENGTH = 3;
 
-const INDEX_PATH = '/query-index.json';
+/**
+ * The site's search index (`search-index` in the site's query.yaml): title, description
+ * and the first 5,000 words of each page's text. /query-index.json stays small for
+ * breadcrumbs and the redirects tool.
+ */
+const INDEX_PATH = '/search-index.json';
 const PAGE_SIZE = 10;
 
 /** highmark.com's own results page (see `fallbackSearchUrl`). */
@@ -24,6 +29,7 @@ const FALLBACK_SEARCH = 'https://www.highmark.com/search-results.html';
 const NON_PAGE = /^\/(?:nav|footer|search)$|^\/(?:modals|drafts|tools|shop\/beta)\/|\/fragments\//;
 
 const indexes = new Map();
+const normalizedRows = new WeakMap();
 
 /**
  * Lowercases, strips accents and apostrophes, and turns any other punctuation into
@@ -82,7 +88,6 @@ export function pageTitle(row) {
  */
 export function loadIndex(source = INDEX_PATH) {
   const url = new URL(source, window.location.href);
-  // the same URL the breadcrumbs block requests, so the browser can reuse the response
   if (!url.searchParams.has('limit')) url.searchParams.set('limit', '5000');
   const key = url.href;
   if (!indexes.has(key)) {
@@ -103,10 +108,29 @@ export function loadIndex(source = INDEX_PATH) {
 }
 
 /**
+ * A row's searchable fields, normalized once per row (the page text is long).
+ * @param {Object} row index row
+ * @returns {{title: string, description: string, slug: string, content: string}}
+ */
+function fields(row) {
+  if (!normalizedRows.has(row)) {
+    normalizedRows.set(row, {
+      title: normalize(pageTitle(row)),
+      description: normalize(row.description),
+      slug: normalize(row.path.split('/').pop()),
+      content: normalize(row.content),
+    });
+  }
+  return normalizedRows.get(row);
+}
+
+/**
  * Pages matching every word of the query. A word matches where a word in the
- * title, description or URL slug starts with it ("med" finds "Medicare").
- * Best first: the whole query in the title, then every word in the title, then
- * the rest; within each, the earlier the match, the higher.
+ * title, description, URL slug or page text starts with it ("med" finds "Medicare").
+ * Best first: the whole query in the title, then every word in the title, then every
+ * word in the title, description or slug, then pages whose text is needed for a match.
+ * Within the first three groups the earlier the match, the higher; within the last,
+ * the more often the words appear in the text.
  * @param {Object[]} rows index rows
  * @param {string} query
  * @returns {Object[]} matching rows, ranked
@@ -120,29 +144,38 @@ export function searchIndex(rows, query) {
     const index = text.indexOf(part);
     return index < 0 ? Infinity : index;
   };
+  const hasAll = (text) => terms.every((term) => text.includes(` ${term}`));
+  const mentions = (text) => terms
+    .reduce((sum, term) => sum + text.split(` ${term}`).length - 1, 0);
 
   return rows
     .map((row, order) => {
-      const title = normalize(pageTitle(row));
-      const description = normalize(row.description);
-      const text = `${title}${description}${normalize(row.path.split('/').pop())}`;
-      if (!terms.every((term) => text.includes(` ${term}`))) return null;
-      let rank = 2;
-      let position = at(description, first);
-      if (title.includes(phrase)) {
+      const f = fields(row);
+      const summary = `${f.title}${f.description}${f.slug}`;
+      let rank;
+      let score; // lower is better within a rank
+      if (f.title.includes(phrase)) {
         rank = 0;
-        position = at(title, phrase);
-      } else if (terms.every((term) => title.includes(` ${term}`))) {
+        score = at(f.title, phrase);
+      } else if (hasAll(f.title)) {
         rank = 1;
-        position = at(title, first);
+        score = at(f.title, first);
+      } else if (hasAll(summary)) {
+        rank = 2;
+        score = at(f.description, first);
+      } else if (hasAll(`${summary}${f.content}`)) {
+        rank = 3;
+        score = -mentions(f.content);
+      } else {
+        return null;
       }
       return {
-        row, order, rank, position,
+        row, order, rank, score,
       };
     })
     .filter(Boolean)
-    // NaN (two Infinity positions) is falsy, so ties fall through to index order
-    .sort((a, b) => a.rank - b.rank || a.position - b.position || a.order - b.order)
+    // NaN (two Infinity scores) is falsy, so ties fall through to index order
+    .sort((a, b) => a.rank - b.rank || a.score - b.score || a.order - b.order)
     .map(({ row }) => row);
 }
 
