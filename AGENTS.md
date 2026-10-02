@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Status and working notes for the Highmark AEM Edge Delivery Services project. Updated 2026-10-01.
+Status and working notes for the Highmark AEM Edge Delivery Services project. Updated 2026-10-02.
 
 ## Project
 
@@ -55,9 +55,15 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 - **Redirects take precedence over pages:** a row hides any page published at that path. Don't hand-edit the sheet. After each import batch, run `node tools/redirects/build-redirects.mjs --upload` (it drops rows for paths that now have a DA document), check preview, then publish `/redirects.json`.
 - Paths with a DA document are never redirected, so an unpublished draft 404s on live until it is published. Drafts that should stay redirected go in the script's `FORCE` list.
 - The nav's ZIP-gated items point at Western PA pages for now: the CHIP items are our pages, and the Individual & Family items redirect to highmark.com. "Shop Individual and Family Plans" goes to `/shop/home`, and "My Location" opens the ZIP modal.
-- The header search box sends searches to highmark.com's results page (`blocks/header/header.js`).
 - Link to pages on this site with relative paths. An absolute `https://www.highmark.com/...` link leaves the site even when we have the page; imports often keep the source's absolute links. Absolute links to pages we haven't migrated are fine.
 - A paragraph that holds only a link renders as a button. Put link lists in one paragraph, one link per line (as on the `/resources/answers/faq` topic list), so long labels don't become buttons that overflow on phones.
+
+## Search
+
+- `/search` is the `search` block (its one row links `/query-index.json`), laid out like highmark.com's results page: the page's authored "Search Highmark" H1 and `Breadcrumbs: true`, then a search bar, "Showing N of M results for …", title + description rows, and "Show more results" (10 at a time). When nothing matches, it shows the source's search tips and a link to the same search on highmark.com.
+- The header search box submits to `/search?q=`. From the third letter it lists up to 5 matching page titles, as on highmark.com; arrow keys and Enter open one. It imports `blocks/search/search.js` the first time the box gets focus and uses the same `loadIndex` / `searchIndex` as the page, so the suggestions are the top of the results.
+- Matching: every word of the query must start a word in the page's title, description or URL slug. Pages with the whole query in the title come first, then pages with every word in the title, then the rest. Only titles and descriptions are indexed (highmark.com searches page text too), so every page needs both.
+- `NON_PAGE` in `search.js` keeps fragments (`/nav`, `/footer`, `…/fragments/…`), `/modals/`, `/drafts/`, `/search` and `/shop/beta/` out of results; add other non-page paths there.
 
 ## Legal pages (`template: legal`)
 
@@ -82,6 +88,8 @@ The footer's legal pages and their sub-pages (`/privacy`, `/fraud/*`, `/privacy-
 - Still 404 on live (2026-10-01): FSA and Commuter Benefits in the header (held for #44), `/reservations/aca` on `/resources/answers/faq/insurance-terms` (broken on the source too), and the `/shop/beta/home` links above.
 - The `/resources` sub-pages Lamont imported on 2026-09-16 (published 2026-10-01) have no template, like the live FAQ pages: no breadcrumbs, and the FAQ side navs list only the current topic.
 - Legal pages: the source separates content chunks with fixed "spacing" components (40px desktop / 20px tablet / 0 mobile) that have no EDS equivalent, so some of our pages run 2-8% shorter. `/privacy-center` has no page of its own; it redirects to `/privacy-center/announcements`, as on the source. `/fraud/contact` links to `/fraud/fraud-form`, the source's 55-field Health Care Fraud Form (it posts to an AEM servlet, `/bin/hmk/genericmailer`), which redirects to the source form until a form solution is chosen.
+- Query index data (2026-10-02): `/about/our-story/leadership-team-board` has no title, so search labels it from its URL ("Leadership Team Board"). `/resources/spending-accounts` and `/plans/medicare/get-help` index an `about:error` image, meaning their first image is broken.
+- In the mobile drawer the search box sits below the nav sections, not at the top as `header.css` intends: its `order` rules target `.nav-primary`, which is inside the `.nav-sections` flex item.
 - `zip-county-form` ignores its authored sheet paths: `readConfig` only reads `<a>` hrefs, but the `/modals/zip-county` fragment holds the paths as plain text, so the block always falls back to its built-in defaults (which match today's paths). #13 would have read the row text instead, but was closed unmerged.
 
 ## Conventions

@@ -108,20 +108,182 @@ function decoratePrimaryNav(sectionEl) {
   return sectionEl;
 }
 
+/** Most suggestions the search box lists (as on highmark.com). */
+const MAX_SUGGESTIONS = 5;
+
+/**
+ * A suggestion's label: the parts that match what the visitor typed in regular
+ * weight (<mark>), the rest bold, as in highmark.com's type-ahead.
+ * @param {string} title page title
+ * @param {string[]} terms query words, normalized by the search block (a-z, 0-9 only)
+ * @returns {DocumentFragment}
+ */
+function suggestionLabel(title, terms) {
+  const ranges = terms
+    .flatMap((term) => [...title.matchAll(new RegExp(`(^|[^\\p{L}\\p{N}])(${term})`, 'giu'))]
+      .map((m) => [m.index + m[1].length, m.index + m[0].length]))
+    .sort((a, b) => a[0] - b[0]);
+  const fragment = document.createDocumentFragment();
+  let at = 0;
+  ranges.forEach(([start, end]) => {
+    if (end <= at) return;
+    if (start > at) fragment.append(title.slice(at, start));
+    const mark = document.createElement('mark');
+    mark.textContent = title.slice(Math.max(start, at), end);
+    fragment.append(mark);
+    at = end;
+  });
+  if (at < title.length) fragment.append(title.slice(at));
+  return fragment;
+}
+
+/**
+ * Type-ahead for the search box (highmark.com's): from the third letter, a
+ * "Suggestions" list of matching page titles opens under the box. Arrow keys move
+ * through it and Enter opens the highlighted page; otherwise the form submits to
+ * the search page. Matching is the search block's, loaded the first time the box is used.
+ * @param {HTMLFormElement} form
+ */
+function decorateSuggestions(form) {
+  const input = form.querySelector('input');
+  const popup = form.querySelector('.nav-search-suggestions');
+  const list = popup.querySelector('ul');
+  const empty = popup.querySelector('.nav-search-empty');
+  const status = form.querySelector('.nav-search-status');
+  let searchModule;
+  let active = -1;
+  let run = 0;
+
+  const loadSearch = () => {
+    searchModule = searchModule || import('../search/search.js').catch((error) => {
+      searchModule = null; // try again next time
+      throw error;
+    });
+    return searchModule;
+  };
+  const options = () => [...list.children];
+
+  const setActive = (index) => {
+    active = index;
+    options().forEach((option, i) => option.classList.toggle('active', i === index));
+    if (index >= 0) input.setAttribute('aria-activedescendant', options()[index].id);
+    else input.removeAttribute('aria-activedescendant');
+  };
+
+  const close = () => {
+    run += 1; // drop any lookup still in flight
+    popup.hidden = true;
+    input.setAttribute('aria-expanded', 'false');
+    setActive(-1);
+  };
+
+  const update = async () => {
+    run += 1;
+    const current = run;
+    const {
+      loadIndex, searchIndex, queryTerms, pageTitle, MIN_QUERY_LENGTH,
+    } = await loadSearch();
+    const rows = await loadIndex();
+    const query = input.value.trim();
+    if (current !== run) return; // the visitor kept typing
+    if (query.length < MIN_QUERY_LENGTH) {
+      close();
+      return;
+    }
+
+    // one suggestion per title (some pages share one), best match first
+    const titles = new Set();
+    const matches = searchIndex(rows, query).filter((row) => {
+      const key = pageTitle(row).toLowerCase();
+      if (titles.has(key)) return false;
+      titles.add(key);
+      return true;
+    }).slice(0, MAX_SUGGESTIONS);
+
+    const terms = queryTerms(query);
+    list.replaceChildren(...matches.map((row, i) => {
+      const option = document.createElement('li');
+      option.id = `nav-search-option-${i}`;
+      option.setAttribute('role', 'option');
+      const link = document.createElement('a');
+      link.href = row.path;
+      link.tabIndex = -1;
+      link.append(suggestionLabel(pageTitle(row), terms));
+      option.append(link);
+      return option;
+    }));
+    empty.hidden = matches.length > 0;
+    status.textContent = matches.length
+      ? `${matches.length} suggestion${matches.length === 1 ? '' : 's'}, use the arrow keys to choose`
+      : 'No results found';
+    setActive(-1);
+    popup.hidden = false;
+    input.setAttribute('aria-expanded', 'true');
+  };
+
+  input.addEventListener('focus', () => {
+    loadSearch().then(({ loadIndex }) => loadIndex()).catch(() => {});
+    if (input.value.trim()) update();
+  });
+  input.addEventListener('input', update);
+  input.addEventListener('keydown', (e) => {
+    const open = !popup.hidden;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (!open) {
+        update();
+        return;
+      }
+      const count = options().length;
+      if (!count) return;
+      const step = e.key === 'ArrowDown' ? 1 : -1;
+      const start = e.key === 'ArrowDown' ? 0 : count - 1;
+      setActive(active < 0 ? start : (active + step + count) % count);
+    } else if (e.key === 'Enter' && open && active >= 0) {
+      e.preventDefault();
+      window.location.href = options()[active].querySelector('a').href;
+    } else if (e.key === 'Escape' && open) {
+      e.preventDefault(); // keep the text: close the list only
+      close();
+    }
+  });
+
+  // clicking a suggestion must not blur the box first (that would close the list)
+  popup.addEventListener('mousedown', (e) => e.preventDefault());
+  form.addEventListener('focusout', (e) => {
+    if (!form.contains(e.relatedTarget)) close();
+  });
+  form.addEventListener('submit', (e) => {
+    if (!input.value.trim()) {
+      e.preventDefault();
+      input.focus();
+      return;
+    }
+    close();
+  });
+}
+
 /**
  * Build the search form (controls are created in JS, per the DA contract).
- * Searches go to highmark.com's results page (same `q` and `rows` params as the source)
- * until the site has its own search.
+ * It submits to the site's search page (blocks/search), with type-ahead suggestions.
  */
 function buildSearch() {
   const form = document.createElement('form');
   form.className = 'nav-search';
   form.setAttribute('role', 'search');
-  form.action = 'https://www.highmark.com/search-results.html';
+  form.action = '/search';
   form.innerHTML = `
-    <input type="search" name="q" placeholder="Search Highmark" aria-label="Search Highmark">
-    <input type="hidden" name="rows" value="10">
-    <button type="submit" aria-label="Search"><span class="nav-search-icon" aria-hidden="true"></span></button>`;
+    <input type="search" name="q" placeholder="Search Highmark" aria-label="Search Highmark"
+      role="combobox" aria-autocomplete="list" aria-expanded="false"
+      aria-controls="nav-search-listbox" autocomplete="off" enterkeyhint="search">
+    <button type="submit" aria-label="Search"><span class="nav-search-icon" aria-hidden="true"></span></button>
+    <div class="nav-search-suggestions" hidden>
+      <p class="nav-search-suggestions-heading" id="nav-search-heading">Suggestions</p>
+      <ul role="listbox" id="nav-search-listbox" aria-labelledby="nav-search-heading"></ul>
+      <p class="nav-search-empty" hidden>No results found</p>
+    </div>
+    <p class="nav-search-status" role="status"></p>`;
+  decorateSuggestions(form);
   return form;
 }
 
