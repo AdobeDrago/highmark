@@ -203,13 +203,14 @@ body.nav-panel-open::after {
 
 /* ---- Search ---- */
 header nav .nav-search {
+  position: relative;
   display: flex;
   align-items: center;
   align-self: center;
   border: 1px solid #c9cfd4;
   border-radius: 4px;
-  overflow: hidden;
   height: 40px;
+  background-color: #fff;
 }
 
 header nav .nav-search input {
@@ -219,6 +220,69 @@ header nav .nav-search input {
   font-size: 14px;
   width: 180px;
   color: #003963;
+  background: transparent;
+}
+
+/* type-ahead suggestions (highmark.com's: white panel under the box, "Suggestions"
+   label, up to five page titles with the typed part regular and the rest bold) */
+header nav .nav-search-suggestions {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: -1px;
+  z-index: 25; /* under an open megamenu panel (30) */
+  width: 377px;
+  border-radius: 0 0 4px 4px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
+  font-weight: 400;
+}
+
+header nav .nav-search-suggestions-heading {
+  margin: 0;
+  padding: 10px 16px 0;
+  color: rgb(0 20 70 / 80%);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+header nav .nav-search-suggestions li > a:any-link { /* stylelint-disable-line no-descending-specificity */
+  display: block;
+  padding: 10px 16px;
+  color: #000;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  text-decoration: none;
+}
+
+header nav .nav-search-suggestions li:hover,
+header nav .nav-search-suggestions li.active {
+  background-color: #ecf7ff;
+}
+
+header nav .nav-search-suggestions mark {
+  background: none;
+  color: inherit;
+  font-weight: 400;
+}
+
+header nav .nav-search-empty {
+  margin: 0;
+  padding: 10px 16px;
+  color: #000;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* screen-reader announcement of the suggestion count */
+header nav .nav-search-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 header nav .nav-search button {
@@ -366,6 +430,13 @@ header nav .nav-drawer-icons {
   header nav .nav-search input {
     width: 100%;
     flex: 1;
+  }
+
+  /* suggestions drop straight under the drawer's search box, full width */
+  header nav .nav-search-suggestions {
+    top: calc(100% + 1px);
+    left: -1px;
+    width: auto;
   }
 
   header nav .nav-primary {

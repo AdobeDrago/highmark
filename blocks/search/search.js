@@ -1,269 +1,323 @@
-import {
-  createOptimizedPicture,
-  decorateIcons,
-  fetchPlaceholders,
-} from '../../scripts/aem.js';
+/*
+ * Search
+ * Site search over the query index, laid out like highmark.com's results page:
+ * a search bar, "Showing N of M results for …", a title + description list with
+ * "Show more results" paging, and search tips when nothing matches.
+ *
+ * The header's search box shares this block's index loading and matching
+ * (`loadIndex`, `searchIndex`, `queryTerms`), so both find the same pages.
+ */
 
-const searchParams = new URLSearchParams(window.location.search);
+/** Shortest query the box searches as you type (Enter searches any length). */
+export const MIN_QUERY_LENGTH = 3;
 
-function findNextHeading(el) {
-  let preceedingEl = el.parentElement.previousElement || el.parentElement.parentElement;
-  let h = 'H2';
-  while (preceedingEl) {
-    const lastHeading = [...preceedingEl.querySelectorAll('h1, h2, h3, h4, h5, h6')].pop();
-    if (lastHeading) {
-      const level = parseInt(lastHeading.nodeName[1], 10);
-      h = level < 6 ? `H${level + 1}` : 'H6';
-      preceedingEl = false;
-    } else {
-      preceedingEl = preceedingEl.previousElement || preceedingEl.parentElement;
-    }
-  }
-  return h;
+const INDEX_PATH = '/query-index.json';
+const PAGE_SIZE = 10;
+
+/**
+ * highmark.com's own results page. When nothing matches here, visitors are offered
+ * the same search there, as unmigrated pages redirect there (see /redirects).
+ */
+const FALLBACK_SEARCH = 'https://www.highmark.com/search-results.html';
+
+/**
+ * Index rows that aren't pages to offer: header/footer fragments, modals, drafts, this
+ * page, and /shop/beta/ (an unlinked copy of /shop/home whose links don't work here).
+ */
+const NON_PAGE = /^\/(?:nav|footer|search)$|^\/(?:modals|drafts|tools|shop\/beta)\/|\/fragments\//;
+
+const indexes = new Map();
+
+/**
+ * Lowercases, strips accents and apostrophes, and turns any other punctuation into
+ * spaces, padded with spaces so every word start can be found as ` <word>`.
+ * @param {string} text
+ * @returns {string}
+ */
+function normalize(text) {
+  const words = (text || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/['’]/g, '')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+  return ` ${words} `;
 }
 
-function highlightTextElements(terms, elements) {
-  elements.forEach((element) => {
-    if (!element || !element.textContent) return;
+/**
+ * The words of a query, normalized like the index text.
+ * @param {string} query
+ * @returns {string[]}
+ */
+export function queryTerms(query) {
+  return normalize(query).trim().split(' ').filter(Boolean);
+}
 
-    const matches = [];
-    const { textContent } = element;
-    terms.forEach((term) => {
-      let start = 0;
-      let offset = textContent.toLowerCase().indexOf(term.toLowerCase(), start);
-      while (offset >= 0) {
-        matches.push({ offset, term: textContent.substring(offset, offset + term.length) });
-        start = offset + term.length;
-        offset = textContent.toLowerCase().indexOf(term.toLowerCase(), start);
+/**
+ * A page's title, or its URL slug in words when the page has none.
+ * @param {Object} row query index row
+ * @returns {string}
+ */
+export function pageTitle(row) {
+  if (row.title) return row.title;
+  const slug = row.path.split('/').filter(Boolean).pop() || 'home';
+  return slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+/**
+ * The site's pages from the query index, fetched once per index URL.
+ * @param {string} [source] index URL
+ * @returns {Promise<Object[]>} index rows, non-page rows removed
+ */
+export function loadIndex(source = INDEX_PATH) {
+  const url = new URL(source, window.location.href);
+  // the same URL the breadcrumbs block requests, so the browser can reuse the response
+  if (!url.searchParams.has('limit')) url.searchParams.set('limit', '5000');
+  const key = url.href;
+  if (!indexes.has(key)) {
+    indexes.set(key, fetch(url)
+      .then((resp) => {
+        if (!resp.ok) throw new Error(`${resp.status} loading ${key}`);
+        return resp.json();
+      })
+      .then(({ data = [] }) => data.filter((row) => row.path && !NON_PAGE.test(row.path)))
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.error('search index failed to load', error);
+        indexes.delete(key);
+        return [];
+      }));
+  }
+  return indexes.get(key);
+}
+
+/**
+ * Pages matching every word of the query. A word matches where a word in the
+ * title, description or URL slug starts with it ("med" finds "Medicare").
+ * Best first: the whole query in the title, then every word in the title, then
+ * the rest; within each, the earlier the match, the higher.
+ * @param {Object[]} rows index rows
+ * @param {string} query
+ * @returns {Object[]} matching rows, ranked
+ */
+export function searchIndex(rows, query) {
+  const terms = queryTerms(query);
+  if (!terms.length) return [];
+  const phrase = ` ${terms.join(' ')}`;
+  const first = ` ${terms[0]}`;
+  const at = (text, part) => {
+    const index = text.indexOf(part);
+    return index < 0 ? Infinity : index;
+  };
+
+  return rows
+    .map((row, order) => {
+      const title = normalize(pageTitle(row));
+      const description = normalize(row.description);
+      const text = `${title}${description}${normalize(row.path.split('/').pop())}`;
+      if (!terms.every((term) => text.includes(` ${term}`))) return null;
+      let rank = 2;
+      let position = at(description, first);
+      if (title.includes(phrase)) {
+        rank = 0;
+        position = at(title, phrase);
+      } else if (terms.every((term) => title.includes(` ${term}`))) {
+        rank = 1;
+        position = at(title, first);
       }
-    });
-
-    if (!matches.length) {
-      return;
-    }
-
-    matches.sort((a, b) => a.offset - b.offset);
-    let currentIndex = 0;
-    const fragment = matches.reduce((acc, { offset, term }) => {
-      if (offset < currentIndex) return acc;
-      const textBefore = textContent.substring(currentIndex, offset);
-      if (textBefore) {
-        acc.appendChild(document.createTextNode(textBefore));
-      }
-      const markedTerm = document.createElement('mark');
-      markedTerm.textContent = term;
-      acc.appendChild(markedTerm);
-      currentIndex = offset + term.length;
-      return acc;
-    }, document.createDocumentFragment());
-    const textAfter = textContent.substring(currentIndex);
-    if (textAfter) {
-      fragment.appendChild(document.createTextNode(textAfter));
-    }
-    element.innerHTML = '';
-    element.appendChild(fragment);
-  });
+      return {
+        row, order, rank, position,
+      };
+    })
+    .filter(Boolean)
+    // NaN (two Infinity positions) is falsy, so ties fall through to index order
+    .sort((a, b) => a.rank - b.rank || a.position - b.position || a.order - b.order)
+    .map(({ row }) => row);
 }
 
-export async function fetchData(source) {
-  const response = await fetch(source);
-  if (!response.ok) {
-    // eslint-disable-next-line no-console
-    console.error('error loading API response', response);
-    return null;
-  }
-
-  const json = await response.json();
-  if (!json) {
-    // eslint-disable-next-line no-console
-    console.error('empty API response', source);
-    return null;
-  }
-
-  return json.data;
+/**
+ * Heading level for result titles: one below the last heading before the block.
+ * @param {Element} block
+ * @returns {string} e.g. 'H2'
+ */
+function resultHeadingTag(block) {
+  const section = block.closest('.section') || block.parentElement;
+  const before = [...section.querySelectorAll('h1, h2, h3, h4, h5, h6')]
+    .filter((h) => h.compareDocumentPosition(block) === Node.DOCUMENT_POSITION_FOLLOWING);
+  const last = before.pop();
+  const level = last ? Math.min(Number(last.tagName[1]) + 1, 6) : 2;
+  return `H${level}`;
 }
 
-function renderResult(result, searchTerms, titleTag) {
-  const li = document.createElement('li');
-  const a = document.createElement('a');
-  a.href = result.path;
-  if (result.image) {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'search-result-image';
-    const pic = createOptimizedPicture(result.image, '', false, [{ width: '375' }]);
-    wrapper.append(pic);
-    a.append(wrapper);
-  }
-  if (result.title) {
-    const title = document.createElement(titleTag);
-    title.className = 'search-result-title';
-    const link = document.createElement('a');
-    link.href = result.path;
-    link.textContent = result.title;
-    highlightTextElements(searchTerms, [link]);
-    title.append(link);
-    a.append(title);
-  }
-  if (result.description) {
-    const description = document.createElement('p');
-    description.textContent = result.description;
-    highlightTextElements(searchTerms, [description]);
-    a.append(description);
-  }
-  li.append(a);
+function element(tag, className, text) {
+  const el = document.createElement(tag);
+  if (className) el.className = className;
+  if (text) el.textContent = text;
+  return el;
+}
+
+function renderResult(row, headingTag) {
+  const li = element('li', 'search-result');
+  const heading = element(headingTag, 'search-result-title');
+  const link = element('a', '', pageTitle(row));
+  link.href = row.path;
+  heading.append(link);
+  li.append(heading);
+  if (row.description) li.append(element('p', 'search-result-description', row.description));
   return li;
 }
 
-function clearSearchResults(block) {
-  const searchResults = block.querySelector('.search-results');
-  searchResults.innerHTML = '';
+function renderSummary(summary, shown, total, query) {
+  const p = element('p');
+  const term = element('strong', '', query);
+  p.append(`Showing ${shown} of ${total} result${total === 1 ? '' : 's'} for "`, term, '"');
+  summary.replaceChildren(p);
 }
 
-function clearSearch(block) {
-  clearSearchResults(block);
-  if (window.history.replaceState) {
+function renderNoResults(container, query, headingTag) {
+  const fallback = new URL(FALLBACK_SEARCH);
+  fallback.searchParams.set('q', query);
+  fallback.searchParams.set('rows', PAGE_SIZE);
+
+  const heading = element(headingTag, 'search-no-results-title', `We didn't find any pages related to "${query}"`);
+  const tips = element('p', 'search-no-results-tips', 'Try searching again using these tips:');
+  const list = element('ul');
+  [
+    'Double check that your search term is spelled correctly',
+    'Try rephrasing keywords or using synonyms',
+    'Try less specific keywords',
+    'Make your query as concise as possible',
+  ].forEach((tip) => list.append(element('li', '', tip)));
+  const more = element('p', 'search-no-results-fallback');
+  const link = element('a', '', `Search all of highmark.com for "${query}"`);
+  link.href = fallback.href;
+  more.append(link);
+  container.replaceChildren(heading, tips, list, more);
+}
+
+/**
+ * @param {Element} block
+ */
+export default async function decorate(block) {
+  const source = block.querySelector('a[href]')?.href || INDEX_PATH;
+  const headingTag = resultHeadingTag(block);
+
+  const form = element('form', 'search-bar');
+  form.setAttribute('role', 'search');
+  form.action = window.location.pathname;
+  form.innerHTML = `
+    <div class="search-field">
+      <span class="search-field-icon" aria-hidden="true"></span>
+      <input type="search" name="q" placeholder="Search..." aria-label="Search Highmark"
+        autocomplete="off" enterkeyhint="search">
+      <button type="button" class="search-clear" aria-label="Clear search" hidden>
+        <span class="search-clear-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+    <button type="submit" class="search-submit">Search</button>`;
+  const input = form.querySelector('input');
+  const clear = form.querySelector('.search-clear');
+
+  const summary = element('div', 'search-summary');
+  summary.setAttribute('role', 'status');
+  const results = element('ul', 'search-results');
+  const more = element('p', 'search-more');
+  const moreButton = element('button', 'search-more-button', 'Show more results');
+  moreButton.type = 'button';
+  more.append(moreButton);
+  more.hidden = true;
+  const noResults = element('div', 'search-no-results');
+  noResults.hidden = true;
+
+  block.replaceChildren(form, summary, results, more, noResults);
+
+  let matches = [];
+  let shown = 0;
+  let query = '';
+  let run = 0;
+
+  const setUrl = (value) => {
     const url = new URL(window.location.href);
-    url.search = '';
-    searchParams.delete('q');
-    window.history.replaceState({}, '', url.toString());
-  }
-}
+    if (value) url.searchParams.set('q', value);
+    else url.searchParams.delete('q');
+    window.history.replaceState({}, '', url);
+  };
 
-async function renderResults(block, config, filteredData, searchTerms) {
-  clearSearchResults(block);
-  const searchResults = block.querySelector('.search-results');
-  const headingTag = searchResults.dataset.h;
+  const reset = () => {
+    matches = [];
+    shown = 0;
+    summary.replaceChildren();
+    results.replaceChildren();
+    more.hidden = true;
+    noResults.hidden = true;
+  };
 
-  if (filteredData.length) {
-    searchResults.classList.remove('no-results');
-    filteredData.forEach((result) => {
-      const li = renderResult(result, searchTerms, headingTag);
-      searchResults.append(li);
-    });
-  } else {
-    const noResultsMessage = document.createElement('li');
-    searchResults.classList.add('no-results');
-    noResultsMessage.textContent = config.placeholders.searchNoResults || 'No results found.';
-    searchResults.append(noResultsMessage);
-  }
-}
+  const showMore = () => {
+    const next = matches.slice(shown, shown + PAGE_SIZE)
+      .map((row) => renderResult(row, headingTag));
+    results.append(...next);
+    shown += next.length;
+    renderSummary(summary, shown, matches.length, query);
+    more.hidden = shown >= matches.length;
+    return next[0];
+  };
 
-function compareFound(hit1, hit2) {
-  return hit1.minIdx - hit2.minIdx;
-}
-
-function filterData(searchTerms, data) {
-  const foundInHeader = [];
-  const foundInMeta = [];
-
-  data.forEach((result) => {
-    let minIdx = -1;
-
-    searchTerms.forEach((term) => {
-      const idx = (result.header || result.title).toLowerCase().indexOf(term);
-      if (idx < 0) return;
-      if (minIdx < idx) minIdx = idx;
-    });
-
-    if (minIdx >= 0) {
-      foundInHeader.push({ minIdx, result });
+  const search = async (value) => {
+    run += 1;
+    const current = run;
+    query = value.trim();
+    setUrl(query);
+    clear.hidden = !input.value;
+    if (!query) {
+      reset();
       return;
     }
+    const rows = await loadIndex(source);
+    if (current !== run) return; // a newer search started while the index loaded
+    reset();
+    matches = searchIndex(rows, query);
+    if (!matches.length) {
+      renderNoResults(noResults, query, headingTag);
+      noResults.hidden = false;
+      return;
+    }
+    showMore();
+  };
 
-    const metaContents = `${result.title} ${result.description} ${result.path.split('/').pop()}`.toLowerCase();
-    searchTerms.forEach((term) => {
-      const idx = metaContents.indexOf(term);
-      if (idx < 0) return;
-      if (minIdx < idx) minIdx = idx;
-    });
+  input.addEventListener('input', () => {
+    const value = input.value.trim();
+    if (value.length >= MIN_QUERY_LENGTH) search(value);
+    else if (query) search('');
+    clear.hidden = !input.value;
+  });
 
-    if (minIdx >= 0) {
-      foundInMeta.push({ minIdx, result });
+  input.addEventListener('keyup', (e) => {
+    if (e.key === 'Escape') {
+      input.value = '';
+      search('');
     }
   });
 
-  return [
-    ...foundInHeader.sort(compareFound),
-    ...foundInMeta.sort(compareFound),
-  ].map((item) => item.result);
-}
-
-async function handleSearch(e, block, config) {
-  const searchValue = e.target.value;
-  searchParams.set('q', searchValue);
-  if (window.history.replaceState) {
-    const url = new URL(window.location.href);
-    url.search = searchParams.toString();
-    window.history.replaceState({}, '', url.toString());
-  }
-
-  if (searchValue.length < 3) {
-    clearSearch(block);
-    return;
-  }
-  const searchTerms = searchValue.toLowerCase().split(/\s+/).filter((term) => !!term);
-
-  const data = await fetchData(config.source);
-  const filteredData = filterData(searchTerms, data);
-  await renderResults(block, config, filteredData, searchTerms);
-}
-
-function searchResultsContainer(block) {
-  const results = document.createElement('ul');
-  results.className = 'search-results';
-  results.dataset.h = findNextHeading(block);
-  return results;
-}
-
-function searchInput(block, config) {
-  const input = document.createElement('input');
-  input.setAttribute('type', 'search');
-  input.className = 'search-input';
-
-  const searchPlaceholder = config.placeholders.searchPlaceholder || 'Search...';
-  input.placeholder = searchPlaceholder;
-  input.setAttribute('aria-label', searchPlaceholder);
-
-  input.addEventListener('input', (e) => {
-    handleSearch(e, block, config);
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    search(input.value);
+    input.blur();
   });
 
-  input.addEventListener('keyup', (e) => { if (e.code === 'Escape') { clearSearch(block); } });
+  clear.addEventListener('click', () => {
+    input.value = '';
+    search('');
+    input.focus();
+  });
 
-  return input;
-}
+  moreButton.addEventListener('click', () => {
+    showMore()?.querySelector('a')?.focus();
+  });
 
-function searchIcon() {
-  const icon = document.createElement('span');
-  icon.classList.add('icon', 'icon-search');
-  return icon;
-}
-
-function searchBox(block, config) {
-  const box = document.createElement('div');
-  box.classList.add('search-box');
-  box.append(
-    searchIcon(),
-    searchInput(block, config),
-  );
-
-  return box;
-}
-
-export default async function decorate(block) {
-  const placeholders = await fetchPlaceholders();
-  const source = block.querySelector('a[href]') ? block.querySelector('a[href]').href : '/query-index.json';
-  block.innerHTML = '';
-  block.append(
-    searchBox(block, { source, placeholders }),
-    searchResultsContainer(block),
-  );
-
-  if (searchParams.get('q')) {
-    const input = block.querySelector('input');
-    input.value = searchParams.get('q');
-    input.dispatchEvent(new Event('input'));
+  const initial = new URLSearchParams(window.location.search).get('q');
+  if (initial) {
+    input.value = initial;
+    await search(initial);
   }
-
-  decorateIcons(block);
 }
