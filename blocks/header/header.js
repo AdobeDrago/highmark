@@ -112,6 +112,12 @@ function decoratePrimaryNav(sectionEl) {
 const MAX_SUGGESTIONS = 5;
 
 /**
+ * What the box suggests before anything is typed, as highmark.com does (Careers,
+ * Member Login, …): a DA sheet with a `Suggestion` column and an optional `Link`.
+ */
+const SUGGESTIONS_SHEET = '/search-suggestions.json';
+
+/**
  * A suggestion's label: the parts that match what the visitor typed in regular
  * weight (<mark>), the rest bold, as in highmark.com's type-ahead.
  * @param {string} title page title
@@ -138,10 +144,11 @@ function suggestionLabel(title, terms) {
 }
 
 /**
- * Type-ahead for the search box (highmark.com's): from the third letter, a
- * "Suggestions" list of matching page titles opens under the box. Arrow keys move
- * through it and Enter opens the highlighted page; otherwise the form submits to
- * the search page. Matching is the search block's, loaded the first time the box is used.
+ * Type-ahead for the search box (highmark.com's): on focus, a "Suggestions" list of
+ * authored searches (SUGGESTIONS_SHEET); from the third letter, matching page titles.
+ * Arrow keys move through the list and Enter opens the highlighted item; otherwise the
+ * form submits to the search page. Matching is the search block's, loaded the first
+ * time the box is used.
  * @param {HTMLFormElement} form
  */
 function decorateSuggestions(form) {
@@ -151,6 +158,7 @@ function decorateSuggestions(form) {
   const empty = popup.querySelector('.nav-search-empty');
   const status = form.querySelector('.nav-search-status');
   let searchModule;
+  let authored;
   let active = -1;
   let run = 0;
 
@@ -160,6 +168,21 @@ function decorateSuggestions(form) {
       throw error;
     });
     return searchModule;
+  };
+  const loadAuthored = () => {
+    authored = authored || fetch(SUGGESTIONS_SHEET)
+      .then((resp) => (resp.ok ? resp.json() : {}))
+      .then(({ data = [] }) => data
+        .map((row) => ({ label: (row.Suggestion || '').trim(), link: (row.Link || '').trim() }))
+        .filter(({ label }) => label))
+      .catch(() => []);
+    return authored;
+  };
+  /** The site's results page for a query (the form's own action). */
+  const searchPage = (query) => {
+    const url = new URL(form.action);
+    url.searchParams.set('q', query);
+    return `${url.pathname}${url.search}`;
   };
   const options = () => [...list.children];
 
@@ -177,54 +200,72 @@ function decorateSuggestions(form) {
     setActive(-1);
   };
 
-  const update = async () => {
-    run += 1;
-    const current = run;
-    const {
-      loadIndex, searchIndex, queryTerms, pageTitle, MIN_QUERY_LENGTH,
-    } = await loadSearch();
-    const rows = await loadIndex();
-    const query = input.value.trim();
-    if (current !== run) return; // the visitor kept typing
-    if (query.length < MIN_QUERY_LENGTH) {
-      close();
-      return;
-    }
-
-    // one suggestion per title (some pages share one), best match first
-    const titles = new Set();
-    const matches = searchIndex(rows, query).filter((row) => {
-      const key = pageTitle(row).toLowerCase();
-      if (titles.has(key)) return false;
-      titles.add(key);
-      return true;
-    }).slice(0, MAX_SUGGESTIONS);
-
-    const terms = queryTerms(query);
-    list.replaceChildren(...matches.map((row, i) => {
+  /**
+   * Opens the list with these items.
+   * @param {{label: string, href: string}[]} items
+   * @param {string[]} [terms] typed words to set in regular weight (typed suggestions only)
+   */
+  const show = (items, terms) => {
+    list.replaceChildren(...items.map(({ label, href }, i) => {
       const option = document.createElement('li');
       option.id = `nav-search-option-${i}`;
       option.setAttribute('role', 'option');
       const link = document.createElement('a');
-      link.href = row.path;
+      link.href = href;
       link.tabIndex = -1;
-      link.append(suggestionLabel(pageTitle(row), terms));
+      link.append(terms ? suggestionLabel(label, terms) : label);
       option.append(link);
       return option;
     }));
-    empty.hidden = matches.length > 0;
-    status.textContent = matches.length
-      ? `${matches.length} suggestion${matches.length === 1 ? '' : 's'}, use the arrow keys to choose`
+    // authored suggestions are plain text; typed ones are bold apart from the typed words
+    popup.classList.toggle('nav-search-authored', !terms);
+    empty.hidden = items.length > 0;
+    status.textContent = items.length
+      ? `${items.length} suggestion${items.length === 1 ? '' : 's'}, use the arrow keys to choose`
       : 'No results found';
     setActive(-1);
     popup.hidden = false;
     input.setAttribute('aria-expanded', 'true');
   };
 
-  input.addEventListener('focus', () => {
-    loadSearch().then(({ loadIndex }) => loadIndex()).catch(() => {});
-    if (input.value.trim()) update();
-  });
+  const update = async () => {
+    run += 1;
+    const current = run;
+    const search = await loadSearch();
+    const [rows, suggestions] = await Promise.all([search.loadIndex(), loadAuthored()]);
+    const query = input.value.trim();
+    if (current !== run) return; // the visitor kept typing
+
+    if (!query && suggestions.length) {
+      // each runs on this site's search page when the site has a match for it, else on
+      // highmark.com's (unless the sheet gives a link)
+      show(suggestions.slice(0, MAX_SUGGESTIONS).map(({ label, link }) => {
+        const here = search.searchIndex(rows, label).length > 0;
+        const href = link || (here ? searchPage(label) : search.fallbackSearchUrl(label));
+        return { label, href };
+      }));
+      return;
+    }
+    if (query.length < search.MIN_QUERY_LENGTH) {
+      close();
+      return;
+    }
+
+    // one suggestion per title (some pages share one), best match first
+    const titles = new Set();
+    const matches = search.searchIndex(rows, query).filter((row) => {
+      const key = search.pageTitle(row).toLowerCase();
+      if (titles.has(key)) return false;
+      titles.add(key);
+      return true;
+    }).slice(0, MAX_SUGGESTIONS);
+    show(
+      matches.map((row) => ({ label: search.pageTitle(row), href: row.path })),
+      search.queryTerms(query),
+    );
+  };
+
+  input.addEventListener('focus', update);
   input.addEventListener('input', update);
   input.addEventListener('keydown', (e) => {
     const open = !popup.hidden;

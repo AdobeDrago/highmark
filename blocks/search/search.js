@@ -14,10 +14,7 @@ export const MIN_QUERY_LENGTH = 3;
 const INDEX_PATH = '/query-index.json';
 const PAGE_SIZE = 10;
 
-/**
- * highmark.com's own results page. When nothing matches here, visitors are offered
- * the same search there, as unmigrated pages redirect there (see /redirects).
- */
+/** highmark.com's own results page (see `fallbackSearchUrl`). */
 const FALLBACK_SEARCH = 'https://www.highmark.com/search-results.html';
 
 /**
@@ -52,6 +49,19 @@ function normalize(text) {
  */
 export function queryTerms(query) {
   return normalize(query).trim().split(' ').filter(Boolean);
+}
+
+/**
+ * The same search on highmark.com. When nothing matches here, visitors are sent there,
+ * as links to unmigrated pages redirect there (see /redirects).
+ * @param {string} query
+ * @returns {string} URL of highmark.com's results page for the query
+ */
+export function fallbackSearchUrl(query) {
+  const url = new URL(FALLBACK_SEARCH);
+  url.searchParams.set('q', query);
+  url.searchParams.set('rows', PAGE_SIZE);
+  return url.href;
 }
 
 /**
@@ -176,10 +186,6 @@ function renderSummary(summary, shown, total, query) {
 }
 
 function renderNoResults(container, query, headingTag) {
-  const fallback = new URL(FALLBACK_SEARCH);
-  fallback.searchParams.set('q', query);
-  fallback.searchParams.set('rows', PAGE_SIZE);
-
   const heading = element(headingTag, 'search-no-results-title', `We didn't find any pages related to "${query}"`);
   const tips = element('p', 'search-no-results-tips', 'Try searching again using these tips:');
   const list = element('ul');
@@ -191,7 +197,7 @@ function renderNoResults(container, query, headingTag) {
   ].forEach((tip) => list.append(element('li', '', tip)));
   const more = element('p', 'search-no-results-fallback');
   const link = element('a', '', `Search all of highmark.com for "${query}"`);
-  link.href = fallback.href;
+  link.href = fallbackSearchUrl(query);
   more.append(link);
   container.replaceChildren(heading, tips, list, more);
 }

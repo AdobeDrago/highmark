@@ -255,6 +255,11 @@ header nav .nav-search-suggestions li > a:any-link { /* stylelint-disable-line n
   text-decoration: none;
 }
 
+/* the suggestions shown before typing (from the DA sheet) are plain, regular weight */
+header nav .nav-search-suggestions.nav-search-authored li > a:any-link {
+  font-weight: 400;
+}
+
 header nav .nav-search-suggestions li:hover,
 header nav .nav-search-suggestions li.active {
   background-color: #ecf7ff;
