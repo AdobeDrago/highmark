@@ -1,0 +1,215 @@
+/* Shop footer (shop-footer.js): ShopX's footer, measured from shop.highmark.com
+   (Western PA) at 1280 and 390. Navy #00304d, blue #0078c1, band #f5fbff. */
+
+footer .shop-footer {
+  background-color: #f5fbff;
+  color: #00304d;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: -0.4px;
+}
+
+footer .shop-footer-inner {
+  box-sizing: border-box;
+  max-width: 1067px;
+  margin: 0 auto;
+  padding: 40px 0 56px;
+}
+
+/* fragment sections bring no spacing of their own */
+footer .shop-footer .section,
+footer .shop-footer .default-content-wrapper {
+  margin: 0;
+  padding: 0;
+}
+
+footer .shop-footer p,
+footer .shop-footer ul {
+  margin: 0;
+}
+
+footer .shop-footer ul {
+  padding: 0;
+  list-style: none;
+}
+
+footer .shop-footer a:any-link {
+  color: #0078c1;
+  text-decoration: none;
+}
+
+footer .shop-footer a:hover {
+  text-decoration: underline;
+}
+
+/* ---- the four columns ---- */
+footer .shop-footer-columns {
+  display: grid;
+  grid-template-columns: 266px 277px 267px 1fr;
+}
+
+footer .shop-footer-brand {
+  max-width: 247px;
+}
+
+footer .shop-footer .shop-footer-logo img {
+  display: block;
+  width: 247px;
+  height: auto;
+}
+
+footer .shop-footer .shop-footer-social ul {
+  display: flex;
+  justify-content: flex-end;
+  gap: 7px;
+  margin-top: 16px;
+}
+
+footer .shop-footer .shop-footer-social li,
+footer .shop-footer .shop-footer-social a {
+  display: block;
+}
+
+footer .shop-footer .shop-footer-social img {
+  display: block;
+  width: 23px;
+  height: 23px;
+}
+
+footer .shop-footer .shop-footer-social p {
+  margin-top: 35px;
+}
+
+/* Discover / Medicare / Shop and Find a Doctor / Pharmacy: 46px apart */
+footer .shop-footer .shop-footer-explore li + li,
+footer .shop-footer .shop-footer-care li + li {
+  margin-top: 16px;
+}
+
+footer .shop-footer .shop-footer-explore a,
+footer .shop-footer .shop-footer-care a {
+  display: inline-flex;
+  align-items: center;
+  line-height: 30px;
+}
+
+/* links that open in a new tab get ShopX's external-link icon */
+footer .shop-footer-columns a[target="_blank"]:not(:has(img))::after {
+  content: '';
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin-left: 8px;
+  background-color: currentcolor;
+  mask: url('../../icons/external-link.svg') no-repeat center / contain;
+}
+
+/* Additional Links */
+footer .shop-footer .shop-footer-links p {
+  line-height: 21px;
+}
+
+footer .shop-footer .shop-footer-links ul {
+  margin-top: 15px;
+}
+
+footer .shop-footer .shop-footer-links li + li {
+  margin-top: 16px;
+}
+
+/* ---- legal links and legal text ---- */
+footer .shop-footer-legal-text {
+  margin-top: 56px;
+}
+
+footer .shop-footer .shop-footer-legal-links ul {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 16px;
+}
+
+/* "Security | Privacy | ..." (New York) */
+footer .shop-footer .shop-footer-legal-links.piped ul {
+  column-gap: 0;
+}
+
+footer .shop-footer .shop-footer-legal-links.piped li + li::before {
+  content: '|';
+  margin: 0 4px;
+}
+
+footer .shop-footer .shop-footer-legal p {
+  margin-top: 16px;
+}
+
+/* ============ phones and tablets (< 992px) ============ */
+@media (width < 992px) {
+  footer .shop-footer {
+    font-size: 15px;
+    line-height: 21px;
+    letter-spacing: -0.2px;
+  }
+
+  footer .shop-footer-inner {
+    padding: 40px 32px 48px;
+  }
+
+  footer .shop-footer-columns {
+    grid-template-columns: 1fr;
+  }
+
+  footer .shop-footer-brand {
+    max-width: none;
+  }
+
+  footer .shop-footer .shop-footer-logo img {
+    width: 100%;
+  }
+
+  footer .shop-footer .shop-footer-social ul {
+    gap: 6px;
+    margin-top: 13px;
+  }
+
+  footer .shop-footer .shop-footer-social img {
+    width: 36px;
+    height: 36px;
+  }
+
+  footer .shop-footer .shop-footer-social p {
+    margin: 35px 0 45px;
+  }
+
+  footer .shop-footer .shop-footer-explore,
+  footer .shop-footer .shop-footer-care {
+    margin-bottom: 13px;
+  }
+
+  footer .shop-footer .shop-footer-explore li + li,
+  footer .shop-footer .shop-footer-care li + li {
+    margin-top: 13px;
+  }
+
+  footer .shop-footer .shop-footer-explore a,
+  footer .shop-footer .shop-footer-care a {
+    line-height: 28px;
+  }
+
+  footer .shop-footer .shop-footer-links ul {
+    margin-top: 13px;
+  }
+
+  footer .shop-footer .shop-footer-links li + li {
+    margin-top: 13px;
+  }
+
+  footer .shop-footer-legal-text {
+    margin-top: 45px;
+  }
+
+  footer .shop-footer .shop-footer-legal p {
+    margin-top: 13px;
+  }
+}

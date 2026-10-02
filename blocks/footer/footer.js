@@ -8,11 +8,14 @@ import { getMetadata } from '../../scripts/aem.js';
  * resolves normally, so try/catch can't suppress it — the browser still logs
  * the failed request; the only fix is to not make the failing request).
  */
+const footerPath = () => {
+  const footerMeta = getMetadata('footer');
+  return footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
+};
+
 async function fetchFooter() {
   try {
-    const footerMeta = getMetadata('footer');
-    const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
-    let resp = await fetch(`${footerPath}.plain.html`);
+    let resp = await fetch(`${footerPath()}.plain.html`);
     if (!resp.ok) {
       resp = await fetch('/content/footer.plain.html');
     }
@@ -34,6 +37,19 @@ async function fetchFooter() {
  */
 export default async function decorate(block) {
   const fragment = await fetchFooter();
+
+  // A footer fragment whose sections are styled shop-* gets the shop footer, laid out
+  // like ShopX (shop-footer.js). The pipeline delivers a section's Style as classes on
+  // its div (or, unprocessed, as a section-metadata table).
+  const isShop = [...(fragment?.children || [])].some((section) => [...section.classList]
+    .some((name) => name.startsWith('shop-'))
+    || /\bshop-/.test(section.querySelector('.section-metadata')?.textContent || ''));
+  if (isShop) {
+    const { default: decorateShopFooter } = await import('./shop-footer.js');
+    await decorateShopFooter(block, footerPath());
+    return;
+  }
+
   block.textContent = '';
   if (!fragment) return;
 

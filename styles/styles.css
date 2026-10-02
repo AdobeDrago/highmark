@@ -103,6 +103,18 @@ header {
   }
 }
 
+/* Pages with the ShopX-style shop header (nav = /shop/fragments/shopx-header, see
+   blocks/header/shop-header.js) reserve its height instead. */
+html:has(meta[name="nav"][content$="/shopx-header"]) header {
+  min-height: 67px;
+}
+
+@media (width >= 992px) {
+  html:has(meta[name="nav"][content$="/shopx-header"]) header {
+    min-height: 208px;
+  }
+}
+
 header .header,
 footer .footer {
   visibility: hidden;
