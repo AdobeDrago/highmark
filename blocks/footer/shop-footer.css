@@ -9,6 +9,9 @@ footer .shop-footer {
   font-weight: 400;
   line-height: 24px;
   letter-spacing: -0.4px;
+
+  /* the legal text quotes long URLs (WV's network access plan) that would widen phones */
+  overflow-wrap: anywhere;
 }
 
 footer .shop-footer-inner {

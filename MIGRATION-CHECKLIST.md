@@ -130,11 +130,11 @@ Also in P3:
 
 Also in P4:
 
-- [x] Our `/nav` placeholders (2026-10-01): the 14 ZIP-gated items point at Western PA pages until the P5 decision. The CHIP items are our pages, and the Individual & Family items redirect to highmark.com. "Shop Individual and Family Plans" goes to `/shop/home`, and "My Location" opens the ZIP modal.
+- [x] Our `/nav` placeholders (2026-10-01): the 14 ZIP-gated items point at Western PA pages until the P5 decision. The CHIP items are our pages, and the Individual & Family items redirect to highmark.com. "Shop Individual and Family Plans" goes to `/shop/`, and "My Location" opens the ZIP modal.
 
 ## P5: ZIP-gated regional pages
 
-The source's ACA and CHIP nav items have no plain link: they open the ZIP gate (`/zipcode-gate-login`) and then go to `/<region>/individual-families/<page>` or `/<region>/chip/<page>`. Decide the approach before importing: one page per region (up to 8 near-duplicates per page type), or one region-aware page per type using the ZIP tokens `/shop/home` uses.
+The source's ACA and CHIP nav items have no plain link: they open the ZIP gate (`/zipcode-gate-login`) and then go to `/<region>/individual-families/<page>` or `/<region>/chip/<page>`. Decide the approach before importing: one page per region (up to 8 near-duplicates per page type), or one region-aware page per type built on the shop's region layer (link tokens and `Regions` sections, see AGENTS.md).
 
 | Nav item | WPA | CPA | NEPA | SEPA | DE | WV | WNY | NENY |
 |----------|---|---|---|---|---|---|---|---|
