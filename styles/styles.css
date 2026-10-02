@@ -121,6 +121,12 @@ footer .footer[data-block-status="loaded"] {
   display: none !important;
 }
 
+/* Content for other regions than the visitor's (a section's `Regions` metadata,
+   see zip-tokens.js); !important so a section or block display rule can't show it. */
+[data-regions][hidden] {
+  display: none !important;
+}
+
 /* breadcrumbs row (below the header): reserved before the block loads */
 .breadcrumbs-wrapper {
   min-height: var(--breadcrumbs-height);

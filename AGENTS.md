@@ -28,7 +28,8 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 
 | Page | Notes |
 |------|-------|
-| `/shop/home` | Hero + ZIP location line (CHANGE AREA) + 3 plan cards + Special Enrollment + Learn More; the Marketplace and brochure links follow the visitor's region. Canonical home. `template: shop-home` scopes its page CSS (`body.shop-home`). |
+| `/shop/` (DA `/shop/index`) | The canonical shop home (decided 2026-10-02). Hero + ZIP location line (CHANGE AREA) + 3 plan cards + Special Enrollment + Learn More; the Marketplace and brochure links follow the visitor's region, and Southeastern PA also gets the Spanish brochure. `template: shop-home` scopes its page CSS (`body.shop-home`). |
+| `/shop/home` | The old home: a live copy with no DA source since the move to `/shop/` (2026-10-01). |
 | `/shop/beta/home` | Same content as home (mirrors source `/beta/home`). |
 | `/shop/info-pages/contact-us` | Call / Request a Call / Member Benefits / Direct Store. |
 | `/shop/info-pages/find-a-doctor` | Find a Doctor + Find a Pharmacy links. |
@@ -42,11 +43,31 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 
 ### ZIP/county modal
 
-- Blocks: `blocks/zip-modal/` (opener + `zip-store.js` localStorage helpers + `zip-tokens.js` token substitution) and `blocks/zip-county-form/` (sheet-driven form).
-- Modal content is an authored fragment at `/modals/zip-county` (heading + subtitle + `zip-county-form` block) — the aem.live modal pattern.
-- Data sheets: `/shop/zip-county-form.json` (form definition) and `/shop/zip-regions.json` (ZIP → region: `ZIP`/`Option`/`Value`, plus optional `County`, `State`, `Region Code`, `Marketplace`). It holds one sample ZIP per region, not full ZIP coverage. County is a read-only field filled from the ZIP match as the user types (#18): the `County` column, falling back to the region.
-- **Trigger:** auto-opens on any page whose `theme` metadata is `shop`, only when no ZIP is stored in `localStorage` (key `shop-zip-county`). Gate lives in `scripts/scripts.js` (`autoOpenShopZipModal`). Links to `/modals/zip-county` (e.g. CHANGE AREA, "find out more") open the same styled modal (`autolinkModals`).
-- **Tokens:** `{{zip}}`, `{{region}}` and any `zip-regions` column, lowercased and hyphenated (`{{county}}`, `{{state}}`, `{{region-code}}`, `{{marketplace}}`), are filled from the stored selection. They work in text and in link URLs; the pipeline percent-encodes braces in hrefs and `zip-tokens.js` decodes them. A line stays hidden until every token in it is filled. Filled links that leave highmark.com, or open a PDF, get `target="_blank"`.
+- Blocks: `blocks/zip-modal/` (opener + `zip-store.js` selection and sheet helpers + `zip-tokens.js`, which applies the selection to a page) and `blocks/zip-county-form/` (sheet-driven form).
+- Modal content is an authored fragment at `/modals/zip-county` (heading + subtitle + `zip-county-form` block) — the aem.live modal pattern. The block's rows name its sheets: `Form`, `Counties`, `Regions`.
+- **Data sheets:**
+  - `/shop/zip-county-form.json` is the form definition.
+  - `/shop/zip-counties.json` has one row per ZIP and county: `ZIP`, `County`, `State`, `FIPS`, `Region`, `Note`. A ZIP that spans counties has one row per county.
+  - `/shop/regions.json` has one row per region: `Region Code`, `Region`, `Brand`, `Marketplace`, `Brochure`, `Spanish Brochure`.
+  - The old `/shop/zip-regions.json` sample sheet is unused.
+- **Where the ZIP data comes from** (interim, until enGen's list):
+  - `tools/zip-data/build-zip-data.mjs` builds both sheets (`--upload` uploads and previews them).
+  - Counties come from the Census 2020 ZIP-to-county file, with each region's counties taken from Highmark's published service-area map. 3,810 rows, 3,179 ZIPs.
+  - Known gaps: PO box ZIPs aren't Census ZIP areas, so they aren't found (18501 was added by hand). Counties with under 2% of a ZIP's land are dropped. Centre County is split between Western and Central PA by an approximation (its rows carry a `Note`).
+  - To use enGen's list, replace the generator's input and keep the same columns.
+- **Form:**
+  - After a 5-digit ZIP, County lists that ZIP's counties, as on ShopX. One county is picked for the visitor; several must be chosen.
+  - A ZIP outside the footprint shows ShopX's "outside the service areas" message.
+  - Continue stores `{zipCode, county, state, regionCode, region}`. A selection saved by the earlier version (no `regionCode`) counts as none, so the modal asks again.
+- **Trigger:** auto-opens on any page whose `theme` metadata is `shop`, only when no selection is stored in `localStorage` (key `shop-zip-county`). Gate lives in `scripts/scripts.js` (`autoOpenShopZipModal`). Links to `/modals/zip-county` (e.g. CHANGE AREA, "find out more") open the same styled modal (`autolinkModals`).
+- **What the selection changes on a page** (`zip-tokens.js`):
+  - **Location line:** a section styled `zip-location` starts its first paragraph with "<County> County, <ST> <ZIP>", ahead of the CHANGE AREA link. This uses no tokens, because the DA editor strips `{{…}}` from text (it emptied `/shop/`'s line on 2026-10-01).
+  - **Tokens in link URLs:** `{{zip}}`, `{{county}}`, `{{state}}`, `{{region}}`, `{{region-code}}`, and any `regions` column, lowercased and hyphenated (`{{marketplace}}`, `{{brochure}}`, `{{spanish-brochure}}`, `{{brand}}`).
+    - The pipeline percent-encodes braces in hrefs, and `zip-tokens.js` decodes them.
+    - A line stays hidden until every token in it is filled, so `{{spanish-brochure}}` shows only for Southeastern PA.
+    - Filled links that leave highmark.com, or open a PDF, get `target="_blank"`.
+    - Text tokens still work, but only survive in documents uploaded through the API, not ones edited in DA.
+  - **Region-only sections:** a section with `Regions` section metadata (codes, e.g. `SEPA` or `WPA, NEPA`, or `none` for visitors without a ZIP) shows only for those regions.
 - **Persistence:** currently `localStorage`. Wiring into the app's Redux/IndexedDB store is tracked in issue #9.
 
 ## Redirects (highmark.com fallback)
@@ -95,16 +116,15 @@ The footer's legal pages and their sub-pages (`/privacy`, `/fraud/*`, `/privacy-
 ## Known follow-ups
 
 - Issue #9: move ZIP persistence from `localStorage` to the app's Redux/IndexedDB store.
-- Real ZIP coverage: `/shop/zip-regions` only knows its sample ZIPs, so most real ZIPs are rejected by the modal. ShopX looks ZIPs up through `api.hmhs.com/sxesvc/api/v2/zipCode/countyList`, which only allows `shop.highmark.com` (CORS) and needs its app session.
+- ZIP data is interim, built from Census data (see the ZIP/county modal section) until enGen supplies the real ZIP/county list. ShopX looks ZIPs up through `api.hmhs.com/sxesvc/api/v2/zipCode/countyList`, which only allows `shop.highmark.com` (CORS) and needs its app session. It also returns rating areas and plan-year service zones, which our sheets don't carry yet.
 - `/shop/home` still differs from ShopX in the shop header (title bar + region label, nav items), the Special Enrollment copy alignment, and the footer (ShopX's is light with per-region legal text).
 - `/shop/beta/home`: its token lines lost their tokens ("Showing plans for · ZIP", "availability in ."), so they show empty. Its SHOP PLANS, Get Started and brochure links are ShopX-relative paths that 404 here.
-- `/shop/home` was moved in DA to `/shop/index.html` and published as `/shop/` (mer81531, 2026-10-01). The live `/shop/home` is now a copy with no DA source. The move also stripped the ZIP tokens from `/shop/`'s location line, which shows "County," with no values, the same loss as `/shop/beta/home`. Agree with art-golk which URL is canonical, then restore the tokens.
+- `/shop/home` was moved in DA to `/shop/index.html` and published as `/shop/` (mer81531, 2026-10-01). `/shop/` is canonical (2026-10-02); the live `/shop/home` is a copy with no DA source, and links (nav, shop chrome) still point at it.
 - Still 404 on live (2026-10-01): FSA and Commuter Benefits in the header (held for #44), `/reservations/aca` on `/resources/answers/faq/insurance-terms` (broken on the source too), and the `/shop/beta/home` links above.
 - The `/resources` sub-pages Lamont imported on 2026-09-16 (published 2026-10-01) have no template, like the live FAQ pages: no breadcrumbs, and the FAQ side navs list only the current topic.
 - Legal pages: the source separates content chunks with fixed "spacing" components (40px desktop / 20px tablet / 0 mobile) that have no EDS equivalent, so some of our pages run 2-8% shorter. `/privacy-center` has no page of its own; it redirects to `/privacy-center/announcements`, as on the source. `/fraud/contact` links to `/fraud/fraud-form`, the source's 55-field Health Care Fraud Form (it posts to an AEM servlet, `/bin/hmk/genericmailer`), which redirects to the source form until a form solution is chosen.
 - Query index data (2026-10-02): `/about/our-story/leadership-team-board` has no title, so search labels it from its URL ("Leadership Team Board"). `/resources/spending-accounts` and `/plans/medicare/get-help` index an `about:error` image, meaning their first image is broken.
 - In the mobile drawer the search box sits below the nav sections, not at the top as `header.css` intends: its `order` rules target `.nav-primary`, which is inside the `.nav-sections` flex item.
-- `zip-county-form` ignores its authored sheet paths: `readConfig` only reads `<a>` hrefs, but the `/modals/zip-county` fragment holds the paths as plain text, so the block always falls back to its built-in defaults (which match today's paths). #13 would have read the row text instead, but was closed unmerged.
 
 ## Conventions
 
