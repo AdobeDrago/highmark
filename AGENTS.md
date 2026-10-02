@@ -60,14 +60,24 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 
 ## Search
 
-- `/search` is the `search` block (its one row links `/query-index.json`), laid out like highmark.com's results page: the page's authored "Search Highmark" H1 and `Breadcrumbs: true`, then a search bar, "Showing N of M results for …", title + description rows, and "Show more results" (10 at a time). When nothing matches, it shows the source's search tips and a link to the same search on highmark.com.
+- `/search` is the `search` block (its one row links `/search-index.json`), laid out like highmark.com's results page: the page's authored "Search Highmark" H1 and `Breadcrumbs: true`, then a search bar, "Showing N of M results for …", title + description rows, and "Show more results" (10 at a time). When nothing matches, it shows the source's search tips and a link to the same search on highmark.com.
 - The header search box submits to `/search?q=`. From the third letter it lists up to 5 matching page titles, as on highmark.com; arrow keys and Enter open one. It imports `blocks/search/search.js` the first time the box gets focus and uses the same `loadIndex` / `searchIndex` as the page, so the suggestions are the top of the results.
 - Before anything is typed, the box lists the searches in the `/search-suggestions` DA sheet, as highmark.com lists Careers, Member Login, ExpressScripts, Formulary and Dentist.
   - Columns: `Suggestion`, plus an optional `Link`. The first 5 rows are shown.
   - A row with a `Link` opens that link. Otherwise the item runs `/search` when this site has a match for it, or highmark.com's results when it doesn't, so items move to our search as pages are migrated.
   - To change the list, edit the sheet in DA, then preview and publish `/search-suggestions.json`. No code change is needed.
-- Matching: every word of the query must start a word in the page's title, description or URL slug. Pages with the whole query in the title come first, then pages with every word in the title, then the rest. Only titles and descriptions are indexed (highmark.com searches page text too), so every page needs both.
-- `NON_PAGE` in `search.js` keeps fragments (`/nav`, `/footer`, `…/fragments/…`), `/modals/`, `/drafts/`, `/search` and `/shop/beta/` out of results; add other non-page paths there.
+- Search uses its own index, `search-index` (`/search-index.json`).
+  - It is defined in the site's `query.yaml` in the configuration service, not in this repo. It holds each page's title, description and the first 5,000 words of `main`.
+  - It excludes fragments, drafts, sheets, `/nav`, `/footer`, `/search`, `/modals/**`, `/docs/**` and `/shop/beta/**`.
+  - `main-index` (`/query-index.json`) stays metadata-only for breadcrumbs and the redirects tool.
+  - Pages are indexed when published. After changing `query.yaml`, re-index everything with `POST https://admin.hlx.page/index/adobedrago/highmark/main/*` (site admin role), or use the Index Admin tool.
+- Matching: every word of the query must start a word in the page's title, description, URL slug or text. Results are ordered in four groups:
+  1. the whole query in the title;
+  2. every word in the title;
+  3. every word in the title, description or slug;
+  4. pages that only match in their text, those mentioning the words most first.
+- Size: the search index is about 126 KB compressed for 105 pages, and the header downloads it the first time the box gets focus. At roughly 1.2 KB per page, a full migration (~1,400 pages) would make it about 1.7 MB, so the full site will need a search service rather than this client-side index.
+- `NON_PAGE` in `search.js` also keeps non-page rows out of results, as a safety net when another index is used; add other non-page paths there and to the index excludes.
 
 ## Legal pages (`template: legal`)
 
