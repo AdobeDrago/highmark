@@ -1,0 +1,292 @@
+/* Shop header (shop-header.js): ShopX's header, measured from shop.highmark.com
+   (Western PA) at 1280 and 390. Navy #00304d, blue #0078c1. */
+
+header .shop-header-wrapper {
+  position: relative;
+  z-index: 20;
+  border-bottom: 1px solid #ccd5dc;
+  background-color: #fff;
+}
+
+header .shop-header {
+  box-sizing: border-box;
+  max-width: 1067px;
+  margin: 0 auto;
+  padding: 27px 0 15px 15px;
+  font-family: var(--body-font-family);
+}
+
+/* fragment sections bring no spacing of their own */
+header .shop-header .section,
+header .shop-header .default-content-wrapper {
+  margin: 0;
+  padding: 0;
+}
+
+header .shop-header p,
+header .shop-header ul {
+  margin: 0;
+}
+
+/* ---- logo + Language Assistance / Contact Us ---- */
+header .shop-header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+header .shop-header-brand {
+  margin-top: 11px;
+}
+
+header .shop-header-brand a:any-link {
+  display: block;
+}
+
+header .shop-header-brand img {
+  display: block;
+  width: auto;
+  height: 28px;
+}
+
+header .shop-header-utility ul {
+  display: flex;
+  gap: 48px;
+}
+
+header .shop-header .shop-utility a:any-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 16px;
+  line-height: 21px;
+  color: #00304d;
+}
+
+header .shop-header .shop-utility a:hover {
+  text-decoration: underline;
+}
+
+header .shop-header .shop-utility .icon {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 18px;
+}
+
+/* a block image, so the link's line height doesn't push it below the text */
+header .shop-header .shop-utility .icon img {
+  display: block;
+}
+
+/* ---- title + the visitor's region ---- */
+header .shop-header-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 27px;
+}
+
+header .shop-header .shop-title p {
+  font-family: var(--heading-font-family);
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 40.8px;
+  color: #0078c1;
+}
+
+header .shop-header-region {
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 36px;
+  letter-spacing: -0.44px;
+  color: #00304d;
+}
+
+header .shop-header-region[hidden] {
+  display: none;
+}
+
+/* ---- nav ---- */
+header .shop-header-panel {
+  margin-top: 28px;
+}
+
+header .shop-header-panel .shop-nav ul {
+  display: flex;
+  gap: 32px;
+}
+
+header .shop-header-panel .shop-nav a:any-link {
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 29px;
+  color: #00304d;
+}
+
+header .shop-header-panel .shop-nav a:hover {
+  color: #0078c1;
+  text-decoration: underline;
+}
+
+/* phones only */
+header .shop-header-toggle,
+header .shop-header-panel-extras {
+  display: none;
+}
+
+/* ============ phones and tablets (< 992px) ============ */
+@media (width < 992px) {
+  header .shop-header {
+    position: relative;
+    max-width: none;
+    padding: 0;
+  }
+
+  header .shop-header-top {
+    align-items: center;
+    justify-content: flex-start;
+    height: 66px;
+    padding-left: 57px;
+  }
+
+  header .shop-header-brand {
+    margin: 0;
+  }
+
+  header .shop-header-brand img {
+    height: 24px;
+  }
+
+  header .shop-header-utility,
+  header .shop-header-title {
+    display: none;
+  }
+
+  /* menu button: hamburger, an X in a box when open (ShopX) */
+  header .shop-header-toggle {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 30px;
+    margin: 0;
+    padding: 0;
+    border: 1.5px solid transparent;
+    border-radius: 2px;
+    background: transparent;
+  }
+
+  header .shop-header-toggle:hover,
+  header .shop-header-toggle:focus {
+    background: transparent;
+  }
+
+  header .shop-header-toggle-icon,
+  header .shop-header-toggle-icon::before,
+  header .shop-header-toggle-icon::after {
+    display: block;
+    width: 22px;
+    height: 2.5px;
+    border-radius: 1px;
+    background-color: #00304d;
+  }
+
+  header .shop-header-toggle-icon {
+    position: relative;
+  }
+
+  header .shop-header-toggle-icon::before,
+  header .shop-header-toggle-icon::after {
+    content: '';
+    position: absolute;
+    left: 0;
+  }
+
+  header .shop-header-toggle-icon::before {
+    top: -7px;
+  }
+
+  header .shop-header-toggle-icon::after {
+    top: 7px;
+  }
+
+  header .shop-header-open .shop-header-toggle {
+    border-color: #000;
+  }
+
+  header .shop-header-open .shop-header-toggle-icon {
+    background-color: transparent;
+  }
+
+  header .shop-header-open .shop-header-toggle-icon::before,
+  header .shop-header-open .shop-header-toggle-icon::after {
+    top: 0;
+    width: 18px;
+    left: 2px;
+    background-color: #000;
+  }
+
+  header .shop-header-open .shop-header-toggle-icon::before {
+    transform: rotate(45deg);
+  }
+
+  header .shop-header-open .shop-header-toggle-icon::after {
+    transform: rotate(-45deg);
+  }
+
+  /* the menu panel drops under the bar from the left */
+  header .shop-header-panel {
+    display: none;
+    position: absolute;
+    top: 66px;
+    left: 0;
+    z-index: 30;
+    box-sizing: border-box;
+    width: 224px;
+    margin: 0;
+    padding: 6px 16px 18px;
+    background-color: #fff;
+    box-shadow: 0 6px 12px rgb(0 0 0 / 30%);
+  }
+
+  header .shop-header-open .shop-header-panel {
+    display: block;
+  }
+
+  header .shop-header-panel .shop-nav ul {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  header .shop-header-panel .shop-nav a:any-link {
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 39px;
+  }
+
+  header .shop-header-panel-extras {
+    display: block;
+    margin: 14px -16px 0;
+    padding: 6px 16px 0;
+    border-top: 1px solid #00304d;
+  }
+
+  header .shop-header-panel-extras .shop-utility a:any-link {
+    font-family: var(--heading-font-family);
+    font-size: 14px;
+    line-height: 46px;
+    color: #0078c1;
+  }
+
+  header .shop-header-panel-extras .shop-header-region {
+    margin-top: 8px;
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: normal;
+  }
+}

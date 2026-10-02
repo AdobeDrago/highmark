@@ -5,7 +5,8 @@
  *   zip-counties.json  one row per ZIP and county in Highmark's individual-market footprint
  *                      (ZIP, County, State, FIPS, Region, Note)
  *   regions.json       one row per Highmark region (Region Code, Region, Brand, Marketplace,
- *                      Brochure, Spanish Brochure)
+ *                      Brochure, Spanish Brochure, and the shop header/footer's region links:
+ *                      Find a Doctor, Find a Pharmacy, Customer Service, About Us)
  *
  * Sources:
  * - Census 2020 ZCTA-to-county relationship file (downloaded on each run). ZCTAs are the
@@ -68,22 +69,39 @@ const EXTRA_ROWS = [
 const BROCHURES = 'https://shop.highmark.com/content/dam/highmark/en/healthco/shopx/plan-documents/2026';
 const HEALTHSHERPA = 'https://highmark.healthsherpa.com/?_agent_id=highmark';
 const NY_STATE_OF_HEALTH = 'https://nystateofhealth.ny.gov/';
+const FIND_CARE = 'https://findcare.app/healthsparq/public/#/one/insurerCode=FINDCARE_I&brandCode=';
+// the links ShopX's header and footer use for each region (seen on shop.highmark.com, 2026-10)
+const ABOUT_US = {
+  WNY: 'https://www.highmark.com/member/bcbswny.html',
+  NENY: 'https://www.highmark.com/member/blueshieldneny.html',
+};
 const REGIONS = [
-  ['WPA', 'Western PA', 'Highmark Blue Cross Blue Shield', HEALTHSHERPA],
-  ['CPA', 'Central PA', 'Highmark Blue Shield', HEALTHSHERPA],
-  ['SEPA', 'Southeastern PA', 'Highmark Blue Shield', HEALTHSHERPA],
-  ['NEPA', 'Northeastern PA', 'Highmark Blue Cross Blue Shield', HEALTHSHERPA],
-  ['DE', 'Delaware', 'Highmark Blue Cross Blue Shield', HEALTHSHERPA],
-  ['WV', 'West Virginia', 'Highmark Blue Cross Blue Shield', HEALTHSHERPA],
-  ['WNY', 'Western New York', 'Highmark Blue Cross Blue Shield', NY_STATE_OF_HEALTH],
-  ['NENY', 'Northeastern NY', 'Highmark Blue Shield', NY_STATE_OF_HEALTH],
-].map(([code, name, brand, marketplace]) => ({
+  // code, name, brand, marketplace, highmark.com region path, member site (Customer Service)
+  ['WPA', 'Western PA', 'Highmark Blue Cross Blue Shield', HEALTHSHERPA, 'western-pennsylvania',
+    'https://www.highmarkbcbs.com'],
+  ['CPA', 'Central PA', 'Highmark Blue Shield', HEALTHSHERPA, 'central-pennsylvania',
+    'https://www.highmarkblueshield.com'],
+  ['SEPA', 'Southeastern PA', 'Highmark Blue Shield', HEALTHSHERPA, 'southeastern-pennsylvania',
+    'https://www.highmarkblueshield.com'],
+  ['NEPA', 'Northeastern PA', 'Highmark Blue Cross Blue Shield', HEALTHSHERPA, 'northeastern-pennsylvania',
+    'https://www.highmarkbcbs.com'],
+  ['DE', 'Delaware', 'Highmark Blue Cross Blue Shield', HEALTHSHERPA, 'delaware',
+    'https://www.highmarkbcbsde.com'],
+  ['WV', 'West Virginia', 'Highmark Blue Cross Blue Shield', HEALTHSHERPA, 'west-virginia',
+    'https://www.highmarkbcbswv.com'],
+  ['WNY', 'Western New York', 'Highmark Blue Cross Blue Shield', NY_STATE_OF_HEALTH, 'western-new-york', ''],
+  ['NENY', 'Northeastern NY', 'Highmark Blue Shield', NY_STATE_OF_HEALTH, 'northeastern-new-york', ''],
+].map(([code, name, brand, marketplace, regionPath, memberSite]) => ({
   'Region Code': code,
   Region: name,
   Brand: brand,
   Marketplace: marketplace,
   Brochure: `${BROCHURES}/brochures/${code}_2026_ACA_Brochure.pdf`,
   'Spanish Brochure': code === 'SEPA' ? `${BROCHURES}/SEPA_2026_ACA_Brochure_Spanish.pdf` : '',
+  'Find a Doctor': `${FIND_CARE}${brand === 'Highmark Blue Shield' ? 'HMBSHIELD' : 'HMBCBS'}`,
+  'Find a Pharmacy': `https://www.highmark.com/${regionPath}/individual-families/doctors-drugs`,
+  'Customer Service': memberSite ? `${memberSite}/login/#/customerService/by-phone` : '',
+  'About Us': ABOUT_US[code] || '',
 }));
 
 function readToken() {

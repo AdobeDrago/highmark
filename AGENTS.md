@@ -37,9 +37,27 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 
 ### Shop chrome (fragments)
 
-- `/shop/fragments/nav` and `/shop/fragments/footer` hold the **shop-specific** header/footer.
-- All shop pages set `nav` / `footer` page metadata pointing at these fragments, plus `theme: shop`.
-- The site-default `/nav` and `/footer` still hold the generic highmark.com chrome — leave them for non-shop pages.
+- Shop pages get `theme: shop` plus `nav` / `footer` from the bulk `/metadata` sheet (row `/shop/**`). The site-default `/nav` and `/footer` hold the corporate highmark.com chrome; leave them for non-shop pages. `/plans/individual-families` has `theme: shop` (for the ZIP modal) but keeps the corporate chrome.
+- **ShopX-style chrome** (2026-10-02) lives in `/shop/fragments/shopx-header` and `/shop/fragments/shopx-footer`.
+  - Each section says what it holds with its `Style`:
+    - header: `shop-brand`, `shop-utility`, `shop-title`, `shop-nav`;
+    - footer: `shop-footer-logo`, `shop-footer-social`, `shop-footer-explore`, `shop-footer-care`, `shop-footer-links`, `shop-footer-legal-links` (add `piped` for `|` separators), `shop-footer-legal`.
+  - Anything that differs by region is a separate section with `Regions` metadata (see the ZIP/county modal section): the logos (BCBS: none, WPA, NEPA, DE, WV, WNY; Blue Shield: CPA, SEPA, NENY), the pre-ZIP nav and footer links (`none`), the New York link set, and the 7 legal-text versions.
+  - Region links are `{{tokens}}` from the regions sheet.
+- **How a fragment gets this layout:** `blocks/header/header.js` and `blocks/footer/footer.js` hand it to `shop-header.js` / `shop-footer.js` when its sections carry `shop-*` styles. Other fragments, including the old `/shop/fragments/nav` and `/shop/fragments/footer`, keep the corporate layout. In `.plain.html` the pipeline delivers section metadata as classes and `data-` attributes on the section div.
+- **What the shop header does:**
+  - The region label comes from the stored selection and updates when the visitor changes ZIP; logos, links and legal text update too.
+  - Below 992px a menu button opens ShopX's panel: nav, utility links, region.
+  - No search box and no Text Size control (2026-10-02 decision).
+  - `styles.css` reserves the header's height (208px desktop, 67px phone) for pages whose `nav` is `.../shopx-header`, so nothing shifts when it loads.
+- Icons in the utility links are code icons (`:language:`, `:call:`, from `icons/`). Logos and social icons are images in the fragments' DA dot-folders.
+- Copied from ShopX on 2026-10-02, with some links normalised:
+  - GDPR is listed in every PA/DE/WV region.
+  - Medicare is listed for Western NY too.
+  - The ↗ icon marks only links that open a new tab, so our own Discover and Shop pages don't get it.
+  - Discover links to our `/plans/individual-families`, where `discoverhighmark.com` now redirects.
+  - "Last updated on January 31st, 2026" is static text.
+  - `highmarkdirect.com` (Find a Direct Store) didn't respond from our network; check it.
 
 ### ZIP/county modal
 
@@ -48,7 +66,7 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 - **Data sheets:**
   - `/shop/zip-county-form.json` is the form definition.
   - `/shop/zip-counties.json` has one row per ZIP and county: `ZIP`, `County`, `State`, `FIPS`, `Region`, `Note`. A ZIP that spans counties has one row per county.
-  - `/shop/regions.json` has one row per region: `Region Code`, `Region`, `Brand`, `Marketplace`, `Brochure`, `Spanish Brochure`.
+  - `/shop/regions.json` has one row per region: `Region Code`, `Region`, `Brand`, `Marketplace`, `Brochure`, `Spanish Brochure`, plus the shop chrome's region links `Find a Doctor`, `Find a Pharmacy`, `Customer Service` and `About Us` (New York only).
   - The old `/shop/zip-regions.json` sample sheet is unused.
 - **Where the ZIP data comes from** (interim, until enGen's list):
   - `tools/zip-data/build-zip-data.mjs` builds both sheets (`--upload` uploads and previews them).
@@ -117,7 +135,7 @@ The footer's legal pages and their sub-pages (`/privacy`, `/fraud/*`, `/privacy-
 
 - Issue #9: move ZIP persistence from `localStorage` to the app's Redux/IndexedDB store.
 - ZIP data is interim, built from Census data (see the ZIP/county modal section) until enGen supplies the real ZIP/county list. ShopX looks ZIPs up through `api.hmhs.com/sxesvc/api/v2/zipCode/countyList`, which only allows `shop.highmark.com` (CORS) and needs its app session. It also returns rating areas and plan-year service zones, which our sheets don't carry yet.
-- `/shop/home` still differs from ShopX in the shop header (title bar + region label, nav items), the Special Enrollment copy alignment, and the footer (ShopX's is light with per-region legal text).
+- `/shop/` still differs from ShopX in the Special Enrollment copy alignment. Its header and footer are ShopX's once the `/metadata` sheet points shop pages at the `shopx-*` fragments.
 - `/shop/beta/home`: its token lines lost their tokens ("Showing plans for · ZIP", "availability in ."), so they show empty. Its SHOP PLANS, Get Started and brochure links are ShopX-relative paths that 404 here.
 - `/shop/home` was moved in DA to `/shop/index.html` and published as `/shop/` (mer81531, 2026-10-01). `/shop/` is canonical (2026-10-02); the live `/shop/home` is a copy with no DA source, and links (nav, shop chrome) still point at it.
 - Still 404 on live (2026-10-01): FSA and Commuter Benefits in the header (held for #44), `/reservations/aca` on `/resources/answers/faq/insurance-terms` (broken on the source too), and the `/shop/beta/home` links above.

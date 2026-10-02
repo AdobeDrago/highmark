@@ -11,11 +11,14 @@ const isDesktop = window.matchMedia('(min-width: 992px)');
  * resolves normally, so try/catch can't suppress it — the browser still logs
  * the failed request; the only fix is to not make the failing request).
  */
+const navPath = () => {
+  const navMeta = getMetadata('nav');
+  return navMeta ? new URL(navMeta, window.location).pathname : '/nav';
+};
+
 async function fetchNav() {
   try {
-    const navMeta = getMetadata('nav');
-    const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
-    let resp = await fetch(`${navPath}.plain.html`);
+    let resp = await fetch(`${navPath()}.plain.html`);
     if (!resp.ok) {
       resp = await fetch('/content/nav.plain.html');
     }
@@ -334,6 +337,19 @@ function buildSearch() {
  */
 export default async function decorate(block) {
   const fragment = await fetchNav();
+
+  // A nav fragment whose sections are styled shop-* (shop-brand, shop-nav, ...) gets
+  // the shop header, laid out like ShopX (shop-header.js). The pipeline delivers a
+  // section's Style as classes on its div (or, unprocessed, as a section-metadata table).
+  const isShop = [...(fragment?.children || [])].some((section) => [...section.classList]
+    .some((name) => name.startsWith('shop-'))
+    || /\bshop-/.test(section.querySelector('.section-metadata')?.textContent || ''));
+  if (isShop) {
+    const { default: decorateShopHeader } = await import('./shop-header.js');
+    await decorateShopHeader(block, navPath());
+    return;
+  }
+
   block.textContent = '';
   if (!fragment) return;
 
