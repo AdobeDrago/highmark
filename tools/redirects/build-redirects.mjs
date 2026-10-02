@@ -24,10 +24,13 @@ const LIVE = `https://main--${SITE}--${ORG}.aem.live`;
 const PREVIEW = `https://main--${SITE}--${ORG}.aem.page`;
 const SOURCE = 'https://www.highmark.com';
 const UA = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0 Safari/537.36' };
-const FRAGMENTS = ['/nav', '/footer', '/shop/fragments/nav', '/shop/fragments/footer'];
-// Drafts that exist in DA but should not be published: path -> destination.
+const FRAGMENTS = ['/nav', '/footer', '/shop/fragments/shopx-header', '/shop/fragments/shopx-footer'];
+// Paths that always redirect: drafts that exist in DA but should not be published, and
+// retired pages. path -> destination.
 const FORCE = {
   '/resources/answers/faq/medicare-reservations': `${SOURCE}/resources/answers/faq/medicare`,
+  '/shop/home': '/shop/', // the shop home moved to /shop/ (2026-10-01)
+  '/shop': '/shop/', // a folder's index page is only served with the trailing slash
 };
 
 function readToken() {

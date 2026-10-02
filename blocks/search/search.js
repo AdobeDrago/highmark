@@ -24,7 +24,7 @@ const FALLBACK_SEARCH = 'https://www.highmark.com/search-results.html';
 
 /**
  * Index rows that aren't pages to offer: header/footer fragments, modals, drafts, this
- * page, and /shop/beta/ (an unlinked copy of /shop/home whose links don't work here).
+ * page, and /shop/beta/ (an unlinked copy of the shop home whose links don't work here).
  */
 const NON_PAGE = /^\/(?:nav|footer|search)$|^\/(?:modals|drafts|tools|shop\/beta)\/|\/fragments\//;
 

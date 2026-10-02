@@ -28,8 +28,7 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 
 | Page | Notes |
 |------|-------|
-| `/shop/` (DA `/shop/index`) | The canonical shop home (decided 2026-10-02). Hero + ZIP location line (CHANGE AREA) + 3 plan cards + Special Enrollment + Learn More; the Marketplace and brochure links follow the visitor's region, and Southeastern PA also gets the Spanish brochure. `template: shop-home` scopes its page CSS (`body.shop-home`). |
-| `/shop/home` | The old home: a live copy with no DA source since the move to `/shop/` (2026-10-01). |
+| `/shop/` (DA `/shop/index`) | The canonical shop home (decided 2026-10-02); `/shop` and the old `/shop/home` redirect here. Hero + ZIP location line (CHANGE AREA) + 3 plan cards + Special Enrollment + Learn More; the Marketplace and brochure links follow the visitor's region, and Southeastern PA also gets the Spanish brochure. `template: shop-home` scopes its page CSS (`body.shop-home`). |
 | `/shop/beta/home` | Same content as home (mirrors source `/beta/home`). |
 | `/shop/info-pages/contact-us` | Call / Request a Call / Member Benefits / Direct Store. |
 | `/shop/info-pages/find-a-doctor` | Find a Doctor + Find a Pharmacy links. |
@@ -38,13 +37,13 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 ### Shop chrome (fragments)
 
 - Shop pages get `theme: shop` plus `nav` / `footer` from the bulk `/metadata` sheet (row `/shop/**`). The site-default `/nav` and `/footer` hold the corporate highmark.com chrome; leave them for non-shop pages. `/plans/individual-families` has `theme: shop` (for the ZIP modal) but keeps the corporate chrome.
-- **ShopX-style chrome** (2026-10-02) lives in `/shop/fragments/shopx-header` and `/shop/fragments/shopx-footer`.
+- **ShopX-style chrome** (2026-10-02) lives in `/shop/fragments/shopx-header` and `/shop/fragments/shopx-footer`. They replaced `/shop/fragments/nav` and `/shop/fragments/footer`, which were deleted.
   - Each section says what it holds with its `Style`:
     - header: `shop-brand`, `shop-utility`, `shop-title`, `shop-nav`;
     - footer: `shop-footer-logo`, `shop-footer-social`, `shop-footer-explore`, `shop-footer-care`, `shop-footer-links`, `shop-footer-legal-links` (add `piped` for `|` separators), `shop-footer-legal`.
   - Anything that differs by region is a separate section with `Regions` metadata (see the ZIP/county modal section): the logos (BCBS: none, WPA, NEPA, DE, WV, WNY; Blue Shield: CPA, SEPA, NENY), the pre-ZIP nav and footer links (`none`), the New York link set, and the 7 legal-text versions.
   - Region links are `{{tokens}}` from the regions sheet.
-- **How a fragment gets this layout:** `blocks/header/header.js` and `blocks/footer/footer.js` hand it to `shop-header.js` / `shop-footer.js` when its sections carry `shop-*` styles. Other fragments, including the old `/shop/fragments/nav` and `/shop/fragments/footer`, keep the corporate layout. In `.plain.html` the pipeline delivers section metadata as classes and `data-` attributes on the section div.
+- **How a fragment gets this layout:** `blocks/header/header.js` and `blocks/footer/footer.js` hand it to `shop-header.js` / `shop-footer.js` when its sections carry `shop-*` styles. Other fragments keep the corporate layout. In `.plain.html` the pipeline delivers section metadata as classes and `data-` attributes on the section div.
 - **What the shop header does:**
   - The region label comes from the stored selection and updates when the visitor changes ZIP; logos, links and legal text update too.
   - Below 992px a menu button opens ShopX's panel: nav, utility links, region.
@@ -90,10 +89,10 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 
 ## Redirects (highmark.com fallback)
 
-- `/redirects` (a DA sheet, published) sends every internal link that would 404 to the same page on highmark.com. It also mirrors the source's own redirects: `/about` → `/about/our-story`, `/privacy-center` → `/privacy-center/announcements`, Integrity & Ethics → highmarkhealth.org. 136 rows as of 2026-10-01.
+- `/redirects` (a DA sheet, published) sends every internal link that would 404 to the same page on highmark.com. It also mirrors the source's own redirects: `/about` → `/about/our-story`, `/privacy-center` → `/privacy-center/announcements`, Integrity & Ethics → highmarkhealth.org. 138 rows as of 2026-10-02.
 - **Redirects take precedence over pages:** a row hides any page published at that path. Don't hand-edit the sheet. After each import batch, run `node tools/redirects/build-redirects.mjs --upload` (it drops rows for paths that now have a DA document), check preview, then publish `/redirects.json`.
-- Paths with a DA document are never redirected, so an unpublished draft 404s on live until it is published. Drafts that should stay redirected go in the script's `FORCE` list.
-- The nav's ZIP-gated items point at Western PA pages for now: the CHIP items are our pages, and the Individual & Family items redirect to highmark.com. "Shop Individual and Family Plans" goes to `/shop/home`, and "My Location" opens the ZIP modal.
+- Paths with a DA document are never redirected, so an unpublished draft 404s on live until it is published. Drafts that should stay redirected, and retired URLs, go in the script's `FORCE` list. It sends `/shop/home` to `/shop/`, and `/shop` to `/shop/`, because a folder's index page is only served at its trailing-slash URL.
+- The nav's ZIP-gated items point at Western PA pages for now: the CHIP items are our pages, and the Individual & Family items redirect to highmark.com. "Shop Individual and Family Plans" goes to `/shop/`, and "My Location" opens the ZIP modal.
 - Link to pages on this site with relative paths. An absolute `https://www.highmark.com/...` link leaves the site even when we have the page; imports often keep the source's absolute links. Absolute links to pages we haven't migrated are fine.
 - A paragraph that holds only a link renders as a button. Put link lists in one paragraph, one link per line (as on the `/resources/answers/faq` topic list), so long labels don't become buttons that overflow on phones.
 
@@ -135,9 +134,8 @@ The footer's legal pages and their sub-pages (`/privacy`, `/fraud/*`, `/privacy-
 
 - Issue #9: move ZIP persistence from `localStorage` to the app's Redux/IndexedDB store.
 - ZIP data is interim, built from Census data (see the ZIP/county modal section) until enGen supplies the real ZIP/county list. ShopX looks ZIPs up through `api.hmhs.com/sxesvc/api/v2/zipCode/countyList`, which only allows `shop.highmark.com` (CORS) and needs its app session. It also returns rating areas and plan-year service zones, which our sheets don't carry yet.
-- `/shop/` still differs from ShopX in the Special Enrollment copy alignment. Its header and footer are ShopX's once the `/metadata` sheet points shop pages at the `shopx-*` fragments.
+- `/shop/` still differs from ShopX in the Special Enrollment copy alignment.
 - `/shop/beta/home`: its token lines lost their tokens ("Showing plans for · ZIP", "availability in ."), so they show empty. Its SHOP PLANS, Get Started and brochure links are ShopX-relative paths that 404 here.
-- `/shop/home` was moved in DA to `/shop/index.html` and published as `/shop/` (mer81531, 2026-10-01). `/shop/` is canonical (2026-10-02); the live `/shop/home` is a copy with no DA source, and links (nav, shop chrome) still point at it.
 - Still 404 on live (2026-10-01): FSA and Commuter Benefits in the header (held for #44), `/reservations/aca` on `/resources/answers/faq/insurance-terms` (broken on the source too), and the `/shop/beta/home` links above.
 - The `/resources` sub-pages Lamont imported on 2026-09-16 (published 2026-10-01) have no template, like the live FAQ pages: no breadcrumbs, and the FAQ side navs list only the current topic.
 - Legal pages: the source separates content chunks with fixed "spacing" components (40px desktop / 20px tablet / 0 mobile) that have no EDS equivalent, so some of our pages run 2-8% shorter. `/privacy-center` has no page of its own; it redirects to `/privacy-center/announcements`, as on the source. `/fraud/contact` links to `/fraud/fraud-form`, the source's 55-field Health Care Fraud Form (it posts to an AEM servlet, `/bin/hmk/genericmailer`), which redirects to the source form until a form solution is chosen.
