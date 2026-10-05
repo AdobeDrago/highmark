@@ -598,6 +598,12 @@
       "description": "Landing page with hero banner, an icon tab/quick-nav bar, an FAQ accordion section, a three-up card grid, and alternating image/text promo and resource sections",
       "blocks": [
         {
+          "name": "table-minimal-dark-compare",
+          "instances": [
+            ".dynamic-table-container"
+          ]
+        },
+        {
           "name": "hero-minimal-light",
           "instances": [
             "section.new-hmk-brand-fifteenpercent-splash"
