@@ -25,12 +25,12 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 0 30px 16px;
+  padding: 20px;
   text-align: left;
 }
 
 .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3 {
-  margin: 20px 0 13px;
+  margin: 0 0 10px;
   font-family: var(--heading-font-family);
   font-size: 24px;
   font-weight: 600;
@@ -61,6 +61,22 @@
   margin: 0;
   margin-top: auto;
   text-align: right;
+  line-height: 20px;
+}
+
+.cards-minimal-dark-list .cards-minimal-dark-list-card-body .cards-minimal-dark-list-title-underline {
+  width: 51px;
+  height: 4px;
+  border: 0;
+  background: #0078c1 0 0 no-repeat padding-box;
+  border-radius: 2px;
+  opacity: 1;
+  margin: 0;
+}
+
+.cards-minimal-dark-list .cards-minimal-dark-list-card-body .cards-minimal-dark-list-title-underline + p {
+  margin: 0 0 16px;
+  padding-top: 10px;
 }
 
 .cards-minimal-dark-list .cards-minimal-dark-list-card-body a.button:any-link {
@@ -92,35 +108,6 @@
 @media (width >= 900px) {
   .cards-minimal-dark-list > ul {
     grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* 3-card rows (e.g. /member/member-guide "Learn about health plan benefits",
-   /resources/answers): source .cardWrapper / li.cardThree -- centered,
-   wrapping rows of 370px cards, 30px apart: 3 per row once the 1170px row
-   fits, 2 per row with the odd card centered below that, and a single
-   centered column (up to 400px) on mobile/tablet. The .section.center style
-   caps wrappers at 760px, so widen the wrapper to fit 3 x 370 + 2 x 30 plus
-   the 32px side padding. */
-main .section > div.cards-minimal-dark-list-wrapper:has(> .cards-minimal-dark-list > ul > li:nth-child(3):last-child) {
-  max-width: calc(1170px + 64px);
-}
-
-.cards-minimal-dark-list > ul:has(> li:nth-child(3):last-child) {
-  grid-template-columns: minmax(0, 400px);
-  justify-content: center;
-  gap: 30px;
-}
-
-@media (width >= 900px) {
-  .cards-minimal-dark-list > ul:has(> li:nth-child(3):last-child) {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .cards-minimal-dark-list > ul:has(> li:nth-child(3):last-child) > li {
-    flex: 0 0 370px;
-    width: 370px;
   }
 }
 
@@ -303,49 +290,38 @@ body.topic-hub-subnav .cards-minimal-dark-list .cards-minimal-dark-list-card-bod
     margin: 0 30px;
   }
 }
-main .section > div.cards-minimal-dark-list-wrapper:has(> .cards-minimal-dark-list > ul > li:nth-child(3)) {
+
+/* Rows of 3 or more cards (e.g. /member/member-guide "Learn about health plan benefits",
+   /resources/answers): source .cardWrapper / li.cardThree -- centered,
+   wrapping rows of 370px cards, 30px apart: 3 per row once the 1170px row
+   fits, 2 per row with the odd card centered below that, and a single
+   centered column (up to 400px) on mobile/tablet. The .section.center style
+   caps wrappers at 760px, so widen the wrapper to fit 3 x 370 + 2 x 30 plus
+   the 32px side padding. */
+main .section > div.cards-minimal-dark-list-wrapper:has(> .cards-minimal-dark-list > ul > li:nth-child(3)),
+main .section > div.cards-minimal-dark-list-wrapper:has(> .cards-minimal-dark-list > ul > li:nth-child(3):last-child) {
   max-width: calc(1170px + 64px);
 }
 
-.cards-minimal-dark-list > ul:has(> li:nth-child(3)) {
+/* Outer grid overrides follow topic styles; card-body lists are separate elements. */
+/* stylelint-disable-next-line no-descending-specificity */
+.cards-minimal-dark-list > ul:has(> li:nth-child(3)),
+.cards-minimal-dark-list > ul:has(> li:nth-child(3):last-child) {
   grid-template-columns: minmax(0, 400px);
   justify-content: center;
   gap: 30px;
 }
 
 @media (width >= 900px) {
-  .cards-minimal-dark-list > ul:has(> li:nth-child(3)) {
+  .cards-minimal-dark-list > ul:has(> li:nth-child(3)),
+  .cards-minimal-dark-list > ul:has(> li:nth-child(3):last-child) {
     display: flex;
     flex-wrap: wrap;
   }
 
-  .cards-minimal-dark-list > ul:has(> li:nth-child(3)) > li {
+  .cards-minimal-dark-list > ul:has(> li:nth-child(3)) > li,
+  .cards-minimal-dark-list > ul:has(> li:nth-child(3):last-child) > li {
     flex: 0 0 370px;
     width: 370px;
   }
-}
-.cards-minimal-dark-list .cards-minimal-dark-list-card-body .cards-minimal-dark-list-title-underline {
-  width: 51px;
-  height: 4px;
-  border: 0;
-  background: #0078c1 0 0 no-repeat padding-box;
-  border-radius: 2px;
-  opacity: 1;
-  margin: 0;
-}
-.cards-minimal-dark-list .cards-minimal-dark-list-card-body {
-  padding: 20px;
-}
-
-.cards-minimal-dark-list .cards-minimal-dark-list-card-body h3 {
-  margin: 0 0 10px;
-}
-
-.cards-minimal-dark-list .cards-minimal-dark-list-card-body .cards-minimal-dark-list-title-underline + p {
-  margin: 0 0 16px;
-  padding-top: 10px;
-}
-
-.cards-minimal-dark-list .cards-minimal-dark-list-card-body p.button-container {
-  line-height: 20px;
 }
