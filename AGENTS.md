@@ -28,8 +28,7 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 
 | Page | Notes |
 |------|-------|
-| `/shop/` (DA `/shop/index`) | The canonical shop home (decided 2026-10-02); `/shop` and the old `/shop/home` redirect here. Hero + ZIP location line (CHANGE AREA) + 3 plan cards + Special Enrollment + Learn More; the Marketplace and brochure links follow the visitor's region, and Southeastern PA also gets the Spanish brochure. `template: shop-home` scopes its page CSS (`body.shop-home`). |
-| `/shop/beta/home` | Same content as home (mirrors source `/beta/home`). |
+| `/shop/` (DA `/shop/index`) | The canonical shop home (decided 2026-10-02); `/shop`, the old `/shop/home` and `/shop/beta/home` redirect here. (`/shop/beta/home` mirrored ShopX's `/beta/home`; its ZIP lines had lost their tokens and its ShopX links 404ed, so on 2026-10-05 it was unpublished, keeping the DA document, and redirected.) Hero + ZIP location line (CHANGE AREA) + 3 plan cards + Special Enrollment + Learn More; the Marketplace and brochure links follow the visitor's region, and Southeastern PA also gets the Spanish brochure. `template: shop-home` scopes its page CSS (`body.shop-home`). |
 | `/shop/info-pages/contact-us` | Call / Request a Call / Member Benefits / Direct Store. |
 | `/shop/info-pages/find-a-doctor` | Find a Doctor + Find a Pharmacy links. |
 | `/shop/info-pages/legal-policies` | Legal Notices + Other Policies. |
@@ -89,12 +88,14 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 
 ## Redirects (highmark.com fallback)
 
-- `/redirects` (a DA sheet, published) sends every internal link that would 404 to the same page on highmark.com. It also mirrors the source's own redirects: `/about` → `/about/our-story`, `/privacy-center` → `/privacy-center/announcements`, Integrity & Ethics → highmarkhealth.org. 138 rows as of 2026-10-02.
+- `/redirects` (a DA sheet, published) sends every internal link that would 404 to the same page on highmark.com. It also mirrors the source's own redirects: `/about` → `/about/our-story`, `/privacy-center` → `/privacy-center/announcements`, Integrity & Ethics → highmarkhealth.org. 139 rows live as of 2026-10-05.
 - **Redirects take precedence over pages:** a row hides any page published at that path. Don't hand-edit the sheet. After each import batch, run `node tools/redirects/build-redirects.mjs --upload` (it drops rows for paths that now have a DA document), check preview, then publish `/redirects.json`.
-- Paths with a DA document are never redirected, so an unpublished draft 404s on live until it is published. Drafts that should stay redirected, and retired URLs, go in the script's `FORCE` list. It sends `/shop/home` to `/shop/`, and `/shop` to `/shop/`, because a folder's index page is only served at its trailing-slash URL.
+- The sheet is shared, and publishing it publishes whatever is in DA. Before publishing, compare DA (`admin.da.live/source/adobedrago/highmark/redirects.json`) with live, in case another batch's regenerated sheet is waiting there for its pages.
+- Paths with a DA document are never redirected, so an unpublished draft 404s on live until it is published. Drafts that should stay redirected, and retired URLs, go in the script's `FORCE` list. It sends `/shop/home` and `/shop/beta/home` (copies of the old shop home) to `/shop/`, and `/shop` to `/shop/`, because a folder's index page is only served at its trailing-slash URL.
 - The nav's ZIP-gated items point at Western PA pages for now: the CHIP items are our pages, and the Individual & Family items redirect to highmark.com. "Shop Individual and Family Plans" goes to `/shop/`, and "My Location" opens the ZIP modal.
 - Link to pages on this site with relative paths. An absolute `https://www.highmark.com/...` link leaves the site even when we have the page; imports often keep the source's absolute links. Absolute links to pages we haven't migrated are fine.
 - A paragraph that holds only a link renders as a button. Put link lists in one paragraph, one link per line (as on the `/resources/answers/faq` topic list), so long labels don't become buttons that overflow on phones.
+- A metadata `Image` (the share image) must load when the page is previewed, or `og:image` becomes `about:error`. Imports copy the source's `og:image`, and on some highmark.com pages that file 404s. Without the row, the page's first image is used. That's how `/resources/spending-accounts` and `/plans/medicare/get-help` were fixed on 2026-10-05.
 
 ## Search
 
@@ -133,18 +134,20 @@ The footer's legal pages and their sub-pages (`/privacy`, `/fraud/*`, `/privacy-
 
 ## Open PRs
 
-- #44 (`fix-fsa-commuter-tables`, art-golk-merkle): fixes the FSA, Commuter Benefits and HSA data tables. The FSA and Commuter Benefits pages stay unpublished until it merges. As of 2026-10-01.
+- #44 (`fix-fsa-commuter-tables`, art-golk-merkle): fixes the FSA, Commuter Benefits and HSA data tables. The FSA and Commuter Benefits pages stay unpublished until it merges. Still open as of 2026-10-05.
+- `migrate-top-level-pages` (Gokulraj, 2026-10-05, not merged): 10 top-level pages (`/because-life`, `/ventures`, `/wholecare`, `/podcast`, ...), previewed but not published.
+  - DA and preview hold this batch's `/redirects` sheet (145 rows, including `/shop/beta/home`). Publish it with the pages, not before: it drops the `/because-life` and `/newsroom/press-releases` redirects, which keep those live links working until the pages are published.
+  - It also gives `zip-county-form` a standalone mode for `/zipcode-gate-login`; the modal path is unchanged. Re-run the ZIP/region checks after it merges.
 
 ## Known follow-ups
 
 - Issue #9: move ZIP persistence from `localStorage` to the app's Redux/IndexedDB store.
 - ZIP data is interim, built from Census data (see the ZIP/county modal section) until enGen supplies the real ZIP/county list. ShopX looks ZIPs up through `api.hmhs.com/sxesvc/api/v2/zipCode/countyList`, which only allows `shop.highmark.com` (CORS) and needs its app session. It also returns rating areas and plan-year service zones, which our sheets don't carry yet.
 - `/shop/` still differs from ShopX in the Special Enrollment copy alignment.
-- `/shop/beta/home`: its token lines lost their tokens ("Showing plans for · ZIP", "availability in ."), so they show empty. Its SHOP PLANS, Get Started and brochure links are ShopX-relative paths that 404 here.
-- Still 404 on live (2026-10-01): FSA and Commuter Benefits in the header (held for #44), `/reservations/aca` on `/resources/answers/faq/insurance-terms` (broken on the source too), and the `/shop/beta/home` links above.
+- Still 404 on live (2026-10-05): FSA and Commuter Benefits in the header (held for #44), and `/reservations/aca` on `/resources/answers/faq/insurance-terms` (broken on the source too).
 - The `/resources` sub-pages Lamont imported on 2026-09-16 (published 2026-10-01) have no template, like the live FAQ pages: no breadcrumbs, and the FAQ side navs list only the current topic.
 - Legal pages: the source separates content chunks with fixed "spacing" components (40px desktop / 20px tablet / 0 mobile) that have no EDS equivalent, so some of our pages run 2-8% shorter. `/privacy-center` has no page of its own; it redirects to `/privacy-center/announcements`, as on the source. `/fraud/contact` links to `/fraud/fraud-form`, the source's 55-field Health Care Fraud Form (it posts to an AEM servlet, `/bin/hmk/genericmailer`), which redirects to the source form until a form solution is chosen.
-- Query index data (2026-10-02): `/about/our-story/leadership-team-board` has no title, so search labels it from its URL ("Leadership Team Board"). `/resources/spending-accounts` and `/plans/medicare/get-help` index an `about:error` image, meaning their first image is broken.
+- Query index data (2026-10-02): `/about/our-story/leadership-team-board` has no title, so search labels it from its URL ("Leadership Team Board").
 - The header's suggestion list fails axe's `nested-interactive` rule (serious): each `role="option"` holds a link. Fixing it means dropping the links and navigating from the option, which loses open-in-new-tab.
 
 ## Conventions
