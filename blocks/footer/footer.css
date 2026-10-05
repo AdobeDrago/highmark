@@ -134,7 +134,7 @@ footer .footer-legal a:hover {
 
 footer .footer-brand ul.footer-social + p {
   font-weight: 600;
-  font-family: 'sofia-pro';
+  font-family: sofia-pro, sans-serif;
   font-size: 20px;
 }
 
@@ -204,7 +204,7 @@ footer .footer-brand ul.footer-social + p {
   }
 }
 
-@media (min-width: 768px) and (max-width: 990px) {
+@media (width >= 768px) and (width <= 992px) {
   footer .footer-legal-inner {
     padding-left: 60px;
     padding-right: 60px;
@@ -236,15 +236,15 @@ footer .footer-brand ul.footer-social + p {
     padding-left: 4rem;
   }
 
+  footer .footer-column > p {
+    font-size: 20px;
+  }
+
   footer .footer-brand ul.footer-social + p {
     padding-left: 20px;
   }
 
   footer .footer-brand ul.footer-social + p + p{
     padding-left: 42px;
-  }
-
-  footer .footer-column > p {
-    font-size: 20px;
   }
 }
