@@ -1926,6 +1926,515 @@
           "defaultContent": []
         }
       ]
+    },
+    {
+      "name": "campaign-landing",
+      "urls": [
+        "https://www.highmark.com/because-life",
+        "https://www.highmark.com/health-options-wv",
+        "https://www.highmark.com/ventures"
+      ],
+      "representativeUrl": "https://www.highmark.com/because-life",
+      "description": "Campaign / brand landing page (Because Life campaign, Highmark Health Options West Virginia home, Highmark Ventures): photo hero (secondary-banner or sub-hero), optional navy/polar/blush colour bands, icon feature cards, photo or wide plan cards, photo banner with CTA, white/polar/papergrey image+text side panels, wide help cards and a footnote",
+      "blocks": [
+        {
+          "name": "hero-minimal-dark-withimg",
+          "instances": [
+            "div.secondary-banner.responsivegrid.section",
+            "div.hero.responsivegrid.section",
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.image)"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg-icons",
+          "instances": [
+            "div.card-block.responsivegrid.section:has(.cardWrapper.ghostMode)"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg",
+          "instances": [
+            "div.card-block.responsivegrid.section:has(.cardBlock):not(:has(.cardWrapper.ghostMode))"
+          ]
+        },
+        {
+          "name": "columns-minimal-dark",
+          "instances": [
+            "div.newcardscomponent-variations.section:has(.side-card-panel)"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg-2",
+          "instances": [
+            "div.newcardscomponent-variations.section:has(li.listWideImg)"
+          ]
+        }
+      ],
+      "urlPattern": "/*",
+      "sections": [
+        {
+          "id": "1",
+          "name": "hero",
+          "selector": [
+            "div.secondary-banner.responsivegrid.section",
+            "div.hero.responsivegrid.section"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-minimal-dark-withimg"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "2",
+          "name": "navy-intro-band",
+          "selector": [
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.new-hmk-brand-togatherblue)"
+          ],
+          "style": "dark, center",
+          "blocks": [],
+          "defaultContent": [
+            ".one-card-content-center-container h2.d-lg-block",
+            ".one-card-content-center-container .body-text.d-lg-block p"
+          ]
+        },
+        {
+          "id": "3",
+          "name": "icon-feature-cards",
+          "selector": [
+            "div.card-block.responsivegrid.section:has(.cardWrapper.ghostMode)"
+          ],
+          "style": "center",
+          "blocks": [
+            "cards-minimal-dark-withimg-icons"
+          ],
+          "defaultContent": [
+            ".cardBlockTitleContainer h2",
+            ".cardBlockTitleContainer .cardDescription p",
+            ".cardBlockContent > div > .hmk-brand-buttons a"
+          ]
+        },
+        {
+          "id": "4",
+          "name": "photo-banner",
+          "selector": [
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.image)"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-minimal-dark-withimg"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "5",
+          "name": "photo-cards",
+          "selector": [
+            "div.card-block.responsivegrid.section:has(.cardBlock):not(:has(.cardWrapper.ghostMode))"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-minimal-dark-withimg"
+          ],
+          "defaultContent": [
+            ".cardBlockTitleContainer h2",
+            ".cardBlockTitleContainer .cardDescription p"
+          ]
+        },
+        {
+          "id": "6",
+          "name": "find-doctor-polar-band",
+          "selector": [
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.new-hmk-brand-polar)"
+          ],
+          "style": "light, center",
+          "blocks": [],
+          "defaultContent": [
+            ".one-card-content-center-container img",
+            ".one-card-content-center-container h2.d-lg-block",
+            ".one-card-content-center-container .body-text.d-lg-block p",
+            ".one-card-content-center-container .hmk-brand-buttons a"
+          ]
+        },
+        {
+          "id": "7",
+          "name": "side-panel-papergrey",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(.side-card-panel.new-hmk-brand-papergrey)"
+          ],
+          "style": "grey",
+          "blocks": [
+            "columns-minimal-dark"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "8",
+          "name": "side-panel-white",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(.side-card-panel):not(:has(.new-hmk-brand-polar)):not(:has(.new-hmk-brand-papergrey))"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-minimal-dark"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "9",
+          "name": "side-panel-polar",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(.side-card-panel.new-hmk-brand-polar)"
+          ],
+          "style": "light",
+          "blocks": [
+            "columns-minimal-dark"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "10",
+          "name": "help-cards",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(li.listWideImg)"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-minimal-dark-withimg-2"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "11",
+          "name": "footnotes",
+          "selector": [
+            "main section.container-fluid-fullwidth.section:has(.cmp-text)"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            ".cmp-text p"
+          ]
+        },
+        {
+          "id": "12",
+          "name": "closing-cta-blush-band",
+          "selector": [
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.new-hmk-brand-blush-twnetyfive)"
+          ],
+          "style": "highlight, center",
+          "blocks": [],
+          "defaultContent": [
+            ".one-card-content-center-container h2.d-lg-block",
+            ".one-card-content-center-container .body-text.d-lg-block p",
+            ".one-card-content-center-container .hmk-brand-buttons a"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "subsidiary-home",
+      "urls": [
+        "https://www.highmark.com/health-options-de",
+        "https://www.highmark.com/wholecare"
+      ],
+      "representativeUrl": "https://www.highmark.com/health-options-de",
+      "description": "Subsidiary-brand home page (Highmark Health Options Delaware, Highmark Wholecare): landing photo hero, navy intro band, two plan cards (wide card-block or small-image card list), light-blue/blush CTA bands, image/video side panels, photo banner with CTA, and two help cards with phone numbers",
+      "blocks": [
+        {
+          "name": "hero-minimal-dark-withimg",
+          "instances": [
+            "div.hero.responsivegrid.section",
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.image)"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg",
+          "instances": [
+            "div.card-block.responsivegrid.section:has(.cardBlock)",
+            "div.newcardscomponent-variations.section:has(li.cardThree)"
+          ]
+        },
+        {
+          "name": "columns-minimal-dark",
+          "instances": [
+            "div.newcardscomponent-variations.section:has(.side-card-panel)"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg-2",
+          "instances": [
+            "div.newcardscomponent-variations.section:has(li.listWideImg)"
+          ]
+        }
+      ],
+      "urlPattern": "/*",
+      "sections": [
+        {
+          "id": "1",
+          "name": "hero",
+          "selector": [
+            "div.hero.responsivegrid.section"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-minimal-dark-withimg"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "2",
+          "name": "navy-intro",
+          "selector": [
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.new-hmk-brand-togatherblue)"
+          ],
+          "style": "dark, center",
+          "blocks": [],
+          "defaultContent": [
+            ".one-card-content-center-container h2.d-lg-block",
+            ".one-card-content-center-container .body-text.d-lg-block p"
+          ]
+        },
+        {
+          "id": "3",
+          "name": "plan-cards",
+          "selector": [
+            "div.card-block.responsivegrid.section:has(.cardBlock)",
+            "div.newcardscomponent-variations.section:has(li.cardThree)"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-minimal-dark-withimg"
+          ],
+          "defaultContent": [
+            ".cardBlockTitleContainer h2",
+            ".cardBlockTitleContainer .cardDescription p",
+            "h2.cardsTitle",
+            "p.cardsPara"
+          ]
+        },
+        {
+          "id": "4",
+          "name": "find-care-band",
+          "selector": [
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.new-hmk-brand-fifteenpercent-splash)"
+          ],
+          "style": "light-blue, center",
+          "blocks": [],
+          "defaultContent": [
+            ".one-card-content-center-container h2.d-lg-block",
+            ".one-card-content-center-container .body-text.d-lg-block p",
+            ".one-card-content-center-container .hmk-brand-buttons a"
+          ]
+        },
+        {
+          "id": "5",
+          "name": "side-panel-white",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(.side-card-panel):not(:has(.new-hmk-brand-fifteenpercent-splash)):not(:has(.global-helionlightblue))"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-minimal-dark"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "6",
+          "name": "photo-banner",
+          "selector": [
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.image)"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-minimal-dark-withimg"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "7",
+          "name": "video-panel-light-blue",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(.side-card-panel.new-hmk-brand-fifteenpercent-splash)"
+          ],
+          "style": "light-blue",
+          "blocks": [
+            "columns-minimal-dark"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "7b",
+          "name": "side-panel-light",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(.side-card-panel.global-helionlightblue)"
+          ],
+          "style": "light",
+          "blocks": [
+            "columns-minimal-dark"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "8",
+          "name": "help-cards",
+          "selector": [
+            "div.newcardscomponent-variations.section:has(li.listWideImg)"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-minimal-dark-withimg-2"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "9",
+          "name": "find-doctor-blush-band",
+          "selector": [
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.new-hmk-brand-blush-twnetyfive)"
+          ],
+          "style": "highlight, center",
+          "blocks": [],
+          "defaultContent": [
+            ".one-card-content-center-container h2.d-lg-block",
+            ".one-card-content-center-container .body-text.d-lg-block p",
+            ".one-card-content-center-container .hmk-brand-buttons a"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "medicare-hra",
+      "urls": [
+        "https://www.highmark.com/medicare-hra"
+      ],
+      "representativeUrl": "https://www.highmark.com/medicare-hra",
+      "description": "Medicare HRA quiz welcome screen: centered illustration, H1, intro paragraph and an \"I'm ready\" CTA into the source quiz (default content only; the client-side quiz steps are not migrated)",
+      "blocks": [],
+      "urlPattern": "/*",
+      "sections": [
+        {
+          "id": "1",
+          "name": "quiz-welcome",
+          "selector": [
+            "main.quizPage section.welcome",
+            "div.quiz section.welcome"
+          ],
+          "style": "center",
+          "blocks": [],
+          "defaultContent": [
+            "img.quiz-welcome-image",
+            "h1.quiz-title",
+            ".quiz-intro p",
+            "a#quiz-start-button"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "press-releases",
+      "urls": [
+        "https://www.highmark.com/newsroom/press-releases"
+      ],
+      "representativeUrl": "https://www.highmark.com/newsroom/press-releases",
+      "description": "Newsroom press releases: h1, then a static newest-first list of recent releases (date, linked title, teaser) injected from the press-release JSON endpoint snapshot, then a 'See all press releases on highmark.com' link; search box, filters and paging dropped",
+      "blocks": [],
+      "urlPattern": "/newsroom/press-releases",
+      "sections": [
+        {
+          "id": "1",
+          "name": "press-release-listing",
+          "selector": [
+            "main .page__par"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "#release-results > h2",
+            "#release-results .release-list > .release-item"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "content-landing",
+      "urls": [
+        "https://www.highmark.com/podcast",
+        "https://www.highmark.com/public-policy"
+      ],
+      "representativeUrl": "https://www.highmark.com/podcast",
+      "description": "Content landing page: optional left-rail image beside the H1 + intro (podcast cover art), then long-form default content (headings, paragraphs, link lists; podcast episode entries with linked video thumbnails and transcript links) and an optional host card",
+      "blocks": [
+        {
+          "name": "columns-minimal-dark",
+          "instances": [
+            "div.d-none.d-lg-block.col-lg-3 aside:has(img.image-comp-img)",
+            "div.gridcontrol:has(.hmk-home_cardwrapper)"
+          ]
+        }
+      ],
+      "urlPattern": "/*",
+      "sections": [
+        {
+          "id": "1",
+          "name": "main-content",
+          "selector": [
+            "main.container > div.row:has(div.page__par)",
+            "main.container div.page__par"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-minimal-dark"
+          ],
+          "defaultContent": [
+            "div.page__par .cmp-text h1",
+            "div.page__par .cmp-text h2",
+            "div.page__par .cmp-text h3",
+            "div.page__par .cmp-text h4",
+            "div.page__par .cmp-text p",
+            "div.page__par .cmp-text ul",
+            "div.page__par .image img.image-comp-img"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "zipcode-gate-login",
+      "urls": [
+        "https://www.highmark.com/zipcode-gate-login"
+      ],
+      "representativeUrl": "https://www.highmark.com/zipcode-gate-login",
+      "description": "ZIP gate (Select a region): H1, intro line, the site zip-county-form block (replaces the source ZIP input + Let's get started button), employer-sponsored ZIP note and its explanation as default content",
+      "blocks": [
+        {
+          "name": "zip-county-form",
+          "instances": [
+            "main .aem-Grid > div.input:has(#txt-zipcode)"
+          ]
+        }
+      ],
+      "urlPattern": "/*",
+      "sections": [
+        {
+          "id": "1",
+          "name": "zip-gate",
+          "selector": [
+            "main .page__par > section > .parent-width > section > .aem-Grid > section.container-fluid-fullwidth",
+            "main .page__par > section"
+          ],
+          "style": null,
+          "blocks": [
+            "zip-county-form"
+          ],
+          "defaultContent": [
+            "div.cmp-text > h1",
+            "div.cmp-text > h5",
+            "div.cmp-text > p",
+            "div.accordiontable .collapsible-item-heading",
+            "div.accordiontable .collapsible-item-description > p"
+          ]
+        }
+      ]
     }
   ],
   "metadata": {

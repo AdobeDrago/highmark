@@ -1,0 +1,16 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/health-options-de",
+  "path": "health-options-de",
+  "timestamp": "2026-10-05T15:45:50.790Z",
+  "title": "Highmark Health Options - Delaware | HHO DE",
+  "template": "subsidiary-home",
+  "blocks": [
+    "hero-minimal-dark-withimg",
+    "hero-minimal-dark-withimg",
+    "cards-minimal-dark-withimg",
+    "columns-minimal-dark",
+    "columns-minimal-dark",
+    "cards-minimal-dark-withimg-2"
+  ]
+}

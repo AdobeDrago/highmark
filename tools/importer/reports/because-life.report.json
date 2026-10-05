@@ -1,0 +1,16 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/because-life",
+  "path": "because-life",
+  "timestamp": "2026-10-05T16:12:29.227Z",
+  "title": "Why Highmark? Because Life.™ | Reimagining Health Care",
+  "template": "campaign-landing",
+  "blocks": [
+    "hero-minimal-dark-withimg",
+    "hero-minimal-dark-withimg",
+    "cards-minimal-dark-withimg-icons",
+    "cards-minimal-dark-withimg",
+    "columns-minimal-dark",
+    "columns-minimal-dark"
+  ]
+}

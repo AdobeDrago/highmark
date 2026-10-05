@@ -45,6 +45,34 @@ function readConfig(block) {
   };
 }
 
+/**
+ * Where Continue goes when the form is on a page of its own rather than in the modal:
+ * the page's `?redirect=` (or `?return=`) parameter, else the block's optional
+ * "Redirect" row. Only URLs on this site are followed.
+ * @param {Element} block
+ * @returns {string|null}
+ */
+function standaloneTarget(block) {
+  const params = new URLSearchParams(window.location.search);
+  const row = [...block.children]
+    .find((r) => r.children[0]?.textContent.trim().toLowerCase() === 'redirect');
+  const cell = row?.children[1];
+  const candidates = [
+    params.get('redirect'),
+    params.get('return'),
+    cell?.querySelector('a')?.getAttribute('href') || cell?.textContent.trim(),
+  ];
+  const sameSite = (value) => {
+    try {
+      return new URL(value, window.location.href).origin === window.location.origin;
+    } catch (e) {
+      return false;
+    }
+  };
+  const target = candidates.find((value) => value && sameSite(value));
+  return target ? new URL(target, window.location.href).href : null;
+}
+
 async function buildForm(fieldDefs) {
   const form = document.createElement('form');
   form.setAttribute('novalidate', '');
@@ -99,6 +127,7 @@ function listCounties(select, matches, selected) {
 export default async function decorate(block) {
   await loadCSS(`${window.hlx.codeBasePath}/blocks/form/form.css`);
   const { formPath, countiesPath, regionsPath } = readConfig(block);
+  const redirect = standaloneTarget(block);
   const [fieldDefs, counties, regions] = await Promise.all([
     fetchSheet(formPath),
     fetchSheet(countiesPath),
@@ -152,6 +181,10 @@ export default async function decorate(block) {
   });
   select?.addEventListener('change', clearError);
 
+  // confirmation shown after Continue on a standalone page (never created in the modal)
+  let status;
+  form.addEventListener('input', () => { if (status) status.hidden = true; });
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const zip = zipValue();
@@ -171,6 +204,7 @@ export default async function decorate(block) {
       return;
     }
 
+    const standalone = !block.closest('dialog');
     const selection = {
       zipCode: zip,
       county: row.County,
@@ -184,6 +218,22 @@ export default async function decorate(block) {
     // Close the enclosing modal dialog, if any, and let listeners react.
     block.dispatchEvent(new CustomEvent('zip-county-submit', { bubbles: true, detail: selection }));
     block.closest('dialog')?.close();
+
+    // On a page of its own (e.g. /zipcode-gate-login) there is no modal to close:
+    // go on to the redirect target, or confirm the saved area in the card.
+    if (!standalone) return;
+    if (redirect) {
+      window.location.assign(redirect);
+      return;
+    }
+    if (!status) {
+      status = document.createElement('p');
+      status.className = 'zip-county-form-status';
+      status.setAttribute('role', 'status');
+      error.before(status);
+    }
+    status.textContent = `Thanks! Your area is set to ${selection.county} County, ${selection.state} ${selection.zipCode}.`;
+    status.hidden = false;
   });
 
   block.replaceChildren(form);

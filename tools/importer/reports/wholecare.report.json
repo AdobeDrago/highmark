@@ -1,0 +1,15 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/wholecare",
+  "path": "wholecare",
+  "timestamp": "2026-10-05T15:45:56.055Z",
+  "title": "Pennsylvania Medicaid and Medicare Insurance | Highmark Wholecare",
+  "template": "subsidiary-home",
+  "blocks": [
+    "hero-minimal-dark-withimg",
+    "hero-minimal-dark-withimg",
+    "cards-minimal-dark-withimg",
+    "columns-minimal-dark",
+    "cards-minimal-dark-withimg-2"
+  ]
+}

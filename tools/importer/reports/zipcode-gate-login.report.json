@@ -1,0 +1,11 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/zipcode-gate-login",
+  "path": "zipcode-gate-login",
+  "timestamp": "2026-10-05T16:34:47.859Z",
+  "title": "",
+  "template": "zipcode-gate-login",
+  "blocks": [
+    "zip-county-form"
+  ]
+}

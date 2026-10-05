@@ -1,13 +1,13 @@
 # Migration checklist: pages linked from the highmark.com homepage
 
-Tracks every page the [highmark.com](https://www.highmark.com/) homepage links to (header, body, footer, and the regional pages behind the ZIP gate) and whether it is migrated to this site. Updated 2026-10-01.
+Tracks every page the [highmark.com](https://www.highmark.com/) homepage links to (header, body, footer, and the regional pages behind the ZIP gate) and whether it is migrated to this site. Updated 2026-10-05.
 
 **Priority** follows general visibility on the source:
 
 | Tier | What | Visibility | Status |
 |------|------|------------|--------|
 | P1 | Header links visible at load | every page, always on screen | 7/9 done, 1 to do |
-| P2 | Homepage body links | the most-visited page | 6/8 done, 2 to do |
+| P2 | Homepage body links | the most-visited page | 6/8 done, 2 preview only |
 | P3 | Footer links | every page, low prominence | 14/15 done, 1 deferred |
 | P4 | Header megamenu items | every page, one click in | 40/47 done, 2 preview only, 5 to do |
 | P5 | ZIP-gated regional pages | behind the ZIP gate (nav items with no plain link) | 5/87 live |
@@ -26,7 +26,7 @@ Before importing a page, check the `nav-group*` branches' `tools/importer/urls-*
 - [x] `/member/member-guide` (For Members) **Live**
 - [x] `/resources` (Resources) **Live**
 - [x] `/about` (About) **Redirected** redirects to /about/our-story, as the source does
-- [ ] `/newsroom` (Newsroom) **Redirect only** source redirects to /newsroom/press-releases, which is not migrated: ours redirects to highmark.com for now
+- [ ] `/newsroom` (Newsroom) **Redirect only** source redirects to /newsroom/press-releases, which is preview only (2026-10-05): ours redirects to highmark.com until it is published, then `build-redirects.mjs` points it at our page
 
 ## P2: homepage body links
 
@@ -34,8 +34,8 @@ Before importing a page, check the `nav-group*` branches' `tools/importer/urls-*
 - [x] `/resources/answers` (Highmark Answers) **Live**
 - [x] `/resources/mental-health-services` (Mental Health) **Live**
 - [x] `/about/corporate-responsibility/bright-blue-futures` (Highmark Bright Blue Futures) **Live** imported by the `nav-group4` batch
-- [ ] `/newsroom/press-releases` (Press Releases) **To do** deferred by `nav-group5` (#34): a dynamic search listing (274 results, filters, paging) that needs a porting decision; redirects to highmark.com for now
-- [ ] `/because-life` (learn about us) **To do** redirects to highmark.com for now
+- [ ] `/newsroom/press-releases` (Press Releases) **Preview only** imported 2026-10-05 as a static list of the 25 newest releases (no search, filters or paging, by decision); each links to the release on highmark.com, and "See all press releases on highmark.com" ends the list. Refresh `tools/importer/data/press-releases.json` and re-import to update it
+- [ ] `/because-life` (learn about us) **Preview only** imported 2026-10-05 (`campaign-landing` template); FIND CARE goes straight to our `/member/member-guide/find-care`
 - [x] `/privacy` (Digital Privacy Policy) **Live**
 - [x] `/terms-service` (Terms of Service) **Live**
 
@@ -154,3 +154,14 @@ The source's ACA and CHIP nav items have no plain link: they open the ZIP gate (
 | CHIP Resources | live | to do | to do | · | · | · | · | · |
 
 `·` = the page does not exist for that region on the source. The footer's Medical Policy link (`/western-pennsylvania/medical-policy`) is also ZIP-gated and waits on this decision.
+
+`/zipcode-gate-login` itself is **Preview only** (2026-10-05): the page text plus the `zip-county-form` block from `/modals/zip-county`. On a page (not in the modal), Continue goes to the URL's `?redirect=` (or `?return=`, or the block's optional `Redirect` row; same-site links only), otherwise it shows "Thanks! Your area is set to …". The `/employer/solutions/zipcode-gate-login` and `/reservations/medicare/zipcode-gate-login` variants are not migrated.
+
+## Other top-level pages
+
+Not linked from the homepage; found in the sitemap. Imported 2026-10-05, **Preview only**. Their links to sub-pages we don't have (`/ventures/portfolio`, `/health-options-de/duals`, ...) are in the `/redirects` sheet.
+
+- [ ] `/podcast`, `/public-policy` (`content-landing` template). Podcast transcripts and images stay on highmark.com; the host headshot and "Read Bio" page 404 on the source too.
+- [ ] `/medicare-hra` (`medicare-hra` template): the quiz's welcome screen only; "I'm ready" goes to the quiz on highmark.com.
+- [ ] `/wholecare`, `/health-options-de` (`subsidiary-home` template). The Delaware "We're in your community" video plays inline through `columns-minimal-dark` (a cell holding only an `.mp4` link).
+- [ ] `/health-options-wv`, `/ventures` (`campaign-landing` template, with `/because-life`). Ventures keeps the source's closing "Let's change healthcare" band.
