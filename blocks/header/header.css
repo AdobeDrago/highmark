@@ -307,6 +307,11 @@ header nav .nav-search-icon {
   mask-size: contain;
 }
 
+/* search icon (opens the search box on phones and tablets) — hidden on desktop */
+header nav .nav-search-toggle {
+  display: none;
+}
+
 /* hamburger — hidden on desktop */
 header nav .nav-hamburger {
   display: none;
@@ -385,10 +390,12 @@ header nav .nav-drawer-icons {
     max-width: none;
     width: 100%;
     box-sizing: border-box;
+    gap: 8px;
   }
 
-  /* the logo shrinks (keeping its proportions) to leave room for the hamburger:
-     at a fixed 36px height it is 351px wide and pushed the button past 390px screens */
+  /* the logo shrinks (keeping its proportions) to leave room for the search icon and
+     hamburger: at a fixed 36px height it is 351px wide and pushed the button past 390px
+     screens */
   header nav .nav-brand {
     flex: 1 1 auto;
     min-width: 0;
@@ -399,6 +406,62 @@ header nav .nav-drawer-icons {
     height: auto;
     max-width: 100%;
     max-height: 36px;
+  }
+
+  /* search, as on highmark.com: no box in the menu; the search icon opens the box in
+     place of the logo (header.js moves the form into this row below 992px) */
+  header nav .nav-search-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+  }
+
+  header nav .nav-search-toggle .nav-search-icon {
+    width: 22px;
+    height: 22px;
+    background-color: #003963;
+  }
+
+  header nav .nav-brand-row .nav-search {
+    display: none;
+    position: static; /* the suggestions span the row, not just the box */
+    flex: 1 1 auto;
+    min-width: 0;
+    box-sizing: border-box; /* as tall as the search icon, so the row keeps its height */
+    border-color: #b6bcc0;
+    border-radius: 999px;
+  }
+
+  header nav.nav-search-open .nav-brand-row .nav-search {
+    display: flex;
+  }
+
+  header nav.nav-search-open .nav-brand,
+  header nav.nav-search-open .nav-search-toggle {
+    display: none;
+  }
+
+  header nav .nav-brand-row .nav-search input {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+    padding: 0 4px 0 16px;
+    font-size: 16px; /* smaller text makes iOS zoom the page on focus */
+  }
+
+  /* suggestions drop under the row, full width */
+  header nav .nav-brand-row .nav-search-suggestions {
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: auto;
   }
 
   /* primary row becomes a full-screen slide-in drawer */
@@ -417,37 +480,23 @@ header nav .nav-drawer-icons {
     border-top: none;
     overflow-y: auto;
     transform: translateX(-100%);
-    transition: transform 0.3s ease;
+
+    /* closed, it is also out of the tab order and the accessibility tree (once it has
+       slid away) */
+    visibility: hidden;
+    transition: transform 0.3s ease, visibility 0s 0.3s;
     gap: 0;
   }
 
   header nav.nav-open .nav-primary-row {
     transform: translateX(0);
-  }
-
-  /* search sits at the top of the drawer */
-  header nav .nav-search {
-    order: 0;
-    align-self: stretch;
-    margin: 0 16px 16px;
-  }
-
-  header nav .nav-search input {
-    width: 100%;
-    flex: 1;
-  }
-
-  /* suggestions drop straight under the drawer's search box, full width */
-  header nav .nav-search-suggestions {
-    top: calc(100% + 1px);
-    left: -1px;
-    width: auto;
+    visibility: visible;
+    transition: transform 0.3s ease;
   }
 
   header nav .nav-primary {
     flex-direction: column;
     width: 100%;
-    order: 1;
   }
 
   header nav .nav-primary > li {

@@ -313,6 +313,7 @@ function decorateSuggestions(form) {
  */
 function buildSearch() {
   const form = document.createElement('form');
+  form.id = 'nav-search';
   form.className = 'nav-search';
   form.setAttribute('role', 'search');
   form.action = '/search';
@@ -361,12 +362,21 @@ export default async function decorate(block) {
   // Source order: [0] utility links, [1] brand + icons, [2] primary nav.
   const [utilitySection, brandSection, primarySection] = sections;
 
+  // Below the desktop breakpoint highmark.com has no search box in its menu: a search icon
+  // in the brand row opens the box in place of the logo.
+  const search = buildSearch();
+  let searchToggle;
+  const setSearchOpen = (open) => {
+    nav.classList.toggle('nav-search-open', open);
+    searchToggle?.setAttribute('aria-expanded', open ? 'true' : 'false');
+  };
+
   if (utilitySection) {
     utilitySection.className = 'nav-utility';
     nav.append(utilitySection);
   }
 
-  // Brand + tools row (logo left, utility icons right, hamburger on mobile).
+  // Brand + tools row (logo left, utility icons right, search icon + hamburger on mobile).
   const brandRow = document.createElement('div');
   brandRow.className = 'nav-brand-row';
   if (brandSection) {
@@ -385,24 +395,41 @@ export default async function decorate(block) {
     hamburger.setAttribute('aria-expanded', 'false');
     hamburger.innerHTML = '<span class="nav-hamburger-icon"></span>';
 
+    searchToggle = document.createElement('button');
+    searchToggle.type = 'button';
+    searchToggle.className = 'nav-search-toggle';
+    searchToggle.setAttribute('aria-label', 'Search');
+    searchToggle.setAttribute('aria-controls', search.id);
+    searchToggle.setAttribute('aria-expanded', 'false');
+    searchToggle.innerHTML = '<span class="nav-search-icon" aria-hidden="true"></span>';
+
     const tools = document.createElement('div');
     tools.className = 'nav-tools';
     if (iconsUl) {
       iconsUl.classList.add('nav-icons');
       tools.append(iconsUl);
     }
-    brandRow.append(tools, hamburger);
+    brandRow.append(tools, searchToggle, hamburger);
     nav.append(brandRow);
 
-    hamburger.addEventListener('click', () => {
-      const open = nav.classList.toggle('nav-open');
+    const setMenuOpen = (open) => {
+      nav.classList.toggle('nav-open', open);
       hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
       hamburger.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
       document.body.style.overflowY = open ? 'hidden' : '';
+    };
+    hamburger.addEventListener('click', () => {
+      setSearchOpen(false);
+      setMenuOpen(!nav.classList.contains('nav-open'));
+    });
+    searchToggle.addEventListener('click', () => {
+      setMenuOpen(false);
+      setSearchOpen(true);
+      search.querySelector('input').focus();
     });
   }
 
-  // Primary nav row (nav links + search).
+  // Primary nav row (nav links + search on desktop).
   const primaryRow = document.createElement('div');
   primaryRow.className = 'nav-primary-row';
   if (primarySection) {
@@ -410,7 +437,32 @@ export default async function decorate(block) {
     decoratePrimaryNav(primarySection);
     primaryRow.append(primarySection);
   }
-  primaryRow.append(buildSearch());
+
+  // The search box sits after the nav links on desktop and before the search icon below
+  // that, so the tab order follows the screen. It moves when the viewport crosses over.
+  const placeSearch = () => {
+    if (searchToggle && !isDesktop.matches) searchToggle.before(search);
+    else if (primarySection) primarySection.after(search);
+    else primaryRow.prepend(search);
+  };
+  placeSearch();
+  if (searchToggle) {
+    // The opened box closes on a tap outside it (as on highmark.com), when focus tabs out
+    // of it, or on Escape once its suggestion list is closed.
+    document.addEventListener('pointerdown', (e) => {
+      if (nav.classList.contains('nav-search-open') && !search.contains(e.target)) setSearchOpen(false);
+    });
+    search.addEventListener('focusout', (e) => {
+      if (e.relatedTarget && !search.contains(e.relatedTarget)) setSearchOpen(false);
+    });
+    search.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !e.defaultPrevented && nav.classList.contains('nav-search-open')) {
+        e.preventDefault(); // keep the text (a search input clears on Escape)
+        setSearchOpen(false);
+        searchToggle.focus();
+      }
+    });
+  }
 
   // Mobile: relocate the utility links + icons into the drawer (they live in the
   // top bands on desktop; the source repeats them at the bottom of the drawer).
@@ -452,6 +504,8 @@ export default async function decorate(block) {
     }
     const navList = nav.querySelector('.nav-primary');
     if (navList) closeAllPanels(navList);
+    setSearchOpen(false);
+    placeSearch();
   });
 
   const navWrapper = document.createElement('div');
