@@ -135,6 +135,15 @@
   text-align: center;
 }
 
+/* confirmation after Continue on a standalone page (never shown in the modal) */
+.zip-county-form-status {
+  margin: -8px 0 20px;
+  color: #0a2a43;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+}
+
 /* phones: less padding in the white card, so the fields keep room for a county name */
 @media (width < 600px) {
   .zip-county-form form fieldset {

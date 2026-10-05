@@ -80,6 +80,13 @@ main .columns-minimal-dark a.button:focus {
   border-radius: 0;
 }
 
+/* Video cell — a column holding only an .mp4 link (see decorateVideoColumn) */
+.columns-minimal-dark .columns-minimal-dark-video-col video {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 /* Desktop — side by side, vertically centered, near-equal columns */
 @media (width >= 900px) {
   .columns-minimal-dark > div {

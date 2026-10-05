@@ -70,12 +70,19 @@ function autolinkModals(doc) {
 }
 
 /**
+ * Page templates whose leading image + h1 is inline content, not a hero
+ * (e.g. medicare-hra: a small illustration above the centered title).
+ */
+const NO_AUTO_HERO_TEMPLATES = ['medicare-hra'];
+
+/**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
  */
 function buildAutoBlocks(main) {
   try {
-    if (!main.querySelector('.hero')) buildHeroBlock(main);
+    const noAutoHero = NO_AUTO_HERO_TEMPLATES.some((t) => document.body.classList.contains(t));
+    if (!noAutoHero && !main.querySelector('.hero')) buildHeroBlock(main);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
