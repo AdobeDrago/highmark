@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Status and working notes for the Highmark AEM Edge Delivery Services project. Updated 2026-10-02.
+Status and working notes for the Highmark AEM Edge Delivery Services project. Updated 2026-10-05.
 
 ## Project
 
@@ -100,6 +100,11 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 
 - `/search` is the `search` block (its one row links `/search-index.json`), laid out like highmark.com's results page: the page's authored "Search Highmark" H1 and `Breadcrumbs: true`, then a search bar, "Showing N of M results for …", title + description rows, and "Show more results" (10 at a time). When nothing matches, it shows the source's search tips and a link to the same search on highmark.com.
 - The header search box submits to `/search?q=`. From the third letter it lists up to 5 matching page titles, as on highmark.com; arrow keys and Enter open one. It imports `blocks/search/search.js` the first time the box gets focus and uses the same `loadIndex` / `searchIndex` as the page, so the suggestions are the top of the results.
+- Phones and tablets (below 992px), as on highmark.com (2026-10-05): the menu has no search box.
+  - A search icon next to the menu button opens the box in place of the logo, with focus in it; the suggestions drop under the bar, full width.
+  - A tap outside closes it, and so do tabbing out and Escape (the first Escape closes an open suggestion list).
+  - `header.js` moves the one search form between the desktop nav row and the bar when the viewport crosses 992px, so the tab order follows the screen.
+  - The bar keeps its height when the box opens (both are 40px), so nothing shifts; the closed menu is `visibility: hidden`, which keeps its links out of the tab order.
 - Before anything is typed, the box lists the searches in the `/search-suggestions` DA sheet, as highmark.com lists Careers, Member Login, ExpressScripts, Formulary and Dentist.
   - Columns: `Suggestion`, plus an optional `Link`. The first 5 rows are shown.
   - A row with a `Link` opens that link. Otherwise the item runs `/search` when this site has a match for it, or highmark.com's results when it doesn't, so items move to our search as pages are migrated.
@@ -140,7 +145,7 @@ The footer's legal pages and their sub-pages (`/privacy`, `/fraud/*`, `/privacy-
 - The `/resources` sub-pages Lamont imported on 2026-09-16 (published 2026-10-01) have no template, like the live FAQ pages: no breadcrumbs, and the FAQ side navs list only the current topic.
 - Legal pages: the source separates content chunks with fixed "spacing" components (40px desktop / 20px tablet / 0 mobile) that have no EDS equivalent, so some of our pages run 2-8% shorter. `/privacy-center` has no page of its own; it redirects to `/privacy-center/announcements`, as on the source. `/fraud/contact` links to `/fraud/fraud-form`, the source's 55-field Health Care Fraud Form (it posts to an AEM servlet, `/bin/hmk/genericmailer`), which redirects to the source form until a form solution is chosen.
 - Query index data (2026-10-02): `/about/our-story/leadership-team-board` has no title, so search labels it from its URL ("Leadership Team Board"). `/resources/spending-accounts` and `/plans/medicare/get-help` index an `about:error` image, meaning their first image is broken.
-- In the mobile drawer the search box sits below the nav sections, not at the top as `header.css` intends: its `order` rules target `.nav-primary`, which is inside the `.nav-sections` flex item.
+- The header's suggestion list fails axe's `nested-interactive` rule (serious): each `role="option"` holds a link. Fixing it means dropping the links and navigating from the option, which loses open-in-new-tab.
 
 ## Conventions
 
