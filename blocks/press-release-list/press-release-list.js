@@ -22,8 +22,11 @@ const DESKTOP = window.matchMedia('(width >= 992px)');
 const ICONS = {
   search: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"/></svg>',
   close: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>',
-  filter: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16v2H4zm3 5h10v2H7zm3 5h4v2h-4z"/></svg>',
 };
+
+// The mobile/tablet filter icon is an authored asset (DA media), so it can be swapped
+// without a code change.
+const FILTER_ICON = '/docs/library/icons/filter.svg';
 
 const el = (tag, attrs = {}, ...children) => {
   const node = document.createElement(tag);
@@ -34,6 +37,14 @@ const el = (tag, attrs = {}, ...children) => {
   node.append(...children.filter((c) => c !== null && c !== undefined));
   return node;
 };
+
+const filterIcon = () => el(
+  'span',
+  { class: 'press-release-list-trigger-icon' },
+  el('img', {
+    src: FILTER_ICON, alt: '', width: '35', height: '35',
+  }),
+);
 
 async function loadData(href) {
   const url = new URL(href, window.location.href);
@@ -170,7 +181,7 @@ export default async function decorate(block) {
     {
       type: 'button', class: 'press-release-list-trigger', 'aria-expanded': 'false', 'aria-controls': `${uid}-filters`,
     },
-    el('span', { class: 'press-release-list-trigger-icon', html: ICONS.filter }),
+    filterIcon(),
     'Filter',
   );
   const close = el('button', {
@@ -182,7 +193,7 @@ export default async function decorate(block) {
     {
       class: 'press-release-list-filters', id: `${uid}-filters`, role: 'search', 'aria-label': 'Filter press releases',
     },
-    el('div', { class: 'press-release-list-drawer-header' }, el('span', { class: 'press-release-list-trigger-icon', html: ICONS.filter }), close),
+    el('div', { class: 'press-release-list-drawer-header' }, filterIcon(), close),
     ui.controls,
     apply,
   );
