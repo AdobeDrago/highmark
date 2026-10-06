@@ -2435,6 +2435,50 @@
           ]
         }
       ]
+    },
+    {
+      "name": "news-alert",
+      "urls": [
+        "https://www.highmark.com/newsroom/news-alert"
+      ],
+      "representativeUrl": "https://www.highmark.com/newsroom/news-alert",
+      "description": "Newsroom News Alert signup: h1 + intro + required-fields note, then a newsletter subscription form (first name, last name, email, submit)",
+      "blocks": [
+        {
+          "name": "form-minimal-light",
+          "instances": [
+            ".form-container form.customFormContainer",
+            "form#newsalert"
+          ]
+        }
+      ],
+      "urlPattern": "/newsroom/news-alert",
+      "sections": [
+        {
+          "id": "rc2",
+          "name": "breadcrumb-utility-row",
+          "selector": [
+            "main.container > div.row:nth-of-type(1)"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": []
+        },
+        {
+          "id": "rc3",
+          "name": "news-alert-signup",
+          "selector": [
+            "main .page__par"
+          ],
+          "style": null,
+          "blocks": [
+            "form-minimal-light"
+          ],
+          "defaultContent": [
+            "main .page__par .cmp-text"
+          ]
+        }
+      ]
     }
   ],
   "metadata": {

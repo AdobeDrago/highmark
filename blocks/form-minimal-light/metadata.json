@@ -1,0 +1,33 @@
+{
+  "variantName": "form-minimal-light",
+  "baseBlock": "form",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "minimal",
+    "imagePattern": "noimg",
+    "structure": "3 outlined text inputs + required helper + submit button",
+    "notes": "White background, full-width outlined (1px grey border, ~4px radius) inputs with floating labels and '* Required' grey helper text beneath each; solid Highmark blue (#0a5eb6-ish) rectangular uppercase SUBMIT button, left-aligned; narrow centered content column (~540px)."
+  },
+  "contentPattern": {
+    "purpose": "newsletter-signup",
+    "fields": [
+      "firstname",
+      "lastname",
+      "email",
+      "submit"
+    ],
+    "structure": "row1: link to form-definition .json sheet; row2: link to submit endpoint"
+  },
+  "usage": {
+    "pagesUsing": [
+      "https://www.highmark.com/newsroom/news-alert"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-06"
+  },
+  "options": [],
+  "memberVariantIds": [
+    "form-minimal-light"
+  ]
+}
