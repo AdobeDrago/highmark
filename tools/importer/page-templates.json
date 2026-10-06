@@ -2404,12 +2404,18 @@
         "https://www.highmark.com/zipcode-gate-login"
       ],
       "representativeUrl": "https://www.highmark.com/zipcode-gate-login",
-      "description": "ZIP gate (Select a region): H1, intro line, the site zip-county-form block (replaces the source ZIP input + Let's get started button), employer-sponsored ZIP note and its explanation as default content",
+      "description": "ZIP gate (Select a region): H1, intro line, the site zip-county-form block (replaces the source ZIP input + Let's get started button), employer-sponsored ZIP note, and the \"What is employer-sponsored health insurance?\" FAQ as an accordion-minimal-light block",
       "blocks": [
         {
           "name": "zip-county-form",
           "instances": [
             "main .aem-Grid > div.input:has(#txt-zipcode)"
+          ]
+        },
+        {
+          "name": "accordion-minimal-light",
+          "instances": [
+            "main .aem-Grid > div.accordiontable div.accordianTable"
           ]
         }
       ],
@@ -2424,14 +2430,13 @@
           ],
           "style": null,
           "blocks": [
-            "zip-county-form"
+            "zip-county-form",
+            "accordion-minimal-light"
           ],
           "defaultContent": [
             "div.cmp-text > h1",
             "div.cmp-text > h5",
-            "div.cmp-text > p",
-            "div.accordiontable .collapsible-item-heading",
-            "div.accordiontable .collapsible-item-description > p"
+            "div.cmp-text > p"
           ]
         }
       ]

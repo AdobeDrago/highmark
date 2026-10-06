@@ -155,7 +155,7 @@ The source's ACA and CHIP nav items have no plain link: they open the ZIP gate (
 
 `·` = the page does not exist for that region on the source. The footer's Medical Policy link (`/western-pennsylvania/medical-policy`) is also ZIP-gated and waits on this decision.
 
-`/zipcode-gate-login` itself is **Preview only** (2026-10-05): the page text plus the `zip-county-form` block from `/modals/zip-county`. On a page (not in the modal), Continue goes to the URL's `?redirect=` (or `?return=`, or the block's optional `Redirect` row; same-site links only), otherwise it shows "Thanks! Your area is set to …". The `/employer/solutions/zipcode-gate-login` and `/reservations/medicare/zipcode-gate-login` variants are not migrated.
+`/zipcode-gate-login` itself is **Preview only** (2026-10-05): the page text plus the `zip-county-form` block from `/modals/zip-county`, and the "What is employer-sponsored health insurance?" FAQ as an `accordion-minimal-light` block, collapsed as on the source. On a page (not in the modal), Continue goes to the URL's `?redirect=` (or `?return=`, or the block's optional `Redirect` row; same-site links only), otherwise it shows "Thanks! Your area is set to …". The `/employer/solutions/zipcode-gate-login` and `/reservations/medicare/zipcode-gate-login` variants are not migrated.
 
 ## Other top-level pages
 

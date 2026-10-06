@@ -10,12 +10,12 @@
  * verified in migration-work/cleaned.html:
  *  - fixed-height spacer columns (div.spacing > section.spacing-transparent)
  *  - the intro line marked up as div.cmp-text > h5 right after the H1
- *  - a single-item accordion (div.accordiontable) explaining
- *    "employer-sponsored health insurance"
  *  - paragraphs ending with "&nbsp;"
  *
  * The ZIP input (div.input) and button (div.button) are left untouched; the
- * zip-county-form block parser replaces them.
+ * zip-county-form block parser replaces them. The single-item FAQ accordion
+ * (div.accordiontable, "What is employer-sponsored health insurance?") is left
+ * for the accordion-minimal-light parser.
  *
  * Everything is scoped to that grid, so pages without #txt-zipcode are untouched.
  */
@@ -61,31 +61,7 @@ export default function transform(hookName, element, payload) {
     h5.replaceWith(p);
   });
 
-  // 3. Single-item accordion -> bold question paragraph + answer paragraph(s).
-  grid.querySelectorAll('.accordiontable').forEach((acc) => {
-    const nodes = [];
-    acc.querySelectorAll('.collapsible-item').forEach((item) => {
-      const heading = item.querySelector('.collapsible-item-heading');
-      const question = heading ? heading.textContent.trim() : '';
-      if (question) {
-        const p = doc.createElement('p');
-        const strong = doc.createElement('strong');
-        strong.textContent = question;
-        p.append(strong);
-        nodes.push(p);
-      }
-      item.querySelectorAll('.collapsible-item-description p').forEach((answer) => {
-        nodes.push(answer.cloneNode(true));
-      });
-    });
-    if (nodes.length) {
-      acc.replaceWith(...nodes);
-    } else {
-      acc.remove();
-    }
-  });
-
-  // 4. Trailing &nbsp; / whitespace / <br> at paragraph ends; normalise &nbsp; inside bold runs.
+  // 3. Trailing &nbsp; / whitespace / <br> at paragraph ends; normalise &nbsp; inside bold runs.
   grid.querySelectorAll('p').forEach((p) => {
     p.querySelectorAll('b, strong').forEach((b) => {
       b.childNodes.forEach((n) => {
