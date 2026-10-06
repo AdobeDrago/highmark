@@ -1,6 +1,6 @@
 # Migration checklist: pages linked from the highmark.com homepage
 
-Tracks every page the [highmark.com](https://www.highmark.com/) homepage links to (header, body, footer, and the regional pages behind the ZIP gate) and whether it is migrated to this site. Updated 2026-10-05.
+Tracks every page the [highmark.com](https://www.highmark.com/) homepage links to (header, body, footer, and the regional pages behind the ZIP gate) and whether it is migrated to this site. Updated 2026-10-06.
 
 **Priority** follows general visibility on the source:
 
@@ -9,10 +9,10 @@ Tracks every page the [highmark.com](https://www.highmark.com/) homepage links t
 | P1 | Header links visible at load | every page, always on screen | 7/9 done, 1 to do |
 | P2 | Homepage body links | the most-visited page | 6/8 done, 2 preview only |
 | P3 | Footer links | every page, low prominence | 14/15 done, 1 deferred |
-| P4 | Header megamenu items | every page, one click in | 40/47 done, 2 preview only, 5 to do |
+| P4 | Header megamenu items | every page, one click in | 40/47 done, 2 preview only, 1 published (redirect pending), 4 to do |
 | P5 | ZIP-gated regional pages | behind the ZIP gate (nav items with no plain link) | 5/87 live |
 
-**Statuses:** **Live** = published on `main--highmark--adobedrago.aem.live`. **Preview only** = in DA and previewed, not published. **To do** = not in DA. **Redirected** = the source link itself redirects, and ours now does the same. **Redirect only** = the source redirects to a page we don't have yet. Pages that aren't migrated are sent to the same page on highmark.com by the `/redirects` sheet ("redirects to highmark.com for now"), so their links work but leave the site. Only **Live** and **Redirected** items are checked.
+**Statuses:** **Live** = published on `main--highmark--adobedrago.aem.live`. **Preview only** = in DA and previewed, not published. **Published, redirect pending** = published, but a live `/redirects` row still hides it. **To do** = not in DA. **Redirected** = the source link itself redirects, and ours now does the same. **Redirect only** = the source redirects to a page we don't have yet. Pages that aren't migrated are sent to the same page on highmark.com by the `/redirects` sheet ("redirects to highmark.com for now"), so their links work but leave the site. Only **Live** and **Redirected** items are checked.
 
 Before importing a page, check the `nav-group*` branches' `tools/importer/urls-*.txt` lists and the recent preview log: other people migrate pages into the same DA tree, and a second import overwrites the first. After importing, regenerate the `/redirects` sheet (`node tools/redirects/build-redirects.mjs --upload`, see AGENTS.md): a redirect row hides a page published at the same path.
 
@@ -123,7 +123,7 @@ Also in P3:
 - [x] `/about/corporate-responsibility/sustainability` (Sustainability) **Live** imported by the `nav-group4` batch
 - [ ] `/about/events` (Events) **To do** redirects to highmark.com for now
 - [x] `/newsroom/media-relations-contacts` (Media Relations Contacts) **Live** imported by the `nav-group5` batch (#34)
-- [ ] `/newsroom/news-alert` (News Alert) **To do** deferred by `nav-group5` (#34): a signup form whose reCAPTCHA key is tied to highmark.com; redirects to highmark.com for now. Code and importer ready (2026-10-06, `news-alert` template, `form-minimal-light` block), not yet in DA. Before going live: author the `/newsroom/news-alert-form.json` field sheet, replace the submit URL (still the source's `/bin/hmk/genericmailer`, which expects the reCAPTCHA token), then import, publish and regenerate `/redirects`
+- [ ] `/newsroom/news-alert` (News Alert) **Published, redirect pending** imported 2026-10-06 (`news-alert` template, `form-minimal-light` block, #59); page and its `/newsroom/news-alert-form.json` field sheet are published, but the live `/redirects` row still sends it to highmark.com. The draft `/redirects` in DA (144 rows) drops that row; publish it together with `/because-life` and `/newsroom/press-releases`, which it also un-redirects. Before then, replace the form's submit URL: it still posts to the source's `/bin/hmk/genericmailer`, which expects the reCAPTCHA token tied to highmark.com (why `nav-group5`, #34, deferred it), then re-publish the page
 - [x] `/newsroom/weekly-capitol-hill-report` (Weekly Capitol Hill Report) **Live** imported by the `nav-group5` batch (#34)
 - [x] `/resources/answers/faq` (Frequently Asked Questions) **Live**
 - [ ] `/about/corporate-responsibility/blue-fund` (Blue Fund) **To do**
