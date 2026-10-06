@@ -1,0 +1,11 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/about/events",
+  "path": "about/events",
+  "timestamp": "2026-10-06T12:50:52.092Z",
+  "title": "Highmark Events",
+  "template": "events",
+  "blocks": [
+    "press-release-list"
+  ]
+}

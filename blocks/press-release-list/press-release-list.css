@@ -1,9 +1,12 @@
-/* press-release-list: searchable, filterable, load-more list of press releases.
+/* press-release-list: searchable, filterable, load-more list of press releases, or of
+   events with the `events` option.
 
-   Values from getComputedStyle on https://www.highmark.com/newsroom/press-releases
-   (1440 / 390). Desktop (>= 992): a 3/12 filter rail, the heading and results in the
-   6/12 column beside it, the last 3/12 empty; the rail's top lines up with the heading.
-   Below 992 the rail becomes a drawer opened by a "Filter" trigger above the heading. */
+   Values from getComputedStyle on https://www.highmark.com/newsroom/press-releases and
+   /about/events (390 - 1440). Desktop (>= 992): a 3/12 filter rail, the heading and results
+   in the 6/12 column beside it, the last 3/12 empty (events: 3/16 + 6/16 + 3/16 empty +
+   a 4/16 right rail holding the default content after the block); the filter rail's top is
+   50px below the heading's. Below 992 the rail becomes a drawer opened by a "Filter"
+   trigger above the heading, and default content after the block stacks below it. */
 
 /* ------------------------------------------------------------------
  * Section layout: the heading (default content) joins the block's grid
@@ -46,6 +49,11 @@ main > .section.press-release-list-container > .default-content-wrapper h1 {
   grid-row: 3;
 }
 
+/* default content after the block (events: the right-rail callout) stacks below it */
+main > .section.press-release-list-container > .press-release-list-wrapper ~ .default-content-wrapper {
+  grid-row: 4;
+}
+
 @media (width >= 768px) {
   main > .section.press-release-list-container {
     padding: 0 64px;
@@ -59,9 +67,12 @@ main > .section.press-release-list-container > .default-content-wrapper h1 {
 }
 
 @media (width >= 992px) {
-  /* source: col-lg-3 / col-lg-6 / col-lg-3 of a min(1200px, 100% - 166px) row */
+  /* source: col-lg-3 / col-lg-6 / col-lg-3 of a min(1200px, 100% - 166px) row. Row 2
+     (results) absorbs the height of the filter rail and the right rail, which span both
+     rows, so the heading row stays as tall as the heading (e.g. with no results). */
   main > .section.press-release-list-container {
     grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: auto 1fr;
     padding: 0 83px;
   }
 
@@ -85,6 +96,16 @@ main > .section.press-release-list-container > .default-content-wrapper h1 {
 
   .press-release-list .press-release-list-results {
     grid-area: 2 / 2;
+  }
+
+  /* events: the listing sits in a col-lg-9 next to a col-lg-3 right rail, so of the row
+     the filter rail is 3/16, the results 6/16, then 3/16 empty and the rail 4/16 */
+  main > .section.press-release-list-container:has(.press-release-list.events) {
+    grid-template-columns: 3fr 6fr 3fr 4fr;
+  }
+
+  main > .section.press-release-list-container > .press-release-list-wrapper ~ .default-content-wrapper {
+    grid-area: 1 / 4 / span 2;
   }
 }
 
@@ -120,7 +141,7 @@ main > .section.press-release-list-container > .default-content-wrapper h1 {
   border: 0;
   border-bottom: 1px solid var(--text-body-color);
   border-radius: 0;
-  padding: 0 28px 10px 28.8px;
+  padding: 0 0 10px 28.8px;
   background: transparent;
   color: #000;
   font-family: var(--body-font-family);
@@ -141,6 +162,11 @@ main > .section.press-release-list-container > .default-content-wrapper h1 {
   border-bottom-color: var(--link-color);
   outline: none;
   box-shadow: 0 1px 0 0 var(--link-color);
+}
+
+/* room for the clear button only while it shows, so the placeholder fits narrow rails */
+.press-release-list .press-release-list-search:has(.press-release-list-clear:not([hidden])) input[type='search'] {
+  padding-right: 28px;
 }
 
 .press-release-list .press-release-list-clear {
@@ -179,7 +205,6 @@ main > .section.press-release-list-container > .default-content-wrapper h1 {
   font-size: 14px;
   font-weight: 400;
   line-height: 21px;
-  text-transform: uppercase;
 }
 
 .press-release-list .press-release-list-select select {
@@ -284,7 +309,6 @@ main > .section.press-release-list-container > .default-content-wrapper h1 {
 }
 
 .press-release-list a.press-release-list-title:hover {
-  color: var(--text-color);
   text-decoration: underline;
 }
 
@@ -319,6 +343,66 @@ main > .section.press-release-list-container > .default-content-wrapper h1 {
   .press-release-list a.press-release-list-title:any-link {
     letter-spacing: -0.72px;
   }
+}
+
+/* events: image, region tags, the "Sorry, your search for …" message, the Search label */
+.press-release-list .press-release-list-controls > :first-child {
+  margin-top: 0;
+}
+
+.press-release-list .press-release-list-filter-label + .press-release-list-search {
+  margin-top: 37px;
+}
+
+.press-release-list .press-release-list-image {
+  margin: 0 0 16px;
+}
+
+.press-release-list .press-release-list-image img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.press-release-list .press-release-list-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 0;
+}
+
+.press-release-list .press-release-list-tag {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--link-color);
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.press-release-list .press-release-list-tag:hover {
+  color: var(--text-color);
+  text-decoration: underline;
+}
+
+.press-release-list .press-release-list-empty a:any-link {
+  color: #0078c1;
+  text-decoration: none;
+}
+
+.press-release-list .press-release-list-empty-term {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.press-release-list .press-release-list-count[hidden] {
+  display: none;
 }
 
 /* ------------------------------------------------------------------
@@ -375,10 +459,17 @@ main > .section.press-release-list-container > .default-content-wrapper h1 {
   cursor: pointer;
 }
 
+/* authored icon: /docs/library/icons/filter.svg (DA media) */
 .press-release-list .press-release-list-trigger-icon {
+  flex: none;
   width: 35px;
   height: 35px;
-  color: var(--text-color);
+}
+
+.press-release-list .press-release-list-trigger-icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .press-release-list .press-release-list-drawer-header {
@@ -450,6 +541,10 @@ main > .section.press-release-list-container > .default-content-wrapper h1 {
   body.press-release-list-locked {
     overflow: hidden;
   }
+}
+
+.press-release-list .press-release-list-trigger[hidden] {
+  display: none;
 }
 
 @media (width >= 992px) {
