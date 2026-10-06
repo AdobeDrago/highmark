@@ -104,6 +104,13 @@ export default function transform(hookName, element, payload) {
       }
     });
 
+      element.querySelectorAll('div.page__par :is(h1, h2, h3, h4, h5, h6) span[style]').forEach((span) => {
+      if (!/font-weight\s*:\s*(bold|bolder|[6-9]00)\b/i.test(span.getAttribute('style'))) return;
+      const strong = span.ownerDocument.createElement('strong');
+      while (span.firstChild) strong.appendChild(span.firstChild);
+      span.replaceWith(strong);
+    });
+
     // 5. Ensure one <h1>: promote the first content heading when none exists.
     const par = element.querySelector('div.page__par');
     // Scoped to <main>: the global header (removed later, in afterTransform) is still here.

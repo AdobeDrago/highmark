@@ -374,10 +374,17 @@ main > .section.press-release-list-container > .default-content-wrapper h1 {
   cursor: pointer;
 }
 
+/* authored icon: /docs/library/icons/filter.svg (DA media) */
 .press-release-list .press-release-list-trigger-icon {
+  flex: none;
   width: 35px;
   height: 35px;
-  color: var(--text-color);
+}
+
+.press-release-list .press-release-list-trigger-icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .press-release-list .press-release-list-drawer-header {
