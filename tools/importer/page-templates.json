@@ -2337,8 +2337,15 @@
         "https://www.highmark.com/newsroom/press-releases"
       ],
       "representativeUrl": "https://www.highmark.com/newsroom/press-releases",
-      "description": "Newsroom press releases: h1, then a static newest-first list of recent releases (date, linked title, teaser) injected from the press-release JSON endpoint snapshot, then a 'See all press releases on highmark.com' link; search box, filters and paging dropped",
-      "blocks": [],
+      "description": "Newsroom press releases: h1, then the press-release-list block (keyword search, Location/Year filters, result count, load more) rendering every release from the /newsroom/press-releases-data.json sheet",
+      "blocks": [
+        {
+          "name": "press-release-list",
+          "instances": [
+            ".page__par .press-release"
+          ]
+        }
+      ],
       "urlPattern": "/newsroom/press-releases",
       "sections": [
         {
@@ -2348,11 +2355,10 @@
             "main .page__par"
           ],
           "style": null,
-          "blocks": [],
-          "defaultContent": [
-            "#release-results > h2",
-            "#release-results .release-list > .release-item"
-          ]
+          "blocks": [
+            "press-release-list"
+          ],
+          "defaultContent": []
         }
       ]
     },

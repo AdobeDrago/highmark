@@ -1,25 +1,20 @@
 /* eslint-disable */
 /* global WebImporter */
 
-// PARSER IMPORTS (none: default content only)
+// PARSER IMPORTS
+import pressReleaseListParser from './parsers/press-release-list.js';
+
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/highmark-cleanup.js';
 import sectionsTransformer from './transformers/highmark-template-sections.js';
-import pressReleasesTransformer from './transformers/highmark-press-releases.js';
-
-// DATA — snapshot of the source's press-release endpoint, inlined by the bundler
-// (see transformers/highmark-press-releases.js for the endpoint and how to refresh it).
-import pressReleases from './data/press-releases.json';
 
 // PARSER REGISTRY
 const parsers = {
-
+  'press-release-list': pressReleaseListParser,
 };
 
-// TRANSFORMER REGISTRY — the static release list replaces the search listing first,
-// then cleanup, then section boundaries/metadata.
+// TRANSFORMER REGISTRY — cleanup first, then section boundaries/metadata.
 const transformers = [
-  pressReleasesTransformer,
   cleanupTransformer,
   sectionsTransformer,
 ];
@@ -27,11 +22,18 @@ const transformers = [
 // PAGE TEMPLATE CONFIGURATION — embedded from page-templates.json
 const PAGE_TEMPLATE = {
   "name": "press-releases",
-  "description": "Newsroom press releases: h1, then a static newest-first list of recent releases (date, linked title, teaser) injected from the press-release JSON endpoint snapshot, then a 'See all press releases on highmark.com' link; search box, filters and paging dropped",
+  "description": "Newsroom press releases: h1, then the press-release-list block (keyword search, Location/Year filters, result count, load more) rendering every release from the /newsroom/press-releases-data.json sheet",
   "urls": [
     "https://www.highmark.com/newsroom/press-releases"
   ],
-  "blocks": [],
+  "blocks": [
+    {
+      "name": "press-release-list",
+      "instances": [
+        ".page__par .press-release"
+      ]
+    }
+  ],
   "sections": [
     {
       "id": "1",
@@ -40,11 +42,10 @@ const PAGE_TEMPLATE = {
         "main .page__par"
       ],
       "style": null,
-      "blocks": [],
-      "defaultContent": [
-        "#release-results > h2",
-        "#release-results .release-list > .release-item"
-      ]
+      "blocks": [
+        "press-release-list"
+      ],
+      "defaultContent": []
     }
   ]
 };
@@ -53,7 +54,7 @@ const PAGE_TEMPLATE = {
  * Execute all page transformers for a hook.
  */
 function executeTransformers(hookName, element, payload) {
-  const enhancedPayload = { ...payload, template: PAGE_TEMPLATE, pressReleases };
+  const enhancedPayload = { ...payload, template: PAGE_TEMPLATE };
   transformers.forEach((transformerFn) => {
     try {
       transformerFn.call(null, hookName, element, enhancedPayload);
@@ -118,6 +119,7 @@ export default {
     const pageBlocks = findBlocksOnPage(document, PAGE_TEMPLATE);
 
     // 3. Parse each block; skip elements already replaced by a prior parser.
+    // press-release-list replaces the whole listing (incl. its heading, kept as the h1).
     pageBlocks.forEach((block) => {
       if (!block.element.parentNode) return;
       const parser = parsers[block.name];
