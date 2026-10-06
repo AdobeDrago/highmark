@@ -229,6 +229,12 @@ var CustomImportScript = (() => {
           parent = br.parentElement;
         }
       });
+      element.querySelectorAll("div.page__par :is(h1, h2, h3, h4, h5, h6) span[style]").forEach((span) => {
+        if (!/font-weight\s*:\s*(bold|bolder|[6-9]00)\b/i.test(span.getAttribute("style"))) return;
+        const strong = span.ownerDocument.createElement("strong");
+        while (span.firstChild) strong.appendChild(span.firstChild);
+        span.replaceWith(strong);
+      });
       const par = element.querySelector("div.page__par");
       if (par && !element.querySelector("main h1, div.page__par h1")) {
         const first = par.querySelector("h2, h3, h4, h5, h6");

@@ -1,0 +1,581 @@
+/* Template "content-landing" (page metadata template=content-landing ->
+   body.content-landing). Loaded by scripts/scripts.js (TEMPLATE_STYLES).
+
+   Pages: /podcast and /public-policy. Values extracted (getComputedStyle)
+   from https://www.highmark.com/podcast and /public-policy at 390 / 768 /
+   992 / 1280 / 1440. Source breakpoints: < 768 (mobile, 30px gutters),
+   768-991 (tablet, 64px gutters), >= 992 (desktop), and 1024 (the AEM grid
+   hides the podcast's host card from there up).
+
+   Desktop columns are fractions of the source row, R = min(1200px, 100% -
+   166px), which starts at (100% - R) / 2:
+   - /podcast: cover-image rail 3/12, then the copy in a col-lg-9 nested in a
+     col-lg-9 -> offset R/4, width 9R/16 (x 362 / 627px wide at 1280). Its
+     section is the columns-minimal-dark one (cover + H1 block first).
+   - /public-policy: col-lg-2 rail + col-lg-8 -> offset R/6, width 2R/3
+     (x 269 / 743px wide at 1280).
+   The breadcrumb row starts where the copy does.
+
+   /podcast content: the cover + H1/intro columns-minimal-dark block, then
+   default content (h2 "Episodes", one h4 per episode, paragraphs, linked
+   video thumbnails, LISTEN / WATCH / transcript links, "Meet our host:" h3),
+   the host card (second columns-minimal-dark block: headshot | name, title,
+   Read Bio, quote) and the video footnote. The source's <hr> between
+   episodes can't be authored (it is a section break), so each h4 draws it
+   as a top border.
+
+   Every rule targets a distinct element of this one template, so the
+   specificity ordering lint is off (same convention as the other templates). */
+
+/* stylelint-disable no-descending-specificity */
+
+body.content-landing {
+  --cl-row: min(1200px, 100% - 166px);
+  --cl-link-color: #0078c1;
+  --cl-rule-color: rgb(0 0 0 / 10%);
+}
+
+/* ------------------------------------------------------------------
+ * 1. Breadcrumbs: mobile/tablet row is inset by the page gutter, 16px
+ * below the header, with a bottom rule; desktop row starts at the copy.
+ * ------------------------------------------------------------------ */
+@media (width < 992px) {
+  body.content-landing .breadcrumbs-wrapper {
+    min-height: calc(var(--breadcrumbs-height) + 1px);
+    padding-top: 16px;
+  }
+
+  /* back link and icons sit at the top of the 45px row, as on the source */
+  body.content-landing .breadcrumbs {
+    align-items: flex-start;
+    margin: 0 30px;
+    padding: 0;
+    border-bottom: 1px solid #e2e9e9;
+  }
+
+  body.content-landing .breadcrumbs .breadcrumbs-actions {
+    margin-top: 1px;
+  }
+
+  /* "‹ Home": 27.2px light-blue arrow, 18px sofia-pro semibold navy label */
+  body.content-landing .breadcrumbs .breadcrumbs-back:any-link {
+    gap: 4px;
+    padding: 0;
+    color: var(--text-color);
+    font-family: var(--heading-font-family);
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  body.content-landing .breadcrumbs .breadcrumbs-back::before {
+    width: 27px;
+    height: 27px;
+    background-color: #00a2e2;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.content-landing .breadcrumbs {
+    margin: 0 64px;
+  }
+}
+
+@media (width >= 992px) {
+  /* public-policy: row = col-lg-2 offset, buttons end 1/12 short of the row */
+  body.content-landing .breadcrumbs {
+    box-sizing: border-box;
+    max-width: none;
+    margin: 0;
+    padding: 0 calc((100% - var(--cl-row)) / 2 + var(--cl-row) / 12) 0 calc((100% - var(--cl-row)) / 2 + var(--cl-row) / 6);
+  }
+
+  /* podcast: row = col-lg-9 after the 3/12 rail, buttons end at the row edge */
+  body.content-landing:has(main .columns-minimal-dark) .breadcrumbs {
+    padding: 0 calc((100% - var(--cl-row)) / 2) 0 calc((100% - var(--cl-row)) / 2 + var(--cl-row) / 4);
+  }
+
+  body.content-landing .breadcrumbs .breadcrumbs-actions {
+    margin-right: 0;
+  }
+
+  body.content-landing .breadcrumbs .breadcrumbs-actions button {
+    padding: 2px 6px;
+  }
+
+  body.content-landing .breadcrumbs .breadcrumbs-icon {
+    margin-right: 9px;
+  }
+
+  body.content-landing .breadcrumbs .breadcrumbs-action-label {
+    font-size: 15px;
+    line-height: 22.5px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 2. Section + content column
+ * ------------------------------------------------------------------ */
+body.content-landing main > .section {
+  margin: 0;
+  padding-bottom: 40px;
+}
+
+body.content-landing main > .section > div {
+  box-sizing: border-box;
+  max-width: none;
+  margin: 0;
+  padding: 0 30px;
+}
+
+@media (width >= 768px) {
+  body.content-landing main > .section {
+    padding-bottom: 60px;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.content-landing main > .section > div {
+    padding: 0 64px;
+  }
+}
+
+@media (width >= 992px) {
+  body.content-landing main > .section > div {
+    width: calc(var(--cl-row) * 2 / 3);
+    margin-left: calc((100% - var(--cl-row)) / 2 + var(--cl-row) / 6);
+    padding: 0;
+  }
+
+  body.content-landing main > .section.columns-minimal-dark-container > div {
+    width: calc(var(--cl-row) * 9 / 16);
+    margin-left: calc((100% - var(--cl-row)) / 2 + var(--cl-row) / 4);
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 3. Typography (mobile first). Headings: margin 0 0 8px plus the
+ * source's vertical padding; paragraphs 12.8px apart (16px >= 768).
+ * ------------------------------------------------------------------ */
+body.content-landing main .section :is(h1, h2, h3, h4) {
+  margin: 0 0 8px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-weight: 600;
+}
+
+body.content-landing main .section h1 {
+  padding: 24px 0;
+  font-size: 32px;
+  line-height: 35.2px;
+  letter-spacing: -1.28px;
+}
+
+/* public-policy has no H1 on the source: the importer promotes its first
+   heading (an h2) to h1, which keeps the h2 look here */
+body.content-landing main .section h2,
+body.content-landing main > .section > .default-content-wrapper > h1 {
+  padding: 19.2px 0;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+/* bold heading text (public-policy's second heading: the source's inline
+   "letter-spacing: -0.1px; font-weight: bolder" span, imported as <strong>) */
+body.content-landing main .section :is(h1, h2, h3) strong {
+  letter-spacing: -0.1px;
+}
+
+body.content-landing main .section h3 {
+  padding: 16px 0;
+  font-size: 22px;
+  line-height: 24.2px;
+  letter-spacing: -0.4px;
+}
+
+body.content-landing main .section h4 {
+  padding: 0;
+  font-size: 24px;
+  line-height: 28.8px;
+  letter-spacing: normal;
+}
+
+body.content-landing main .section p {
+  margin: 0 0 12.8px;
+  color: var(--text-body-color);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+/* 75% sub / sup that never open up the line box. The source's
+   line-height: 0 collapses lines holding only a <sub> when the page renders
+   in quirks mode (the local --html-folder preview has no doctype), so they
+   keep the paragraph's line height, sit at the line top and are shifted
+   into place. */
+body.content-landing main .section :is(sub, sup) {
+  position: relative;
+  font-size: 75%;
+  line-height: inherit;
+  vertical-align: top;
+}
+
+body.content-landing main .section sub {
+  top: 0.25em;
+}
+
+body.content-landing main .section sup {
+  top: -0.5em;
+}
+
+body.content-landing main .section a:any-link {
+  color: var(--cl-link-color);
+}
+
+body.content-landing main .section ul {
+  margin: 0 0 16px 20px;
+  padding: 0 0 0 12px;
+}
+
+body.content-landing main .section li {
+  margin: 0 0 5px 18px;
+  color: var(--text-body-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+}
+
+/* LISTEN TO PODCAST / WATCH VIDEO / Download Transcript are plain text links
+   on the source (bold where authored bold), not EDS buttons */
+body.content-landing main .default-content-wrapper a.button:any-link {
+  display: inline;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: none;
+  color: var(--cl-link-color);
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  text-transform: none;
+  white-space: normal;
+}
+
+body.content-landing main .default-content-wrapper a.button:hover,
+body.content-landing main .default-content-wrapper a.button:focus {
+  background: none;
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+@media (width >= 768px) {
+  body.content-landing main .section h1 {
+    padding: 28.8px 0;
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  body.content-landing main .section h2,
+  body.content-landing main > .section > .default-content-wrapper > h1 {
+    padding: 19.2px 0;
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.content-landing main .section h3 {
+    font-size: 24px;
+    line-height: 26.4px;
+    letter-spacing: -0.44px;
+  }
+
+  body.content-landing main .section p {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.content-landing main .section h1 {
+    font-size: var(--heading-size-xxl);
+    line-height: 61.6px;
+    letter-spacing: -2.8px;
+  }
+
+  body.content-landing main .section h2,
+  body.content-landing main > .section > .default-content-wrapper > h1 {
+    padding: 24px 0;
+    font-size: var(--heading-size-xl);
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.content-landing main .section h3 {
+    letter-spacing: -0.72px;
+  }
+
+  body.content-landing main .section p {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 4. Podcast cover + H1 / intro (first columns-minimal-dark block).
+ * Desktop: the cover sits in a 3/12 rail (15px gutters, 20px down) left of
+ * the copy column; below 992px the source hides it.
+ * ------------------------------------------------------------------ */
+body.content-landing main .columns-minimal-dark-wrapper:first-child .columns-minimal-dark > div {
+  display: flow-root;
+}
+
+body.content-landing main .columns-minimal-dark-wrapper:first-child .columns-minimal-dark-img-col {
+  display: none;
+}
+
+/* the "Episodes" heading: 20px below the intro's last paragraph margin */
+body.content-landing main .columns-minimal-dark-wrapper:first-child + .default-content-wrapper > :first-child {
+  margin-top: 20px;
+}
+
+@media (width >= 992px) {
+  body.content-landing main > .section > .columns-minimal-dark-wrapper:first-child {
+    width: calc(var(--cl-row) * 13 / 16);
+    margin-left: calc((100% - var(--cl-row)) / 2);
+  }
+
+  body.content-landing main .columns-minimal-dark-wrapper:first-child .columns-minimal-dark > div {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  body.content-landing main .columns-minimal-dark-wrapper:first-child .columns-minimal-dark > div > div {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  body.content-landing main .columns-minimal-dark-wrapper:first-child .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    display: block;
+    box-sizing: border-box;
+    flex: 0 0 calc(100% * 4 / 13);
+    padding: 20px 15px 0;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 5. Episodes: the source's 1px divider (16px margins) above each episode,
+ * 16px above the first title and 36px above the others; video thumbnails
+ * full width (< 768) or half the column.
+ * ------------------------------------------------------------------ */
+body.content-landing main .default-content-wrapper h4 {
+  margin-top: 16px;
+  border-top: 1px solid var(--cl-rule-color);
+  padding-top: 36px;
+}
+
+body.content-landing main .default-content-wrapper h2 + h4 {
+  padding-top: 16px;
+}
+
+body.content-landing main .default-content-wrapper p:has(> a > picture) {
+  margin-bottom: 20px;
+}
+
+body.content-landing main .default-content-wrapper p > a > picture img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (width >= 768px) {
+  body.content-landing main .default-content-wrapper p > a > picture img {
+    width: 50%;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 6. "Meet our host:" + host card (second columns-minimal-dark block):
+ * a white, shadowed card (headshot, name, title, READ BIO) with the
+ * quote below it (< 768, 992-1023) or beside it (768-991). Hidden from
+ * 1024px, as on the source. The cell holding the copy is display:
+ * contents so the quote can sit outside the card; the card itself is the
+ * row's ::before, spanning the first four grid rows.
+ * ------------------------------------------------------------------ */
+body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) {
+  margin-bottom: 40px;
+}
+
+body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) .columns-minimal-dark > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  padding-bottom: 20px;
+}
+
+body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) .columns-minimal-dark > div::before {
+  content: '';
+  grid-area: 1 / 1 / 5 / 2;
+  background-color: #fff;
+  box-shadow: 0 3px 6px rgb(0 0 0 / 16%);
+}
+
+body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) .columns-minimal-dark > div > div:not(.columns-minimal-dark-img-col) {
+  display: contents;
+}
+
+body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) .columns-minimal-dark-img-col {
+  grid-area: 1 / 1;
+}
+
+body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) .columns-minimal-dark-img-col img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 230 / 200;
+  object-fit: cover;
+}
+
+body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) p:nth-child(1) {
+  grid-area: 2 / 1;
+  margin: 0 0 16px;
+  padding: 10px 10px 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) p:nth-child(1) strong {
+  font-weight: inherit;
+}
+
+body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) p:nth-child(2) {
+  grid-area: 3 / 1;
+  padding: 0 10px;
+}
+
+body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) p:nth-child(3) {
+  grid-area: 4 / 1;
+  margin: 0;
+  padding: 0 10px 20px;
+  line-height: 20px;
+}
+
+body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) p:nth-child(3) a:any-link {
+  display: inline;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--link-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: normal;
+  text-transform: uppercase;
+}
+
+body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) p:nth-child(3) a:hover {
+  background: none;
+  color: var(--link-hover-color);
+}
+
+body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) p:nth-child(n + 4) {
+  grid-column: 1;
+  margin-top: 20px;
+}
+
+/* a block, so the italic face's metrics don't open up the 21px lines */
+body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) p:nth-child(n + 4) > em:only-child {
+  display: block;
+}
+
+@media (width >= 768px) {
+  body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) {
+    margin-bottom: 80px;
+  }
+
+  body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) .columns-minimal-dark > div {
+    padding: 0 10px 30px;
+  }
+
+  body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) p:nth-child(1) {
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) p:nth-child(n + 4) {
+    margin-top: 30px;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) .columns-minimal-dark > div {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 20px;
+    padding-bottom: 25px;
+  }
+
+  body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) p:nth-child(n + 4) {
+    grid-area: 1 / 2 / 5 / 3;
+    align-self: start;
+    margin-top: 0;
+  }
+
+  /* the source card's text area is a fixed 200px (title box 57px) */
+  body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) p:nth-child(1) {
+    min-height: 25px;
+  }
+
+  body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) p:nth-child(2) {
+    min-height: 57px;
+  }
+
+  body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) p:nth-child(3) {
+    padding-bottom: 56px;
+  }
+}
+
+@media (width >= 992px) {
+  body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) p:nth-child(1) {
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: -0.3px;
+  }
+
+  /* 992-1023 (still shown): text area 315px, title box 180px */
+  body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) p:nth-child(2) {
+    min-height: 180px;
+    font-size: 15px;
+    line-height: 22.5px;
+  }
+
+  body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) p:nth-child(3) {
+    padding-bottom: 53px;
+  }
+}
+
+@media (width >= 1024px) {
+  body.content-landing main .default-content-wrapper:has(+ .columns-minimal-dark-wrapper) > h3:last-child,
+  body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) {
+    display: none;
+  }
+
+  /* footnote: 60px below the last episode's paragraph margin */
+  body.content-landing main .columns-minimal-dark-wrapper:not(:first-child) + .default-content-wrapper {
+    padding-top: 60px;
+  }
+}
