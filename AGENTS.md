@@ -88,7 +88,7 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 
 ## Redirects (highmark.com fallback)
 
-- `/redirects` (a DA sheet, published) sends every internal link that would 404 to the same page on highmark.com. It also mirrors the source's own redirects: `/about` → `/about/our-story`, `/privacy-center` → `/privacy-center/announcements`, Integrity & Ethics → highmarkhealth.org. 139 rows live as of 2026-10-05.
+- `/redirects` (a DA sheet, published) sends every internal link that would 404 to the same page on highmark.com. It also mirrors the source's own redirects: `/about` → `/about/our-story`, `/privacy-center` → `/privacy-center/announcements`, Integrity & Ethics → highmarkhealth.org. 146 rows live as of 2026-10-06.
 - **Redirects take precedence over pages:** a row hides any page published at that path. Don't hand-edit the sheet. After each import batch, run `node tools/redirects/build-redirects.mjs --upload` (it drops rows for paths that now have a DA document), check preview, then publish `/redirects.json`.
 - The sheet is shared, and publishing it publishes whatever is in DA. Before publishing, compare DA (`admin.da.live/source/adobedrago/highmark/redirects.json`) with live, in case another batch's regenerated sheet is waiting there for its pages.
 - Paths with a DA document are never redirected, so an unpublished draft 404s on live until it is published. Drafts that should stay redirected, and retired URLs, go in the script's `FORCE` list. It sends `/shop/home` and `/shop/beta/home` (copies of the old shop home) to `/shop/`, and `/shop` to `/shop/`, because a folder's index page is only served at its trailing-slash URL.
@@ -136,7 +136,7 @@ The footer's legal pages and their sub-pages (`/privacy`, `/fraud/*`, `/privacy-
 
 - #44 (`fix-fsa-commuter-tables`, art-golk-merkle): fixes the FSA, Commuter Benefits and HSA data tables. The FSA and Commuter Benefits pages stay unpublished until it merges. Still open as of 2026-10-05.
 - `migrate-top-level-pages` (Gokulraj, 2026-10-05, not merged): 10 top-level pages (`/because-life`, `/ventures`, `/wholecare`, `/podcast`, ...), previewed but not published.
-  - DA and preview hold this batch's `/redirects` sheet (145 rows, including `/shop/beta/home`). Publish it with the pages, not before: it drops the `/because-life` and `/newsroom/press-releases` redirects, which keep those live links working until the pages are published.
+  - This batch's `/redirects` rows (links from its pages to `/ventures/*`, Medicaid and Wholecare pages we don't have) are live since 2026-10-06, in the 146-row sheet that also published `/newsroom/news-alert`. That sheet keeps `/because-life` and `/newsroom/press-releases` redirected to highmark.com: neither page has ever been published, so dropping their rows 404s those homepage links (it did, briefly, on 2026-10-06). When publishing them, run `build-redirects.mjs --upload` (it drops both rows because they have DA documents) and publish the sheet with the pages, not before.
   - It also gives `zip-county-form` a standalone mode for `/zipcode-gate-login`; the modal path is unchanged. Re-run the ZIP/region checks after it merges.
 
 ## Known follow-ups
