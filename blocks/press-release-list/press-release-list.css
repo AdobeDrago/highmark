@@ -1,0 +1,468 @@
+/* press-release-list: searchable, filterable, load-more list of press releases.
+
+   Values from getComputedStyle on https://www.highmark.com/newsroom/press-releases
+   (1440 / 390). Desktop (>= 992): a 3/12 filter rail, the heading and results in the
+   6/12 column beside it, the last 3/12 empty; the rail's top lines up with the heading.
+   Below 992 the rail becomes a drawer opened by a "Filter" trigger above the heading. */
+
+/* ------------------------------------------------------------------
+ * Section layout: the heading (default content) joins the block's grid
+ * ------------------------------------------------------------------ */
+main > .section.press-release-list-container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  box-sizing: border-box;
+  max-width: 1366px;
+  margin: 0 auto 60px;
+  padding: 0 30px;
+}
+
+main > .section.press-release-list-container > div {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+main > .section.press-release-list-container > .press-release-list-wrapper,
+main > .section.press-release-list-container .press-release-list {
+  display: contents;
+}
+
+main > .section.press-release-list-container > .default-content-wrapper {
+  grid-row: 2;
+}
+
+main > .section.press-release-list-container > .default-content-wrapper h1 {
+  margin: 0 0 46px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+.press-release-list .press-release-list-results {
+  grid-row: 3;
+}
+
+@media (width >= 768px) {
+  main > .section.press-release-list-container {
+    padding: 0 64px;
+  }
+
+  main > .section.press-release-list-container > .default-content-wrapper h1 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+}
+
+@media (width >= 992px) {
+  /* source: col-lg-3 / col-lg-6 / col-lg-3 of a min(1200px, 100% - 166px) row */
+  main > .section.press-release-list-container {
+    grid-template-columns: 1fr 2fr 1fr;
+    padding: 0 83px;
+  }
+
+  main > .section.press-release-list-container > .default-content-wrapper {
+    grid-area: 1 / 2;
+  }
+
+  main > .section.press-release-list-container > .default-content-wrapper h1 {
+    margin-bottom: 56px;
+    font-size: var(--heading-size-xl);
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  /* source rail: 15px column padding + mr-4 (24px), top 50px below the heading's */
+  .press-release-list .press-release-list-filters {
+    grid-area: 1 / 1 / span 2;
+    margin-top: 50px;
+    padding: 0 39px 0 15px;
+  }
+
+  .press-release-list .press-release-list-results {
+    grid-area: 2 / 2;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * Filters: keyword search, "Filter" label, Type and Date selects
+ * ------------------------------------------------------------------ */
+.press-release-list .press-release-list-search {
+  position: relative;
+}
+
+.press-release-list .press-release-list-search-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  color: var(--text-body-color);
+  pointer-events: none;
+}
+
+.press-release-list svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: currentcolor;
+}
+
+.press-release-list input[type='search'] {
+  box-sizing: border-box;
+  width: 100%;
+  height: 32px;
+  margin: 0;
+  border: 0;
+  border-bottom: 1px solid var(--text-body-color);
+  border-radius: 0;
+  padding: 0 28px 10px 28.8px;
+  background: transparent;
+  color: #000;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  line-height: 21px;
+  appearance: none;
+}
+
+.press-release-list input[type='search']::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.press-release-list input[type='search']::placeholder {
+  color: #757575;
+}
+
+.press-release-list input[type='search']:focus {
+  border-bottom-color: var(--link-color);
+  outline: none;
+  box-shadow: 0 1px 0 0 var(--link-color);
+}
+
+.press-release-list .press-release-list-clear {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--text-body-color);
+  cursor: pointer;
+}
+
+.press-release-list .press-release-list-clear[hidden] {
+  display: none;
+}
+
+.press-release-list .press-release-list-filter-label {
+  margin: 20px 0 0;
+  color: var(--text-body-color);
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 27px;
+  letter-spacing: -0.1px;
+}
+
+.press-release-list .press-release-list-select label {
+  display: block;
+  margin-top: 24px;
+  color: #435656;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  text-transform: uppercase;
+}
+
+.press-release-list .press-release-list-select select {
+  box-sizing: border-box;
+  width: 100%;
+  height: 48px;
+  margin: 8px 0 10px;
+  border: 0;
+  border-bottom: 1px solid var(--text-body-color);
+  border-radius: 0;
+  padding: 0 28px 0 0;
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") no-repeat right center / 24px;
+  color: #000;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 38.4px;
+  cursor: pointer;
+  appearance: none;
+}
+
+.press-release-list .press-release-list-select select:focus {
+  border-bottom-color: var(--link-color);
+  outline: none;
+  box-shadow: 0 1px 0 0 var(--link-color);
+}
+
+/* ------------------------------------------------------------------
+ * Result count + list
+ * ------------------------------------------------------------------ */
+.press-release-list .press-release-list-searched {
+  margin: 0 0 8px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 28.8px;
+}
+
+.press-release-list .press-release-list-searched[hidden],
+.press-release-list .press-release-list-empty[hidden],
+.press-release-list .press-release-list-more-row[hidden] {
+  display: none;
+}
+
+.press-release-list .press-release-list-count,
+.press-release-list .press-release-list-empty,
+.press-release-list .press-release-list-error,
+.press-release-list .press-release-list-summary {
+  margin: 0 0 12.8px;
+  color: var(--text-body-color);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+.press-release-list .press-release-list-items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* source: 51px from a summary's bottom to the next date at every width (summary
+   margin + hr with 16px margins); here 25px + 1px divider + 25px */
+.press-release-list .press-release-list-item {
+  margin: 0 0 25px;
+  border-bottom: 1px solid rgb(0 0 0 / 10%);
+  padding: 0 0 25px;
+}
+
+.press-release-list .press-release-list-item > :last-child {
+  margin-bottom: 0;
+}
+
+.press-release-list .press-release-list-date {
+  margin: 0 0 12.8px;
+  color: var(--text-body-color);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+.press-release-list .press-release-list-item h3 {
+  margin: 10px 0 20px;
+  font-size: inherit;
+}
+
+.press-release-list a.press-release-list-title:any-link {
+  display: block;
+  padding: 16px 0;
+  color: #0078c1;
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+  letter-spacing: -0.4px;
+  text-decoration: none;
+}
+
+.press-release-list a.press-release-list-title:hover {
+  color: var(--text-color);
+  text-decoration: underline;
+}
+
+/* source type: 15/21 (< 768), 15/19.5 (768-991), 16/24 (>= 992) */
+@media (width >= 768px) {
+  .press-release-list .press-release-list-count,
+  .press-release-list .press-release-list-empty,
+  .press-release-list .press-release-list-error,
+  .press-release-list .press-release-list-summary,
+  .press-release-list .press-release-list-date {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  .press-release-list a.press-release-list-title:any-link {
+    letter-spacing: -0.44px;
+  }
+}
+
+@media (width >= 992px) {
+  .press-release-list .press-release-list-count,
+  .press-release-list .press-release-list-empty,
+  .press-release-list .press-release-list-error,
+  .press-release-list .press-release-list-summary,
+  .press-release-list .press-release-list-date {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  .press-release-list a.press-release-list-title:any-link {
+    letter-spacing: -0.72px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * Load more
+ * ------------------------------------------------------------------ */
+.press-release-list .press-release-list-more-row {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0 24px;
+}
+
+.press-release-list .press-release-list-more {
+  margin: 0;
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  padding: 16px 24px;
+  background: transparent;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.press-release-list .press-release-list-more:hover,
+.press-release-list .press-release-list-more:focus-visible {
+  background: var(--text-color);
+  color: #fff;
+}
+
+/* ------------------------------------------------------------------
+ * Mobile: Filter trigger + slide-in drawer (hidden from 992 up)
+ * ------------------------------------------------------------------ */
+.press-release-list .press-release-list-trigger {
+  display: flex;
+  grid-row: 1;
+  align-items: center;
+  gap: 8px;
+  justify-self: start;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 45px;
+  letter-spacing: normal;
+  text-transform: none;
+  cursor: pointer;
+}
+
+.press-release-list .press-release-list-trigger-icon {
+  width: 35px;
+  height: 35px;
+  color: var(--text-color);
+}
+
+.press-release-list .press-release-list-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 24px;
+}
+
+.press-release-list .press-release-list-close {
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.press-release-list .press-release-list-apply {
+  display: block;
+  margin: 0 0 0 auto;
+  border: 0;
+  padding: 32px 0;
+  background: none;
+  color: #0078c1;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+@media (width < 992px) {
+  .press-release-list .press-release-list-filters {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 20;
+    box-sizing: border-box;
+    width: 90%;
+    max-width: 400px;
+    padding: 24px 30px;
+    overflow-y: auto;
+    background: #fff;
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform 0.2s ease, visibility 0s linear 0.2s;
+  }
+
+  .press-release-list.filters-open .press-release-list-filters {
+    transform: none;
+    visibility: visible;
+    transition: transform 0.2s ease;
+  }
+
+  .press-release-list .press-release-list-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 19;
+    background: rgb(0 0 0 / 40%);
+  }
+
+  .press-release-list .press-release-list-backdrop[hidden] {
+    display: none;
+  }
+
+  body.press-release-list-locked {
+    overflow: hidden;
+  }
+}
+
+@media (width >= 992px) {
+  .press-release-list .press-release-list-trigger,
+  .press-release-list .press-release-list-drawer-header,
+  .press-release-list .press-release-list-apply,
+  .press-release-list .press-release-list-backdrop {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .press-release-list .press-release-list-filters {
+    transition: none;
+  }
+}
