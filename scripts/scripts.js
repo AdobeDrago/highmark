@@ -163,8 +163,7 @@ const TEMPLATE_STYLES = [
   'state-plans', 'get-help', 'learn-about-medicare', 'blue-neighbors', 'find-care',
   'employer-landing', 'employer-subpage', 'about-article', 'leadership', 'bright-blue-futures',
   'media-contacts', 'capitol-hill-report', 'legal', 'contact', 'language-assistance',
-  'news-alert', 'content-landing', 'zipcode-gate-login', 'campaign-landing',
-  'news-alert', 'content-landing', 'zipcode-gate-login', 'events',
+  'news-alert', 'content-landing', 'zipcode-gate-login', 'campaign-landing', 'events',
 ];
 
 /**
