@@ -123,7 +123,7 @@ Also in P3:
 - [x] `/about/corporate-responsibility/sustainability` (Sustainability) **Live** imported by the `nav-group4` batch
 - [ ] `/about/events` (Events) **To do** redirects to highmark.com for now
 - [x] `/newsroom/media-relations-contacts` (Media Relations Contacts) **Live** imported by the `nav-group5` batch (#34)
-- [ ] `/newsroom/news-alert` (News Alert) **To do** deferred by `nav-group5` (#34): a signup form whose reCAPTCHA key is tied to highmark.com; redirects to highmark.com for now
+- [ ] `/newsroom/news-alert` (News Alert) **To do** deferred by `nav-group5` (#34): a signup form whose reCAPTCHA key is tied to highmark.com; redirects to highmark.com for now. Code and importer ready (2026-10-06, `news-alert` template, `form-minimal-light` block), not yet in DA. Before going live: author the `/newsroom/news-alert-form.json` field sheet, replace the submit URL (still the source's `/bin/hmk/genericmailer`, which expects the reCAPTCHA token), then import, publish and regenerate `/redirects`
 - [x] `/newsroom/weekly-capitol-hill-report` (Weekly Capitol Hill Report) **Live** imported by the `nav-group5` batch (#34)
 - [x] `/resources/answers/faq` (Frequently Asked Questions) **Live**
 - [ ] `/about/corporate-responsibility/blue-fund` (Blue Fund) **To do**

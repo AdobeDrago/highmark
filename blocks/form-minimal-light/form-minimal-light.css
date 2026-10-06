@@ -1,0 +1,243 @@
+/*
+ * form-minimal-light — Material-style outlined text fields with floating labels,
+ * "* Required" helper text and a solid Highmark-blue submit button.
+ * Values extracted from the source form (highmark.com/newsroom/news-alert, form#newsalert).
+ */
+
+.form-minimal-light {
+  --form-outline-color: #8996a1;      /* idle outline, idle label, helper text */
+  --form-active-color: #0078c1;       /* focused / filled outline */
+  --form-error-color: #e52d27;        /* invalid outline, label, text, message */
+  --form-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-minimal-light form {
+  display: grid;
+  grid-auto-flow: row;
+  width: 100%;
+  max-width: 675px;
+  padding: 20px 0;
+  font-family: var(--body-font-family);
+}
+
+.form-minimal-light .field-wrapper {
+  display: grid;
+  grid-auto-flow: row;
+  align-items: start;
+}
+
+.form-minimal-light form > .field-wrapper:not(.submit-wrapper),
+.form-minimal-light fieldset > .field-wrapper:not(.submit-wrapper) {
+  margin: 0 0 20px;
+}
+
+.form-minimal-light fieldset {
+  display: grid;
+  grid-auto-flow: row;
+  margin: 0;
+  border: none;
+  padding: 0;
+}
+
+/* outlined control */
+.form-minimal-light input,
+.form-minimal-light select,
+.form-minimal-light textarea {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  height: 56px;
+  margin: 0;
+  padding: 0 15px;
+  border: 1px solid var(--form-outline-color);
+  border-radius: 4px;
+  background-color: transparent;
+  color: var(--text-color);
+  caret-color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  transition: border-color 0.15s var(--form-ease), box-shadow 0.15s var(--form-ease);
+}
+
+.form-minimal-light textarea {
+  height: auto;
+  min-height: 112px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  resize: vertical;
+}
+
+/* checkbox / radio controls */
+.form-minimal-light .selection-wrapper input {
+  width: max-content;
+  height: auto;
+}
+
+/* filled (not focused): 1px active outline */
+.form-minimal-light input:not(:placeholder-shown),
+.form-minimal-light textarea:not(:placeholder-shown) {
+  border-color: var(--form-active-color);
+}
+
+/* focused: 2px active outline (1px border + 1px inset ring, no layout shift) */
+.form-minimal-light input:focus,
+.form-minimal-light select:focus,
+.form-minimal-light textarea:focus {
+  outline: none;
+  border-color: var(--form-active-color);
+  box-shadow: inset 0 0 0 1px var(--form-active-color);
+}
+
+/* invalid (after user interaction / submit attempt) */
+.form-minimal-light input:user-invalid,
+.form-minimal-light select:user-invalid,
+.form-minimal-light textarea:user-invalid {
+  border-color: var(--form-error-color);
+  color: var(--form-error-color);
+  caret-color: var(--form-error-color);
+}
+
+.form-minimal-light input:user-invalid:focus,
+.form-minimal-light select:user-invalid:focus,
+.form-minimal-light textarea:user-invalid:focus {
+  box-shadow: inset 0 0 0 1px var(--form-error-color);
+}
+
+/* floating label: sits inside the outline, floats onto the top border on focus / when filled */
+.form-minimal-light .floating-label {
+  position: relative;
+}
+
+.form-minimal-light .floating-label > label {
+  position: absolute;
+  top: 28px;
+  left: 12px;
+  max-width: calc(100% - 24px);
+  margin: 0;
+  padding: 0 4px;
+  overflow: hidden;
+  background-color: var(--background-color, #fff);
+  color: var(--form-outline-color);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: 0.15px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  transform: translateY(-50%);
+  transition: top 0.15s var(--form-ease), font-size 0.15s var(--form-ease), color 0.15s var(--form-ease);
+}
+
+.form-minimal-light .floating-label > input:focus + label,
+.form-minimal-light .floating-label > input:not(:placeholder-shown) + label,
+.form-minimal-light .floating-label > textarea:focus + label,
+.form-minimal-light .floating-label > textarea:not(:placeholder-shown) + label {
+  top: 0;
+  font-size: 12px;
+  color: var(--text-color);
+}
+
+.form-minimal-light .floating-label > input:user-invalid + label,
+.form-minimal-light .floating-label > textarea:user-invalid + label {
+  color: var(--form-error-color);
+}
+
+.form-minimal-light label[data-required]::after {
+  content: '*';
+  margin-left: 1px;
+}
+
+/* helper line: "* Required", swapped for the validation message while invalid */
+.form-minimal-light .field-help {
+  margin: 8px 0 0;
+  color: var(--form-outline-color);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.4px;
+}
+
+.form-minimal-light .field-help::before {
+  content: '';
+  display: inline-block;
+  height: 16px;
+}
+
+.form-minimal-light .field-error {
+  display: none;
+  color: var(--form-error-color);
+}
+
+.form-minimal-light .field-wrapper:has(:user-invalid) .field-hint {
+  display: none;
+}
+
+.form-minimal-light .field-wrapper:has(:user-invalid) .field-error {
+  display: inline;
+}
+
+/* checkbox / radio rows */
+.form-minimal-light .selection-wrapper {
+  grid-auto-flow: column;
+  justify-content: start;
+  align-items: center;
+  gap: 1ch;
+}
+
+.form-minimal-light .selection-wrapper .field-help {
+  grid-column: 1 / -1;
+}
+
+/* submit: solid Highmark blue, left-aligned, content-width */
+.form-minimal-light .submit-wrapper {
+  justify-items: start;
+}
+
+.form-minimal-light .submit-wrapper .button {
+  width: auto;
+  max-width: max-content;
+  margin: 17px 0;
+  border: 0;
+  border-radius: 5px;
+  padding: 16px 24px;
+  background-color: var(--link-color);
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.form-minimal-light .submit-wrapper .button:focus {
+  background-color: var(--link-color);
+  color: #fff;
+}
+
+.form-minimal-light .submit-wrapper .button:hover {
+  background-color: var(--text-color);
+  color: #fff;
+}
+
+.form-minimal-light .submit-wrapper .button:focus-visible {
+  outline: 3px solid #005fcc;
+}
+
+.form-minimal-light .submit-wrapper .button:disabled {
+  background-color: var(--link-color);
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (width >= 600px) {
+  .form-minimal-light fieldset {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 24px;
+  }
+}
