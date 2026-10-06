@@ -88,6 +88,16 @@ export default async function decorate(block) {
     }
     columns.append(col);
   });
+  // As on highmark.com, links to other sites (and PDFs) open in a new tab and carry the
+  // external-link icon; links to highmark.com pages we haven't migrated don't.
+  columns.querySelectorAll('a[href]').forEach((a) => {
+    const url = new URL(a.href, window.location.href);
+    const ownSite = [window.location.host, 'www.highmark.com'].includes(url.host);
+    if (!ownSite || /\.pdf$/i.test(url.pathname)) {
+      a.target = '_blank';
+      a.classList.add('footer-external');
+    }
+  });
   inner.append(columns);
   upper.append(inner);
 

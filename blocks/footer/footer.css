@@ -215,36 +215,121 @@ footer .footer-brand ul.footer-social + p {
   }
 }
 
-@media (width >= 992px) { 
-  footer .footer-legal { 
-    padding: 0 30px;
+/* ============ DESKTOP (>= 992px): highmark.com's footer, measured at 1280 and 1440 ============
+   A 1366px container with 83px padding, 64px above and below. The brand column is 400px and
+   gives way first; its logo, LinkedIn, customer service and phone are centred in 280px. Three
+   240px link columns centre in the rest. Legal band: 25.6px padding, centred 16px text. */
+@media (width >= 992px) {
+  footer .footer-inner {
+    box-sizing: border-box;
+    gap: 0;
+    max-width: 1366px;
+    padding: 64px 83px;
   }
 
-  footer .footer-columns {
-    justify-content: flex-start;
+  footer .footer-brand {
+    flex: 0 1 400px;
+    min-width: 0;
   }
 
-  footer .footer-inner{
-    justify-self: center;
+  footer .footer-brand > p:first-child {
+    width: 248px;
+    margin: 0 16px;
+    line-height: 0;
+    text-align: center;
   }
 
-  footer .footer-brand{
-    flex-basis: 25rem;
+  footer .footer-brand > p:first-child img {
+    width: 200px;
+    max-width: none;
+    height: 136px;
   }
 
-  footer .footer-social li {
-    padding-left: 4rem;
+  footer .footer-social {
+    justify-content: center;
+    width: 248px;
+    margin: 28px 16px 16px;
+    gap: 0;
   }
 
-  footer .footer-column > p {
-    font-size: 20px;
+  footer .footer-social a {
+    display: block;
+    padding: 0 8px;
+    line-height: 0;
+  }
+
+  footer .footer-social img { /* stylelint-disable-line no-descending-specificity */
+    height: 24px;
   }
 
   footer .footer-brand ul.footer-social + p {
-    padding-left: 20px;
+    width: 280px;
+    margin: 0 0 11.2px;
+    line-height: 30px;
+    text-align: center;
   }
 
-  footer .footer-brand ul.footer-social + p + p{
-    padding-left: 42px;
+  footer .footer-brand ul.footer-social + p + p {
+    width: 280px;
+    margin: 0 0 32px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: center;
+  }
+
+  footer .footer-columns {
+    flex: 1 1 auto;
+    min-width: 720px;
+    gap: 0;
+    justify-content: center;
+  }
+
+  footer .footer-column {
+    flex: 0 0 240px;
+    min-width: 0;
+  }
+
+  footer .footer-column > p { /* stylelint-disable-line no-descending-specificity */
+    margin: 0 0 24px;
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  footer .footer-column li {
+    margin: 0 0 8px;
+    line-height: 22.5px;
+  }
+
+  footer .footer-column li:last-child {
+    margin-bottom: 35px;
+  }
+
+  footer .footer-column a {
+    display: inline-block;
+    padding: 5px 0;
+    line-height: 1.2; /* 19.2px, unitless as on the source so Chrome rounds it the same way */
+  }
+
+  footer .footer-column a.footer-external::after {
+    content: '';
+    display: inline-block;
+    width: 18px;
+    height: 16px;
+    margin-left: 10px;
+    background-color: currentcolor;
+    mask: url('../../icons/external-link-alt.svg') center / contain no-repeat;
+    vertical-align: -0.125em; /* the icon font's em box reaches 0.125em below the baseline */
+  }
+
+  footer .footer-legal-inner {
+    box-sizing: border-box;
+    padding: 1.6rem 83px; /* 25.6px */
+  }
+
+  footer .footer-legal p { /* stylelint-disable-line no-descending-specificity */
+    margin: 0 0 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
   }
 }

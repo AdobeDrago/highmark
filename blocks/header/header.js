@@ -147,6 +147,25 @@ function suggestionLabel(title, terms) {
 }
 
 /**
+ * The brand row's icon links (Language Assistance, Contact Us, ...). The pipeline delivers each
+ * item as two paragraphs, the linked icon and then its label, which stacked them. highmark.com
+ * shows the icon and then the label as the link, on one line: rebuild each item that way. The
+ * icon is decorative, since the label names the link.
+ * @param {HTMLUListElement} ul
+ */
+function decorateIconLinks(ul) {
+  [...ul.children].forEach((li) => {
+    const link = li.querySelector('a');
+    const picture = li.querySelector('picture');
+    const label = li.textContent.trim();
+    if (!link || !picture || !label) return;
+    picture.querySelector('img')?.setAttribute('alt', '');
+    link.textContent = label;
+    li.replaceChildren(picture, link);
+  });
+}
+
+/**
  * Type-ahead for the search box (highmark.com's): on focus, a "Suggestions" list of
  * authored searches (SUGGESTIONS_SHEET); from the third letter, matching page titles.
  * Arrow keys move through the list and Enter opens the highlighted item; otherwise the
@@ -407,6 +426,7 @@ export default async function decorate(block) {
     tools.className = 'nav-tools';
     if (iconsUl) {
       iconsUl.classList.add('nav-icons');
+      decorateIconLinks(iconsUl);
       tools.append(iconsUl);
     }
     brandRow.append(tools, searchToggle, hamburger);
@@ -473,7 +493,7 @@ export default async function decorate(block) {
     primaryRow.append(utilClone);
   }
   if (brandSection) {
-    const iconsUl = brandSection.querySelector('.nav-icons');
+    const iconsUl = nav.querySelector('.nav-tools .nav-icons'); // moved out of brandSection above
     if (iconsUl) {
       const iconsClone = iconsUl.cloneNode(true);
       const wrap = document.createElement('div');

@@ -68,28 +68,50 @@ header nav .nav-brand img {
   display: block;
 }
 
+/* icon links, as highmark.com's: an 18px icon, then the label link (Roboto 16px), items 40px
+   apart. An item may shrink, and then wraps its label under the icon, as the source does at
+   1024px. The whole item is the link's hit area; hovering changes nothing, as on the source. */
 header nav .nav-tools .nav-icons {
   display: flex;
-  align-items: center;
-  gap: 28px;
+  justify-content: flex-end;
 }
 
-header nav .nav-icons a { /* stylelint-disable-line no-descending-specificity */
-  display: inline-flex;
+header nav .nav-icons > li {
+  position: relative;
+  display: flex;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  color: #003963;
-  white-space: nowrap;
+  margin: 0 20px;
+}
+
+header nav .nav-icons picture {
+  display: contents;
 }
 
 header nav .nav-icons img {
-  height: 22px;
-  width: 22px;
+  width: 18px;
+  height: 18px;
+  margin-right: 7px;
+}
+
+header nav .nav-icons a { /* stylelint-disable-line no-descending-specificity */
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #001446;
+}
+
+header nav .nav-icons a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
 }
 
 header nav .nav-icons a:hover {
-  color: #0066b1;
+  color: #001446;
+  text-decoration: none;
 }
 
 /* ---- Band 3: primary nav row (nav links + search) ---- */
@@ -366,6 +388,144 @@ header nav .nav-drawer-icons {
   display: none;
 }
 
+/* ============ DESKTOP (>= 992px): highmark.com's header, measured at 1280 and 1440 ============
+   Full-width bands with 64px side padding: utility bar 42.5px, brand row 94px, nav row 60px. */
+@media (width >= 992px) {
+  /* utility bar: 145px cells (a centred 134px link, 5px margins), 1px #b8b8b8 dividers. The
+     source's cells are inline-blocks, so a space (3.72px at 15px) separates them, and the last
+     has an extra 13px; the row ends 5px inside the side padding. */
+  header nav .nav-utility ul {
+    gap: 0;
+    max-width: none;
+    padding: 5px 69px 5px 64px;
+  }
+
+  header nav .nav-utility li {
+    box-sizing: border-box;
+    width: 145px;
+    border-right: 1px solid #b8b8b8;
+  }
+
+  header nav .nav-utility li + li {
+    margin-left: 3.72px;
+  }
+
+  header nav .nav-utility li:last-child {
+    margin-left: 16.72px;
+    border-right: 0;
+  }
+
+  header nav .nav-utility a {
+    display: flex;
+    justify-content: center;
+    width: 134px;
+    margin: 5px;
+    font-size: 15px;
+    line-height: 22.5px;
+    color: #001446;
+  }
+
+  header nav .nav-utility li:last-child a {
+    width: 135px;
+  }
+
+  /* brand row: 20px above and below a 54px-high row; the logo is 273 x 28 */
+  header nav .nav-brand-row {
+    box-sizing: border-box;
+    max-width: none;
+    min-height: 94px;
+    padding: 20px 64px;
+  }
+
+  header nav .nav-brand img {
+    height: 28px;
+  }
+
+  /* nav row: 60px, Sofia Pro 20px labels 30px wider than their text, 20px apart; a soft
+     5px shadow shows above and below it (over the top of the hero), as on the source */
+  header nav .nav-primary-row {
+    position: relative;
+    box-sizing: border-box;
+    height: 60px;
+    max-width: none;
+    padding: 0 64px;
+    border-top: 0;
+  }
+
+  /* the list fills the row's height, so each label centres in the 60px */
+  header nav .nav-sections {
+    display: flex;
+  }
+
+  header nav .nav-primary-row::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    box-shadow: 0 0 5px 0 rgb(211 211 211);
+    pointer-events: none;
+  }
+
+  header nav .nav-primary > li { /* stylelint-disable-line no-descending-specificity */
+    align-items: stretch;
+    margin: 0 10px;
+  }
+
+  header nav .nav-primary > li > a { /* stylelint-disable-line no-descending-specificity */
+    padding: 0 15px;
+    border-bottom: 0;
+    font-family: var(--heading-font-family);
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: -0.2px;
+    color: #001446;
+  }
+
+  header nav .nav-primary > li:hover > a,
+  header nav .nav-primary > li.open > a {
+    color: #001446;
+    box-shadow: inset 0 -3px 0 #0066b1;
+  }
+
+  /* search: a 44px pill, a sixth of the row but at least 200px; 16px Roboto placeholder
+     in #6d787f; the 24px icon sits 16px from the right edge */
+  header nav .nav-search {
+    box-sizing: border-box;
+    width: max(200px, 16.6667%);
+    height: 44px;
+    border-color: #b6bcc0;
+    border-radius: 999px;
+  }
+
+  header nav .nav-search input {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+    padding: 0 0 0 16px;
+    font-family: var(--body-font-family);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    color: #6d787f;
+  }
+
+  header nav .nav-search input::placeholder {
+    color: #6d787f;
+    opacity: 1;
+  }
+
+  header nav .nav-search button {
+    padding: 0 15px 0 8px;
+  }
+
+  header nav .nav-search .nav-search-icon {
+    width: 24px;
+    height: 24px;
+    background-color: #000;
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.9 20.9746L13.325 14.3996C12.825 14.8329 12.2417 15.1704 11.575 15.4121C10.9083 15.6538 10.2 15.7746 9.45 15.7746C7.65 15.7746 6.125 15.1496 4.875 13.8996C3.625 12.6496 3 11.1413 3 9.37461C3 7.60794 3.625 6.09961 4.875 4.84961C6.125 3.59961 7.64167 2.97461 9.425 2.97461C11.1917 2.97461 12.6958 3.59961 13.9375 4.84961C15.1792 6.09961 15.8 7.60794 15.8 9.37461C15.8 10.0913 15.6833 10.7829 15.45 11.4496C15.2167 12.1163 14.8667 12.7413 14.4 13.3246L21 19.8746L19.9 20.9746ZM9.425 14.2746C10.775 14.2746 11.925 13.7954 12.875 12.8371C13.825 11.8788 14.3 10.7246 14.3 9.37461C14.3 8.02461 13.825 6.87044 12.875 5.91211C11.925 4.95378 10.775 4.47461 9.425 4.47461C8.05833 4.47461 6.89583 4.95378 5.9375 5.91211C4.97917 6.87044 4.5 8.02461 4.5 9.37461C4.5 10.7246 4.97917 11.8788 5.9375 12.8371C6.89583 13.7954 8.05833 14.2746 9.425 14.2746Z"/></svg>');
+  }
+}
+
 /* ============ MOBILE (< 992px) ============ */
 @media (width < 992px) {
   header nav .nav-hamburger {
@@ -592,10 +752,12 @@ header nav .nav-drawer-icons {
     color: #003963;
   }
 
+  /* the icon links again, as in highmark.com's menu: a 16px icon, then the label (14px)
+     20px after it, rows 20px apart */
   header nav .nav-drawer-icons {
     display: block;
     order: 3;
-    padding: 8px 0;
+    padding: 16px 24px 0;
   }
 
   header nav .nav-drawer-icons ul {
@@ -603,18 +765,23 @@ header nav .nav-drawer-icons {
     flex-direction: column;
   }
 
-  header nav .nav-drawer-icons a { /* stylelint-disable-line no-descending-specificity */
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 16px;
-    font-size: 15px;
-    color: #003963;
+  header nav .nav-drawer-icons li {
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    margin: 0 0 20px;
   }
 
   header nav .nav-drawer-icons img {
-    width: 22px;
-    height: 22px;
+    width: 16px;
+    height: 16px;
+    margin: 4px 0 0;
+  }
+
+  header nav .nav-drawer-icons a { /* stylelint-disable-line no-descending-specificity */
+    margin-left: 10px;
+    padding-left: 10px;
+    font-size: 14px;
+    line-height: 21px;
   }
 
   /* no dimmed overlay on the mobile drawer */

@@ -1,0 +1,113 @@
+/* highmark.com's "Important Notifications" banner, measured at 1280 and 1440: 48px above and
+   below; a 1366px-wide row with 83px padding holding the 30px warning icon, the text (20px from
+   each icon) and the 24px close button. Title: Roboto 500 24px; a 51 x 4 blue rule; 16px text;
+   the link right-aligned below it. */
+.alert-banner {
+  background-color: #fff;
+  font-family: var(--body-font-family);
+}
+
+.alert-banner-inner {
+  box-sizing: border-box;
+  display: flex;
+  max-width: 1366px;
+  margin: 0 auto;
+  padding: 48px 83px;
+}
+
+.alert-banner-icon {
+  flex: 0 0 30px;
+  height: 30px;
+  background-color: #212529;
+  mask: url('../../icons/warning.svg') center / contain no-repeat;
+}
+
+.alert-banner-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0 20px;
+}
+
+.alert-banner-title {
+  margin: 0 0 8px;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.1; /* not 26.4px: Chrome rounds that up a 64th, the source's 1.1 down */
+  letter-spacing: -0.72px;
+  color: #003963;
+}
+
+.alert-banner hr {
+  box-sizing: content-box;
+  width: 51px;
+  height: 4px;
+  margin: 12px 0 20px;
+  border: 0;
+  border-top: 1px solid rgb(0 0 0 / 10%);
+  border-radius: 2px;
+  background-color: #00a2e2;
+}
+
+.alert-banner-body p {
+  margin: 0 0 16px;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+  letter-spacing: -0.1px;
+  color: #001446;
+}
+
+.alert-banner-link {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0;
+}
+
+.alert-banner-link a:any-link {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  text-transform: uppercase;
+  color: #0066b1;
+}
+
+/* the glyph is a mask on ::before, so the button keeps its focus ring */
+.alert-banner .alert-banner-close {
+  flex: 0 0 24px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.alert-banner .alert-banner-close::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 24px;
+  background-color: #212529;
+  mask: url('../../icons/close.svg') center / contain no-repeat;
+}
+
+@media (width < 992px) {
+  .alert-banner-inner {
+    padding: 24px 16px;
+  }
+
+  .alert-banner-icon {
+    flex-basis: 24px;
+    height: 24px;
+  }
+
+  .alert-banner-text {
+    padding: 0 12px;
+  }
+
+  .alert-banner-title {
+    font-size: 20px;
+    line-height: 24px;
+  }
+}

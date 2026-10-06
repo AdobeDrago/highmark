@@ -123,6 +123,32 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 - Size: the search index is about 126 KB compressed for 105 pages, and the header downloads it the first time the box gets focus. At roughly 1.2 KB per page, a full migration (~1,400 pages) would make it about 1.7 MB, so the full site will need a search service rather than this client-side index.
 - `NON_PAGE` in `search.js` also keeps non-page rows out of results, as a safety net when another index is used; add other non-page paths there and to the index excludes.
 
+## Homepage (`template: home`)
+
+Matched to highmark.com's homepage at 1280 and 1440 on 2026-10-06: measured with Playwright, every landmark lines up within 0.1px, and a screenshot diff differs in 0.01% of pixels, all of it photo re-encoding and icon edges.
+
+- **Template.** `styles/templates/home.css` holds the homepage's desktop rules (from 992px), plus white hero text at every width, since the photo is dark. Phone and tablet widths were not matched.
+- **Sections.** On the source, sections butt against each other, so home sections have no outer margins.
+- **Card lists.** They use the source's 400px slots (370px cards plus 15px margins; 470px cards in a two-card list) in a 1366px container with 83px padding: 2 + 1 at 1280, 3 across from 1366px.
+- **Footnote.** The "Not all benefits" footnote is its own section.
+- **Alert banner.** `blocks/alert-banner` is highmark.com's "Important Notifications" banner, which only the homepage shows.
+  - Author it as a one-cell block at the top of the page: a title, a text and a link.
+  - It moves itself above the header while the first section loads, so nothing shifts.
+  - Closing it sets `sessionStorage.disabledAlertBanner`, the source's own flag.
+- **Header (all pages, desktop).** Full-width bands with 64px padding:
+  - utility bar: 42.5px, 145px piped cells;
+  - brand row: 94px, 273 x 28 logo;
+  - nav row: 60px, Sofia Pro 20px labels, a soft 5px shadow;
+  - search: a 44px pill, a sixth of the row (at least 200px).
+
+  `styles.css` reserves the 196.5px. The brand row's icon links are rebuilt as icon then label link (`decorateIconLinks`) and are copied into the phone menu.
+- **Footer (all pages, desktop).**
+  - Brand column: 400px, its items centred in 280px. Then three 240px link columns.
+  - Links to other sites, and PDFs, open in a new tab with Font Awesome's external-link icon (`icons/external-link-alt.svg`, CC BY 4.0).
+  - The legal text is the source's, with its non-breaking spaces and curly quotes.
+- **Fonts.** Roboto comes from the Adobe Fonts kit, as on the source. `fonts.css` used to override it with local files whose vertical metrics moved text by a pixel or two.
+- **Unitless values.** Where the source uses unitless line-heights or rems (1.1, 1.2, 1.6rem), so do we. A px value such as 26.4px rounds to a different 64th of a pixel in Chrome, which showed as one-pixel edges on images further down.
+
 ## Legal pages (`template: legal`)
 
 The footer's legal pages and their sub-pages (`/privacy`, `/fraud/*`, `/privacy-center/*`, ...) set `Template: legal` and `Breadcrumbs: true`; `styles/templates/legal.css` matches the highmark.com originals at 390 / 768 / 1280. Authoring conventions in these pages:
@@ -134,8 +160,9 @@ The footer's legal pages and their sub-pages (`/privacy`, `/fraud/*`, `/privacy-
 
 ## Open PRs
 
-- #44 (`fix-fsa-commuter-tables`, art-golk-merkle): fixes the FSA, Commuter Benefits and HSA data tables. The FSA and Commuter Benefits pages stay unpublished until it merges. Still open as of 2026-10-05.
-- `migrate-top-level-pages` (Gokulraj, 2026-10-05, not merged): 10 top-level pages (`/because-life`, `/ventures`, `/wholecare`, `/podcast`, ...), previewed but not published.
+None as of 2026-10-06. #44 (FSA, Commuter Benefits and HSA tables) and #56 (`migrate-top-level-pages`) were merged on 2026-10-05, but their pages are mostly still preview-only:
+- #44's FSA and Commuter Benefits pages are unpublished, so the header links to them 404.
+- #56's 10 top-level pages (`/because-life`, `/ventures`, `/wholecare`, `/podcast`, ...) are previewed only, apart from `/newsroom/press-releases` (live 2026-10-06).
   - This batch's `/redirects` rows (links from its pages to `/ventures/*`, Medicaid and Wholecare pages we don't have) are live since 2026-10-06, in the 146-row sheet that also published `/newsroom/news-alert`. That sheet keeps `/because-life` and `/newsroom/press-releases` redirected to highmark.com: neither page has ever been published, so dropping their rows 404s those homepage links (it did, briefly, on 2026-10-06). When publishing them, run `build-redirects.mjs --upload` (it drops both rows because they have DA documents) and publish the sheet with the pages, not before.
   - It also gives `zip-county-form` a standalone mode for `/zipcode-gate-login`; the modal path is unchanged. Re-run the ZIP/region checks after it merges.
 
@@ -144,7 +171,10 @@ The footer's legal pages and their sub-pages (`/privacy`, `/fraud/*`, `/privacy-
 - Issue #9: move ZIP persistence from `localStorage` to the app's Redux/IndexedDB store.
 - ZIP data is interim, built from Census data (see the ZIP/county modal section) until enGen supplies the real ZIP/county list. ShopX looks ZIPs up through `api.hmhs.com/sxesvc/api/v2/zipCode/countyList`, which only allows `shop.highmark.com` (CORS) and needs its app session. It also returns rating areas and plan-year service zones, which our sheets don't carry yet.
 - `/shop/` still differs from ShopX in the Special Enrollment copy alignment.
-- Still 404 on live (2026-10-05): FSA and Commuter Benefits in the header (held for #44), and `/reservations/aca` on `/resources/answers/faq/insurance-terms` (broken on the source too).
+- Still 404 on live (2026-10-06):
+  - FSA and Commuter Benefits in the header (not yet published).
+  - `/reservations/aca` on `/resources/answers/faq/insurance-terms` (broken on the source too).
+  - `/because-life`, which the homepage's Because Life card links to. The `/redirects` sheet republished at 10:45 and 11:22 UTC that day (144 rows) no longer redirects it, but the page isn't published yet.
 - The `/resources` sub-pages Lamont imported on 2026-09-16 (published 2026-10-01) have no template, like the live FAQ pages: no breadcrumbs, and the FAQ side navs list only the current topic.
 - Legal pages: the source separates content chunks with fixed "spacing" components (40px desktop / 20px tablet / 0 mobile) that have no EDS equivalent, so some of our pages run 2-8% shorter. `/privacy-center` has no page of its own; it redirects to `/privacy-center/announcements`, as on the source. `/fraud/contact` links to `/fraud/fraud-form`, the source's 55-field Health Care Fraud Form (it posts to an AEM servlet, `/bin/hmk/genericmailer`), which redirects to the source form until a form solution is chosen.
 - Query index data (2026-10-02): `/about/our-story/leadership-team-board` has no title, so search labels it from its URL ("Leadership Team Board").
