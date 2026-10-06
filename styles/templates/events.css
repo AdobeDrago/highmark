@@ -1,0 +1,86 @@
+/* Template "events" (page metadata template=events -> body.events).
+   Loaded by scripts/scripts.js (TEMPLATE_STYLES) before the first section renders.
+
+   Values extracted (getComputedStyle) from https://www.highmark.com/about/events at
+   390 / 768 / 992 / 1200 / 1440.
+
+   Authored structure: one section = h1, the press-release-list (events) block, then the
+   right-rail callout as default content (h3 title, description, one CTA link). The block
+   CSS places the callout in the last grid column at >= 992 and below the results under
+   992 (the source keeps it visible at every width). The callout box sits in a column
+   with 15px padding: polar-blue box, 20px padding, a blue 51x5 rule under the title. */
+
+body.events main > .section.press-release-list-container > .press-release-list-wrapper ~ .default-content-wrapper {
+  align-self: start;
+  margin: 0 15px;
+  padding: 20px;
+  background-color: var(--accent-color);
+}
+
+body.events main > .section.press-release-list-container > .press-release-list-wrapper ~ .default-content-wrapper h3 {
+  margin: 0;
+  padding: 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 26.4px;
+  letter-spacing: -0.44px;
+}
+
+body.events main > .section.press-release-list-container > .press-release-list-wrapper ~ .default-content-wrapper h3::after {
+  content: "";
+  display: block;
+  width: 51px;
+  height: 5px;
+  margin: 10px 0;
+  border-radius: 2px;
+  background-color: #0078c1;
+}
+
+body.events main > .section.press-release-list-container > .press-release-list-wrapper ~ .default-content-wrapper p {
+  margin: 0;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+body.events main > .section.press-release-list-container > .press-release-list-wrapper ~ .default-content-wrapper p.button-container,
+body.events main > .section.press-release-list-container > .press-release-list-wrapper ~ .default-content-wrapper p:has(> a:only-child) {
+  display: block;
+  margin-top: 16px;
+  line-height: 20px;
+}
+
+body.events main > .section.press-release-list-container > .press-release-list-wrapper ~ .default-content-wrapper a:any-link {
+  display: block;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: none;
+  color: var(--link-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: normal;
+  text-align: left;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: normal;
+}
+
+body.events main > .section.press-release-list-container > .press-release-list-wrapper ~ .default-content-wrapper a:hover {
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+@media (width >= 992px) {
+  body.events main > .section.press-release-list-container > .press-release-list-wrapper ~ .default-content-wrapper h3 {
+    letter-spacing: -0.72px;
+  }
+}

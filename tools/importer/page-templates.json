@@ -2490,6 +2490,39 @@
           ]
         }
       ]
+    },
+    {
+      "name": "events",
+      "urls": [
+        "https://www.highmark.com/about/events"
+      ],
+      "representativeUrl": "https://www.highmark.com/about/events",
+      "description": "About > Events: h1, the press-release-list (events) block (keyword search, Region/Date filters, result count, load more) rendering every event from the /about/events-data.json sheet, then the right-rail callout (h3, description, CTA) as default content",
+      "urlPattern": "/about/events",
+      "blocks": [
+        {
+          "name": "press-release-list",
+          "instances": [
+            "div.events.aem-GridColumn"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "1",
+          "name": "events-listing",
+          "selector": [
+            "main.container"
+          ],
+          "style": null,
+          "blocks": [
+            "press-release-list"
+          ],
+          "defaultContent": [
+            ".rightrail-container"
+          ]
+        }
+      ]
     }
   ],
   "metadata": {
