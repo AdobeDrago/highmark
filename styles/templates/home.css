@@ -1,0 +1,288 @@
+/* stylelint-disable no-descending-specificity */
+
+/* Homepage (template: home), matched to highmark.com's homepage at 1280 and 1440. On the
+   source the sections butt against each other, each with its own padding, so the sections
+   here have no outer margins. */
+
+/* the hero photo is dark, so its text is white at every width, as on the source (which also
+   has phone and tablet crops of the photo; this page uses the desktop one throughout) */
+body.home .hero-minimal-dark-withimg h1,
+body.home .hero-minimal-dark-withimg h2 {
+  color: #fff;
+}
+
+@media (width >= 992px) {
+  body.home main > .section {
+    margin: 0;
+  }
+
+  /* ---- hero: the 1500 x 500 photo at its natural 3:1; the text in a column two thirds
+     wide with 150px padding, centred; white Sofia Pro over the photo ---- */
+  body.home .hero-minimal-dark-withimg {
+    aspect-ratio: 3 / 1;
+    min-height: 0;
+  }
+
+  body.home .hero-minimal-dark-withimg > div:last-child {
+    width: 66.6667%;
+    max-width: none;
+    margin: 0;
+    padding: 0 0 0 150px;
+  }
+
+  body.home .hero-minimal-dark-withimg h1 {
+    max-width: none;
+    padding: 0 0 14.4px;
+    font-size: 56px;
+    line-height: 61.6px;
+    letter-spacing: -2.8px;
+  }
+
+  body.home .hero-minimal-dark-withimg h2 {
+    max-width: 85%;
+    padding: 12.8px 0 24px;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  /* ---- quick links: 160px items, 16px 12px padding, a 20 x 25 icon over a 16px label ---- */
+  body.home .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
+    box-sizing: border-box;
+    width: 160px;
+    padding: 16px 12px;
+  }
+
+  body.home .cards-minimal-dark-iconnav-label {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  /* ---- section intros (coverage, app, community): a centred 580px column; a 34px Sofia
+     Pro heading and a 20px/30px semibold intro, each 16px above what follows ---- */
+  body.home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper,
+  body.home main > .section.center > .default-content-wrapper:has(> h2) {
+    max-width: 580px;
+    padding: 0;
+  }
+
+  body.home main > .section > .default-content-wrapper > h2 {
+    margin: 0 0 16px;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+    color: #003963;
+    text-align: center;
+  }
+
+  body.home main > .section > .default-content-wrapper > h2 + p {
+    margin: 0 0 16px;
+    font-family: var(--heading-font-family);
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+    color: #003963;
+    text-align: center;
+  }
+
+  /* card sections: 60px above, 50px below; the app section is three sections here
+     (intro, cards, button), so the first gets the top and the last the bottom */
+  body.home main > .section.cards-minimal-dark-withimg-container {
+    padding: 60px 0 50px;
+  }
+
+  body.home main > .section.center:has(> .default-content-wrapper > h2) {
+    padding-top: 60px;
+  }
+
+  body.home main > .section.center:has(.button-container) {
+    padding-bottom: 50px;
+  }
+
+  /* the source's cards sit in 400px slots (370px + 15px margins) that wrap and centre in a
+     1366px container with 83px padding: 2 + 1 at 1280, 3 across from 1366 */
+  body.home .cards-minimal-dark-withimg-icons-wrapper,
+  body.home .cards-minimal-dark-withimg-wrapper {
+    box-sizing: border-box;
+    max-width: 1366px;
+    padding: 0 83px;
+  }
+
+  body.home .cards-minimal-dark-withimg-icons > ul,
+  body.home .cards-minimal-dark-withimg > ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0;
+    max-width: none;
+  }
+
+  body.home .cards-minimal-dark-withimg-icons > ul > li,
+  body.home .cards-minimal-dark-withimg > ul > li {
+    flex: 0 0 370px;
+    width: 370px;
+    margin: 15px;
+  }
+
+  /* a two-card list uses 470px cards */
+  body.home .cards-minimal-dark-withimg > ul:has(> li:nth-child(2):last-child) > li {
+    flex-basis: 470px;
+    width: 470px;
+  }
+
+  /* the app section's outlined button, 16px above and below */
+  body.home main > .section.center .button-container {
+    margin: 0;
+  }
+
+  body.home main > .section.center a.button:any-link {
+    margin: 16px 0;
+    border: 1px solid #003963;
+    border-radius: 5px;
+    padding: 16px 24px;
+    background-color: transparent;
+    color: #003963;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: normal;
+    text-transform: uppercase;
+  }
+
+  /* ---- promo panels (mental health, group health): the full-width image sets the height;
+     a 480px text column sits on the source's content edge, centred vertically ---- */
+  body.home main > .section.accent.columns-minimal-dark-overlay-container {
+    padding: 0;
+  }
+
+  body.home .section.accent .columns-minimal-dark-overlay-wrapper {
+    max-width: none;
+    padding: 0;
+  }
+
+  body.home .section.accent .columns-minimal-dark-overlay > div {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  body.home .section.accent .columns-minimal-dark-overlay > div > .columns-minimal-dark-overlay-content-col {
+    left: max(83px, calc(50% - 600px));
+    width: 480px;
+    padding: 0;
+  }
+
+  body.home .section.accent .columns-minimal-dark-overlay.columns-minimal-dark-overlay-right > div > .columns-minimal-dark-overlay-content-col {
+    left: auto;
+    right: max(83px, calc(50% - 600px));
+  }
+
+  body.home .section.accent .columns-minimal-dark-overlay-content-col h2 {
+    margin: 0 0 8px;
+    padding: 0;
+    line-height: 40.8px;
+  }
+
+  body.home .section.accent .columns-minimal-dark-overlay-content-col p {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  body.home .section.accent .columns-minimal-dark-overlay p.button-container {
+    margin: 16px 0 0;
+    padding: 0;
+  }
+
+  body.home main .section.accent .columns-minimal-dark-overlay a.button:any-link {
+    line-height: 24px;
+  }
+
+  /* ---- Find Care: an 80px-padded blush panel; a 1200px row in the 1366/83 container
+     with the text (550px incl. 24px padding) and the 555 x 312 image (24px margins);
+     both shrink by their content widths, as on the source ---- */
+  body.home main > .section.highlight.columns-minimal-dark-overlay-container {
+    padding: 80px 0;
+  }
+
+  body.home .section.highlight .columns-minimal-dark-overlay-wrapper {
+    box-sizing: border-box;
+    max-width: 1366px;
+    padding: 0 83px;
+  }
+
+  body.home .highlight .columns-minimal-dark-overlay > div {
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 0;
+    align-items: center;
+  }
+
+  body.home .highlight .columns-minimal-dark-overlay > div > .columns-minimal-dark-overlay-content-col {
+    box-sizing: border-box;
+    flex: 0 1 auto;
+    width: 550px;
+    margin-right: auto;
+    padding: 0 24px;
+  }
+
+  body.home .highlight .columns-minimal-dark-overlay > div > .columns-minimal-dark-overlay-img-col {
+    flex: 0 1 auto;
+    width: 555px;
+    margin: 0 24px;
+  }
+
+  body.home .highlight .columns-minimal-dark-overlay h2 {
+    margin: 0 0 8px;
+    padding: 24px 0;
+    line-height: 40.8px;
+    color: #003963;
+  }
+
+  body.home .highlight .columns-minimal-dark-overlay p {
+    margin: 0 0 16px;
+    padding: 0;
+    font-family: var(--body-font-family);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+    color: #001446;
+  }
+
+  body.home .highlight .columns-minimal-dark-overlay p.button-container {
+    margin: 0;
+  }
+
+  body.home .highlight .columns-minimal-dark-overlay .button-container a.button:any-link {
+    display: block;
+    width: max-content;
+    font-size: 16px;
+    line-height: 20px;
+    color: #0066b1;
+  }
+
+  /* ---- footnote: its own white band, 20px above and below a 16px/24px line ---- */
+  body.home main > .section:has(sub) > .default-content-wrapper {
+    box-sizing: border-box;
+    max-width: 1366px;
+    padding: 20px 83px;
+  }
+
+  body.home main > .section:has(sub) p {
+    margin: 0 0 16px;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+    color: #001446;
+  }
+
+  /* the source's sub is Bootstrap's: on the baseline, nudged down 0.25em */
+  body.home main > .section:has(sub) sub {
+    position: relative;
+    bottom: -0.25em;
+    font-size: 12px;
+    line-height: 0;
+    vertical-align: baseline;
+  }
+}

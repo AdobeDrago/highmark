@@ -99,7 +99,7 @@ header {
   /* reserve the loaded 3-band desktop header so the page (and the
      breadcrumbs row) don't shift down when the header block loads */
   header {
-    min-height: 172px;
+    min-height: 196.5px;
   }
 }
 
