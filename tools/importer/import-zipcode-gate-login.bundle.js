@@ -60,6 +60,48 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
+  // tools/importer/parsers/accordion-minimal-light.js
+  function parse2(element, { document: document2 }) {
+    const leadingEls = [];
+    const heading = element.querySelector("h2.maintitle, .maintitle, h2");
+    if (heading) leadingEls.push(heading);
+    const items = Array.from(element.querySelectorAll("div.collapsible-item, .collapsible-item"));
+    if (items.length === 0) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
+    const cells = [];
+    items.forEach((item) => {
+      const trigger = item.querySelector("button.accordion-trigger, .accordion-trigger");
+      const headingSpan = item.querySelector(
+        "span.collapsible-item-heading, .collapsible-item-heading"
+      );
+      let titleEl;
+      if (headingSpan) {
+        titleEl = document2.createElement("p");
+        titleEl.textContent = (headingSpan.textContent || "").replace(/\s+/g, " ").trim();
+      } else if (trigger) {
+        titleEl = document2.createElement("p");
+        titleEl.textContent = (trigger.textContent || "").replace(/\s+/g, " ").trim();
+      } else {
+        titleEl = document2.createElement("p");
+      }
+      const desc = item.querySelector(
+        "div.collapsible-item-description, .collapsible-item-description"
+      );
+      const contentCell = [];
+      if (desc) {
+        contentCell.push(...Array.from(desc.childNodes));
+      }
+      cells.push([titleEl, contentCell.length ? contentCell : ""]);
+    });
+    const block = WebImporter.Blocks.createBlock(document2, {
+      name: "accordion-minimal-light",
+      cells
+    });
+    element.replaceWith(...leadingEls, block);
+  }
+
   // tools/importer/transformers/highmark-cleanup.js
   var TransformHook = { beforeTransform: "beforeTransform", afterTransform: "afterTransform" };
   function transform(hookName, element, payload) {
@@ -130,28 +172,6 @@ var CustomImportScript = (() => {
       const p = doc.createElement("p");
       p.innerHTML = h5.innerHTML;
       h5.replaceWith(p);
-    });
-    grid.querySelectorAll(".accordiontable").forEach((acc) => {
-      const nodes = [];
-      acc.querySelectorAll(".collapsible-item").forEach((item) => {
-        const heading = item.querySelector(".collapsible-item-heading");
-        const question = heading ? heading.textContent.trim() : "";
-        if (question) {
-          const p = doc.createElement("p");
-          const strong = doc.createElement("strong");
-          strong.textContent = question;
-          p.append(strong);
-          nodes.push(p);
-        }
-        item.querySelectorAll(".collapsible-item-description p").forEach((answer) => {
-          nodes.push(answer.cloneNode(true));
-        });
-      });
-      if (nodes.length) {
-        acc.replaceWith(...nodes);
-      } else {
-        acc.remove();
-      }
     });
     grid.querySelectorAll("p").forEach((p) => {
       p.querySelectorAll("b, strong").forEach((b) => {
@@ -256,7 +276,8 @@ var CustomImportScript = (() => {
 
   // tools/importer/import-zipcode-gate-login.js
   var parsers = {
-    "zip-county-form": parse
+    "zip-county-form": parse,
+    "accordion-minimal-light": parse2
   };
   var transformers = [
     transform,
@@ -265,7 +286,7 @@ var CustomImportScript = (() => {
   ];
   var PAGE_TEMPLATE = {
     "name": "zipcode-gate-login",
-    "description": "ZIP gate (Select a region): H1, intro line, the site zip-county-form block (replaces the source ZIP input + Let's get started button), employer-sponsored ZIP note and its explanation as default content",
+    "description": `ZIP gate (Select a region): H1, intro line, the site zip-county-form block (replaces the source ZIP input + Let's get started button), employer-sponsored ZIP note, and the "What is employer-sponsored health insurance?" FAQ as an accordion-minimal-light block`,
     "urls": [
       "https://www.highmark.com/zipcode-gate-login"
     ],
@@ -274,6 +295,12 @@ var CustomImportScript = (() => {
         "name": "zip-county-form",
         "instances": [
           "main .aem-Grid > div.input:has(#txt-zipcode)"
+        ]
+      },
+      {
+        "name": "accordion-minimal-light",
+        "instances": [
+          "main .aem-Grid > div.accordiontable div.accordianTable"
         ]
       }
     ],
@@ -287,14 +314,13 @@ var CustomImportScript = (() => {
         ],
         "style": null,
         "blocks": [
-          "zip-county-form"
+          "zip-county-form",
+          "accordion-minimal-light"
         ],
         "defaultContent": [
           "div.cmp-text > h1",
           "div.cmp-text > h5",
-          "div.cmp-text > p",
-          "div.accordiontable .collapsible-item-heading",
-          "div.accordiontable .collapsible-item-description > p"
+          "div.cmp-text > p"
         ]
       }
     ]

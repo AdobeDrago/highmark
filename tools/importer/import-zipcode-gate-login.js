@@ -3,6 +3,7 @@
 
 // PARSER IMPORTS
 import zipCountyFormParser from './parsers/zip-county-form.js';
+import accordionMinimalLightParser from './parsers/accordion-minimal-light.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/highmark-cleanup.js';
@@ -11,13 +12,16 @@ import sectionsTransformer from './transformers/highmark-template-sections.js';
 
 // PARSER REGISTRY
 // The source ZIP input + "Let's get started" button are replaced by the site's existing
-// zip-county-form block (same block table as the /modals/zip-county fragment).
+// zip-county-form block (same block table as the /modals/zip-county fragment). The
+// "What is employer-sponsored health insurance?" FAQ is the same accordion markup as the
+// /resources/answers/faq pages, so it reuses their accordion-minimal-light parser.
 const parsers = {
   'zip-county-form': zipCountyFormParser,
+  'accordion-minimal-light': accordionMinimalLightParser,
 };
 
-// TRANSFORMER REGISTRY — site cleanup, ZIP-gate cleanup (spacers, h5 intro, accordion ->
-// default content), then section boundaries/metadata.
+// TRANSFORMER REGISTRY — site cleanup, ZIP-gate cleanup (spacers, h5 intro, trailing
+// &nbsp;), then section boundaries/metadata.
 const transformers = [
   cleanupTransformer,
   zipcodeGateCleanupTransformer,
@@ -27,7 +31,7 @@ const transformers = [
 // PAGE TEMPLATE CONFIGURATION — embedded from page-templates.json
 const PAGE_TEMPLATE = {
   "name": "zipcode-gate-login",
-  "description": "ZIP gate (Select a region): H1, intro line, the site zip-county-form block (replaces the source ZIP input + Let's get started button), employer-sponsored ZIP note and its explanation as default content",
+  "description": "ZIP gate (Select a region): H1, intro line, the site zip-county-form block (replaces the source ZIP input + Let's get started button), employer-sponsored ZIP note, and the \"What is employer-sponsored health insurance?\" FAQ as an accordion-minimal-light block",
   "urls": [
     "https://www.highmark.com/zipcode-gate-login"
   ],
@@ -36,6 +40,12 @@ const PAGE_TEMPLATE = {
       "name": "zip-county-form",
       "instances": [
         "main .aem-Grid > div.input:has(#txt-zipcode)"
+      ]
+    },
+    {
+      "name": "accordion-minimal-light",
+      "instances": [
+        "main .aem-Grid > div.accordiontable div.accordianTable"
       ]
     }
   ],
@@ -49,14 +59,13 @@ const PAGE_TEMPLATE = {
       ],
       "style": null,
       "blocks": [
-        "zip-county-form"
+        "zip-county-form",
+        "accordion-minimal-light"
       ],
       "defaultContent": [
         "div.cmp-text > h1",
         "div.cmp-text > h5",
-        "div.cmp-text > p",
-        "div.accordiontable .collapsible-item-heading",
-        "div.accordiontable .collapsible-item-description > p"
+        "div.cmp-text > p"
       ]
     }
   ]
