@@ -1,0 +1,89 @@
+/* Block: columns-media — rounded image beside a heading, copy and pill CTA.
+   From Figma "Why vaccines matter" (555px image, 56px gap) and, with the
+   `narrow` option, "Maya's story" (375px image, 48px gap). */
+
+.columns-media {
+  --media-width: 46.25%;
+  --media-gap: 56px;
+  --media-body-color: #2f3b45;
+  --media-note-color: #5b6770;
+}
+
+.columns-media.narrow {
+  --media-width: 31.25%;
+  --media-gap: 48px;
+}
+
+.columns-media > div {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.columns-media-img picture,
+.columns-media-img img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.columns-media-copy > :first-child {
+  margin-top: 0;
+}
+
+.columns-media-copy h2 {
+  margin-bottom: 20px;
+}
+
+.columns-media-copy p {
+  margin: 0 0 16px;
+  font-size: 17px;
+  line-height: 28px;
+  color: var(--media-body-color);
+}
+
+/* Small italic note, e.g. "Fictional story created for this concept." */
+.columns-media-copy p:has(> em:only-child) {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--media-note-color);
+}
+
+.columns-media-copy p.button-container {
+  margin: 4px 0 0;
+}
+
+.columns-media a.button:any-link {
+  margin: 0;
+  padding: 12px 28px;
+  border: 2px solid var(--link-color);
+  border-radius: 24px;
+  background-color: var(--link-color);
+  font-size: 14px;
+  line-height: 19px;
+  letter-spacing: 0.05em;
+  color: #fff;
+}
+
+.columns-media a.button:hover,
+.columns-media a.button:focus {
+  border-color: var(--link-hover-color);
+  background-color: var(--link-hover-color);
+}
+
+@media (width >= 900px) {
+  .columns-media > div {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--media-gap);
+  }
+
+  .columns-media-img {
+    flex: 0 0 var(--media-width);
+  }
+
+  .columns-media-copy {
+    flex: 1;
+  }
+}
