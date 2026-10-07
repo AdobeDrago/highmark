@@ -14,7 +14,12 @@ export default function decorate(block) {
   });
 
   // replace images with optimized versions
-  ul.querySelectorAll('picture > img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
+  ul.querySelectorAll('picture > img').forEach((img) => {
+    const picture = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+    // shop: flat illustrations stay PNG, as lossy WebP blotches their pale shapes
+    if (block.classList.contains('shop')) picture.querySelectorAll('source[type="image/webp"]').forEach((s) => s.remove());
+    img.closest('picture').replaceWith(picture);
+  });
 
   block.replaceChildren(ul);
 }
