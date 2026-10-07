@@ -574,3 +574,34 @@ main .hero-minimal-dark-withimg .button-container:has(.primary) ~ .button-contai
     aspect-ratio: 375 / 200;
   }
 }
+
+/* Art-directed heroes (three renditions, see hero-minimal-dark-withimg.js): the
+   photo sits in the flow at its own aspect ratio, so the block takes the shape
+   of the rendition shown and nothing is cropped, as on the source (/wholecare,
+   /health-options-de: 375x460 up to 428px, 768x460 up to 768px, 1500x500
+   above). The text shares its grid cell, vertically centred over it. */
+.hero-minimal-dark-withimg.art-directed {
+  display: grid;
+  align-items: center;
+  min-height: 0;
+}
+
+.hero-minimal-dark-withimg.art-directed > div:first-child,
+.hero-minimal-dark-withimg.art-directed > div:last-child {
+  grid-area: 1 / 1;
+}
+
+.hero-minimal-dark-withimg.art-directed > div:first-child {
+  position: static;
+}
+
+.hero-minimal-dark-withimg.art-directed > div:first-child,
+.hero-minimal-dark-withimg.art-directed > div:first-child > div,
+.hero-minimal-dark-withimg.art-directed > div:first-child picture,
+.hero-minimal-dark-withimg.art-directed picture img {
+  height: auto;
+}
+
+.hero-minimal-dark-withimg.art-directed picture img {
+  display: block;
+}
