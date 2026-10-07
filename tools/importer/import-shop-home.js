@@ -21,7 +21,11 @@
  *   5. Learn More: h2, brochure h3, illustration                       | Style: learn-more
  *   Metadata: Title, Description, Template shop-home
  *
- * Links and the brochure are the captured region's (fixed URLs, not {{tokens}}).
+ * The capture is one region's page (Western PA by default), so its region-specific links
+ * become the tokens zip-tokens.js fills from the visitor's region (regions sheet): the
+ * Marketplace card's SHOP PLANS link is {{marketplace}}, the brochure file name starts
+ * with {{region-code}}, and the Spanish brochure line ({{spanish-brochure}}, shown only
+ * where the region has one) is added after it.
  */
 
 const SECTION_BREAK = 'hr';
@@ -106,7 +110,12 @@ export default {
         const content = [];
         text?.querySelectorAll('h1, h2, h3, h4, p').forEach((el) => content.push(cleanText(el.cloneNode(true))));
         const link = linkCols[i]?.querySelector('a[href]');
-        if (link) content.push(plainLink(document, link));
+        if (link) {
+          const p = plainLink(document, link);
+          // the Marketplace card's link is the region's exchange (HealthSherpa, NY State of Health, ...)
+          if (/marketplace/i.test(text?.textContent || '')) p.querySelector('a').setAttribute('href', '{{marketplace}}');
+          content.push(p);
+        }
         return [image ? img(document, image.getAttribute('src'), image.getAttribute('alt') || '') : '', content];
       });
       out.append(WebImporter.Blocks.createBlock(document, { name: 'Cards (shop)', cells: rows }));
@@ -130,6 +139,7 @@ export default {
     if (learnHeading) {
       out.append(document.createElement(SECTION_BREAK));
       const text = learnHeading.closest('.cmp-text');
+      let spanish = false;
       text.querySelectorAll('h1, h2, h3, h4, h5, h6, p').forEach((el) => {
         const clone = cleanText(el.cloneNode(true));
         clone.querySelectorAll('a').forEach((a) => {
@@ -137,9 +147,25 @@ export default {
           a.removeAttribute('rel');
           a.removeAttribute('aria-description');
           a.textContent = a.textContent.trim();
+          // the captured region's brochures -> the visitor's region's
+          if (/spanish/i.test(a.textContent)) {
+            a.setAttribute('href', '{{spanish-brochure}}');
+            spanish = true;
+          } else {
+            a.setAttribute('href', a.getAttribute('href').replace(/\/brochures\/[A-Z]+_(\d{4})_ACA_Brochure\.pdf$/, '/brochures/{{region-code}}_$1_ACA_Brochure.pdf'));
+          }
         });
         if (clone.textContent.trim()) out.append(clone);
       });
+      // a region without a Spanish brochure (the default capture) has no line for it
+      if (!spanish) {
+        const h3 = document.createElement('h3');
+        const a = document.createElement('a');
+        a.setAttribute('href', '{{spanish-brochure}}');
+        a.textContent = 'Product Brochure Spanish';
+        h3.append(a);
+        out.append(h3);
+      }
       // the illustration is the next .image grid column after the text column
       let imageCmp = text.nextElementSibling;
       while (imageCmp && !imageCmp.matches('.image')) imageCmp = imageCmp.nextElementSibling;

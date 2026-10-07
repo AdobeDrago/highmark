@@ -88,7 +88,7 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 
 ## Redirects (highmark.com fallback)
 
-- `/redirects` (a DA sheet, published) sends every internal link that would 404 to the same page on highmark.com (on providers.highmark.com for `/providers/...`). It also mirrors the source's own redirects: `/about` → `/about/our-story`, `/privacy-center` → `/privacy-center/announcements`, Integrity & Ethics → highmarkhealth.org. 146 rows live as of 2026-10-06.
+- `/redirects` (a DA sheet, published) sends every internal link that would 404 to the same page on highmark.com (on providers.highmark.com for `/providers/...`). It also mirrors the source's own redirects: `/about` → `/about/our-story`, `/privacy-center` → `/privacy-center/announcements`, Integrity & Ethics → highmarkhealth.org. 255 rows live as of 2026-10-07 (112 of them for `/providers`).
 - **Redirects take precedence over pages:** a row hides any page published at that path. Don't hand-edit the sheet. After each import batch, run `node tools/redirects/build-redirects.mjs --upload` (it drops rows for paths that now have a DA document), check preview, then publish `/redirects.json`.
 - The sheet is shared, and publishing it publishes whatever is in DA. Before publishing, compare DA (`admin.da.live/source/adobedrago/highmark/redirects.json`) with live, in case another batch's regenerated sheet is waiting there for its pages.
 - Paths with a DA document are never redirected, so an unpublished draft 404s on live until it is published. Drafts that should stay redirected, and retired URLs, go in the script's `FORCE` list. It sends `/shop/home` and `/shop/beta/home` (copies of the old shop home) to `/shop/`, and `/shop` to `/shop/`, because a folder's index page is only served at its trailing-slash URL.
@@ -170,8 +170,8 @@ The footer's legal pages and their sub-pages (`/privacy`, `/fraud/*`, `/privacy-
 Started 2026-10-07. The Provider Resource Center is migrated into this site under `/providers`: our `/providers/claims` is its `/claims`, and its home is DA `/providers/index` (served at `/providers/`).
 
 - **Source.** 464 sitemap URLs (`providers.highmark.com/sitemap.xml`). 35 redirect to the Availity login and are not migrated: links to them go to providers.highmark.com, which sends visitors through the login. It runs on the same AEM as highmark.com (`/etc.clientlibs/hha`), and its WAF answers HEAD with 403, so use GET.
-- **First pass (preview only, not published):** the home page, Authorizations, Claims, Policies and Programs, Provider Network, Resources and Education, Communications Hub, Contact Us and Legal Information. Matched structurally, not to the pixel. The mailing-list form (it posts to `/bin/prc/sfmc`, with reCAPTCHA) and the search results stay on the source.
-- **Chrome.** The `/metadata` row `/providers/**` sets `nav` `/providers/fragments/nav`, `footer` `/providers/fragments/footer` and `breadcrumb-home` `/providers/` (in DA and preview; not published as of 2026-10-07).
+- **First pass (published 2026-10-07):** the home page, Authorizations, Claims, Policies and Programs, Provider Network, Resources and Education, Communications Hub, Contact Us and Legal Information. Matched structurally, not to the pixel. The mailing-list form (it posts to `/bin/prc/sfmc`, with reCAPTCHA) and the search results stay on the source.
+- **Chrome.** The `/metadata` row `/providers/**` sets `nav` `/providers/fragments/nav`, `footer` `/providers/fragments/footer` and `breadcrumb-home` `/providers/` (published 2026-10-07). The corporate nav's "For Providers" links to `/providers/`.
   - The nav fragment has the corporate header's three sections, plus a fourth: one link whose text is the search placeholder and whose URL is the results page (`.../search-results.html?filter=All`). That puts the box in its own row and submits `q` there, without suggestions.
   - Its primary nav section's Style `full width` opens each panel from the row's left edge with ruled columns. A list item without a link is a grey group label; `:lock:` after an item marks a page behind the Availity login.
   - The region picker ("All Regions") and the Availity login prompt are left out. The menu shows every item, as "All Regions" does on the source, and logging in to Availity unlocks nothing here.
@@ -188,8 +188,8 @@ Started 2026-10-07. The Provider Resource Center is migrated into this site unde
   - Contact Us's two tabs are two sections in a row, so the service-centre cards can link to each (`#highmark-provider-service-centers`, `#highmark-clinical-services`), and "View by region" links to the pipeline's heading ids.
   - Page titles are the source's (the home page's is "Home").
 - **Converter.** Kept in the session scratchpad (`day7/prov`), not in this repo: `extract.cjs` (Playwright, simplified component HTML) and `build.mjs` (component → block mapping, link rewriting, images into each page's dot-folder).
-- **Links.** Provider links are relative (`/providers/...`). `build-redirects.mjs` knows `/providers/x` comes from `providers.highmark.com/x`; a dry run on 2026-10-07 gave 88 `/providers` rows. Publish the provider pages and the sheet together.
-- **Search.** The `search-index` has no `/providers/**` exclude, so published provider pages will appear in highmark.com's site search. Decide before publishing.
+- **Links.** Provider links are relative (`/providers/...`). `build-redirects.mjs` knows `/providers/x` comes from `providers.highmark.com/x`, so links to provider pages not yet migrated redirect there (112 rows on 2026-10-07). Each provider batch: publish its pages, then run the script and publish the sheet.
+- **Search.** Provider pages are in the site search (`search-index` has no `/providers/**` exclude, decided 2026-10-07). The provider header's own box searches providers.highmark.com.
 
 ## Open PRs
 
@@ -204,12 +204,11 @@ None as of 2026-10-06. #44 (FSA, Commuter Benefits and HSA tables) and #56 (`mig
 - Issue #9: move ZIP persistence from `localStorage` to the app's Redux/IndexedDB store.
 - ZIP data is interim, built from Census data (see the ZIP/county modal section) until enGen supplies the real ZIP/county list. ShopX looks ZIPs up through `api.hmhs.com/sxesvc/api/v2/zipCode/countyList`, which only allows `shop.highmark.com` (CORS) and needs its app session. It also returns rating areas and plan-year service zones, which our sheets don't carry yet.
 - `/shop/` still differs from ShopX in the Special Enrollment copy alignment.
-- `/shop/` republished 2026-10-07 14:29 UTC (Gokulraj) hard-codes the Western PA Marketplace (HealthSherpa) and brochure links where the `{{marketplace}}`, `{{brochure}}` and `{{spanish-brochure}}` tokens were. Every region now gets Western PA's links, and Southeastern PA has lost its Spanish brochure line (2 checks of the region suite fail on live).
+- `/shop/` is re-imported from a ShopX capture made with a Western PA ZIP (`tools/importer/import-shop-home.js`). The importer turns that region's links into the `{{marketplace}}`, `{{region-code}}` and `{{spanish-brochure}}` tokens. The 2026-10-07 re-import had hard-coded the Western PA links, which was fixed the same day; re-run the region suite after any re-import.
 - Still 404 on live (2026-10-06):
   - FSA and Commuter Benefits in the header (not yet published).
   - `/reservations/aca` on `/resources/answers/faq/insurance-terms` (broken on the source too).
   - `/because-life`, which the homepage's Because Life card links to. The `/redirects` sheet republished at 10:45 and 11:22 UTC that day (144 rows) no longer redirects it, but the page isn't published yet. Gokulraj is publishing it.
-- `/about/events` (Bhupesh) has a DA draft and a live redirect row. The next `build-redirects.mjs` run drops that row, so publish the page with the sheet, as with `/because-life`.
 - The `/resources` sub-pages Lamont imported on 2026-09-16 (published 2026-10-01) have no template, like the live FAQ pages: no breadcrumbs, and the FAQ side navs list only the current topic.
 - Legal pages: the source separates content chunks with fixed "spacing" components (40px desktop / 20px tablet / 0 mobile) that have no EDS equivalent, so some of our pages run 2-8% shorter. `/privacy-center` has no page of its own; it redirects to `/privacy-center/announcements`, as on the source. `/fraud/contact` links to `/fraud/fraud-form`, the source's 55-field Health Care Fraud Form (it posts to an AEM servlet, `/bin/hmk/genericmailer`), which redirects to the source form until a form solution is chosen.
 - Query index data (2026-10-02): `/about/our-story/leadership-team-board` has no title, so search labels it from its URL ("Leadership Team Board").
