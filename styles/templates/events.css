@@ -75,7 +75,7 @@ body.events main > .section.press-release-list-container > .press-release-list-w
 }
 
 body.events main > .section.press-release-list-container > .press-release-list-wrapper ~ .default-content-wrapper a:hover {
-  color: var(--link-hover-color);
+  color: var(--link-color);
   text-decoration: underline;
 }
 
