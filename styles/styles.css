@@ -763,17 +763,24 @@ body.chip main > .section:not(.light) > .default-content-wrapper h1 + p + h2 {
   padding-top: 39.2px;
 }
 
+/* bulleted lists (source .cmp ul): text 50px in from the paragraph above
+   (ul 20px margin + 12px padding, li 18px margin), Roboto 400 16/26, 5px
+   apart, at every breakpoint; nested lists (.insidebullets) add no gap below */
 body.chip main > .section:not(.light) > .default-content-wrapper ul {
-  margin: 0 0 16px;
-  padding: 0;
+  margin: 0 0 16px 20px;
+  padding: 0 0 0 12px;
   list-style: disc;
 }
 
+body.chip main > .section:not(.light) > .default-content-wrapper li > ul {
+  margin-bottom: 0;
+}
+
 body.chip main > .section:not(.light) > .default-content-wrapper li {
-  margin: 0 0 13px 18px;
-  font-size: 15px;
-  font-weight: 100;
-  line-height: 22.5px;
+  margin: 0 0 5px 18px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
 }
 
 body.chip main > .section:not(.light) > .default-content-wrapper a:any-link {
@@ -823,11 +830,16 @@ body.chip main > .cards-minimal-light-sidenav-container + .section > .default-co
 
 /* link lists (ul whose items are a single link): no bullets, 5px link padding */
 body.chip main > .section:not(.light) > .default-content-wrapper ul:has(> li > a:only-child) {
+  margin-left: 0;
+  padding-left: 0;
   list-style: none;
 }
 
 body.chip main > .section:not(.light) > .default-content-wrapper ul:has(> li > a:only-child) > li {
   margin: 0;
+  font-size: 15px;
+  font-weight: 100;
+  line-height: 22.5px;
 }
 
 body.chip main > .section:not(.light) > .default-content-wrapper ul:has(> li > a:only-child) a {
@@ -1181,10 +1193,6 @@ main .section.blue .columns-minimal-dark a.button:hover, main .section.blue .col
     font-size: 20px;
     line-height: 30px;
     letter-spacing: -0.3px;
-  }
-
-  body.chip main > .section:not(.light) > .default-content-wrapper li {
-    margin-bottom: 15px;
   }
 
   body.chip main > .section:not(.light) > .default-content-wrapper ul:has(> li > a:only-child) > li {
