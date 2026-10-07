@@ -127,14 +127,29 @@ body.find-care .cards-minimal-dark-list-wrapper {
   padding: 0 30px;
 }
 
-body.find-care .cards-minimal-dark-list > ul {
+/* undo the block's 1234px cap for 3+-card rows (its selector is
+   `main .section > div.cards-minimal-dark-list-wrapper:has(...)`) */
+body.find-care main > .section > div.cards-minimal-dark-list-wrapper:has(> .cards-minimal-dark-list > ul > li:nth-child(3)) {
+  max-width: none;
+}
+
+/* `main` lifts these above the block's own 3+-card row rules
+   (`.cards-minimal-dark-list > ul:has(> li:nth-child(3))`: centred flex
+   rows of fixed 370px cards), which load after this file and otherwise win */
+body.find-care main .cards-minimal-dark-list > ul {
   display: block;
 }
 
-body.find-care .cards-minimal-dark-list > ul > li {
+body.find-care main .cards-minimal-dark-list > ul > li {
   display: block;
+  width: auto;
   background-color: transparent;
   box-shadow: none;
+}
+
+/* source region headings have no blue rule under them */
+body.find-care .cards-minimal-dark-list .cards-minimal-dark-list-title-underline {
+  display: none;
 }
 
 body.find-care .cards-minimal-dark-list .cards-minimal-dark-list-card-body {
@@ -156,6 +171,7 @@ body.find-care .cards-minimal-dark-list > ul > li:first-child .cards-minimal-dar
 
 body.find-care .cards-minimal-dark-list .cards-minimal-dark-list-card-body p {
   margin: 0 0 12.8px;
+  padding: 0;
   font-size: 15px;
   font-weight: 300;
   line-height: 21px;
@@ -177,6 +193,7 @@ body.find-care .cards-minimal-dark-list .cards-minimal-dark-list-card-body li {
 /* FIND CARE: left-aligned text link directly under the list */
 body.find-care .cards-minimal-dark-list .cards-minimal-dark-list-card-body p.button-container {
   margin: 0;
+  line-height: 20px;
   text-align: left;
 }
 
@@ -404,11 +421,14 @@ body.find-care main .section.highlight a.button:any-link {
 
   body.find-care .cards-minimal-dark-list-wrapper {
     box-sizing: border-box;
-    max-width: 1366px;
     padding: 60px 83px 0;
   }
 
-  body.find-care .cards-minimal-dark-list > ul {
+  body.find-care main > .section > div.cards-minimal-dark-list-wrapper:has(> .cards-minimal-dark-list > ul > li:nth-child(3)) {
+    max-width: 1366px;
+  }
+
+  body.find-care main .cards-minimal-dark-list > ul {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 0;
