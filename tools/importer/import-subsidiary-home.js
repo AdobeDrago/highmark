@@ -2,11 +2,12 @@
 /* global WebImporter */
 
 // PARSER IMPORTS
-// Hero, both card types and the help cards reuse the shared parsers unchanged. The
-// side panels use a template wrapper that delegates to the shared columns-minimal-dark
-// parser, except for the health-options-de video panel (<video> in .youtube-container),
-// which it emits as [ .mp4 link | content ] in the same block.
-import heroMinimalDarkWithimgParser from './parsers/hero-minimal-dark-withimg.js';
+// Both card types and the help cards reuse the shared parsers unchanged. The hero uses a
+// template wrapper around the shared hero parser that keeps the source's desktop, tablet
+// and mobile renditions. The side panels use a template wrapper that delegates to the
+// shared columns-minimal-dark parser, except for the health-options-de video panel
+// (<video> in .youtube-container), which it emits as [ .mp4 link | content ] in the same block.
+import heroMinimalDarkWithimgParser from './parsers/hero-minimal-dark-withimg-subsidiary-home.js';
 import cardsMinimalDarkWithimgParser from './parsers/cards-minimal-dark-withimg.js';
 import columnsMinimalDarkParser from './parsers/columns-minimal-dark-subsidiary-home.js';
 import cardsMinimalDarkWithimg2Parser from './parsers/cards-minimal-dark-withimg-2.js';

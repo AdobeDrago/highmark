@@ -116,8 +116,49 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
+  // tools/importer/parsers/hero-minimal-dark-withimg-subsidiary-home.js
+  var ORIGIN = "https://www.highmark.com";
+  function sourceFor(picture, test) {
+    const source = [...picture.querySelectorAll("source[media][srcset]")].find((s) => test(s.getAttribute("media")));
+    if (!source) return null;
+    const src = source.getAttribute("srcset").split(",")[0].trim().split(/\s+/)[0];
+    return src ? new URL(src, ORIGIN).href : null;
+  }
+  function image(document2, src, alt) {
+    const img = document2.createElement("img");
+    img.src = src;
+    img.alt = alt;
+    return img;
+  }
+  function parse2(element, { document: document2, url, params }) {
+    var _a;
+    const picture = element.querySelector("picture");
+    const desktopImg = picture == null ? void 0 : picture.querySelector("img");
+    const alt = (desktopImg == null ? void 0 : desktopImg.getAttribute("alt")) || "";
+    const desktop = desktopImg && new URL(desktopImg.getAttribute("src"), ORIGIN).href;
+    const tablet = picture && sourceFor(picture, (m) => /max-width:\s*768px/.test(m) && /min-width/.test(m));
+    const mobile = picture && sourceFor(picture, (m) => /max-width:\s*428px/.test(m));
+    if (!desktop || !tablet || !mobile) {
+      parse(element, { document: document2, url, params });
+      return;
+    }
+    const scratch = document2.createElement("div");
+    scratch.append(element.cloneNode(true));
+    parse(scratch.firstElementChild, { document: document2, url, params });
+    const rows = [...scratch.querySelectorAll("tr")];
+    const contentCell = (_a = rows[rows.length - 1]) == null ? void 0 : _a.querySelector("td");
+    const content = contentCell ? [...contentCell.childNodes] : [];
+    const cells = [
+      // Row 2: background image renditions (desktop, tablet, mobile)
+      [[image(document2, desktop, alt), image(document2, tablet, alt), image(document2, mobile, alt)]],
+      // Row 3: title + subheading + CTA
+      [content]
+    ];
+    element.replaceWith(WebImporter.Blocks.createBlock(document2, { name: "hero-minimal-dark-withimg", cells }));
+  }
+
   // tools/importer/parsers/cards-minimal-dark-withimg.js
-  function parse2(element, { document: document2 }) {
+  function parse3(element, { document: document2 }) {
     const introEls = [];
     const introContainer = element.querySelector(".cardBlockTitleContainer");
     if (introContainer) {
@@ -180,7 +221,7 @@ var CustomImportScript = (() => {
     };
     const cells = [];
     cards.forEach((card) => {
-      const image = card.querySelector("picture, img");
+      const image2 = card.querySelector("picture, img");
       const heading = card.querySelector('h1, h2, h3, h4, [class*="title"]');
       unwrapDeadHeadingLinks(heading);
       const paragraphs = Array.from(card.querySelectorAll(".cardText > p, p"));
@@ -192,22 +233,22 @@ var CustomImportScript = (() => {
       if (heading) contentCell.push(heading);
       contentCell.push(...paragraphs);
       contentCell.push(...links);
-      cells.push([image || "", contentCell]);
+      cells.push([image2 || "", contentCell]);
     });
     const block = WebImporter.Blocks.createBlock(document2, { name: "cards-minimal-dark-withimg", cells });
     element.replaceWith(...introEls, block);
   }
 
   // tools/importer/parsers/columns-minimal-dark.js
-  function parse3(element, { document: document2 }) {
+  function parse4(element, { document: document2 }) {
     const textArea = element.querySelector(".text-area") || element;
     const imageArea = element.querySelector(".image-area") || element;
-    const image = imageArea.querySelector("picture, img");
+    const image2 = imageArea.querySelector("picture, img");
     const heading = textArea.querySelector("h1, h2, h3, h4");
     const bodyBlocks = Array.from(textArea.querySelectorAll(":scope > div"));
     const isCta = (a) => a.matches('a.textButton, a.button, a[class*="button"]') || !!a.closest("b, strong");
     const links = Array.from(textArea.querySelectorAll('a.textButton, a.button, a[class*="button"], a[href]')).filter((a) => (a.getAttribute("href") || "").trim()).filter((a) => isCta(a) || !bodyBlocks.some((b) => b.contains(a)));
-    if (!heading && bodyBlocks.length === 0 && !image) {
+    if (!heading && bodyBlocks.length === 0 && !image2) {
       element.replaceWith(...element.childNodes);
       return;
     }
@@ -215,7 +256,7 @@ var CustomImportScript = (() => {
     if (heading) contentCell.push(heading);
     contentCell.push(...bodyBlocks);
     contentCell.push(...links);
-    const imageCell = image ? [image] : [""];
+    const imageCell = image2 ? [image2] : [""];
     const imageLeft = !!element.querySelector(".image-area.left-content");
     const cells = [imageLeft ? [imageCell, contentCell] : [contentCell, imageCell]];
     const block = WebImporter.Blocks.createBlock(document2, { name: "columns-minimal-dark", cells });
@@ -259,17 +300,17 @@ var CustomImportScript = (() => {
     const block = WebImporter.Blocks.createBlock(document2, { name: "columns-minimal-dark", cells });
     element.replaceWith(block);
   }
-  function parse4(element, { document: document2 }) {
+  function parse5(element, { document: document2 }) {
     const video = element.querySelector(".side-card-panel .youtube-container video") || element.querySelector(".youtube-container video");
     if (!video) {
-      parse3(element, { document: document2 });
+      parse4(element, { document: document2 });
       return;
     }
     parseVideoPanel(element, document2, video);
   }
 
   // tools/importer/parsers/cards-minimal-dark-withimg-2.js
-  function parse5(element, { document: document2 }) {
+  function parse6(element, { document: document2 }) {
     const cards = Array.from(element.querySelectorAll("li.listWideImg, .listWideImg, .cardul > li"));
     if (cards.length === 0) {
       element.replaceWith(...element.childNodes);
@@ -286,7 +327,7 @@ var CustomImportScript = (() => {
     };
     const cells = [];
     cards.forEach((card) => {
-      const image = card.querySelector("picture, img");
+      const image2 = card.querySelector("picture, img");
       const heading = card.querySelector('h1, h2, h3, h4, [class*="titleHead"]');
       unwrapDeadHeadingLinks(heading);
       const paragraphs = Array.from(card.querySelectorAll(".wideCardText p, .type2Txt p, p"));
@@ -304,7 +345,7 @@ var CustomImportScript = (() => {
           contentCell.push(a);
         }
       });
-      cells.push([image || "", contentCell]);
+      cells.push([image2 || "", contentCell]);
     });
     const block = WebImporter.Blocks.createBlock(document2, { name: "cards-minimal-dark-withimg-2", cells });
     element.replaceWith(block);
@@ -460,10 +501,10 @@ var CustomImportScript = (() => {
 
   // tools/importer/import-subsidiary-home.js
   var parsers = {
-    "hero-minimal-dark-withimg": parse,
-    "cards-minimal-dark-withimg": parse2,
-    "columns-minimal-dark": parse4,
-    "cards-minimal-dark-withimg-2": parse5
+    "hero-minimal-dark-withimg": parse2,
+    "cards-minimal-dark-withimg": parse3,
+    "columns-minimal-dark": parse5,
+    "cards-minimal-dark-withimg-2": parse6
   };
   var transformers = [
     transform,
