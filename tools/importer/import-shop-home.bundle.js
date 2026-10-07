@@ -93,7 +93,11 @@ var CustomImportScript = (() => {
           const content = [];
           text == null ? void 0 : text.querySelectorAll("h1, h2, h3, h4, p").forEach((el) => content.push(cleanText(el.cloneNode(true))));
           const link = (_a2 = linkCols[i]) == null ? void 0 : _a2.querySelector("a[href]");
-          if (link) content.push(plainLink(document, link));
+          if (link) {
+            const p = plainLink(document, link);
+            if (/marketplace/i.test((text == null ? void 0 : text.textContent) || "")) p.querySelector("a").setAttribute("href", "{{marketplace}}");
+            content.push(p);
+          }
           return [image ? img(document, image.getAttribute("src"), image.getAttribute("alt") || "") : "", content];
         });
         out.append(WebImporter.Blocks.createBlock(document, { name: "Cards (shop)", cells: rows }));
@@ -113,6 +117,7 @@ var CustomImportScript = (() => {
       if (learnHeading) {
         out.append(document.createElement(SECTION_BREAK));
         const text = learnHeading.closest(".cmp-text");
+        let spanish = false;
         text.querySelectorAll("h1, h2, h3, h4, h5, h6, p").forEach((el) => {
           const clone = cleanText(el.cloneNode(true));
           clone.querySelectorAll("a").forEach((a) => {
@@ -120,9 +125,23 @@ var CustomImportScript = (() => {
             a.removeAttribute("rel");
             a.removeAttribute("aria-description");
             a.textContent = a.textContent.trim();
+            if (/spanish/i.test(a.textContent)) {
+              a.setAttribute("href", "{{spanish-brochure}}");
+              spanish = true;
+            } else {
+              a.setAttribute("href", a.getAttribute("href").replace(/\/brochures\/[A-Z]+_(\d{4})_ACA_Brochure\.pdf$/, "/brochures/{{region-code}}_$1_ACA_Brochure.pdf"));
+            }
           });
           if (clone.textContent.trim()) out.append(clone);
         });
+        if (!spanish) {
+          const h3 = document.createElement("h3");
+          const a = document.createElement("a");
+          a.setAttribute("href", "{{spanish-brochure}}");
+          a.textContent = "Product Brochure Spanish";
+          h3.append(a);
+          out.append(h3);
+        }
         let imageCmp = text.nextElementSibling;
         while (imageCmp && !imageCmp.matches(".image")) imageCmp = imageCmp.nextElementSibling;
         const image = imageCmp == null ? void 0 : imageCmp.querySelector("img");
