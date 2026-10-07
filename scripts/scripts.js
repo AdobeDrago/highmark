@@ -164,8 +164,30 @@ const TEMPLATE_STYLES = [
   'employer-landing', 'employer-subpage', 'about-article', 'leadership', 'bright-blue-futures',
   'media-contacts', 'capitol-hill-report', 'legal', 'contact', 'language-assistance',
   'news-alert', 'content-landing', 'zipcode-gate-login', 'campaign-landing', 'events',
-  'home',
+  'home', 'shop-home',
 ];
+
+/**
+ * Shop home (template shop-home): links that leave highmark.com, or open a PDF, open
+ * in a new tab, as on ShopX (the marketplace and plan-brochure links). The page CSS
+ * gives them ShopX's new-tab icon. Links with ZIP tokens get the same rule from
+ * zip-tokens.js once they are filled.
+ * @param {Element} main The main element
+ */
+function decorateShopHomeLinks(main) {
+  if (!document.body.classList.contains('shop-home')) return;
+  main.querySelectorAll('a[href]').forEach((a) => {
+    if (a.getAttribute('href').includes('%7B%7B')) return;
+    const url = new URL(a.href, window.location.href);
+    const offSite = url.origin !== window.location.origin
+      && !/(^|\.)highmark\.com$/i.test(url.hostname);
+    if (offSite || /\.pdf$/i.test(url.pathname)) {
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.setAttribute('aria-description', 'opens in a new tab');
+    }
+  });
+}
 
 /**
  * Loads everything needed to get to LCP.
@@ -189,6 +211,7 @@ async function loadEager(doc) {
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
+    decorateShopHomeLinks(main);
     await templateStyles;
     doc.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);

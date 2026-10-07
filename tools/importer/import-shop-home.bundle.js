@@ -40,13 +40,14 @@ var CustomImportScript = (() => {
     el.querySelectorAll("br").forEach((br) => {
       if (!br.nextSibling || br.nextSibling.nodeType === 3 && !br.nextSibling.textContent.trim() && !br.nextSibling.nextSibling) br.remove();
     });
-    el.innerHTML = el.innerHTML.replace(/&nbsp;/g, " ").replace(/ /g, " ");
+    el.innerHTML = el.innerHTML.replace(/&nbsp;/g, " ").replace(/\u00a0/g, " ");
     return el;
   }
   function plainLink(document, a) {
     const link = document.createElement("a");
     link.href = a.getAttribute("href");
     link.textContent = a.textContent.replace(/\s+/g, " ").trim();
+    if (a.getAttribute("title")) link.title = a.getAttribute("title");
     const p = document.createElement("p");
     p.append(link);
     return p;
