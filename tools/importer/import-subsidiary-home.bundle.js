@@ -239,8 +239,42 @@ var CustomImportScript = (() => {
     element.replaceWith(...introEls, block);
   }
 
+  // tools/importer/parsers/cards-minimal-dark-withimg-subsidiary-home.js
+  function variantsFor(element) {
+    if (element.querySelector("li.cardThree .typeThreeTxt, hr.breakLine")) return "underline, compact";
+    if (element.querySelector(".cardBlock, hr.titleUnderline")) return "underline";
+    return "";
+  }
+  function parse4(element, { document: document2, url, params }) {
+    const variants = variantsFor(element);
+    if (!variants) {
+      parse3(element, { document: document2, url, params });
+      return;
+    }
+    const scratch = document2.createElement("div");
+    scratch.append(element.cloneNode(true));
+    parse3(scratch.firstElementChild, { document: document2, url, params });
+    const table = scratch.querySelector("table");
+    if (!table) {
+      parse3(element, { document: document2, url, params });
+      return;
+    }
+    const intro = [...scratch.childNodes].filter((n) => n !== table && !(n.nodeType === 1 && n.contains(table)));
+    const cells = [...table.querySelectorAll("tr")].slice(1).map((tr) => {
+      const [imageCell, textCell] = tr.querySelectorAll("td");
+      return [
+        imageCell ? [...imageCell.childNodes] : "",
+        textCell ? [...textCell.childNodes] : ""
+      ];
+    });
+    element.replaceWith(
+      ...intro,
+      WebImporter.Blocks.createBlock(document2, { name: `cards-minimal-dark-withimg (${variants})`, cells })
+    );
+  }
+
   // tools/importer/parsers/columns-minimal-dark.js
-  function parse4(element, { document: document2 }) {
+  function parse5(element, { document: document2 }) {
     const textArea = element.querySelector(".text-area") || element;
     const imageArea = element.querySelector(".image-area") || element;
     const image2 = imageArea.querySelector("picture, img");
@@ -300,17 +334,17 @@ var CustomImportScript = (() => {
     const block = WebImporter.Blocks.createBlock(document2, { name: "columns-minimal-dark", cells });
     element.replaceWith(block);
   }
-  function parse5(element, { document: document2 }) {
+  function parse6(element, { document: document2 }) {
     const video = element.querySelector(".side-card-panel .youtube-container video") || element.querySelector(".youtube-container video");
     if (!video) {
-      parse4(element, { document: document2 });
+      parse5(element, { document: document2 });
       return;
     }
     parseVideoPanel(element, document2, video);
   }
 
   // tools/importer/parsers/cards-minimal-dark-withimg-2.js
-  function parse6(element, { document: document2 }) {
+  function parse7(element, { document: document2 }) {
     const cards = Array.from(element.querySelectorAll("li.listWideImg, .listWideImg, .cardul > li"));
     if (cards.length === 0) {
       element.replaceWith(...element.childNodes);
@@ -502,9 +536,9 @@ var CustomImportScript = (() => {
   // tools/importer/import-subsidiary-home.js
   var parsers = {
     "hero-minimal-dark-withimg": parse2,
-    "cards-minimal-dark-withimg": parse3,
-    "columns-minimal-dark": parse5,
-    "cards-minimal-dark-withimg-2": parse6
+    "cards-minimal-dark-withimg": parse4,
+    "columns-minimal-dark": parse6,
+    "cards-minimal-dark-withimg-2": parse7
   };
   var transformers = [
     transform,

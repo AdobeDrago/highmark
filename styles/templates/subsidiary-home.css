@@ -1,0 +1,199 @@
+/* Template "subsidiary-home" (page metadata template=subsidiary-home ->
+   body.subsidiary-home). Loaded by scripts/scripts.js (TEMPLATE_STYLES).
+
+   Pages: /wholecare, /health-options-de. Values extracted (getComputedStyle)
+   from https://www.highmark.com/wholecare and /health-options-de at 390 /
+   768 / 1280. Source breakpoints: < 768 (mobile), 768-991 (tablet), >= 992
+   (desktop).
+
+   1. Hero text (hero-minimal-dark-withimg with h1): a 2/3-width column inset
+      150px from the viewport edge on desktop (30px below 992); the h1 fills
+      it and the h2 is 85% of it (100% on mobile). Same on both pages.
+   2. Plan-card intro (the h2 + lead paragraph before the plan cards):
+      - /health-options-de (.cardBlock): 580px centred column on desktop,
+        30px gutters below; h2 34/40.8, lead 20/30 (17/27 below 992).
+      - /wholecare (cards `compact`, li.cardThree): 60% of the row on desktop,
+        13px / 19px gutters below; h2 34/37.4, lead 20/30 (17/23.8 below).
+   3. cards-minimal-dark-withimg (underline): the source's rule under each card
+      title (<hr class="titleUnderline"> / "breakLine") - 51x4px #0078c1 with a
+      1px top border; 10px below the title, text right under it (`compact`:
+      13px below the title, 15px above the text). */
+
+/* stylelint-disable no-descending-specificity */
+
+/* ------------------------------------------------------------------
+ * 1. Hero text
+ * ------------------------------------------------------------------ */
+body.subsidiary-home .hero-minimal-dark-withimg:has(h1) > div:last-child {
+  box-sizing: border-box;
+  width: calc(100% * 2 / 3);
+  max-width: none;
+  margin: 0;
+  padding: 0 0 0 30px;
+}
+
+body.subsidiary-home .hero-minimal-dark-withimg:has(h1) h1 {
+  max-width: none;
+  padding: 0 0 10px;
+  font-size: 32px;
+  line-height: 35.2px;
+  letter-spacing: -1.28px;
+}
+
+body.subsidiary-home .hero-minimal-dark-withimg:has(h1) h2 {
+  max-width: none;
+  padding: 10px 0 19.2px;
+  font-size: 20px;
+  line-height: 22px;
+  letter-spacing: -0.72px;
+}
+
+@media (width >= 768px) {
+  body.subsidiary-home .hero-minimal-dark-withimg:has(h1) h1 {
+    padding-bottom: 14.4px;
+  }
+
+  body.subsidiary-home .hero-minimal-dark-withimg:has(h1) h2 {
+    max-width: 85%;
+    padding: 12.8px 0 19.2px;
+    font-size: 26px;
+    line-height: 28.6px;
+  }
+}
+
+@media (width >= 992px) {
+  body.subsidiary-home .hero-minimal-dark-withimg:has(h1) > div:last-child {
+    padding-left: 150px;
+  }
+
+  body.subsidiary-home .hero-minimal-dark-withimg:has(h1) h1 {
+    font-size: 56px;
+    line-height: 61.6px;
+    letter-spacing: -2.8px;
+  }
+
+  body.subsidiary-home .hero-minimal-dark-withimg:has(h1) h2 {
+    padding: 12.8px 0 24px;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 2. Plan-card intro
+ * ------------------------------------------------------------------ */
+body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper:first-child {
+  box-sizing: border-box;
+  max-width: none;
+  padding: 0 30px;
+  text-align: center;
+}
+
+body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper:first-child > * {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper:first-child h2 {
+  margin-bottom: 16px;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper:first-child h2 + p {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 27px;
+  letter-spacing: -0.2px;
+}
+
+/* /wholecare's compact card list */
+body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper:first-child:has(+ .cards-minimal-dark-withimg-wrapper .compact) {
+  padding: 0 13px;
+}
+
+body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper:first-child:has(+ .cards-minimal-dark-withimg-wrapper .compact) h2 {
+  margin-bottom: 20px;
+}
+
+body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper:first-child:has(+ .cards-minimal-dark-withimg-wrapper .compact) h2 + p {
+  margin-bottom: 30px;
+  line-height: 23.8px;
+}
+
+@media (width >= 768px) {
+  body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper:first-child:has(+ .cards-minimal-dark-withimg-wrapper .compact) {
+    padding: 0 19px;
+  }
+}
+
+@media (width >= 992px) {
+  body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper:first-child {
+    padding: 0;
+  }
+
+  body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper:first-child > * {
+    max-width: 580px;
+  }
+
+  body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper:first-child h2 {
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper:first-child h2 + p {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper:first-child:has(+ .cards-minimal-dark-withimg-wrapper .compact) {
+    padding: 0;
+  }
+
+  body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper:first-child:has(+ .cards-minimal-dark-withimg-wrapper .compact) > * {
+    max-width: 60%;
+  }
+
+  body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper:first-child:has(+ .cards-minimal-dark-withimg-wrapper .compact) h2 {
+    line-height: 37.4px;
+  }
+
+  body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper:first-child:has(+ .cards-minimal-dark-withimg-wrapper .compact) h2 + p {
+    margin-bottom: 40px;
+    line-height: 30px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 3. Card title underline (cards-minimal-dark-withimg (underline))
+ * ------------------------------------------------------------------ */
+body.subsidiary-home .cards-minimal-dark-withimg.underline .cards-minimal-dark-withimg-card-body h3 {
+  margin-bottom: 0;
+}
+
+body.subsidiary-home .cards-minimal-dark-withimg.underline .cards-minimal-dark-withimg-card-body h3::after {
+  content: '';
+  display: block;
+  width: 51px;
+  height: 4px;
+  margin: 10px 0 0;
+  border-top: 1px solid rgb(0 0 0 / 10%);
+  background-color: #0078c1;
+}
+
+body.subsidiary-home .cards-minimal-dark-withimg.underline .cards-minimal-dark-withimg-card-body h3 + p {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+body.subsidiary-home .cards-minimal-dark-withimg.underline.compact .cards-minimal-dark-withimg-card-body h3::after {
+  margin: 13px 0 15px;
+}
