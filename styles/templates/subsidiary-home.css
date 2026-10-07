@@ -16,8 +16,13 @@
         13px / 19px gutters below; h2 34/37.4, lead 20/30 (17/23.8 below).
    3. cards-minimal-dark-withimg (underline): the source's rule under each card
       title (<hr class="titleUnderline"> / "breakLine") - 51x4px #0078c1 with a
-      1px top border; 10px below the title, text right under it (`compact`:
-      13px below the title, 15px above the text). */
+      1px top border; 10px below the title and 10px above the text (the
+      source's <p> padding; `compact`: 13px below the title, 15px above the
+      text).
+   4-9. Section bands, plan-card section, side panels, photo banner and help
+      cards, from the source's AEM components (both pages use the same ones):
+      sections butt against each other and carry their own padding. Values
+      from getComputedStyle at 390 / 768 / 1280 / 1440. */
 
 /* stylelint-disable no-descending-specificity */
 
@@ -48,24 +53,44 @@ body.subsidiary-home .hero-minimal-dark-withimg:has(h1) h2 {
   letter-spacing: -0.72px;
 }
 
+/* 768-1024 (the source's tablet range): the h1 sits 5px lower; up to 991 it is
+   36/39.6 and the h2 stays 20px. */
 @media (width >= 768px) {
   body.subsidiary-home .hero-minimal-dark-withimg:has(h1) h1 {
+    margin-top: 5px;
     padding-bottom: 14.4px;
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
   }
 
   body.subsidiary-home .hero-minimal-dark-withimg:has(h1) h2 {
     max-width: 85%;
     padding: 12.8px 0 19.2px;
-    font-size: 26px;
-    line-height: 28.6px;
+    letter-spacing: -0.78px;
+  }
+}
+
+@media (width >= 1025px) {
+  body.subsidiary-home .hero-minimal-dark-withimg:has(h1) h1 {
+    margin-top: 0;
+  }
+}
+
+/* the text column's inset: 30px up to 1023, 110px 1024-1098, 150px from 1099 */
+@media (width >= 1024px) {
+  body.subsidiary-home .hero-minimal-dark-withimg:has(h1) > div:last-child {
+    padding-left: 110px;
+  }
+}
+
+@media (width >= 1099px) {
+  body.subsidiary-home .hero-minimal-dark-withimg:has(h1) > div:last-child {
+    padding-left: 150px;
   }
 }
 
 @media (width >= 992px) {
-  body.subsidiary-home .hero-minimal-dark-withimg:has(h1) > div:last-child {
-    padding-left: 150px;
-  }
-
   body.subsidiary-home .hero-minimal-dark-withimg:has(h1) h1 {
     font-size: 56px;
     line-height: 61.6px;
@@ -74,9 +99,16 @@ body.subsidiary-home .hero-minimal-dark-withimg:has(h1) h2 {
 
   body.subsidiary-home .hero-minimal-dark-withimg:has(h1) h2 {
     padding: 12.8px 0 24px;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: -1.36px;
+  }
+}
+
+@media (width >= 1025px) {
+  body.subsidiary-home .hero-minimal-dark-withimg:has(h1) h2 {
     font-size: 34px;
     line-height: 40.8px;
-    letter-spacing: -1.36px;
   }
 }
 
@@ -96,6 +128,7 @@ body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .def
 }
 
 body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper:first-child h2 {
+  margin-top: 0;
   margin-bottom: 16px;
   font-size: 26px;
   line-height: 28.6px;
@@ -159,7 +192,7 @@ body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .def
   }
 
   body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper:first-child:has(+ .cards-minimal-dark-withimg-wrapper .compact) > * {
-    max-width: 60%;
+    max-width: 766px;
   }
 
   body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper:first-child:has(+ .cards-minimal-dark-withimg-wrapper .compact) h2 {
@@ -184,7 +217,7 @@ body.subsidiary-home .cards-minimal-dark-withimg.underline .cards-minimal-dark-w
   display: block;
   width: 51px;
   height: 4px;
-  margin: 10px 0 0;
+  margin: 10px 0;
   border-top: 1px solid rgb(0 0 0 / 10%);
   background-color: #0078c1;
 }
@@ -196,4 +229,726 @@ body.subsidiary-home .cards-minimal-dark-withimg.underline .cards-minimal-dark-w
 
 body.subsidiary-home .cards-minimal-dark-withimg.underline.compact .cards-minimal-dark-withimg-card-body h3::after {
   margin: 13px 0 15px;
+}
+
+/* ------------------------------------------------------------------
+ * 4. Section rhythm: the source's components butt against each other
+ * ------------------------------------------------------------------ */
+body.subsidiary-home main > .section {
+  margin: 0;
+}
+
+/* ------------------------------------------------------------------
+ * 5. Text bands (.one-card-one-col-panel.color): `dark center` (navy intro),
+ *    `light-blue center` (/health-options-de "Find nearby doctors"),
+ *    `highlight center` (/wholecare "Find a Network Doctor").
+ *    32/48px padding, 30px gutters; 64px gutters 768-991; from 992 64px
+ *    padding and a 780px centred column.
+ * ------------------------------------------------------------------ */
+body.subsidiary-home main > .section.center {
+  padding: 32px 0 48px;
+}
+
+body.subsidiary-home main > .section.center > .default-content-wrapper {
+  box-sizing: border-box;
+  max-width: none;
+  padding: 0 30px;
+}
+
+body.subsidiary-home main > .section.center > .default-content-wrapper h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0 8px;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.subsidiary-home main > .section.center > .default-content-wrapper p:not(.button-container) {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.25px;
+}
+
+body.subsidiary-home main > .section.center:not(.dark) > .default-content-wrapper p:not(.button-container) {
+  color: var(--text-body-color);
+}
+
+/* light-blue: two plain uppercase text CTAs (source .textButton), stacked
+   below 481px, side by side from 481px */
+body.subsidiary-home main > .section.light-blue.center > .default-content-wrapper p.button-container {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0 5px 15px;
+}
+
+body.subsidiary-home main > .section.light-blue.center > .default-content-wrapper p:not(.button-container) + p.button-container {
+  margin-top: 16px;
+}
+
+body.subsidiary-home main > .section.light-blue.center a.button:any-link {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--link-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  white-space: normal;
+}
+
+body.subsidiary-home main > .section.light-blue.center a.button:hover,
+body.subsidiary-home main > .section.light-blue.center a.button:focus {
+  background-color: transparent;
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+/* highlight: one outlined CTA (source .brand-button-light, 16px above + 16px
+   margins, 24px line) */
+body.subsidiary-home main > .section.highlight.center > .default-content-wrapper p.button-container {
+  margin: 16px 0 0;
+}
+
+body.subsidiary-home main > .section.highlight.center a.button:any-link {
+  margin: 16px 0;
+  line-height: 24px;
+  letter-spacing: normal;
+  white-space: normal;
+}
+
+@media (width >= 481px) {
+  /* inline boxes on one line: 16px above, 20px below, 24px between the
+     labels (the source's 5px margins + a 4px word space) */
+  body.subsidiary-home main > .section.light-blue.center > .default-content-wrapper p.button-container {
+    display: inline-flex;
+    margin: 10px 5px 20px;
+  }
+
+  body.subsidiary-home main > .section.light-blue.center > .default-content-wrapper p.button-container + p.button-container {
+    margin-left: 9px;
+  }
+}
+
+@media (width >= 544px) {
+  body.subsidiary-home main > .section.center > .default-content-wrapper p:not(.button-container) {
+    font-size: 18px;
+    line-height: 25.2px;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.subsidiary-home main > .section.center > .default-content-wrapper {
+    padding: 0 64px;
+  }
+
+  body.subsidiary-home main > .section.center > .default-content-wrapper h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.subsidiary-home main > .section.center > .default-content-wrapper p:not(.button-container) {
+    line-height: 23.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.subsidiary-home main > .section.center {
+    padding: 64px 0;
+  }
+
+  body.subsidiary-home main > .section.center > .default-content-wrapper {
+    max-width: 780px;
+    padding: 0;
+  }
+
+  body.subsidiary-home main > .section.center > .default-content-wrapper h2 {
+    padding: 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.subsidiary-home main > .section.center > .default-content-wrapper p:not(.button-container) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 6. Plan-card section (.cardBlockContent / .container-sm-img): 60px above
+ *    the intro, 50px below the cards. /health-options-de's cards
+ *    (not `compact`) sit 16px + 15px below the intro with 15px under the
+ *    last one, and their CTA moves to the left below 992px.
+ * ------------------------------------------------------------------ */
+body.subsidiary-home main > .section.cards-minimal-dark-withimg-container {
+  padding: 60px 0 50px;
+}
+
+@media (width < 768px) {
+  body.subsidiary-home main > .section.cards-minimal-dark-withimg-container:has(.compact) {
+    padding: 50px 0 40px;
+  }
+}
+
+body.subsidiary-home .cards-minimal-dark-withimg.underline:not(.compact) > ul {
+  margin-top: 16px;
+  padding: 15px 0;
+}
+
+@media (width < 992px) {
+  body.subsidiary-home .cards-minimal-dark-withimg.underline .cards-minimal-dark-withimg-card-body p.button-container {
+    justify-content: flex-start;
+  }
+}
+
+/* /wholecare's `compact` cards (source li.cardThree): 300px / 400px (768-991)
+   cards stacked 30px apart; from 992px two 370px cards 34px apart, centred
+   (15px left of centre from 1200px). Text 20px in (30px from 992px), 20px above the
+   title, 16px under the CTA. */
+body.subsidiary-home .cards-minimal-dark-withimg.underline.compact > ul {
+  padding: 0 0 30px;
+}
+
+body.subsidiary-home .cards-minimal-dark-withimg.underline.compact .cards-minimal-dark-withimg-card-body {
+  padding: 20px 20px 16px;
+}
+
+body.subsidiary-home .cards-minimal-dark-withimg.underline.compact .cards-minimal-dark-withimg-card-body p:not(.button-container) {
+  padding-bottom: 0;
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.subsidiary-home .cards-minimal-dark-withimg.underline.compact > ul {
+    grid-template-columns: minmax(0, 400px);
+  }
+
+  body.subsidiary-home .cards-minimal-dark-withimg.underline.compact .cards-minimal-dark-withimg-card-body h3 {
+    padding-bottom: 3px;
+    font-size: 32px;
+    line-height: 35.2px;
+    letter-spacing: -0.44px;
+  }
+
+  body.subsidiary-home .cards-minimal-dark-withimg.underline.compact .cards-minimal-dark-withimg-card-body p:not(.button-container) {
+    margin-bottom: 16px;
+    font-size: 15px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.subsidiary-home .cards-minimal-dark-withimg.underline.compact > ul {
+    grid-template-columns: repeat(2, 370px);
+    column-gap: 34px;
+  }
+
+  body.subsidiary-home .cards-minimal-dark-withimg.underline.compact .cards-minimal-dark-withimg-card-body {
+    padding: 20px 30px 16px;
+  }
+}
+
+@media (width >= 1200px) {
+  body.subsidiary-home .cards-minimal-dark-withimg.underline.compact > ul {
+    padding-right: 30px;
+  }
+}
+
+/* the block's desktop type starts at 900px, the source's at 992px */
+@media (width >= 900px) and (width < 992px) {
+  body.subsidiary-home .cards-minimal-dark-withimg.underline:not(.compact) .cards-minimal-dark-withimg-card-body h3 {
+    letter-spacing: -0.44px;
+  }
+
+  body.subsidiary-home .cards-minimal-dark-withimg.underline:not(.compact) .cards-minimal-dark-withimg-card-body p:not(.button-container) {
+    font-size: 15px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper:first-child:has(+ .cards-minimal-dark-withimg-wrapper .underline:not(.compact)) {
+    padding: 0 64px;
+  }
+
+  body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper:first-child:has(+ .cards-minimal-dark-withimg-wrapper .underline:not(.compact)) h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.subsidiary-home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper:first-child:has(+ .cards-minimal-dark-withimg-wrapper .underline:not(.compact)) h2 + p {
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: -0.4px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 7. Side panels (columns-minimal-dark; source .side-card-panel): photo or
+ *    video stacked above the text, then from 992px media left (555px) |
+ *    text right (550px) in a 1366px container with 83px gutters.
+ *    32px band padding, 48px from 544px, 80px from 992px.
+ * ------------------------------------------------------------------ */
+body.subsidiary-home main > .section.columns-minimal-dark-container {
+  padding: 32px 0;
+}
+
+body.subsidiary-home main > .section.light.columns-minimal-dark-container {
+  background-color: #edf5fa;
+}
+
+body.subsidiary-home main > .section > .columns-minimal-dark-wrapper {
+  max-width: 1366px;
+  padding: 0 30px;
+}
+
+body.subsidiary-home .columns-minimal-dark.block > div {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+
+body.subsidiary-home .columns-minimal-dark.block > div > div {
+  flex: 0 1 auto;
+}
+
+body.subsidiary-home .columns-minimal-dark.block > div > .columns-minimal-dark-img-col {
+  order: -1;
+}
+
+body.subsidiary-home .columns-minimal-dark.block h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.subsidiary-home .columns-minimal-dark.block p:not(.button-container) {
+  margin: 0 0 12.8px;
+  color: var(--text-body-color);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+body.subsidiary-home .columns-minimal-dark.block ul {
+  margin: 0 0 16px 8px;
+  padding: 0;
+  color: var(--text-body-color);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 100;
+  line-height: 22.5px;
+  list-style: disc outside;
+}
+
+body.subsidiary-home .columns-minimal-dark.block li {
+  margin: 0 0 0 8px;
+}
+
+body.subsidiary-home .columns-minimal-dark.block p.button-container {
+  margin: 0;
+}
+
+body.subsidiary-home .columns-minimal-dark.block p.button-container:not(:has(> strong)) {
+  display: flex;
+}
+
+body.subsidiary-home main .columns-minimal-dark.block a.button:any-link {
+  display: inline-flex;
+  align-items: flex-start;
+  line-height: 20px;
+}
+
+body.subsidiary-home main .columns-minimal-dark.block a.button:hover,
+body.subsidiary-home main .columns-minimal-dark.block a.button:focus {
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+/* external CTA ("begin search"): the source's open-in-new icon, 24px box */
+body.subsidiary-home main .columns-minimal-dark.block a.button[target="_blank"]::after,
+body.subsidiary-home main .columns-minimal-dark.block a.button[href^="http"]:not([href*="highmark.com"])::after {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-left: 4px;
+  background-color: currentcolor;
+  mask: url('/icons/open-in-new.svg') center / 18px 18px no-repeat;
+}
+
+/* the video panel's bold "WATCH THE VIDEO" link: body copy size, #0078c1,
+   16px below it as on the source */
+body.subsidiary-home .columns-minimal-dark.block p.button-container:has(> strong > a.button) {
+  margin: 0 0 16px;
+  font-size: 15px;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+body.subsidiary-home main .columns-minimal-dark.block strong > a.button:any-link {
+  display: inline;
+  color: rgb(0 120 193);
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+}
+
+body.subsidiary-home main .columns-minimal-dark.block strong > a.button:hover,
+body.subsidiary-home main .columns-minimal-dark.block strong > a.button:focus {
+  color: rgb(0 86 179);
+}
+
+@media (width >= 544px) {
+  body.subsidiary-home main > .section.columns-minimal-dark-container {
+    padding: 48px 0;
+  }
+}
+
+@media (width >= 544px) and (width < 992px) {
+  body.subsidiary-home .columns-minimal-dark.block > div > div {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  body.subsidiary-home .columns-minimal-dark.block > div > .columns-minimal-dark-video-col {
+    max-width: 768px;
+  }
+}
+
+@media (width >= 768px) {
+  body.subsidiary-home main > .section > .columns-minimal-dark-wrapper {
+    padding: 0 64px;
+  }
+
+  body.subsidiary-home .columns-minimal-dark.block h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.subsidiary-home .columns-minimal-dark.block p:not(.button-container) {
+    margin: 0 0 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.subsidiary-home .columns-minimal-dark.block p.button-container:has(> strong > a.button) {
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.subsidiary-home main > .section.columns-minimal-dark-container {
+    padding: 80px 0;
+  }
+
+  body.subsidiary-home main > .section > .columns-minimal-dark-wrapper {
+    padding: 0 83px;
+  }
+
+  body.subsidiary-home .columns-minimal-dark.block > div {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  body.subsidiary-home .columns-minimal-dark.block > div > .columns-minimal-dark-img-col {
+    flex: 0 1 555px;
+    max-width: 555px;
+    margin: 0 24px;
+  }
+
+  body.subsidiary-home .columns-minimal-dark.block > div > .columns-minimal-dark-video-col {
+    flex-basis: 550px;
+    max-width: 550px;
+  }
+
+  body.subsidiary-home .columns-minimal-dark.block > div > div:not(.columns-minimal-dark-img-col) {
+    flex: 0 1 550px;
+    box-sizing: border-box;
+    max-width: 720px;
+    margin: 0 0 0 24px;
+    padding: 0 24px;
+  }
+
+  body.subsidiary-home .columns-minimal-dark.block h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.subsidiary-home .columns-minimal-dark.block p:not(.button-container),
+  body.subsidiary-home .columns-minimal-dark.block p.button-container:has(> strong > a.button) {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 8. Photo banner (hero-minimal-dark-withimg without an h1; source
+ *    .one-card-one-col-panel.image): navy h2, body-navy copy. Below 992px
+ *    the photo (784x288 crop from 768px) stacks above the text; from 992px
+ *    the band takes the photo's own shape and the text is centred on it,
+ *    in a 1366px container with 83px gutters.
+ * ------------------------------------------------------------------ */
+body.subsidiary-home .hero-minimal-dark-withimg:not(:has(h1)) h2 {
+  color: var(--text-color);
+}
+
+body.subsidiary-home .hero-minimal-dark-withimg:not(:has(h1)) p:not(.button-container) {
+  color: var(--text-body-color);
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.subsidiary-home .hero-minimal-dark-withimg:not(:has(h1)) {
+    display: block;
+    min-height: 0;
+  }
+
+  body.subsidiary-home .hero-minimal-dark-withimg:not(:has(h1)) > div:first-child {
+    position: static;
+  }
+
+  body.subsidiary-home .hero-minimal-dark-withimg:not(:has(h1)) > div:first-child,
+  body.subsidiary-home .hero-minimal-dark-withimg:not(:has(h1)) > div:first-child > div,
+  body.subsidiary-home .hero-minimal-dark-withimg:not(:has(h1)) > div:first-child picture {
+    height: auto;
+  }
+
+  body.subsidiary-home .hero-minimal-dark-withimg:not(:has(h1)) picture img {
+    display: block;
+    height: auto;
+    aspect-ratio: 784 / 288;
+    object-position: 90% 50%;
+  }
+
+  /* 1500x320 photos (/wholecare) have a shallower 768x220 tablet crop */
+  body.subsidiary-home .hero-minimal-dark-withimg:not(:has(h1)) picture img[width="1500"][height="320"] {
+    aspect-ratio: 768 / 220;
+  }
+
+  body.subsidiary-home .hero-minimal-dark-withimg:not(:has(h1)) > div:last-child {
+    max-width: none;
+    padding: 0 64px 16px;
+  }
+
+  body.subsidiary-home .hero-minimal-dark-withimg:not(:has(h1)) > div:last-child > div {
+    max-width: none;
+  }
+
+  body.subsidiary-home .hero-minimal-dark-withimg:not(:has(h1)) h2 {
+    padding: 19.2px 0 8px;
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.subsidiary-home .hero-minimal-dark-withimg:not(:has(h1)) p:not(.button-container) {
+    font-size: 18px;
+    line-height: 23.4px;
+  }
+
+  body.subsidiary-home main .hero-minimal-dark-withimg:not(:has(h1)) a.button:any-link {
+    margin: 16px 0 0;
+  }
+}
+
+@media (width >= 992px) {
+  body.subsidiary-home .hero-minimal-dark-withimg:not(:has(h1)) {
+    display: grid;
+    align-items: center;
+    min-height: 0;
+  }
+
+  body.subsidiary-home .hero-minimal-dark-withimg:not(:has(h1)) > div {
+    grid-area: 1 / 1;
+  }
+
+  body.subsidiary-home .hero-minimal-dark-withimg:not(:has(h1)) > div:first-child {
+    position: static;
+  }
+
+  body.subsidiary-home .hero-minimal-dark-withimg:not(:has(h1)) > div:first-child,
+  body.subsidiary-home .hero-minimal-dark-withimg:not(:has(h1)) > div:first-child > div,
+  body.subsidiary-home .hero-minimal-dark-withimg:not(:has(h1)) > div:first-child picture,
+  body.subsidiary-home .hero-minimal-dark-withimg:not(:has(h1)) picture img {
+    height: auto;
+  }
+
+  body.subsidiary-home .hero-minimal-dark-withimg:not(:has(h1)) picture img {
+    display: block;
+  }
+
+  /* zero-height row centred on the photo: taller text overflows it evenly,
+     as on the source, instead of growing the band */
+  body.subsidiary-home .hero-minimal-dark-withimg:not(:has(h1)) > div:last-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 0;
+    max-width: 1366px;
+    padding: 0 83px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 9. Help cards (cards-minimal-dark-withimg-2; source .wideImgContainer):
+ *    50px above and below (60px from 768px, 60/56px from 992px), cards 8px
+ *    right of centre (the source li's margin-left); title #084266; the
+ *    phone links are bold #0078c1 body text (/health-options-de: <strong>
+ *    link) or the uppercase text CTA (/wholecare: bare link).
+ * ------------------------------------------------------------------ */
+body.subsidiary-home main > .section.cards-minimal-dark-withimg-2-container {
+  padding: 50px 0;
+}
+
+body.subsidiary-home .cards-minimal-dark-withimg-2 > ul {
+  padding-left: 8px;
+}
+
+body.subsidiary-home .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body h3 {
+  color: #084266;
+}
+
+/* the source's empty CTA row below it adds 15px + 20px */
+body.subsidiary-home .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p.button-container:has(> strong > a[href^="tel:"]) {
+  margin: 0 0 35px;
+  letter-spacing: -0.2px;
+}
+
+body.subsidiary-home .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body strong > a.button[href^="tel:"]:any-link {
+  color: rgb(0 120 193);
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+}
+
+body.subsidiary-home .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body strong > a.button[href^="tel:"]:hover,
+body.subsidiary-home .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body strong > a.button[href^="tel:"]:focus {
+  color: rgb(0 86 179);
+}
+
+body.subsidiary-home .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p.button-container > a.button[href^="tel:"]:any-link {
+  display: inline;
+  padding: 0;
+  color: var(--link-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+/* bare CTA links (both pages' cards): the source's 20px block link */
+body.subsidiary-home .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p.button-container:has(> a.button) {
+  margin: 15px 0 20px;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+@media (width >= 768px) {
+  body.subsidiary-home main > .section.cards-minimal-dark-withimg-2-container {
+    padding: 60px 0;
+  }
+
+  body.subsidiary-home .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p.button-container:has(> strong > a[href^="tel:"]) {
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 900px) {
+  body.subsidiary-home .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p.button-container:has(> a.button) {
+    margin: 0 0 15px;
+  }
+
+  body.subsidiary-home .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p.button-container:has(> strong > a[href^="tel:"]) {
+    margin: 0 0 15px;
+    letter-spacing: -0.1px;
+  }
+}
+
+@media (width >= 992px) {
+  body.subsidiary-home main > .section.cards-minimal-dark-withimg-2-container {
+    padding: 60px 0 56px;
+  }
+}
+
+/* 900-991: the source keeps its tablet cards (two 290px cards, photo on top,
+   centred text) where the block already switches to the desktop row */
+@media (width >= 900px) and (width < 992px) {
+  body.subsidiary-home .cards-minimal-dark-withimg-2 > ul {
+    grid-template-columns: repeat(2, 290px);
+    align-items: start;
+  }
+
+  body.subsidiary-home .cards-minimal-dark-withimg-2 > ul > li {
+    flex-direction: column;
+  }
+
+  body.subsidiary-home .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-image {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+
+  body.subsidiary-home .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-image img {
+    width: 100%;
+    height: 116px;
+  }
+
+  body.subsidiary-home .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body {
+    text-align: center;
+  }
+
+  body.subsidiary-home .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body h3 {
+    letter-spacing: -0.44px;
+  }
+
+  body.subsidiary-home .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.subsidiary-home .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p.button-container:has(> a.button) {
+    margin: 15px 0 20px;
+  }
+
+  body.subsidiary-home .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p.button-container:has(> strong > a[href^="tel:"]) {
+    margin: 0 0 35px;
+    letter-spacing: -0.4px;
+  }
+}
+
+/* 992-1169: the two 520px cards don't fit side by side, so they stack 36px
+   apart (30px margin + the inline line's descent) */
+@media (width >= 992px) and (width < 1170px) {
+  body.subsidiary-home .cards-minimal-dark-withimg-2 > ul {
+    grid-template-columns: minmax(0, 520px);
+    row-gap: 36px;
+  }
 }

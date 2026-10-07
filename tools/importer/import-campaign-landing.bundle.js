@@ -290,8 +290,43 @@ var CustomImportScript = (() => {
     element.replaceWith(...introEls, block);
   }
 
+  // tools/importer/parsers/cards-minimal-dark-withimg-campaign-landing.js
+  function variantsFor(element) {
+    const variants = [];
+    if (element.querySelector(".cardBlock hr.titleUnderline, .cardBlockRowWide .cardBlock")) variants.push("underline");
+    if (element.querySelector(".cardBlock .hmk-brand-buttons.mobile-brand-center-content")) variants.push("mobile-center");
+    return variants.join(", ");
+  }
+  function parse4(element, { document: document2, url, params }) {
+    const variants = variantsFor(element);
+    if (!variants) {
+      parse3(element, { document: document2, url, params });
+      return;
+    }
+    const scratch = document2.createElement("div");
+    scratch.append(element.cloneNode(true));
+    parse3(scratch.firstElementChild, { document: document2, url, params });
+    const table = scratch.querySelector("table");
+    if (!table) {
+      parse3(element, { document: document2, url, params });
+      return;
+    }
+    const intro = [...scratch.childNodes].filter((n) => n !== table && !(n.nodeType === 1 && n.contains(table)));
+    const cells = [...table.querySelectorAll("tr")].slice(1).map((tr) => {
+      const [imageCell, textCell] = tr.querySelectorAll("td");
+      return [
+        imageCell ? [...imageCell.childNodes] : "",
+        textCell ? [...textCell.childNodes] : ""
+      ];
+    });
+    element.replaceWith(
+      ...intro,
+      WebImporter.Blocks.createBlock(document2, { name: `cards-minimal-dark-withimg (${variants})`, cells })
+    );
+  }
+
   // tools/importer/parsers/columns-minimal-dark.js
-  function parse4(element, { document: document2 }) {
+  function parse5(element, { document: document2 }) {
     const textArea = element.querySelector(".text-area") || element;
     const imageArea = element.querySelector(".image-area") || element;
     const image = imageArea.querySelector("picture, img");
@@ -315,7 +350,7 @@ var CustomImportScript = (() => {
   }
 
   // tools/importer/parsers/cards-minimal-dark-withimg-2.js
-  function parse5(element, { document: document2 }) {
+  function parse6(element, { document: document2 }) {
     const cards = Array.from(element.querySelectorAll("li.listWideImg, .listWideImg, .cardul > li"));
     if (cards.length === 0) {
       element.replaceWith(...element.childNodes);
@@ -569,9 +604,9 @@ var CustomImportScript = (() => {
   var parsers = {
     "hero-minimal-dark-withimg": parse,
     "cards-minimal-dark-withimg-icons": parse2,
-    "cards-minimal-dark-withimg": parse3,
-    "columns-minimal-dark": parse4,
-    "cards-minimal-dark-withimg-2": parse5
+    "cards-minimal-dark-withimg": parse4,
+    "columns-minimal-dark": parse5,
+    "cards-minimal-dark-withimg-2": parse6
   };
   var transformers = [
     transform,
