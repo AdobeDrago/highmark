@@ -11,6 +11,14 @@ body.providers main .section.center > div:is(.cards-minimal-dark-withimg-wrapper
   max-width: 1200px;
 }
 
+/* card lists whose source images are 335px wide (variant narrow): 370px slots, as many across
+   as fit (3 at 1280), centred, as on the source (Condition Management: 7 cards, 3 across) */
+@media (width >= 900px) {
+  body.providers .cards-minimal-dark-withimg.narrow > ul {
+    grid-template-columns: repeat(auto-fit, 370px);
+  }
+}
+
 /* the hero's buttons sit side by side (home: Get Credentialed, Provider Onboarding) */
 body.providers .hero-minimal-dark-withimg p.button-container {
   display: inline-block;
