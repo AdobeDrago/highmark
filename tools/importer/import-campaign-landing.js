@@ -2,10 +2,13 @@
 /* global WebImporter */
 
 // PARSER IMPORTS
-// Every block on the three pages reuses an existing shared parser unchanged.
+// Every block on the three pages reuses an existing shared parser unchanged; the
+// photo/plan cards go through a campaign-landing wrapper that adds the
+// /health-options-wv card variants (title rule, centred mobile CTA) around the
+// shared cards-minimal-dark-withimg parser.
 import heroMinimalDarkWithimgParser from './parsers/hero-minimal-dark-withimg.js';
 import cardsMinimalDarkWithimgIconsParser from './parsers/cards-minimal-dark-withimg-icons.js';
-import cardsMinimalDarkWithimgParser from './parsers/cards-minimal-dark-withimg.js';
+import cardsMinimalDarkWithimgParser from './parsers/cards-minimal-dark-withimg-campaign-landing.js';
 import columnsMinimalDarkParser from './parsers/columns-minimal-dark.js';
 import cardsMinimalDarkWithimg2Parser from './parsers/cards-minimal-dark-withimg-2.js';
 
