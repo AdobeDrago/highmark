@@ -1932,17 +1932,19 @@
       "urls": [
         "https://www.highmark.com/because-life",
         "https://www.highmark.com/health-options-wv",
-        "https://www.highmark.com/ventures"
+        "https://www.highmark.com/ventures",
+        "https://www.highmark.com/because-life/south-park-activities"
       ],
       "representativeUrl": "https://www.highmark.com/because-life",
-      "description": "Campaign / brand landing page (Because Life campaign, Highmark Health Options West Virginia home, Highmark Ventures): photo hero (secondary-banner or sub-hero), optional navy/polar/blush colour bands, icon feature cards, photo or wide plan cards, photo banner with CTA, white/polar/papergrey image+text side panels, wide help cards and a footnote",
+      "description": "Campaign / brand landing page (Because Life campaign and its South Park activities page, Highmark Health Options West Virginia home, Highmark Ventures): photo hero (secondary-banner or sub-hero), optional navy/polar/blush colour bands, icon feature cards, photo or wide plan cards, photo banner with CTA, white/polar/papergrey image+text side panels, wide help cards and a footnote; the South Park page has a no-image navy secondary banner and a grid of small-image activity cards (photo, title, bullet list, address, DIRECTIONS link)",
       "blocks": [
         {
           "name": "hero-minimal-dark-withimg",
           "instances": [
             "div.secondary-banner.responsivegrid.section",
             "div.hero.responsivegrid.section",
-            "div.onecard1colpanel.section:has(.one-card-one-col-panel.image)"
+            "div.onecard1colpanel.section:has(.one-card-one-col-panel.image)",
+            "div.secondary-banner.responsivegrid:has(.secondaryBannerContentContainer.noImage)"
           ]
         },
         {
@@ -1954,7 +1956,8 @@
         {
           "name": "cards-minimal-dark-withimg",
           "instances": [
-            "div.card-block.responsivegrid.section:has(.cardBlock):not(:has(.cardWrapper.ghostMode))"
+            "div.card-block.responsivegrid.section:has(.cardBlock):not(:has(.cardWrapper.ghostMode))",
+            "div.newcardscomponent-variations:has(li.cardThree.listSmlImg)"
           ]
         },
         {
@@ -1977,7 +1980,8 @@
           "name": "hero",
           "selector": [
             "div.secondary-banner.responsivegrid.section",
-            "div.hero.responsivegrid.section"
+            "div.hero.responsivegrid.section",
+            "div.secondary-banner.responsivegrid:has(.secondaryBannerContentContainer.noImage)"
           ],
           "style": null,
           "blocks": [
@@ -2129,6 +2133,18 @@
             ".one-card-content-center-container .body-text.d-lg-block p",
             ".one-card-content-center-container .hmk-brand-buttons a"
           ]
+        },
+        {
+          "id": "13",
+          "name": "small-image-activity-cards",
+          "selector": [
+            "div.newcardscomponent-variations:has(li.cardThree.listSmlImg)"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-minimal-dark-withimg"
+          ],
+          "defaultContent": []
         }
       ]
     },

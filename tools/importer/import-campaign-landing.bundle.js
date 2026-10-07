@@ -297,7 +297,37 @@ var CustomImportScript = (() => {
     if (element.querySelector(".cardBlock .hmk-brand-buttons.mobile-brand-center-content")) variants.push("mobile-center");
     return variants.join(", ");
   }
+  function parseSmallImageCards(element, document2) {
+    const items = [...element.querySelectorAll("li.cardThree.listSmlImg")];
+    if (!items.length) return false;
+    const cells = items.map((li) => {
+      const img = li.querySelector("img");
+      const text = [];
+      const title = li.querySelector("h1, h2, h3, h4");
+      if (title) {
+        const h3 = document2.createElement("h3");
+        h3.textContent = title.textContent.replace(/\s+/g, " ").trim();
+        text.push(h3);
+      }
+      const body = li.querySelector(".cardsText");
+      if (body) text.push(...[...body.children].filter((el) => /^(UL|OL|P)$/.test(el.tagName)));
+      li.querySelectorAll(".hmk-brand-buttons a[href]").forEach((a) => {
+        const label = a.textContent.replace(/\s+/g, " ").trim();
+        if (!label) return;
+        const p = document2.createElement("p");
+        const link = document2.createElement("a");
+        link.setAttribute("href", a.getAttribute("href"));
+        link.textContent = label;
+        p.append(link);
+        text.push(p);
+      });
+      return [img || "", text];
+    });
+    element.replaceWith(WebImporter.Blocks.createBlock(document2, { name: "cards-minimal-dark-withimg (small-image)", cells }));
+    return true;
+  }
   function parse4(element, { document: document2, url, params }) {
+    if (parseSmallImageCards(element, document2)) return;
     const variants = variantsFor(element);
     if (!variants) {
       parse3(element, { document: document2, url, params });
@@ -615,11 +645,12 @@ var CustomImportScript = (() => {
   ];
   var PAGE_TEMPLATE = {
     "name": "campaign-landing",
-    "description": "Campaign / brand landing page (Because Life campaign, Highmark Health Options West Virginia home, Highmark Ventures): photo hero (secondary-banner or sub-hero), optional navy/polar/blush colour bands, icon feature cards, photo or wide plan cards, photo banner with CTA, white/polar/papergrey image+text side panels, wide help cards and a footnote",
+    "description": "Campaign / brand landing page (Because Life campaign and its South Park activities page, Highmark Health Options West Virginia home, Highmark Ventures): photo hero (secondary-banner or sub-hero), optional navy/polar/blush colour bands, icon feature cards, photo or wide plan cards, photo banner with CTA, white/polar/papergrey image+text side panels, wide help cards and a footnote; the South Park page has a no-image navy secondary banner and a grid of small-image activity cards (photo, title, bullet list, address, DIRECTIONS link)",
     "urls": [
       "https://www.highmark.com/because-life",
       "https://www.highmark.com/health-options-wv",
-      "https://www.highmark.com/ventures"
+      "https://www.highmark.com/ventures",
+      "https://www.highmark.com/because-life/south-park-activities"
     ],
     "blocks": [
       {
@@ -627,7 +658,8 @@ var CustomImportScript = (() => {
         "instances": [
           "div.secondary-banner.responsivegrid.section",
           "div.hero.responsivegrid.section",
-          "div.onecard1colpanel.section:has(.one-card-one-col-panel.image)"
+          "div.onecard1colpanel.section:has(.one-card-one-col-panel.image)",
+          "div.secondary-banner.responsivegrid:has(.secondaryBannerContentContainer.noImage)"
         ]
       },
       {
@@ -639,7 +671,8 @@ var CustomImportScript = (() => {
       {
         "name": "cards-minimal-dark-withimg",
         "instances": [
-          "div.card-block.responsivegrid.section:has(.cardBlock):not(:has(.cardWrapper.ghostMode))"
+          "div.card-block.responsivegrid.section:has(.cardBlock):not(:has(.cardWrapper.ghostMode))",
+          "div.newcardscomponent-variations:has(li.cardThree.listSmlImg)"
         ]
       },
       {
@@ -661,7 +694,8 @@ var CustomImportScript = (() => {
         "name": "hero",
         "selector": [
           "div.secondary-banner.responsivegrid.section",
-          "div.hero.responsivegrid.section"
+          "div.hero.responsivegrid.section",
+          "div.secondary-banner.responsivegrid:has(.secondaryBannerContentContainer.noImage)"
         ],
         "style": null,
         "blocks": [
@@ -813,6 +847,18 @@ var CustomImportScript = (() => {
           ".one-card-content-center-container .body-text.d-lg-block p",
           ".one-card-content-center-container .hmk-brand-buttons a"
         ]
+      },
+      {
+        "id": "13",
+        "name": "small-image-activity-cards",
+        "selector": [
+          "div.newcardscomponent-variations:has(li.cardThree.listSmlImg)"
+        ],
+        "style": null,
+        "blocks": [
+          "cards-minimal-dark-withimg"
+        ],
+        "defaultContent": []
       }
     ]
   };
@@ -850,6 +896,7 @@ var CustomImportScript = (() => {
   }
   var import_campaign_landing_default = {
     transform: (payload) => {
+      var _a, _b;
       const {
         document: document2,
         url,
@@ -883,6 +930,19 @@ var CustomImportScript = (() => {
         if (crumbLabel) meta["Breadcrumb Title"] = crumbLabel;
       }
       meta.template = "campaign-landing";
+      if (meta.Image) {
+        const shareImg = meta.Image.tagName === "IMG" ? meta.Image : (_b = (_a = meta.Image).querySelector) == null ? void 0 : _b.call(_a, "img");
+        const shareSrc = shareImg && shareImg.getAttribute("src");
+        if (shareSrc) {
+          try {
+            const xhr = new XMLHttpRequest();
+            xhr.open("HEAD", new URL(shareSrc, params.originalURL).href, false);
+            xhr.send();
+            if (xhr.status === 404) delete meta.Image;
+          } catch (e) {
+          }
+        }
+      }
       main.append(WebImporter.Blocks.getMetadataBlock(document2, meta));
       WebImporter.rules.transformBackgroundImages(main, document2);
       WebImporter.rules.adjustImageUrls(main, url, params.originalURL);

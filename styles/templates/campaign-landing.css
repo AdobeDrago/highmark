@@ -1,7 +1,8 @@
 /* Template "campaign-landing" (page metadata template=campaign-landing ->
    body.campaign-landing). Loaded by scripts/scripts.js (TEMPLATE_STYLES).
 
-   Pages: /because-life, /health-options-wv, /ventures. Values extracted
+   Pages: /because-life, /health-options-wv, /ventures, and
+   /because-life/south-park-activities (section 10). Values extracted
    (getComputedStyle) from https://www.highmark.com/because-life (and the two
    other pages for the shared components) at 390 / 768 / 992 / 1280 / 1440.
 
@@ -1001,5 +1002,157 @@ body.campaign-landing main .cards-minimal-dark-withimg-2 .cards-minimal-dark-wit
   body.campaign-landing main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p.button-container:has(a[href^="tel:"]) {
     margin: 0 0 15px;
     letter-spacing: -0.1px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 10. /because-life/south-park-activities
+ *    - .secondary-banner.noImage -> hero-minimal-dark-withimg with an h1 and
+ *      no picture: a navy band, centred white h1 + h2 in a 780px column
+ *      (.contentWrapper padding 35px inside a 24 / 48 / 65px band).
+ *    - .container-sm-img li.cardThree.listSmlImg -> cards-minimal-dark-withimg
+ *      (small-image): 370px cards 34px apart (3 a row from 1200px, 2 from
+ *      992px, last row centred), stacked 400px cards below 992; image, title,
+ *      bullet list, address, left-aligned DIRECTIONS link.
+ *    Both are keyed on content the other campaign pages don't have (a hero
+ *    without a picture, the small-image variant), so they are unchanged.
+ * ------------------------------------------------------------------ */
+body.campaign-landing .hero-minimal-dark-withimg:has(h1):not(:has(picture)) {
+  display: block;
+  min-height: 0;
+  padding: 24px 0;
+  background-color: var(--text-color);
+}
+
+body.campaign-landing .hero-minimal-dark-withimg:has(h1):not(:has(picture)) > div:first-child {
+  position: relative;
+  inset: auto;
+  height: auto;
+}
+
+body.campaign-landing .hero-minimal-dark-withimg:has(h1):not(:has(picture)) > div:first-child > div {
+  height: auto;
+}
+
+body.campaign-landing .hero-minimal-dark-withimg:has(h1):not(:has(picture)) > div:last-child {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 35px;
+  background-color: transparent;
+  text-align: center;
+}
+
+body.campaign-landing .hero-minimal-dark-withimg:has(h1):not(:has(picture)) :is(h1, h2) {
+  max-width: none;
+  color: #fff;
+}
+
+@media (width >= 768px) {
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1):not(:has(picture)) {
+    padding: 48px 0;
+  }
+}
+
+@media (width >= 992px) {
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1):not(:has(picture)) {
+    padding: 65px 0;
+  }
+}
+
+body.campaign-landing main > .section.cards-minimal-dark-withimg-container:has(.cards-minimal-dark-withimg.small-image) {
+  padding: 50px 0 70px;
+}
+
+body.campaign-landing main > .section .cards-minimal-dark-withimg.small-image > ul {
+  padding: 0 15px;
+}
+
+body.campaign-landing main > .section .cards-minimal-dark-withimg.small-image > ul > li {
+  box-shadow: rgb(0 0 0 / 16%) 0 3px 6px 0;
+}
+
+body.campaign-landing .cards-minimal-dark-withimg.small-image .cards-minimal-dark-withimg-card-body {
+  padding: 20px 20px 16px;
+}
+
+body.campaign-landing .cards-minimal-dark-withimg.small-image .cards-minimal-dark-withimg-card-body h3 {
+  margin-bottom: 13px;
+}
+
+body.campaign-landing .cards-minimal-dark-withimg.small-image .cards-minimal-dark-withimg-card-body ul {
+  margin: 0 0 0 8px;
+  padding: 0;
+  list-style: disc;
+}
+
+body.campaign-landing .cards-minimal-dark-withimg.small-image .cards-minimal-dark-withimg-card-body li {
+  margin: 0 0 13px 8px;
+  color: var(--text-body-color);
+  font-size: 15px;
+  line-height: 22.5px;
+}
+
+body.campaign-landing .cards-minimal-dark-withimg.small-image .cards-minimal-dark-withimg-card-body p {
+  padding: 0;
+}
+
+body.campaign-landing .cards-minimal-dark-withimg.small-image .cards-minimal-dark-withimg-card-body p.button-container {
+  margin: 0;
+  justify-content: flex-start;
+}
+
+@media (width >= 768px) {
+  body.campaign-landing main > .section.cards-minimal-dark-withimg-container:has(.cards-minimal-dark-withimg.small-image) {
+    padding: 60px 0 80px;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.campaign-landing .cards-minimal-dark-withimg.small-image .cards-minimal-dark-withimg-card-body h3 {
+    padding-bottom: 3px;
+    font-size: 32px;
+    line-height: 35.2px;
+    letter-spacing: -0.44px;
+  }
+
+  body.campaign-landing .cards-minimal-dark-withimg.small-image .cards-minimal-dark-withimg-card-body p {
+    margin-bottom: 16px;
+    font-size: 15px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.campaign-landing main > .section .cards-minimal-dark-withimg.small-image > ul {
+    max-width: 774px;
+    margin: 0 auto;
+    padding: 0;
+    column-gap: 34px;
+  }
+
+  body.campaign-landing .cards-minimal-dark-withimg.small-image .cards-minimal-dark-withimg-card-body {
+    padding: 20px 30px 16px;
+  }
+
+  body.campaign-landing .cards-minimal-dark-withimg.small-image .cards-minimal-dark-withimg-card-body li {
+    margin-bottom: 15px;
+  }
+}
+
+/* two a row (992-1199): the source's lone last card sits 15px left of centre */
+@media (width >= 992px) and (width < 1200px) {
+  body.campaign-landing main > .section .cards-minimal-dark-withimg.small-image > ul > li:nth-child(odd):last-child {
+    margin-right: 30px;
+  }
+}
+
+@media (width >= 1200px) {
+  body.campaign-landing main > .section.cards-minimal-dark-withimg-container:has(.cards-minimal-dark-withimg.small-image) > div {
+    padding: 0;
+  }
+
+  body.campaign-landing main > .section .cards-minimal-dark-withimg.small-image > ul {
+    max-width: 1178px;
   }
 }
