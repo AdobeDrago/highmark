@@ -30,7 +30,49 @@ function variantsFor(element) {
   return variants.join(', ');
 }
 
+/*
+ * /because-life/south-park-activities: small-image activity cards
+ *   div.newcardscomponent-variations > .cards-variation > .container-sm-img
+ *     > ul.cardul.gridcardsul > li.cardThree.listSmlImg
+ *       > img.smallImage + div.typeThreeTxt > h3.titleHead, hr.breakLineNone,
+ *         span.cardsText (ul of activities + address <p>), .hmk-brand-buttons a.textButton
+ * The shared parser keeps only a card's <p>s, so the activity lists would be lost.
+ * Rows: [ image | title + list + address + DIRECTIONS link ]. The `small-image`
+ * variant carries the source's 3-up 370px grid (styles/templates/campaign-landing.css).
+ * The other campaign-landing pages have no li.cardThree, so their output is unchanged.
+ */
+function parseSmallImageCards(element, document) {
+  const items = [...element.querySelectorAll('li.cardThree.listSmlImg')];
+  if (!items.length) return false;
+  const cells = items.map((li) => {
+    const img = li.querySelector('img');
+    const text = [];
+    const title = li.querySelector('h1, h2, h3, h4');
+    if (title) {
+      const h3 = document.createElement('h3');
+      h3.textContent = title.textContent.replace(/\s+/g, ' ').trim();
+      text.push(h3);
+    }
+    const body = li.querySelector('.cardsText');
+    if (body) text.push(...[...body.children].filter((el) => /^(UL|OL|P)$/.test(el.tagName)));
+    li.querySelectorAll('.hmk-brand-buttons a[href]').forEach((a) => {
+      const label = a.textContent.replace(/\s+/g, ' ').trim();
+      if (!label) return;
+      const p = document.createElement('p');
+      const link = document.createElement('a');
+      link.setAttribute('href', a.getAttribute('href'));
+      link.textContent = label;
+      p.append(link);
+      text.push(p);
+    });
+    return [img || '', text];
+  });
+  element.replaceWith(WebImporter.Blocks.createBlock(document, { name: 'cards-minimal-dark-withimg (small-image)', cells }));
+  return true;
+}
+
 export default function parse(element, { document, url, params }) {
+  if (parseSmallImageCards(element, document)) return;
   const variants = variantsFor(element);
   if (!variants) {
     parseCards(element, { document, url, params });

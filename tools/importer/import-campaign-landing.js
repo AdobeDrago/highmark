@@ -5,7 +5,8 @@
 // Every block on the three pages reuses an existing shared parser unchanged; the
 // photo/plan cards go through a campaign-landing wrapper that adds the
 // /health-options-wv card variants (title rule, centred mobile CTA) around the
-// shared cards-minimal-dark-withimg parser.
+// shared cards-minimal-dark-withimg parser, and builds /because-life/south-park-activities'
+// small-image activity cards (with their bullet lists) itself.
 import heroMinimalDarkWithimgParser from './parsers/hero-minimal-dark-withimg.js';
 import cardsMinimalDarkWithimgIconsParser from './parsers/cards-minimal-dark-withimg-icons.js';
 import cardsMinimalDarkWithimgParser from './parsers/cards-minimal-dark-withimg-campaign-landing.js';
@@ -38,11 +39,12 @@ const transformers = [
 // PAGE TEMPLATE CONFIGURATION — embedded from page-templates.json
 const PAGE_TEMPLATE = {
   "name": "campaign-landing",
-  "description": "Campaign / brand landing page (Because Life campaign, Highmark Health Options West Virginia home, Highmark Ventures): photo hero (secondary-banner or sub-hero), optional navy/polar/blush colour bands, icon feature cards, photo or wide plan cards, photo banner with CTA, white/polar/papergrey image+text side panels, wide help cards and a footnote",
+  "description": "Campaign / brand landing page (Because Life campaign and its South Park activities page, Highmark Health Options West Virginia home, Highmark Ventures): photo hero (secondary-banner or sub-hero), optional navy/polar/blush colour bands, icon feature cards, photo or wide plan cards, photo banner with CTA, white/polar/papergrey image+text side panels, wide help cards and a footnote; the South Park page has a no-image navy secondary banner and a grid of small-image activity cards (photo, title, bullet list, address, DIRECTIONS link)",
   "urls": [
     "https://www.highmark.com/because-life",
     "https://www.highmark.com/health-options-wv",
-    "https://www.highmark.com/ventures"
+    "https://www.highmark.com/ventures",
+    "https://www.highmark.com/because-life/south-park-activities"
   ],
   "blocks": [
     {
@@ -50,7 +52,8 @@ const PAGE_TEMPLATE = {
       "instances": [
         "div.secondary-banner.responsivegrid.section",
         "div.hero.responsivegrid.section",
-        "div.onecard1colpanel.section:has(.one-card-one-col-panel.image)"
+        "div.onecard1colpanel.section:has(.one-card-one-col-panel.image)",
+        "div.secondary-banner.responsivegrid:has(.secondaryBannerContentContainer.noImage)"
       ]
     },
     {
@@ -62,7 +65,8 @@ const PAGE_TEMPLATE = {
     {
       "name": "cards-minimal-dark-withimg",
       "instances": [
-        "div.card-block.responsivegrid.section:has(.cardBlock):not(:has(.cardWrapper.ghostMode))"
+        "div.card-block.responsivegrid.section:has(.cardBlock):not(:has(.cardWrapper.ghostMode))",
+        "div.newcardscomponent-variations:has(li.cardThree.listSmlImg)"
       ]
     },
     {
@@ -84,7 +88,8 @@ const PAGE_TEMPLATE = {
       "name": "hero",
       "selector": [
         "div.secondary-banner.responsivegrid.section",
-        "div.hero.responsivegrid.section"
+        "div.hero.responsivegrid.section",
+        "div.secondary-banner.responsivegrid:has(.secondaryBannerContentContainer.noImage)"
       ],
       "style": null,
       "blocks": [
@@ -236,6 +241,18 @@ const PAGE_TEMPLATE = {
         ".one-card-content-center-container .body-text.d-lg-block p",
         ".one-card-content-center-container .hmk-brand-buttons a"
       ]
+    },
+    {
+      "id": "13",
+      "name": "small-image-activity-cards",
+      "selector": [
+        "div.newcardscomponent-variations:has(li.cardThree.listSmlImg)"
+      ],
+      "style": null,
+      "blocks": [
+        "cards-minimal-dark-withimg"
+      ],
+      "defaultContent": []
     }
   ]
 };
@@ -328,6 +345,23 @@ export default {
       if (crumbLabel) meta['Breadcrumb Title'] = crumbLabel;
     }
     meta.template = 'campaign-landing';
+    // A share image that 404s on the source (/because-life/south-park-activities'
+    // south-park-og.jpg) would make og:image "about:error" on preview; drop the row
+    // so the page's first image is used. Images that load (the other pages) are kept.
+    if (meta.Image) {
+      const shareImg = meta.Image.tagName === 'IMG' ? meta.Image : meta.Image.querySelector?.('img');
+      const shareSrc = shareImg && shareImg.getAttribute('src');
+      if (shareSrc) {
+        try {
+          const xhr = new XMLHttpRequest();
+          xhr.open('HEAD', new URL(shareSrc, params.originalURL).href, false);
+          xhr.send();
+          if (xhr.status === 404) delete meta.Image;
+        } catch (e) {
+          // network error: keep the source's image
+        }
+      }
+    }
     main.append(WebImporter.Blocks.getMetadataBlock(document, meta));
     WebImporter.rules.transformBackgroundImages(main, document);
     WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
