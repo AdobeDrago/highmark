@@ -2,8 +2,10 @@
 /* eslint-disable no-console */
 /**
  * Rebuilds the DA `/redirects` sheet so no internal link on the site lands on a 404:
- * every internal link that 404s on the live site is redirected to the same page on
- * highmark.com, or to our page when the source itself redirects to a page we have migrated.
+ * every internal link that 404s on the live site is redirected to the same page on its
+ * source site, or to our page when the source itself redirects to a page we have migrated.
+ * Pages under /providers come from providers.highmark.com (/providers/claims is its /claims);
+ * everything else from highmark.com.
  * Rows already in the sheet are re-checked, so a path that now has a DA document drops out.
  *
  * Redirects take precedence over pages: a row hides any page published at that path.
@@ -23,8 +25,14 @@ const SITE = 'highmark';
 const LIVE = `https://main--${SITE}--${ORG}.aem.live`;
 const PREVIEW = `https://main--${SITE}--${ORG}.aem.page`;
 const SOURCE = 'https://www.highmark.com';
+// Source sites by path prefix: our /providers/x is providers.highmark.com/x.
+const SOURCES = [
+  { prefix: '/providers', origin: 'https://providers.highmark.com' },
+  { prefix: '', origin: SOURCE },
+];
 const UA = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0 Safari/537.36' };
-const FRAGMENTS = ['/nav', '/footer', '/shop/fragments/shopx-header', '/shop/fragments/shopx-footer'];
+const FRAGMENTS = ['/nav', '/footer', '/shop/fragments/shopx-header', '/shop/fragments/shopx-footer',
+  '/providers/fragments/nav', '/providers/fragments/footer'];
 // Paths that always redirect: drafts that exist in DA but should not be published, and
 // retired pages. path -> destination.
 const FORCE = {
@@ -32,6 +40,7 @@ const FORCE = {
   '/shop/home': '/shop/', // the shop home moved to /shop/ (2026-10-01)
   '/shop': '/shop/', // a folder's index page is only served with the trailing slash
   '/shop/beta/home': '/shop/', // a copy of the old shop home whose links don't work here (2026-10-05)
+  '/providers': '/providers/', // the provider pages' home (DA /providers/index)
 };
 
 function readToken() {
@@ -70,19 +79,29 @@ async function internalLinks(host, page) {
   }).filter(Boolean);
 }
 
+/** The source site of one of our paths, and the path there. */
+function sourceOf(p) {
+  const { prefix, origin } = SOURCES.find((s) => !s.prefix || p === s.prefix || p.startsWith(`${s.prefix}/`));
+  return { prefix, origin, path: p.slice(prefix.length) || '/' };
+}
+
 async function classify(p, auth) {
   if (FORCE[p]) return { Source: p, Destination: FORCE[p] };
   const da = await fetch(`https://admin.da.live/source/${ORG}/${SITE}${p}.html`, { method: 'HEAD', headers: auth });
   if (da.status === 200) return { skip: `${p}: has a DA document (publish it instead)` };
-  const src = await fetch(`${SOURCE}${encodeURI(p)}`, { headers: UA }).catch(() => ({ status: 0 }));
+  const { prefix, origin, path: srcPath } = sourceOf(p);
+  const src = await fetch(`${origin}${encodeURI(srcPath)}`, { headers: UA }).catch(() => ({ status: 0 }));
   if (src.status !== 200) return { skip: `${p}: source returns ${src.status}; fix the link instead` };
   const final = new URL(src.url);
   const finalPath = normPath(final.pathname);
-  if (final.origin === SOURCE && finalPath !== p) {
-    const ours = await fetch(`${LIVE}${finalPath}`, { method: 'HEAD', redirect: 'manual' });
-    if (ours.status === 200) return { Source: p, Destination: finalPath };
+  if (final.origin === origin && finalPath !== srcPath) {
+    const ours = await fetch(`${LIVE}${prefix}${finalPath}`, { method: 'HEAD', redirect: 'manual' });
+    if (ours.status === 200) return { Source: p, Destination: `${prefix}${finalPath}` };
   }
-  return { Source: p, Destination: final.origin === SOURCE ? `${SOURCE}${p}` : src.url };
+  // a provider page behind the Availity login redirects to the login; send visitors to the
+  // page itself, which returns them there after they sign in
+  const own = final.origin === origin || prefix;
+  return { Source: p, Destination: own ? `${origin}${srcPath}` : src.url };
 }
 
 async function upload(file, token) {

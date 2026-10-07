@@ -329,6 +329,11 @@ header nav .nav-search-icon {
   mask-size: contain;
 }
 
+/* the button's "Search" text shows only in the search row (a search target in the nav) */
+header nav .nav-search-label {
+  display: none;
+}
+
 /* search icon (opens the search box on phones and tablets) — hidden on desktop */
 header nav .nav-search-toggle {
   display: none;
@@ -523,6 +528,133 @@ header nav .nav-drawer-icons {
     height: 24px;
     background-color: #000;
     mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.9 20.9746L13.325 14.3996C12.825 14.8329 12.2417 15.1704 11.575 15.4121C10.9083 15.6538 10.2 15.7746 9.45 15.7746C7.65 15.7746 6.125 15.1496 4.875 13.8996C3.625 12.6496 3 11.1413 3 9.37461C3 7.60794 3.625 6.09961 4.875 4.84961C6.125 3.59961 7.64167 2.97461 9.425 2.97461C11.1917 2.97461 12.6958 3.59961 13.9375 4.84961C15.1792 6.09961 15.8 7.60794 15.8 9.37461C15.8 10.0913 15.6833 10.7829 15.45 11.4496C15.2167 12.1163 14.8667 12.7413 14.4 13.3246L21 19.8746L19.9 20.9746ZM9.425 14.2746C10.775 14.2746 11.925 13.7954 12.875 12.8371C13.825 11.8788 14.3 10.7246 14.3 9.37461C14.3 8.02461 13.825 6.87044 12.875 5.91211C11.925 4.95378 10.775 4.47461 9.425 4.47461C8.05833 4.47461 6.89583 4.95378 5.9375 5.91211C4.97917 6.87044 4.5 8.02461 4.5 9.37461C4.5 10.7246 4.97917 11.8788 5.9375 12.8371C6.89583 13.7954 8.05833 14.2746 9.425 14.2746Z"/></svg>');
+  }
+
+  /* search row (a search target in the nav, as on providers.highmark.com): a #f1f4f4 band
+     with 83px sides; a 46px box with a #0078c1 border, joined to an uppercase SEARCH button */
+  header nav .nav-search-row {
+    box-sizing: border-box;
+    padding: 14px 83px;
+    background-color: #f1f4f4;
+  }
+
+  header nav .nav-search-row .nav-search {
+    width: 100%;
+    height: 46px;
+    border: 0;
+    border-radius: 0;
+    background: none;
+  }
+
+  header nav .nav-search-row .nav-search input {
+    box-sizing: border-box;
+    height: 100%;
+    border: 1px solid #0078c1;
+    border-radius: 5px 0 0 5px;
+    padding: 0 15px;
+    background-color: #fff;
+    color: #000;
+  }
+
+  header nav .nav-search-row .nav-search input::placeholder {
+    color: #0078c1;
+  }
+
+  header nav .nav-search-row .nav-search button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 0 40px;
+    border-radius: 0 5px 5px 0;
+    background-color: #0078c1;
+    color: #fff;
+    font-family: var(--body-font-family);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+    text-transform: uppercase;
+  }
+
+  header nav .nav-search-row .nav-search .nav-search-icon {
+    background-color: #fff;
+  }
+
+  header nav .nav-search-row .nav-search-label {
+    display: inline;
+  }
+
+  /* panels in a nav styled "full width" (providers.highmark.com's): from the row's left edge,
+     as wide as their columns (at most the row); a Sofia Pro 20px heading over 15px links per
+     column, 30px above and below, columns divided by rules; items without a link are grey
+     group labels; a lock marks a page behind the Availity login */
+  header nav.nav-panels-full .nav-primary > li {
+    position: static;
+  }
+
+  /* six labels fill the row and shrink: they wrap between words, as on the source, not
+     inside one ("Authorizatio-ns") */
+  header nav.nav-panels-full .nav-primary > li > a {
+    word-break: normal;
+  }
+
+  header nav.nav-panels-full .nav-primary > li.open .nav-panel {
+    box-sizing: border-box;
+    max-width: 100%;
+    min-width: 0;
+    gap: 0;
+    padding: 0;
+    border: 0;
+    box-shadow: 0 8px 10px rgb(0 0 0 / 10%);
+  }
+
+  header nav.nav-panels-full .nav-panel > li {
+    flex: 0 1 auto;
+    min-width: 0;
+    margin: 30px 0;
+    padding: 0 40px;
+    border-left: 1px solid #d9dfe3;
+  }
+
+  header nav.nav-panels-full .nav-panel > li:first-child {
+    padding-left: 65px;
+    border-left: 0;
+  }
+
+  header nav.nav-panels-full .nav-panel > li > a {
+    margin-bottom: 4px;
+    font-family: var(--heading-font-family);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 30px;
+    color: #003963;
+  }
+
+  header nav.nav-panels-full .nav-panel > li > ul > li { /* stylelint-disable-line no-descending-specificity */
+    margin: 0;
+    padding-top: 6px;
+    font-size: 15px;
+    line-height: 17px;
+    color: #8996a1;
+  }
+
+  header nav.nav-panels-full .nav-panel > li > ul > li:not(:has(a)) { /* stylelint-disable-line no-descending-specificity */
+    padding-top: 18px;
+  }
+
+  header nav.nav-panels-full .nav-panel > li > ul > li > a {
+    display: inline-block;
+    padding: 5px 0;
+    font-size: 15px;
+    line-height: 17px;
+    color: #003963;
+  }
+
+  header nav.nav-panels-full .nav-panel .icon-lock {
+    width: 22px;
+    height: 22px;
+    margin-left: 6px;
+    vertical-align: -5px;
   }
 }
 
@@ -787,5 +919,17 @@ header nav .nav-drawer-icons {
   /* no dimmed overlay on the mobile drawer */
   body.nav-panel-open::after {
     display: none;
+  }
+
+  /* the search row is empty here: its box moves into the brand row */
+  header nav .nav-search-row {
+    display: none;
+  }
+
+  header nav .nav-panel .icon-lock {
+    width: 18px;
+    height: 18px;
+    margin-left: 6px;
+    vertical-align: -3px;
   }
 }

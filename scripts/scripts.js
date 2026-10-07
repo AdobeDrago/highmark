@@ -164,7 +164,7 @@ const TEMPLATE_STYLES = [
   'employer-landing', 'employer-subpage', 'about-article', 'leadership', 'bright-blue-futures',
   'media-contacts', 'capitol-hill-report', 'legal', 'contact', 'language-assistance',
   'news-alert', 'content-landing', 'zipcode-gate-login', 'campaign-landing', 'subsidiary-home', 'events',
-  'home', 'shop-home',
+  'home', 'shop-home', 'providers',
 ];
 
 /**

@@ -1,4 +1,4 @@
-import { getMetadata } from '../../scripts/aem.js';
+import { getMetadata, decorateIcons } from '../../scripts/aem.js';
 
 // Desktop breakpoint — below this the header collapses to a hamburger drawer.
 const isDesktop = window.matchMedia('(min-width: 992px)');
@@ -330,11 +330,43 @@ function decorateSuggestions(form) {
  * Build the search form (controls are created in JS, per the DA contract).
  * It submits to the site's search page (blocks/search), with type-ahead suggestions.
  */
-function buildSearch() {
+/**
+ * Where the search box searches, from the nav fragment's optional fourth section: one link,
+ * whose text is the box's placeholder and whose URL is the results page (its query
+ * parameters are sent along). The provider pages search providers.highmark.com this way.
+ * @param {Element} [section]
+ * @returns {{action: string, params: URLSearchParams, label: string}|null}
+ */
+function searchTarget(section) {
+  const link = section?.querySelector('a[href]');
+  if (!link) return null;
+  const url = new URL(link.href, window.location.href);
+  return { action: `${url.origin}${url.pathname}`, params: url.searchParams, label: link.textContent.trim() };
+}
+
+function buildSearch(target) {
   const form = document.createElement('form');
   form.id = 'nav-search';
   form.className = 'nav-search';
   form.setAttribute('role', 'search');
+  if (target) {
+    // another site's results page: a plain box, without this site's suggestions
+    form.action = target.action;
+    form.innerHTML = `
+      <input type="search" name="q" autocomplete="off" enterkeyhint="search">
+      <button type="submit" aria-label="Search"><span class="nav-search-icon" aria-hidden="true"></span><span class="nav-search-label" aria-hidden="true">Search</span></button>`;
+    const input = form.querySelector('input');
+    input.placeholder = target.label;
+    input.setAttribute('aria-label', target.label);
+    target.params.forEach((value, name) => {
+      const hidden = document.createElement('input');
+      hidden.type = 'hidden';
+      hidden.name = name;
+      hidden.value = value;
+      form.append(hidden);
+    });
+    return form;
+  }
   form.action = '/search';
   form.innerHTML = `
     <input type="search" name="q" placeholder="Search Highmark" aria-label="Search Highmark"
@@ -378,12 +410,14 @@ export default async function decorate(block) {
   nav.setAttribute('aria-label', 'Main navigation');
 
   const sections = [...fragment.children].filter((el) => el.tagName === 'DIV');
-  // Source order: [0] utility links, [1] brand + icons, [2] primary nav.
-  const [utilitySection, brandSection, primarySection] = sections;
+  // Source order: [0] utility links, [1] brand + icons, [2] primary nav, and optionally
+  // [3] the search target (another site's results page), which puts the box in its own row.
+  const [utilitySection, brandSection, primarySection, searchSection] = sections;
+  const target = searchTarget(searchSection);
 
   // Below the desktop breakpoint highmark.com has no search box in its menu: a search icon
   // in the brand row opens the box in place of the logo.
-  const search = buildSearch();
+  const search = buildSearch(target);
   let searchToggle;
   const setSearchOpen = (open) => {
     nav.classList.toggle('nav-search-open', open);
@@ -453,15 +487,33 @@ export default async function decorate(block) {
   const primaryRow = document.createElement('div');
   primaryRow.className = 'nav-primary-row';
   if (primarySection) {
+    // Style "full width": each panel spans the nav row, its columns divided by rules, as on
+    // providers.highmark.com. (Section metadata arrives as classes, or unprocessed locally.)
+    const meta = primarySection.querySelector('.section-metadata');
+    if (primarySection.classList.contains('full-width') || /full[ -]width/i.test(meta?.textContent || '')) {
+      nav.classList.add('nav-panels-full');
+    }
+    meta?.remove();
     primarySection.className = 'nav-sections';
     decoratePrimaryNav(primarySection);
+    // :lock: after a link marks a page that needs an Availity login
+    decorateIcons(primarySection);
+    primarySection.querySelectorAll('.icon-lock img').forEach((img) => { img.alt = 'Availity login required'; });
     primaryRow.append(primarySection);
+  }
+
+  // With a search target the box has a row of its own under the nav row (desktop).
+  let searchRow;
+  if (target) {
+    searchRow = document.createElement('div');
+    searchRow.className = 'nav-search-row';
   }
 
   // The search box sits after the nav links on desktop and before the search icon below
   // that, so the tab order follows the screen. It moves when the viewport crosses over.
   const placeSearch = () => {
     if (searchToggle && !isDesktop.matches) searchToggle.before(search);
+    else if (searchRow) searchRow.append(search);
     else if (primarySection) primarySection.after(search);
     else primaryRow.prepend(search);
   };
@@ -504,6 +556,7 @@ export default async function decorate(block) {
   }
 
   nav.append(primaryRow);
+  if (searchRow) nav.append(searchRow);
 
   // Close panels on Escape.
   window.addEventListener('keydown', (e) => {
