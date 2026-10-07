@@ -103,6 +103,13 @@ header {
   }
 }
 
+/* Provider pages' header (nav = /providers/fragments/nav) adds a 74px search row on desktop. */
+@media (width >= 992px) {
+  html:has(meta[name="nav"][content$="/providers/fragments/nav"]) header {
+    min-height: 270.5px;
+  }
+}
+
 /* Pages with the ShopX-style shop header (nav = /shop/fragments/shopx-header, see
    blocks/header/shop-header.js) reserve its height instead. */
 html:has(meta[name="nav"][content$="/shopx-header"]) header {

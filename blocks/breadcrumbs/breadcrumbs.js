@@ -4,7 +4,8 @@
  * The trail is derived from the URL path: every ancestor path that is a
  * published page (listed in the query index) is shown, labelled with its
  * `Breadcrumb Title` metadata or, failing that, its title without the " | …"
- * site suffix. Other ancestors are skipped.
+ * site suffix. Other ancestors are skipped. The trail starts at `/`, or at the
+ * page that `Breadcrumb Home` names (the provider pages' /providers/).
  */
 
 import { getMetadata } from '../../scripts/aem.js';
@@ -116,7 +117,8 @@ async function share(status) {
  * @param {Element} block
  */
 export default async function decorate(block) {
-  const home = { path: '/', label: 'Home' };
+  // a section with its own home page sets `Breadcrumb Home` (the provider pages: /providers/)
+  const home = { path: getMetadata('breadcrumb-home') || '/', label: 'Home' };
   const current = getMetadata('breadcrumb-title') || shortTitle(getMetadata('og:title') || document.title);
 
   const nav = document.createElement('nav');
@@ -149,7 +151,9 @@ export default async function decorate(block) {
   block.replaceChildren(nav, actions);
 
   // ancestors load after first render; the row keeps its height meanwhile
-  const ancestors = ancestorPaths(window.location.pathname);
+  // only ancestors below the home page (/providers itself is the home crumb)
+  const ancestors = ancestorPaths(window.location.pathname)
+    .filter((path) => `${path}/`.startsWith(home.path) && `${path}/` !== home.path);
   if (!ancestors.length) return;
   const published = await publishedPaths();
   const existing = ancestors.filter((path) => published.has(path));

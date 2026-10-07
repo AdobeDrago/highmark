@@ -1,0 +1,234 @@
+/* stylelint-disable no-descending-specificity */
+
+/* Provider pages (template: providers), migrated from providers.highmark.com. The page
+   components are the site's usual blocks; these rules add the provider site's own pieces:
+   the site alert, the regional link bars, the service-centre cards (a fragment on every
+   page) and the icons in links. Values measured on the source at 1280. */
+
+/* card sections are styled center (for their intro), which caps every wrapper at 760px; the
+   cards themselves keep their full width, so two cards sit side by side as on the source */
+body.providers main .section.center > div:is(.cards-minimal-dark-withimg-wrapper, .cards-minimal-dark-withimg-icons-wrapper, .cards-minimal-dark-list-wrapper) {
+  max-width: 1200px;
+}
+
+/* the hero's buttons sit side by side (home: Get Credentialed, Provider Onboarding) */
+body.providers .hero-minimal-dark-withimg p.button-container {
+  display: inline-block;
+  margin-right: 24px;
+}
+
+/* a hero over a dark photo (section style dark): white text, without the navy band */
+body.providers main .section.dark.hero-minimal-dark-withimg-container {
+  padding: 0;
+  background-color: transparent;
+}
+
+/* intercept banners: a 20px Sofia Pro intro; on navy (dark) it and the outlined button are
+   white */
+body.providers main .section.dark .default-content-wrapper p:not(.button-container),
+body.providers main .section.accent .columns-minimal-dark-overlay p:not(.button-container) {
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 30px;
+}
+
+body.providers main .section.dark .default-content-wrapper p:not(.button-container) {
+  color: #fff;
+}
+
+body.providers main .section.accent .columns-minimal-dark-overlay p:not(.button-container) {
+  color: #003963;
+}
+
+body.providers main .section.dark a.button:any-link {
+  border-color: #fff;
+  background-color: transparent;
+  color: #fff;
+}
+
+/* site alert (the home page): a #fffac4 band with a bell, a Sofia Pro 20px link title over
+   14px text */
+body.providers main .section.notice {
+  margin: 0;
+  padding: 20px 0;
+  background-color: #fffac4;
+}
+
+body.providers main .section.notice .default-content-wrapper {
+  position: relative;
+  max-width: none;
+  padding: 0 24px 0 42px;
+}
+
+body.providers main .section.notice .default-content-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 6px;
+  width: 24px;
+  height: 24px;
+  background-color: #003963;
+  mask: url('../../icons/notifications-active.svg') center / contain no-repeat;
+}
+
+body.providers main .section.notice h2 {
+  margin: 0 0 20px;
+  font-size: 20px;
+  line-height: 30px;
+  letter-spacing: -0.8px;
+}
+
+body.providers main .section.notice h2 a:any-link {
+  color: #0078c1;
+}
+
+body.providers main .section.notice p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 26px;
+  color: #001446;
+}
+
+/* In the Spotlight (Communications Hub): a #d9ebf6 band; the featured article (the card
+   with a picture) on the left, beside the three others */
+body.providers main .section.spotlight {
+  margin: 0;
+  padding: 40px 0 56px;
+  background-color: var(--light-blue-color);
+}
+
+body.providers main .section.spotlight .default-content-wrapper {
+  text-align: center;
+}
+
+body.providers main .section.spotlight .cards-minimal-dark-withimg-wrapper {
+  max-width: 1150px;
+}
+
+@media (width >= 900px) {
+  body.providers main .section.spotlight .cards-minimal-dark-withimg > ul {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: 20px;
+    justify-content: stretch;
+  }
+
+  body.providers main .section.spotlight .cards-minimal-dark-withimg > ul > li:first-child {
+    grid-row: span 3;
+  }
+}
+
+/* regional link bars ("READ ABOUT EDI 278 SERVICES: CPA/SEPA | DE | ..."): one paragraph in
+   a #f1f4f4 band; a Sofia Pro 20px label, then its links, divided by rules */
+body.providers main .section.links-bar {
+  margin: 0;
+  padding: 10px 0;
+}
+
+body.providers main .section.links-bar p {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 30px;
+  color: #003963;
+}
+
+body.providers main .section.links-bar a:any-link {
+  display: inline-block;
+  padding: 0 22.5px;
+  font-weight: 500;
+  color: #0078c1;
+}
+
+body.providers main .section.links-bar a + a {
+  border-left: 1px solid #b8b8b8;
+}
+
+/* contact-us regions: one blush panel per region, in a 581px column, 20px apart */
+body.providers main .section.region-panel {
+  margin: 0;
+  padding: 10px 16px;
+}
+
+body.providers main .section.region-panel .default-content-wrapper {
+  box-sizing: border-box;
+  max-width: 581px;
+  padding: 24px 32px;
+  background-color: var(--highlight-color);
+}
+
+body.providers main .section.region-panel h3 {
+  margin-top: 0;
+}
+
+/* service-centre cards (fragment /providers/fragments/service-centers): two white cards,
+   a 200px square photo beside the text */
+body.providers main .section.service-centers {
+  margin: 0;
+  padding: 40px 0;
+}
+
+body.providers main .section.service-centers .cards-minimal-dark-withimg > ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+body.providers main .section.service-centers .cards-minimal-dark-withimg > ul > li {
+  flex: 0 1 520px;
+  flex-direction: row;
+  border-radius: 0;
+  box-shadow: 0 3px 6px rgb(0 0 0 / 15%);
+}
+
+body.providers main .section.service-centers .cards-minimal-dark-withimg-card-image {
+  flex: 0 0 200px;
+}
+
+body.providers main .section.service-centers .cards-minimal-dark-withimg-card-image img {
+  width: 200px;
+  height: 200px;
+}
+
+body.providers main .section.service-centers .cards-minimal-dark-withimg-card-body h3 {
+  margin: 0 0 12px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 30px;
+  color: #003963;
+}
+
+body.providers main .section.service-centers .cards-minimal-dark-withimg-card-body p {
+  margin: 0 0 12px;
+  padding: 0;
+  font-size: 16px;
+  line-height: 26px;
+}
+
+@media (width < 600px) {
+  body.providers main .section.service-centers .cards-minimal-dark-withimg > ul > li {
+    flex-direction: column;
+  }
+
+  body.providers main .section.service-centers .cards-minimal-dark-withimg-card-image img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* long button labels ("continue to more information to electronic claims") wrap on phones
+   instead of widening the page */
+body.providers main a.button:any-link {
+  max-width: 100%;
+  white-space: normal;
+}
+
+/* :lock: (a page behind the Availity login) and :pdf: after a link's text */
+body.providers main a .icon {
+  width: 20px;
+  height: 20px;
+  margin-left: 6px;
+  vertical-align: -4px;
+}
