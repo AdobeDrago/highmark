@@ -53,9 +53,22 @@ function cleanText(el) {
   return el;
 }
 
+// ShopX pages already migrated under /shop/ (import-shop-page.js): link to them, not ShopX
+const MIGRATED = [
+  '/about-you/qualifying-life-events/landing',
+  '/about-you/build-your-family/dental-enrollment',
+  '/about-you/build-your-family/blue-edge-balance-enrollment',
+  '/info-pages/legal-policies',
+];
+
+function localHref(href) {
+  const m = href.match(/^https:\/\/shop\.highmark\.com(\/[^?#]*?)(\.html)?$/);
+  return m && MIGRATED.includes(m[1]) ? `/shop${m[1]}` : href;
+}
+
 function plainLink(document, a) {
   const link = document.createElement('a');
-  link.href = a.getAttribute('href');
+  link.href = localHref(a.getAttribute('href'));
   link.textContent = a.textContent.replace(/\s+/g, ' ').trim();
   // the source's link titles (SHOP PLANS links name their card's plan)
   if (a.getAttribute('title')) link.title = a.getAttribute('title');

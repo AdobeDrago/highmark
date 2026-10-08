@@ -7,7 +7,9 @@
  * The nav fragment's sections say what they hold with a section style: shop-brand,
  * shop-utility, shop-title, shop-nav. A section can be limited to some regions with
  * `Regions` section metadata (zip-tokens.js), e.g. the Blue Shield logo for CPA, SEPA and
- * NENY, or the "Find a Doctor or RX" nav for visitors without a ZIP ("none").
+ * NENY, or the "Find a Doctor or RX" nav for visitors without a ZIP ("none"). A
+ * `no-region` shop-title section hides the region (product headers such as "Shop Dental
+ * Plans", whose pages use their own nav fragment via `nav` metadata).
  */
 import { loadCSS } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
@@ -68,8 +70,10 @@ export default async function decorate(block, path) {
   nav.setAttribute('aria-label', 'Main navigation');
   block.append(element('div', 'shop-header-wrapper', nav));
 
+  // product headers (e.g. "Shop Dental Plans") don't show the region: style `no-region`
+  const regionShown = !pick('shop-title').some((section) => section.classList.contains('no-region'));
   const showRegion = () => {
-    const region = getStoredZip()?.region || '';
+    const region = regionShown ? getStoredZip()?.region || '' : '';
     regionLabels.forEach((label) => {
       label.textContent = region;
       label.hidden = !region;

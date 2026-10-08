@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "url": "http://localhost:8765/shop/about-you/qualifying-life-events/landing.html",
+  "path": "shop/about-you/qualifying-life-events/landing",
+  "timestamp": "2026-10-08T09:24:17.760Z",
+  "title": "Shop | Special Enrollment Qualification",
+  "template": "shop-page",
+  "kind": "qle",
+  "blocks": [
+    "flip-cards"
+  ],
+  "captured": "2026-10-08T09:14:24.753Z; zip=15222; county=ALLEGHENY; region=Western PA"
+}
