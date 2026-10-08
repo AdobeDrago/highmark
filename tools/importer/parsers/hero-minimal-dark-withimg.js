@@ -123,6 +123,11 @@ export default function parse(element, { document }) {
   contentCell.push(...ctaLinks);
   cells.push([contentCell]);
 
-  const block = WebImporter.Blocks.createBlock(document, { name: 'hero-minimal-dark-withimg', cells });
+  // Secondary-page heroes (.sub-hero-sec: /resources, /resources/spending-accounts, ...)
+  // lay the text out differently from the home-style hero: `sub` variant.
+  const name = element.querySelector('.sub-hero-sec') || element.matches('.sub-hero-sec')
+    ? 'hero-minimal-dark-withimg (sub)'
+    : 'hero-minimal-dark-withimg';
+  const block = WebImporter.Blocks.createBlock(document, { name, cells });
   element.replaceWith(block);
 }
