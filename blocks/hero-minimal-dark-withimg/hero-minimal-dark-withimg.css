@@ -797,3 +797,123 @@ main .hero-minimal-dark-withimg .button-container:has(.primary) ~ .button-contai
 }
 
 /* stylelint-enable no-descending-specificity */
+
+/* ------------------------------------------------------------------
+ * Variant `intercept`: the navy glossary band on /resources/answers (source
+ * .one-card-one-col-panel.image.new-hmk-brand-darkblue), three art-directed
+ * renditions (see hero-minimal-dark-withimg.js), measured at 390 / 768 / 992 /
+ * 1280 / 1440.
+ * - from 992px: the desktop rendition at its own proportions with the text over
+ *   it, vertically centred, 480px wide, in the page's content container (83px
+ *   gutters, 1200px max); heading 34px, copy 20/28, outlined white CTA
+ * - below 992px: the rendition above a navy (#001446) panel with the text in the
+ *   page gutters (64px from 768, 30px below), the CTA centred
+ * ------------------------------------------------------------------ */
+
+/* stylelint-disable no-descending-specificity -- overrides the base and
+   art-directed rules above */
+.hero-minimal-dark-withimg.intercept {
+  display: block;
+  background-color: #001446;
+}
+
+.hero-minimal-dark-withimg.intercept > div:last-child {
+  max-width: none;
+  padding: 0 30px;
+}
+
+.hero-minimal-dark-withimg.intercept h2 {
+  max-width: none;
+  margin: 0 0 8px;
+  padding: 19.2px 0 8px;
+  color: #fff;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+.hero-minimal-dark-withimg.intercept p {
+  margin: 0;
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.25px;
+}
+
+.hero-minimal-dark-withimg.intercept p.button-container {
+  margin: 16px 0 0;
+  text-align: center;
+}
+
+main .hero-minimal-dark-withimg.intercept a.button:any-link {
+  margin: 16px 0;
+  padding: 16px 24px;
+  border: 1px solid #fff;
+  background-color: transparent;
+  color: #fff;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+main .hero-minimal-dark-withimg.intercept a.button:hover,
+main .hero-minimal-dark-withimg.intercept a.button:focus {
+  background-color: #fff;
+  color: #001446;
+}
+
+@media (width >= 768px) {
+  .hero-minimal-dark-withimg.intercept > div:last-child {
+    padding: 0 64px;
+  }
+
+  .hero-minimal-dark-withimg.intercept h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  .hero-minimal-dark-withimg.intercept p {
+    font-size: 18px;
+    line-height: 23.4px;
+  }
+}
+
+@media (width >= 992px) {
+  .hero-minimal-dark-withimg.intercept {
+    display: grid;
+    background-color: transparent;
+  }
+
+  .hero-minimal-dark-withimg.intercept > div:last-child {
+    box-sizing: border-box;
+    width: calc(100% - 166px);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .hero-minimal-dark-withimg.intercept > div:last-child > div {
+    width: 480px;
+    max-width: 100%;
+  }
+
+  .hero-minimal-dark-withimg.intercept h2 {
+    padding: 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  .hero-minimal-dark-withimg.intercept p {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .hero-minimal-dark-withimg.intercept p.button-container {
+    text-align: left;
+  }
+}
+
+/* stylelint-enable no-descending-specificity */

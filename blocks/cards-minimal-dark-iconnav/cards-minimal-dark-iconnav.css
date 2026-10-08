@@ -164,7 +164,9 @@
 }
 
 /* ------------------------------------------------------------------
-   CHIP landing (template=chip-landing): 6 image-icon quick links.
+   CHIP landing (template=chip-landing): 6 image-icon quick links; the answers
+   landing (template=answers-landing: FAQ / ARTICLES / GLOSSARY / ACA / CHIP) uses
+   the same source component with Material icons.
    Source: .quicklinks .quick-link-list-container.bg-blue
    - mobile (<768): items flex equally across the viewport (labels wrap),
      padding 16px 0, icon 20x25, label 14px/21px
@@ -172,19 +174,19 @@
    - >=992: 960px inner, items 160px, padding 16px 12px, label 16px/24px
    Hover: bg #e2e9e9, navy label + navy icon (source swaps to *-hover.svg).
    ------------------------------------------------------------------ */
-body.chip-landing .cards-minimal-dark-iconnav > ul {
+body:is(.chip-landing, .answers-landing) .cards-minimal-dark-iconnav > ul {
   flex-wrap: nowrap;
   justify-content: center;
   overflow: visible;
 }
 
-body.chip-landing .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
+body:is(.chip-landing, .answers-landing) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
   flex: 1 1 0;
   width: auto;
   padding: 16px 0;
 }
 
-body.chip-landing .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item .cards-minimal-dark-iconnav-label {
+body:is(.chip-landing, .answers-landing) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item .cards-minimal-dark-iconnav-label {
   margin-top: 0;
   font-size: 14px;
   line-height: 21px;
@@ -194,19 +196,19 @@ body.chip-landing .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconn
 }
 
 @media (width >= 768px) {
-  body.chip-landing .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
+  body:is(.chip-landing, .answers-landing) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
     flex: 0 1 auto;
     width: 130px;
   }
 }
 
 @media (width >= 992px) {
-  body.chip-landing .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
+  body:is(.chip-landing, .answers-landing) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
     width: 160px;
     padding: 16px 12px;
   }
 
-  body.chip-landing .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item .cards-minimal-dark-iconnav-label {
+  body:is(.chip-landing, .answers-landing) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item .cards-minimal-dark-iconnav-label {
     font-size: 16px;
     line-height: 24px;
   }

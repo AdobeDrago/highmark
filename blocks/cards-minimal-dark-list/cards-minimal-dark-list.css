@@ -27,7 +27,7 @@
   list-style: disc outside;
 }
 
-body.topic-hub-subnav .cards-minimal-dark-list > ul {
+body:is(.topic-hub-subnav, .answers-landing) .cards-minimal-dark-list > ul {
   display: flex;
   flex-flow: column wrap;
   align-items: center;
@@ -152,30 +152,31 @@ main .section > div.cards-minimal-dark-list-wrapper:has(> .cards-minimal-dark-li
 }
 
 /*
- * Topic sub-pages (template=topic-hub-subnav: mental-health topics).
+ * Topic sub-pages (template=topic-hub-subnav: mental-health topics) and the answers
+ * landing (template=answers-landing: "Learn more about Highmark plans", same component).
  * "How to help someone with ..." Do / Don't section. Values extracted from
  * https://www.highmark.com/resources/mental-health-services/substance-use-disorders
  * (div.newcardscomponent-variations > .container-sm-img, li.cardThree.listSmlImg):
  * centered sofia-pro intro, fixed-width cards (300 / 400 / 370px) centered in the
  * row, heights sized to content (not stretched). Source breakpoints 768 / 992 / 1200.
  */
-body.topic-hub-subnav main > .section.cards-minimal-dark-list-container {
+body:is(.topic-hub-subnav, .answers-landing) main > .section.cards-minimal-dark-list-container {
   margin: 0;
   padding: 50px 0 40px;
   text-align: center;
 }
 
 /* source sections abut: drop the 40px section margin above this padded band */
-body.topic-hub-subnav main > .section:has(+ .section.cards-minimal-dark-list-container) {
+body:is(.topic-hub-subnav, .answers-landing) main > .section:has(+ .section.cards-minimal-dark-list-container) {
   margin-bottom: 0;
 }
 
-body.topic-hub-subnav main > .section.cards-minimal-dark-list-container > div {
+body:is(.topic-hub-subnav, .answers-landing) main > .section.cards-minimal-dark-list-container > div {
   max-width: 390px;
   padding: 0 15px;
 }
 
-body.topic-hub-subnav main > .section.cards-minimal-dark-list-container > .default-content-wrapper h2 {
+body:is(.topic-hub-subnav, .answers-landing) main > .section.cards-minimal-dark-list-container > .default-content-wrapper h2 {
   margin: 0 0 20px;
   font-family: var(--heading-font-family);
   font-size: 26px;
@@ -185,7 +186,7 @@ body.topic-hub-subnav main > .section.cards-minimal-dark-list-container > .defau
   color: var(--text-color);
 }
 
-body.topic-hub-subnav main > .section.cards-minimal-dark-list-container > .default-content-wrapper p {
+body:is(.topic-hub-subnav, .answers-landing) main > .section.cards-minimal-dark-list-container > .default-content-wrapper p {
   margin: 0 0 30px;
   font-family: var(--heading-font-family);
   font-size: 17px;
@@ -195,62 +196,62 @@ body.topic-hub-subnav main > .section.cards-minimal-dark-list-container > .defau
   color: var(--text-color);
 }
 
-body.topic-hub-subnav .cards-minimal-dark-list > ul > li {
+body:is(.topic-hub-subnav, .answers-landing) .cards-minimal-dark-list > ul > li {
   width: 300px;
   max-width: 100%;
   margin: 0 0 30px;
 }
 
-body.topic-hub-subnav .cards-minimal-dark-list .cards-minimal-dark-list-card-body {
+body:is(.topic-hub-subnav, .answers-landing) .cards-minimal-dark-list .cards-minimal-dark-list-card-body {
   padding: 0 20px 16px;
 }
 
-body.topic-hub-subnav .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3 {
+body:is(.topic-hub-subnav, .answers-landing) .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3 {
   font-size: 22px;
   line-height: 24.2px;
   letter-spacing: -0.4px;
 }
 
-body.topic-hub-subnav .cards-minimal-dark-list .cards-minimal-dark-list-card-body ul {
+body:is(.topic-hub-subnav, .answers-landing) .cards-minimal-dark-list .cards-minimal-dark-list-card-body ul {
   margin: 0 0 0 8px;
   padding: 0;
 }
 
-body.topic-hub-subnav .cards-minimal-dark-list .cards-minimal-dark-list-card-body li {
+body:is(.topic-hub-subnav, .answers-landing) .cards-minimal-dark-list .cards-minimal-dark-list-card-body li {
   margin: 0 0 13px 8px;
 }
 
-body.topic-hub-subnav .cards-minimal-dark-list .cards-minimal-dark-list-card-body p.button-container {
+body:is(.topic-hub-subnav, .answers-landing) .cards-minimal-dark-list .cards-minimal-dark-list-card-body p.button-container {
   text-align: left;
 }
 
 @media (width >= 768px) {
-  body.topic-hub-subnav main > .section.cards-minimal-dark-list-container {
+  body:is(.topic-hub-subnav, .answers-landing) main > .section.cards-minimal-dark-list-container {
     padding: 60px 0 50px;
   }
 
-  body.topic-hub-subnav main > .section.cards-minimal-dark-list-container > div {
+  body:is(.topic-hub-subnav, .answers-landing) main > .section.cards-minimal-dark-list-container > div {
     max-width: none;
     padding: 0 2.5%;
   }
 
-  body.topic-hub-subnav main > .section.cards-minimal-dark-list-container > .default-content-wrapper h2 {
+  body:is(.topic-hub-subnav, .answers-landing) main > .section.cards-minimal-dark-list-container > .default-content-wrapper h2 {
     font-size: 28px;
     line-height: 30.8px;
     letter-spacing: -0.78px;
   }
 
-  body.topic-hub-subnav main > .section.cards-minimal-dark-list-container > .default-content-wrapper p {
+  body:is(.topic-hub-subnav, .answers-landing) main > .section.cards-minimal-dark-list-container > .default-content-wrapper p {
     font-size: 18px;
     line-height: 23.4px;
     letter-spacing: -0.4px;
   }
 
-  body.topic-hub-subnav .cards-minimal-dark-list > ul > li {
+  body:is(.topic-hub-subnav, .answers-landing) .cards-minimal-dark-list > ul > li {
     width: 400px;
   }
 
-  body.topic-hub-subnav .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3 {
+  body:is(.topic-hub-subnav, .answers-landing) .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3 {
     padding-bottom: 3px;
     font-size: 32px;
     line-height: 35.2px;
@@ -259,25 +260,25 @@ body.topic-hub-subnav .cards-minimal-dark-list .cards-minimal-dark-list-card-bod
 }
 
 @media (width >= 992px) {
-  body.topic-hub-subnav main > .section.cards-minimal-dark-list-container > div {
+  body:is(.topic-hub-subnav, .answers-landing) main > .section.cards-minimal-dark-list-container > div {
     max-width: 1180px;
     padding: 0;
   }
 
-  body.topic-hub-subnav main > .section.cards-minimal-dark-list-container > .default-content-wrapper h2,
-  body.topic-hub-subnav main > .section.cards-minimal-dark-list-container > .default-content-wrapper p {
+  body:is(.topic-hub-subnav, .answers-landing) main > .section.cards-minimal-dark-list-container > .default-content-wrapper h2,
+  body:is(.topic-hub-subnav, .answers-landing) main > .section.cards-minimal-dark-list-container > .default-content-wrapper p {
     max-width: 766px;
     margin-left: auto;
     margin-right: auto;
   }
 
-  body.topic-hub-subnav main > .section.cards-minimal-dark-list-container > .default-content-wrapper h2 {
+  body:is(.topic-hub-subnav, .answers-landing) main > .section.cards-minimal-dark-list-container > .default-content-wrapper h2 {
     font-size: 34px;
     line-height: 37.4px;
     letter-spacing: -1.36px;
   }
 
-  body.topic-hub-subnav main > .section.cards-minimal-dark-list-container > .default-content-wrapper p {
+  body:is(.topic-hub-subnav, .answers-landing) main > .section.cards-minimal-dark-list-container > .default-content-wrapper p {
     margin-bottom: 40px;
     font-size: 20px;
     line-height: 30px;
@@ -285,48 +286,48 @@ body.topic-hub-subnav .cards-minimal-dark-list .cards-minimal-dark-list-card-bod
   }
 
   /* source cards are inline-grid items: 30px margin + ~4px collapsed whitespace */
-  body.topic-hub-subnav .cards-minimal-dark-list > ul {
+  body:is(.topic-hub-subnav, .answers-landing) .cards-minimal-dark-list > ul {
     flex-direction: row;
     justify-content: center;
     align-items: flex-start;
     column-gap: 4px;
   }
 
-  body.topic-hub-subnav .cards-minimal-dark-list > ul > li {
+  body:is(.topic-hub-subnav, .answers-landing) .cards-minimal-dark-list > ul > li {
     width: 370px;
   }
 
-  body.topic-hub-subnav .cards-minimal-dark-list .cards-minimal-dark-list-card-body {
+  body:is(.topic-hub-subnav, .answers-landing) .cards-minimal-dark-list .cards-minimal-dark-list-card-body {
     padding: 0 30px 16px;
   }
 
-  body.topic-hub-subnav .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3 {
+  body:is(.topic-hub-subnav, .answers-landing) .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3 {
     padding-bottom: 0;
     font-size: 24px;
     line-height: 26.4px;
     letter-spacing: -0.72px;
   }
 
-  body.topic-hub-subnav .cards-minimal-dark-list .cards-minimal-dark-list-card-body li {
+  body:is(.topic-hub-subnav, .answers-landing) .cards-minimal-dark-list .cards-minimal-dark-list-card-body li {
     margin-bottom: 15px;
   }
 
-  body.topic-hub-subnav .cards-minimal-dark-list .cards-minimal-dark-list-card-body p.button-container {
+  body:is(.topic-hub-subnav, .answers-landing) .cards-minimal-dark-list .cards-minimal-dark-list-card-body p.button-container {
     text-align: right;
   }
 
-  body.topic-hub-subnav .cards-minimal-dark-list > ul > li:nth-child(odd) {
+  body:is(.topic-hub-subnav, .answers-landing) .cards-minimal-dark-list > ul > li:nth-child(odd) {
     margin-right: 30px;
   }
 }
 
 /* 3-up row at >= 1200: every middle card carries 0 30px margins (no bottom margin) */
 @media (width >= 1200px) {
-  body.topic-hub-subnav .cards-minimal-dark-list > ul > li:nth-child(odd) {
+  body:is(.topic-hub-subnav, .answers-landing) .cards-minimal-dark-list > ul > li:nth-child(odd) {
     margin-right: 0;
   }
 
-  body.topic-hub-subnav .cards-minimal-dark-list > ul > li:nth-child(3n+2) {
+  body:is(.topic-hub-subnav, .answers-landing) .cards-minimal-dark-list > ul > li:nth-child(3n+2) {
     margin: 0 30px;
   }
 }

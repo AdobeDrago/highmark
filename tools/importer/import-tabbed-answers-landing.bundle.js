@@ -290,16 +290,21 @@ var CustomImportScript = (() => {
   var SECTIONS = [
     { id: "section-hero", selector: "section.new-hmk-brand-fifteenpercent-splash" },
     { id: "section-iconnav", selector: ".quick-link-list-container.bg-blue" },
-    { id: "section-accordion", selector: ".accordianTable" },
-    { id: "section-glossary", selector: ".one-card-one-col-panel.new-hmk-brand-darkblue", style: "highlight" },
+    // the FAQ heading, intro, accordion and its CTA share one source section
+    { id: "section-accordion", selector: "section.container-fluid-fullwidth.section:has(.accordianTable)", fallback: ".accordianTable" },
+    // the navy glossary intercept becomes a hero-minimal-dark-withimg (intercept) block
+    // (import-tabbed-answers-landing.js), which carries its own colours
+    { id: "section-glossary", selector: ".one-card-one-col-panel.new-hmk-brand-darkblue" },
     { id: "section-cards", selector: ".newcardscomponent-variations .cards-variation" },
-    { id: "section-promo", selector: ".side-card-panel.new-hmk-brand-blush-twnetyfive", style: "accent" },
+    // the member-web promo panel is the blush band on the source
+    { id: "section-promo", selector: ".side-card-panel.new-hmk-brand-blush-twnetyfive", style: "highlight" },
     { id: "section-community", selector: ".newcardscomponent-variations:last-of-type .side-card-panel" }
   ];
   function transform2(hookName, element, payload) {
     if (hookName === "beforeTransform") {
       SECTIONS.forEach((section) => {
-        const matches = element.querySelectorAll(section.selector);
+        let matches = element.querySelectorAll(section.selector);
+        if (!matches.length && section.fallback) matches = element.querySelectorAll(section.fallback);
         for (let i = matches.length - 1; i >= 0; i -= 1) {
           const el = matches[i];
           const hr = document.createElement("hr");
@@ -408,6 +413,50 @@ var CustomImportScript = (() => {
         params
       } = payload;
       const main = document2.body;
+      const crumb = document2.querySelector("ol.breadcrumb-list li.active");
+      const crumbLabel = ((crumb == null ? void 0 : crumb.textContent) || "").replace(/\s+/g, " ").trim();
+      const isLanding = !!(document2.querySelector(".quick-link-list-container") && document2.querySelector(".accordianTable"));
+      main.querySelectorAll(".one-card-one-col-panel.image.new-hmk-brand-darkblue").forEach((panel) => {
+        var _a;
+        const picture = panel.querySelector("picture");
+        const mobile = picture == null ? void 0 : picture.querySelector("img");
+        if (!mobile) return;
+        const srcFor = (media) => {
+          var _a2, _b;
+          return (_b = (_a2 = picture.querySelector(`source[media*="${media}"]`)) == null ? void 0 : _a2.getAttribute("srcset")) == null ? void 0 : _b.split(/[\s,]/)[0];
+        };
+        const image = (src) => {
+          const img = document2.createElement("img");
+          img.src = src;
+          img.alt = mobile.getAttribute("alt") || "";
+          return img;
+        };
+        const imgs = [srcFor("992") || mobile.getAttribute("src"), srcFor("768") || mobile.getAttribute("src"), mobile.getAttribute("src")].map(image);
+        const pick = (sel) => panel.querySelector(`${sel}.d-lg-block`) || panel.querySelector(sel);
+        const text = (el, tag) => {
+          if (!el) return null;
+          const out = document2.createElement(tag);
+          out.textContent = el.textContent.replace(/\s+/g, " ").trim();
+          return out;
+        };
+        const heading = text(pick("h2"), "h2");
+        const copy = text(((_a = pick(".body-text")) == null ? void 0 : _a.querySelector("p")) || pick(".body-text"), "p");
+        const ctas = [...panel.querySelectorAll(".buttonGroup a[href]")].map((a) => {
+          const link = document2.createElement("a");
+          link.href = a.getAttribute("href");
+          link.textContent = a.textContent.replace(/\s+/g, " ").trim();
+          return link;
+        });
+        const block = WebImporter.Blocks.createBlock(document2, {
+          name: "hero-minimal-dark-withimg (intercept)",
+          cells: [[imgs], [[heading, copy, ...ctas].filter(Boolean)]]
+        });
+        panel.replaceWith(document2.createElement("hr"), block);
+      });
+      main.querySelectorAll('a .sr-only, a .visually-hidden, a [class*="screen-reader"]').forEach((el) => el.remove());
+      main.querySelectorAll("a em, a span").forEach((el) => {
+        if (/^opens (in )?a new (tab|window)( or (tab|window))?\.?$/i.test(el.textContent.trim())) el.remove();
+      });
       main.querySelectorAll(".dynamic-table-container").forEach((el) => el.setAttribute("data-block-variant", "data"));
       executeTransformers("beforeTransform", main, payload);
       const pageBlocks = findBlocksOnPage(document2, PAGE_TEMPLATE);
@@ -427,7 +476,13 @@ var CustomImportScript = (() => {
       executeTransformers("afterTransform", main, payload);
       const hr = document2.createElement("hr");
       main.appendChild(hr);
-      WebImporter.rules.createMetadata(main, document2);
+      const meta = WebImporter.Blocks.getMetadata(document2) || {};
+      if (crumb) {
+        meta.breadcrumbs = "true";
+        if (crumbLabel) meta["Breadcrumb Title"] = crumbLabel;
+      }
+      if (isLanding) meta.Template = "answers-landing";
+      main.append(WebImporter.Blocks.getMetadataBlock(document2, meta));
       WebImporter.rules.transformBackgroundImages(main, document2);
       WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
       const rawPath = new URL(params.originalURL).pathname.replace(/\/$/, "").replace(/\.html?$/, "");

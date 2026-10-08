@@ -7,12 +7,18 @@
  * that switches at the source site's breakpoints (<= 428px mobile, <= 768px
  * tablet, desktop above), and the block gets the `art-directed` class so its
  * height follows the rendition shown instead of cropping it. A single image is
- * left as it is.
+ * left as it is. The `intercept` variant (the /resources/answers glossary band)
+ * switches where its source does: mobile below 768px, tablet below 992px.
  */
 
 const MEDIA = {
   mobile: '(max-width: 428px)',
   tablet: '(max-width: 768px)',
+};
+
+const INTERCEPT_MEDIA = {
+  mobile: '(max-width: 767px)',
+  tablet: '(max-width: 991px)',
 };
 
 function rendition(src, width, format) {
@@ -24,12 +30,12 @@ function rendition(src, width, format) {
   return url.pathname + url.search;
 }
 
-function buildArtDirectedPicture(imgs) {
+function buildArtDirectedPicture(imgs, breakpoints = MEDIA) {
   const [desktop, tablet, mobile] = imgs;
   const picture = document.createElement('picture');
   [
-    [mobile, MEDIA.mobile, 750],
-    [tablet, MEDIA.tablet, 1500],
+    [mobile, breakpoints.mobile, 750],
+    [tablet, breakpoints.tablet, 1500],
   ].forEach(([img, media, width]) => {
     ['webply', 'jpg'].forEach((format) => {
       const source = document.createElement('source');
@@ -60,7 +66,8 @@ export default function decorate(block) {
   const imageCell = block.querySelector(':scope > div:first-child > div');
   const imgs = imageCell ? [...imageCell.querySelectorAll('img')] : [];
   if (imgs.length < 3) return;
-  const picture = buildArtDirectedPicture(imgs);
+  const breakpoints = block.classList.contains('intercept') ? INTERCEPT_MEDIA : MEDIA;
+  const picture = buildArtDirectedPicture(imgs, breakpoints);
   imageCell.replaceChildren(picture);
   block.classList.add('art-directed');
 }
