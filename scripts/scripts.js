@@ -164,7 +164,7 @@ const TEMPLATE_STYLES = [
   'employer-landing', 'employer-subpage', 'about-article', 'leadership', 'bright-blue-futures',
   'media-contacts', 'capitol-hill-report', 'legal', 'contact', 'language-assistance',
   'news-alert', 'content-landing', 'zipcode-gate-login', 'campaign-landing', 'subsidiary-home', 'events',
-  'home', 'shop-home', 'providers', 'shop-page', 'answers-landing',
+  'home', 'shop-home', 'providers', 'shop-page', 'answers-landing', 'provider-content',
 ];
 
 /**
@@ -190,6 +190,18 @@ function decorateShopHomeLinks(main) {
 }
 
 /**
+ * Provider content pages (template provider-content): the "Last Updated: <date>" line
+ * under the title gets the class last-updated, for the page CSS. A class, because CSS
+ * cannot tell an all-italic paragraph from one with a single italic phrase.
+ * @param {Element} main The main element
+ */
+function decorateProviderContent(main) {
+  if (!document.body.classList.contains('provider-content')) return;
+  const line = main.querySelector('h1 + p');
+  if (line && /^last updated\b/i.test(line.textContent.trim())) line.classList.add('last-updated');
+}
+
+/**
  * Loads everything needed to get to LCP.
  * @param {Element} doc The container element
  */
@@ -212,6 +224,7 @@ async function loadEager(doc) {
   if (main) {
     decorateMain(main);
     decorateShopHomeLinks(main);
+    decorateProviderContent(main);
     await templateStyles;
     doc.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);

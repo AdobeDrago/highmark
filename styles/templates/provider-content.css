@@ -1,0 +1,342 @@
+/* stylelint-disable no-descending-specificity */
+
+/* Provider content pages (template: provider-content), as providers.highmark.com's: a left
+   section nav, the article and an optional right rail of related links.
+
+   EDS section order: (1) the provider-sidenav block, (2) the article, (3) optionally the rail
+   (Style rail). Source at >= 992px: a container of min(1200px, 100% - 166px); the nav a
+   quarter of it, the rail a quarter, 20px before the rail; without a rail the article runs to
+   the container's edge. Below 992px the nav and the rail are hidden and the article runs full
+   width with 30px gutters. Values measured at 1280, 1024, 800 and 390. */
+
+body.provider-content main > .section {
+  margin: 0;
+  padding: 0 0 40px;
+}
+
+body.provider-content main > .section > div {
+  max-width: none;
+  padding: 0 30px;
+}
+
+/* not the FAQ pages' offset for sections holding an accordion */
+body.provider-content main > .section.accordion-minimal-light-container > div {
+  margin: 0;
+}
+
+/* article type: Roboto 400, 15px on 25px lines (16px on 26px from 992); paragraphs and lists
+   10px apart, list items 10px; headings 700, 20px under them, 40px over an h2 and 20px over
+   an h3. The title is 68px over the text, or 8px over the "Last updated" line, which is 76px
+   over the text. */
+body.provider-content main > .section:not(.provider-sidenav-container) {
+  font-weight: 400;
+}
+
+body.provider-content main > .section:not(.provider-sidenav-container) :is(p, li, td, th) {
+  font-size: 15px;
+  line-height: 25px;
+}
+
+body.provider-content main > .section:not(.provider-sidenav-container) :is(p, ul, ol) {
+  margin: 0 0 10px;
+}
+
+body.provider-content main > .section:not(.provider-sidenav-container) li {
+  padding: 0 0 10px 5px;
+}
+
+body.provider-content main > .section:not(.provider-sidenav-container) li > :is(ul, ol) {
+  margin: 0;
+  padding-top: 10px;
+}
+
+body.provider-content main h1 {
+  margin: 0 0 68px;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 38px;
+  color: #003963;
+}
+
+/* the "Last Updated" line (scripts.js adds the class), authored in italics */
+body.provider-content main h1:has(+ p.last-updated) {
+  margin-bottom: 8px;
+}
+
+body.provider-content main > .section:not(.provider-sidenav-container) p.last-updated {
+  margin-bottom: 76px;
+  color: #5a656d;
+  font-size: 15px;
+}
+
+body.provider-content main p.last-updated em {
+  font-style: normal;
+}
+
+body.provider-content main h2,
+body.provider-content main h3,
+body.provider-content main h4 {
+  color: #003963;
+  font-weight: 700;
+  overflow-wrap: break-word; /* "Payment/EOBs/Remittances" is one word to the browser */
+}
+
+body.provider-content main > .section:not(.provider-sidenav-container, .rail) h2 {
+  margin: 40px 0 20px;
+  font-size: 26px;
+  line-height: 32px;
+}
+
+body.provider-content main > .section:not(.provider-sidenav-container, .rail) :is(h3, h4) {
+  margin: 20px 0;
+  font-size: 22px;
+  line-height: 28px;
+}
+
+body.provider-content main > .section:not(.provider-sidenav-container, .rail) h4 {
+  font-size: 18px;
+  line-height: 24px;
+}
+
+/* tables keep to the article's width, scrolling inside it when wider; a navy header row,
+   ruled cells */
+body.provider-content main .table {
+  overflow-x: auto;
+  margin-bottom: 36px;
+}
+
+body.provider-content main .table table {
+  border-collapse: collapse;
+}
+
+body.provider-content main .table th {
+  background-color: #003963;
+  color: #fff;
+  font-weight: 700;
+}
+
+body.provider-content main .table :is(th, td) {
+  border: 1px solid #001446;
+  padding: 6px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+
+/* links on their own line. decorateButtons makes each one a .button; the source has three
+   kinds, authored as:
+     <p><a>          a plain link (the source's lists of forms and PDFs)
+     <p><em><a>      the uppercase text CTA, e.g. "Read More" (.secondary)
+     <p><strong><a>  the filled button (.primary) */
+body.provider-content main p.button-container {
+  margin: 0 0 10px;
+  text-align: left;
+}
+
+body.provider-content main a.button:any-link:not(.primary, .secondary) {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: #0078c1;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: inherit;
+  text-transform: none;
+  white-space: normal;
+}
+
+body.provider-content main a.button:not(.primary, .secondary):hover,
+body.provider-content main a.button:not(.primary, .secondary):focus {
+  background: transparent;
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+body.provider-content main a.button.secondary:any-link {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: #0078c1;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: normal;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: normal;
+}
+
+body.provider-content main a.button.secondary:hover,
+body.provider-content main a.button.secondary:focus {
+  border: none;
+  background: transparent;
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+body.provider-content main a.button.primary:any-link {
+  display: inline-block;
+  max-width: 100%;
+  margin: 0;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 5px;
+  background: #0078c1;
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: normal;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: normal;
+}
+
+body.provider-content main a.button.primary:hover,
+body.provider-content main a.button.primary:focus {
+  border: none;
+  background: #003963;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* :pdf: / :lock: after a link's text are text-sized (white in a filled button) */
+body.provider-content main a .icon {
+  width: 20px;
+  height: 20px;
+  margin-left: 6px;
+  vertical-align: -4px;
+}
+
+body.provider-content main a.button.primary .icon img {
+  filter: brightness(0) invert(1);
+}
+
+/* the rail: "Related Links" over plain links on #f1f4f4 */
+body.provider-content main > .section.rail > div {
+  padding: 20px;
+  background-color: #f1f4f4;
+}
+
+body.provider-content main > .section.rail h2 {
+  margin: 0 0 16px;
+  font-size: 20px;
+  line-height: 30px;
+}
+
+body.provider-content main > .section.rail h2::after {
+  content: '';
+  display: block;
+  width: 51px;
+  height: 4px;
+  margin-top: 8px;
+  background-color: #0066b1;
+}
+
+body.provider-content main > .section.rail p {
+  font-size: 16px;
+  line-height: 26px;
+}
+
+body.provider-content main > .section.rail a.button:any-link {
+  display: inline;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: #0078c1;
+  font-weight: 400;
+  text-transform: none;
+  white-space: normal;
+}
+
+@media (width < 992px) {
+  body.provider-content main > .section.provider-sidenav-container,
+  body.provider-content main > .section.rail {
+    display: none;
+  }
+}
+
+@media (width >= 768px) {
+  body.provider-content main h1 {
+    font-size: 36px;
+    line-height: 42px;
+  }
+
+  body.provider-content main > .section:not(.provider-sidenav-container, .rail) h2 {
+    font-size: 28px;
+    line-height: 34px;
+  }
+
+  body.provider-content main > .section:not(.provider-sidenav-container, .rail) h3 {
+    font-size: 24px;
+    line-height: 30px;
+  }
+}
+
+@media (width >= 992px) {
+  body.provider-content main {
+    --provider-content-width: min(1200px, 100% - 166px);
+
+    display: grid;
+    grid-template-columns:
+      1fr
+      calc(var(--provider-content-width) * 0.25)
+      calc(var(--provider-content-width) * 0.5 - 20px)
+      20px
+      calc(var(--provider-content-width) * 0.25)
+      1fr;
+    align-items: start;
+  }
+
+  body.provider-content main > .section {
+    grid-column: 2 / 6;
+  }
+
+  body.provider-content main > .section > div {
+    padding: 0;
+  }
+
+  body.provider-content main > .section.provider-sidenav-container {
+    grid-row: 1;
+    grid-column: 2;
+    padding-right: 20px;
+  }
+
+  /* the article: to the container's edge, or up to the rail */
+  body.provider-content main > .provider-sidenav-container + .section {
+    grid-row: 1;
+    grid-column: 3 / 6;
+  }
+
+  body.provider-content main:has(> .section.rail) > .provider-sidenav-container + .section {
+    grid-column: 3;
+  }
+
+  body.provider-content main > .section.rail {
+    grid-row: 1;
+    grid-column: 5;
+  }
+
+  body.provider-content main h1 {
+    font-size: 56px;
+    line-height: 62px;
+  }
+
+  body.provider-content main > .section:not(.provider-sidenav-container) :is(p, li, td, th) {
+    font-size: 16px;
+    line-height: 26px;
+  }
+
+  body.provider-content main > .section:not(.provider-sidenav-container, .rail) h2 {
+    font-size: 34px;
+    line-height: 40px;
+  }
+}
