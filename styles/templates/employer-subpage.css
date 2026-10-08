@@ -87,7 +87,7 @@ body.employer-subpage main > .section.dark:first-child a.button:any-link {
 body.employer-subpage main > .section.dark:first-child a.button:hover,
 body.employer-subpage main > .section.dark:first-child a.button:focus {
   background-color: #fff;
-  color: var(--text-color);
+  color: #0066b1;
 }
 
 @media (width >= 768px) {
