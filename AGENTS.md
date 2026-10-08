@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Status and working notes for the Highmark AEM Edge Delivery Services project. Updated 2026-10-07.
+Status and working notes for the Highmark AEM Edge Delivery Services project. Updated 2026-10-08.
 
 ## Project
 
@@ -188,17 +188,46 @@ Started 2026-10-07. The Provider Resource Center is migrated into this site unde
   - `region-panel` is one Contact Us region.
   - `dark` on a hero means white text over a dark photo (from the source's heading colour).
   - The Provider Service Center / Clinical Services cards on every page are one fragment, `/providers/fragments/service-centers` (Style `service-centers`).
+- **Template `provider-content`** (`styles/templates/provider-content.css`) is for the content and manual pages (batch 2, 2026-10-08). Each page has three sections:
+  1. a `provider-sidenav` block;
+  2. the article;
+  3. optionally the rail (Style `rail`, "Related Links").
+
+  From 992px they sit in the source's grid: the nav and the rail a quarter each, 20px before the rail, and without a rail the article runs to the edge. Below 992px the nav and the rail are hidden, as on the source.
+  - **Type.** Matched to the source at 1280, 800 and 390:
+    - text is Roboto 400 at 16/26 (15/25 below 992); headings are 700;
+    - the title sits 68px above the text, or 8px above the "Last Updated" line, which sits 76px above it.
+
+    `scripts.js` (`decorateProviderContent`) gives the "Last Updated: …" paragraph under the h1 the class `last-updated`. CSS can't tell an all-italic paragraph from one with a single italic phrase.
+  - **Links on their own line.** `<p><a>` is a plain link (the forms and PDF lists). `_link_` (italic) is the uppercase text CTA ("Read More"). `**link**` (bold) is the filled blue button. This follows the legal pages' convention, except the bold link is filled, as on the source. The converter picks bold or italic from whether the source's button component has a background (8 buttons, 48 CTAs).
+  - **Tables.** A `table` block (`no-header` when the source has no header row), with a navy header row and ruled cells.
+  - **Region-tagged content.** For now, the source's pink panels with region badges are a bold label line above their content, e.g. **WPA/NEPA · CPA/SEPA**. 37 of the 63 batch-2 pages have them (92 panels). Panels and badges are not built yet; their lists are tighter than ours.
+- **Side nav** (`blocks/provider-sidenav`).
+  - The block is one cell linking the section's fragment, `/providers/fragments/sidenav/<section>`, for `authorization`, `claims`, `policies-and-programs`, `provider-network`, `resources-and-education` and `communications-hub`.
+  - The fragment is the section's whole tree as nested lists; edit it once for the section. Document-list children (the RP-xxx PDFs) are left out, and `:lock:` marks a gated page.
+  - Like the source, the block shows:
+    - the current page's parent at the top;
+    - the parent's children;
+    - the current page in bold, with its own children open.
+
+    Other branches have toggles.
 - **Content choices.**
   - The source's news lists (In the Spotlight, Recent News and Updates, ...) are dynamic; here they are static cards as of 2026-10-07, until the articles are migrated and a list block can read them.
   - Contact Us's two tabs are two sections in a row, so the service-centre cards can link to each (`#highmark-provider-service-centers`, `#highmark-clinical-services`), and "View by region" links to the pipeline's heading ids.
   - Page titles are the source's (the home page's is "Home").
-- **Converter.** Kept in the session scratchpad (`day7/prov`), not in this repo: `extract.cjs` (Playwright, simplified component HTML) and `build.mjs` (component → block mapping, link rewriting, images into each page's dot-folder).
+- **Converter.** Kept in the session scratchpad (`day7/prov`), not in this repo:
+  - `extract.cjs`: Playwright, simplified component HTML, with collapsed accordion answers opened first;
+  - `sidenav-extract.mjs`: the side-nav trees from the source's static HTML;
+  - `build.mjs`: component → block mapping, link rewriting, images into each page's dot-folder. Content pages go through `buildContentPage`, and the side-nav fragments through `SIDENAV=1`.
 - **Links.** Provider links are relative (`/providers/...`). `build-redirects.mjs` knows `/providers/x` comes from `providers.highmark.com/x`, so links to provider pages not yet migrated redirect there (137 rows on 2026-10-07). Each provider batch:
   1. Run the script with `--upload`. It drops the batch's rows, since the pages now have DA documents, so preview shows them.
   2. Publish the pages, then publish the sheet straight away.
   3. Re-index the batch (`POST https://admin.hlx.page/index/adobedrago/highmark/main/<path>`). A page published while a redirect row still covers its path is not indexed: no search, no breadcrumbs, and the script doesn't see its links.
   4. Run the script again so the new pages' links get rows, and publish the sheet.
 - **Progress.** 26 provider pages are live on 2026-10-07: the first pass and the 17 P1 landing pages. See the checklist.
+  - Batch 2 is in DA and preview on 2026-10-08, waiting for review: the 63 P1 content and manual pages and the 6 side-nav fragments. The template and block render only on a local `aem up` until the code is merged.
+  - Preview `/redirects` (220 rows) already drops the batch's 63 rows; live still has them (283). Publishing the sheet before the pages would 404 those 63 paths on live, so publish the pages first and the sheet straight after (steps 2 to 4 above).
+  - Batch 3, the 5 list pages, will use a sheet-driven list block.
 - **Search.** Provider pages are in the site search (`search-index` has no `/providers/**` exclude, decided 2026-10-07). The provider header's own box searches providers.highmark.com.
 
 ## Open PRs
