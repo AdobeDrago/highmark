@@ -1,0 +1,70 @@
+/* Block: cards-icon-tiles — row of bordered icon-over-label tiles that jump to
+   topics further down the page. From Figma "Topic tiles" (Childhood Vaccines):
+   282px tiles, 24px gap, 1px #d3dee7 border, 8px radius, 44px icon,
+   uppercase 14px bold blue label. */
+
+.cards-icon-tiles {
+  --tile-border-color: #d3dee7;
+  --tile-hover-bg: var(--accent-color);
+}
+
+.cards-icon-tiles > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.cards-icon-tiles-link {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  height: 100%;
+  padding: 28px 20px;
+  border: 1px solid var(--tile-border-color);
+  border-radius: 8px;
+  background-color: var(--background-color);
+  text-align: center;
+  text-decoration: none;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.cards-icon-tiles-link:hover,
+.cards-icon-tiles-link:focus-visible {
+  border-color: var(--link-color);
+  background-color: var(--tile-hover-bg);
+  text-decoration: none;
+}
+
+.cards-icon-tiles-icon {
+  display: block;
+  width: 44px;
+  height: 44px;
+}
+
+.cards-icon-tiles-icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cards-icon-tiles-label {
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--link-color);
+}
+
+@media (width >= 900px) {
+  .cards-icon-tiles > ul {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+  }
+}

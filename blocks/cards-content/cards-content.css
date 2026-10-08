@@ -1,0 +1,116 @@
+/* Block: cards-content — white cards with a top image, heading, short blue
+   rule, copy and an uppercase text link. From Figma "Content Card" (2-up,
+   240px image, 24px heading) and, with the `three-up` option, "Takeaway Card"
+   (3-up grid, 140px image, 20px heading). */
+
+.cards-content {
+  --card-border-color: #d3dee7;
+  --card-body-color: #2f3b45;
+  --card-image-height: 240px;
+  --card-heading-size: 24px;
+  --card-heading-line: 33px;
+}
+
+.cards-content.three-up {
+  --card-image-height: 140px;
+  --card-heading-size: 20px;
+  --card-heading-line: 27px;
+}
+
+.cards-content > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+}
+
+.cards-content > ul > li {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--card-border-color);
+  border-radius: 8px;
+  background-color: var(--background-color);
+}
+
+.cards-content-image {
+  line-height: 0;
+}
+
+.cards-content-image img {
+  width: 100%;
+  height: var(--card-image-height);
+  object-fit: cover;
+}
+
+.cards-content-body {
+  padding: 24px 28px 28px;
+}
+
+.cards-content-body > :first-child {
+  margin-top: 0;
+}
+
+.cards-content-body h3 {
+  margin-bottom: 12px;
+  font-size: var(--card-heading-size);
+  line-height: var(--card-heading-line);
+}
+
+/* Short blue rule under the heading */
+.cards-content-body h3::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 3px;
+  margin-top: 12px;
+  background-color: var(--link-color);
+}
+
+.cards-content-body p {
+  margin: 0 0 12px;
+  font-size: 16px;
+  line-height: 26px;
+  color: var(--card-body-color);
+}
+
+.cards-content-body p:last-child {
+  margin-bottom: 0;
+}
+
+/* CTA is a plain uppercase text link, not the bordered button */
+.cards-content a.button:any-link {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  font-size: 14px;
+  line-height: 19px;
+  letter-spacing: 0.04em;
+  color: var(--link-color);
+}
+
+.cards-content a.button::after {
+  content: '\203A';
+  margin-left: 8px;
+}
+
+.cards-content a.button:hover,
+.cards-content a.button:focus {
+  background: none;
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+@media (width >= 900px) {
+  .cards-content > ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cards-content.three-up > ul {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
