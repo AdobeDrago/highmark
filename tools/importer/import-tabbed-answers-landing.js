@@ -109,6 +109,58 @@ export default {
 
     const main = document.body;
 
+    // Source breadcrumb label for this page, read before cleanup removes the
+    // breadcrumb row; pages without a source breadcrumb don't get one either.
+    const crumb = document.querySelector('ol.breadcrumb-list li.active');
+    const crumbLabel = (crumb?.textContent || '').replace(/\s+/g, ' ').trim();
+    // The answers landing (/resources/answers: quick-link bar + FAQ accordion) has its
+    // own template stylesheet (styles/templates/answers-landing.css).
+    const isLanding = !!(document.querySelector('.quick-link-list-container') && document.querySelector('.accordianTable'));
+
+    // Navy glossary intercept (.one-card-one-col-panel.image.new-hmk-brand-darkblue):
+    // three art-directed renditions (desktop >= 992, tablet >= 768, mobile) with the
+    // heading, copy and CTA -> hero-minimal-dark-withimg (intercept).
+    main.querySelectorAll('.one-card-one-col-panel.image.new-hmk-brand-darkblue').forEach((panel) => {
+      const picture = panel.querySelector('picture');
+      const mobile = picture?.querySelector('img');
+      if (!mobile) return;
+      const srcFor = (media) => picture.querySelector(`source[media*="${media}"]`)?.getAttribute('srcset')?.split(/[\s,]/)[0];
+      const image = (src) => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = mobile.getAttribute('alt') || '';
+        return img;
+      };
+      const imgs = [srcFor('992') || mobile.getAttribute('src'), srcFor('768') || mobile.getAttribute('src'), mobile.getAttribute('src')].map(image);
+      const pick = (sel) => panel.querySelector(`${sel}.d-lg-block`) || panel.querySelector(sel);
+      const text = (el, tag) => {
+        if (!el) return null;
+        const out = document.createElement(tag);
+        out.textContent = el.textContent.replace(/\s+/g, ' ').trim();
+        return out;
+      };
+      const heading = text(pick('h2'), 'h2');
+      const copy = text(pick('.body-text')?.querySelector('p') || pick('.body-text'), 'p');
+      const ctas = [...panel.querySelectorAll('.buttonGroup a[href]')].map((a) => {
+        const link = document.createElement('a');
+        link.href = a.getAttribute('href');
+        link.textContent = a.textContent.replace(/\s+/g, ' ').trim();
+        return link;
+      });
+      const block = WebImporter.Blocks.createBlock(document, {
+        name: 'hero-minimal-dark-withimg (intercept)',
+        cells: [[imgs], [[heading, copy, ...ctas].filter(Boolean)]],
+      });
+      // its own section (the section transformer's selector no longer matches)
+      panel.replaceWith(document.createElement('hr'), block);
+    });
+
+    // Screen-reader-only "opens a new tab or window" notes inside links are not copy.
+    main.querySelectorAll('a .sr-only, a .visually-hidden, a [class*="screen-reader"]').forEach((el) => el.remove());
+    main.querySelectorAll('a em, a span').forEach((el) => {
+      if (/^opens (in )?a new (tab|window)( or (tab|window))?\.?$/i.test(el.textContent.trim())) el.remove();
+    });
+
     // Data tables on these pages (FSA / commuter / HSA limits) are the table block's
     // "data" variant, not the HSA/HRA/FSA comparison look.
     main.querySelectorAll('.dynamic-table-container').forEach((el) => el.setAttribute('data-block-variant', 'data'));
@@ -138,9 +190,17 @@ export default {
     executeTransformers('afterTransform', main, payload);
 
     // 5. WebImporter built-in rules
+    // Page metadata: source meta tags, breadcrumbs (with the source label) when the
+    // source has them, and the landing's template.
     const hr = document.createElement('hr');
     main.appendChild(hr);
-    WebImporter.rules.createMetadata(main, document);
+    const meta = WebImporter.Blocks.getMetadata(document) || {};
+    if (crumb) {
+      meta.breadcrumbs = 'true';
+      if (crumbLabel) meta['Breadcrumb Title'] = crumbLabel;
+    }
+    if (isLanding) meta.Template = 'answers-landing';
+    main.append(WebImporter.Blocks.getMetadataBlock(document, meta));
     WebImporter.rules.transformBackgroundImages(main, document);
     WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
 

@@ -1,0 +1,479 @@
+/* stylelint-disable no-descending-specificity */
+
+/* Answers landing (template: answers-landing -> body.answers-landing, /resources/answers),
+   measured against https://www.highmark.com/resources/answers at 390 / 768 / 992 / 1024 /
+   1280 / 1440 / 1920.
+
+   Sections: 1. hero + quick-link bar | 2. FAQ (heading, intro, accordion, CTA) |
+   3. glossary intercept (hero-minimal-dark-withimg intercept) | 4. "Learn more about
+   Highmark plans" cards (shared with topic-hub-subnav, cards-minimal-dark-list.css) |
+   5. member-web promo (blush, image | text) | 6. community resources (text | image).
+
+   Source gutters: 30px below 768, 64px to 991, 83px from 992 with a 1200px container
+   (FAQ, glossary text); the promo and community rows sit in a 1128px container with
+   107px gutters. Intro copy is sofia-pro semibold: 17/23.8 (< 768), 18/23.4, 20/30
+   (>= 992). Sections sit flush; the spacing below is the source's spacer rows. */
+
+body.answers-landing main > .section {
+  margin: 0;
+}
+
+/* ---- 1. hero intro ---- */
+body.answers-landing main .hero-minimal-light p {
+  max-width: 780px;
+  margin-left: auto;
+  margin-right: auto;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.answers-landing main .hero-minimal-light {
+    padding: 40px 64px 76px;
+  }
+
+  body.answers-landing main .hero-minimal-light h1 {
+    margin: 0 0 8px;
+    padding: 28.8px 0;
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  body.answers-landing main .hero-minimal-light p {
+    margin-bottom: 0;
+  }
+}
+
+/* ---- 2. FAQ ---- */
+body.answers-landing main > .section.accordion-minimal-light-container {
+  padding: 40px 0;
+}
+
+body.answers-landing main > .section.accordion-minimal-light-container > div {
+  box-sizing: content-box;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+body.answers-landing main > .section.accordion-minimal-light-container > .default-content-wrapper:first-child {
+  padding: 0 58px;
+  text-align: center;
+}
+
+body.answers-landing main > .section.accordion-minimal-light-container h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  color: var(--text-color);
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.answers-landing main > .section.accordion-minimal-light-container > .default-content-wrapper:first-child p {
+  margin: 0 0 34px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+/* question rows: 10px + 8px above the question, its 16px margin + 8px below */
+body.answers-landing .accordion-minimal-light .accordion-minimal-light-item-label {
+  padding: 18px 47px 20.6px 15px;
+  font-family: var(--heading-font-family);
+  font-size: 16px;
+  line-height: 22.4px;
+  letter-spacing: -0.2px;
+}
+
+body.answers-landing .accordion-minimal-light .accordion-minimal-light-item-label p {
+  margin: 0;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+body.answers-landing .accordion-minimal-light .accordion-minimal-light-item-label::after {
+  top: 29.2px;
+  right: 34px;
+}
+
+/* answer panel: 10px padding below 768 (20px from 768) */
+body.answers-landing .accordion-minimal-light .accordion-minimal-light-item-body {
+  padding: 10px;
+}
+
+body.answers-landing .accordion-minimal-light .accordion-minimal-light-item-body p {
+  margin: 0;
+  line-height: 19.6px;
+  letter-spacing: -0.2px;
+}
+
+body.answers-landing .accordion-minimal-light .accordion-minimal-light-item-body ul {
+  margin: 0 0 16px;
+  padding: 10px 0 0 18px;
+}
+
+body.answers-landing .accordion-minimal-light .accordion-minimal-light-item-body li {
+  margin-bottom: 5px;
+}
+
+/* the "See all ... FAQ" line is a plain link with a blank line above it */
+body.answers-landing .accordion-minimal-light .accordion-minimal-light-item-body p.button-container {
+  margin-top: 19.6px;
+  font-size: 14px;
+}
+
+body.answers-landing main .accordion-minimal-light .accordion-minimal-light-item-body a.button:any-link {
+  display: inline;
+  vertical-align: baseline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #0078c1;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+  text-transform: none;
+}
+
+/* Get More Answers: centred, 60px spacer rows above and below */
+body.answers-landing main > .section.accordion-minimal-light-container > .default-content-wrapper:last-child {
+  margin-top: 60px;
+  text-align: center;
+}
+
+body.answers-landing main > .section.accordion-minimal-light-container > .default-content-wrapper:last-child p.button-container {
+  margin: 0;
+}
+
+body.answers-landing main > .section.accordion-minimal-light-container > .default-content-wrapper:last-child a.button:any-link {
+  margin: 16px 0;
+  padding: 16px 24px;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+/* ---- 4. cards: 34px between the 370px cards (30px margins + 4px), 100px above; the
+   heading 20px into the card, no accent rule under it ---- */
+body.answers-landing main > .section.cards-minimal-dark-list-container.cards-minimal-dark-list-container {
+  padding-top: 90px;
+}
+
+@media (width >= 768px) {
+  body.answers-landing main > .section.cards-minimal-dark-list-container.cards-minimal-dark-list-container {
+    padding-top: 100px;
+  }
+}
+
+body.answers-landing main .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3 {
+  margin: 20px 0 13px;
+}
+
+body.answers-landing main .cards-minimal-dark-list .cards-minimal-dark-list-title-underline {
+  display: none;
+}
+
+body.answers-landing main .cards-minimal-dark-list .cards-minimal-dark-list-card-body p:not(.button-container) {
+  margin-bottom: 12.8px;
+  font-size: 15px;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+@media (width >= 768px) {
+  body.answers-landing main .cards-minimal-dark-list .cards-minimal-dark-list-card-body p:not(.button-container) {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.answers-landing main .cards-minimal-dark-list .cards-minimal-dark-list-card-body p:not(.button-container) {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+}
+
+body.answers-landing main .cards-minimal-dark-list .cards-minimal-dark-list-card-body .cards-minimal-dark-list-title-underline + p {
+  padding-top: 0;
+}
+
+/* the cards' own 30px bottom margins separate the rows (no row gap) */
+body.answers-landing main .cards-minimal-dark-list.block > ul {
+  gap: 0 4px;
+}
+
+/* ---- 5. member-web promo (blush) and 6. community resources ---- */
+body.answers-landing main > .section.columns-minimal-dark-container {
+  padding: 32px 0;
+}
+
+/* 90px (120px from 768) between the last card and the blush band, the cards'
+   30px margin included */
+body.answers-landing main > .section.highlight.columns-minimal-dark-container {
+  margin-top: 20px;
+}
+
+@media (width >= 768px) {
+  body.answers-landing main > .section.highlight.columns-minimal-dark-container {
+    margin-top: 40px;
+  }
+}
+
+body.answers-landing main > .section.columns-minimal-dark-container > div {
+  box-sizing: content-box;
+  max-width: 1128px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+body.answers-landing .columns-minimal-dark > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* image first on every width (the promo's markup order; community's image is
+   moved up below 992px as on the source) */
+body.answers-landing .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+  order: -1;
+}
+
+body.answers-landing .columns-minimal-dark img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+body.answers-landing .columns-minimal-dark h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.answers-landing .columns-minimal-dark p {
+  margin: 0 0 12.8px;
+  color: var(--text-body-color);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+body.answers-landing .columns-minimal-dark ul {
+  margin: 0 0 16px;
+  padding-left: 16px;
+}
+
+body.answers-landing .columns-minimal-dark li {
+  margin: 0;
+  color: var(--text-body-color);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 22.5px;
+}
+
+body.answers-landing .columns-minimal-dark p.button-container {
+  margin: 0;
+}
+
+body.answers-landing main .columns-minimal-dark a.button:any-link {
+  margin: 0;
+  padding: 0;
+  line-height: 20px;
+}
+
+/* ---- tablet ---- */
+@media (width >= 768px) {
+  body.answers-landing main .hero-minimal-light p,
+  body.answers-landing main > .section.accordion-minimal-light-container > .default-content-wrapper:first-child p {
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  body.answers-landing main > .section.accordion-minimal-light-container > div,
+  body.answers-landing main > .section.accordion-minimal-light-container > .default-content-wrapper:first-child,
+  body.answers-landing main > .section.columns-minimal-dark-container > div {
+    padding: 0 64px;
+  }
+
+  body.answers-landing main > .section.accordion-minimal-light-container h2,
+  body.answers-landing .columns-minimal-dark h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.answers-landing main > .section.accordion-minimal-light-container > .default-content-wrapper:first-child p {
+    margin-bottom: 37px;
+  }
+
+  body.answers-landing .accordion-minimal-light .accordion-minimal-light-item-body {
+    padding: 20px;
+  }
+
+  body.answers-landing .accordion-minimal-light .accordion-minimal-light-item-label {
+    padding-bottom: 24px;
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  body.answers-landing .accordion-minimal-light .accordion-minimal-light-item-body p {
+    line-height: 18.2px;
+    letter-spacing: -0.4px;
+  }
+
+  body.answers-landing .accordion-minimal-light .accordion-minimal-light-item-body p.button-container {
+    margin-top: 18.2px;
+  }
+
+  body.answers-landing .accordion-minimal-light .accordion-minimal-light-item-label::after {
+    top: 29.7px;
+  }
+
+  body.answers-landing main > .section.columns-minimal-dark-container {
+    padding: 48px 0;
+  }
+
+  body.answers-landing .columns-minimal-dark p {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+}
+
+/* ---- desktop ---- */
+@media (width >= 992px) {
+  body.answers-landing main .hero-minimal-light p,
+  body.answers-landing main > .section.accordion-minimal-light-container > .default-content-wrapper:first-child p {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  body.answers-landing main > .section.accordion-minimal-light-container {
+    padding: 60px 0;
+  }
+
+  body.answers-landing main > .section.accordion-minimal-light-container > div {
+    width: calc(100% - 166px);
+    padding: 0;
+  }
+
+  body.answers-landing main > .section.accordion-minimal-light-container > .default-content-wrapper:first-child {
+    padding: 0;
+  }
+
+  body.answers-landing main > .section.accordion-minimal-light-container h2 {
+    padding: 24px 0;
+  }
+
+  body.answers-landing main > .section.accordion-minimal-light-container > .default-content-wrapper:first-child p {
+    margin-bottom: 36px;
+  }
+
+  body.answers-landing main > .section.accordion-minimal-light-container h2,
+  body.answers-landing .columns-minimal-dark h2 {
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.answers-landing .accordion-minimal-light .accordion-minimal-light-item-label {
+    padding-bottom: 24px;
+    line-height: 27px;
+    letter-spacing: -0.3px;
+  }
+
+  body.answers-landing .accordion-minimal-light .accordion-minimal-light-item-label::after {
+    top: 31.5px;
+  }
+
+  body.answers-landing .accordion-minimal-light .accordion-minimal-light-item-body p {
+    line-height: 21px;
+    letter-spacing: -0.1px;
+  }
+
+  body.answers-landing .accordion-minimal-light .accordion-minimal-light-item-body p.button-container {
+    margin-top: 21px;
+  }
+
+  /* the intro sits in the source's 8-column text block (less 20px), 780px at most */
+  body.answers-landing main .hero-minimal-light p {
+    max-width: min(780px, calc(100% * 8 / 12 - 20px));
+  }
+
+  /* promo and community: two columns in a 1128px row with 107px gutters */
+  body.answers-landing main > .section.columns-minimal-dark-container {
+    padding: 80px 0;
+  }
+
+
+  body.answers-landing main > .section.columns-minimal-dark-container > div {
+    width: calc(100% - 214px);
+    padding: 0;
+  }
+
+  body.answers-landing .columns-minimal-dark > div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  body.answers-landing .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    order: 0;
+  }
+
+  /* promo: image | text (61px gap); community: text | image (48px gap) */
+  body.answers-landing .section.highlight .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    padding-right: 11px;
+  }
+
+  body.answers-landing .section.highlight .columns-minimal-dark > div > div:not(.columns-minimal-dark-img-col) {
+    padding-left: 61px;
+  }
+
+  /* community: a 1152px row; text up to 502px, image up to 555px at the right */
+  body.answers-landing main > .section.columns-minimal-dark-container:not(.highlight) > div {
+    max-width: 1152px;
+  }
+
+  body.answers-landing .section:not(.highlight) .columns-minimal-dark > div > div:not(.columns-minimal-dark-img-col) {
+    max-width: 502px;
+    padding-right: 48px;
+  }
+
+  body.answers-landing .section:not(.highlight) .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    justify-self: end;
+    width: 100%;
+    max-width: 555px;
+  }
+
+  body.answers-landing .columns-minimal-dark p {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  body.answers-landing .columns-minimal-dark h2 {
+    padding: 24px 0;
+  }
+}

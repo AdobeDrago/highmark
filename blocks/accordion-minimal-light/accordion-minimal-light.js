@@ -10,9 +10,10 @@
  */
 
 export default function decorate(block) {
-  // CHIP article accordions (template=chip -> body.chip) open the first item
-  // by default, matching the source; sidebar FAQ pages keep all closed.
-  const openFirst = document.body.classList.contains('chip');
+  // CHIP article accordions (template=chip -> body.chip) and the answers landing's FAQ
+  // (template=answers-landing) open the first item by default, matching the source;
+  // sidebar FAQ pages keep all closed.
+  const openFirst = ['chip', 'answers-landing'].some((t) => document.body.classList.contains(t));
   [...block.children].forEach((row, index) => {
     // decorate accordion item label
     const label = row.children[0];
