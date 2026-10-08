@@ -177,7 +177,7 @@ Tracks every page of [providers.highmark.com](https://providers.highmark.com/) (
 | Tier | What | Pages | Live |
 |------|------|-------|------|
 | Done | The home page and the top-level landing pages | 9 | 9/9 |
-| P1 | Mega-menu items (every page, one click in) | 87 | 0/87 |
+| P1 | Mega-menu items (every page, one click in) | 87 | 17/87 |
 | P2 | Pages our live provider pages link to (not in the menu) | 18 | 0/18 |
 | P3 | The rest of each section | 86 | 0/86 |
 | P4 | Communications Hub articles and archive lists | 219 | 0/219 |
@@ -212,7 +212,7 @@ A region list after a page (e.g. "WNY") means the source shows it only for those
 - [x] `/providers/provider-network` (Provider Network) `landing` **Live**
 - [x] `/providers/resources-and-education` (Resources and Education) `landing` **Live**
 
-### P1: mega-menu items (0/87)
+### P1: mega-menu items (17/87)
 
 In menu order.
 
@@ -225,11 +225,11 @@ In menu order.
 
 **Claims**
 
-- [ ] `/providers/claims/value-based-reimbursement-programs-overview` (Value-Based Reimbursement) `landing` **Preview only**
+- [x] `/providers/claims/value-based-reimbursement-programs-overview` (Value-Based Reimbursement) `landing` **Live**
 - [ ] `/providers/claims/value-based-reimbursement-programs-overview/medicare-advantage-stars-overview` (Medicare Advantage Stars) `content` **To do**
 - [ ] `/providers/claims/value-based-reimbursement-programs-overview/valueblue` (ValueBlue and ValueBlue Connect) `content` **To do** WPA/NEPA, CPA/SEPA, WV, WNY, NENY; regional text, accordion
 - [ ] `/providers/claims/value-based-reimbursement-programs-overview/best-practice` (BestPractice) `content` **To do** WNY; regional text
-- [ ] `/providers/claims/reimbursement-resources` (Reimbursement Resources) `landing` **Preview only**
+- [x] `/providers/claims/reimbursement-resources` (Reimbursement Resources) `landing` **Live**
 - [ ] `/providers/claims/reimbursement-resources/electronic-claims-submission-status-and-inquiry` (Electronic Claims) `content` **To do** table, accordion
 - [ ] `/providers/claims/reimbursement-resources/reimbursement-policies` (Reimbursement Policies) `document-list` **To do** 74 PDFs
 - [ ] `/providers/claims/reimbursement-resources/apc-pricing-component-update-calendar` (APC Pricing Component Update Calendar) `content` **To do** table
@@ -239,12 +239,12 @@ In menu order.
 
 **Policies and Programs**
 
-- [ ] `/providers/policies-and-programs/medical-policies` (Medical Policies) `landing` **Preview only** policy search on the source
-- [ ] `/providers/policies-and-programs/care-management` (Care Management) `landing` **Preview only**
+- [x] `/providers/policies-and-programs/medical-policies` (Medical Policies) `landing` **Live** policy search on the source
+- [x] `/providers/policies-and-programs/care-management` (Care Management) `landing` **Live**
 - [ ] `/providers/policies-and-programs/care-management/behavioral-health-resources` (Behavioral Health Resources) `content` **To do** regional text
 - [ ] `/providers/policies-and-programs/care-management/right-care-program` (Right Care Program) `content` **To do** table
 - [ ] `/providers/policies-and-programs/care-management/well-in-place` (Well in Place) `content` **To do** WPA/NEPA, CPA/SEPA, DE; regional text
-- [ ] `/providers/policies-and-programs/pharmacy-programs` (Pharmacy Programs) `landing` **Preview only** pharmacy policy search on the source
+- [x] `/providers/policies-and-programs/pharmacy-programs` (Pharmacy Programs) `landing` **Live** pharmacy policy search on the source
 - [ ] `/providers/policies-and-programs/pharmacy-programs/channel-alignment-program` (Channel Alignment Program) `content` **To do**
 - [ ] `/providers/policies-and-programs/pharmacy-programs/free-market-health` (Free Market Health) `content` **To do**
 - [ ] `/providers/policies-and-programs/pharmacy-programs/hemophilia-and-bleeding-disorder-drug` (Hemophilia and Bleeding Disorder Drug Program) `content` **To do** WPA/NEPA, CPA/SEPA, DE, WNY, NENY; regional text
@@ -253,25 +253,25 @@ In menu order.
 - [ ] `/providers/policies-and-programs/pharmacy-programs/pharmaceutical-management` (Pharmaceutical Management) `content` **To do** regional text
 - [ ] `/providers/policies-and-programs/pharmacy-programs/program-for-self-administered-injectable-or-oral-biotechnology-d` (Program for Self-Administered Injectable or Oral Biotechnology Drugs) `content` **To do** regional text
 - [ ] `/providers/policies-and-programs/pharmacy-programs/site-of-care-drug-management` (Site of Care Drug Management) `content` **To do** table, regional text
-- [ ] `/providers/policies-and-programs/formulary` (Formulary) `landing` **Preview only**
+- [x] `/providers/policies-and-programs/formulary` (Formulary) `landing` **Live**
 - [ ] `/providers/policies-and-programs/formulary/what-is-formulary` (What is Highmark Formulary) `content` **To do** regional text
 - [ ] `/providers/policies-and-programs/formulary/medicare-formulary` (Medicare Formulary) `content` **To do** regional text
-- [ ] `/providers/policies-and-programs/transform-health-with-telehealth` (Telehealth) `landing` **Preview only**
-- [ ] `/providers/policies-and-programs/transform-health-with-telehealth/condition-management-programs` (Condition Management Programs) `landing` **Preview only**
+- [x] `/providers/policies-and-programs/transform-health-with-telehealth` (Telehealth) `landing` **Live**
+- [x] `/providers/policies-and-programs/transform-health-with-telehealth/condition-management-programs` (Condition Management Programs) `landing` **Live**
 - [ ] `/providers/policies-and-programs/transform-health-with-telehealth/virtual-health-overview` (Virtual Health Overview) `content` **To do**
 
 **Provider Network**
 
-- [ ] `/providers/provider-network/credentialing` (Credentialing) `landing` **Preview only**
+- [x] `/providers/provider-network/credentialing` (Credentialing) `landing` **Live**
 - [ ] `/providers/provider-network/credentialing/professional` (Professional) `content` **To do** table, accordion, regional text
 - [ ] `/providers/provider-network/credentialing/organizational` (Organizational) `content` **To do** table, regional text
-- [ ] `/providers/provider-network/high-performance-networks` (High Performance Networks) `landing` **Preview only** WPA/NEPA, CPA/SEPA; regional text
+- [x] `/providers/provider-network/high-performance-networks` (High Performance Networks) `landing` **Live** WPA/NEPA, CPA/SEPA; regional text
 - [ ] `/providers/provider-network/high-performance-networks/practice-performance-insights` (Practice Performance Insights) `content` **To do**
 - [ ] `/providers/provider-network/high-performance-networks/home-health-agency-network` (Home Health Agency Network) `content` **To do** WPA/NEPA, CPA/SEPA; regional text
 - [ ] `/providers/provider-network/high-performance-networks/pt-ot-chiro-network` (Physical Therapy, Occupational Therapy, and Chiropractic Network) `content` **To do** WPA/NEPA, CPA/SEPA; regional text
 - [ ] `/providers/provider-network/high-performance-networks/select-durable-medical-equipment-network` (Select Durable Medical Equipment Network) `content` **To do** WPA/NEPA, CPA/SEPA; regional text
 - [ ] `/providers/provider-network/high-performance-networks/skilled-nursing-facility-network` (Skilled Nursing Facility Network) `content` **To do** WPA/NEPA, CPA/SEPA; regional text
-- [ ] `/providers/provider-network/inter-plan-programs` (Inter-Plan Programs) `landing` **Preview only**
+- [x] `/providers/provider-network/inter-plan-programs` (Inter-Plan Programs) `landing` **Live**
 - [ ] `/providers/provider-network/inter-plan-programs/blue-distinction-centers-for-specialty-care-program-page` (Blue Distinction for Specialty Care) `content` **To do** regional text
 - [ ] `/providers/provider-network/inter-plan-programs/bluecard-information-center` (BlueCard Information) `content` **To do** regional text
 - [ ] `/providers/provider-network/inter-plan-programs/medical-policy-pre-certification-and-pre-authorization-out-of-area-members` (Medical Policy, Pre-Certification and Pre-Authorization Out-of-Area Members) `form` **Needs decision** a prefix lookup form posting to the source's `interplansearch` servlet (reCAPTCHA)
@@ -281,7 +281,7 @@ In menu order.
 
 **Resources and Education**
 
-- [ ] `/providers/resources-and-education/highmark-provider-manual` (Provider Manual) `landing` **Preview only**
+- [x] `/providers/resources-and-education/highmark-provider-manual` (Provider Manual) `landing` **Live**
 - [ ] `/providers/resources-and-education/highmark-provider-manual/whats-new` (What's New) `manual` **To do** accordion
 - [ ] `/providers/resources-and-education/highmark-provider-manual/chapter-1-general-information` (General Information) `manual` **To do**
 - [ ] `/providers/resources-and-education/highmark-provider-manual/chapter-2-product-information` (Product Information) `manual` **To do**
@@ -289,22 +289,22 @@ In menu order.
 - [ ] `/providers/resources-and-education/highmark-provider-manual/chapter-4-provider-responsibilities-and-guidelines` (Responsibilities and Guidelines) `manual` **To do**
 - [ ] `/providers/resources-and-education/highmark-provider-manual/chapter-5-care-and-quality-management` (Care and Quality Management) `manual` **To do**
 - [ ] `/providers/resources-and-education/highmark-provider-manual/chapter-6-billing-and-payment` (Billing and Payment) `manual` **To do**
-- [ ] `/providers/resources-and-education/training-and-guides` (Training and Guides) `landing` **Preview only**
+- [x] `/providers/resources-and-education/training-and-guides` (Training and Guides) `landing` **Live**
 - [ ] `/providers/resources-and-education/training-and-guides/ma-resources` (Medicare Advantage Resources) `content` **To do** regional text
 - [ ] `/providers/resources-and-education/training-and-guides/no-surprises-act` (No Surprises Act) `content` **To do** accordion
 - [ ] `/providers/resources-and-education/training-and-guides/provider-onboarding` (Provider Onboarding) `content` **To do** accordion
 - [ ] `/providers/resources-and-education/training-and-guides/provider-data-accuracy-compliance` (Provider Data Accuracy Compliance) `content` **To do** regional text
 - [ ] `/providers/resources-and-education/training-and-guides/reference-guide-of-highmark-member-programs` (Reference Guide of Highmark Member Programs) `content` **To do**
 - [ ] `/providers/resources-and-education/training-and-guides/self-service-hub` (Self-Service Hub) `content` **To do** table
-- [ ] `/providers/resources-and-education/educational-programs` (Educational Programs) `landing` **Preview only**
+- [x] `/providers/resources-and-education/educational-programs` (Educational Programs) `landing` **Live**
 - [ ] `/providers/resources-and-education/educational-programs/axialhealthcare-substance-use-risk-and-recovery-programs` (axialHealthcare Substance Use Risk Mitigation Program) `content` **To do**
 - [ ] `/providers/resources-and-education/educational-programs/behavioral-health-toolkit` (Behavioral Health Toolkit) `content` **To do** accordion
-- [ ] `/providers/resources-and-education/clinical-quality-education` (Clinical Quality and Education) `landing` **Preview only**
+- [x] `/providers/resources-and-education/clinical-quality-education` (Clinical Quality and Education) `landing` **Live**
 - [ ] `/providers/resources-and-education/clinical-quality-education/cahps-qhp-ees-survey-results` (CAHPS®/QHP EES Results) `content` **To do** regional text
 - [ ] `/providers/resources-and-education/clinical-quality-education/coding-education-hcc-university` (Coding Education/HCC University) `content` **To do** accordion
 - [ ] `/providers/resources-and-education/clinical-quality-education/educational-resources-member-provider` (Educational Resources - Member and Provider) `content` **To do** regional text
 - [ ] `/providers/resources-and-education/clinical-quality-education/preventive-health-guidelines` (Preventive Health Guidelines) `content` **To do** regional text
-- [ ] `/providers/resources-and-education/forms` (Forms) `landing` **Preview only**
+- [x] `/providers/resources-and-education/forms` (Forms) `landing` **Live**
 - [ ] `/providers/resources-and-education/forms/behavioral-health-forms` (Behavioral Health Forms) `content` **To do** regional text
 - [ ] `/providers/resources-and-education/forms/certificate-of-medical-necessity-cmn-for-dme-providers` (CMN for DME Providers) `content` **To do** WPA/NEPA, CPA/SEPA, DE, WV; regional text
 - [ ] `/providers/resources-and-education/forms/medical-authorization-forms` (Medical Authorization Forms) `content` **To do** regional text
@@ -319,7 +319,7 @@ In menu order.
 - [ ] `/providers/communications-hub/news-and-updates` (News and Updates) `article-listing` **To do** 2025-09-29; WNY, NENY
 - [ ] `/providers/communications-hub/provider-news` (Provider News) `article-listing` **To do**
 - [ ] `/providers/communications-hub/medical-policy-update` (Medical Policy Update) `article-listing` **To do**
-- [ ] `/providers/communications-hub/news-archive` (News Archive) `landing` **Preview only**
+- [x] `/providers/communications-hub/news-archive` (News Archive) `landing` **Live**
 
 ### P2: linked from our live provider pages (0/18)
 

@@ -598,9 +598,16 @@ header nav .nav-drawer-icons {
     word-break: normal;
   }
 
+  /* one column per category, each between its longest word and its longest line: when the
+     row is short of room the long columns give way first, and labels wrap between words
+     ("Cost / Management"), never inside one ("Employ / er") */
   header nav.nav-panels-full .nav-primary > li.open .nav-panel {
+    display: grid;
+    grid-auto-columns: minmax(min-content, max-content);
+    grid-auto-flow: column;
+    justify-content: start;
     box-sizing: border-box;
-    max-width: 100%;
+    width: 100%; /* a definite width, so the columns shrink to fit it */
     min-width: 0;
     gap: 0;
     padding: 0;
@@ -609,11 +616,16 @@ header nav .nav-drawer-icons {
   }
 
   header nav.nav-panels-full .nav-panel > li {
-    flex: 0 1 auto;
-    min-width: 0;
+    min-width: 0; /* not the corporate panel's 200px columns */
     margin: 30px 0;
     padding: 0 40px;
     border-left: 1px solid #d9dfe3;
+  }
+
+  /* links otherwise break inside words, which also lets a column shrink below its longest one */
+  header nav.nav-panels-full .nav-panel a { /* stylelint-disable-line no-descending-specificity */
+    overflow-wrap: normal;
+    word-break: normal;
   }
 
   header nav.nav-panels-full .nav-panel > li:first-child {
@@ -655,6 +667,18 @@ header nav .nav-drawer-icons {
     height: 22px;
     margin-left: 6px;
     vertical-align: -5px;
+  }
+}
+
+/* small desktops (992-1199px): full-width panel columns get narrower gutters, so six columns
+   of longest words still fit */
+@media (width >= 992px) and (width < 1200px) {
+  header nav.nav-panels-full .nav-panel > li { /* stylelint-disable-line no-descending-specificity */
+    padding: 0 20px;
+  }
+
+  header nav.nav-panels-full .nav-panel > li:first-child {
+    padding-left: 64px;
   }
 }
 

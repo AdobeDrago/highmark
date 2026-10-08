@@ -88,7 +88,7 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 
 ## Redirects (highmark.com fallback)
 
-- `/redirects` (a DA sheet, published) sends every internal link that would 404 to the same page on highmark.com (on providers.highmark.com for `/providers/...`). It also mirrors the source's own redirects: `/about` → `/about/our-story`, `/privacy-center` → `/privacy-center/announcements`, Integrity & Ethics → highmarkhealth.org. 255 rows live as of 2026-10-07 (112 of them for `/providers`).
+- `/redirects` (a DA sheet, published) sends every internal link that would 404 to the same page on highmark.com (on providers.highmark.com for `/providers/...`). It also mirrors the source's own redirects: `/about` → `/about/our-story`, `/privacy-center` → `/privacy-center/announcements`, Integrity & Ethics → highmarkhealth.org. 283 rows live as of 2026-10-08 (137 of them for `/providers`).
 - **Redirects take precedence over pages:** a row hides any page published at that path. Don't hand-edit the sheet. After each import batch, run `node tools/redirects/build-redirects.mjs --upload` (it drops rows for paths that now have a DA document), check preview, then publish `/redirects.json`.
 - The sheet is shared, and publishing it publishes whatever is in DA. Before publishing, compare DA (`admin.da.live/source/adobedrago/highmark/redirects.json`) with live, in case another batch's regenerated sheet is waiting there for its pages.
 - Paths with a DA document are never redirected, so an unpublished draft 404s on live until it is published. Drafts that should stay redirected, and retired URLs, go in the script's `FORCE` list. It sends `/shop/home` and `/shop/beta/home` (copies of the old shop home) to `/shop/`, and `/shop` to `/shop/`, because a folder's index page is only served at its trailing-slash URL.
@@ -149,6 +149,7 @@ Cookie Preferences links to `#`, because this site has no cookie tool. The revie
   - search: a 44px pill, a sixth of the row (at least 200px).
 
   `styles.css` reserves the 196.5px. The brand row's icon links are rebuilt as icon then label link (`decorateIconLinks`) and are copied into the phone menu.
+- **Dropdowns (corporate nav, 2026-10-08).** The `/nav` menu section has Style `full width`, as the provider nav does: each dropdown opens from the row's left edge in ruled columns, as on highmark.com. Plans has six columns; Additional Plans (Dental Plans, Dental, Vision, and Hearing Plans, Travel Health Insurance) was added then, and Medicaid gained Get Help (`/wholecare/medicare/get-help`), as on the source. `/plans/additional-plans`, its Blue Edge Balance page and that Get Help page redirect to highmark.com until migrated.
 - **Footer (all pages, desktop).**
   - Brand column: 400px, its items centred in 280px. Then three 240px link columns.
   - Links to other sites, and PDFs, open in a new tab with Font Awesome's external-link icon (`icons/external-link-alt.svg`, CC BY 4.0).
@@ -173,7 +174,11 @@ Started 2026-10-07. The Provider Resource Center is migrated into this site unde
 - **First pass (published 2026-10-07):** the home page, Authorizations, Claims, Policies and Programs, Provider Network, Resources and Education, Communications Hub, Contact Us and Legal Information. Matched structurally, not to the pixel. The mailing-list form (it posts to `/bin/prc/sfmc`, with reCAPTCHA) and the search results stay on the source.
 - **Chrome.** The `/metadata` row `/providers/**` sets `nav` `/providers/fragments/nav`, `footer` `/providers/fragments/footer` and `breadcrumb-home` `/providers/` (published 2026-10-07). The corporate nav's "For Providers" links to `/providers/`.
   - The nav fragment has the corporate header's three sections, plus a fourth: one link whose text is the search placeholder and whose URL is the results page (`.../search-results.html?filter=All`). That puts the box in its own row and submits `q` there, without suggestions.
-  - Its primary nav section's Style `full width` opens each panel from the row's left edge with ruled columns. A list item without a link is a grey group label; `:lock:` after an item marks a page behind the Availity login.
+  - Its primary nav section's Style `full width` opens each panel from the row's left edge with ruled columns (the corporate `/nav` uses it too).
+    - Each column is as wide as its longest word at least and its longest line at most; when a row is short of room, the long columns give way first.
+    - Labels wrap between words, never inside one.
+    - From 992 to 1199px the column gutters are 20px instead of 40px.
+    - A list item without a link is a grey group label; `:lock:` after an item marks a page behind the Availity login.
   - The region picker ("All Regions") and the Availity login prompt are left out. The menu shows every item, as "All Regions" does on the source, and logging in to Availity unlocks nothing here.
   - `styles.css` reserves the 270.5px desktop header for pages whose `nav` ends in `/providers/fragments/nav`.
 - **Template `providers`** (`styles/templates/providers.css`). Pages use the usual blocks; the template adds the provider site's pieces, as section styles:
@@ -188,7 +193,12 @@ Started 2026-10-07. The Provider Resource Center is migrated into this site unde
   - Contact Us's two tabs are two sections in a row, so the service-centre cards can link to each (`#highmark-provider-service-centers`, `#highmark-clinical-services`), and "View by region" links to the pipeline's heading ids.
   - Page titles are the source's (the home page's is "Home").
 - **Converter.** Kept in the session scratchpad (`day7/prov`), not in this repo: `extract.cjs` (Playwright, simplified component HTML) and `build.mjs` (component → block mapping, link rewriting, images into each page's dot-folder).
-- **Links.** Provider links are relative (`/providers/...`). `build-redirects.mjs` knows `/providers/x` comes from `providers.highmark.com/x`, so links to provider pages not yet migrated redirect there (112 rows on 2026-10-07). Each provider batch: publish its pages, then run the script and publish the sheet.
+- **Links.** Provider links are relative (`/providers/...`). `build-redirects.mjs` knows `/providers/x` comes from `providers.highmark.com/x`, so links to provider pages not yet migrated redirect there (137 rows on 2026-10-07). Each provider batch:
+  1. Run the script with `--upload`. It drops the batch's rows, since the pages now have DA documents, so preview shows them.
+  2. Publish the pages, then publish the sheet straight away.
+  3. Re-index the batch (`POST https://admin.hlx.page/index/adobedrago/highmark/main/<path>`). A page published while a redirect row still covers its path is not indexed: no search, no breadcrumbs, and the script doesn't see its links.
+  4. Run the script again so the new pages' links get rows, and publish the sheet.
+- **Progress.** 26 provider pages are live on 2026-10-07: the first pass and the 17 P1 landing pages. See the checklist.
 - **Search.** Provider pages are in the site search (`search-index` has no `/providers/**` exclude, decided 2026-10-07). The provider header's own box searches providers.highmark.com.
 
 ## Open PRs
