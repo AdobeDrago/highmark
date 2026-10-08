@@ -65,6 +65,10 @@ body.employer-subpage main > .section:first-child p:not(.button-container) {
   letter-spacing: -0.2px;
 }
 
+body.employer-subpage main > .section:first-child #highmark-client-resources-for-employers + p:not(.button-container) {
+  width: 82%;
+}
+
 /* polar band: "in the navy" #004362 heading and copy */
 body.employer-subpage main > .section.light:first-child h1,
 body.employer-subpage main > .section.light:first-child p:not(.button-container) {
