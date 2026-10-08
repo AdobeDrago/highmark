@@ -88,7 +88,8 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 
 ## Redirects (highmark.com fallback)
 
-- `/redirects` (a DA sheet, published) sends every internal link that would 404 to the same page on highmark.com (on providers.highmark.com for `/providers/...`). It also mirrors the source's own redirects: `/about` → `/about/our-story`, `/privacy-center` → `/privacy-center/announcements`, Integrity & Ethics → highmarkhealth.org. 283 rows live as of 2026-10-08 (137 of them for `/providers`).
+- `/redirects` (a DA sheet, published) sends every internal link that would 404 to the same page on highmark.com (on providers.highmark.com for `/providers/...`). It also mirrors the source's own redirects: `/about` → `/about/our-story`, `/privacy-center` → `/privacy-center/announcements`, Integrity & Ethics → highmarkhealth.org. 285 rows live as of 2026-10-08 (139 of them for `/providers`).
+- The script reads links from every page in the live query index, plus the fragments in its `FRAGMENTS` list. Blocks load fragments in the browser, so a fragment's links are in no page's HTML; add any new fragment that holds links there. That list includes the six provider side-nav fragments, whose links gave 64 of the 65 rows added on 2026-10-08.
 - **Redirects take precedence over pages:** a row hides any page published at that path. Don't hand-edit the sheet. After each import batch, run `node tools/redirects/build-redirects.mjs --upload` (it drops rows for paths that now have a DA document), check preview, then publish `/redirects.json`.
 - The sheet is shared, and publishing it publishes whatever is in DA. Before publishing, compare DA (`admin.da.live/source/adobedrago/highmark/redirects.json`) with live, in case another batch's regenerated sheet is waiting there for its pages.
 - Paths with a DA document are never redirected, so an unpublished draft 404s on live until it is published. Drafts that should stay redirected, and retired URLs, go in the script's `FORCE` list. It sends `/shop/home` and `/shop/beta/home` (copies of the old shop home) to `/shop/`, and `/shop` to `/shop/`, because a folder's index page is only served at its trailing-slash URL.
@@ -219,15 +220,18 @@ Started 2026-10-07. The Provider Resource Center is migrated into this site unde
   - `extract.cjs`: Playwright, simplified component HTML, with collapsed accordion answers opened first;
   - `sidenav-extract.mjs`: the side-nav trees from the source's static HTML;
   - `build.mjs`: component → block mapping, link rewriting, images into each page's dot-folder. Content pages go through `buildContentPage`, and the side-nav fragments through `SIDENAV=1`.
-- **Links.** Provider links are relative (`/providers/...`). `build-redirects.mjs` knows `/providers/x` comes from `providers.highmark.com/x`, so links to provider pages not yet migrated redirect there (137 rows on 2026-10-07). Each provider batch:
+  - `build.mjs` also joins DataTables' split tables (a header table, then the body table in the next component).
+  - Its `LINK_FIXES` repoints links that 404 on the source too, to the same file where the source's other pages link it. There are 4 as of 2026-10-08: the WV facility manual, the MCG guidelines PDF, and the Medicare Part D hospice and Dificid prior-auth forms.
+- **Links.** Provider links are relative (`/providers/...`). `build-redirects.mjs` knows `/providers/x` comes from `providers.highmark.com/x`, so links to provider pages not yet migrated redirect there (139 rows on 2026-10-08). Each provider batch:
   1. Run the script with `--upload`. It drops the batch's rows, since the pages now have DA documents, so preview shows them.
   2. Publish the pages, then publish the sheet straight away.
   3. Re-index the batch (`POST https://admin.hlx.page/index/adobedrago/highmark/main/<path>`). A page published while a redirect row still covers its path is not indexed: no search, no breadcrumbs, and the script doesn't see its links.
   4. Run the script again so the new pages' links get rows, and publish the sheet.
-- **Progress.** 26 provider pages are live on 2026-10-07: the first pass and the 17 P1 landing pages. See the checklist.
-  - Batch 2 is in DA and preview on 2026-10-08, waiting for review: the 63 P1 content and manual pages and the 6 side-nav fragments. The template and block render only on a local `aem up` until the code is merged.
-  - Preview `/redirects` (220 rows) already drops the batch's 63 rows; live still has them (283). Publishing the sheet before the pages would 404 those 63 paths on live, so publish the pages first and the sheet straight after (steps 2 to 4 above).
-  - Batch 3, the 5 list pages, will use a sheet-driven list block.
+- **Progress.** 89 provider pages are live as of 2026-10-08. See the checklist; P1 is 80/87.
+  - 2026-10-07: the first pass, then batch 1 (the 17 P1 landing pages).
+  - 2026-10-08: batch 2 (the 63 P1 content and manual pages, with the 6 side-nav fragments), merged as #91 and published. All 63 are in both indexes. They pass at 1280, 1024 and 390, and the 782 links on the provider pages and fragments all resolve.
+  - Not started: batch 3, the 5 list pages, which will use a sheet-driven list block.
+  - Not built: the region panels on 37 of the batch-2 pages (see the `provider-content` template).
 - **Search.** Provider pages are in the site search (`search-index` has no `/providers/**` exclude, decided 2026-10-07). The provider header's own box searches providers.highmark.com.
 
 ## Open PRs
