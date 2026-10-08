@@ -1,0 +1,261 @@
+/* stylelint-disable no-descending-specificity */
+
+/* ShopX content pages (template: shop-page -> body.shop-page): the special-enrollment
+   landing, the dental / Blue Edge Balance enrollment pages and the info pages (legal).
+   Matched to shop.highmark.com (ZIP 15222) at 390 / 768 / 1024 / 1280.
+
+   ShopX lays these pages out on a 12-column AEM grid of fluid columns (no max width):
+   - title in columns 2-11 (enrollment: 3-10)
+   - special enrollment: main column 2-8, Resources 10-11
+   - enrollment: "Let us help" 2-4, the form 6-11
+   - info pages: columns 2-11
+   From 768px the columns hold their fractions; below 768 everything stacks with 32px
+   gutters (ShopX keeps its side-by-side columns on phones, squeezing the form to ~200px;
+   stacking keeps it usable). Type steps at 768, 992 and 1200. */
+
+body.shop-page {
+  --shop-page-navy: #00304d;
+  --shop-page-blue: #0078c1;
+}
+
+body.shop-page main {
+  padding: 0 32px;
+  color: var(--shop-page-navy);
+}
+
+body.shop-page main > .section {
+  margin: 0;
+  padding: 0;
+}
+
+/* each wrapper keeps its margins (ShopX's components don't collapse into each other);
+   [class] outranks the body.shop wrapper padding in styles.css */
+body.shop-page main > .section > div[class] {
+  display: flow-root;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---- type ---- */
+body.shop-page main .default-content-wrapper :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0 0 8px;
+  color: var(--shop-page-navy);
+  font-family: var(--heading-font-family);
+  font-weight: 600;
+}
+
+body.shop-page main .default-content-wrapper h1 {
+  padding: 16px 0;
+  font-size: 32px;
+  line-height: 35.2px;
+  letter-spacing: -1.28px;
+}
+
+body.shop-page main .section > .default-content-wrapper h2 {
+  padding: 16px 0;
+  font-size: 24px;
+  line-height: 26.4px;
+  letter-spacing: -0.72px;
+}
+
+body.shop-page main .default-content-wrapper h3 {
+  padding: 12.8px 0;
+  font-size: 20px;
+  line-height: 22px;
+  letter-spacing: -0.4px;
+}
+
+body.shop-page main .default-content-wrapper h5 {
+  margin-bottom: 16px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22.4px;
+  letter-spacing: -0.2px;
+}
+
+body.shop-page main .default-content-wrapper p {
+  margin: 0 0 16px;
+  color: var(--shop-page-navy);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+body.shop-page main .default-content-wrapper ul {
+  margin: 0 0 16px;
+  padding-left: 32px;
+}
+
+body.shop-page main .default-content-wrapper li {
+  margin: 0 0 15px;
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 16.5px;
+  letter-spacing: normal;
+}
+
+body.shop-page main .default-content-wrapper strong {
+  font-weight: 700;
+}
+
+/* links are plain blue text, including lone links (no buttons on these pages) */
+body.shop-page main .default-content-wrapper a:any-link,
+body.shop-page main .default-content-wrapper a.button:any-link {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--shop-page-blue);
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  text-decoration: none;
+  text-transform: none;
+  white-space: normal;
+}
+
+body.shop-page main .default-content-wrapper a:hover {
+  text-decoration: underline;
+}
+
+body.shop-page main .default-content-wrapper p.button-container {
+  margin: 0 0 16px;
+}
+
+/* ---- enrollment: "Let us help" ---- */
+body.shop-page main > .section.aside > .default-content-wrapper > h3:first-child {
+  margin-top: 55.6px;
+  text-decoration: underline;
+}
+
+body.shop-page main > .section.aside:has(> .default-content-wrapper > h3:first-child) a:any-link {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 19.5px;
+  letter-spacing: -0.4px;
+}
+
+/* ---- enrollment: the form panel (phones: full width, no side padding) ---- */
+body.shop-page main > .section.form .enrollment-form {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+/* ---- tablet: the 12-column grid ---- */
+@media (width >= 768px) {
+  body.shop-page main {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: start;
+    padding: 0;
+  }
+
+  body.shop-page main > * {
+    grid-column: 2 / span 10;
+  }
+
+  /* special enrollment: main column + Resources */
+  body.shop-page main > .section.main {
+    grid-column: 2 / span 7;
+  }
+
+  body.shop-page main > .section.aside {
+    grid-column: 10 / span 2;
+  }
+
+  /* enrollment: title, "Let us help", the form */
+  body.shop-page main:has(> .section.form) > .section:first-child {
+    grid-column: 3 / span 8;
+  }
+
+  body.shop-page main:has(> .section.form) > .section.aside {
+    grid-column: 2 / span 3;
+  }
+
+  body.shop-page main > .section.form {
+    grid-column: 6 / span 6;
+  }
+
+  body.shop-page main > .section.form .enrollment-form {
+    padding-right: 30px;
+    padding-left: 30px;
+  }
+
+  body.shop-page main .default-content-wrapper h1 {
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  body.shop-page main .section > .default-content-wrapper h2 {
+    font-size: 26px;
+    line-height: 28.6px;
+    letter-spacing: -0.78px;
+  }
+
+  body.shop-page main .default-content-wrapper h3 {
+    font-size: 22px;
+    line-height: 24.2px;
+    letter-spacing: -0.44px;
+  }
+
+  body.shop-page main > .section.aside > .default-content-wrapper > h3:first-child {
+    margin-top: 57.8px;
+  }
+
+  body.shop-page main .default-content-wrapper h5 {
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  body.shop-page main .default-content-wrapper p {
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+}
+
+/* ---- desktop ---- */
+@media (width >= 992px) {
+  body.shop-page main .default-content-wrapper h1 {
+    font-size: 52px;
+    line-height: 57.2px;
+  }
+
+  body.shop-page main .section > .default-content-wrapper h2 {
+    font-size: 34px;
+    line-height: 40.8px;
+  }
+
+  body.shop-page main .default-content-wrapper h3 {
+    font-size: 24px;
+    line-height: 36px;
+  }
+
+  body.shop-page main > .section.aside > .default-content-wrapper > h3:first-child {
+    margin-top: 69.6px;
+  }
+
+  body.shop-page main .default-content-wrapper h5 {
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  body.shop-page main .default-content-wrapper p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+@media (width >= 1200px) {
+  body.shop-page main .default-content-wrapper h1 {
+    font-size: 56px;
+    line-height: 61.6px;
+  }
+}

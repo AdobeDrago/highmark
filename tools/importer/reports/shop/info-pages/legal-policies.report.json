@@ -1,0 +1,11 @@
+{
+  "status": "success",
+  "url": "http://localhost:8765/shop/info-pages/legal-policies.html",
+  "path": "shop/info-pages/legal-policies",
+  "timestamp": "2026-10-08T09:24:12.406Z",
+  "title": "Shop | Legal Policies",
+  "template": "shop-page",
+  "kind": "info",
+  "blocks": [],
+  "captured": "2026-10-08T09:19:53.553206Z; live page body is empty, so this is the page already migrated to DA (/shop/info-pages/legal-policies), re-imported for the ShopX layout"
+}
