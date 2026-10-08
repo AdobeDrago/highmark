@@ -147,6 +147,27 @@ body.shop-page main > .section.form .enrollment-form {
   padding-left: 0;
 }
 
+/* ---- info pages (legal, ...: no main / aside / form sections), as ShopX's info pages
+   (e.g. /info-pages/find-a-doctor.html): the block 60px under the header and 40px
+   above the footer, a 34px title ---- */
+body.shop-page main:not(:has(> .section.main, > .section.form)) {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+
+body.shop-page main:not(:has(> .section.main, > .section.form)) .default-content-wrapper h1 {
+  font-size: 24px;
+  line-height: 26.4px;
+  letter-spacing: -0.72px;
+}
+
+/* the last block's bottom margin is part of the 40px (the metadata leaves an empty
+   section after it) */
+body.shop-page main:not(:has(> .section.main, > .section.form)) > .section:not(:has(~ .section > .default-content-wrapper)) .default-content-wrapper > :last-child,
+body.shop-page main:not(:has(> .section.main, > .section.form)) > .section:not(:has(~ .section > .default-content-wrapper)) .default-content-wrapper > ul:last-child > li:last-child {
+  margin-bottom: 0;
+}
+
 /* ---- tablet: the 12-column grid ---- */
 @media (width >= 768px) {
   body.shop-page main {
@@ -193,7 +214,8 @@ body.shop-page main > .section.form .enrollment-form {
     letter-spacing: -1.44px;
   }
 
-  body.shop-page main .section > .default-content-wrapper h2 {
+  body.shop-page main .section > .default-content-wrapper h2,
+  body.shop-page main:not(:has(> .section.main, > .section.form)) .default-content-wrapper h1 {
     font-size: 26px;
     line-height: 28.6px;
     letter-spacing: -0.78px;
@@ -228,7 +250,8 @@ body.shop-page main > .section.form .enrollment-form {
     line-height: 57.2px;
   }
 
-  body.shop-page main .section > .default-content-wrapper h2 {
+  body.shop-page main .section > .default-content-wrapper h2,
+  body.shop-page main:not(:has(> .section.main, > .section.form)) .default-content-wrapper h1 {
     font-size: 34px;
     line-height: 40.8px;
   }
@@ -254,7 +277,7 @@ body.shop-page main > .section.form .enrollment-form {
 }
 
 @media (width >= 1200px) {
-  body.shop-page main .default-content-wrapper h1 {
+  body.shop-page main:has(> .section.main, > .section.form) .default-content-wrapper h1 {
     font-size: 56px;
     line-height: 61.6px;
   }
