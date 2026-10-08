@@ -43,9 +43,19 @@ var CustomImportScript = (() => {
     el.innerHTML = el.innerHTML.replace(/&nbsp;/g, " ").replace(/\u00a0/g, " ");
     return el;
   }
+  var MIGRATED = [
+    "/about-you/qualifying-life-events/landing",
+    "/about-you/build-your-family/dental-enrollment",
+    "/about-you/build-your-family/blue-edge-balance-enrollment",
+    "/info-pages/legal-policies"
+  ];
+  function localHref(href) {
+    const m = href.match(/^https:\/\/shop\.highmark\.com(\/[^?#]*?)(\.html)?$/);
+    return m && MIGRATED.includes(m[1]) ? `/shop${m[1]}` : href;
+  }
   function plainLink(document, a) {
     const link = document.createElement("a");
-    link.href = a.getAttribute("href");
+    link.href = localHref(a.getAttribute("href"));
     link.textContent = a.textContent.replace(/\s+/g, " ").trim();
     if (a.getAttribute("title")) link.title = a.getAttribute("title");
     const p = document.createElement("p");
