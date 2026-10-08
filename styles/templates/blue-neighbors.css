@@ -438,6 +438,16 @@ body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-
   background-color: rgb(0 120 193);
 }
 
+body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3#bingo::after,
+body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3#classic-tv--movies::after {
+  display: none;
+}
+
+body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3 .cards-minimal-dark-list-title-underline + p {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
 body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-body p.button-container {
   text-align: left;
 }
