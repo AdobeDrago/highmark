@@ -10,7 +10,9 @@ header .shop-header-wrapper {
 
 header .shop-header {
   box-sizing: border-box;
-  max-width: 1067px;
+
+  /* ShopX's columns 2-11 of a fluid 12-column grid (1067px at 1280) */
+  max-width: calc(100% * 10 / 12);
   margin: 0 auto;
   padding: 27px 0 15px 15px;
   font-family: var(--body-font-family);

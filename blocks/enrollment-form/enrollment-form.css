@@ -1,0 +1,293 @@
+/* stylelint-disable no-descending-specificity */
+
+/* Enrollment form, measured against ShopX's dental / Blue Edge Balance enrollment
+   (shop.highmark.com/about-you/build-your-family/*-enrollment) at 390 / 768 / 1280:
+   30px panel padding; sofia-pro 24/42 heading, Roboto 16/24 copy, 15/22.5 notices and
+   labels; a 212 x 59 outlined select; 20px radio rings; a bold 24px blue Submit with
+   an arrow, right-aligned. Colours: navy #00304d text, #0078c1 links, #a71919 errors. */
+
+.enrollment-form {
+  --enrollment-navy: #00304d;
+  --enrollment-blue: #0078c1;
+  --enrollment-error: #a71919;
+
+  padding: 30px;
+  color: var(--enrollment-navy);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 22.5px;
+}
+
+.enrollment-form .enrollment-form-form {
+  margin: 0;
+}
+
+/* ---- intro: heading, copy, notices ---- */
+.enrollment-form .enrollment-form-intro > :first-child {
+  margin-top: 0;
+}
+
+.enrollment-form .enrollment-form-intro h2 {
+  margin: 0 0 16px;
+  padding: 16px 0;
+  color: var(--enrollment-navy);
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 42px;
+  letter-spacing: normal;
+}
+
+.enrollment-form .enrollment-form-intro h3 {
+  margin: 0 0 16px;
+  padding: 12.8px 0;
+  color: var(--enrollment-navy);
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 36px;
+  letter-spacing: normal;
+}
+
+.enrollment-form .enrollment-form-intro p {
+  margin: 0 0 12px;
+  color: var(--enrollment-navy);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 19.5px;
+  letter-spacing: -0.4px;
+}
+
+@media (width >= 992px) {
+  .enrollment-form .enrollment-form-intro p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+/* the copy under the heading is followed by a blank line on ShopX */
+.enrollment-form .enrollment-form-intro h2 + p {
+  margin-bottom: 34.5px;
+}
+
+/* the bold notice line over a sub-heading and the required-fields note are 15px */
+.enrollment-form .enrollment-form-intro p:has(> strong:only-child):has(+ h3) {
+  margin: 0;
+  font-size: 15px;
+  line-height: 22.5px;
+  letter-spacing: normal;
+}
+
+.enrollment-form .enrollment-form-intro p:has(> em:only-child) {
+  margin: 0 0 10px;
+  font-size: 15px;
+  line-height: 22.5px;
+  letter-spacing: normal;
+}
+
+.enrollment-form .enrollment-form-intro ul {
+  margin: 0 0 16px;
+  padding-left: 32px;
+}
+
+.enrollment-form .enrollment-form-intro li {
+  margin: 0 0 15px;
+  font-size: 15px;
+  line-height: 22.5px;
+  letter-spacing: normal;
+}
+
+.enrollment-form .enrollment-form-asterisk {
+  color: var(--enrollment-error);
+}
+
+/* ---- fields ---- */
+.enrollment-form .enrollment-form-field {
+  min-width: 0;
+  margin: 0;
+  padding: 15px 0 0;
+  border: 0;
+}
+
+/* a fieldset's legend sits on its top border: keep it inside the padding */
+.enrollment-form .enrollment-form-field-radio {
+  padding-top: 0;
+}
+
+.enrollment-form .enrollment-form-field-radio > legend {
+  float: left;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.enrollment-form .enrollment-form-field-radio > legend + * {
+  clear: both;
+}
+
+.enrollment-form .enrollment-form-label {
+  display: block;
+  margin: 0;
+  padding: 0;
+  color: var(--enrollment-navy);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 22.5px;
+}
+
+.enrollment-form .enrollment-form-select {
+  position: relative;
+  width: 212px;
+  max-width: 100%;
+}
+
+.enrollment-form .enrollment-form-select::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  border-top: 5px solid rgb(0 0 0 / 54%);
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.enrollment-form .enrollment-form-select select {
+  display: block;
+  width: 100%;
+  height: 59px;
+  margin: 0;
+  padding: 0 40px 0 16px;
+  border: 1px solid rgb(0 0 0 / 38%);
+  border-radius: 4px;
+  background-color: #fff;
+  color: var(--enrollment-navy);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 27px;
+  appearance: none;
+  cursor: pointer;
+}
+
+.enrollment-form .enrollment-form-select select.enrollment-form-filled {
+  color: rgb(0 0 0 / 87%);
+}
+
+.enrollment-form .enrollment-form-select select:hover {
+  border-color: rgb(0 0 0 / 87%);
+}
+
+.enrollment-form .enrollment-form-select select:focus-visible {
+  border-color: var(--enrollment-blue);
+  outline: 1px solid var(--enrollment-blue);
+}
+
+/* room for the error line under the select, as ShopX's form-field subscript */
+.enrollment-form .enrollment-form-field-select {
+  padding-bottom: 21px;
+}
+
+.enrollment-form .enrollment-form-field-select .enrollment-form-error {
+  margin: 4px 0 -21px 16px;
+}
+
+.enrollment-form .enrollment-form-choices {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.enrollment-form .enrollment-form-choice {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding-right: 16px;
+  color: rgb(0 0 0 / 87%);
+  font-size: 15px;
+  line-height: 22.5px;
+  cursor: pointer;
+}
+
+.enrollment-form .enrollment-form-choice input {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.enrollment-form .enrollment-form-radio {
+  display: block;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  margin: 10px 14px 10px 10px;
+  border: 2px solid rgb(0 0 0 / 54%);
+  border-radius: 50%;
+}
+
+.enrollment-form .enrollment-form-choice input:checked + .enrollment-form-radio {
+  border-color: var(--enrollment-blue);
+  background: radial-gradient(circle, var(--enrollment-blue) 0 4px, transparent 4.5px);
+}
+
+.enrollment-form .enrollment-form-choice input:focus-visible + .enrollment-form-radio {
+  outline: 2px solid var(--enrollment-blue);
+  outline-offset: 4px;
+}
+
+.enrollment-form .enrollment-form-error {
+  margin: 0;
+  color: var(--enrollment-error);
+  font-size: 12px;
+  line-height: 17px;
+}
+
+.enrollment-form .enrollment-form-invalid .enrollment-form-select select {
+  border-color: var(--enrollment-error);
+}
+
+.enrollment-form .enrollment-form-invalid .enrollment-form-radio {
+  border-color: var(--enrollment-error);
+}
+
+/* ---- Submit ---- */
+.enrollment-form .enrollment-form-actions {
+  margin: 30px 0 0;
+  text-align: right;
+}
+
+.enrollment-form .enrollment-form-submit {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 7px 0 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--enrollment-blue);
+  font-family: var(--body-font-family);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 26px;
+  text-transform: none;
+  cursor: pointer;
+}
+
+.enrollment-form .enrollment-form-submit svg {
+  width: 24px;
+  height: 24px;
+  fill: currentcolor;
+}
+
+.enrollment-form .enrollment-form-submit:hover {
+  text-decoration: underline;
+}
+
+.enrollment-form .enrollment-form-submit:focus-visible {
+  outline: 2px solid var(--enrollment-blue);
+  outline-offset: 2px;
+}
