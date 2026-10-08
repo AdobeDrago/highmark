@@ -135,7 +135,8 @@ body.employer-subpage main > .section.dark:first-child a.button:focus {
   }
 
   body.employer-subpage main > .section:first-child p:not(.button-container),
-  body.employer-subpage main > .section.light:first-child p:not(.button-container) {
+  body.employer-subpage main > .section.light:first-child p:not(.button-container),
+  body.employer-subpage main > .section:first-child #highmark-client-resources-for-employers + p:not(.button-container) {
     width: 50%;
     font-size: 20px;
     line-height: 30px;
