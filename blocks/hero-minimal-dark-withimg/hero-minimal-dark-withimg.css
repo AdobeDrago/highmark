@@ -605,3 +605,195 @@ main .hero-minimal-dark-withimg .button-container:has(.primary) ~ .button-contai
 .hero-minimal-dark-withimg.art-directed picture img {
   display: block;
 }
+
+/* ------------------------------------------------------------------
+ * Variant `sub`: secondary-page hero (source .sub-hero-sec: /resources,
+ * /resources/spending-accounts, the mental-health topic pages,
+ * /plans/individual-families), measured at 390 / 768 / 992 / 1024 / 1100 /
+ * 1280 / 1440 / 1920.
+ * - from 992px: the photo at its own proportions (the source's 784x288 crop up to
+ *   1024px, 1500x400 above), the text in the left two-thirds, vertically centred,
+ *   inset 30px (992-1023), 110px (1024-1099) or 150px (1100+); the subheading is
+ *   85% of the text column
+ * - below 992px: the photo (784x288 crop, 375x200 up to 425px) above a text panel
+ *   (padding 20/20/35). The panel's colours differ per page and come from the
+ *   page's template (topic-hub-subnav: light blue; shop: white) or from `navy`.
+ * Options: `navy` (/resources: navy panel, white centred text below 992px) and
+ * `light` (white text over the photo from 992px: substance-use-disorders).
+ * ------------------------------------------------------------------ */
+
+/* stylelint-disable no-descending-specificity -- the variant overrides the base and
+   art-directed rules above, selector by selector */
+.hero-minimal-dark-withimg.sub {
+  display: block;
+  min-height: 0;
+}
+
+.hero-minimal-dark-withimg.sub > div:first-child {
+  position: static;
+}
+
+.hero-minimal-dark-withimg.sub > div:first-child,
+.hero-minimal-dark-withimg.sub > div:first-child > div,
+.hero-minimal-dark-withimg.sub > div:first-child picture {
+  height: auto;
+}
+
+.hero-minimal-dark-withimg.sub picture img {
+  display: block;
+  height: auto;
+  aspect-ratio: 784 / 288;
+
+  /* the authored desktop photo has the subjects on the right */
+  object-position: 100% 50%;
+}
+
+.hero-minimal-dark-withimg.sub > div:last-child {
+  max-width: none;
+  padding: 20px 20px 35px;
+}
+
+.hero-minimal-dark-withimg.sub h1,
+.hero-minimal-dark-withimg.sub h2 {
+  max-width: none;
+}
+
+.hero-minimal-dark-withimg.sub h1 {
+  margin: 16px 0 0;
+  padding: 0 15px 15px;
+  font-size: 32px;
+  line-height: 35.2px;
+  letter-spacing: -1.28px;
+}
+
+.hero-minimal-dark-withimg.sub h2 {
+  padding: 15px;
+  font-size: 20px;
+  line-height: 22px;
+  letter-spacing: -0.4px;
+}
+
+@media (width <= 425px) {
+  .hero-minimal-dark-withimg.sub picture img {
+    aspect-ratio: 375 / 200;
+  }
+}
+
+@media (width >= 768px) {
+  .hero-minimal-dark-withimg.sub h1 {
+    margin-top: 5px;
+    padding: 15px;
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  .hero-minimal-dark-withimg.sub h2 {
+    letter-spacing: -0.44px;
+  }
+}
+
+/* `navy`: navy panel with white, centred text (/resources) */
+@media (width < 992px) {
+  .hero-minimal-dark-withimg.sub.navy > div:last-child {
+    background-color: #003963;
+    text-align: center;
+  }
+
+  .hero-minimal-dark-withimg.sub.navy h1,
+  .hero-minimal-dark-withimg.sub.navy h2 {
+    color: #fff;
+  }
+}
+
+@media (width >= 992px) {
+  /* the block takes the photo's proportions; the image fills it */
+  .hero-minimal-dark-withimg.sub {
+    display: flex;
+    align-items: center;
+    aspect-ratio: 784 / 288;
+  }
+
+  .hero-minimal-dark-withimg.sub > div:first-child {
+    position: absolute;
+  }
+
+  .hero-minimal-dark-withimg.sub > div:first-child,
+  .hero-minimal-dark-withimg.sub > div:first-child > div,
+  .hero-minimal-dark-withimg.sub > div:first-child picture {
+    height: 100%;
+  }
+
+  .hero-minimal-dark-withimg.sub picture img {
+    height: 100%;
+    aspect-ratio: auto;
+  }
+
+  .hero-minimal-dark-withimg.sub > div:last-child {
+    width: calc(100% * 2 / 3);
+    margin: 0;
+    padding: 0 0 0 30px;
+    background-color: transparent;
+    text-align: left;
+  }
+
+  .hero-minimal-dark-withimg.sub h1 {
+    margin: 0;
+    padding: 0 0 14.4px;
+    font-size: 56px;
+    line-height: 61.6px;
+    letter-spacing: -2.8px;
+  }
+
+  .hero-minimal-dark-withimg.sub h2 {
+    max-width: 85%;
+    padding: 12.8px 0 24px;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  /* `light`: white text over a dark photo */
+  .hero-minimal-dark-withimg.sub.light h1,
+  .hero-minimal-dark-withimg.sub.light h2 {
+    color: #fff;
+  }
+
+  /* the shop's plans page (/plans/individual-families): a 580px heading and a
+     subheading 70% of the text column, as on the source */
+  body.shop .hero-minimal-dark-withimg.sub h1 {
+    width: 580px;
+    max-width: none;
+  }
+
+  /* topic sub-pages use the source's 768x288 crop up to 1024px (as below 992px),
+     except the eating-disorders, mental-health-resources and spending-accounts heroes */
+  body.topic-hub-subnav .hero-minimal-dark-withimg.sub:not(:has(h1:is(#eating-disorders, #mental-health-resources, [id^="spending-accounts"]))) {
+    aspect-ratio: 768 / 288;
+  }
+
+  body.shop .hero-minimal-dark-withimg.sub h2 {
+    max-width: 70%;
+  }
+}
+
+@media (width >= 1024px) {
+  .hero-minimal-dark-withimg.sub > div:last-child {
+    padding-left: 110px;
+  }
+}
+
+@media (width >= 1025px) {
+  .hero-minimal-dark-withimg.sub,
+  body.topic-hub-subnav .hero-minimal-dark-withimg.sub:not(:has(h1:is(#eating-disorders, #mental-health-resources, [id^="spending-accounts"]))) {
+    aspect-ratio: 1500 / 400;
+  }
+}
+
+@media (width >= 1100px) {
+  .hero-minimal-dark-withimg.sub > div:last-child {
+    padding-left: 150px;
+  }
+}
+
+/* stylelint-enable no-descending-specificity */

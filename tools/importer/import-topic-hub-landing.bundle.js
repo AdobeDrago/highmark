@@ -112,7 +112,15 @@ var CustomImportScript = (() => {
     contentCell.push(...bodyParas);
     contentCell.push(...ctaLinks);
     cells.push([contentCell]);
-    const block = WebImporter.Blocks.createBlock(document2, { name: "hero-minimal-dark-withimg", cells });
+    const subHero = element.matches(".sub-hero-sec") ? element : element.querySelector(".sub-hero-sec");
+    const options = [];
+    if (subHero) {
+      options.push("sub");
+      if (subHero.querySelector('.left-content.d-lg-none[class*="brand-togather"]')) options.push("navy");
+      if (subHero.querySelector('.left-content.d-lg-block [class*="white-text"]')) options.push("light");
+    }
+    const name = options.length ? `hero-minimal-dark-withimg (${options.join(", ")})` : "hero-minimal-dark-withimg";
+    const block = WebImporter.Blocks.createBlock(document2, { name, cells });
     element.replaceWith(block);
   }
 
@@ -304,6 +312,13 @@ var CustomImportScript = (() => {
 
   // tools/importer/transformers/highmark-sections.js
   var SECTION_MARKER_ATTR = "data-excat-section-id";
+  var SECTION_STYLE_ATTR = "data-excat-section-style";
+  function styleFor(section, sectionEl) {
+    if (section.id === "section-3" && sectionEl.querySelector('.one-card-one-col-panel[class*="blush"] .one-card-content-center-container')) {
+      return `${section.style}, text-band`;
+    }
+    return section.style;
+  }
   var SECTIONS = [
     { id: "section-1", selector: "div.hero.responsivegrid.section" },
     { id: "section-2", selector: "div.card-block.responsivegrid.section" },
@@ -320,7 +335,10 @@ var CustomImportScript = (() => {
         const sectionEl = element.querySelector(section.selector);
         if (!sectionEl) continue;
         const hr = document.createElement("hr");
-        if (section.style) hr.setAttribute(SECTION_MARKER_ATTR, section.id);
+        if (section.style) {
+          hr.setAttribute(SECTION_MARKER_ATTR, section.id);
+          hr.setAttribute(SECTION_STYLE_ATTR, styleFor(section, sectionEl));
+        }
         sectionEl.before(hr);
       }
     }
@@ -333,10 +351,13 @@ var CustomImportScript = (() => {
         if (!anchor) continue;
         const metadataBlock = WebImporter.Blocks.createBlock(document, {
           name: "Section Metadata",
-          cells: { style: section.style }
+          cells: { style: (marker == null ? void 0 : marker.getAttribute(SECTION_STYLE_ATTR)) || section.style }
         });
         anchor.after(metadataBlock);
-        if (marker) marker.removeAttribute(SECTION_MARKER_ATTR);
+        if (marker) {
+          marker.removeAttribute(SECTION_MARKER_ATTR);
+          marker.removeAttribute(SECTION_STYLE_ATTR);
+        }
       }
     }
   }
@@ -435,6 +456,8 @@ var CustomImportScript = (() => {
         params
       } = payload;
       const main = document2.body;
+      const crumb = document2.querySelector("ol.breadcrumb-list li.active");
+      const crumbLabel = ((crumb == null ? void 0 : crumb.textContent) || "").replace(/\s+/g, " ").trim();
       executeTransformers("beforeTransform", main, payload);
       const pageBlocks = findBlocksOnPage(document2, PAGE_TEMPLATE);
       pageBlocks.forEach((block) => {
@@ -453,7 +476,12 @@ var CustomImportScript = (() => {
       executeTransformers("afterTransform", main, payload);
       const hr = document2.createElement("hr");
       main.appendChild(hr);
-      WebImporter.rules.createMetadata(main, document2);
+      const meta = WebImporter.Blocks.getMetadata(document2) || {};
+      if (crumb) {
+        meta.breadcrumbs = "true";
+        if (crumbLabel) meta["Breadcrumb Title"] = crumbLabel;
+      }
+      main.append(WebImporter.Blocks.getMetadataBlock(document2, meta));
       WebImporter.rules.transformBackgroundImages(main, document2);
       WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
       const rawPath = new URL(params.originalURL).pathname.replace(/\/$/, "").replace(/\.html?$/, "");

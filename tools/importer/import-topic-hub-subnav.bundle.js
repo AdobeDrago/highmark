@@ -112,7 +112,15 @@ var CustomImportScript = (() => {
     contentCell.push(...bodyParas);
     contentCell.push(...ctaLinks);
     cells.push([contentCell]);
-    const block = WebImporter.Blocks.createBlock(document2, { name: "hero-minimal-dark-withimg", cells });
+    const subHero = element.matches(".sub-hero-sec") ? element : element.querySelector(".sub-hero-sec");
+    const options = [];
+    if (subHero) {
+      options.push("sub");
+      if (subHero.querySelector('.left-content.d-lg-none[class*="brand-togather"]')) options.push("navy");
+      if (subHero.querySelector('.left-content.d-lg-block [class*="white-text"]')) options.push("light");
+    }
+    const name = options.length ? `hero-minimal-dark-withimg (${options.join(", ")})` : "hero-minimal-dark-withimg";
+    const block = WebImporter.Blocks.createBlock(document2, { name, cells });
     element.replaceWith(block);
   }
 
@@ -506,7 +514,9 @@ var CustomImportScript = (() => {
       while (outRow.length < colCount) outRow.push("");
       cells.push(outRow);
     });
-    const block = WebImporter.Blocks.createBlock(document2, { name: "table-minimal-dark-compare", cells });
+    const variant = element.getAttribute("data-block-variant");
+    const name = variant ? `table-minimal-dark-compare (${variant})` : "table-minimal-dark-compare";
+    const block = WebImporter.Blocks.createBlock(document2, { name, cells });
     element.replaceWith(block);
   }
 

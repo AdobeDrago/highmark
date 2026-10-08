@@ -123,6 +123,18 @@ export default function parse(element, { document }) {
   contentCell.push(...ctaLinks);
   cells.push([contentCell]);
 
-  const block = WebImporter.Blocks.createBlock(document, { name: 'hero-minimal-dark-withimg', cells });
+  // Secondary-page heroes (.sub-hero-sec: /resources, /resources/spending-accounts, the
+  // mental-health topic pages, ...) lay the text out differently from the home-style
+  // hero: `sub` variant, plus `navy` when the mobile panel is the navy brand band
+  // (.new-hmk-brand-togather) and `light` when the desktop text is white.
+  const subHero = element.matches('.sub-hero-sec') ? element : element.querySelector('.sub-hero-sec');
+  const options = [];
+  if (subHero) {
+    options.push('sub');
+    if (subHero.querySelector('.left-content.d-lg-none[class*="brand-togather"]')) options.push('navy');
+    if (subHero.querySelector('.left-content.d-lg-block [class*="white-text"]')) options.push('light');
+  }
+  const name = options.length ? `hero-minimal-dark-withimg (${options.join(', ')})` : 'hero-minimal-dark-withimg';
+  const block = WebImporter.Blocks.createBlock(document, { name, cells });
   element.replaceWith(block);
 }
