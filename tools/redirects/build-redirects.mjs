@@ -31,8 +31,12 @@ const SOURCES = [
   { prefix: '', origin: SOURCE },
 ];
 const UA = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0 Safari/537.36' };
+// Fragments whose links are checked too: blocks load them in the browser, so their links are
+// not in any page's HTML. A provider side nav lists every page in its section.
 const FRAGMENTS = ['/nav', '/footer', '/shop/fragments/shopx-header', '/shop/fragments/shopx-footer',
-  '/providers/fragments/nav', '/providers/fragments/footer'];
+  '/providers/fragments/nav', '/providers/fragments/footer', '/providers/fragments/service-centers',
+  ...['authorization', 'claims', 'policies-and-programs', 'provider-network',
+    'resources-and-education', 'communications-hub'].map((s) => `/providers/fragments/sidenav/${s}`)];
 // Paths that always redirect: drafts that exist in DA but should not be published, and
 // retired pages. path -> destination.
 const FORCE = {
