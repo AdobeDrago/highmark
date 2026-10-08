@@ -112,7 +112,14 @@ var CustomImportScript = (() => {
     contentCell.push(...bodyParas);
     contentCell.push(...ctaLinks);
     cells.push([contentCell]);
-    const name = element.querySelector(".sub-hero-sec") || element.matches(".sub-hero-sec") ? "hero-minimal-dark-withimg (sub)" : "hero-minimal-dark-withimg";
+    const subHero = element.matches(".sub-hero-sec") ? element : element.querySelector(".sub-hero-sec");
+    const options = [];
+    if (subHero) {
+      options.push("sub");
+      if (subHero.querySelector('.left-content.d-lg-none[class*="brand-togather"]')) options.push("navy");
+      if (subHero.querySelector('.left-content.d-lg-block [class*="white-text"]')) options.push("light");
+    }
+    const name = options.length ? `hero-minimal-dark-withimg (${options.join(", ")})` : "hero-minimal-dark-withimg";
     const block = WebImporter.Blocks.createBlock(document2, { name, cells });
     element.replaceWith(block);
   }
