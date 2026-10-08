@@ -312,7 +312,7 @@ body.get-help main .columns-minimal-dark a.button:any-link {
 body.get-help main .columns-minimal-dark a.button:hover,
 body.get-help main .columns-minimal-dark a.button:focus {
   background-color: transparent;
-  color: var(--link-hover-color);
+  color: var(--link-color);
   text-decoration: underline;
 }
 
@@ -569,7 +569,7 @@ body.get-help .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-b
 
 body.get-help .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p > a.button[href^="tel:"]:hover,
 body.get-help .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p > a.button[href^="tel:"]:focus {
-  color: var(--link-hover-color);
+  color: var(--link-color);
   text-decoration: underline;
 }
 
