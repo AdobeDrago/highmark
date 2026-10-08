@@ -204,7 +204,7 @@ body.state-plans main > .section:not(.light-blue) > .default-content-wrapper a.b
 body.state-plans main > .section:not(.light-blue) > .default-content-wrapper a.button:hover,
 body.state-plans main > .section:not(.light-blue) > .default-content-wrapper a.button:focus {
   background-color: transparent;
-  color: var(--link-hover-color);
+  color: var(--link-color);
   text-decoration: underline;
 }
 

@@ -438,6 +438,19 @@ body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-
   background-color: rgb(0 120 193);
 }
 
+body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3:is([id="bingo"], [id="classic-tv--movies"])::after {
+  display: none;
+}
+
+body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-body p {
+  font-size: 15px;
+}
+
+body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-body .cards-minimal-dark-list-title-underline + p + p {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
 body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-body p.button-container {
   text-align: left;
 }
@@ -543,8 +556,8 @@ body.blue-neighbors main .cards-minimal-dark-withimg-2 {
    The source swaps in a wide mobile SVG; the authored square desktop SVG is
    letterboxed on its own #f7fbfd backdrop instead of being cropped. */
 body.blue-neighbors main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-image img {
-  height: 114px;
-  object-fit: contain;
+  height: 120px;
+  object-fit: none;
   background-color: var(--light-color);
 }
 
@@ -570,7 +583,7 @@ body.blue-neighbors main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withi
 
 body.blue-neighbors main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p > a.button[href^="tel:"]:hover,
 body.blue-neighbors main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p > a.button[href^="tel:"]:focus {
-  color: var(--link-hover-color);
+  color: var(--link-color);
 }
 
 body.blue-neighbors main > .section.cards-minimal-dark-withimg-2-container > .default-content-wrapper {
@@ -579,9 +592,10 @@ body.blue-neighbors main > .section.cards-minimal-dark-withimg-2-container > .de
 }
 
 body.blue-neighbors main > .section.cards-minimal-dark-withimg-2-container > .default-content-wrapper p {
-  margin: 0 0 12.8px;
+  margin: 0;
   font-size: 15px;
   line-height: 21px;
+  padding-bottom: 12.8px;
 }
 
 @media (width >= 768px) {
@@ -598,8 +612,9 @@ body.blue-neighbors main > .section.cards-minimal-dark-withimg-2-container > .de
   }
 
   body.blue-neighbors main > .section.cards-minimal-dark-withimg-2-container > .default-content-wrapper p {
-    margin-bottom: 16px;
+    margin-bottom: 0;
     line-height: 19.5px;
+    padding-bottom: 16px;
   }
 }
 
