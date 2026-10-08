@@ -443,7 +443,11 @@ body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-
   display: none;
 }
 
-body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3 .cards-minimal-dark-list-title-underline + p {
+body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-body .cards-minimal-dark-list-title-underline + p {
+  font-size: 15px;
+}
+
+body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-body .cards-minimal-dark-list-title-underline + p + p {
   margin-top: 0;
   margin-bottom: 16px;
 }
