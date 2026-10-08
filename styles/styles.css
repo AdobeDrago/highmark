@@ -1548,14 +1548,17 @@ body.topic-hub-subnav main > .section {
 
 body.topic-hub-subnav main > .section.highlight:not(.table-minimal-dark-compare-container),
 body.topic-hub-subnav main > .section.grey {
-  padding: 32px 0 48px;
+  padding: 32px 30px 48px;
   text-align: center;
 }
 
+/* a 780px column (30px gutters, 64px from 768) */
 body.topic-hub-subnav main > .section.highlight:not(.table-minimal-dark-compare-container) > .default-content-wrapper,
 body.topic-hub-subnav main > .section.grey > .default-content-wrapper {
-  max-width: 840px;
-  padding: 0 30px;
+  box-sizing: content-box;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0;
 }
 
 body.topic-hub-subnav main > .section.highlight:not(.table-minimal-dark-compare-container) h2,
@@ -1592,6 +1595,27 @@ body.topic-hub-subnav main > .section.grey a.button:any-link {
   letter-spacing: normal;
 }
 
+@media (width >= 768px) {
+  body.topic-hub-subnav main > .section.highlight:not(.table-minimal-dark-compare-container),
+  body.topic-hub-subnav main > .section.grey {
+    padding-right: 64px;
+    padding-left: 64px;
+  }
+
+  body.topic-hub-subnav main > .section.highlight:not(.table-minimal-dark-compare-container) h2,
+  body.topic-hub-subnav main > .section.grey h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.topic-hub-subnav main > .section.highlight:not(.table-minimal-dark-compare-container) p,
+  body.topic-hub-subnav main > .section.grey p {
+    font-size: 18px;
+    line-height: 23.4px;
+  }
+}
+
 @media (width >= 992px) {
   body.topic-hub-subnav main > .section.highlight:not(.table-minimal-dark-compare-container),
   body.topic-hub-subnav main > .section.grey {
@@ -1608,6 +1632,106 @@ body.topic-hub-subnav main > .section.grey a.button:any-link {
 
   body.topic-hub-subnav main > .section.highlight:not(.table-minimal-dark-compare-container) p,
   body.topic-hub-subnav main > .section.grey p {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}
+
+/*
+ * Text band (section style `highlight, text-band`): the blush callout with a centred
+ * heading, copy and an outlined CTA (/resources "Health Insurance Glossary"). Values
+ * from https://www.highmark.com/resources at 390 / 768 / 1024 / 1280 / 1440:
+ * 65px under the section above, flush with the section below; padding 32 / 48px
+ * with 30px gutters (64px from 768), 64px top and bottom from 992; a 780px text
+ * column; #004362 sofia-pro heading (26 / 28 / 34px) and copy (15 / 18 / 20px);
+ * the CTA 58px tall with 16px margins.
+ */
+main > .section.highlight.text-band {
+  margin: 65px 0 0;
+  padding: 32px 30px 48px;
+  text-align: center;
+}
+
+/* the band sets the gap above it; below 900px the card list above keeps 15px of
+   padding under its shadow (cards-minimal-dark-withimg), which counts towards the 65px */
+main > .section:has(+ .section.highlight.text-band) {
+  margin-bottom: 0;
+}
+
+@media (width < 900px) {
+  main > .section:has(.cards-minimal-dark-withimg) + .section.highlight.text-band {
+    margin-top: 50px;
+  }
+}
+
+main > .section.highlight.text-band > .default-content-wrapper {
+  box-sizing: content-box;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+main > .section.highlight.text-band h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0 8px;
+  color: #004362;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+main > .section.highlight.text-band p {
+  margin: 0;
+  color: #004362;
+  font-family: var(--heading-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.25px;
+}
+
+main > .section.highlight.text-band p.button-container {
+  margin: 16px 0 0;
+}
+
+main > .section.highlight.text-band a.button:any-link {
+  display: inline-block;
+  margin: 16px 0;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+@media (width >= 768px) {
+  main > .section.highlight.text-band {
+    padding-right: 64px;
+    padding-left: 64px;
+  }
+
+  main > .section.highlight.text-band h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  main > .section.highlight.text-band p {
+    font-size: 18px;
+    line-height: 23.4px;
+  }
+}
+
+@media (width >= 992px) {
+  main > .section.highlight.text-band {
+    padding: 64px 0;
+  }
+
+  main > .section.highlight.text-band h2 {
+    padding: 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  main > .section.highlight.text-band p {
     font-size: 20px;
     line-height: 28px;
   }

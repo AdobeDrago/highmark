@@ -13,7 +13,8 @@
  * page-templates.json for this project carries section styling on blocks[].section
  * rather than a top-level template.sections array, so the sections are defined
  * here from the DOM-verified boundaries in page-structure.json:
- *   3. div.onecard1colpanel.section                          -> style: highlight (light-pink glossary band)
+ *   3. div.onecard1colpanel.section                          -> style: highlight (light-pink glossary band),
+ *      plus `text-band` when the panel is the blush centred callout (heading + copy + CTA)
  *   4. div.newcardscomponent-variations.section:nth-of-type(4) -> style: accent   (light-blue columns band)
  *
  * Follows the reference before/after hook + marker pattern: breaks are inserted
@@ -23,6 +24,16 @@
  */
 
 const SECTION_MARKER_ATTR = 'data-excat-section-id';
+const SECTION_STYLE_ATTR = 'data-excat-section-style';
+
+/** Style for a section element: the blush centred callout panel adds `text-band`. */
+function styleFor(section, sectionEl) {
+  if (section.id === 'section-3'
+    && sectionEl.querySelector('.one-card-one-col-panel[class*="blush"] .one-card-content-center-container')) {
+    return `${section.style}, text-band`;
+  }
+  return section.style;
+}
 
 // Boundaries verified in migration-work/cleaned.html (see page-structure.json).
 const SECTIONS = [
@@ -46,7 +57,10 @@ export default function transform(hookName, element, payload) {
       if (!sectionEl) continue; // selector didn't match on this page — skip, never guess
 
       const hr = document.createElement('hr');
-      if (section.style) hr.setAttribute(SECTION_MARKER_ATTR, section.id);
+      if (section.style) {
+        hr.setAttribute(SECTION_MARKER_ATTR, section.id);
+        hr.setAttribute(SECTION_STYLE_ATTR, styleFor(section, sectionEl));
+      }
       sectionEl.before(hr);
     }
   }
@@ -65,11 +79,14 @@ export default function transform(hookName, element, payload) {
 
       const metadataBlock = WebImporter.Blocks.createBlock(document, {
         name: 'Section Metadata',
-        cells: { style: section.style },
+        cells: { style: marker?.getAttribute(SECTION_STYLE_ATTR) || section.style },
       });
       anchor.after(metadataBlock);
 
-      if (marker) marker.removeAttribute(SECTION_MARKER_ATTR);
+      if (marker) {
+        marker.removeAttribute(SECTION_MARKER_ATTR);
+        marker.removeAttribute(SECTION_STYLE_ATTR);
+      }
     }
   }
 }

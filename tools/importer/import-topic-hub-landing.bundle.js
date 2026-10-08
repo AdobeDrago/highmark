@@ -312,6 +312,13 @@ var CustomImportScript = (() => {
 
   // tools/importer/transformers/highmark-sections.js
   var SECTION_MARKER_ATTR = "data-excat-section-id";
+  var SECTION_STYLE_ATTR = "data-excat-section-style";
+  function styleFor(section, sectionEl) {
+    if (section.id === "section-3" && sectionEl.querySelector('.one-card-one-col-panel[class*="blush"] .one-card-content-center-container')) {
+      return `${section.style}, text-band`;
+    }
+    return section.style;
+  }
   var SECTIONS = [
     { id: "section-1", selector: "div.hero.responsivegrid.section" },
     { id: "section-2", selector: "div.card-block.responsivegrid.section" },
@@ -328,7 +335,10 @@ var CustomImportScript = (() => {
         const sectionEl = element.querySelector(section.selector);
         if (!sectionEl) continue;
         const hr = document.createElement("hr");
-        if (section.style) hr.setAttribute(SECTION_MARKER_ATTR, section.id);
+        if (section.style) {
+          hr.setAttribute(SECTION_MARKER_ATTR, section.id);
+          hr.setAttribute(SECTION_STYLE_ATTR, styleFor(section, sectionEl));
+        }
         sectionEl.before(hr);
       }
     }
@@ -341,10 +351,13 @@ var CustomImportScript = (() => {
         if (!anchor) continue;
         const metadataBlock = WebImporter.Blocks.createBlock(document, {
           name: "Section Metadata",
-          cells: { style: section.style }
+          cells: { style: (marker == null ? void 0 : marker.getAttribute(SECTION_STYLE_ATTR)) || section.style }
         });
         anchor.after(metadataBlock);
-        if (marker) marker.removeAttribute(SECTION_MARKER_ATTR);
+        if (marker) {
+          marker.removeAttribute(SECTION_MARKER_ATTR);
+          marker.removeAttribute(SECTION_STYLE_ATTR);
+        }
       }
     }
   }
