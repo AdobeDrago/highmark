@@ -443,7 +443,7 @@ body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-
   display: none;
 }
 
-body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-body .cards-minimal-dark-list-title-underline + p {
+body.blue-neighbors main .cards-minimal-dark-list .cards-minimal-dark-list-card-body p {
   font-size: 15px;
 }
 
@@ -557,8 +557,8 @@ body.blue-neighbors main .cards-minimal-dark-withimg-2 {
    The source swaps in a wide mobile SVG; the authored square desktop SVG is
    letterboxed on its own #f7fbfd backdrop instead of being cropped. */
 body.blue-neighbors main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-image img {
-  height: 114px;
-  object-fit: contain;
+  height: 120px;
+  object-fit: none;
   background-color: var(--light-color);
 }
 
@@ -593,9 +593,10 @@ body.blue-neighbors main > .section.cards-minimal-dark-withimg-2-container > .de
 }
 
 body.blue-neighbors main > .section.cards-minimal-dark-withimg-2-container > .default-content-wrapper p {
-  margin: 0 0 12.8px;
+  margin: 0;
   font-size: 15px;
   line-height: 21px;
+  padding-bottom: 12.8px;
 }
 
 @media (width >= 768px) {
@@ -612,8 +613,9 @@ body.blue-neighbors main > .section.cards-minimal-dark-withimg-2-container > .de
   }
 
   body.blue-neighbors main > .section.cards-minimal-dark-withimg-2-container > .default-content-wrapper p {
-    margin-bottom: 16px;
+    margin-bottom: 0;
     line-height: 19.5px;
+    padding-bottom: 16px;
   }
 }
 
