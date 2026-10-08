@@ -237,6 +237,7 @@ body.employer-subpage main:has(h1#employee-health-care-management) .columns-mini
 body.employer-subpage main:has(h1#employee-health-care-management) .columns-minimal-dark a.button:focus {
   background-color: var(--text-color);
   color: #fff;
+  text-decoration: none;
 }
 
 /* thought-leadership podcast panel: helion light blue band, CTA left-aligned
