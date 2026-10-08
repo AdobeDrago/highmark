@@ -64,8 +64,8 @@ main .columns-minimal-dark a.button:any-link {
 main .columns-minimal-dark a.button:hover,
 main .columns-minimal-dark a.button:focus {
   background-color: transparent;
-  color: var(--link-hover-color);
-  text-decoration: none;
+  color: var(--link-color);
+  text-decoration: underline;
 }
 
 /* Image cell */

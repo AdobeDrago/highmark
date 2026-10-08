@@ -107,7 +107,7 @@ body.topic-hub-subnav .cards-minimal-dark-list > ul {
 .cards-minimal-dark-list .cards-minimal-dark-list-card-body a.button:hover,
 .cards-minimal-dark-list .cards-minimal-dark-list-card-body a.button:focus {
   background-color: transparent;
-  color: var(--link-hover-color);
+  color: var(--link-color);
   text-decoration: underline;
 }
 
