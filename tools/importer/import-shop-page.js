@@ -12,8 +12,8 @@
  *   urls file: http://localhost:8765/shop/about-you/qualifying-life-events/landing.html
  *
  * Page kinds (detected from the capture):
- *   info        (legal-policies) the live body is empty, so the source is the page
- *               already in DA (saved as a snapshot); its sections are kept as they are
+ *   info        (legal-policies; its body only renders once a ZIP is stored):
+ *               "< HOME" + title | one section per policy group (h3 + copy)
  *   qle         special-enrollment landing: h1 | main column (copy, flip-cards for the
  *               qualifying life events, copy) | Style main | Resources | Style aside
  *   enrollment  dental / Blue Edge Balance enrollment: h1 | "Let us help" | Style aside |
@@ -108,10 +108,24 @@ function metadata(document, meta) {
 /* ---------------------------------------------------------------- info */
 function importInfo(document, source) {
   const out = document.createElement('div');
-  const sections = [...source.children].filter((s) => !s.querySelector('.metadata'));
-  sections.forEach((section, i) => {
-    if (i) out.append(document.createElement(SECTION_BREAK));
-    out.append(...[...section.children].map((c) => c.cloneNode(true)));
+  // "< HOME" + title, then one section per policy group (h3 + copy); ShopX's separators,
+  // blank paragraphs and the OneTrust "Cookie Preferences" button are dropped
+  source.querySelectorAll('.cmp-text').forEach((t) => {
+    const copy = cleanCopy(document, t);
+    copy.querySelectorAll('button').forEach((b) => b.closest('p')?.remove());
+    [...copy.children].forEach((child) => {
+      const home = child.matches('h1, h2, h3, h4') && child.querySelector('a') && /^<\s*HOME$/i.test(text(child));
+      if (home) {
+        const p = document.createElement('p');
+        const a = child.querySelector('a');
+        a.textContent = '< HOME';
+        p.append(a);
+        out.append(p);
+        return;
+      }
+      if (child.tagName === 'H3' && out.querySelector('h1')) out.append(document.createElement(SECTION_BREAK));
+      out.append(child);
+    });
   });
   return out;
 }
@@ -273,6 +287,7 @@ function importHeader(document, header) {
 }
 
 const DESCRIPTIONS = {
+  'legal-policies': 'Legal notices and policies for Highmark individual and family health plans, including fraud prevention and SMS texting policies.',
   qle: 'Find out if you qualify for a Special Enrollment Period to sign up for or change Highmark individual and family health coverage after a qualifying life event.',
   'dental-enrollment': 'Start your Highmark dental plan enrollment: tell us about yourself, or call a Highmark representative to learn more about our dental plans.',
   'blue-edge-balance-enrollment': 'Start your Highmark Blue Edge Balance enrollment: tell us about yourself, or call a Highmark representative to learn more about Blue Edge Balance plans.',
@@ -309,12 +324,13 @@ export default {
     let out;
     let kind;
     const meta = {};
-    if (source.classList.contains('eds-source')) {
+    if (source.querySelector('[class*="cmp-experiencefragment--"]')
+      && /info-pages\//.test(sourceUrl)) {
       kind = 'info';
       out = importInfo(document, source);
       meta.Title = document.title;
-      const description = document.querySelector('meta[name="description"]')?.getAttribute('content');
-      if (description) meta.Description = description;
+      meta.Description = DESCRIPTIONS[slug] || document.querySelector('meta[name="description"]')?.getAttribute('content') || '';
+      if (!meta.Description) delete meta.Description;
     } else if (source.querySelector('sxe-special-enrollment-event-selector-cards-component')) {
       kind = 'qle';
       out = importQle(document, source, blocks);

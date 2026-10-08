@@ -8,7 +8,7 @@
    - title in columns 2-11 (enrollment: 3-10)
    - special enrollment: main column 2-8, Resources 10-11
    - enrollment: "Let us help" 2-4, the form 6-11
-   - info pages: columns 2-11
+   - info pages: "< HOME" in columns 2-12, the rest in columns 4-9
    From 768px the columns hold their fractions; below 768 everything stacks with 32px
    gutters (ShopX keeps its side-by-side columns on phones, squeezing the form to ~200px;
    stacking keeps it usable). Type steps at 768, 992 and 1200. */
@@ -147,22 +147,51 @@ body.shop-page main > .section.form .enrollment-form {
   padding-left: 0;
 }
 
-/* ---- info pages (legal, ...: no main / aside / form sections), as ShopX's info pages
-   (e.g. /info-pages/find-a-doctor.html): the block 60px under the header and 40px
-   above the footer, a 34px title ---- */
+/* ---- info pages (legal, ...: no main / aside / form sections), measured against
+   shop.highmark.com/info-pages/legal-policies (ZIP 15222) at 390 / 768 / 1280 / 1512:
+   "< HOME" (h3 type) in columns 2-12; the title, the headings and the copy in columns
+   4-9; a 1px rule under each heading; a blank line between the policy groups.
+   ShopX keeps the narrow column on phones (195px at 390); below 768 it stacks. ---- */
 body.shop-page main:not(:has(> .section.main, > .section.form)) {
-  padding-top: 60px;
-  padding-bottom: 40px;
+  padding-bottom: 118px;
 }
 
-body.shop-page main:not(:has(> .section.main, > .section.form)) .default-content-wrapper h1 {
-  font-size: 24px;
-  line-height: 26.4px;
-  letter-spacing: -0.72px;
+body.shop-page main:not(:has(> .section.main, > .section.form)) > .section:first-child .default-content-wrapper > p:first-child {
+  margin: 0 0 8px;
+  padding: 12.8px 0;
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: -0.4px;
+  word-spacing: 0.6em;
 }
 
-/* the last block's bottom margin is part of the 40px (the metadata leaves an empty
-   section after it) */
+body.shop-page main:not(:has(> .section.main, > .section.form)) .default-content-wrapper h3 {
+  margin-bottom: 0;
+  padding-bottom: 20.8px;
+  border-bottom: 1px solid #495359;
+}
+
+body.shop-page main:not(:has(> .section.main, > .section.form)) .default-content-wrapper p {
+  margin-bottom: 12.8px;
+}
+
+body.shop-page main:not(:has(> .section.main, > .section.form)) > .section + .section + .section:has(> .default-content-wrapper) {
+  margin-top: 33.8px;
+}
+
+body.shop-page main:not(:has(> .section.main, > .section.form)) .default-content-wrapper li {
+  margin-bottom: 13px;
+  line-height: 22px;
+}
+
+body.shop-page main:not(:has(> .section.main, > .section.form)) .default-content-wrapper li a:any-link {
+  font-weight: 700;
+}
+
+/* the last block's bottom margin is part of the footer gap (the metadata leaves an
+   empty section after it) */
 body.shop-page main:not(:has(> .section.main, > .section.form)) > .section:not(:has(~ .section > .default-content-wrapper)) .default-content-wrapper > :last-child,
 body.shop-page main:not(:has(> .section.main, > .section.form)) > .section:not(:has(~ .section > .default-content-wrapper)) .default-content-wrapper > ul:last-child > li:last-child {
   margin-bottom: 0;
@@ -214,8 +243,7 @@ body.shop-page main:not(:has(> .section.main, > .section.form)) > .section:not(:
     letter-spacing: -1.44px;
   }
 
-  body.shop-page main .section > .default-content-wrapper h2,
-  body.shop-page main:not(:has(> .section.main, > .section.form)) .default-content-wrapper h1 {
+  body.shop-page main .section > .default-content-wrapper h2 {
     font-size: 26px;
     line-height: 28.6px;
     letter-spacing: -0.78px;
@@ -241,6 +269,38 @@ body.shop-page main:not(:has(> .section.main, > .section.form)) > .section:not(:
     line-height: 19.5px;
     letter-spacing: -0.4px;
   }
+
+  /* info pages: "< HOME" in columns 2-12, the rest in columns 4-9 */
+  body.shop-page main:not(:has(> .section.main, > .section.form)) > .section {
+    grid-column: 4 / span 6;
+  }
+
+  body.shop-page main:not(:has(> .section.main, > .section.form)) > .section:first-child {
+    grid-column: 2 / span 11;
+  }
+
+  body.shop-page main:not(:has(> .section.main, > .section.form)) > .section:first-child .default-content-wrapper > :not(:first-child) {
+    width: calc(100% * 6 / 11);
+    margin-left: calc(100% * 2 / 11);
+  }
+
+  body.shop-page main:not(:has(> .section.main, > .section.form)) {
+    padding-bottom: 123px;
+  }
+
+  body.shop-page main:not(:has(> .section.main, > .section.form)) > .section:first-child .default-content-wrapper > p:first-child {
+    font-size: 22px;
+    line-height: 24.2px;
+    letter-spacing: -0.44px;
+  }
+
+  body.shop-page main:not(:has(> .section.main, > .section.form)) .default-content-wrapper p {
+    margin-bottom: 16px;
+  }
+
+  body.shop-page main:not(:has(> .section.main, > .section.form)) > .section + .section + .section:has(> .default-content-wrapper) {
+    margin-top: 35.5px;
+  }
 }
 
 /* ---- desktop ---- */
@@ -250,8 +310,7 @@ body.shop-page main:not(:has(> .section.main, > .section.form)) > .section:not(:
     line-height: 57.2px;
   }
 
-  body.shop-page main .section > .default-content-wrapper h2,
-  body.shop-page main:not(:has(> .section.main, > .section.form)) .default-content-wrapper h1 {
+  body.shop-page main .section > .default-content-wrapper h2 {
     font-size: 34px;
     line-height: 40.8px;
   }
@@ -274,10 +333,27 @@ body.shop-page main:not(:has(> .section.main, > .section.form)) > .section:not(:
     font-size: 16px;
     line-height: 24px;
   }
+
+  body.shop-page main:not(:has(> .section.main, > .section.form)) {
+    padding-bottom: 136px;
+  }
+
+  body.shop-page main:not(:has(> .section.main, > .section.form)) > .section:first-child .default-content-wrapper > p:first-child {
+    font-size: 24px;
+    line-height: 36px;
+  }
+
+  body.shop-page main:not(:has(> .section.main, > .section.form)) > .section + .section + .section:has(> .default-content-wrapper) {
+    margin-top: 40px;
+  }
+
+  body.shop-page main:not(:has(> .section.main, > .section.form)) .default-content-wrapper li {
+    margin-bottom: 15px;
+  }
 }
 
 @media (width >= 1200px) {
-  body.shop-page main:has(> .section.main, > .section.form) .default-content-wrapper h1 {
+  body.shop-page main .default-content-wrapper h1 {
     font-size: 56px;
     line-height: 61.6px;
   }

@@ -89,10 +89,25 @@ var CustomImportScript = (() => {
   }
   function importInfo(document, source) {
     const out = document.createElement("div");
-    const sections = [...source.children].filter((s) => !s.querySelector(".metadata"));
-    sections.forEach((section, i) => {
-      if (i) out.append(document.createElement(SECTION_BREAK));
-      out.append(...[...section.children].map((c) => c.cloneNode(true)));
+    source.querySelectorAll(".cmp-text").forEach((t) => {
+      const copy = cleanCopy(document, t);
+      copy.querySelectorAll("button").forEach((b) => {
+        var _a;
+        return (_a = b.closest("p")) == null ? void 0 : _a.remove();
+      });
+      [...copy.children].forEach((child) => {
+        const home = child.matches("h1, h2, h3, h4") && child.querySelector("a") && /^<\s*HOME$/i.test(text(child));
+        if (home) {
+          const p = document.createElement("p");
+          const a = child.querySelector("a");
+          a.textContent = "< HOME";
+          p.append(a);
+          out.append(p);
+          return;
+        }
+        if (child.tagName === "H3" && out.querySelector("h1")) out.append(document.createElement(SECTION_BREAK));
+        out.append(child);
+      });
     });
     return out;
   }
@@ -241,6 +256,7 @@ var CustomImportScript = (() => {
     return { out, title };
   }
   var DESCRIPTIONS = {
+    "legal-policies": "Legal notices and policies for Highmark individual and family health plans, including fraud prevention and SMS texting policies.",
     qle: "Find out if you qualify for a Special Enrollment Period to sign up for or change Highmark individual and family health coverage after a qualifying life event.",
     "dental-enrollment": "Start your Highmark dental plan enrollment: tell us about yourself, or call a Highmark representative to learn more about our dental plans.",
     "blue-edge-balance-enrollment": "Start your Highmark Blue Edge Balance enrollment: tell us about yourself, or call a Highmark representative to learn more about Blue Edge Balance plans."
@@ -272,12 +288,12 @@ var CustomImportScript = (() => {
       let out;
       let kind;
       const meta = {};
-      if (source.classList.contains("eds-source")) {
+      if (source.querySelector('[class*="cmp-experiencefragment--"]') && /info-pages\//.test(sourceUrl)) {
         kind = "info";
         out = importInfo(document, source);
         meta.Title = document.title;
-        const description = (_c = document.querySelector('meta[name="description"]')) == null ? void 0 : _c.getAttribute("content");
-        if (description) meta.Description = description;
+        meta.Description = DESCRIPTIONS[slug] || ((_c = document.querySelector('meta[name="description"]')) == null ? void 0 : _c.getAttribute("content")) || "";
+        if (!meta.Description) delete meta.Description;
       } else if (source.querySelector("sxe-special-enrollment-event-selector-cards-component")) {
         kind = "qle";
         out = importQle(document, source, blocks);

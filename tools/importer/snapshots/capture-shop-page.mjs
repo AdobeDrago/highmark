@@ -4,8 +4,9 @@
  * shop importers (generalises capture-shop-home.mjs to any ShopX URL).
  *
  * ShopX is an Angular SPA; many pages show an "Information Needed!" ZIP/county
- * modal and keep their main region empty until it is filled. When the modal is
- * present this script fills it (default 15222 / ALLEGHENY, Western PA), waits for
+ * modal and keep their main region empty until it is filled, and some keep it empty
+ * without showing the modal. This script sets the ZIP on the home page first (default
+ * 15222 / ALLEGHENY, Western PA), fills the modal again if a page shows it, waits for
  * the main region, and saves it (scripts and inline styles removed, URLs absolute,
  * CSS background images kept as data-bg) to
  * tools/importer/snapshots/shop/<source path without .html>.html, plus a
@@ -48,11 +49,21 @@ async function passGate(page) {
   return true;
 }
 
+// Some pages (e.g. /info-pages/legal-policies) show no ZIP modal but only render their
+// body once a ZIP is stored, so the ZIP is set once on the home page first.
+const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+const home = await context.newPage();
+await home.goto('https://shop.highmark.com/home.html', { waitUntil: 'networkidle', timeout: 60000 }).catch(() => {});
+await home.waitForTimeout(3000);
+await passGate(home);
+await home.waitForTimeout(4000);
+await home.close();
+
 for (const source of urls) {
-  const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+  const page = await context.newPage();
   await page.goto(source, { waitUntil: 'networkidle', timeout: 60000 }).catch(() => {});
   await page.waitForTimeout(3000);
-  const gated = await passGate(page);
+  await passGate(page);
   await page.waitForFunction(() => {
     const r = document.querySelector('[aria-label="Main"]') || document.querySelector('main');
     return r && r.innerText.trim().length > 50;
@@ -105,10 +116,11 @@ for (const source of urls) {
 <html lang="en"><head><meta charset="utf-8"><title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
 <meta name="source-url" content="${source}">
-<meta name="captured" content="${new Date().toISOString()}${gated ? `; zip=${zip}; county=${county}; region=${regionLabel}` : '; no zip gate'}">
+<meta name="captured" content="${new Date().toISOString()}; zip=${zip}; county=${county}; region=${regionLabel}">
 </head><body><header>${header}</header><main>${region}</main></body></html>
 `;
   fs.writeFileSync(outFile, html);
-  console.log(`Saved ${outFile} (${html.length} bytes${gated ? `, zip gate passed, region "${regionLabel}"` : ''})`);
+  console.log(`Saved ${outFile} (${html.length} bytes, region "${regionLabel}")`);
 }
+await context.close();
 await browser.close();
