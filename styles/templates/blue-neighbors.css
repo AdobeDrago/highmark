@@ -584,7 +584,7 @@ body.blue-neighbors main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withi
 
 body.blue-neighbors main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p > a.button[href^="tel:"]:hover,
 body.blue-neighbors main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p > a.button[href^="tel:"]:focus {
-  color: var(--link-hover-color);
+  color: var(--link-color);
 }
 
 body.blue-neighbors main > .section.cards-minimal-dark-withimg-2-container > .default-content-wrapper {
