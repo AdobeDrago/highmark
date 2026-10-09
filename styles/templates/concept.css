@@ -1,0 +1,150 @@
+/* Template "concept" (page metadata template=concept -> body.concept).
+   Loaded by scripts/scripts.js (TEMPLATE_STYLES) before the first section renders.
+
+   Figma concept pages (first: "Highmark – Childhood Vaccines (Concept)", frame
+   2:38 at 1440). The page body uses the Figma file's own design tokens, not the
+   highmark.com brand: Open Sans, navy #00274d, body #2f3b45, link #0067b1, band
+   #eef5fb, and each section's padding from its Figma frame. Header, breadcrumbs
+   and footer stay the site chrome. Blocks read the tokens below, so the same
+   blocks follow the brand on other pages. Element rules are wrapped in
+   :where() so a block's own heading sizes (alert 26px, cards 24/20px) win. */
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap');
+
+body.concept {
+  --heading-font-family: 'Open Sans', helvetica, arial, sans-serif;
+  --body-font-family: 'Open Sans', helvetica, arial, sans-serif;
+  --text-color: #00274d;
+  --text-body-color: #2f3b45;
+  --link-color: #0067b1;
+  --link-hover-color: #00274d;
+  --accent-color: #eef5fb;
+  --concept-muted-color: #5b6770;
+}
+
+:where(body.concept main) {
+  font-family: var(--body-font-family);
+  font-weight: 400;
+  color: var(--text-body-color);
+}
+
+:where(body.concept main) :is(h1, h2, h3) {
+  font-family: var(--heading-font-family);
+  color: var(--text-color);
+}
+
+:where(body.concept main) h1 {
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 58px;
+}
+
+:where(body.concept main) h2 {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 42px;
+}
+
+:where(body.concept main) h3 {
+  font-weight: 700;
+}
+
+:where(body.concept main) a.button:any-link {
+  font-family: var(--body-font-family);
+}
+
+/* ------------------------------------------------------------------
+ * Sections: no site 40px gaps; padding per Figma frame.
+ * ------------------------------------------------------------------ */
+body.concept main > .section {
+  margin: 0;
+  padding: 0;
+}
+
+/* default content (heading + lead-in) followed by a block */
+body.concept main > .section > .default-content-wrapper h2 {
+  margin: 0 0 16px;
+}
+
+body.concept main > .section > .default-content-wrapper p {
+  margin: 0;
+  font-size: 17px;
+  line-height: 28px;
+  color: var(--concept-muted-color);
+}
+
+body.concept main > .section > div + div {
+  margin-top: 32px;
+}
+
+/* Page title (190) + topic tiles (192): 48 top, h1, 12, lead-in, 40, tiles, 56 */
+body.concept main > .section.intro {
+  padding: 48px 0 56px;
+}
+
+body.concept main > .section.intro .default-content-wrapper h1 {
+  margin: 0 0 12px;
+}
+
+body.concept main > .section.intro .default-content-wrapper p {
+  margin: 0 0 40px;
+  font-size: 22px;
+  line-height: 32px;
+}
+
+body.concept main > .section.intro > div + div {
+  margin-top: 0;
+}
+
+/* Why vaccines matter (400): 24 top, 64 bottom */
+body.concept main > .section.columns-media-container {
+  padding: 24px 0 64px;
+}
+
+/* Maya's story (332): 56 top and bottom */
+body.concept main > .section.columns-media-container:has(.columns-media.narrow) {
+  padding: 56px 0;
+}
+
+/* Vaccines by age (693) and More resources (509): light-blue band, 56 / 56 */
+body.concept main > .section.accent {
+  padding: 56px 0;
+  background-color: var(--accent-color);
+}
+
+/* More resources has no lead-in: heading, 16 + 8, cards */
+body.concept main > .section:has(.cards-content.three-up) > div + div {
+  margin-top: 24px;
+}
+
+/* Helping your child through shots (501): 24 top, 64 bottom */
+body.concept main > .section.columns-do-dont-container {
+  padding: 24px 0 64px;
+}
+
+@media (width < 900px) {
+  :where(body.concept main) h1 {
+    font-size: 36px;
+    line-height: 44px;
+  }
+
+  :where(body.concept main) h2 {
+    font-size: 26px;
+    line-height: 34px;
+  }
+
+  body.concept main > .section.intro {
+    padding: 32px 0 40px;
+  }
+
+  body.concept main > .section.intro .default-content-wrapper p {
+    margin-bottom: 24px;
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  body.concept main > .section:is(.columns-media-container, .accent, .columns-do-dont-container),
+  body.concept main > .section.columns-media-container:has(.columns-media.narrow) {
+    padding: 40px 0;
+  }
+}

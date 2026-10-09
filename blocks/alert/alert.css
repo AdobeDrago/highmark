@@ -1,0 +1,94 @@
+/* Block: alert — full-bleed in-page warning band with icon, heading, copy and
+   an outline pill CTA. From Figma "Alert — serious reaction": #fff4e5 band,
+   #c25e00 rule, 40px vertical padding, 48px icon, 28px icon gap, 14px copy
+   gap, heading 26px/36px. (Unlike alert-banner, this stays in the page and
+   can't be dismissed.) */
+
+main > .section.alert-container {
+  margin: 0;
+}
+
+main > .section > .alert-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+.alert {
+  --alert-bg: #fff4e5;
+  --alert-accent: #c25e00;
+
+  border-top: 3px solid var(--alert-accent);
+  border-bottom: 1px solid var(--alert-accent);
+  background-color: var(--alert-bg);
+}
+
+.alert > div {
+  display: flex;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.alert-icon {
+  flex: 0 0 40px;
+}
+
+.alert-icon img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.alert-body > * {
+  margin: 0 0 14px;
+}
+
+.alert-body > :last-child {
+  margin-bottom: 0;
+}
+
+.alert-body h2 {
+  font-size: 26px;
+  line-height: 36px;
+}
+
+.alert-body p {
+  font-size: 17px;
+  line-height: 28px;
+  color: var(--text-body-color);
+}
+
+/* the CTA's line is exactly the 47px pill, with no inline baseline gap */
+.alert-body p.button-container {
+  display: flex;
+}
+
+.alert a.button:any-link {
+  margin: 0;
+  padding: 12px 28px;
+  border: 2px solid var(--link-color);
+  border-radius: 24px;
+  background-color: transparent;
+  font-size: 14px;
+  line-height: 19px;
+  letter-spacing: 0.7px;
+  color: var(--link-color);
+}
+
+.alert a.button:hover,
+.alert a.button:focus {
+  background-color: var(--link-color);
+  color: #fff;
+}
+
+@media (width >= 900px) {
+  .alert > div {
+    gap: 28px;
+    padding: 40px 32px;
+  }
+
+  .alert-icon {
+    flex-basis: 48px;
+  }
+}

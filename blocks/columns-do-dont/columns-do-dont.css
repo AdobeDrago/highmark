@@ -1,0 +1,106 @@
+/* Block: columns-do-dont — side-by-side "Do" / "Don't" boxes with green check
+   and red cross bullets. From Figma "Do / Don't": 1px border with a 4px top
+   rule in the accent color, 8px radius, 28px padding, 14px gaps, 22px icons
+   with a 12px gap, heading 24px/33px, items 17px/28px. */
+
+.columns-do-dont {
+  --dd-do-color: #2e7d32;
+  --dd-dont-color: #b3261e;
+  --dd-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E");
+  --dd-cross: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z'/%3E%3C/svg%3E");
+}
+
+.columns-do-dont > div {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.columns-do-dont > div > div {
+  --dd-accent: var(--dd-do-color);
+  --dd-icon: var(--dd-check);
+
+  flex: 1;
+  padding: 28px;
+  border: 1px solid var(--dd-accent);
+  border-top-width: 4px;
+  border-radius: 8px;
+  background-color: var(--background-color);
+}
+
+.columns-do-dont > div > .columns-do-dont-dont {
+  --dd-accent: var(--dd-dont-color);
+  --dd-icon: var(--dd-cross);
+}
+
+.columns-do-dont h3 {
+  margin: 0 0 14px;
+  font-size: 24px;
+  line-height: 33px;
+}
+
+.columns-do-dont ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.columns-do-dont li {
+  position: relative;
+  margin: 0 0 14px;
+  padding-left: 34px;
+  font-size: 17px;
+  line-height: 28px;
+  color: var(--text-body-color);
+}
+
+.columns-do-dont li::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 0;
+  width: 22px;
+  height: 22px;
+  background-color: var(--dd-accent);
+  mask: var(--dd-icon) center / contain no-repeat;
+}
+
+.columns-do-dont p {
+  margin: 0;
+}
+
+/* CTA is a plain uppercase text link, not the bordered button; its line is
+   exactly the link's 19px */
+.columns-do-dont p.button-container {
+  display: flex;
+}
+
+.columns-do-dont a.button:any-link {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  font-size: 14px;
+  line-height: 19px;
+  letter-spacing: 0.56px;
+  color: var(--link-color);
+}
+
+.columns-do-dont a.button::after {
+  content: '\203A';
+  margin-left: 8px;
+}
+
+.columns-do-dont a.button:hover,
+.columns-do-dont a.button:focus {
+  background: none;
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+@media (width >= 900px) {
+  .columns-do-dont > div {
+    flex-direction: row;
+  }
+}
