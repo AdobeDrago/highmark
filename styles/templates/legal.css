@@ -349,6 +349,10 @@ body.legal main :is(.default-content-wrapper, .columns) sup {
   vertical-align: baseline;
 }
 
+body.legal main .default-content-wrapper:has(h2#app-developers-api-support) p:not(.button-container) {
+    margin-bottom: 24px;
+}
+
 @media (width >= 768px) {
   body.legal main .section:not(.on-this-page) :is(.default-content-wrapper, .columns) ol > li {
     font-size: 15px;
@@ -399,11 +403,15 @@ body.legal main :is(.default-content-wrapper, .columns) sup {
   body.legal main .default-content-wrapper:has(h2#app-developers-api-support) {
     margin: 30px 64px;
     padding-top: 20px;
-    padding-bottom: 40px;
+    padding-bottom: 20px;
   }
 
   body.legal main .default-content-wrapper:has(h2#app-developers-api-support) p {
     padding: 0 60px 20px;
+  }
+
+  body.legal main .default-content-wrapper:has(h2#app-developers-api-support) p:not(.button-container) {
+    margin-bottom: 16px;
   }
 }
 
@@ -434,7 +442,7 @@ body.legal main :is(.default-content-wrapper, .columns) sup {
     margin: 30px auto;
     text-align: center;
     padding-top: 40px;
-    padding-bottom: 50px;
+    padding-bottom: 40px;
   }
 
   body.legal main .default-content-wrapper:has(h2#app-developers-api-support) p{
