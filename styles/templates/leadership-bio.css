@@ -1,0 +1,377 @@
+/* Template "leadership-bio" (page metadata template=leadership-bio -> body.leadership-bio).
+   Loaded by scripts/scripts.js (TEMPLATE_STYLES) before the first section renders.
+
+   Values extracted (getComputedStyle) from the 16 bios under
+   https://www.highmark.com/about/our-story/leadership-team-board/ (EdwardShellard,
+   gustavo-giraldo, david-holmberg) at 390 / 768 / 992 / 1440. Source breakpoints: 768
+   (photo beside the header) and 992 (desktop container).
+
+   Authored structure: one section = a columns-minimal-dark row [ photo | name (h1) +
+   job title + one link per paragraph: LinkedIn, Request Interview, View as a PDF ],
+   then the biography as default content (paragraphs, bold run-ins, lists, press links,
+   "Back to Leadership page").
+
+   Source layout: the content column is full width with 30px (< 768) / 64px (768-991)
+   side padding; from 992 it is 8/12 of min(1200px, 100% - 166px), centred (x 320 /
+   800 wide at 1440). The photo is shown at its natural size with 20px padding right and
+   bottom beside a 70%-wide header, and only shrinks when both don't fit; below 768 it
+   fills the column with the header under it.
+
+   Every rule targets a distinct element of this one template, so the specificity
+   ordering lint is off (same convention as the other templates). */
+
+/* stylelint-disable no-descending-specificity */
+
+/* ------------------------------------------------------------------
+ * Section + content column
+ * ------------------------------------------------------------------ */
+body.leadership-bio main > .section {
+  margin: 0 0 40px;
+  padding: 0;
+}
+
+body.leadership-bio main > .section > div {
+  box-sizing: border-box;
+  max-width: none;
+  margin: 0;
+  padding: 0 30px;
+}
+
+@media (width >= 768px) {
+  body.leadership-bio main > .section {
+    margin-bottom: 60px;
+  }
+
+  body.leadership-bio main > .section > div {
+    padding: 0 64px;
+  }
+}
+
+@media (width >= 992px) {
+  body.leadership-bio main > .section > div {
+    width: calc(min(1200px, 100% - 166px) * 8 / 12);
+    margin: 0 auto;
+    padding: 0;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * Bio header: columns-minimal-dark [ photo | name, title, links ]
+ * ------------------------------------------------------------------ */
+body.leadership-bio main .columns-minimal-dark > div {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+
+body.leadership-bio main .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+  flex: none;
+  padding: 0 0 20px;
+}
+
+body.leadership-bio main .columns-minimal-dark img {
+  width: 100%;
+  height: auto;
+}
+
+body.leadership-bio main .columns-minimal-dark > div > div:not(.columns-minimal-dark-img-col) {
+  padding: 20px 0;
+}
+
+@media (width >= 768px) {
+  body.leadership-bio main .columns-minimal-dark > div {
+    flex-direction: row;
+    align-items: flex-start;
+    padding-bottom: 20px;
+  }
+
+  /* natural size, shrinking with the header when both don't fit */
+  body.leadership-bio main .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    flex: 0 1 auto;
+    min-width: 0;
+    padding: 0 20px 20px 0;
+  }
+
+  body.leadership-bio main .columns-minimal-dark img {
+    width: auto;
+    max-width: 100%;
+  }
+
+  body.leadership-bio main .columns-minimal-dark > div > div:not(.columns-minimal-dark-img-col) {
+    flex: 0 1 70%;
+    min-width: 0;
+    padding: 0 0 25px;
+  }
+}
+
+body.leadership-bio main .columns-minimal-dark h1 {
+  margin: 0 0 8px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 28.8px;
+  letter-spacing: normal;
+}
+
+/* job title (the first paragraph after the name) */
+body.leadership-bio main .columns-minimal-dark h1 + p {
+  margin: 0 0 12.8px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+@media (width >= 768px) {
+  body.leadership-bio main .columns-minimal-dark h1 + p {
+    margin-bottom: 16px;
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.leadership-bio main .columns-minimal-dark h1 + p {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+}
+
+/* header links: one per line, uppercase blue text with a 20px icon before the label */
+body.leadership-bio main .columns-minimal-dark p.button-container {
+  margin: 0 0 16px;
+  line-height: 20px;
+}
+
+body.leadership-bio main .columns-minimal-dark a.button:any-link {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 0 0 0 30px;
+  background: none;
+  color: #0066b1;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: normal;
+  text-align: left;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: normal;
+  min-height: 21.8px; /* source link box: 20px line + the icon's baseline offset */
+}
+
+body.leadership-bio main .columns-minimal-dark a.button:hover,
+body.leadership-bio main .columns-minimal-dark a.button:focus {
+  background: none;
+  color: #0066b1;
+  text-decoration: underline;
+}
+
+body.leadership-bio main .columns-minimal-dark a.button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  background-color: currentcolor;
+  mask: var(--bio-icon) no-repeat center / contain;
+}
+
+/* Material "account_circle" */
+body.leadership-bio main .columns-minimal-dark a.button[href*="/modals/request-interview"] {
+  --bio-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm0 14c-2.03 0-4.43-.82-6.14-2.88C7.55 15.8 9.68 15 12 15s4.45.8 6.14 2.12C16.43 19.18 14.03 20 12 20z'/%3E%3C/svg%3E");
+}
+
+/* Material "picture_as_pdf" */
+body.leadership-bio main .columns-minimal-dark a.button[href$=".pdf"] {
+  --bio-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3H19v1h1.5V11H19v2h-1.5V7h3v1.5zM9 9.5h1v-1H9v1zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm10 5.5h1v-3h-1v3z'/%3E%3C/svg%3E");
+}
+
+/* LinkedIn: the source shows only the Font Awesome glyph (18x20), indented 4px; the
+   label stays for screen readers (same mask as leadership.css) */
+body.leadership-bio main .columns-minimal-dark p.button-container:has(a[href*="linkedin.com"]) {
+  margin-left: 4px;
+}
+
+body.leadership-bio main .columns-minimal-dark a.button[href*="linkedin.com"]:any-link {
+  --bio-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 32 448 448'%3E%3Cpath d='M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-19 30.6-39.2 63-39.2 67.2 0 79.7 44.3 79.7 101.9V416z'/%3E%3C/svg%3E");
+
+  display: block;
+  width: 18px;
+  height: 21.8px;
+  min-height: 0;
+  overflow: hidden;
+  padding: 0;
+  text-indent: 100%;
+  white-space: nowrap;
+}
+
+body.leadership-bio main .columns-minimal-dark a.button[href*="linkedin.com"]::before {
+  width: 18px;
+}
+
+/* ------------------------------------------------------------------
+ * Biography (default content)
+ * ------------------------------------------------------------------ */
+body.leadership-bio main .default-content-wrapper p {
+  margin: 0 0 12.8px;
+  color: var(--text-body-color);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+body.leadership-bio main .default-content-wrapper :is(b, strong) {
+  font-weight: 700;
+}
+
+/* source: ul margin-left 20px + padding 12px, li margin-left 18px (text 50px in) */
+body.leadership-bio main .default-content-wrapper ul {
+  margin: 0 0 16px 20px;
+  padding-left: 12px;
+  list-style: disc;
+}
+
+body.leadership-bio main .default-content-wrapper li {
+  margin: 0 0 5px 18px;
+  color: var(--text-body-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+}
+
+body.leadership-bio main .default-content-wrapper a:any-link {
+  color: #0078c1;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+body.leadership-bio main .default-content-wrapper a:hover {
+  text-decoration: underline;
+}
+
+/* a link alone in a paragraph is a plain link here, not a button */
+body.leadership-bio main .default-content-wrapper p.button-container {
+  display: block;
+}
+
+body.leadership-bio main .default-content-wrapper a.button:any-link {
+  display: inline;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: none;
+  color: #0078c1;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  text-transform: none;
+  white-space: normal;
+}
+
+/* "Back to Leadership page" */
+body.leadership-bio main .default-content-wrapper p:has(> a[href="/about/our-story/leadership-team-board"]:only-child) {
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 25.2px;
+}
+
+body.leadership-bio main .default-content-wrapper a[href="/about/our-story/leadership-team-board"] {
+  font-weight: 700;
+}
+
+@media (width >= 768px) {
+  body.leadership-bio main .default-content-wrapper p {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.leadership-bio main .default-content-wrapper p:has(> a[href="/about/our-story/leadership-team-board"]:only-child) {
+    line-height: 23.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.leadership-bio main .default-content-wrapper p {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  body.leadership-bio main .default-content-wrapper p:has(> a[href="/about/our-story/leadership-team-board"]:only-child) {
+    font-size: 18px;
+    line-height: 27px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * "Request Interview" popup (/modals/request-interview: h2 + columns of contacts)
+ * ------------------------------------------------------------------ */
+body.leadership-bio .modal dialog {
+  max-width: 600px;
+}
+
+body.leadership-bio .modal h2 {
+  margin: 0 0 24px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 28.8px;
+}
+
+body.leadership-bio .modal .columns > div {
+  gap: 24px;
+}
+
+body.leadership-bio .modal .columns p {
+  margin: 0;
+  color: var(--text-body-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+body.leadership-bio .modal .columns p:first-child {
+  font-weight: 700;
+}
+
+/* the email links sit alone in their paragraphs: plain links, not buttons */
+body.leadership-bio .modal .columns p.button-container {
+  margin: 0;
+}
+
+body.leadership-bio .modal .columns a:any-link {
+  display: inline;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: none;
+  color: #0078c1;
+  font: inherit;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-decoration: none;
+  text-transform: none;
+}
+
+body.leadership-bio .modal .columns a:hover {
+  text-decoration: underline;
+}

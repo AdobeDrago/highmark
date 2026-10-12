@@ -45,6 +45,14 @@ const FORCE = {
   '/shop': '/shop/', // a folder's index page is only served with the trailing slash
   '/shop/beta/home': '/shop/', // a copy of the old shop home whose links don't work here (2026-10-05)
   '/providers': '/providers/', // the provider pages' home (DA /providers/index)
+  // Leadership bios whose highmark.com URLs aren't valid EDS paths (mixed case, trailing
+  // hyphen): served here at the lowercase path (2026-10-12).
+  ...Object.fromEntries([
+    'EdwardShellard', 'JaySheehy', 'JessicaCox', 'JoeHaddock', 'Timothy-Vessel', 'VictorFields', 'kate-musler-',
+  ].map((name) => [
+    `/about/our-story/leadership-team-board/${name}`,
+    `/about/our-story/leadership-team-board/${name.toLowerCase().replace(/-+$/, '')}`,
+  ])),
 };
 
 function readToken() {
