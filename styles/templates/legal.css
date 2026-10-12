@@ -38,6 +38,14 @@ body.legal main :is(.default-content-wrapper, .columns) h2 {
   letter-spacing: -0.72px;
 }
 
+body.legal main .default-content-wrapper:has(h2#app-developers-api-support) {
+  background-color: #fef0ec;
+  margin: 30px 30px;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
 body.legal main :is(.default-content-wrapper, .columns) h3 {
   padding: 16px 0;
   font-size: 22px;
@@ -186,7 +194,7 @@ body.legal main :is(.default-content-wrapper, .columns) p.button-container:has(>
 
 body.legal main :is(.default-content-wrapper, .columns) a.button.secondary:any-link {
   display: inline-block;
-  margin: 0;
+  margin: 20px 0 0;
   padding: 0;
   border: none;
   border-radius: 0;
@@ -387,6 +395,16 @@ body.legal main :is(.default-content-wrapper, .columns) sup {
   body.legal main > .section > div {
     padding: 0 64px;
   }
+
+  body.legal main .default-content-wrapper:has(h2#app-developers-api-support) {
+    margin: 30px 64px;
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
+
+  body.legal main .default-content-wrapper:has(h2#app-developers-api-support) p {
+    padding: 0 60px 20px;
+  }
 }
 
 @media (width >= 992px) {
@@ -410,6 +428,17 @@ body.legal main :is(.default-content-wrapper, .columns) sup {
     max-width: 627px;
     margin: 0 0 0 calc(25% + 6px);
     padding: 0;
+  }
+
+  body.legal main .default-content-wrapper:has(h2#app-developers-api-support) {
+    margin: 30px auto;
+    text-align: center;
+    padding-top: 40px;
+    padding-bottom: 50px;
+  }
+
+  body.legal main .default-content-wrapper:has(h2#app-developers-api-support) p{
+    padding: 0 110px 20px;
   }
 }
 
