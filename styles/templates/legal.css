@@ -69,6 +69,10 @@ body.legal main :is(.default-content-wrapper, .columns) :is(p, li, h5) a:any-lin
   color: #0078c1;
 }
 
+body.legal main :is(.default-content-wrapper, .columns) :is(p, li, h5) a:any-link:not(.button):hover {
+  color: #0056b3;
+}
+
 @media (width >= 768px) {
   body.legal main :is(.default-content-wrapper, .columns) h1 {
     padding: 28.8px 0;
