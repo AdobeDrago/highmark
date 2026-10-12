@@ -316,6 +316,11 @@ body.legal main .section.inside-bullets :is(.default-content-wrapper, .columns) 
   margin-left: 18px;
 }
 
+body.legal main .section.inside-bullets .default-content-wrapper
+  :is(ul + p + p, ul + p + p + p + p + p) {
+  margin-left: 40px;
+}
+
 /* a list with nested lists comes out "loose": the pipeline wraps each item's text in a <p> */
 body.legal main :is(.default-content-wrapper, .columns) li > p {
   margin: 0;
