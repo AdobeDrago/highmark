@@ -328,7 +328,7 @@ body.legal main .section.inside-bullets :is(.default-content-wrapper, .columns) 
   margin-left: 18px;
 }
 
-body.legal main .section.inside-bullets .default-content-wrapper
+body.legal main .section.inside-bullets .default-content-wrapper:has(#non-discrimination-policy)
   :is(ul + p + p, ul + p + p + p + p + p) {
   margin-left: 40px;
 }
