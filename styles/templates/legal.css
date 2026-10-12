@@ -40,7 +40,7 @@ body.legal main :is(.default-content-wrapper, .columns) h2 {
 
 body.legal main .default-content-wrapper:has(h2#app-developers-api-support) {
   background-color: #fef0ec;
-  margin: 30px 30px;
+  margin: 30px;
   text-align: center;
   padding-top: 20px;
   padding-bottom: 20px;
