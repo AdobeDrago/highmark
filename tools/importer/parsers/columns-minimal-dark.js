@@ -15,7 +15,67 @@
  * Also verified (no code change) on https://www.highmark.com/plans/individual-families
  * section 7 (.side-card-panel, incl. the state/date bullet list).
  */
+/**
+ * Leadership bio header (https://www.highmark.com/about/our-story/leadership-team-board/*,
+ * section.flex-container): one row, two columns [ photo | name (h1) + job title + one
+ * link per paragraph ], as the source shows them side by side.
+ * Links: LinkedIn (icon-only on the source, so it gets a text label), "Request Interview"
+ * -> /modals/request-interview only on bios whose source page has the interview popup
+ * (#bio-modal opens .biomodal-content there; elsewhere the link is a dead "#"), and
+ * "View as a PDF". Broken LinkedIn hrefs ("#", empty, not http) are dropped and stray
+ * encoded spaces trimmed.
+ */
+function parseBio(element, document) {
+  const img = element.querySelector('.div-bio-images img, img');
+  const header = element.querySelector('.div-bio-header') || element;
+  const name = header.querySelector('h1, h2, h3, h4');
+  const title = header.querySelector('p');
+  const hasPopup = !!document.querySelector('.biomodal-content');
+
+  const content = [];
+  if (name) {
+    const h1 = document.createElement('h1');
+    h1.textContent = name.textContent.replace(/\s+/g, ' ').trim();
+    content.push(h1);
+  }
+  if (title) {
+    const p = document.createElement('p');
+    p.textContent = title.textContent.replace(/\s+/g, ' ').trim();
+    content.push(p);
+  }
+  const linkPara = (href, text) => {
+    const p = document.createElement('p');
+    const a = document.createElement('a');
+    a.href = href;
+    a.textContent = text;
+    p.append(a);
+    return p;
+  };
+  header.querySelectorAll('a').forEach((a) => {
+    const raw = (a.getAttribute('href') || '').trim();
+    const href = raw.replace(/(%20|\s)+$/i, '');
+    const label = a.textContent.replace(/\s+/g, ' ').trim();
+    if (/linkedin\.com/i.test(href)) {
+      if (/^https?:\/\//i.test(href)) content.push(linkPara(href, 'LinkedIn'));
+    } else if (a.id === 'bio-modal' || /request interview/i.test(label)) {
+      if (hasPopup) content.push(linkPara('/modals/request-interview', 'Request Interview'));
+    } else if (/\.pdf$/i.test(href)) {
+      content.push(linkPara(href, 'View as a PDF'));
+    } else if (href && href !== '#') {
+      content.push(linkPara(href, label || href));
+    }
+  });
+
+  const cells = [[img ? [img] : '', content]];
+  element.replaceWith(WebImporter.Blocks.createBlock(document, { name: 'columns-minimal-dark', cells }));
+}
+
 export default function parse(element, { document }) {
+  if (element.matches('section.flex-container') && element.querySelector('.div-bio-header')) {
+    parseBio(element, document);
+    return;
+  }
+
   const textArea = element.querySelector('.text-area') || element;
   const imageArea = element.querySelector('.image-area') || element;
 
