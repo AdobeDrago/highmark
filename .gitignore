@@ -13,3 +13,7 @@ migration-work/footer-validation/
 .env
 /import-work/
 /drafts/
+
+# provider import working files and test screenshots
+/tools/provider-import/work/
+/tools/tests/shots/

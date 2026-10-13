@@ -178,7 +178,7 @@ Tracks every page of [providers.highmark.com](https://providers.highmark.com/) (
 |------|------|-------|------|
 | Done | The home page and the top-level landing pages | 9 | 9/9 |
 | P1 | Mega-menu items (every page, one click in) | 85 | 85/85 |
-| P2 | Pages our live provider pages link to (not in the menu) | 18 | 0/18 |
+| P2 | Pages our live provider pages link to (not in the menu) | 18 | 18/18 |
 | P3 | The rest of each section | 86 | 0/86 |
 | P4 | Communications Hub articles and archive lists | 219 | 0/219 |
 | Source | Stay on providers.highmark.com (Availity login, forms, search) | 47 | n/a |
@@ -319,26 +319,26 @@ In menu order.
 - [x] `/providers/communications-hub/medical-policy-update` (Medical Policy Update) `article-listing` **Live**
 - [x] `/providers/communications-hub/news-archive` (News Archive) `landing` **Live**
 
-### P2: linked from our live provider pages (0/18)
+### P2: linked from our live provider pages (18/18)
 
-- [ ] `/providers/communications-hub/news-and-updates/2027-bestpractice-program-changes` (2027 BestPractice Program Changes) `article` **Preview only** 2026-09-25; WNY; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/accessibility-expectations-ensuring-timely-access-to-care` (Accessibility Expectations: Ensuring Timely Access to Care) `article` **Preview only** 2026-10-06; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/cms-requires-use-of-electronic-claim-attachments-by-2028` (CMS Requires Use of Electronic Claim Attachments by 2028) `article` **Preview only** 2026-09-23; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/delaware-providers-new-credentialing-portal-launches-oct-5` (Delaware Providers: New Credentialing Portal Launches Oct. 5) `article` **Preview only** 2026-09-24; DE; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/evolent-to-manage-medical-and-radiation-oncology-authorizations` (Evolent to Manage Medical and Radiation Oncology Authorizations) `article` **Preview only** 2026-09-23; linked from `/providers/`, `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/guidance-on-new-coding-and-billing-model-for-maternity-care` (Guidance on New Coding and Billing Model for Maternity Care) `article` **Preview only** 2026-09-28; linked from `/providers/`, `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/karen-hanlon-named-chief-executive-officer-and-president` (Karen Hanlon Named Chief Executive Officer and President of Highmark Health) `article` **Preview only** 2026-10-06; linked from `/providers/`, `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/medical-injectable-drug-program-changes-in-the-new-year-de-pa-wv` (Medical Injectable Drug Program Changes in the New Year) `article` **Preview only** 2026-09-24; WPA/NEPA, CPA/SEPA, DE, WV; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/medical-injectable-drug-program-changes-in-the-new-year-ny` (Medical Injectable Drug Program Changes in the New Year) `article` **Preview only** 2026-09-24; WNY, NENY; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/new-and-updated-reimbursement-policies-september-2026` (New and Updated Reimbursement Policies – September 2026) `article` **Preview only** 2026-09-28; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/support-program-update-some-beneficial-changes-for-prescribers` (SUPPORT Program Update: Some Beneficial Changes for Prescribers) `article` **Preview only** 2026-09-22; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/upcoming-changes-for-highmark-condition-management-programs` (Upcoming Changes for Highmark Condition Management Programs) `article` **Preview only** 2026-09-23; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/valueblue-base-rates-set-for-2027` (ValueBlue Base Rates Set for 2027) `article` **Preview only** 2026-09-25; NENY; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/provider-news/august-2026-newsletter` (August 2026 Newsletter) `article` **Preview only** 2026-08-31; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/provider-news/july-2026-newsletter` (July 2026 Newsletter) `article` **Preview only** 2026-07-27; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/provider-news/september-2026-newsletter` (September 2026 Newsletter) `article` **Preview only** 2026-09-28; linked from `/providers/communications-hub`
-- [ ] `/providers/resources-and-education/highmark-provider-manual/chapter-1-general-information/unit-2-online-resources-and-contact-information` (Unit 2: Online Resources and Contact Information) `manual` **Preview only** linked from `/providers/contact-us`; table
-- [ ] `/providers/resources-and-education/highmark-provider-manual/chapter-6-billing-and-payment/unit-8-payment-review` (Unit 8: Payment Review) `manual` **Preview only** linked from `/providers/claims`
+- [x] `/providers/communications-hub/news-and-updates/2027-bestpractice-program-changes` (2027 BestPractice Program Changes) `article` **Live** 2026-09-25; WNY; linked from `/providers/communications-hub`
+- [x] `/providers/communications-hub/news-and-updates/accessibility-expectations-ensuring-timely-access-to-care` (Accessibility Expectations: Ensuring Timely Access to Care) `article` **Live** 2026-10-06; linked from `/providers/communications-hub`
+- [x] `/providers/communications-hub/news-and-updates/cms-requires-use-of-electronic-claim-attachments-by-2028` (CMS Requires Use of Electronic Claim Attachments by 2028) `article` **Live** 2026-09-23; linked from `/providers/communications-hub`
+- [x] `/providers/communications-hub/news-and-updates/delaware-providers-new-credentialing-portal-launches-oct-5` (Delaware Providers: New Credentialing Portal Launches Oct. 5) `article` **Live** 2026-09-24; DE; linked from `/providers/communications-hub`
+- [x] `/providers/communications-hub/news-and-updates/evolent-to-manage-medical-and-radiation-oncology-authorizations` (Evolent to Manage Medical and Radiation Oncology Authorizations) `article` **Live** 2026-09-23; linked from `/providers/`, `/providers/communications-hub`
+- [x] `/providers/communications-hub/news-and-updates/guidance-on-new-coding-and-billing-model-for-maternity-care` (Guidance on New Coding and Billing Model for Maternity Care) `article` **Live** 2026-09-28; linked from `/providers/`, `/providers/communications-hub`
+- [x] `/providers/communications-hub/news-and-updates/karen-hanlon-named-chief-executive-officer-and-president` (Karen Hanlon Named Chief Executive Officer and President of Highmark Health) `article` **Live** 2026-10-06; linked from `/providers/`, `/providers/communications-hub`
+- [x] `/providers/communications-hub/news-and-updates/medical-injectable-drug-program-changes-in-the-new-year-de-pa-wv` (Medical Injectable Drug Program Changes in the New Year) `article` **Live** 2026-09-24; WPA/NEPA, CPA/SEPA, DE, WV; linked from `/providers/communications-hub`
+- [x] `/providers/communications-hub/news-and-updates/medical-injectable-drug-program-changes-in-the-new-year-ny` (Medical Injectable Drug Program Changes in the New Year) `article` **Live** 2026-09-24; WNY, NENY; linked from `/providers/communications-hub`
+- [x] `/providers/communications-hub/news-and-updates/new-and-updated-reimbursement-policies-september-2026` (New and Updated Reimbursement Policies – September 2026) `article` **Live** 2026-09-28; linked from `/providers/communications-hub`
+- [x] `/providers/communications-hub/news-and-updates/support-program-update-some-beneficial-changes-for-prescribers` (SUPPORT Program Update: Some Beneficial Changes for Prescribers) `article` **Live** 2026-09-22; linked from `/providers/communications-hub`
+- [x] `/providers/communications-hub/news-and-updates/upcoming-changes-for-highmark-condition-management-programs` (Upcoming Changes for Highmark Condition Management Programs) `article` **Live** 2026-09-23; linked from `/providers/communications-hub`
+- [x] `/providers/communications-hub/news-and-updates/valueblue-base-rates-set-for-2027` (ValueBlue Base Rates Set for 2027) `article` **Live** 2026-09-25; NENY; linked from `/providers/communications-hub`
+- [x] `/providers/communications-hub/provider-news/august-2026-newsletter` (August 2026 Newsletter) `article` **Live** 2026-08-31; linked from `/providers/communications-hub`
+- [x] `/providers/communications-hub/provider-news/july-2026-newsletter` (July 2026 Newsletter) `article` **Live** 2026-07-27; linked from `/providers/communications-hub`
+- [x] `/providers/communications-hub/provider-news/september-2026-newsletter` (September 2026 Newsletter) `article` **Live** 2026-09-28; linked from `/providers/communications-hub`
+- [x] `/providers/resources-and-education/highmark-provider-manual/chapter-1-general-information/unit-2-online-resources-and-contact-information` (Unit 2: Online Resources and Contact Information) `manual` **Live** linked from `/providers/contact-us`; table
+- [x] `/providers/resources-and-education/highmark-provider-manual/chapter-6-billing-and-payment/unit-8-payment-review` (Unit 8: Payment Review) `manual` **Live** linked from `/providers/claims`
 
 ### P3: the rest of each section (0/86)
 
