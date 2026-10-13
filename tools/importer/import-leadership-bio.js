@@ -152,8 +152,15 @@ export default {
 
     // The bio header's LinkedIn link is an icon only; give it a label so the shared
     // cleanup (highmark-template-sections.js drops label-less a.textButton) keeps it.
-    main.querySelectorAll('.div-bio-header a[href*="linkedin.com"]').forEach((a) => {
-      if (!a.textContent.trim()) a.textContent = 'LinkedIn';
+    // The importer has already dropped the empty <i class="fab fa-linkedin">, so it is the
+    // header's only link without text, other than Request Interview and the PDF. That also
+    // covers the two whose href is not a LinkedIn URL (Timothy-Vessel, JessicaCox).
+    main.querySelectorAll('.div-bio-header a').forEach((a) => {
+      const href = a.getAttribute('href') || '';
+      const linkedIn = /linkedin\.com/i.test(href)
+        || (!a.textContent.trim() && !a.querySelector('img, picture') && a.id !== 'bio-modal'
+          && !/\.pdf$/i.test(href));
+      if (linkedIn && !a.textContent.trim()) a.textContent = 'LinkedIn';
     });
 
     // 1. beforeTransform (cleanup + section breaks)
