@@ -177,7 +177,7 @@ Tracks every page of [providers.highmark.com](https://providers.highmark.com/) (
 | Tier | What | Pages | Live |
 |------|------|-------|------|
 | Done | The home page and the top-level landing pages | 9 | 9/9 |
-| P1 | Mega-menu items (every page, one click in) | 87 | 80/87 |
+| P1 | Mega-menu items (every page, one click in) | 87 | 85/87 |
 | P2 | Pages our live provider pages link to (not in the menu) | 18 | 0/18 |
 | P3 | The rest of each section | 86 | 0/86 |
 | P4 | Communications Hub articles and archive lists | 219 | 0/219 |
@@ -212,7 +212,7 @@ A region list after a page (e.g. "WNY") means the source shows it only for those
 - [x] `/providers/provider-network` (Provider Network) `landing` **Live**
 - [x] `/providers/resources-and-education` (Resources and Education) `landing` **Live**
 
-### P1: mega-menu items (80/87)
+### P1: mega-menu items (85/87)
 
 In menu order.
 
@@ -231,7 +231,7 @@ In menu order.
 - [x] `/providers/claims/value-based-reimbursement-programs-overview/best-practice` (BestPractice) `content` **Live** WNY; regional text
 - [x] `/providers/claims/reimbursement-resources` (Reimbursement Resources) `landing` **Live**
 - [x] `/providers/claims/reimbursement-resources/electronic-claims-submission-status-and-inquiry` (Electronic Claims) `content` **Live** table, accordion
-- [ ] `/providers/claims/reimbursement-resources/reimbursement-policies` (Reimbursement Policies) `document-list` **Preview only** 74 PDFs
+- [x] `/providers/claims/reimbursement-resources/reimbursement-policies` (Reimbursement Policies) `document-list` **Live** 74 PDFs
 - [x] `/providers/claims/reimbursement-resources/apc-pricing-component-update-calendar` (APC Pricing Component Update Calendar) `content` **Live** table
 - [x] `/providers/claims/reimbursement-resources/guidelines-and-tips` (Guidelines and Tips) `content` **Live** WPA/NEPA, CPA/SEPA, DE, WV; regional text
 - [x] `/providers/claims/reimbursement-resources/hospital-opps-based-payment-method` (Hospital OPPS-Based Payment Method) `content` **Live** regional text
@@ -315,10 +315,10 @@ In menu order.
 
 **Communications Hub**
 
-- [ ] `/providers/communications-hub/formulary-updates` (Formulary Updates) `article-listing` **Preview only**
-- [ ] `/providers/communications-hub/news-and-updates` (News and Updates) `article-listing` **Preview only** 2025-09-29; WNY, NENY
-- [ ] `/providers/communications-hub/provider-news` (Provider News) `article-listing` **Preview only**
-- [ ] `/providers/communications-hub/medical-policy-update` (Medical Policy Update) `article-listing` **Preview only**
+- [x] `/providers/communications-hub/formulary-updates` (Formulary Updates) `article-listing` **Live**
+- [x] `/providers/communications-hub/news-and-updates` (News and Updates) `article-listing` **Live** 2025-09-29; WNY, NENY
+- [x] `/providers/communications-hub/provider-news` (Provider News) `article-listing` **Live**
+- [x] `/providers/communications-hub/medical-policy-update` (Medical Policy Update) `article-listing` **Live**
 - [x] `/providers/communications-hub/news-archive` (News Archive) `landing` **Live**
 
 ### P2: linked from our live provider pages (0/18)

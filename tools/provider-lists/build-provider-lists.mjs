@@ -8,10 +8,14 @@
  *                           /bin/prc/topics (article listings)
  *
  * Columns: Title, Link, Type (Web Page | PDF), Topic, For, Published, Updated, Regions,
- * Description, Gated.
+ * Description, Gated, Source.
  * - Articles link to our /providers path (/providers/x is providers.highmark.com/x), so
  *   /redirects sends them to the source until they are migrated; PDFs link to the source's
  *   file. Published and Updated are ISO dates for articles, the source's M/YYYY for policies.
+ * - An article's path is made a valid page path here (lowercase; anything but a-z, 0-9 and "-"
+ *   becomes "-"): a redirect can't match "24,000", and a migrated page will sit at the valid
+ *   path. Source keeps the article's URL on providers.highmark.com, which
+ *   tools/redirects/build-redirects.mjs uses as the redirect's destination.
  * - Regions holds the badge labels of a region-only item (WPA/NEPA, CPA/SEPA, DE, WV, WNY,
  *   NENY); it is empty for an item every region gets.
  * - Gated is "yes" when the link leads to the Availity login.
@@ -89,6 +93,9 @@ async function feed(url, listPath) {
   return res.json();
 }
 
+/** A source path as a valid page path: lowercase, a-z 0-9 - only. */
+const pagePath = (p) => p.toLowerCase().replace(/[^a-z0-9/-]+/g, '-');
+
 const text = (html) => String(html || '').replace(/<[^>]+>/g, ' ').replace(/&nbsp;|\s+/g, ' ').trim();
 
 function regions(tags) {
@@ -120,6 +127,7 @@ async function documentList(listPath) {
     Regions: '',
     Description: text(item.blogSummary),
     Gated: (await resolve(item.redirectTarget)).gated ? 'yes' : '',
+    Source: '',
   }));
   return rows.sort((a, b) => a.Title.localeCompare(b.Title, 'en', { numeric: true }));
 }
@@ -141,7 +149,7 @@ async function articleList(listPath) {
     const target = pdf ? await resolve(`${SOURCE}${doc.shortId_s}`) : null;
     return {
       Title: text(doc.title),
-      Link: pdf ? target.url : `/providers${doc.shortId_s}`,
+      Link: pdf ? target.url : `/providers${pagePath(doc.shortId_s)}`,
       Type: pdf ? 'PDF' : 'Web Page',
       Topic: doc.topic_s || '',
       For: doc.addressingFor_s || '',
@@ -150,6 +158,7 @@ async function articleList(listPath) {
       Regions: regions(doc.region_ss),
       Description: text(doc.description),
       Gated: target?.gated || doc.ssoToken_s === 'true' ? 'yes' : '',
+      Source: pdf ? '' : `${SOURCE}${doc.shortId_s}`,
     };
   });
 }
