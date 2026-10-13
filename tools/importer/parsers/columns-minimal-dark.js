@@ -20,8 +20,8 @@
  * section.flex-container): one row, two columns [ photo | name (h1) + job title + one
  * link per paragraph ], as the source shows them side by side.
  * Links: LinkedIn (icon-only on the source, so it gets a text label), "Request Interview"
- * -> /modals/request-interview only on bios whose source page has the interview popup
- * (#bio-modal opens .biomodal-content there; elsewhere the link is a dead "#"), and
+ * -> the shared /modals/request-interview popup on every bio (on the source 6 bios have no
+ * popup behind their link, so it is a dead "#"; decided 2026-10-13 to link them all), and
  * "View as a PDF". Broken LinkedIn hrefs ("#", empty, not http) are dropped and stray
  * encoded spaces trimmed.
  */
@@ -30,7 +30,6 @@ function parseBio(element, document) {
   const header = element.querySelector('.div-bio-header') || element;
   const name = header.querySelector('h1, h2, h3, h4');
   const title = header.querySelector('p');
-  const hasPopup = !!document.querySelector('.biomodal-content');
 
   const content = [];
   if (name) {
@@ -58,7 +57,7 @@ function parseBio(element, document) {
     if (/linkedin\.com/i.test(href)) {
       if (/^https?:\/\//i.test(href)) content.push(linkPara(href, 'LinkedIn'));
     } else if (a.id === 'bio-modal' || /request interview/i.test(label)) {
-      if (hasPopup) content.push(linkPara('/modals/request-interview', 'Request Interview'));
+      content.push(linkPara('/modals/request-interview', 'Request Interview'));
     } else if (/\.pdf$/i.test(href)) {
       content.push(linkPara(href, 'View as a PDF'));
     } else if (href && href !== '#') {

@@ -202,6 +202,26 @@ function decorateProviderContent(main) {
 }
 
 /**
+ * Leadership bios (template leadership-bio): paragraphs that get a class by their text,
+ * since authored content can't carry classes. Text -> class.
+ */
+const LEADERSHIP_BIO_CLASSES = {
+  'Controlling drug costs in health care': 'controlling_drug', // matthew-rhenish topic heading
+};
+
+/**
+ * Adds the LEADERSHIP_BIO_CLASSES classes to matching paragraphs of a leadership bio.
+ * @param {Element} main The main element
+ */
+function decorateLeadershipBio(main) {
+  if (!document.body.classList.contains('leadership-bio')) return;
+  main.querySelectorAll('.default-content-wrapper p').forEach((p) => {
+    const cls = LEADERSHIP_BIO_CLASSES[p.textContent.replace(/\s+/g, ' ').trim()];
+    if (cls) p.classList.add(cls);
+  });
+}
+
+/**
  * Loads everything needed to get to LCP.
  * @param {Element} doc The container element
  */
@@ -225,6 +245,7 @@ async function loadEager(doc) {
     decorateMain(main);
     decorateShopHomeLinks(main);
     decorateProviderContent(main);
+    decorateLeadershipBio(main);
     await templateStyles;
     doc.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);
