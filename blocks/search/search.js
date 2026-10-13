@@ -129,7 +129,9 @@ function fields(row) {
  * title, description, URL slug or page text starts with it ("med" finds "Medicare").
  * Best first: the whole query in the title, then every word in the title, then every
  * word in the title, description or slug, then pages whose text is needed for a match.
- * Within the first three groups the earlier the match, the higher; within the last,
+ * Within each group, provider pages (/providers) come after the others: this search is
+ * reached from the corporate header, the provider header searches providers.highmark.com.
+ * Then, within the first three groups the earlier the match, the higher; within the last,
  * the more often the words appear in the text.
  * @param {Object[]} rows index rows
  * @param {string} query
@@ -169,13 +171,15 @@ export function searchIndex(rows, query) {
       } else {
         return null;
       }
+      const provider = /^\/providers(\/|$)/.test(row.path) ? 1 : 0;
       return {
-        row, order, rank, score,
+        row, order, rank, provider, score,
       };
     })
     .filter(Boolean)
     // NaN (two Infinity scores) is falsy, so ties fall through to index order
-    .sort((a, b) => a.rank - b.rank || a.score - b.score || a.order - b.order)
+    .sort((a, b) => a.rank - b.rank || a.provider - b.provider
+      || a.score - b.score || a.order - b.order)
     .map(({ row }) => row);
 }
 

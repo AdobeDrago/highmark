@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Status and working notes for the Highmark AEM Edge Delivery Services project. Updated 2026-10-08.
+Status and working notes for the Highmark AEM Edge Delivery Services project. Updated 2026-10-12.
 
 ## Project
 
@@ -89,7 +89,7 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 ## Redirects (highmark.com fallback)
 
 - `/redirects` (a DA sheet, published) sends every internal link that would 404 to the same page on highmark.com (on providers.highmark.com for `/providers/...`). It also mirrors the source's own redirects: `/about` → `/about/our-story`, `/privacy-center` → `/privacy-center/announcements`, Integrity & Ethics → highmarkhealth.org. 285 rows live as of 2026-10-08 (139 of them for `/providers`).
-- The script reads links from every page in the live query index, plus the fragments in its `FRAGMENTS` list. Blocks load fragments in the browser, so a fragment's links are in no page's HTML; add any new fragment that holds links there. That list includes the six provider side-nav fragments, whose links gave 64 of the 65 rows added on 2026-10-08.
+- The script reads links from every page in the live query index, plus the fragments in its `FRAGMENTS` list. Blocks load fragments in the browser, so a fragment's links are in no page's HTML; add any new fragment that holds links there. That list includes the six provider side-nav fragments, whose links gave 64 of the 65 rows added on 2026-10-08. It also reads the `Link` column of the provider list sheets in its `LISTS` list (the `provider-list` block renders them in the browser); add any new list sheet there.
 - **Redirects take precedence over pages:** a row hides any page published at that path. Don't hand-edit the sheet. After each import batch, run `node tools/redirects/build-redirects.mjs --upload` (it drops rows for paths that now have a DA document), check preview, then publish `/redirects.json`.
 - The sheet is shared, and publishing it publishes whatever is in DA. Before publishing, compare DA (`admin.da.live/source/adobedrago/highmark/redirects.json`) with live, in case another batch's regenerated sheet is waiting there for its pages.
 - Paths with a DA document are never redirected, so an unpublished draft 404s on live until it is published. Drafts that should stay redirected, and retired URLs, go in the script's `FORCE` list. It sends `/shop/home` and `/shop/beta/home` (copies of the old shop home) to `/shop/`, and `/shop` to `/shop/`, because a folder's index page is only served at its trailing-slash URL.
@@ -121,6 +121,8 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
   2. every word in the title;
   3. every word in the title, description or slug;
   4. pages that only match in their text, those mentioning the words most first.
+
+  Within each group, provider pages (`/providers/...`) come after the others (2026-10-12): this search is reached from the corporate header, and the provider header searches providers.highmark.com. Before that, "medicare" listed three provider pages above Learn About Medicare.
 - Size: the search index is about 126 KB compressed for 105 pages, and the header downloads it the first time the box gets focus. At roughly 1.2 KB per page, a full migration (~1,400 pages) would make it about 1.7 MB, so the full site will need a search service rather than this client-side index.
 - `NON_PAGE` in `search.js` also keeps non-page rows out of results, as a safety net when another index is used; add other non-page paths there and to the index excludes.
 
@@ -212,8 +214,16 @@ Started 2026-10-07. The Provider Resource Center is migrated into this site unde
     - the current page in bold, with its own children open.
 
     Other branches have toggles.
+- **Lists** (`blocks/provider-list`, batch 3, 2026-10-12). The source's list pages load their items from feeds (`/bin/prc/blog`, `/bin/prc/topics`); here each list is a DA sheet, `/providers/lists/<list>.json`, which the block renders.
+  - **Sheets.** `tools/provider-lists/build-provider-lists.mjs` snapshots the five P1 lists from the source's feeds (`--upload` uploads and previews them): `reimbursement-policies`, `news-and-updates`, `provider-news`, `medical-policy-update` and `formulary-updates`. Columns: `Title`, `Link`, `Type` (Web Page or PDF), `Topic`, `For`, `Published`, `Updated`, `Regions`, `Description`, `Gated`. The source adds news weekly, so re-run it, publish the sheets, then rebuild and publish `/redirects`.
+  - **Links.** Articles link to our `/providers/...` path, which `/redirects` sends to the source until the article is migrated (decided 2026-10-12). PDFs link to the source's file, not a copy in DA; a PDF behind the Availity login (RP-019A) gets the `:lock:` icon.
+  - **Authoring.** The block's first row links the sheet. An optional `Filters` row lists the filters: `Topics, For, Date Last Updated, Document Type, Sort By` (no Region filter, decided 2026-10-12; the source's "Most Relevant" sort is left out, as there is no search box). The `documents` variant is the document-list layout.
+  - **Article listing** (default): topic, title, region badges, "For: … | Published Date: …" and a two-line description; newest first, 7 at a time ("View More Results"). A region-only item is tinted `#fef0ec`, with navy badges. From 992px the page uses the source's wider container, min(1180px, 100% − 20px): the filters, the title and list, then the "Quick Info" rail. Below 992px a **Filters** toggle folds the filters above the list (the source's phone version is broken), and the rail follows the list.
+  - **Document list** (`documents`): PDF icon and title, "Published Date: M/YYYY | Last Updated Date: M/YYYY" and the audience line; sheet order, 10 at a time ("Load More Results"); the centre half of the usual container, as on the source.
+  - Items published the same day keep the feed's order. The source's own page orders some of them differently.
 - **Content choices.**
-  - The source's news lists (In the Spotlight, Recent News and Updates, ...) are dynamic; here they are static cards as of 2026-10-07, until the articles are migrated and a list block can read them.
+  - The landing pages' news cards (In the Spotlight, Recent News and Updates, ...) are static cards as of 2026-10-07; the list pages above have the full lists.
+  - The Provider News rail's links are `#` on the source; here they go where the other rails' links go (the mailing list, News and Updates, the news archive).
   - Contact Us's two tabs are two sections in a row, so the service-centre cards can link to each (`#highmark-provider-service-centers`, `#highmark-clinical-services`), and "View by region" links to the pipeline's heading ids.
   - Page titles are the source's (the home page's is "Home").
 - **Converter.** Kept in the session scratchpad (`day7/prov`), not in this repo:
@@ -230,7 +240,7 @@ Started 2026-10-07. The Provider Resource Center is migrated into this site unde
 - **Progress.** 89 provider pages are live as of 2026-10-08. See the checklist; P1 is 80/87.
   - 2026-10-07: the first pass, then batch 1 (the 17 P1 landing pages).
   - 2026-10-08: batch 2 (the 63 P1 content and manual pages, with the 6 side-nav fragments), merged as #91 and published. All 63 are in both indexes. They pass at 1280, 1024 and 390, and the 782 links on the provider pages and fragments all resolve.
-  - Not started: batch 3, the 5 list pages, which will use a sheet-driven list block.
+  - 2026-10-12: batch 3 (the 5 P1 list pages, with their 5 sheets) built, in DA and preview, awaiting review. Not published. `/redirects` in DA and preview has 471 rows (live 285): the 5 pages' rows are dropped, and 200 rows send the lists' article links to the source. The regeneration also dropped the rows of the 9 leadership bios now in DA (#94), so publish that sheet only once those bios are live, or restore their rows first.
   - Not built: the region panels on 37 of the batch-2 pages (see the `provider-content` template).
 - **Search.** Provider pages are in the site search (`search-index` has no `/providers/**` exclude, decided 2026-10-07). The provider header's own box searches providers.highmark.com.
 

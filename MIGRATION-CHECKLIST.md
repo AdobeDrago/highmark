@@ -231,7 +231,7 @@ In menu order.
 - [x] `/providers/claims/value-based-reimbursement-programs-overview/best-practice` (BestPractice) `content` **Live** WNY; regional text
 - [x] `/providers/claims/reimbursement-resources` (Reimbursement Resources) `landing` **Live**
 - [x] `/providers/claims/reimbursement-resources/electronic-claims-submission-status-and-inquiry` (Electronic Claims) `content` **Live** table, accordion
-- [ ] `/providers/claims/reimbursement-resources/reimbursement-policies` (Reimbursement Policies) `document-list` **To do** 74 PDFs
+- [ ] `/providers/claims/reimbursement-resources/reimbursement-policies` (Reimbursement Policies) `document-list` **Preview only** 74 PDFs
 - [x] `/providers/claims/reimbursement-resources/apc-pricing-component-update-calendar` (APC Pricing Component Update Calendar) `content` **Live** table
 - [x] `/providers/claims/reimbursement-resources/guidelines-and-tips` (Guidelines and Tips) `content` **Live** WPA/NEPA, CPA/SEPA, DE, WV; regional text
 - [x] `/providers/claims/reimbursement-resources/hospital-opps-based-payment-method` (Hospital OPPS-Based Payment Method) `content` **Live** regional text
@@ -315,10 +315,10 @@ In menu order.
 
 **Communications Hub**
 
-- [ ] `/providers/communications-hub/formulary-updates` (Formulary Updates) `article-listing` **To do**
-- [ ] `/providers/communications-hub/news-and-updates` (News and Updates) `article-listing` **To do** 2025-09-29; WNY, NENY
-- [ ] `/providers/communications-hub/provider-news` (Provider News) `article-listing` **To do**
-- [ ] `/providers/communications-hub/medical-policy-update` (Medical Policy Update) `article-listing` **To do**
+- [ ] `/providers/communications-hub/formulary-updates` (Formulary Updates) `article-listing` **Preview only**
+- [ ] `/providers/communications-hub/news-and-updates` (News and Updates) `article-listing` **Preview only** 2025-09-29; WNY, NENY
+- [ ] `/providers/communications-hub/provider-news` (Provider News) `article-listing` **Preview only**
+- [ ] `/providers/communications-hub/medical-policy-update` (Medical Policy Update) `article-listing` **Preview only**
 - [x] `/providers/communications-hub/news-archive` (News Archive) `landing` **Live**
 
 ### P2: linked from our live provider pages (0/18)

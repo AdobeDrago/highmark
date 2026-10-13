@@ -257,10 +257,30 @@ body.provider-content main > .section.rail a.button:any-link {
   white-space: normal;
 }
 
+/* list pages: a provider-list block (batch 3, 2026-10-12). Measured at 1280: the title 40px
+   over the text, paragraphs 16px apart, a heading over the list ("Policy List") 40px over
+   its count line. */
+body.provider-content main:has(.provider-list) h1 {
+  margin-bottom: 40px;
+}
+
+body.provider-content main:has(.provider-list) > .section:not(.rail) > .default-content-wrapper > p {
+  margin-bottom: 16px;
+}
+
+body.provider-content main:has(.provider-list) > .section:not(.rail) > .default-content-wrapper > h2 {
+  margin: 0 0 40px;
+}
+
 @media (width < 992px) {
   body.provider-content main > .section.provider-sidenav-container,
   body.provider-content main > .section.rail {
     display: none;
+  }
+
+  /* a list page keeps its rail ("Quick Info"), below the list, as on the source */
+  body.provider-content main:has(.provider-list) > .section.rail {
+    display: block;
   }
 }
 
@@ -328,6 +348,69 @@ body.provider-content main > .section.rail a.button:any-link {
   body.provider-content main h1 {
     font-size: 56px;
     line-height: 62px;
+  }
+
+  /* an article listing: the source's wider container, min(1180px, 100% - 20px), with the
+     filters (30% of three quarters) beside the title and list, and the rail (a quarter) */
+  body.provider-content main:has(.provider-list:not(.documents)) {
+    --provider-list-width: min(1180px, 100% - 20px);
+
+    grid-template-columns:
+      1fr
+      calc(var(--provider-list-width) * 0.225)
+      calc(var(--provider-list-width) * 0.525)
+      calc(var(--provider-list-width) * 0.25)
+      1fr;
+  }
+
+  body.provider-content main:has(.provider-list:not(.documents)) > .section {
+    grid-column: 2 / 5;
+  }
+
+  /* the title and filters start 30px below the rail's top */
+  body.provider-content main > .section:has(.provider-list:not(.documents)) {
+    display: grid;
+    grid-row: 1;
+    grid-column: 2 / 4;
+    grid-template-columns: 30% 70%;
+    align-items: start;
+    padding-top: 30px;
+  }
+
+  body.provider-content main > .section:has(.provider-list:not(.documents)) > .default-content-wrapper {
+    grid-column: 2;
+    padding: 0 30px;
+  }
+
+  body.provider-content main > .section:has(.provider-list:not(.documents)) > .provider-list-wrapper,
+  body.provider-content main > .section .provider-list:not(.documents) {
+    display: contents;
+  }
+
+  body.provider-content main .provider-list:not(.documents) .provider-list-filters {
+    grid-row: 1 / span 2;
+    grid-column: 1;
+    padding: 10px 20px;
+  }
+
+  body.provider-content main .provider-list:not(.documents) .provider-list-results {
+    grid-column: 2;
+    padding: 0 30px;
+  }
+
+  body.provider-content main:has(.provider-list:not(.documents)) > .section.rail {
+    grid-row: 1;
+    grid-column: 4;
+    padding: 0 15px;
+  }
+
+  body.provider-content main:has(.provider-list) > .section.rail > div {
+    padding: 30px 20px;
+  }
+
+  /* a document list: the centre half of the usual container */
+  body.provider-content main:has(.provider-list.documents) > .section {
+    grid-column: 3 / 5;
   }
 
   body.provider-content main > .section:not(.provider-sidenav-container) :is(p, li, td, th) {
