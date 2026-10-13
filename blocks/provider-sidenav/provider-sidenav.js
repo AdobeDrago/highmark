@@ -8,7 +8,8 @@
  * Like the source, the block shows the part of the tree around the current page: its parent
  * at the top, the parent's children below it, the current page bold and expanded to its own
  * children. Items with children of their own have a toggle; :lock: after an item marks a page
- * behind the Availity login.
+ * behind the Availity login. A page that isn't in the tree but sits below one that is (a news
+ * article below News and Updates) gets that page alone, bold, under its parent.
  */
 import { decorateIcons } from '../../scripts/aem.js';
 
@@ -52,15 +53,27 @@ export default async function decorate(block) {
   const here = pathOf(window.location.href);
   const items = [...tree.querySelectorAll('li')];
   const current = items.find((li) => linkOf(li) && pathOf(linkOf(li).href) === here);
+  // a page below a listed one (an article under News and Updates): as on the source, the nav
+  // shows only that listed page, bold, under its parent
+  const above = current ? null : items
+    .filter((li) => linkOf(li) && li.parentElement.closest('li') && here.startsWith(`${pathOf(linkOf(li).href)}/`))
+    .sort((a, b) => pathOf(linkOf(b).href).length - pathOf(linkOf(a).href).length)[0];
   // its parent heads the nav; without a match, the section's landing page does
-  const parent = current?.parentElement.closest('li') || tree.querySelector(':scope > li');
+  const parent = (current || above)?.parentElement.closest('li') || tree.querySelector(':scope > li');
   if (!parent || !listOf(parent)) return;
 
   const nav = document.createElement('nav');
   nav.setAttribute('aria-label', 'In this section');
   const root = linkOf(parent).cloneNode(true);
   root.className = 'provider-sidenav-root';
-  const list = listOf(parent);
+  let list = listOf(parent);
+  if (above) {
+    const only = above.cloneNode(true);
+    only.querySelector(':scope > ul')?.remove();
+    only.classList.add('current');
+    list = document.createElement('ul');
+    list.append(only);
+  }
   list.className = 'provider-sidenav-list';
 
   [...list.querySelectorAll('li')].forEach((li) => {

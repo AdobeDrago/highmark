@@ -177,11 +177,11 @@ Tracks every page of [providers.highmark.com](https://providers.highmark.com/) (
 | Tier | What | Pages | Live |
 |------|------|-------|------|
 | Done | The home page and the top-level landing pages | 9 | 9/9 |
-| P1 | Mega-menu items (every page, one click in) | 87 | 85/87 |
+| P1 | Mega-menu items (every page, one click in) | 85 | 85/85 |
 | P2 | Pages our live provider pages link to (not in the menu) | 18 | 0/18 |
 | P3 | The rest of each section | 86 | 0/86 |
 | P4 | Communications Hub articles and archive lists | 219 | 0/219 |
-| Source | Stay on providers.highmark.com (Availity login, forms, search) | 45 | n/a |
+| Source | Stay on providers.highmark.com (Availity login, forms, search) | 47 | n/a |
 
 **Statuses:** **Live** = published; **Preview only** = in DA and previewed, awaiting review; **To do** = not in DA; **Needs decision** = a form that posts to the source (no form solution here yet); **Stays on source** = not migrated by decision. Links from our pages to provider pages not yet migrated go to the same page on providers.highmark.com through the `/redirects` sheet; re-run `build-redirects.mjs` and publish the sheet after each batch.
 
@@ -212,7 +212,7 @@ A region list after a page (e.g. "WNY") means the source shows it only for those
 - [x] `/providers/provider-network` (Provider Network) `landing` **Live**
 - [x] `/providers/resources-and-education` (Resources and Education) `landing` **Live**
 
-### P1: mega-menu items (85/87)
+### P1: mega-menu items (85/85)
 
 In menu order.
 
@@ -274,8 +274,6 @@ In menu order.
 - [x] `/providers/provider-network/inter-plan-programs` (Inter-Plan Programs) `landing` **Live**
 - [x] `/providers/provider-network/inter-plan-programs/blue-distinction-centers-for-specialty-care-program-page` (Blue Distinction for Specialty Care) `content` **Live** regional text
 - [x] `/providers/provider-network/inter-plan-programs/bluecard-information-center` (BlueCard Information) `content` **Live** regional text
-- [ ] `/providers/provider-network/inter-plan-programs/medical-policy-pre-certification-and-pre-authorization-out-of-area-members` (Medical Policy, Pre-Certification and Pre-Authorization Out-of-Area Members) `form` **Needs decision** a prefix lookup form posting to the source's `interplansearch` servlet (reCAPTCHA)
-- [ ] `/providers/provider-network/inter-plan-programs/medicare-advantage-pffs-search` (Medicare Advantage Private Fee-for-Service Search) `form` **Needs decision** a prefix lookup form posting to the source's `interplansearch` servlet (reCAPTCHA)
 - [x] `/providers/provider-network/highmark-healthy-kids-chip` (Highmark Healthy Kids (CHIP)) `content` **Live** WPA/NEPA, CPA/SEPA; regional text
 - [x] `/providers/provider-network/copaygo` (CopayGo Health Plan) `content` **Live** accordion
 
@@ -323,24 +321,24 @@ In menu order.
 
 ### P2: linked from our live provider pages (0/18)
 
-- [ ] `/providers/communications-hub/news-and-updates/2027-bestpractice-program-changes` (2027 BestPractice Program Changes) `article` **To do** 2026-09-25; WNY; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/accessibility-expectations-ensuring-timely-access-to-care` (Accessibility Expectations: Ensuring Timely Access to Care) `article` **To do** 2026-10-06; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/cms-requires-use-of-electronic-claim-attachments-by-2028` (CMS Requires Use of Electronic Claim Attachments by 2028) `article` **To do** 2026-09-23; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/delaware-providers-new-credentialing-portal-launches-oct-5` (Delaware Providers: New Credentialing Portal Launches Oct. 5) `article` **To do** 2026-09-24; DE; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/evolent-to-manage-medical-and-radiation-oncology-authorizations` (Evolent to Manage Medical and Radiation Oncology Authorizations) `article` **To do** 2026-09-23; linked from `/providers/`, `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/guidance-on-new-coding-and-billing-model-for-maternity-care` (Guidance on New Coding and Billing Model for Maternity Care) `article` **To do** 2026-09-28; linked from `/providers/`, `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/karen-hanlon-named-chief-executive-officer-and-president` (Karen Hanlon Named Chief Executive Officer and President of Highmark Health) `article` **To do** 2026-10-06; linked from `/providers/`, `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/medical-injectable-drug-program-changes-in-the-new-year-de-pa-wv` (Medical Injectable Drug Program Changes in the New Year) `article` **To do** 2026-09-24; WPA/NEPA, CPA/SEPA, DE, WV; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/medical-injectable-drug-program-changes-in-the-new-year-ny` (Medical Injectable Drug Program Changes in the New Year) `article` **To do** 2026-09-24; WNY, NENY; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/new-and-updated-reimbursement-policies-september-2026` (New and Updated Reimbursement Policies – September 2026) `article` **To do** 2026-09-28; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/support-program-update-some-beneficial-changes-for-prescribers` (SUPPORT Program Update: Some Beneficial Changes for Prescribers) `article` **To do** 2026-09-22; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/upcoming-changes-for-highmark-condition-management-programs` (Upcoming Changes for Highmark Condition Management Programs) `article` **To do** 2026-09-23; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/news-and-updates/valueblue-base-rates-set-for-2027` (ValueBlue Base Rates Set for 2027) `article` **To do** 2026-09-25; NENY; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/provider-news/august-2026-newsletter` (August 2026 Newsletter) `article` **To do** 2026-08-31; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/provider-news/july-2026-newsletter` (July 2026 Newsletter) `article` **To do** 2026-07-27; linked from `/providers/communications-hub`
-- [ ] `/providers/communications-hub/provider-news/september-2026-newsletter` (September 2026 Newsletter) `article` **To do** 2026-09-28; linked from `/providers/communications-hub`
-- [ ] `/providers/resources-and-education/highmark-provider-manual/chapter-1-general-information/unit-2-online-resources-and-contact-information` (Unit 2: Online Resources and Contact Information) `manual` **To do** linked from `/providers/contact-us`; table
-- [ ] `/providers/resources-and-education/highmark-provider-manual/chapter-6-billing-and-payment/unit-8-payment-review` (Unit 8: Payment Review) `manual` **To do** linked from `/providers/claims`
+- [ ] `/providers/communications-hub/news-and-updates/2027-bestpractice-program-changes` (2027 BestPractice Program Changes) `article` **Preview only** 2026-09-25; WNY; linked from `/providers/communications-hub`
+- [ ] `/providers/communications-hub/news-and-updates/accessibility-expectations-ensuring-timely-access-to-care` (Accessibility Expectations: Ensuring Timely Access to Care) `article` **Preview only** 2026-10-06; linked from `/providers/communications-hub`
+- [ ] `/providers/communications-hub/news-and-updates/cms-requires-use-of-electronic-claim-attachments-by-2028` (CMS Requires Use of Electronic Claim Attachments by 2028) `article` **Preview only** 2026-09-23; linked from `/providers/communications-hub`
+- [ ] `/providers/communications-hub/news-and-updates/delaware-providers-new-credentialing-portal-launches-oct-5` (Delaware Providers: New Credentialing Portal Launches Oct. 5) `article` **Preview only** 2026-09-24; DE; linked from `/providers/communications-hub`
+- [ ] `/providers/communications-hub/news-and-updates/evolent-to-manage-medical-and-radiation-oncology-authorizations` (Evolent to Manage Medical and Radiation Oncology Authorizations) `article` **Preview only** 2026-09-23; linked from `/providers/`, `/providers/communications-hub`
+- [ ] `/providers/communications-hub/news-and-updates/guidance-on-new-coding-and-billing-model-for-maternity-care` (Guidance on New Coding and Billing Model for Maternity Care) `article` **Preview only** 2026-09-28; linked from `/providers/`, `/providers/communications-hub`
+- [ ] `/providers/communications-hub/news-and-updates/karen-hanlon-named-chief-executive-officer-and-president` (Karen Hanlon Named Chief Executive Officer and President of Highmark Health) `article` **Preview only** 2026-10-06; linked from `/providers/`, `/providers/communications-hub`
+- [ ] `/providers/communications-hub/news-and-updates/medical-injectable-drug-program-changes-in-the-new-year-de-pa-wv` (Medical Injectable Drug Program Changes in the New Year) `article` **Preview only** 2026-09-24; WPA/NEPA, CPA/SEPA, DE, WV; linked from `/providers/communications-hub`
+- [ ] `/providers/communications-hub/news-and-updates/medical-injectable-drug-program-changes-in-the-new-year-ny` (Medical Injectable Drug Program Changes in the New Year) `article` **Preview only** 2026-09-24; WNY, NENY; linked from `/providers/communications-hub`
+- [ ] `/providers/communications-hub/news-and-updates/new-and-updated-reimbursement-policies-september-2026` (New and Updated Reimbursement Policies – September 2026) `article` **Preview only** 2026-09-28; linked from `/providers/communications-hub`
+- [ ] `/providers/communications-hub/news-and-updates/support-program-update-some-beneficial-changes-for-prescribers` (SUPPORT Program Update: Some Beneficial Changes for Prescribers) `article` **Preview only** 2026-09-22; linked from `/providers/communications-hub`
+- [ ] `/providers/communications-hub/news-and-updates/upcoming-changes-for-highmark-condition-management-programs` (Upcoming Changes for Highmark Condition Management Programs) `article` **Preview only** 2026-09-23; linked from `/providers/communications-hub`
+- [ ] `/providers/communications-hub/news-and-updates/valueblue-base-rates-set-for-2027` (ValueBlue Base Rates Set for 2027) `article` **Preview only** 2026-09-25; NENY; linked from `/providers/communications-hub`
+- [ ] `/providers/communications-hub/provider-news/august-2026-newsletter` (August 2026 Newsletter) `article` **Preview only** 2026-08-31; linked from `/providers/communications-hub`
+- [ ] `/providers/communications-hub/provider-news/july-2026-newsletter` (July 2026 Newsletter) `article` **Preview only** 2026-07-27; linked from `/providers/communications-hub`
+- [ ] `/providers/communications-hub/provider-news/september-2026-newsletter` (September 2026 Newsletter) `article` **Preview only** 2026-09-28; linked from `/providers/communications-hub`
+- [ ] `/providers/resources-and-education/highmark-provider-manual/chapter-1-general-information/unit-2-online-resources-and-contact-information` (Unit 2: Online Resources and Contact Information) `manual` **Preview only** linked from `/providers/contact-us`; table
+- [ ] `/providers/resources-and-education/highmark-provider-manual/chapter-6-billing-and-payment/unit-8-payment-review` (Unit 8: Payment Review) `manual` **Preview only** linked from `/providers/claims`
 
 ### P3: the rest of each section (0/86)
 
@@ -685,9 +683,9 @@ Articles newest first, with their date and, where an article is for some regions
 
 </details>
 
-### Staying on providers.highmark.com (45)
+### Staying on providers.highmark.com (47)
 
-Not migrated, by decision (2026-10-07). Our links to them go to the source.
+Not migrated, by decision (2026-10-07; the two Inter-Plan lookup forms, from P1, on 2026-10-13). Our links to them go to the source.
 
 - `/404` (404) this site has its own 404 page
 - `/communications-hub/join-our-mailing-list` (Join Our Mailing List) the mailing-list form (`/bin/prc/sfmc`, reCAPTCHA); the header and hub link to the source
@@ -696,6 +694,8 @@ Not migrated, by decision (2026-10-07). Our links to them go to the source.
 - `/join-our-mailing-list` (Join Our Mailing List) the mailing-list form (`/bin/prc/sfmc`, reCAPTCHA); the header and hub link to the source
 - `/join-our-mailing-list/error` (Error) the confirmation page of a source form
 - `/join-our-mailing-list/thank-you` (Thank You) the confirmation page of a source form
+- `/provider-network/inter-plan-programs/medical-policy-pre-certification-and-pre-authorization-out-of-area-members` (Medical Policy, Pre-Certification and Pre-Authorization Out-of-Area Members) the Inter-Plan prefix lookup form (posts to the source's `interplansearch` servlet, reCAPTCHA); stays on the source by decision, 2026-10-13
+- `/provider-network/inter-plan-programs/medicare-advantage-pffs-search` (Medicare Advantage Private Fee-for-Service Search) the Inter-Plan prefix lookup form (posts to the source's `interplansearch` servlet, reCAPTCHA); stays on the source by decision, 2026-10-13
 - `/resources-and-education/clinical-quality-education/educational-resources-member-provider/inventory-request-form/error` (Error) the confirmation page of a source form
 - `/resources-and-education/clinical-quality-education/educational-resources-member-provider/inventory-request-form/thank-you` (Thank You) the confirmation page of a source form
 - `/search-results` (Search Results) the provider header's search box submits here

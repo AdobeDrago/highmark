@@ -257,6 +257,156 @@ body.provider-content main > .section.rail a.button:any-link {
   white-space: normal;
 }
 
+/* a news article's heading (scripts.js classes it): the topic over the title, the title's region
+   badges, "Published Date: ..." and "For: ..."; the text starts 84px under the For line.
+   Measured at 1280 and 390. */
+body.provider-content main > .section:not(.provider-sidenav-container) p.article-topic {
+  margin: 0 0 2px;
+  line-height: 30px;
+}
+
+body.provider-content main p.article-topic a.button:any-link {
+  color: #003963;
+  font-family: var(--heading-font-family);
+  font-size: 16px;
+  line-height: 30px;
+  letter-spacing: -0.32px;
+  text-transform: uppercase;
+}
+
+body.provider-content main h1.article-title {
+  margin-bottom: 20px;
+  letter-spacing: -2.8px;
+}
+
+body.provider-content main > .section:not(.provider-sidenav-container) ul.article-regions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 2px;
+  margin: 0 0 8px;
+  padding: 0;
+  list-style: none;
+}
+
+body.provider-content main > .section:not(.provider-sidenav-container) ul.article-regions li {
+  padding: 2px 8px;
+  background-color: #003963;
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 14px;
+  letter-spacing: -0.26px;
+  text-transform: uppercase;
+}
+
+body.provider-content main > .section:not(.provider-sidenav-container) p.article-date {
+  margin: 0 0 8px;
+  color: #5a656d;
+  font-size: 15px;
+  line-height: 17px;
+  letter-spacing: 0.16px;
+}
+
+body.provider-content main > .section:not(.provider-sidenav-container) p.article-for {
+  margin: 0 0 84px;
+  color: #495055;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0.16px;
+  text-transform: capitalize;
+}
+
+/* an article's text and rail run straight on (the rail follows the text on phones), and the
+   spotlight band starts 60px below them, as on the source */
+body.provider-content main:has(h1.article-title) > .section:not(.spotlight) {
+  padding-bottom: 0;
+}
+
+/* "In the Spotlight" (the /providers/fragments/spotlight fragment): white cards with a soft
+   shadow, 30px apart, 242px tall; topic, title over a 51px bar, then For and the date at the
+   card's foot */
+body.provider-content main > .section.spotlight {
+  padding: 60px 0;
+}
+
+body.provider-content main > .section.spotlight h2 {
+  margin: 0 0 24px;
+  font-size: 26px;
+  line-height: 40px;
+  text-align: center;
+}
+
+body.provider-content main > .section.spotlight .cards > ul {
+  grid-template-columns: 1fr;
+  gap: 30px;
+  padding: 0 20px;
+}
+
+body.provider-content main > .section.spotlight .cards > ul > li {
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+  min-height: 242px;
+  padding: 20px;
+  border: 0;
+  background-color: #fff;
+  box-shadow: 0 3px 3px rgb(0 0 0 / 16%);
+}
+
+body.provider-content main > .section.spotlight .cards .cards-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin: 0;
+}
+
+body.provider-content main > .section.spotlight .cards .cards-card-body p {
+  margin: 0;
+  color: #495055;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+body.provider-content main > .section.spotlight .cards .cards-card-body p:first-child {
+  color: #003963;
+  font-family: var(--heading-font-family);
+  font-size: 13px;
+  line-height: 26px;
+  letter-spacing: -0.26px;
+  text-transform: uppercase;
+}
+
+body.provider-content main > .section.spotlight .cards .cards-card-body h3 {
+  margin: 0;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0.16px;
+}
+
+body.provider-content main > .section.spotlight .cards .cards-card-body h3 a:any-link {
+  color: #0078c1;
+}
+
+body.provider-content main > .section.spotlight .cards .cards-card-body h3::after {
+  content: '';
+  display: block;
+  width: 51px;
+  height: 4px;
+  margin-top: 6px;
+  background-color: #0078c1;
+}
+
+/* For and the date sit at the foot of the card */
+body.provider-content main > .section.spotlight .cards .cards-card-body h3 + p {
+  margin-top: auto;
+  padding-top: 10px;
+}
+
+body.provider-content main > .section.spotlight .cards .cards-card-body h3 + p + p {
+  margin-top: 4px;
+}
+
 /* list pages: a provider-list block (batch 3, 2026-10-12). Measured at 1280: the title 40px
    over the text, paragraphs 16px apart, a heading over the list ("Policy List") 40px over
    its count line. */
@@ -278,8 +428,9 @@ body.provider-content main:has(.provider-list) > .section:not(.rail) > .default-
     display: none;
   }
 
-  /* a list page keeps its rail ("Quick Info"), below the list, as on the source */
-  body.provider-content main:has(.provider-list) > .section.rail {
+  /* a list page or an article keeps its rail ("Quick Info"), below the list or the text, as
+     on the source */
+  body.provider-content main:is(:has(.provider-list), :has(h1.article-title)) > .section.rail {
     display: block;
   }
 }
@@ -348,6 +499,20 @@ body.provider-content main:has(.provider-list) > .section:not(.rail) > .default-
   body.provider-content main h1 {
     font-size: 56px;
     line-height: 62px;
+  }
+
+  /* the spotlight band spans the page; its three cards sit 30px in, 30px apart */
+  body.provider-content main > .section.spotlight {
+    grid-column: 1 / -1;
+  }
+
+  body.provider-content main > .section.spotlight h2 {
+    font-size: 34px;
+  }
+
+  body.provider-content main > .section.spotlight .cards > ul {
+    grid-template-columns: repeat(3, 1fr);
+    padding: 0 30px;
   }
 
   /* an article listing: the source's wider container, min(1180px, 100% - 20px), with the

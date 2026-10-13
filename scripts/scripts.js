@@ -199,6 +199,21 @@ function decorateProviderContent(main) {
   if (!document.body.classList.contains('provider-content')) return;
   const line = main.querySelector('h1 + p');
   if (line && /^last updated\b/i.test(line.textContent.trim())) line.classList.add('last-updated');
+  // a news article's heading (see provider-content.css): its topic over the title, then the
+  // title's region badges, "Published Date: ..." and "For: ..."
+  const h1 = main.querySelector('h1');
+  let next = h1?.nextElementSibling;
+  const regions = next?.tagName === 'UL'
+    && [...next.children].every((li) => /^(WPA|NEPA|CPA|SEPA|DE|WV|WNY|NENY)(\/(NEPA|SEPA))?$/.test(li.textContent.trim()));
+  if (regions) next = next.nextElementSibling;
+  if (next?.tagName !== 'P' || !/^published date:/i.test(next.textContent.trim())) return;
+  h1.classList.add('article-title');
+  if (regions) h1.nextElementSibling.classList.add('article-regions');
+  next.classList.add('article-date');
+  const topic = h1.previousElementSibling;
+  if (topic?.tagName === 'P' && topic.querySelector('a')) topic.classList.add('article-topic');
+  const audience = next.nextElementSibling;
+  if (audience?.tagName === 'P' && /^for:/i.test(audience.textContent.trim())) audience.classList.add('article-for');
 }
 
 /**
