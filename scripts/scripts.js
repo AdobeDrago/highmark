@@ -214,7 +214,9 @@ const LEADERSHIP_BIO_CLASSES = {
 };
 
 /**
- * Adds the LEADERSHIP_BIO_CLASSES classes to matching paragraphs of a leadership bio.
+ * Adds the LEADERSHIP_BIO_CLASSES classes to matching paragraphs of a leadership bio, and
+ * the class linkedin to the header's LinkedIn link, for its icon: two bios copy the
+ * source's links that aren't LinkedIn URLs, so the page CSS can't match them by href.
  * @param {Element} main The main element
  */
 function decorateLeadershipBio(main) {
@@ -222,6 +224,9 @@ function decorateLeadershipBio(main) {
   main.querySelectorAll('.default-content-wrapper p').forEach((p) => {
     const cls = LEADERSHIP_BIO_CLASSES[p.textContent.replace(/\s+/g, ' ').trim()];
     if (cls) p.classList.add(cls);
+  });
+  main.querySelectorAll('.columns-minimal-dark a').forEach((a) => {
+    if (a.textContent.trim() === 'LinkedIn') a.classList.add('linkedin');
   });
 }
 
