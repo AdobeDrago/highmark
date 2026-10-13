@@ -192,10 +192,11 @@ Started 2026-10-07. The Provider Resource Center is migrated into this site unde
   - `region-panel` is one Contact Us region.
   - `dark` on a hero means white text over a dark photo (from the source's heading colour).
   - The Provider Service Center / Clinical Services cards on every page are one fragment, `/providers/fragments/service-centers` (Style `service-centers`).
-- **Template `provider-content`** (`styles/templates/provider-content.css`) is for the content and manual pages (batch 2, 2026-10-08). Each page has three sections:
+- **Template `provider-content`** (`styles/templates/provider-content.css`) is for the content, manual and news-article pages (batches 2 and 4). Each page has these sections:
   1. a `provider-sidenav` block;
   2. the article;
-  3. optionally the rail (Style `rail`, "Related Links").
+  3. optionally the rail (Style `rail`, "Related Links" or "Quick Info");
+  4. on articles, a `fragment` block for `/providers/fragments/spotlight`.
 
   From 992px they sit in the source's grid: the nav and the rail a quarter each, 20px before the rail, and without a rail the article runs to the edge. Below 992px the nav and the rail are hidden, as on the source.
   - **Type.** Matched to the source at 1280, 800 and 390:
@@ -205,7 +206,8 @@ Started 2026-10-07. The Provider Resource Center is migrated into this site unde
     `scripts.js` (`decorateProviderContent`) gives the "Last Updated: …" paragraph under the h1 the class `last-updated`. CSS can't tell an all-italic paragraph from one with a single italic phrase.
   - **Links on their own line.** `<p><a>` is a plain link (the forms and PDF lists). `_link_` (italic) is the uppercase text CTA ("Read More"). `**link**` (bold) is the filled blue button. This follows the legal pages' convention, except the bold link is filled, as on the source. The converter picks bold or italic from whether the source's button component has a background (8 buttons, 48 CTAs).
   - **Tables.** A `table` block (`no-header` when the source has no header row), with a navy header row and ruled cells.
-  - **Region-tagged content.** For now, the source's pink panels with region badges are a bold label line above their content, e.g. **WPA/NEPA · CPA/SEPA**. 37 of the 63 batch-2 pages have them (92 panels). Panels and badges are not built yet; their lists are tighter than ours.
+  - **Region-tagged content and grey boxes** (`blocks/provider-panel`, 2026-10-13). `Provider Panel (region)` is the source's regional text: one row per region group, [regions | content], the regions as navy badges over the content on the source's pink (`plain`: untinted, as the source's white regional text in the newsletters); a component's groups stack edge to edge in one block. `Provider Panel` (one cell) is the source's grey box ("Additional Information"). The 92 regional-text components on 37 batch-2 pages became panels on 2026-10-13, with the 2 grey boxes batch 2 had lost (Obtaining Authorizations, Virtual Health Overview). Region lists inside accordion answers (3 pages) keep a bold label line, as a block can't sit in a block.
+  - **News articles** (batch 4, 2026-10-13). The heading is the topic (a link to the list), the title, the region badges, "Published Date: …" and "For: …"; `decorateProviderContent` classes them (`article-topic`, `article-title`, `article-regions`, `article-date`, `article-for`). The side nav shows Communications Hub over the article's list, as on the source. Articles keep the "Quick Info" rail on phones, below the text, and end with the "In the Spotlight" band: `/providers/fragments/spotlight`, a `cards` block of the source's three curated articles (the same on every article; edit it once). The source's accent line (a decorative 51px bar over a footnote) is left out.
 - **Side nav** (`blocks/provider-sidenav`).
   - The block is one cell linking the section's fragment, `/providers/fragments/sidenav/<section>`, for `authorization`, `claims`, `policies-and-programs`, `provider-network`, `resources-and-education` and `communications-hub`.
   - The fragment is the section's whole tree as nested lists; edit it once for the section. Document-list children (the RP-xxx PDFs) are left out, and `:lock:` marks a gated page.
@@ -215,6 +217,7 @@ Started 2026-10-07. The Provider Resource Center is migrated into this site unde
     - the current page in bold, with its own children open.
 
     Other branches have toggles.
+  - A page below a listed one but not in the tree itself (a news article) gets that listed page alone, bold, under its parent.
 - **Lists** (`blocks/provider-list`, batch 3, 2026-10-12). The source's list pages load their items from feeds (`/bin/prc/blog`, `/bin/prc/topics`); here each list is a DA sheet, `/providers/lists/<list>.json`, which the block renders.
   - **Sheets.** `tools/provider-lists/build-provider-lists.mjs` snapshots the five P1 lists from the source's feeds (`--upload` uploads and previews them): `reimbursement-policies`, `news-and-updates`, `provider-news`, `medical-policy-update` and `formulary-updates`. Columns: `Title`, `Link`, `Type` (Web Page or PDF), `Topic`, `For`, `Published`, `Updated`, `Regions`, `Description`, `Gated`, `Source`. The source adds news weekly, so re-run it, publish the sheets, then rebuild and publish `/redirects`.
   - **Links.** Articles link to our `/providers/...` path, which `/redirects` sends to the source until the article is migrated (decided 2026-10-12). The tool makes that path a valid page path (lowercase; anything but a-z, 0-9 and `-` becomes `-`): a redirect row can't match a path with a comma (`…24,000…`), and a migrated article will sit at the valid path. `Source` keeps the source's URL. PDFs link to the source's file, not a copy in DA; a PDF behind the Availity login (RP-019A) gets the `:lock:` icon.
@@ -223,14 +226,14 @@ Started 2026-10-07. The Provider Resource Center is migrated into this site unde
   - **Document list** (`documents`): PDF icon and title, "Published Date: M/YYYY | Last Updated Date: M/YYYY" and the audience line; sheet order, 10 at a time ("Load More Results"); the centre half of the usual container, as on the source.
   - Items published the same day keep the feed's order. The source's own page orders some of them differently.
 - **Content choices.**
-  - The landing pages' news cards (In the Spotlight, Recent News and Updates, ...) are static cards as of 2026-10-07; the list pages above have the full lists.
+  - The landing pages' news cards (In the Spotlight, Recent News and Updates, ...) are static cards as of 2026-10-07; the list pages above have the full lists. The Communications Hub's spotlight cards (with images and descriptions) are separate from the articles' spotlight fragment.
   - The Provider News rail's links are `#` on the source; here they go where the other rails' links go (the mailing list, News and Updates, the news archive).
   - Contact Us's two tabs are two sections in a row, so the service-centre cards can link to each (`#highmark-provider-service-centers`, `#highmark-clinical-services`), and "View by region" links to the pipeline's heading ids.
   - Page titles are the source's (the home page's is "Home").
 - **Converter.** Kept in the session scratchpad (`day7/prov`), not in this repo:
-  - `extract.cjs`: Playwright, simplified component HTML, with collapsed accordion answers opened first;
+  - `extract.cjs`: Playwright, simplified component HTML, with collapsed accordion answers opened first; a component inside a tinted layout container (a grey box) gets `box`/`boxBg`;
   - `sidenav-extract.mjs`: the side-nav trees from the source's static HTML;
-  - `build.mjs`: component → block mapping, link rewriting, images into each page's dot-folder. Content pages go through `buildContentPage`, and the side-nav fragments through `SIDENAV=1`.
+  - `build.mjs`: component → block mapping, link rewriting, images into each page's dot-folder. Content, manual and article pages go through `buildContentPage` (article headings, region panels, grey boxes), the side-nav fragments through `SIDENAV=1`, and the spotlight fragment through `SPOTLIGHT=<an article's path>`.
   - `build.mjs` also joins DataTables' split tables (a header table, then the body table in the next component).
   - Its `LINK_FIXES` repoints links that 404 on the source too, to the same file where the source's other pages link it. There are 4 as of 2026-10-08: the WV facility manual, the MCG guidelines PDF, and the Medicare Part D hospice and Dificid prior-auth forms.
 - **Links.** Provider links are relative (`/providers/...`). `build-redirects.mjs` knows `/providers/x` comes from `providers.highmark.com/x`, so links to provider pages not yet migrated redirect there (139 rows on 2026-10-08). Each provider batch:
@@ -238,11 +241,11 @@ Started 2026-10-07. The Provider Resource Center is migrated into this site unde
   2. Publish the pages, then publish the sheet straight away.
   3. Re-index the batch (`POST https://admin.hlx.page/index/adobedrago/highmark/main/<path>`). A page published while a redirect row still covers its path is not indexed: no search, no breadcrumbs, and the script doesn't see its links.
   4. Run the script again so the new pages' links get rows, and publish the sheet.
-- **Progress.** 94 provider pages are live as of 2026-10-13. See the checklist; P1 is 85/87 (left: the 2 Inter-Plan lookup forms).
+- **Progress.** 94 provider pages are live as of 2026-10-13. See the checklist; P1 is done (85/85): the 2 Inter-Plan lookup forms stay on the source (decided 2026-10-13), with the 45 other source-only pages.
   - 2026-10-07: the first pass, then batch 1 (the 17 P1 landing pages).
   - 2026-10-08: batch 2 (the 63 P1 content and manual pages, with the 6 side-nav fragments), merged as #91 and published. All 63 are in both indexes. They pass at 1280, 1024 and 390, and the 782 links on the provider pages and fragments all resolve.
   - 2026-10-13: batch 3 (the 5 P1 list pages, with their 5 list sheets and the `provider-list` block), merged as #101 and published. All 5 are in both indexes; the 311 list links all resolve (217 through `/redirects` to the source, 92 PDFs, 1 behind the Availity login).
-  - Not built: the region panels on 37 of the batch-2 pages (see the `provider-content` template).
+  - 2026-10-13: batch 4 (the 18 P2 pages: 16 news articles and 2 manual units, the spotlight fragment and the `provider-panel` block), with region panels and grey boxes on 39 batch-2 pages, built, in DA and preview, awaiting review. Not published. `/redirects` in DA and preview has 454 rows (live 472): the 18 pages' rows are dropped, so publish that sheet only with the pages.
 - **Search.** Provider pages are in the site search (`search-index` has no `/providers/**` exclude, decided 2026-10-07). The provider header's own box searches providers.highmark.com.
 
 ## Open PRs
