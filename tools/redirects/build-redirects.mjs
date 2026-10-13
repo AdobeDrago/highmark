@@ -97,13 +97,19 @@ async function internalLinks(host, page) {
   }).filter(Boolean);
 }
 
+// A list row's Source: the article's URL on the source, for a Link whose path had to be made
+// a valid page path ("24,000" -> "24-000"). path -> URL
+const LISTED = new Map();
+
 async function sheetLinks(host, sheet) {
   const res = await fetch(`${host}${sheet}?limit=5000`);
   if (!res.ok) return [];
   const { data = [] } = await res.json();
-  return data.map((row) => String(row.Link || ''))
-    .filter((href) => href.startsWith('/') && !href.startsWith('//'))
-    .map((href) => normPath(new URL(href, LIVE).pathname));
+  return data.filter((row) => /^\/(?!\/)/.test(String(row.Link || ''))).map((row) => {
+    const p = normPath(new URL(row.Link, LIVE).pathname);
+    if (row.Source) LISTED.set(p, row.Source);
+    return p;
+  });
 }
 
 /** The source site of one of our paths, and the path there. */
@@ -117,8 +123,10 @@ async function classify(p, auth) {
   const da = await fetch(`https://admin.da.live/source/${ORG}/${SITE}${p}.html`, { method: 'HEAD', headers: auth });
   if (da.status === 200) return { skip: `${p}: has a DA document (publish it instead)` };
   const { prefix, origin, path: srcPath } = sourceOf(p);
-  const src = await fetch(`${origin}${encodeURI(srcPath)}`, { headers: UA }).catch(() => ({ status: 0 }));
+  const listed = LISTED.get(p);
+  const src = await fetch(listed || `${origin}${encodeURI(srcPath)}`, { headers: UA }).catch(() => ({ status: 0 }));
   if (src.status !== 200) return { skip: `${p}: source returns ${src.status}; fix the link instead` };
+  if (listed) return { Source: p, Destination: listed };
   const final = new URL(src.url);
   const finalPath = normPath(final.pathname);
   if (final.origin === origin && finalPath !== srcPath) {
