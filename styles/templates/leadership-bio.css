@@ -237,13 +237,7 @@ body.leadership-bio main .default-content-wrapper :is(b, strong) {
   font-weight: 700;
 }
 
-body.leadership-bio main .columns-minimal-dark-container
-.default-content-wrapper p strong {
-  color: #001446;
-}
-
-body.leadership-bio main .columns-minimal-dark-container
-.default-content-wrapper p:nth-of-type(-n+2) strong {
+body.leadership-bio main .columns-minimal-dark-container .default-content-wrapper :is(b, strong) {
   color: #00a4e4;
 }
 
