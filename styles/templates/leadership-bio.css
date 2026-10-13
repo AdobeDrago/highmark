@@ -238,12 +238,12 @@ body.leadership-bio main .default-content-wrapper :is(b, strong) {
 }
 
 body.leadership-bio main .columns-minimal-dark-container
-.default-content-wrapper :is(b, strong) {
+.default-content-wrapper :is(strong) {
   color: #001446;
 }
 
 body.leadership-bio main .columns-minimal-dark-container
-.default-content-wrapper :is(b, strong):nth-of-type(-n+2) {
+.default-content-wrapper :is(strong):nth-of-type(-n+2) {
   color: #00a4e4;
 }
 
