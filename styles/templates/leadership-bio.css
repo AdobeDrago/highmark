@@ -239,7 +239,12 @@ body.leadership-bio main .default-content-wrapper :is(b, strong) {
 
 body.leadership-bio main .columns-minimal-dark-container .default-content-wrapper 
 p:not(.controlling_drug, .creating_cust_value, .pharmacy_issues, .experience_everything)
-:not(.controlling_drug ~ p, .creating_cust_value ~ p, .pharmacy_issues ~ p, .experience_everything ~ p:not(.interviews_articles)) :is(b, strong) {
+:not(.controlling_drug ~ p, .creating_cust_value ~ p, .pharmacy_issues ~ p, .experience_everything ~ p) :is(b, strong) {
+  color: #00a4e4;
+}
+
+body.leadership-bio main .columns-minimal-dark-container .default-content-wrapper 
+p:has(.interviews_articles) :is(b, strong) {
   color: #00a4e4;
 }
 
