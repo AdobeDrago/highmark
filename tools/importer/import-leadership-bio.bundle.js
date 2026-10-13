@@ -47,7 +47,6 @@ var CustomImportScript = (() => {
     const header = element.querySelector(".div-bio-header") || element;
     const name = header.querySelector("h1, h2, h3, h4");
     const title = header.querySelector("p");
-    const hasPopup = !!document2.querySelector(".biomodal-content");
     const content = [];
     if (name) {
       const h1 = document2.createElement("h1");
@@ -74,7 +73,7 @@ var CustomImportScript = (() => {
       if (/linkedin\.com/i.test(href)) {
         if (/^https?:\/\//i.test(href)) content.push(linkPara(href, "LinkedIn"));
       } else if (a.id === "bio-modal" || /request interview/i.test(label)) {
-        if (hasPopup) content.push(linkPara("/modals/request-interview", "Request Interview"));
+        content.push(linkPara("/modals/request-interview", "Request Interview"));
       } else if (/\.pdf$/i.test(href)) {
         content.push(linkPara(href, "View as a PDF"));
       } else if (href && href !== "#") {
