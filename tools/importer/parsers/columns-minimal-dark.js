@@ -22,8 +22,8 @@
  * Links: LinkedIn (icon-only on the source, so it gets a text label), "Request Interview"
  * -> the shared /modals/request-interview popup on every bio (on the source 6 bios have no
  * popup behind their link, so it is a dead "#"; decided 2026-10-13 to link them all), and
- * "View as a PDF". Broken LinkedIn hrefs ("#", empty, not http) are dropped and stray
- * encoded spaces trimmed.
+ * "View as a PDF". LinkedIn links are kept as on the source, even the two that don't
+ * reach LinkedIn there (decided 2026-10-13); stray encoded spaces are trimmed.
  */
 function parseBio(element, document) {
   const img = element.querySelector('.div-bio-images img, img');
@@ -54,8 +54,10 @@ function parseBio(element, document) {
     const raw = (a.getAttribute('href') || '').trim();
     const href = raw.replace(/(%20|\s)+$/i, '');
     const label = a.textContent.replace(/\s+/g, ' ').trim();
-    if (/linkedin\.com/i.test(href)) {
-      if (/^https?:\/\//i.test(href)) content.push(linkPara(href, 'LinkedIn'));
+    if (/linkedin\.com/i.test(href) || a.querySelector('.fa-linkedin') || label === 'LinkedIn') {
+      // as on the source, even where its href is not a LinkedIn URL (Timothy-Vessel: a
+      // relative path built from his title; JessicaCox: no href, kept as "#")
+      content.push(linkPara(href || '#', 'LinkedIn'));
     } else if (a.id === 'bio-modal' || /request interview/i.test(label)) {
       content.push(linkPara('/modals/request-interview', 'Request Interview'));
     } else if (/\.pdf$/i.test(href)) {

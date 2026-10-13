@@ -70,8 +70,8 @@ var CustomImportScript = (() => {
       const raw = (a.getAttribute("href") || "").trim();
       const href = raw.replace(/(%20|\s)+$/i, "");
       const label = a.textContent.replace(/\s+/g, " ").trim();
-      if (/linkedin\.com/i.test(href)) {
-        if (/^https?:\/\//i.test(href)) content.push(linkPara(href, "LinkedIn"));
+      if (/linkedin\.com/i.test(href) || a.querySelector(".fa-linkedin") || label === "LinkedIn") {
+        content.push(linkPara(href || "#", "LinkedIn"));
       } else if (a.id === "bio-modal" || /request interview/i.test(label)) {
         content.push(linkPara("/modals/request-interview", "Request Interview"));
       } else if (/\.pdf$/i.test(href)) {
@@ -348,8 +348,10 @@ var CustomImportScript = (() => {
       main.querySelectorAll(".page__par .cmp-text p").forEach((p) => {
         if (!p.textContent.trim() && !p.querySelector("img, picture")) p.remove();
       });
-      main.querySelectorAll('.div-bio-header a[href*="linkedin.com"]').forEach((a) => {
-        if (!a.textContent.trim()) a.textContent = "LinkedIn";
+      main.querySelectorAll(".div-bio-header a").forEach((a) => {
+        const href = a.getAttribute("href") || "";
+        const linkedIn = /linkedin\.com/i.test(href) || !a.textContent.trim() && !a.querySelector("img, picture") && a.id !== "bio-modal" && !/\.pdf$/i.test(href);
+        if (linkedIn && !a.textContent.trim()) a.textContent = "LinkedIn";
       });
       executeTransformers("beforeTransform", main, payload);
       const pageBlocks = findBlocksOnPage(document2, PAGE_TEMPLATE);
