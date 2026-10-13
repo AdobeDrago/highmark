@@ -10,6 +10,8 @@
  *
  * Redirects take precedence over pages: a row hides any page published at that path.
  * Run this after each import batch and publish the new sheet before (or with) the new pages.
+ * Links are read from every page in the live query index, the fragments in FRAGMENTS and the
+ * list sheets in LISTS (live and preview for both).
  *
  * Usage: node tools/redirects/build-redirects.mjs [--upload]
  *   Writes redirects.json (DA sheet format) to the current directory. --upload also uploads
@@ -37,6 +39,10 @@ const FRAGMENTS = ['/nav', '/footer', '/shop/fragments/shopx-header', '/shop/fra
   '/providers/fragments/nav', '/providers/fragments/footer', '/providers/fragments/service-centers',
   ...['authorization', 'claims', 'policies-and-programs', 'provider-network',
     'resources-and-education', 'communications-hub'].map((s) => `/providers/fragments/sidenav/${s}`)];
+// Sheets behind provider-list blocks: the block renders their Link column in the browser, so
+// those links are in no page's HTML either (tools/provider-lists/build-provider-lists.mjs).
+const LISTS = ['reimbursement-policies', 'news-and-updates', 'provider-news', 'medical-policy-update',
+  'formulary-updates'].map((l) => `/providers/lists/${l}.json`);
 // Paths that always redirect: drafts that exist in DA but should not be published, and
 // retired pages. path -> destination.
 const FORCE = {
@@ -91,6 +97,15 @@ async function internalLinks(host, page) {
   }).filter(Boolean);
 }
 
+async function sheetLinks(host, sheet) {
+  const res = await fetch(`${host}${sheet}?limit=5000`);
+  if (!res.ok) return [];
+  const { data = [] } = await res.json();
+  return data.map((row) => String(row.Link || ''))
+    .filter((href) => href.startsWith('/') && !href.startsWith('//'))
+    .map((href) => normPath(new URL(href, LIVE).pathname));
+}
+
 /** The source site of one of our paths, and the path there. */
 function sourceOf(p) {
   const { prefix, origin } = SOURCES.find((s) => !s.prefix || p === s.prefix || p.startsWith(`${s.prefix}/`));
@@ -131,7 +146,9 @@ const index = await (await fetch(`${LIVE}/query-index.json?limit=5000`)).json();
 const pages = [...new Set([...FRAGMENTS, ...index.data.map((r) => normPath(r.path))])];
 const sources = [...pages.map((p) => [LIVE, p]), ...FRAGMENTS.map((p) => [PREVIEW, p])];
 const linkLists = await pool(sources, 8, ([host, p]) => internalLinks(host, p));
-const targets = [...new Set(linkLists.flat())];
+const sheetSources = LISTS.flatMap((l) => [[LIVE, l], [PREVIEW, l]]);
+const sheetLists = await pool(sheetSources, 4, ([host, l]) => sheetLinks(host, l));
+const targets = [...new Set([...linkLists, ...sheetLists].flat())];
 const statuses = await pool(targets, 10, async (p) => [p, (await fetch(`${LIVE}${encodeURI(p)}`, { method: 'HEAD', redirect: 'manual' })).status]);
 const dead = statuses.filter(([, s]) => s === 404).map(([p]) => p);
 const current = await fetch(`${LIVE}/redirects.json?limit=5000`).then((r) => (r.ok ? r.json() : { data: [] }));
