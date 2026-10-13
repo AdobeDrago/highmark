@@ -209,6 +209,8 @@ const LEADERSHIP_BIO_CLASSES = {
   'Controlling drug costs in health care': 'controlling_drug', // matthew-rhenish topic heading
   'Creating Customer Value': 'creating_cust_value', // anthony-benevento topic heading
   'High-Cost Drugs and Pharmacy Issues': 'pharmacy_issues', // sarah-marche topic heading
+  'Experience is Everything': 'experience_everything', // david-holmberg topic heading
+  'Interviews/Articles': 'interviews_articles', // david-holmberg section heading
 };
 
 /**
