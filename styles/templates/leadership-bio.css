@@ -237,6 +237,10 @@ body.leadership-bio main .default-content-wrapper :is(b, strong) {
   font-weight: 700;
 }
 
+body.leadership-bio main .columns-minimal-dark-container .default-content-wrapper :is(b, strong) {
+  color: #00a4e4;
+}
+
 /* source: ul margin-left 20px + padding 12px, li margin-left 18px (text 50px in) */
 body.leadership-bio main .default-content-wrapper ul {
   margin: 0 0 16px 20px;
