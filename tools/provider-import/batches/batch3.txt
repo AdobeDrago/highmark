@@ -1,0 +1,5 @@
+/claims/reimbursement-resources/reimbursement-policies
+/communications-hub/news-and-updates
+/communications-hub/provider-news
+/communications-hub/medical-policy-update
+/communications-hub/formulary-updates
