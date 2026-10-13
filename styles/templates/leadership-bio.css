@@ -237,7 +237,7 @@ body.leadership-bio main .default-content-wrapper :is(b, strong) {
   font-weight: 700;
 }
 
-body.leadership-bio main .columns-minimal-dark-container .default-content-wrapper :is(b, strong) {
+body.leadership-bio main .columns-minimal-dark-container .default-content-wrapper p:not(.controlling_drug):not(.controlling_drug ~ p) :is(b, strong) {
   color: #00a4e4;
 }
 
