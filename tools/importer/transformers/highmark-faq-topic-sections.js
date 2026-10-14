@@ -162,6 +162,17 @@ export default function transform(hookName, element, payload) {
       if (/^opens a new tab or window$/i.test(clean(el.textContent))) el.remove();
     });
 
+    // lead paragraphs: the source's text style p1 (Sofia Pro semibold, larger) on a
+    // whole paragraph outside the answers. Bold here; faq.css styles a paragraph that
+    // is all bold as lead text.
+    element.querySelectorAll('p span.p1').forEach((span) => {
+      const p = span.closest('p');
+      if (p.closest('.collapsible-item, .accordion-trigger') || clean(p.textContent) !== clean(span.textContent)) return;
+      const strong = document.createElement('strong');
+      strong.append(...span.childNodes);
+      p.replaceChildren(strong);
+    });
+
     const nav = element.querySelector(NAV);
     const h1 = element.querySelector('h1');
 

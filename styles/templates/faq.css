@@ -53,6 +53,22 @@ body.faq main > .section > .default-content-wrapper p {
   letter-spacing: -0.2px;
 }
 
+/* lead text: a paragraph that is all bold (the source's p1 style, Sofia Pro
+   semibold in navy): the intro line on some pages, the "Log in to your member
+   portal" line; 17/23.8 below 768px, 18/23.4 to 991px, 20/30 from 992px */
+body.faq main > .section > .default-content-wrapper p:not(.button-container):has(> strong:only-child) {
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+body.faq main > .section > .default-content-wrapper p:not(.button-container) > strong:only-child {
+  font-weight: inherit;
+}
+
 body.faq main > .section > .default-content-wrapper :is(ul, ol) {
   margin: 0 0 16px;
   color: #001446;
@@ -385,6 +401,12 @@ body.faq main:has(> .section.highlight:last-child) {
     letter-spacing: -0.44px;
   }
 
+  body.faq main > .section > .default-content-wrapper p:not(.button-container):has(> strong:only-child) {
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
   body.faq main > .section.mobile-only h2 {
     font-size: 28px;
     letter-spacing: -0.78px;
@@ -559,6 +581,12 @@ body.faq main:has(> .section.highlight:last-child) {
 
   body.faq main > .section > .default-content-wrapper h3 {
     letter-spacing: -0.72px;
+  }
+
+  body.faq main > .section > .default-content-wrapper p:not(.button-container):has(> strong:only-child) {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
   }
 
   body.faq main h1 {
