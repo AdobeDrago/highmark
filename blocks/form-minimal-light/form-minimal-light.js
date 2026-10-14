@@ -25,13 +25,22 @@ function getErrorMessage(control, labelText) {
 }
 
 function enhanceField(wrapper, index) {
+  if (wrapper.querySelector('fieldset')) return; // a group: its fields are enhanced on their own
   const control = wrapper.querySelector('input, select, textarea');
   const label = wrapper.querySelector('label');
   if (!control || !label) return;
 
   const isSelection = wrapper.classList.contains('selection-wrapper');
-  const floats = !isSelection
-    && (control.tagName === 'TEXTAREA' || FLOATING_TYPES.includes(control.type));
+  // radios / checkboxes: the group gets the "* Required" line (enhanceGroups), not each option
+  if (isSelection) return;
+
+  // a select with a placeholder option shows its label inside, as the source does; the
+  // label above stays for screen readers only
+  if (control.tagName === 'SELECT' && control.options[0]?.disabled && control.options[0].text) {
+    label.classList.add('visually-hidden');
+  }
+
+  const floats = control.tagName === 'TEXTAREA' || FLOATING_TYPES.includes(control.type);
 
   if (floats) {
     wrapper.classList.add('floating-label');
@@ -70,6 +79,43 @@ function enhanceField(wrapper, index) {
   }
 }
 
+/**
+ * One "* Required" line under each fieldset holding required radios / checkboxes (the
+ * source's "Do you wish to remain anonymous?" Yes / No), swapped for the validation message
+ * while the group is :user-invalid.
+ */
+function enhanceGroups(formEl) {
+  formEl.querySelectorAll('fieldset').forEach((fieldset, i) => {
+    if (!fieldset.querySelector('.selection-wrapper input:required')) return;
+    const wrapper = fieldset.closest('.field-wrapper') || fieldset;
+    const help = document.createElement('p');
+    help.className = 'field-help';
+    help.id = `${fieldset.id || `fieldset-${i}`}-help`;
+    const hint = document.createElement('span');
+    hint.className = 'field-hint';
+    hint.textContent = '* Required';
+    const error = document.createElement('span');
+    error.className = 'field-error';
+    error.textContent = 'This field is required.';
+    help.append(hint, error);
+    wrapper.append(help);
+    fieldset.setAttribute('aria-describedby', help.id);
+  });
+}
+
+/** A reset row sits beside Submit as a text button, as on the source (RESET | SUBMIT). */
+function placeReset(formEl) {
+  const reset = formEl.querySelector('input[type="reset"]');
+  const submit = formEl.querySelector('.submit-wrapper');
+  if (!reset || !submit) return;
+  const resetWrapper = reset.closest('.field-wrapper');
+  reset.removeAttribute('aria-labelledby');
+  reset.classList.add('reset');
+  submit.prepend(reset);
+  submit.classList.add('has-reset');
+  if (resetWrapper && resetWrapper !== submit) resetWrapper.remove();
+}
+
 export default async function decorate(block) {
   await decorateBaseForm(block);
 
@@ -77,4 +123,6 @@ export default async function decorate(block) {
   if (!formEl) return;
 
   formEl.querySelectorAll('.field-wrapper').forEach(enhanceField);
+  enhanceGroups(formEl);
+  placeReset(formEl);
 }

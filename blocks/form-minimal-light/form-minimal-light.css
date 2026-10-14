@@ -151,6 +151,36 @@
   margin-left: 1px;
 }
 
+/* radio / checkbox options don't repeat the asterisk; the group carries "* Required" */
+.form-minimal-light .selection-wrapper label[data-required]::after {
+  content: none;
+}
+
+/* select labels shown inside the control (its placeholder option); kept for screen readers */
+.form-minimal-light label.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.form-minimal-light select:has(option:disabled:checked) {
+  color: var(--form-outline-color);
+}
+
+/* radio / checkbox group legend */
+.form-minimal-light fieldset legend {
+  margin: 0 0 4px;
+  padding: 0;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
 /* helper line: "* Required", swapped for the validation message while invalid */
 .form-minimal-light .field-help {
   margin: 8px 0 0;
@@ -235,9 +265,56 @@
   cursor: not-allowed;
 }
 
+/* RESET text button beside SUBMIT */
+.form-minimal-light .submit-wrapper.has-reset {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.form-minimal-light .submit-wrapper input.reset {
+  width: auto;
+  height: auto;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--link-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.form-minimal-light .submit-wrapper input.reset:hover {
+  color: var(--text-color);
+  text-decoration: underline;
+}
+
 @media (width >= 600px) {
   .form-minimal-light fieldset {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 24px;
   }
+}
+
+/* radio / checkbox group: legend above, options side by side (Yes  No), as on the source */
+.form-minimal-light fieldset:has(> .selection-wrapper) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 32px;
+}
+
+.form-minimal-light fieldset:has(> .selection-wrapper) > legend {
+  width: 100%;
+}
+
+.form-minimal-light fieldset > .selection-wrapper {
+  margin: 0;
+}
+
+.form-minimal-light .fieldset-wrapper > .field-help {
+  margin-top: 4px;
 }

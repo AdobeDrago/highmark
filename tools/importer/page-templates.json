@@ -2587,6 +2587,70 @@
           ]
         }
       ]
+    },
+    {
+      "name": "fraud-form",
+      "urls": [
+        "https://www.highmark.com/fraud/fraud-form"
+      ],
+      "representativeUrl": "https://www.highmark.com/fraud/fraud-form",
+      "description": "Fraud Prevention > Health Care Fraud Form: Fraud Prevention side nav, h1, intro, required-fields note, then the form-minimal-light block (fields from /fraud/fraud-form-fields.json, built by tools/forms/build-fraud-form-fields.mjs)",
+      "urlPattern": "/fraud/fraud-form",
+      "blocks": [
+        {
+          "name": "cards-minimal-light-sidenav",
+          "instances": [
+            "div.d-none.d-lg-block.col-lg-3 div.nav-container"
+          ]
+        },
+        {
+          "name": "form-minimal-light",
+          "instances": [
+            "form#fraud-form"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "1",
+          "name": "fraud-form",
+          "selector": [
+            "main.container"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-minimal-light-sidenav",
+            "form-minimal-light"
+          ],
+          "defaultContent": [
+            "div.page__par div.cmp-text"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fraud-thank-you",
+      "urls": [
+        "https://www.highmark.com/fraud-thank-you"
+      ],
+      "representativeUrl": "https://www.highmark.com/fraud-thank-you",
+      "description": "The Health Care Fraud Form confirmation page (the form redirects here): h1 + one paragraph",
+      "urlPattern": "/fraud-thank-you",
+      "blocks": [],
+      "sections": [
+        {
+          "id": "1",
+          "name": "thank-you",
+          "selector": [
+            "main"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "div.cmp-text"
+          ]
+        }
+      ]
     }
   ],
   "metadata": {
