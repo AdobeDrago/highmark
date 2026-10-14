@@ -2,8 +2,9 @@
 /* global WebImporter */
 /**
  * Parser for form-minimal-light.
- * Source: https://www.highmark.com/newsroom/news-alert
- *   (.form-container form.customFormContainer, form#newsalert)
+ * Sources: https://www.highmark.com/newsroom/news-alert
+ *   (.form-container form.customFormContainer, form#newsalert), and
+ *   https://www.highmark.com/fraud/fraud-form (form#fraud-form, 2026-10-14)
  * Generated: 2026-10-06
  *
  * The source form (Material text fields + JS/reCAPTCHA submission) is replaced by
@@ -18,8 +19,13 @@
  *   | <a> submit endpoint                     |
  */
 
-// Form definition sheet (fields: firstname, lastname, email, submit).
-const FORM_DEFINITION = '/newsroom/news-alert-form.json';
+// Form definition sheet per source form id (default: the News Alert form).
+//   newsalert:  firstname, lastname, email, submit
+//   fraud-form: the Health Care Fraud Form, built by tools/forms/build-fraud-form-fields.mjs
+const FORM_DEFINITIONS = {
+  newsalert: '/newsroom/news-alert-form.json',
+  'fraud-form': '/fraud/fraud-form-fields.json',
+};
 
 // PLACEHOLDER submit endpoint, used only when the source form has no meaningful action
 // attribute (the source posts via JS + reCAPTCHA). Authors must replace it with the
@@ -48,7 +54,7 @@ export default function parse(element, { document }) {
   }
 
   const cells = [
-    [link(document, FORM_DEFINITION)],
+    [link(document, FORM_DEFINITIONS[element.id] || FORM_DEFINITIONS.newsalert)],
     [link(document, submitUrl)],
   ];
 
