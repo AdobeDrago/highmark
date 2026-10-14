@@ -47,7 +47,7 @@ Before importing a page, check the `nav-group*` branches' `tools/importer/urls-*
 - [x] `/fraud` (Fraud Prevention) **Live**
 - [ ] `/western-pennsylvania/medical-policy` (Medical Policy) **Deferred** ZIP-gated regional page; deferred to the P5 decision; redirects to highmark.com for now
 - [x] `/cms-onc-interoperability` (CMS Interoperability Patient Access Rule) **Live**
-- [x] `/cms-onc-interoperability-prior-authorization-rule` (CMS Interoperability Prior Authorization Rule) **Live**
+- [x] `/cms-onc-interoperability-prior-authorization-rule` (CMS Interoperability Prior Authorization Rule) **Live** layout fixed 2026-10-14 (#111): the legal template's pink "App developers API support" box styling had spread over the whole article, which was one section (5,992px tall at 1280 vs the source's 4,966px). That part is now its own section in DA, and the box matches the source at 1280 / 768 / 390 (text and list left-aligned in the middle half from 768px). The box's rules only apply to a section that starts with that heading; `/cms-onc-interoperability`'s box is its own section too (its section break, lost in DA, was restored the same day). The source's external-link icon on SIGN UP FOR AN ACCOUNT is missing on both pages
 - [x] `/accessibility-statement` (Accessibility Statement) **Live**
 - [x] `/sms-texting` (SMS Texting) **Live**
 - [x] `/privacy-center` (Privacy Center) **Redirected** redirects to /privacy-center/announcements, as the source does
