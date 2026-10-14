@@ -108,6 +108,50 @@ function plainTable(document, source) {
   return wrapper;
 }
 
+/** The id the pipeline gives a heading (github-slugger: "ACA - Care" -> "aca---care"). */
+const headingId = (text) => clean(text).toLowerCase()
+  .replace(/[^\p{L}\p{N}\s_-]/gu, '')
+  .replace(/\s/g, '-');
+
+/**
+ * The FAQ landing's left nav: the parent ("Answers"), its pages as siblings, and
+ * the current page's own pages (every FAQ topic) as its children. The topic pages'
+ * navs (no child list under the current page) are left to the sidenav parser.
+ */
+function siblingNavWithChildren(document, nav) {
+  const active = nav.querySelector('a.active');
+  const children = active?.parentElement.querySelector(':scope > ul.subnavitem-list.show');
+  const siblings = active?.closest('ul:not(.subnavitem-list)');
+  if (!children || !siblings || siblings.matches('.sidenav-item-list')) return null;
+  const link = (a) => {
+    const el = document.createElement('a');
+    el.href = a.getAttribute('href');
+    el.textContent = clean(a.textContent);
+    return el;
+  };
+  const cells = [];
+  const parent = nav.querySelector('a.side-nav-item-parent');
+  if (parent) cells.push(['parent', link(parent)]);
+  siblings.querySelectorAll(':scope > li > a[href]').forEach((a) => {
+    if (a !== active) {
+      cells.push(['sibling', link(a)]);
+      return;
+    }
+    cells.push(['current', link(a)]);
+    children.querySelectorAll(':scope > li > a[href]').forEach((child) => cells.push(['child', link(child)]));
+  });
+  return WebImporter.Blocks.createBlock(document, { name: 'cards-minimal-light-sidenav', cells });
+}
+
+const linkParagraph = (document, href, text) => {
+  const p = document.createElement('p');
+  const a = document.createElement('a');
+  a.href = href;
+  a.textContent = text;
+  p.append(a);
+  return p;
+};
+
 export default function transform(hookName, element, payload) {
   const { document } = payload;
 
@@ -121,8 +165,36 @@ export default function transform(hookName, element, payload) {
     const nav = element.querySelector(NAV);
     const h1 = element.querySelector('h1');
 
-    // 1. left nav
-    if (nav) nav.before(marker(document));
+    // 1. left nav (the FAQ landing's has siblings and children; built here)
+    if (nav) {
+      nav.before(marker(document));
+      const block = siblingNavWithChildren(document, nav);
+      if (block) nav.replaceWith(block);
+    }
+
+    // in-page jump links (the landing's #ACA, #kids, #home, #all) point at the
+    // id the pipeline gives the target group's heading
+    element.querySelectorAll('a[href^="#"]').forEach((a) => {
+      const id = a.getAttribute('href').slice(1);
+      const target = id && element.querySelector(`[id="${id}"]`);
+      const heading = target && (target.matches('h2') ? target : target.querySelector('h2'));
+      if (heading) a.setAttribute('href', `#${headingId(heading.textContent)}`);
+    });
+
+    // the landing's phone-only "complete list of all FAQs" (the source hides it from
+    // 992px, where the left nav lists the topics): its own section, Style mobile-only
+    const all = element.querySelector('section[id="all"]');
+    if (all?.querySelector('h2')) {
+      const content = [document.createElement('h2')];
+      content[0].textContent = clean(all.querySelector('h2').textContent);
+      all.querySelectorAll('p a[href]').forEach((a) => {
+        content.push(linkParagraph(document, a.getAttribute('href'), clean(a.textContent)));
+      });
+      const groups = element.querySelectorAll(GROUP);
+      const after = groups[groups.length - 1] || all;
+      all.remove();
+      after.after(marker(document, 'mobile-only'), ...content);
+    }
 
     // 3. H1 + intro (and 2. the right rail, moved ahead of it)
     if (h1) {
@@ -142,17 +214,16 @@ export default function transform(hookName, element, payload) {
     });
 
     // 4. FAQ groups (with their heading when it sits just above), each with its
-    // Back to Top link after the accordion
+    // text link (Back to Top, or the landing's "SEE ALL … FAQ") after the accordion
     element.querySelectorAll(GROUP).forEach((group) => {
       (headingBefore(group, h1) || group).before(marker(document));
-      const back = [...group.querySelectorAll('a')].find(isBackToTop);
-      if (!back) return;
-      (back.closest('.hmk-brand-buttons') || back).remove();
-      const p = document.createElement('p');
-      const link = document.createElement('a');
-      link.href = '#top';
-      link.textContent = 'Back to Top';
-      p.append(link);
+      const cta = group.querySelector('.hmk-brand-buttons a[href]')
+        || [...group.querySelectorAll('a')].find(isBackToTop);
+      if (!cta) return;
+      const p = isBackToTop(cta)
+        ? linkParagraph(document, '#top', 'Back to Top')
+        : linkParagraph(document, cta.getAttribute('href'), clean(cta.textContent));
+      (cta.closest('.hmk-brand-buttons') || cta).remove();
       group.after(p);
     });
 

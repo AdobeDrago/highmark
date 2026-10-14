@@ -45,12 +45,12 @@ body.faq main h1 {
 }
 
 body.faq main > .section > .default-content-wrapper p {
-  margin: 0 0 16px;
+  margin: 0 0 12.8px;
   color: #001446;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 300;
-  line-height: 24px;
-  letter-spacing: -0.1px;
+  line-height: 21px;
+  letter-spacing: -0.2px;
 }
 
 body.faq main > .section > .default-content-wrapper :is(ul, ol) {
@@ -146,12 +146,15 @@ body.faq .accordion-minimal-light .accordion-minimal-light-item-body > :last-chi
   margin-bottom: 0;
 }
 
-/* Back to Top: a bold uppercase blue text link, 24px under the group */
-body.faq main > .section > .default-content-wrapper p.button-container:has(> a[href="#top"]) {
+/* the group's text link (Back to Top, or the landing's "SEE ALL … FAQ"): the
+   first paragraph after the accordion, a bold uppercase blue text link 24px
+   under the group */
+body.faq main .accordion-minimal-light-wrapper + .default-content-wrapper > p.button-container:first-child {
   margin: 24px 0 0;
   line-height: 20px;
 }
 
+body.faq main .accordion-minimal-light-wrapper + .default-content-wrapper > p.button-container:first-child > a.button:any-link,
 body.faq main a.button[href="#top"]:any-link {
   display: inline;
   margin: 0;
@@ -168,11 +171,77 @@ body.faq main a.button[href="#top"]:any-link {
   white-space: normal;
 }
 
+body.faq main .accordion-minimal-light-wrapper + .default-content-wrapper > p.button-container:first-child > a.button:hover,
+body.faq main .accordion-minimal-light-wrapper + .default-content-wrapper > p.button-container:first-child > a.button:focus-visible,
 body.faq main a.button[href="#top"]:hover,
 body.faq main a.button[href="#top"]:focus-visible {
   background: none;
   color: #0066b1;
   text-decoration: underline;
+}
+
+/* ---- FAQ landing: "Popular health insurance questions and answers" with its
+   jump links to the groups, and the phone-only complete list of topics ---- */
+body.faq main > .section > .default-content-wrapper h3 {
+  margin: 0 0 8px;
+  padding: 16px 0;
+  color: var(--text-color);
+  font-size: 22px;
+  line-height: 1.1;
+  letter-spacing: -0.4px;
+}
+
+/* links alone on their line (EDS makes them buttons) are plain blue text links:
+   the jump links (in-page, bold where the source bolds them) and the topic list */
+body.faq main > .section > .default-content-wrapper p.button-container a.button:is([href^="#"]:not([href="#top"])):any-link,
+body.faq main > .section.mobile-only > .default-content-wrapper p.button-container a.button:any-link {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: #0078c1;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+  white-space: normal;
+}
+
+body.faq main > .section > .default-content-wrapper p.button-container a.button:is([href^="#"]:not([href="#top"])):hover,
+body.faq main > .section.mobile-only > .default-content-wrapper p.button-container a.button:hover {
+  background: none;
+  color: #0078c1;
+  text-decoration: underline;
+}
+
+body.faq main > .section > .default-content-wrapper p.button-container strong > a.button[href^="#"] {
+  font-weight: 700;
+}
+
+/* the complete list: the group heading size without its indent; 5px above and
+   below each link (10px above the first) */
+body.faq main > .section.mobile-only h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  color: var(--text-color);
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.72px;
+}
+
+body.faq main > .section.mobile-only > .default-content-wrapper p.button-container {
+  padding: 5px 0;
+}
+
+body.faq main > .section.mobile-only > .default-content-wrapper h2 + p.button-container {
+  padding-top: 10px;
+}
+
+body.faq main > .section.mobile-only {
+  margin-bottom: 60px;
 }
 
 /* ---- comparison table (High Blood Pressure): navy header row with rounded
@@ -303,6 +372,22 @@ body.faq main:has(> .section.highlight:last-child) {
 @media (width >= 768px) {
   body.faq main > .section > div {
     padding: 0 64px;
+  }
+
+  body.faq main > .section > .default-content-wrapper p {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.faq main > .section > .default-content-wrapper h3 {
+    font-size: 24px;
+    letter-spacing: -0.44px;
+  }
+
+  body.faq main > .section.mobile-only h2 {
+    font-size: 28px;
+    letter-spacing: -0.78px;
   }
 
   body.faq main h1 {
@@ -458,6 +543,22 @@ body.faq main:has(> .section.highlight:last-child) {
     width: auto;
     max-width: 780px;
     margin: 0 auto;
+  }
+
+  /* the complete list of topics is phone-only: the left nav lists them */
+  body.faq main > .section.mobile-only,
+  body.faq main > .section > .default-content-wrapper p:has(a[href="#here-is-the-complete-list-of-all-faqs"]) {
+    display: none;
+  }
+
+  body.faq main > .section > .default-content-wrapper p {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  body.faq main > .section > .default-content-wrapper h3 {
+    letter-spacing: -0.72px;
   }
 
   body.faq main h1 {

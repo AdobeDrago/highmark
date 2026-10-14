@@ -650,8 +650,7 @@
       "name": "sidebar-listing",
       "urls": [
         "https://www.highmark.com/resources/answers/articles",
-        "https://www.highmark.com/resources/answers/community-assistance-resources",
-        "https://www.highmark.com/resources/answers/faq"
+        "https://www.highmark.com/resources/answers/community-assistance-resources"
       ],
       "coverageGaps": [],
       "description": "Two-column layout with a left-hand section navigation sidebar and a main content column showing a heading, intro, and a list of linked items",
@@ -741,6 +740,7 @@
     {
       "name": "faq-topic",
       "urls": [
+        "https://www.highmark.com/resources/answers/faq",
         "https://www.highmark.com/resources/answers/faq/aca-plans",
         "https://www.highmark.com/resources/answers/faq/behavioral-health-medication",
         "https://www.highmark.com/resources/answers/faq/western-ny-blue-fund",
@@ -763,7 +763,7 @@
         "https://www.highmark.com/resources/answers/faq/spending-accounts"
       ],
       "coverageGaps": [],
-      "description": "FAQ topic page (/resources/answers/faq/*): breadcrumbs with Print / Share, a left nav listing every FAQ topic, an H1 + intro, FAQ accordion groups each followed by Back to Top, and on some pages a right-rail callout and a blush CTA band",
+      "description": "FAQ landing and topic pages (/resources/answers/faq and /resources/answers/faq/*): breadcrumbs with Print / Share, a left nav listing every FAQ topic, an H1 + intro, FAQ accordion groups each followed by Back to Top, and on some pages a right-rail callout and a blush CTA band",
       "blocks": [
         {
           "name": "cards-minimal-light-sidenav",

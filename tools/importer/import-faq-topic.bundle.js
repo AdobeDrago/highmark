@@ -271,6 +271,39 @@ var CustomImportScript = (() => {
     wrapper.append(table);
     return wrapper;
   }
+  var headingId = (text) => clean(text).toLowerCase().replace(/[^\p{L}\p{N}\s_-]/gu, "").replace(/\s/g, "-");
+  function siblingNavWithChildren(document, nav) {
+    const active = nav.querySelector("a.active");
+    const children = active == null ? void 0 : active.parentElement.querySelector(":scope > ul.subnavitem-list.show");
+    const siblings = active == null ? void 0 : active.closest("ul:not(.subnavitem-list)");
+    if (!children || !siblings || siblings.matches(".sidenav-item-list")) return null;
+    const link = (a) => {
+      const el = document.createElement("a");
+      el.href = a.getAttribute("href");
+      el.textContent = clean(a.textContent);
+      return el;
+    };
+    const cells = [];
+    const parent = nav.querySelector("a.side-nav-item-parent");
+    if (parent) cells.push(["parent", link(parent)]);
+    siblings.querySelectorAll(":scope > li > a[href]").forEach((a) => {
+      if (a !== active) {
+        cells.push(["sibling", link(a)]);
+        return;
+      }
+      cells.push(["current", link(a)]);
+      children.querySelectorAll(":scope > li > a[href]").forEach((child) => cells.push(["child", link(child)]));
+    });
+    return WebImporter.Blocks.createBlock(document, { name: "cards-minimal-light-sidenav", cells });
+  }
+  var linkParagraph = (document, href, text) => {
+    const p = document.createElement("p");
+    const a = document.createElement("a");
+    a.href = href;
+    a.textContent = text;
+    p.append(a);
+    return p;
+  };
   function transform2(hookName, element, payload) {
     var _a;
     const { document } = payload;
@@ -280,7 +313,29 @@ var CustomImportScript = (() => {
       });
       const nav = element.querySelector(NAV);
       const h1 = element.querySelector("h1");
-      if (nav) nav.before(marker(document));
+      if (nav) {
+        nav.before(marker(document));
+        const block = siblingNavWithChildren(document, nav);
+        if (block) nav.replaceWith(block);
+      }
+      element.querySelectorAll('a[href^="#"]').forEach((a) => {
+        const id = a.getAttribute("href").slice(1);
+        const target = id && element.querySelector(`[id="${id}"]`);
+        const heading = target && (target.matches("h2") ? target : target.querySelector("h2"));
+        if (heading) a.setAttribute("href", `#${headingId(heading.textContent)}`);
+      });
+      const all = element.querySelector('section[id="all"]');
+      if (all == null ? void 0 : all.querySelector("h2")) {
+        const content = [document.createElement("h2")];
+        content[0].textContent = clean(all.querySelector("h2").textContent);
+        all.querySelectorAll("p a[href]").forEach((a) => {
+          content.push(linkParagraph(document, a.getAttribute("href"), clean(a.textContent)));
+        });
+        const groups = element.querySelectorAll(GROUP);
+        const after = groups[groups.length - 1] || all;
+        all.remove();
+        after.after(marker(document, "mobile-only"), ...content);
+      }
       if (h1) {
         const rail = element.querySelector(RAIL);
         if (rail) {
@@ -296,14 +351,10 @@ var CustomImportScript = (() => {
       });
       element.querySelectorAll(GROUP).forEach((group) => {
         (headingBefore(group, h1) || group).before(marker(document));
-        const back = [...group.querySelectorAll("a")].find(isBackToTop);
-        if (!back) return;
-        (back.closest(".hmk-brand-buttons") || back).remove();
-        const p = document.createElement("p");
-        const link = document.createElement("a");
-        link.href = "#top";
-        link.textContent = "Back to Top";
-        p.append(link);
+        const cta = group.querySelector(".hmk-brand-buttons a[href]") || [...group.querySelectorAll("a")].find(isBackToTop);
+        if (!cta) return;
+        const p = isBackToTop(cta) ? linkParagraph(document, "#top", "Back to Top") : linkParagraph(document, cta.getAttribute("href"), clean(cta.textContent));
+        (cta.closest(".hmk-brand-buttons") || cta).remove();
         group.after(p);
       });
       element.querySelectorAll(CTA).forEach((cta) => cta.before(marker(document, "highlight")));
@@ -332,8 +383,9 @@ var CustomImportScript = (() => {
   ];
   var PAGE_TEMPLATE = {
     name: "faq-topic",
-    description: "FAQ topic page: breadcrumbs with Print / Share, a left nav listing every FAQ topic, an H1 + intro, FAQ accordion groups each followed by Back to Top, and on some pages a right-rail callout and a blush CTA band",
+    description: "FAQ landing and topic pages: breadcrumbs with Print / Share, a left nav listing every FAQ topic, an H1 + intro, FAQ accordion groups each followed by Back to Top, and on some pages a right-rail callout and a blush CTA band",
     urls: [
+      "https://www.highmark.com/resources/answers/faq",
       "https://www.highmark.com/resources/answers/faq/aca-plans",
       "https://www.highmark.com/resources/answers/faq/behavioral-health-medication",
       "https://www.highmark.com/resources/answers/faq/western-ny-blue-fund",

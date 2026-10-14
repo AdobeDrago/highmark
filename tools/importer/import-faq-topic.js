@@ -26,8 +26,9 @@ const transformers = [
 // PAGE TEMPLATE CONFIGURATION — embedded from page-templates.json
 const PAGE_TEMPLATE = {
   name: 'faq-topic',
-  description: 'FAQ topic page: breadcrumbs with Print / Share, a left nav listing every FAQ topic, an H1 + intro, FAQ accordion groups each followed by Back to Top, and on some pages a right-rail callout and a blush CTA band',
+  description: 'FAQ landing and topic pages: breadcrumbs with Print / Share, a left nav listing every FAQ topic, an H1 + intro, FAQ accordion groups each followed by Back to Top, and on some pages a right-rail callout and a blush CTA band',
   urls: [
+    'https://www.highmark.com/resources/answers/faq',
     'https://www.highmark.com/resources/answers/faq/aca-plans',
     'https://www.highmark.com/resources/answers/faq/behavioral-health-medication',
     'https://www.highmark.com/resources/answers/faq/western-ny-blue-fund',

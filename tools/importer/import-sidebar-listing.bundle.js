@@ -201,8 +201,7 @@ var CustomImportScript = (() => {
     description: "Two-column layout with a left-hand section navigation sidebar and a main content column showing a heading, intro, and a list of linked items (or an FAQ accordion on faq/* pages)",
     urls: [
       "https://www.highmark.com/resources/answers/articles",
-      "https://www.highmark.com/resources/answers/community-assistance-resources",
-      "https://www.highmark.com/resources/answers/faq"
+      "https://www.highmark.com/resources/answers/community-assistance-resources"
     ],
     blocks: [
       { name: "cards-minimal-light-sidenav", instances: ["div.d-none.d-lg-block.col-lg-3 div.nav-container"] },

@@ -2,12 +2,10 @@
   "status": "success",
   "url": "https://www.highmark.com/resources/answers/faq",
   "path": "resources/answers/faq",
-  "timestamp": "2026-09-30T20:33:31.343Z",
+  "timestamp": "2026-10-14T12:19:03.855Z",
   "title": "Highmark FAQ: Answers to Your Health Questions",
-  "template": "sidebar-listing",
+  "template": "faq-topic",
   "blocks": [
-    "cards-minimal-light-sidenav",
-    "cards-minimal-light-sidenav",
     "accordion-minimal-light",
     "accordion-minimal-light",
     "accordion-minimal-light"

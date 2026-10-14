@@ -138,6 +138,18 @@
   font-weight: 600;
 }
 
+/* a current sibling with its own pages (the FAQ landing): the 24px chevron
+   button sits in the link's right padding, as on the source */
+.cards-minimal-light-sidenav-guide .cards-minimal-light-sidenav-current > a:has(.cards-minimal-light-sidenav-arrow) {
+  padding-right: 0;
+}
+
+.cards-minimal-light-sidenav-guide .cards-minimal-light-sidenav-arrow {
+  width: 24px;
+  height: 1.7em;
+  margin: 0 0 0 auto; /* not the site's 12px button margins */
+}
+
 /* ---- Two-column layout (desktop): sidebar left, content right ----
    The block sits first in its section, so EDS names the section
    `.cards-minimal-light-sidenav-container`. On the source the sidebar and the

@@ -28,7 +28,6 @@ const PAGE_TEMPLATE = {
   urls: [
     'https://www.highmark.com/resources/answers/articles',
     'https://www.highmark.com/resources/answers/community-assistance-resources',
-    'https://www.highmark.com/resources/answers/faq',
   ],
   blocks: [
     { name: 'cards-minimal-light-sidenav', instances: ['div.d-none.d-lg-block.col-lg-3 div.nav-container'] },
