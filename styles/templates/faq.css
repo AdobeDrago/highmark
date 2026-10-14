@@ -113,7 +113,7 @@ body.faq main > .section > .default-content-wrapper p:not(.button-container):has
   text-align: center;
 }
 
-body.faq main > .section > .default-content-wrapper p:has(> strong:only-child) + p.button-container {
+body.faq main > .section > .default-content-wrapper p:not(.button-container):has(> strong:only-child) + p.button-container {
   margin-top: 30px;
   text-align: center;
 }
@@ -622,7 +622,7 @@ body.faq main:has(> .section.highlight:last-child) {
     padding-top: var(--faq-space, 0);
   }
 
-  body.faq main > .section > .default-content-wrapper p:has(> strong:only-child) + p.button-container {
+  body.faq main > .section > .default-content-wrapper p:not(.button-container):has(> strong:only-child) + p.button-container {
     margin-top: 33px;
   }
 
