@@ -311,6 +311,13 @@ var CustomImportScript = (() => {
       element.querySelectorAll("a *").forEach((el) => {
         if (/^opens a new tab or window$/i.test(clean(el.textContent))) el.remove();
       });
+      element.querySelectorAll("p span.p1").forEach((span) => {
+        const p = span.closest("p");
+        if (p.closest(".collapsible-item, .accordion-trigger") || clean(p.textContent) !== clean(span.textContent)) return;
+        const strong = document.createElement("strong");
+        strong.append(...span.childNodes);
+        p.replaceChildren(strong);
+      });
       const nav = element.querySelector(NAV);
       const h1 = element.querySelector("h1");
       if (nav) {
