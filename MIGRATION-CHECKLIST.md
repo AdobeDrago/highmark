@@ -169,6 +169,23 @@ Not linked from the homepage; found in the sitemap. Imported 2026-10-05, **Previ
 - [ ] `/wholecare`, `/health-options-de` (`subsidiary-home` template). The Delaware "We're in your community" video plays inline through `columns-minimal-dark` (a cell holding only an `.mp4` link).
 - [ ] `/health-options-wv`, `/ventures` (`campaign-landing` template, with `/because-life`). Ventures keeps the source's closing "Let's change healthcare" band.
 
+## Regional member pages
+
+The source's member resources page for each region, not linked from the homepage. **Live** 2026-10-14 (#121), 6/6, in both indexes:
+
+- [x] `/member/bcbs` (Highmark Blue Cross Blue Shield: Western, north central and northeastern PA) **Live**
+- [x] `/member/blueshield` (Highmark Blue Shield: central and southeastern PA) **Live**
+- [x] `/member/bcbswv` (West Virginia) **Live**, with its prior-authorization footnote
+- [x] `/member/bcbsde` (Delaware) **Live**
+- [x] `/member/bcbswny` (Western NY) **Live**, with the Child Health Plus band and Member Bill Pay Options
+- [x] `/member/blueshieldneny` (Northeastern NY) **Live**, with Member Bill Pay Options
+
+- Import: `tools/importer/import-member-regional.js` (template `member-regional`, one section per source component); `tools/importer/import-member-chrome.js` builds each region's header and footer, `/member/fragments/<region>/nav` and `/footer`, set by the pages' `nav` / `footer` metadata.
+- Header: the region's logo (and its mobile logo), the corporate `/nav` menu, no utility bar. Western NY's fragment swaps the CHIP group for "NY State Plans", as on its source. The logos are optimized copies in each nav fragment's `.nav/` folder (the source's SVGs are 61-72 KB, over the 40 KB the pipeline accepts): re-uploading a re-imported nav fragment brings back the source's logos and fails to preview.
+- Footer: the Federal Employee Program band (`footer-top`), the region's phone number, Provider Resource Center link and legal text.
+- Matched to the source at 1440 / 1280 / 768 / 390: the footer lands within 8px on most pages and widths (Western NY 22-25px on tablets and phones, West Virginia 20px on phones). Left out: the source's visible "Skip to main content" bar. REGISTER is navy on the light-blue mobile panel (white on the source, barely visible there).
+- `/redirects` (466 rows, published with the pages): the regions' sub-pages (Find a Pharmacy, Find a Dentist, formularies, Forms, Delaware's Disputes and Appeals) go to highmark.com, `/help` to our home (as the source does), `/public-policy` to highmark.com (a DA draft, 404 on live). `build-redirects.mjs` doesn't read the member fragments yet, so a regeneration drops `/help` and Disputes and Appeals; it also drops `/public-policy`, which has a DA document.
+
 ## Provider pages (providers.highmark.com → /providers)
 
 Tracks every page of [providers.highmark.com](https://providers.highmark.com/) (the Provider Resource Center) and whether it is migrated to `/providers` on this site: our `/providers/claims` is the source's `/claims`. Built 2026-10-07 from the source's sitemap (464 URLs) and its own list servlets; see "Provider pages" in AGENTS.md for how the pages are built.
