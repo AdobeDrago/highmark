@@ -646,3 +646,102 @@ body.legal main .section .default-content-wrapper:has(> h2#app-developers-api-su
     margin-bottom: 16px;
   }
 }
+
+/* ------------------------------------------------------------------
+ * 10. Splash CTA box (section style splash, /because-life/proactive-care's
+ * "Explore your benefits"): the source's 15% splash panel, the width of
+ * the column, a centred Sofia Pro subtitle in its middle two thirds (the
+ * source's span.p1) and a filled button.
+ * The page around it keeps the source's gaps: 20px under the photo, and
+ * the footnote (a <sub> paragraph) after the box.
+ * ------------------------------------------------------------------ */
+body.legal main > .section.splash {
+  margin: 0;
+  padding: 0;
+  background: none;
+}
+
+body.legal main > .section.splash > div.default-content-wrapper {
+  box-sizing: border-box;
+  margin: 53px 30px 40px;
+  padding: 20px 28px 36px;
+  background-color: var(--light-blue-color);
+  text-align: center;
+}
+
+body.legal main > .section.splash p:not(.button-container) {
+  margin: 0 auto 12.8px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.2px;
+}
+
+body.legal main > .section.splash p.button-container:has(> strong > a.button.primary) {
+  margin: 28px 0 0;
+}
+
+body.legal main > .section.splash a.button.primary:any-link {
+  border: 0;
+  background: var(--link-color);
+  color: #fff;
+}
+
+body.legal main > .section.splash a.button.primary:hover,
+body.legal main > .section.splash a.button.primary:focus {
+  background: var(--text-color);
+  color: #fff;
+}
+
+body.legal main:has(> .section.splash) .default-content-wrapper p:has(> picture:only-child) {
+  margin-bottom: 20px;
+}
+
+body.legal main:has(> .section.splash) .default-content-wrapper p > sub:only-child {
+  font-size: 0.75em;
+  line-height: 0;
+}
+
+/* the footnote's own bottom margin counts towards the gap above the footer */
+body.legal main:has(> .section.splash) > .section:last-child {
+  display: flow-root;
+}
+
+@media (width >= 768px) {
+  body.legal main > .section.splash > div.default-content-wrapper {
+    margin: 57px 64px 39px;
+    padding: 20px 0 57px;
+  }
+
+  body.legal main > .section.splash p:not(.button-container) {
+    width: calc(100% * 2 / 3);
+    margin-bottom: 16px;
+    font-size: 18px;
+    line-height: 1.3;
+    letter-spacing: -0.4px;
+  }
+
+  body.legal main > .section.splash p.button-container:has(> strong > a.button.primary) {
+    margin-top: 32px;
+  }
+
+  body.legal main:has(> .section.splash) > .section:last-child {
+    padding-bottom: 20px;
+  }
+}
+
+@media (width >= 992px) {
+  body.legal main > .section.splash > div.default-content-wrapper {
+    max-width: 743px;
+    margin: 76px auto 59px;
+    padding: 40px 0 77px;
+  }
+
+  body.legal main > .section.splash p:not(.button-container) {
+    font-size: 20px;
+    line-height: 1.5;
+    letter-spacing: -0.3px;
+  }
+}

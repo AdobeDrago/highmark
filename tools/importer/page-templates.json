@@ -2671,6 +2671,48 @@
           ]
         }
       ]
+    },
+    {
+      "name": "because-life-article",
+      "urls": [
+        "https://www.highmark.com/because-life/proactive-care"
+      ],
+      "representativeUrl": "https://www.highmark.com/because-life/proactive-care",
+      "description": "Because Life article (because-life/proactive-care): one centred column with breadcrumb, title, photo and short H3 sections, a light-blue \"Explore your benefits\" CTA box (section style splash) and a footnote. Authored with Template: legal, whose column and type match the source's",
+      "urlPattern": "/because-life/proactive-care",
+      "blocks": [],
+      "sections": [
+        {
+          "id": "1",
+          "name": "article",
+          "selector": [
+            "main .page__par h1"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": []
+        },
+        {
+          "id": "2",
+          "name": "cta-box",
+          "selector": [
+            "main .page__par section.new-hmk-brand-fifteenpercent-splash"
+          ],
+          "style": "splash",
+          "blocks": [],
+          "defaultContent": []
+        },
+        {
+          "id": "3",
+          "name": "footnote",
+          "selector": [
+            "main .page__par section.container-fluid-fullwidth:has(sub):not(:has(h1, h2))"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": []
+        }
+      ]
     }
   ],
   "metadata": {
