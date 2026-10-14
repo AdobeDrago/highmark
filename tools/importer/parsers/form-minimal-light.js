@@ -22,9 +22,11 @@
 // Form definition sheet per source form id (default: the News Alert form).
 //   newsalert:  firstname, lastname, email, submit
 //   fraud-form: the Health Care Fraud Form, built by tools/forms/build-fraud-form-fields.mjs
+//   contact-form: the Contact Us form, built by tools/forms/build-contact-form-fields.mjs
 const FORM_DEFINITIONS = {
   newsalert: '/newsroom/news-alert-form.json',
   'fraud-form': '/fraud/fraud-form-fields.json',
+  'contact-form': '/contact-form-fields.json',
 };
 
 // PLACEHOLDER submit endpoint, used only when the source form has no meaningful action

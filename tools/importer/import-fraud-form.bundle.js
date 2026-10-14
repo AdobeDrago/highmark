@@ -44,7 +44,8 @@ var CustomImportScript = (() => {
   // tools/importer/parsers/form-minimal-light.js
   var FORM_DEFINITIONS = {
     newsalert: "/newsroom/news-alert-form.json",
-    "fraud-form": "/fraud/fraud-form-fields.json"
+    "fraud-form": "/fraud/fraud-form-fields.json",
+    "contact-form": "/contact-form-fields.json"
   };
   var PLACEHOLDER_SUBMIT = "https://www.highmark.com/newsroom/news-alert-submit";
   function link(document2, href) {
@@ -320,6 +321,7 @@ var CustomImportScript = (() => {
       ]
     }
   };
+  TEMPLATES["/contact-thank-you"] = TEMPLATES["/fraud-thank-you"];
   var PAGE_TEMPLATE = TEMPLATES["/fraud/fraud-form"];
   function executeTransformers(hookName, element, payload) {
     const enhancedPayload = __spreadProps(__spreadValues({}, payload), { template: PAGE_TEMPLATE });

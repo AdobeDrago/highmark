@@ -14,8 +14,8 @@
  * fields. This keeps the named fields in source order and adds what the importer can't
  * see, taken from the rendered page (2026-10-14):
  *   - State (x2): select, the source's 50 state codes;
- *   - Type of Complaint: select (Provider ... Other); its "Other" text field is shown
- *     only for Other on the source, always here (the form block has no conditions);
+ *   - Type of Complaint: select (Provider ... Other); its "Other" text field is shown only
+ *     for Other (Style other-of-complainttype, see blocks/form-minimal-light);
  *   - "Do you wish to remain anonymous?" Yes / No: a required radio group;
  *   - Summary of Complaint: required text area;
  *   - the "COMPLAINT AGAINST:" heading, Reset, Submit, and the thank-you redirect.
@@ -67,7 +67,9 @@ function build(source) {
         Name: name, Type: 'select', Label: 'Type of Complaint', Placeholder: 'Type of Complaint', Options: COMPLAINT_TYPES,
       }));
     } else if (name === 'other') {
-      rows.push(row({ Name: name, Type: 'text', Label: 'Other (if Type of Complaint is Other)' }));
+      rows.push(row({
+        Name: name, Type: 'text', Label: 'Other', Style: 'other-of-complainttype',
+      }));
     } else if (name === 'anonymous') {
       if (seen.has(name)) return; // the importer lists Yes and No as two rows
       rows.push(row({ Name: 'anonymousGroup', Type: 'fieldset', Label: 'Do you wish to remain anonymous?*' }));
