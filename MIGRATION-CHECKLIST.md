@@ -1,6 +1,6 @@
 # Migration checklist: pages linked from the highmark.com homepage
 
-Tracks every page the [highmark.com](https://www.highmark.com/) homepage links to (header, body, footer, and the regional pages behind the ZIP gate) and whether it is migrated to this site. Updated 2026-10-07.
+Tracks every page the [highmark.com](https://www.highmark.com/) homepage links to (header, body, footer, and the regional pages behind the ZIP gate) and whether it is migrated to this site. Updated 2026-10-14.
 
 The provider pages (providers.highmark.com, migrated to `/providers`) have their own part at the end: [Provider pages](#provider-pages-providershighmarkcom--providers).
 
@@ -23,7 +23,7 @@ Before importing a page, check the `nav-group*` branches' `tools/importer/urls-*
 - [ ] `/about/alert-notice` (Learn More) **To do**
 - [x] `/employer` (For Employers) **Live**
 - [x] `/language-assistance` (Language Assistance) **Live** imported by the `nav-group6` batch (#42)
-- [x] `/contact` (Contact Us) **Live** imported by the `nav-group6` batch (#42)
+- [x] `/contact` (Contact Us) **Live** imported by the `nav-group6` batch (#42), without its form; the form was added 2026-10-14 (`contact` template, `form-minimal-light` block with the form class `contact_form`, #107), with its `/contact-form-fields.json` field sheet (built by `tools/forms/build-contact-form-fields.mjs`) and the `/contact-thank-you` confirmation page. Subject's "Please tell us about your reason to contact us" box shows, and is required, only for Other. The form does not work yet: it still posts to the source's `/bin/hmk/genericmailer`, which expects the reCAPTCHA token tied to highmark.com. Replace the submit URL (row 2 of the block), then re-publish the page
 - [x] `/plans` (Plans) **Live**
 - [x] `/member/member-guide` (For Members) **Live**
 - [x] `/resources` (Resources) **Live**
