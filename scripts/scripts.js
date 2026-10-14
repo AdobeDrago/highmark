@@ -246,6 +246,31 @@ function decorateLeadershipBio(main) {
 }
 
 /**
+ * Legal pages (template legal): links that get a class by their text, as the bios'
+ * paragraphs do (LEADERSHIP_BIO_CLASSES). Text -> class.
+ */
+const LEGAL_LINK_CLASSES = {
+  // /cms-onc-interoperability-prior-authorization-rule: the four API names, each a PDF link
+  // opening its paragraph
+  '1. Patient Access API (Enhanced)': 'cms-onc-header-link',
+  '2. Provider Access API (NEW)': 'cms-onc-header-link',
+  '3. Payer-to-Payer API (NEW)': 'cms-onc-header-link',
+  '4. Prior Authorization API (NEW)': 'cms-onc-header-link',
+};
+
+/**
+ * Adds the LEGAL_LINK_CLASSES classes to matching links of a legal page.
+ * @param {Element} main The main element
+ */
+function decorateLegalLinks(main) {
+  if (!document.body.classList.contains('legal')) return;
+  main.querySelectorAll('.default-content-wrapper a').forEach((a) => {
+    const cls = LEGAL_LINK_CLASSES[a.textContent.replace(/\s+/g, ' ').trim()];
+    if (cls) a.classList.add(cls);
+  });
+}
+
+/**
  * Loads everything needed to get to LCP.
  * @param {Element} doc The container element
  */
@@ -270,6 +295,7 @@ async function loadEager(doc) {
     decorateShopHomeLinks(main);
     decorateProviderContent(main);
     decorateLeadershipBio(main);
+    decorateLegalLinks(main);
     await templateStyles;
     doc.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);
