@@ -8,6 +8,10 @@
  * Field creation, validation and submission are reused from the base form block.
  * This variant adds the minimal layout: labels rendered inside the outlined inputs
  * (floating on focus / when filled) and a "* Required" helper beneath each required field.
+ *
+ * "Other" fields: a sheet row with Style `other-of-<select name>` (e.g. other-of-subject)
+ * is shown only while that select is set to "other", as the source's "Other" text fields
+ * are; while hidden it is disabled, so it is neither validated nor submitted.
  */
 import decorateBaseForm from '../form/form.js';
 
@@ -103,6 +107,24 @@ function enhanceGroups(formEl) {
   });
 }
 
+/** Rows styled other-of-<select name> follow that select's "other" choice (see top). */
+function linkOtherFields(formEl) {
+  formEl.querySelectorAll('.field-wrapper[class*="other-of-"]').forEach((wrapper) => {
+    const name = [...wrapper.classList].find((c) => c.startsWith('other-of-')).slice('other-of-'.length);
+    const select = [...formEl.querySelectorAll('select')].find((s) => s.name.toLowerCase() === name);
+    const control = wrapper.querySelector('input, textarea, select');
+    if (!select || !control) return;
+    const update = () => {
+      const show = select.value === 'other';
+      wrapper.hidden = !show;
+      control.disabled = !show;
+    };
+    select.addEventListener('change', update);
+    formEl.addEventListener('reset', () => setTimeout(update));
+    update();
+  });
+}
+
 /** A reset row sits beside Submit as a text button, as on the source (RESET | SUBMIT). */
 function placeReset(formEl) {
   const reset = formEl.querySelector('input[type="reset"]');
@@ -116,16 +138,22 @@ function placeReset(formEl) {
   if (resetWrapper && resetWrapper !== submit) resetWrapper.remove();
 }
 
+// classes asked for by name where the sheet's name doesn't give them (see formClass)
+const FORM_CLASSES = { 'contact-form': 'contact_form' };
+
 /**
  * The form's class, named after its field sheet without ".json" and a "-fields" suffix:
  * /fraud/fraud-form-fields.json -> "fraud-form", /newsroom/news-alert-form.json ->
- * "news-alert-form".
+ * "news-alert-form", unless FORM_CLASSES names another (/contact-form-fields.json ->
+ * "contact_form").
  */
 function formClass(block) {
   const sheet = [...block.querySelectorAll('a[href]')]
     .map((a) => new URL(a.href, window.location.href).pathname)
     .find((p) => p.endsWith('.json'));
-  return sheet ? sheet.split('/').pop().replace(/\.json$/, '').replace(/-fields$/, '') : '';
+  if (!sheet) return '';
+  const name = sheet.split('/').pop().replace(/\.json$/, '').replace(/-fields$/, '');
+  return FORM_CLASSES[name] || name;
 }
 
 export default async function decorate(block) {
@@ -138,5 +166,6 @@ export default async function decorate(block) {
   if (cls) formEl.classList.add(cls);
   formEl.querySelectorAll('.field-wrapper').forEach(enhanceField);
   enhanceGroups(formEl);
+  linkOtherFields(formEl);
   placeReset(formEl);
 }

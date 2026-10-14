@@ -14,8 +14,9 @@
    blush box inside the content column (text in a 10/12 column offset 1,
    40px spacer above, 20px below).
 
-   The source contact form below the box is not migrated; the 40px / 60px
-   (>= 768) gap after the box is the source's spacing before the footer. */
+   (3) the contact form: the required-fields note (default content) and the
+   form-minimal-light block (fields from /contact-form-fields.json), in the same
+   content column; the form is the column's width (11/12 of it at 768-991). */
 
 /* stylelint-disable no-descending-specificity */
 
@@ -175,6 +176,54 @@ body.contact main > .section.highlight > .default-content-wrapper p {
 }
 
 /* ------------------------------------------------------------------
+ * Section 3 — required-fields note + contact form, in the content column
+ * ------------------------------------------------------------------ */
+body.contact main > .section.form-minimal-light-container {
+  margin: 0 0 40px;
+}
+
+body.contact main > .section.form-minimal-light-container > .form-minimal-light-wrapper {
+  box-sizing: border-box;
+  max-width: none;
+  margin: 0;
+  padding: 0 30px;
+}
+
+body.contact main > .section.form-minimal-light-container .form-minimal-light form {
+  max-width: none;
+}
+
+/* source: a one-line (48px) Questions/Comments box that the visitor can enlarge */
+body.contact main > .section.form-minimal-light-container .form-minimal-light textarea {
+  height: 48px;
+  min-height: 48px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+/* the note's bottom margin (the wrapper's last child loses its own), plus the source's
+   extra space before its first field */
+body.contact main > .section.form-minimal-light-container > .default-content-wrapper {
+  padding-bottom: 20.8px;
+}
+
+/* source: the blush box sits closer to the note than to the footer */
+body.contact main > .section.highlight:has(+ .section.form-minimal-light-container) {
+  margin-bottom: 33px;
+}
+
+body.contact main > .section.form-minimal-light-container > .default-content-wrapper p {
+  margin: 0 0 12.8px;
+  padding: 0;
+  color: var(--text-body-color);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+/* ------------------------------------------------------------------
  * Tablet (768-991)
  * ------------------------------------------------------------------ */
 @media (width >= 768px) {
@@ -231,6 +280,32 @@ body.contact main > .section.highlight > .default-content-wrapper p {
     line-height: 23.4px;
     letter-spacing: -0.4px;
   }
+
+  body.contact main > .section.form-minimal-light-container {
+    margin-bottom: 60px;
+  }
+
+  body.contact main > .section.form-minimal-light-container > .form-minimal-light-wrapper {
+    padding: 0 64px;
+  }
+
+  body.contact main > .section.form-minimal-light-container > .default-content-wrapper {
+    padding-bottom: 21px;
+  }
+
+  body.contact main > .section.highlight:has(+ .section.form-minimal-light-container) {
+    margin-bottom: 35px;
+  }
+
+  body.contact main > .section.form-minimal-light-container .form-minimal-light form {
+    max-width: calc(100% * 11 / 12);
+  }
+
+  body.contact main > .section.form-minimal-light-container > .default-content-wrapper p {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
 }
 
 /* ------------------------------------------------------------------
@@ -238,7 +313,8 @@ body.contact main > .section.highlight > .default-content-wrapper p {
  * ------------------------------------------------------------------ */
 @media (width >= 992px) {
   body.contact main > .section > .default-content-wrapper,
-  body.contact main > .section.highlight > .default-content-wrapper {
+  body.contact main > .section.highlight > .default-content-wrapper,
+  body.contact main > .section.form-minimal-light-container > .form-minimal-light-wrapper {
     width: calc(min(1200px, 100% - 166px) * 2 / 3);
     margin: 0 auto;
     padding-right: 0;
@@ -272,5 +348,23 @@ body.contact main > .section.highlight > .default-content-wrapper p {
     font-size: 20px;
     line-height: 30px;
     letter-spacing: -0.3px;
+  }
+
+  body.contact main > .section.form-minimal-light-container .form-minimal-light form {
+    max-width: none;
+  }
+
+  body.contact main > .section.form-minimal-light-container > .default-content-wrapper p {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  body.contact main > .section.form-minimal-light-container > .default-content-wrapper {
+    padding-bottom: 20px;
+  }
+
+  body.contact main > .section.highlight:has(+ .section.form-minimal-light-container) {
+    margin-bottom: 40px;
   }
 }

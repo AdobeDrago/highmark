@@ -330,3 +330,13 @@
 .form-minimal-light .fieldset-wrapper > .field-help {
   margin-top: 4px;
 }
+
+/* an "Other" field while its select isn't on "other" (linkOtherFields) */
+.form-minimal-light .field-wrapper[hidden] {
+  display: none;
+}
+
+/* option groups without a "* Required" line keep its space, as the source does */
+.form-minimal-light .fieldset-wrapper:not(:has(.field-help)) {
+  padding-bottom: 19px;
+}

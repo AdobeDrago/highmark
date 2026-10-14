@@ -2,7 +2,7 @@
 /* global WebImporter */
 
 // PARSER IMPORTS
-
+import formMinimalLightParser from './parsers/form-minimal-light.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/highmark-cleanup.js';
@@ -10,7 +10,7 @@ import sectionsTransformer from './transformers/highmark-template-sections.js';
 
 // PARSER REGISTRY
 const parsers = {
-
+  'form-minimal-light': formMinimalLightParser,
 };
 
 // TRANSFORMER REGISTRY — cleanup first, then section boundaries/metadata.
@@ -22,11 +22,18 @@ const transformers = [
 // PAGE TEMPLATE CONFIGURATION — embedded from page-templates.json
 const PAGE_TEMPLATE = {
   "name": "contact",
-  "description": "Contact Us: intro, Members / Providers / Reporting Fraud guidance, mailing address, blush warning callout (the source contact form is not migrated)",
+  "description": "Contact Us: intro, Members / Providers / Reporting Fraud guidance, mailing address, blush warning callout, then the contact form (form-minimal-light; fields from /contact-form-fields.json, built by tools/forms/build-contact-form-fields.mjs) with its required-fields note",
   "urls": [
     "https://www.highmark.com/contact"
   ],
-  "blocks": [],
+  "blocks": [
+    {
+      "name": "form-minimal-light",
+      "instances": [
+        "form#contact-form"
+      ]
+    }
+  ],
   "sections": [
     {
       "id": "1",
@@ -46,6 +53,18 @@ const PAGE_TEMPLATE = {
       ],
       "style": "highlight",
       "blocks": [],
+      "defaultContent": []
+    },
+    {
+      "id": "3",
+      "name": "contact-form",
+      "selector": [
+        "main .page__par > section > .parent-width > section > .aem-Grid > .cmp-text:has(+ .form-container)"
+      ],
+      "style": null,
+      "blocks": [
+        "form-minimal-light"
+      ],
       "defaultContent": []
     }
   ]
@@ -113,15 +132,15 @@ export default {
       'div.breadcrumb',
     ]);
 
-    // The contact form is not migrated (it posts through a reCAPTCHA bound to highmark.com):
-    // drop the required-fields note first (its selector depends on the form's position), then the form.
-    WebImporter.DOMUtils.remove(main, ['main .page__par > section > .parent-width > section > .aem-Grid > .cmp-text:has(+ .form-container)']);
+    // The contact form is the form-minimal-light block (parsers/form-minimal-light.js, sheet
+    // /contact-form-fields.json); its required-fields note above it opens section 3. The
+    // reCAPTCHA markup and the spacing components go.
     WebImporter.DOMUtils.remove(main, [
-      'main .page__par > section > .parent-width > section > .aem-Grid > .form-container', 'form#contact-form', 'form.customFormContainer',
       '.grecaptcha-badge', 'iframe[src*="recaptcha"]', 'textarea[name="g-recaptcha-response"]',
       'main .page__par .spacing',
     ]);
-    // "form below" jumped to the form (#contact), which no longer exists: keep the text, drop the link.
+    // "form below" jumped to the source form's anchor (#contact), which our page doesn't have:
+    // keep the text, drop the link.
     main.querySelectorAll('a[href="#contact"]').forEach((a) => a.replaceWith(...a.childNodes));
     // External-link glyph next to (not inside) the link -> the site's :external-link: icon token.
     // (the source adds the <i> glyph at runtime to links wrapped in span.global-clr_externallink)

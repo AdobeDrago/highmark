@@ -1,6 +1,6 @@
 # Migration checklist: pages linked from the highmark.com homepage
 
-Tracks every page the [highmark.com](https://www.highmark.com/) homepage links to (header, body, footer, and the regional pages behind the ZIP gate) and whether it is migrated to this site. Updated 2026-10-07.
+Tracks every page the [highmark.com](https://www.highmark.com/) homepage links to (header, body, footer, and the regional pages behind the ZIP gate) and whether it is migrated to this site. Updated 2026-10-14.
 
 The provider pages (providers.highmark.com, migrated to `/providers`) have their own part at the end: [Provider pages](#provider-pages-providershighmarkcom--providers).
 
@@ -23,7 +23,7 @@ Before importing a page, check the `nav-group*` branches' `tools/importer/urls-*
 - [ ] `/about/alert-notice` (Learn More) **To do**
 - [x] `/employer` (For Employers) **Live**
 - [x] `/language-assistance` (Language Assistance) **Live** imported by the `nav-group6` batch (#42)
-- [x] `/contact` (Contact Us) **Live** imported by the `nav-group6` batch (#42)
+- [x] `/contact` (Contact Us) **Live** imported by the `nav-group6` batch (#42), without its form; the form was added 2026-10-14 (`contact` template, `form-minimal-light` block with the form class `contact_form`, #107), with its `/contact-form-fields.json` field sheet (built by `tools/forms/build-contact-form-fields.mjs`) and the `/contact-thank-you` confirmation page. Subject's "Please tell us about your reason to contact us" box shows, and is required, only for Other. The form does not work yet: it still posts to the source's `/bin/hmk/genericmailer`, which expects the reCAPTCHA token tied to highmark.com. Replace the submit URL (row 2 of the block), then re-publish the page
 - [x] `/plans` (Plans) **Live**
 - [x] `/member/member-guide` (For Members) **Live**
 - [x] `/resources` (Resources) **Live**
@@ -59,7 +59,7 @@ Before importing a page, check the `nav-group*` branches' `tools/importer/urls-*
 - [x] `/gdpr` (GDPR) **Live**
 - [x] `/ohca` (OHCA Statement) **Live**
 
-Sub-pages the footer pages link to (side navs and links); not linked from the homepage. 10/11 live:
+Sub-pages the footer pages link to (side navs and links); not linked from the homepage. 11/11 live:
 
 - [x] `/fraud/red-flags` **Live** linked from `/fraud`
 - [x] `/fraud/contact` **Live** linked from `/fraud`
@@ -71,7 +71,7 @@ Sub-pages the footer pages link to (side navs and links); not linked from the ho
 - [x] `/privacy-center/privacy-forms` **Live** linked from `/privacy-center/announcements`
 - [x] `/transparency-in-coverage/claims-payment-policies-and-other-information` **Live** linked from `/transparency-in-coverage`
 - [x] `/privacy/digital-privacy-policy` **Live** linked from `/privacy`
-- [ ] `/fraud/fraud-form` **To do** linked from `/fraud/contact`; the Health Care Fraud Form (55 fields, posts to the source's `/bin/hmk/genericmailer`): needs a form-handling decision, not just an import; redirects to highmark.com for now
+- [x] `/fraud/fraud-form` **Live** linked from `/fraud/contact`; the Health Care Fraud Form, published 2026-10-14 (`fraud-form` template, `form-minimal-light` block with the form class `fraud-form`, #105, #106), with its `/fraud/fraud-form-fields.json` field sheet (built by `tools/forms/build-fraud-form-fields.mjs`). Type of Complaint's "Other" box shows only for Other (#107). Its confirmation page, `/fraud-thank-you`, is preview only, so a successful submit would land on a 404 until it is published. The form does not work yet: it still posts to the source's `/bin/hmk/genericmailer`, which expects the reCAPTCHA token tied to highmark.com. Replace the submit URL (row 2 of the block), then re-publish the page
 
 Also in P3:
 
@@ -197,7 +197,7 @@ A region list after a page (e.g. "WNY") means the source shows it only for those
 | `article` | 214 | News and Updates articles (205) and Provider News newsletters (10): title, date, audience, body, related articles | An article template; related articles static or from the query index |
 | `article-listing` | 4 | News and Updates, Provider News, Medical Policy Update, Formulary Updates: searchable lists from the source's `/bin/prc/topics` servlet | A list block over the query index (articles migrate first); Medical Policy Update and Formulary Updates list 19 PDFs, not pages |
 | `document-list` | 20 | Lists from the `/bin/prc/blog` servlet: reimbursement policies and the regional news archives, 719 PDFs in all, each behind a stub page that redirects to the PDF | A list block fed by a sheet (title, date, PDF link), like `press-release-list`; the PDFs stay on the source |
-| `form` | 5 | Forms posting to the source's servlets with reCAPTCHA | A form decision (as for `/fraud/fraud-form`); until then, link to the source |
+| `form` | 5 | Forms posting to the source's servlets with reCAPTCHA | A submit endpoint (`/fraud/fraud-form`, `/contact` and `/newsroom/news-alert` are migrated but still post to the source's servlet); until then, link to the source |
 | `empty` | 2 | PDF stub pages that happen to be in the sitemap | Nothing: they are items of a `document-list` |
 
 ### Done (9/9)

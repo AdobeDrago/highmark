@@ -22,7 +22,7 @@ const transformers = [
 ];
 
 // PAGE TEMPLATE CONFIGURATION — embedded from page-templates.json. One script for the
-// Health Care Fraud Form and the confirmation page it redirects to.
+// Health Care Fraud Form and the confirmation pages the fraud and contact forms redirect to.
 const TEMPLATES = {
   "/fraud/fraud-form": {
   "name": "fraud-form",
@@ -85,6 +85,8 @@ const TEMPLATES = {
   ]
 },
 };
+// The Contact Us form's confirmation page has the same content and template.
+TEMPLATES['/contact-thank-you'] = TEMPLATES['/fraud-thank-you'];
 let PAGE_TEMPLATE = TEMPLATES['/fraud/fraud-form'];
 
 /**
