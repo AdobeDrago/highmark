@@ -130,6 +130,10 @@ body.contact main > .section:first-of-type > .default-content-wrapper p.button-c
   color: #0078c1;
 }
 
+body.contact main > .section:first-of-type > .default-content-wrapper p > a:has(#contact-form):hover {
+  color: #0056b3;
+}
+
 /* trailing external-link glyph (:external-link: token -> span.icon).
    Source: Font Awesome fa-external-link-alt, 1.125em x 1em, 7px before /
    2px after, bottom 0.13em below the baseline, in the body navy (the SVG
