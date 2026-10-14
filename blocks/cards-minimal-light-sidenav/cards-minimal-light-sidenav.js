@@ -98,6 +98,11 @@ export default function decorate(block) {
     rootUl.classList.add('cards-minimal-light-sidenav-guide');
     const siblingList = document.createElement('ul');
     siblingList.className = 'cards-minimal-light-sidenav-children';
+    // "child" rows after the current sibling are its own pages (the FAQ landing's
+    // topics): an open list under it, with the collapse chevron
+    const hasChildren = items.some((it, i) => it.level === 'child'
+      && items.slice(0, i).some((prev) => prev.level === 'current'));
+    let currentChildren = null;
 
     items.forEach((it) => {
       const li = document.createElement('li');
@@ -107,8 +112,18 @@ export default function decorate(block) {
         li.append(makeLink(it));
         rootUl.append(li);
       } else if (it.level === 'current') {
-        li.append(makeCurrentAnchor(it, null));
+        if (hasChildren) {
+          currentChildren = document.createElement('ul');
+          currentChildren.className = 'cards-minimal-light-sidenav-children';
+          li.append(makeCurrentAnchor(it, currentChildren), currentChildren);
+          li.querySelector('a').setAttribute('aria-current', 'page');
+        } else {
+          li.append(makeCurrentAnchor(it, null));
+        }
         siblingList.append(li);
+      } else if (it.level === 'child' && currentChildren) {
+        li.append(makeLink(it));
+        currentChildren.append(li);
       } else {
         // sibling (or stray child)
         li.append(makeLink(it));

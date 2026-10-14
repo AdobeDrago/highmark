@@ -238,10 +238,13 @@ body.leadership-bio main .default-content-wrapper :is(b, strong) {
   font-weight: 700;
 }
 
-body.leadership-bio main .columns-minimal-dark-container .default-content-wrapper p:not(.controlling_drug, .creating_cust_value, .pharmacy_issues, .experience_everything):not(.controlling_drug ~ p, .creating_cust_value ~ p, .pharmacy_issues ~ p, .experience_everything ~ p) :is(b, strong) {
+/* the topic classes come from scripts.js (decorateLeadershipBio), named after the source's */
+/* stylelint-disable-next-line selector-class-pattern */
+body.leadership-bio main .columns-minimal-dark-container .default-content-wrapper p:not(.controlling_drug, .creating_cust_value, .pharmacy_issues, .experience_everything, .controlling_drug ~ p, .creating_cust_value ~ p, .pharmacy_issues ~ p, .experience_everything ~ p) :is(b, strong) {
   color: #00a4e4;
 }
 
+/* stylelint-disable-next-line selector-class-pattern */
 body.leadership-bio main .columns-minimal-dark-container .default-content-wrapper p.interviews_articles :is(b, strong) {
   color: #00a4e4;
 }

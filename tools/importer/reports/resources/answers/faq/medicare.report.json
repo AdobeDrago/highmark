@@ -1,0 +1,17 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/resources/answers/faq/medicare",
+  "path": "resources/answers/faq/medicare",
+  "timestamp": "2026-10-14T09:58:37.229Z",
+  "title": "Medicare Advantage FAQs: Common Questions | Highmark",
+  "template": "faq-topic",
+  "blocks": [
+    "cards-minimal-light-sidenav",
+    "accordion-minimal-light",
+    "accordion-minimal-light",
+    "accordion-minimal-light",
+    "accordion-minimal-light",
+    "accordion-minimal-light",
+    "accordion-minimal-light"
+  ]
+}

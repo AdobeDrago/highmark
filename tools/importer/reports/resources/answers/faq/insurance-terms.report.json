@@ -2,11 +2,10 @@
   "status": "success",
   "url": "https://www.highmark.com/resources/answers/faq/insurance-terms",
   "path": "resources/answers/faq/insurance-terms",
-  "timestamp": "2026-09-30T20:34:07.941Z",
+  "timestamp": "2026-10-14T09:58:26.791Z",
   "title": "Definitions of Common Insurance Terms",
-  "template": "sidebar-listing",
+  "template": "faq-topic",
   "blocks": [
-    "cards-minimal-light-sidenav",
     "cards-minimal-light-sidenav",
     "accordion-minimal-light"
   ]

@@ -38,9 +38,9 @@
 
 .form-minimal-light form.fraud-form #form-complaintagainst {
   font-size: 15px;
-  font-weight: bold;    
-  font-family: 'roboto';
-  color: rgb(0, 20, 70);
+  font-weight: bold;
+  font-family: roboto, sans-serif;
+  color: rgb(0 20 70);
 }
 
 .form-minimal-light fieldset {

@@ -11,6 +11,14 @@
  *     /<page dir>/.<page name>/<file>
  * <picture> wrappers are dropped (DA stores plain <img>).
  *
+ * Links: imports keep the source's absolute https://www.highmark.com/... links. Those
+ * to a page this site publishes (the live query index), or to a page in this batch,
+ * become relative; links to pages not migrated yet stay on highmark.com. Relative
+ * links to unpublished drafts (which 404 on live) go to highmark.com too, unless the
+ * draft is in this batch or the live /redirects sheet covers its path. Upload pages
+ * that will be published together in one run, so their links to each other stay
+ * relative.
+ *
  * Usage: node tools/importer/upload-to-da.mjs [--no-preview] <path> [path ...]
  *   e.g. node tools/importer/upload-to-da.mjs shop/about-you/qualifying-life-events/landing
  * Credentials are injected by the environment (no Authorization header here).
@@ -67,9 +75,52 @@ async function localizeImage(src, pageDir, pageName) {
   return `${DA_CONTENT}${daPath}`;
 }
 
+/** Paths of the pages this site publishes, plus the pages being uploaded now. */
+async function sitePaths() {
+  const resp = await fetch(`https://main--${REPO}--${ORG}.aem.live/query-index.json?limit=10000`);
+  if (!resp.ok) throw new Error(`query index: ${resp.status}`);
+  const { data } = await resp.json();
+  return new Set([...data.map((row) => row.path), ...pages.map((p) => `/${p.replace(/\/index$/, '/')}`)]);
+}
+
+const SOURCE_LINK = /href="https:\/\/www\.highmark\.com(\/[^"#?]*?)(?:\.html)?([?#][^"]*)?"/g;
+
+function localizeLinks(html, site) {
+  return html.replace(SOURCE_LINK, (link, linkPath, rest = '') => {
+    const p = linkPath.replace(/(.)\/$/, '$1');
+    return site.has(p) ? `href="${p}${rest}"` : link;
+  });
+}
+
+const RELATIVE_LINK = /href="(\/(?!\/|providers\b)[^"#?]*)([?#][^"]*)?"/g;
+
+/**
+ * Relative links to an unpublished draft (a DA document that isn't live) 404: the
+ * redirects sheet never covers paths that have a DA document. Point those at the
+ * same page on highmark.com until the draft is published.
+ */
+async function sourceLinksToDrafts(html, site) {
+  const drafts = new Set();
+  const paths = new Set([...html.matchAll(RELATIVE_LINK)].map((m) => m[1].replace(/(.)\/$/, '$1')));
+  for (const p of paths) {
+    if (!site.has(p) && p !== '/' && !redirected.has(p) && (await exists(`${p}.html`))) drafts.add(p);
+  }
+  return html.replace(RELATIVE_LINK, (link, linkPath, rest = '') => {
+    const p = linkPath.replace(/(.)\/$/, '$1');
+    return drafts.has(p) ? `href="https://www.highmark.com${p}${rest}"` : link;
+  });
+}
+
+const site = await sitePaths();
+// paths the live /redirects sheet sends somewhere (a retired draft such as
+// /resources/answers/faq/medicare-reservations): relative links to them work
+const redirected = new Set(await fetch(`https://main--${REPO}--${ORG}.aem.live/redirects.json?limit=10000`)
+  .then((resp) => (resp.ok ? resp.json() : { data: [] }))
+  .then(({ data = [] }) => data.map((row) => row.Source)));
+
 for (const page of pages) {
   const file = path.join('content', `${page}.plain.html`);
-  let html = fs.readFileSync(file, 'utf-8');
+  let html = await sourceLinksToDrafts(localizeLinks(fs.readFileSync(file, 'utf-8'), site), site);
   const pageDir = path.posix.dirname(page) === '.' ? '' : path.posix.dirname(page);
   const pageName = path.posix.basename(page);
 

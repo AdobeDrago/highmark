@@ -1,0 +1,596 @@
+/* stylelint-disable no-descending-specificity */
+
+/* FAQ topic pages (template: faq -> body.faq, /resources/answers/faq/*), measured
+   against https://www.highmark.com/resources/answers/faq/aca-plans and
+   /western-ny-blue-fund at 390 / 768 / 1024 / 1440.
+
+   Sections (see tools/importer/import-faq-topic.js): 1. left nav (every FAQ
+   topic) | 2. right-rail callout (Style: right-rail, some pages) | 3. H1 + intro |
+   4. one per FAQ group: H2, accordion, Back to Top | 5. CTA band (Style: highlight).
+
+   Source grid from 992px: a 1200px container with 83px minimum gutters, split
+   3 / 9 columns, the 9 split again 9 / 3: left nav 25%, text 56.25%, right rail
+   18.75% (empty on most pages). The navs sit 15px in from their column, 35px
+   short of its far edge. Below 992px both navs are hidden (the breadcrumbs'
+   back link leads to the FAQ list) and the text is full width with 30px (64px
+   from 768px) gutters. */
+
+body.faq {
+  --faq-container: min(100% - 166px, 1200px);
+}
+
+body.faq main > .section {
+  margin: 0;
+}
+
+body.faq main > .section > div {
+  max-width: none;
+  margin: 0;
+  padding: 0 30px;
+}
+
+body.faq main > .section.cards-minimal-light-sidenav-container,
+body.faq main > .section.right-rail {
+  display: none;
+}
+
+/* ---- H1 + intro ---- */
+body.faq main h1 {
+  margin: 0 0 8px;
+  padding: 24px 0;
+  color: var(--text-color);
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -1.28px;
+}
+
+body.faq main > .section > .default-content-wrapper p {
+  margin: 0 0 12.8px;
+  color: #001446;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+body.faq main > .section > .default-content-wrapper :is(ul, ol) {
+  margin: 0 0 16px;
+  color: #001446;
+  font-weight: 300;
+}
+
+/* ---- FAQ groups ---- */
+body.faq main > .section.accordion-minimal-light-container {
+  margin-bottom: 60px;
+}
+
+/* the CTA band starts 100px under the last group (its 60px included) */
+body.faq main > .section.accordion-minimal-light-container:has(+ .section.highlight) {
+  margin-bottom: 0;
+}
+
+body.faq main > .section.accordion-minimal-light-container h2 {
+  margin: 0 0 0 16px;
+  padding: 19.2px 0;
+  color: var(--text-color);
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.72px;
+}
+
+/* question rows: 10px above, the label inset 15px in the left 11/12, a 9.6px
+   chevron centred on its first line */
+body.faq .accordion-minimal-light .accordion-minimal-light-item {
+  padding-top: 10px;
+}
+
+body.faq .accordion-minimal-light .accordion-minimal-light-item-label {
+  padding: 8px 0;
+}
+
+body.faq .accordion-minimal-light .accordion-minimal-light-item-label p {
+  width: calc(100% * 11 / 12);
+  box-sizing: border-box;
+  margin: 0 0 12.8px;
+  padding: 0 15px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 22.4px;
+  letter-spacing: -0.2px;
+}
+
+body.faq .accordion-minimal-light .accordion-minimal-light-item-label::after {
+  top: calc(8px + 11.2px);
+  right: 32px;
+  width: 9.6px;
+  height: 9.6px;
+  box-sizing: border-box;
+  transform: translateY(-60%) rotate(45deg);
+}
+
+body.faq .accordion-minimal-light .accordion-minimal-light-item[open] .accordion-minimal-light-item-label::after {
+  transform: translateY(-40%) rotate(-135deg);
+}
+
+/* answers: #f7fbfd panel, 14px thin navy text */
+body.faq .accordion-minimal-light .accordion-minimal-light-item-body {
+  padding: 10px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+body.faq .accordion-minimal-light .accordion-minimal-light-item-body :is(p, ul, ol) {
+  line-height: inherit;
+}
+
+/* the source spaces paragraphs with empty (&nbsp;) paragraphs, which the
+   import drops: one blank line between paragraphs instead */
+body.faq .accordion-minimal-light .accordion-minimal-light-item-body p {
+  margin: 0 0 1.5em;
+}
+
+body.faq .accordion-minimal-light .accordion-minimal-light-item-body ul,
+body.faq .accordion-minimal-light .accordion-minimal-light-item-body ol {
+  margin: 0 0 16px;
+  padding: 10px 0 0 18px;
+  font-weight: 100;
+}
+
+body.faq .accordion-minimal-light .accordion-minimal-light-item-body li {
+  margin: 0 0 5px;
+}
+
+body.faq .accordion-minimal-light .accordion-minimal-light-item-body > :last-child {
+  margin-bottom: 0;
+}
+
+/* the group's text link (Back to Top, or the landing's "SEE ALL … FAQ"): the
+   first paragraph after the accordion, a bold uppercase blue text link 24px
+   under the group */
+body.faq main .accordion-minimal-light-wrapper + .default-content-wrapper > p.button-container:first-child {
+  margin: 24px 0 0;
+  line-height: 20px;
+}
+
+body.faq main .accordion-minimal-light-wrapper + .default-content-wrapper > p.button-container:first-child > a.button:any-link,
+body.faq main a.button[href="#top"]:any-link {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: #0066b1;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  white-space: normal;
+}
+
+body.faq main .accordion-minimal-light-wrapper + .default-content-wrapper > p.button-container:first-child > a.button:hover,
+body.faq main .accordion-minimal-light-wrapper + .default-content-wrapper > p.button-container:first-child > a.button:focus-visible,
+body.faq main a.button[href="#top"]:hover,
+body.faq main a.button[href="#top"]:focus-visible {
+  background: none;
+  color: #0066b1;
+  text-decoration: underline;
+}
+
+/* ---- FAQ landing: "Popular health insurance questions and answers" with its
+   jump links to the groups, and the phone-only complete list of topics ---- */
+body.faq main > .section > .default-content-wrapper h3 {
+  margin: 0 0 8px;
+  padding: 16px 0;
+  color: var(--text-color);
+  font-size: 22px;
+  line-height: 1.1;
+  letter-spacing: -0.4px;
+}
+
+/* links alone on their line (EDS makes them buttons) are plain blue text links:
+   the jump links (in-page, bold where the source bolds them) and the topic list */
+body.faq main > .section > .default-content-wrapper p.button-container a.button:is([href^="#"]:not([href="#top"])):any-link,
+body.faq main > .section.mobile-only > .default-content-wrapper p.button-container a.button:any-link {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: #0078c1;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+  white-space: normal;
+}
+
+body.faq main > .section > .default-content-wrapper p.button-container a.button:is([href^="#"]:not([href="#top"])):hover,
+body.faq main > .section.mobile-only > .default-content-wrapper p.button-container a.button:hover {
+  background: none;
+  color: #0078c1;
+  text-decoration: underline;
+}
+
+body.faq main > .section > .default-content-wrapper p.button-container strong > a.button[href^="#"] {
+  font-weight: 700;
+}
+
+/* the complete list: the group heading size without its indent; 5px above and
+   below each link (10px above the first) */
+body.faq main > .section.mobile-only h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  color: var(--text-color);
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.72px;
+}
+
+body.faq main > .section.mobile-only > .default-content-wrapper p.button-container {
+  padding: 5px 0;
+}
+
+body.faq main > .section.mobile-only > .default-content-wrapper h2 + p.button-container {
+  padding-top: 10px;
+}
+
+body.faq main > .section.mobile-only {
+  margin-bottom: 60px;
+}
+
+/* ---- comparison table (High Blood Pressure): navy header row with rounded
+   top corners, bold label column, paper-grey bands on every other row from
+   the second column; 60px rows, a 275 / 200 / 200 split of 675px. Phones
+   scroll it sideways, as the source ("scroll to view all columns"). ---- */
+body.faq main > .section > .table-minimal-dark-compare-wrapper {
+  margin: 16px 0 24px;
+}
+
+body.faq .table-minimal-dark-compare table {
+  min-width: 600px;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+
+body.faq .table-minimal-dark-compare table :is(th, td) {
+  height: 60px;
+  box-sizing: border-box;
+  padding: 0 12px;
+  border: 0;
+  background: none;
+  color: var(--text-color);
+  font-size: 16px;
+  line-height: 24px;
+  text-align: left;
+}
+
+body.faq .table-minimal-dark-compare table :is(th, td):first-child {
+  width: 40.75%;
+}
+
+body.faq .table-minimal-dark-compare table thead th {
+  background-color: var(--text-color);
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-weight: 700;
+}
+
+body.faq .table-minimal-dark-compare table thead th:first-child {
+  border-top-left-radius: 8px;
+}
+
+body.faq .table-minimal-dark-compare table thead th:last-child {
+  border-top-right-radius: 8px;
+}
+
+body.faq .table-minimal-dark-compare table tbody td:first-child {
+  padding-left: 20px;
+  background: none;
+  font-family: var(--heading-font-family);
+  font-weight: 700;
+}
+
+body.faq .table-minimal-dark-compare table tbody tr:nth-child(odd) td:not(:first-child) {
+  background-color: #f1f4f4;
+}
+
+body.faq .table-minimal-dark-compare table tbody tr:nth-child(odd) td:last-child {
+  border-radius: 0 8px 8px 0;
+}
+
+/* ---- CTA band (Blue Fund pages): blush, centred, outlined button ---- */
+body.faq main > .section.highlight {
+  clear: both;
+  margin-top: 100px;
+  padding: 64px 0;
+  background-color: #fef0ec;
+}
+
+body.faq main > .section.highlight > .default-content-wrapper {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+body.faq main > .section.highlight h2 {
+  margin: 0 0 8px;
+  padding: 0;
+  color: #004362;
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.72px;
+}
+
+body.faq main > .section.highlight p:not(.button-container) {
+  margin: 0;
+  color: #004362;
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.25px;
+}
+
+body.faq main > .section.highlight p.button-container {
+  margin: 16px 0 0;
+}
+
+body.faq main > .section.highlight a.button:any-link {
+  margin: 16px 0;
+  padding: 16px 24px;
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  background: none;
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  text-transform: uppercase;
+}
+
+body.faq main > .section.highlight a.button:hover,
+body.faq main > .section.highlight a.button:focus-visible {
+  background-color: var(--text-color);
+  color: #fff;
+}
+
+/* the last block before the footer: 60px more below it (120px in all) */
+body.faq main {
+  padding-bottom: 60px;
+}
+
+body.faq main:has(> .section.highlight:last-child) {
+  padding-bottom: 0;
+}
+
+@media (width >= 768px) {
+  body.faq main > .section > div {
+    padding: 0 64px;
+  }
+
+  body.faq main > .section > .default-content-wrapper p {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.faq main > .section > .default-content-wrapper h3 {
+    font-size: 24px;
+    letter-spacing: -0.44px;
+  }
+
+  body.faq main > .section.mobile-only h2 {
+    font-size: 28px;
+    letter-spacing: -0.78px;
+  }
+
+  body.faq main h1 {
+    padding: 28.8px 0;
+    font-size: 36px;
+    letter-spacing: -1.44px;
+  }
+
+  body.faq main > .section.accordion-minimal-light-container h2 {
+    font-size: 28px;
+    letter-spacing: -0.78px;
+  }
+
+  body.faq .accordion-minimal-light .accordion-minimal-light-item-label p {
+    margin-bottom: 16px;
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  body.faq .accordion-minimal-light .accordion-minimal-light-item-label::after {
+    top: calc(8px + 11.7px);
+  }
+
+  body.faq .accordion-minimal-light .accordion-minimal-light-item-body {
+    padding: 20px;
+    line-height: 1.3;
+  }
+
+  body.faq main > .section.highlight h2 {
+    font-size: 34px;
+    line-height: 1.2;
+    letter-spacing: -1.36px;
+  }
+
+  body.faq main > .section.highlight p:not(.button-container) {
+    font-size: 20px;
+  }
+}
+
+@media (width < 992px) {
+  /* the breadcrumbs' back link lines up with the text, 17px under the header
+     and 22.8px above the H1 */
+  body.faq .breadcrumbs {
+    align-items: flex-start;
+    padding: 17px 30px 22.8px;
+  }
+
+  body.faq .breadcrumbs .breadcrumbs-back:any-link {
+    padding: 0;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.faq .breadcrumbs {
+    padding-left: 64px;
+    padding-right: 64px;
+  }
+}
+
+@media (width >= 992px) {
+  /* main contains the floated navs, so a long left nav pushes the footer down */
+  body.faq main {
+    display: flow-root;
+  }
+
+  /* text column: 56.25% of the container, after the 25% left column */
+  body.faq main > .section > div {
+    box-sizing: border-box;
+    width: calc(var(--faq-container) * 0.5625);
+    margin-left: calc((100% - var(--faq-container)) / 2 + var(--faq-container) * 0.25);
+    padding: 0;
+  }
+
+  /* left nav: floated in the left column, beside every section that follows */
+  body.faq main > .section.cards-minimal-light-sidenav-container {
+    display: block;
+    float: left;
+    box-sizing: border-box;
+    width: calc(var(--faq-container) * 0.25 - 50px);
+    max-width: none;
+    margin: 0 0 0 calc((100% - var(--faq-container)) / 2 + 15px);
+    padding: 0;
+  }
+
+  body.faq main > .section.cards-minimal-light-sidenav-container > .cards-minimal-light-sidenav-wrapper {
+    position: static;
+    width: auto;
+    margin: 0;
+  }
+
+  /* right-rail callout: floated in the right column, level with the H1 */
+  body.faq main > .section.right-rail {
+    display: block;
+    float: right;
+    box-sizing: border-box;
+    width: calc(var(--faq-container) * 0.1875 - 50px);
+    margin: 0 calc((100% - var(--faq-container)) / 2 + 35px) 0 0;
+    padding: 20px;
+    background-color: #f1f4f4;
+  }
+
+  body.faq main > .section.right-rail > div {
+    width: auto;
+    margin: 0;
+  }
+
+  body.faq main > .section.right-rail h3 {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 24px;
+    line-height: 1.1;
+    letter-spacing: -0.72px;
+  }
+
+  body.faq main > .section.right-rail h3::after {
+    content: '';
+    display: block;
+    width: 51px;
+    height: 4px;
+    margin: 10px 0;
+    background-color: #0078c1;
+  }
+
+  body.faq main > .section.right-rail p {
+    margin: 0;
+    color: var(--text-color);
+    font-weight: 400;
+    letter-spacing: normal;
+  }
+
+  body.faq main > .section.right-rail p.button-container {
+    margin-top: 16px;
+  }
+
+  body.faq main > .section.right-rail a.button:any-link {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    color: #0066b1;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+    text-transform: uppercase;
+    white-space: normal;
+  }
+
+  /* the CTA band spans the page again, below both columns */
+  body.faq main > .section.highlight > div {
+    width: auto;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  /* the complete list of topics is phone-only: the left nav lists them */
+  body.faq main > .section.mobile-only,
+  body.faq main > .section > .default-content-wrapper p:has(a[href="#here-is-the-complete-list-of-all-faqs"]) {
+    display: none;
+  }
+
+  body.faq main > .section > .default-content-wrapper p {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  body.faq main > .section > .default-content-wrapper h3 {
+    letter-spacing: -0.72px;
+  }
+
+  body.faq main h1 {
+    font-size: 56px;
+    letter-spacing: -2.8px;
+  }
+
+  body.faq main > .section.accordion-minimal-light-container h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 1.2;
+    letter-spacing: -1.36px;
+  }
+
+  body.faq .accordion-minimal-light .accordion-minimal-light-item-label p {
+    line-height: 1.5;
+    letter-spacing: -0.3px;
+  }
+
+  body.faq .accordion-minimal-light .accordion-minimal-light-item-label::after {
+    top: calc(8px + 13.5px);
+  }
+
+  body.faq .accordion-minimal-light .accordion-minimal-light-item-body {
+    line-height: 1.5;
+  }
+
+  /* breadcrumbs: the trail starts at the text column, Print / Share end at
+     the container edge */
+  body.faq .breadcrumbs {
+    box-sizing: border-box;
+    max-width: 1366px;
+    padding: 0 83px;
+  }
+}

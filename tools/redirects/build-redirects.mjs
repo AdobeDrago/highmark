@@ -46,7 +46,8 @@ const LISTS = ['reimbursement-policies', 'news-and-updates', 'provider-news', 'm
 // Paths that always redirect: drafts that exist in DA but should not be published, and
 // retired pages. path -> destination.
 const FORCE = {
-  '/resources/answers/faq/medicare-reservations': `${SOURCE}/resources/answers/faq/medicare`,
+  // the source's old URL for its Medicare FAQ, migrated here (2026-10-14)
+  '/resources/answers/faq/medicare-reservations': '/resources/answers/faq/medicare',
   '/shop/home': '/shop/', // the shop home moved to /shop/ (2026-10-01)
   '/shop': '/shop/', // a folder's index page is only served with the trailing slash
   '/shop/beta/home': '/shop/', // a copy of the old shop home whose links don't work here (2026-10-05)
@@ -64,7 +65,9 @@ const FORCE = {
 function readToken() {
   const files = [path.join(os.homedir(), '.aem', 'da-token.json'), path.join('.hlx', '.da-token.json')];
   const file = files.find((f) => fs.existsSync(f));
-  if (!file) throw new Error('No DA token found; run `npx github:adobe-rnd/da-auth-helper token` first.');
+  // no token file: send no Authorization header, for environments that inject credentials
+  // (a local clone without a token gets 401s; run `npx github:adobe-rnd/da-auth-helper token`)
+  if (!file) return null;
   const { access_token: token, expires_at: expires } = JSON.parse(fs.readFileSync(file, 'utf8'));
   if (expires && expires < Date.now() + 60000) throw new Error(`DA token in ${file} has expired.`);
   return token;
@@ -140,7 +143,7 @@ async function classify(p, auth) {
 }
 
 async function upload(file, token) {
-  const auth = { Authorization: `Bearer ${token}` };
+  const auth = token ? { Authorization: `Bearer ${token}` } : {};
   const body = new FormData();
   body.append('data', new Blob([fs.readFileSync(file)], { type: 'application/json' }), 'redirects.json');
   const put = await fetch(`https://admin.da.live/source/${ORG}/${SITE}/redirects.json`, { method: 'POST', body, headers: auth });
@@ -149,7 +152,7 @@ async function upload(file, token) {
 }
 
 const token = readToken();
-const auth = { Authorization: `Bearer ${token}` };
+const auth = token ? { Authorization: `Bearer ${token}` } : {};
 const index = await (await fetch(`${LIVE}/query-index.json?limit=5000`)).json();
 const pages = [...new Set([...FRAGMENTS, ...index.data.map((r) => normPath(r.path))])];
 const sources = [...pages.map((p) => [LIVE, p]), ...FRAGMENTS.map((p) => [PREVIEW, p])];

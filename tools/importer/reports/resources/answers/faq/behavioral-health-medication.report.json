@@ -2,11 +2,10 @@
   "status": "success",
   "url": "https://www.highmark.com/resources/answers/faq/behavioral-health-medication",
   "path": "resources/answers/faq/behavioral-health-medication",
-  "timestamp": "2026-09-30T20:32:12.143Z",
+  "timestamp": "2026-10-14T09:57:18.997Z",
   "title": "Mental and Behavioral Health Medications FAQ",
-  "template": "sidebar-faq",
+  "template": "faq-topic",
   "blocks": [
-    "cards-minimal-light-sidenav",
     "cards-minimal-light-sidenav",
     "accordion-minimal-light"
   ]

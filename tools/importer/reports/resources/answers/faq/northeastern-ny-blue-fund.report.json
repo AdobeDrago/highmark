@@ -2,11 +2,10 @@
   "status": "success",
   "url": "https://www.highmark.com/resources/answers/faq/northeastern-ny-blue-fund",
   "path": "resources/answers/faq/northeastern-ny-blue-fund",
-  "timestamp": "2026-09-30T20:32:31.871Z",
+  "timestamp": "2026-10-14T09:57:28.547Z",
   "title": "Blue Fund Grants FAQ for Northeastern New York Nonprofits",
-  "template": "sidebar-grouped-faq",
+  "template": "faq-topic",
   "blocks": [
-    "cards-minimal-light-sidenav",
     "cards-minimal-light-sidenav",
     "accordion-minimal-light",
     "accordion-minimal-light",
