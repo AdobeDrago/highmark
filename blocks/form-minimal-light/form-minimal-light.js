@@ -138,32 +138,34 @@ function placeReset(formEl) {
   if (resetWrapper && resetWrapper !== submit) resetWrapper.remove();
 }
 
-// classes asked for by name where the sheet's name doesn't give them (see formClass)
+// classes asked for by name where the sheet's name doesn't give them (see formName)
 const FORM_CLASSES = { 'contact-form': 'contact_form' };
 
 /**
- * The form's class, named after its field sheet without ".json" and a "-fields" suffix:
- * /fraud/fraud-form-fields.json -> "fraud-form", /newsroom/news-alert-form.json ->
- * "news-alert-form", unless FORM_CLASSES names another (/contact-form-fields.json ->
+ * The form's name: its field sheet's without ".json" and a "-fields" suffix
+ * (/fraud/fraud-form-fields.json -> "fraud-form", /newsroom/news-alert-form.json ->
+ * "news-alert-form"). It is the form's id, so a link to #<name> ("form below" on /contact)
+ * jumps to it, and its class, unless FORM_CLASSES names another (contact-form ->
  * "contact_form").
  */
-function formClass(block) {
+function formName(block) {
   const sheet = [...block.querySelectorAll('a[href]')]
     .map((a) => new URL(a.href, window.location.href).pathname)
     .find((p) => p.endsWith('.json'));
-  if (!sheet) return '';
-  const name = sheet.split('/').pop().replace(/\.json$/, '').replace(/-fields$/, '');
-  return FORM_CLASSES[name] || name;
+  return sheet ? sheet.split('/').pop().replace(/\.json$/, '').replace(/-fields$/, '') : '';
 }
 
 export default async function decorate(block) {
-  const cls = formClass(block); // read before the base block replaces the links
+  const name = formName(block); // read before the base block replaces the links
   await decorateBaseForm(block);
 
   const formEl = block.querySelector('form');
   if (!formEl) return;
 
-  if (cls) formEl.classList.add(cls);
+  if (name) {
+    formEl.classList.add(FORM_CLASSES[name] || name);
+    if (!formEl.id && !document.getElementById(name)) formEl.id = name;
+  }
   formEl.querySelectorAll('.field-wrapper').forEach(enhanceField);
   enhanceGroups(formEl);
   linkOtherFields(formEl);

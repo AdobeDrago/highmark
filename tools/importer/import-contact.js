@@ -139,9 +139,9 @@ export default {
       '.grecaptcha-badge', 'iframe[src*="recaptcha"]', 'textarea[name="g-recaptcha-response"]',
       'main .page__par .spacing',
     ]);
-    // "form below" jumped to the source form's anchor (#contact), which our page doesn't have:
-    // keep the text, drop the link.
-    main.querySelectorAll('a[href="#contact"]').forEach((a) => a.replaceWith(...a.childNodes));
+    // "form below" links #contact, which no element on the source has; here it jumps to the
+    // form (form-minimal-light gives the form its sheet's name, contact-form, as its id).
+    main.querySelectorAll('a[href="#contact"]').forEach((a) => a.setAttribute('href', '#contact-form'));
     // External-link glyph next to (not inside) the link -> the site's :external-link: icon token.
     // (the source adds the <i> glyph at runtime to links wrapped in span.global-clr_externallink)
     main.querySelectorAll('span.global-clr_externallink').forEach((span) => {

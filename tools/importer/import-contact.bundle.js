@@ -312,7 +312,7 @@ var CustomImportScript = (() => {
         'textarea[name="g-recaptcha-response"]',
         "main .page__par .spacing"
       ]);
-      main.querySelectorAll('a[href="#contact"]').forEach((a) => a.replaceWith(...a.childNodes));
+      main.querySelectorAll('a[href="#contact"]').forEach((a) => a.setAttribute("href", "#contact-form"));
       main.querySelectorAll("span.global-clr_externallink").forEach((span) => {
         span.querySelectorAll("i.fa-external-link-alt").forEach((i) => i.remove());
         const link2 = span.querySelector("a");
