@@ -38,7 +38,11 @@ const UA = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKi
 const FRAGMENTS = ['/nav', '/footer', '/shop/fragments/shopx-header', '/shop/fragments/shopx-footer',
   '/providers/fragments/nav', '/providers/fragments/footer', '/providers/fragments/service-centers',
   ...['authorization', 'claims', 'policies-and-programs', 'provider-network',
-    'resources-and-education', 'communications-hub'].map((s) => `/providers/fragments/sidenav/${s}`)];
+    'resources-and-education', 'communications-hub'].map((s) => `/providers/fragments/sidenav/${s}`),
+  // the regional member pages' headers and footers (/member/bcbs, ...; footer-only links such
+  // as /help and Delaware's Disputes and Appeals)
+  ...['bcbs', 'blueshield', 'bcbswv', 'bcbsde', 'bcbswny', 'blueshieldneny']
+    .flatMap((r) => [`/member/fragments/${r}/nav`, `/member/fragments/${r}/footer`])];
 // Sheets behind provider-list blocks: the block renders their Link column in the browser, so
 // those links are in no page's HTML either (tools/provider-lists/build-provider-lists.mjs).
 const LISTS = ['reimbursement-policies', 'news-and-updates', 'provider-news', 'medical-policy-update',
@@ -52,6 +56,9 @@ const FORCE = {
   '/shop': '/shop/', // a folder's index page is only served with the trailing slash
   '/shop/beta/home': '/shop/', // a copy of the old shop home whose links don't work here (2026-10-05)
   '/providers': '/providers/', // the provider pages' home (DA /providers/index)
+  // the regional member footers' Help link: highmark.com sends /help to its home page
+  // (/content/.../home.html, which the source-redirect check can't map), here ours (2026-10-14)
+  '/help': '/',
   // Leadership bios whose highmark.com URLs aren't valid EDS paths (mixed case, trailing
   // hyphen): served here at the lowercase path (2026-10-12).
   ...Object.fromEntries([
@@ -89,8 +96,18 @@ async function pool(items, size, fn) {
 
 const normPath = (p) => decodeURI(p).replace(/\.html$/, '').replace(/\/+$/, '') || '/';
 
+// Responses that are neither a success nor a 404 (rate limiting, server errors). Any of them
+// means the run saw an incomplete site, so it stops before writing a sheet: a sheet built
+// from 429s once came out with 13 of its 466 rows.
+const failures = [];
+const note = (res, url) => {
+  if (!res.ok && res.status !== 404) failures.push(`${res.status} ${url}`);
+  return res;
+};
+
 async function internalLinks(host, page) {
-  const res = await fetch(`${host}${page === '/' ? '/index' : page}.plain.html`);
+  const url = `${host}${page === '/' ? '/index' : page}.plain.html`;
+  const res = note(await fetch(url), url);
   if (!res.ok) return [];
   const html = await res.text();
   return [...html.matchAll(/href="([^"]+)"/g)].map(([, href]) => {
@@ -105,7 +122,8 @@ async function internalLinks(host, page) {
 const LISTED = new Map();
 
 async function sheetLinks(host, sheet) {
-  const res = await fetch(`${host}${sheet}?limit=5000`);
+  const url = `${host}${sheet}?limit=5000`;
+  const res = note(await fetch(url), url);
   if (!res.ok) return [];
   const { data = [] } = await res.json();
   return data.filter((row) => /^\/(?!\/)/.test(String(row.Link || ''))).map((row) => {
@@ -161,9 +179,15 @@ const sheetSources = LISTS.flatMap((l) => [[LIVE, l], [PREVIEW, l]]);
 const sheetLists = await pool(sheetSources, 4, ([host, l]) => sheetLinks(host, l));
 const targets = [...new Set([...linkLists, ...sheetLists].flat())];
 const statuses = await pool(targets, 10, async (p) => [p, (await fetch(`${LIVE}${encodeURI(p)}`, { method: 'HEAD', redirect: 'manual' })).status]);
+statuses.filter(([, s]) => s === 429 || s >= 500).forEach(([p, s]) => failures.push(`${s} ${LIVE}${p}`));
 const dead = statuses.filter(([, s]) => s === 404).map(([p]) => p);
-const current = await fetch(`${LIVE}/redirects.json?limit=5000`).then((r) => (r.ok ? r.json() : { data: [] }));
-const currentRows = current.data || [];
+const currentRes = note(await fetch(`${LIVE}/redirects.json?limit=5000`), `${LIVE}/redirects.json`);
+if (!currentRes.ok) failures.push(`${currentRes.status} ${LIVE}/redirects.json (the current sheet)`);
+if (failures.length) {
+  console.error(`Stopped: ${failures.length} requests failed (e.g. ${failures.slice(0, 3).join('; ')}). No sheet written; run again later.`);
+  process.exit(1);
+}
+const currentRows = (await currentRes.json()).data || [];
 const candidates = [
   ...new Set([...dead, ...currentRows.map((r) => r.Source), ...Object.keys(FORCE)]),
 ].sort();
