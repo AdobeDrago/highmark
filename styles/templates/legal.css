@@ -38,7 +38,7 @@ body.legal main :is(.default-content-wrapper, .columns) h2 {
   letter-spacing: -0.72px;
 }
 
-body.legal main .default-content-wrapper:has(h2#app-developers-api-support) {
+body.legal main .default-content-wrapper:has(> h2#app-developers-api-support:first-child) {
   background-color: #fef0ec;
   margin: 30px;
   text-align: center;
@@ -357,7 +357,7 @@ body.legal main :is(.default-content-wrapper, .columns) sup {
   vertical-align: baseline;
 }
 
-body.legal main .default-content-wrapper:has(h2#app-developers-api-support) p:not(.button-container) {
+body.legal main .default-content-wrapper:has(> h2#app-developers-api-support:first-child) p:not(.button-container) {
     margin-bottom: 24px;
 }
 
@@ -408,17 +408,17 @@ body.legal main .default-content-wrapper:has(h2#app-developers-api-support) p:no
     padding: 0 64px;
   }
 
-  body.legal main .default-content-wrapper:has(h2#app-developers-api-support) {
+  body.legal main .default-content-wrapper:has(> h2#app-developers-api-support:first-child) {
     margin: 30px 64px;
     padding-top: 20px;
     padding-bottom: 20px;
   }
 
-  body.legal main .default-content-wrapper:has(h2#app-developers-api-support) p {
+  body.legal main .default-content-wrapper:has(> h2#app-developers-api-support:first-child) p {
     padding: 0 60px 20px;
   }
 
-  body.legal main .default-content-wrapper:has(h2#app-developers-api-support) p:not(.button-container) {
+  body.legal main .default-content-wrapper:has(> h2#app-developers-api-support:first-child) p:not(.button-container) {
     margin-bottom: 16px;
   }
 }
@@ -446,14 +446,14 @@ body.legal main .default-content-wrapper:has(h2#app-developers-api-support) p:no
     padding: 0;
   }
 
-  body.legal main .default-content-wrapper:has(h2#app-developers-api-support) {
+  body.legal main .default-content-wrapper:has(> h2#app-developers-api-support:first-child) {
     margin: 30px auto;
     text-align: center;
     padding-top: 40px;
     padding-bottom: 40px;
   }
 
-  body.legal main .default-content-wrapper:has(h2#app-developers-api-support) p{
+  body.legal main .default-content-wrapper:has(> h2#app-developers-api-support:first-child) p{
     padding: 0 110px 20px;
   }
 }
@@ -604,4 +604,45 @@ body.legal main .default-content-wrapper p:has(> picture:only-child, > a:only-ch
 body.legal main .default-content-wrapper p > picture img,
 body.legal main .default-content-wrapper p > a > picture img {
   display: block;
+}
+
+/* ------------------------------------------------------------------
+ * 9. The "App developers API support" box with a list
+ * (/cms-onc-interoperability-prior-authorization-rule): its text and list
+ * are left-aligned in the middle half of the box from 768px (the source's
+ * 6-of-12 column), full width below.
+ * ------------------------------------------------------------------ */
+body.legal main .default-content-wrapper:has(> h2#app-developers-api-support:first-child):has(> ul) > :is(p:not(.button-container), ul) {
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+body.legal main .default-content-wrapper:has(> h2#app-developers-api-support:first-child):has(> ul) > p:not(.button-container) {
+  padding: 0;
+  margin-bottom: 0.8rem;
+}
+
+/* the column's bullets sit 32px in, as the page's other lists do (margin + padding) */
+body.legal main .section .default-content-wrapper:has(> h2#app-developers-api-support:first-child) > ul {
+  margin-bottom: 32px;
+  padding-left: 32px;
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.legal main .default-content-wrapper:has(> h2#app-developers-api-support:first-child):has(> ul) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media (width >= 768px) {
+  body.legal main .default-content-wrapper:has(> h2#app-developers-api-support:first-child):has(> ul) > :is(p:not(.button-container), ul) {
+    width: 50%;
+  }
+
+  body.legal main .default-content-wrapper:has(> h2#app-developers-api-support:first-child):has(> ul) > p:not(.button-container) {
+    margin-bottom: 16px;
+  }
 }
