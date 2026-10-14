@@ -1859,9 +1859,16 @@
         "https://www.highmark.com/contact"
       ],
       "representativeUrl": "https://www.highmark.com/contact",
-      "description": "Contact Us: intro, Members / Providers / Reporting Fraud guidance, mailing address, blush warning callout (the source contact form is not migrated)",
+      "description": "Contact Us: intro, Members / Providers / Reporting Fraud guidance, mailing address, blush warning callout, then the contact form (form-minimal-light; fields from /contact-form-fields.json, built by tools/forms/build-contact-form-fields.mjs) with its required-fields note",
       "urlPattern": "/contact",
-      "blocks": [],
+      "blocks": [
+        {
+          "name": "form-minimal-light",
+          "instances": [
+            "form#contact-form"
+          ]
+        }
+      ],
       "sections": [
         {
           "id": "1",
@@ -1881,6 +1888,18 @@
           ],
           "style": "highlight",
           "blocks": [],
+          "defaultContent": []
+        },
+        {
+          "id": "3",
+          "name": "contact-form",
+          "selector": [
+            "main .page__par > section > .parent-width > section > .aem-Grid > .cmp-text:has(+ .form-container)"
+          ],
+          "style": null,
+          "blocks": [
+            "form-minimal-light"
+          ],
           "defaultContent": []
         }
       ]
@@ -2631,11 +2650,12 @@
     {
       "name": "fraud-thank-you",
       "urls": [
-        "https://www.highmark.com/fraud-thank-you"
+        "https://www.highmark.com/fraud-thank-you",
+        "https://www.highmark.com/contact-thank-you"
       ],
       "representativeUrl": "https://www.highmark.com/fraud-thank-you",
-      "description": "The Health Care Fraud Form confirmation page (the form redirects here): h1 + one paragraph",
-      "urlPattern": "/fraud-thank-you",
+      "description": "Form confirmation pages (/fraud-thank-you for the Health Care Fraud Form, /contact-thank-you for Contact Us): h1 + one paragraph",
+      "urlPattern": "/fraud-thank-you, /contact-thank-you",
       "blocks": [],
       "sections": [
         {

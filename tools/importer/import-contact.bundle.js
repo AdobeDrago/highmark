@@ -41,6 +41,37 @@ var CustomImportScript = (() => {
     default: () => import_contact_default
   });
 
+  // tools/importer/parsers/form-minimal-light.js
+  var FORM_DEFINITIONS = {
+    newsalert: "/newsroom/news-alert-form.json",
+    "fraud-form": "/fraud/fraud-form-fields.json",
+    "contact-form": "/contact-form-fields.json"
+  };
+  var PLACEHOLDER_SUBMIT = "https://www.highmark.com/newsroom/news-alert-submit";
+  function link(document2, href) {
+    const a = document2.createElement("a");
+    a.href = href;
+    a.textContent = href;
+    return a;
+  }
+  function parse(element, { document: document2 }) {
+    const rawAction = (element.getAttribute("action") || "").trim();
+    let submitUrl = PLACEHOLDER_SUBMIT;
+    if (rawAction && rawAction !== "#" && !/^javascript:/i.test(rawAction)) {
+      try {
+        submitUrl = new URL(rawAction, "https://www.highmark.com").href;
+      } catch (e) {
+        submitUrl = PLACEHOLDER_SUBMIT;
+      }
+    }
+    const cells = [
+      [link(document2, FORM_DEFINITIONS[element.id] || FORM_DEFINITIONS.newsalert)],
+      [link(document2, submitUrl)]
+    ];
+    const block = WebImporter.Blocks.createBlock(document2, { name: "form-minimal-light", cells });
+    element.replaceWith(block);
+  }
+
   // tools/importer/transformers/highmark-cleanup.js
   var TransformHook = { beforeTransform: "beforeTransform", afterTransform: "afterTransform" };
   function transform(hookName, element, payload) {
@@ -171,18 +202,27 @@ var CustomImportScript = (() => {
   }
 
   // tools/importer/import-contact.js
-  var parsers = {};
+  var parsers = {
+    "form-minimal-light": parse
+  };
   var transformers = [
     transform,
     transform2
   ];
   var PAGE_TEMPLATE = {
     "name": "contact",
-    "description": "Contact Us: intro, Members / Providers / Reporting Fraud guidance, mailing address, blush warning callout (the source contact form is not migrated)",
+    "description": "Contact Us: intro, Members / Providers / Reporting Fraud guidance, mailing address, blush warning callout, then the contact form (form-minimal-light; fields from /contact-form-fields.json, built by tools/forms/build-contact-form-fields.mjs) with its required-fields note",
     "urls": [
       "https://www.highmark.com/contact"
     ],
-    "blocks": [],
+    "blocks": [
+      {
+        "name": "form-minimal-light",
+        "instances": [
+          "form#contact-form"
+        ]
+      }
+    ],
     "sections": [
       {
         "id": "1",
@@ -202,6 +242,18 @@ var CustomImportScript = (() => {
         ],
         "style": "highlight",
         "blocks": [],
+        "defaultContent": []
+      },
+      {
+        "id": "3",
+        "name": "contact-form",
+        "selector": [
+          "main .page__par > section > .parent-width > section > .aem-Grid > .cmp-text:has(+ .form-container)"
+        ],
+        "style": null,
+        "blocks": [
+          "form-minimal-light"
+        ],
         "defaultContent": []
       }
     ]
@@ -254,11 +306,7 @@ var CustomImportScript = (() => {
         ".experiencefragment:has(.footer-list)",
         "div.breadcrumb"
       ]);
-      WebImporter.DOMUtils.remove(main, ["main .page__par > section > .parent-width > section > .aem-Grid > .cmp-text:has(+ .form-container)"]);
       WebImporter.DOMUtils.remove(main, [
-        "main .page__par > section > .parent-width > section > .aem-Grid > .form-container",
-        "form#contact-form",
-        "form.customFormContainer",
         ".grecaptcha-badge",
         'iframe[src*="recaptcha"]',
         'textarea[name="g-recaptcha-response"]',
@@ -267,8 +315,8 @@ var CustomImportScript = (() => {
       main.querySelectorAll('a[href="#contact"]').forEach((a) => a.replaceWith(...a.childNodes));
       main.querySelectorAll("span.global-clr_externallink").forEach((span) => {
         span.querySelectorAll("i.fa-external-link-alt").forEach((i) => i.remove());
-        const link = span.querySelector("a");
-        if (link && !link.textContent.includes(":external-link:")) link.append(" :external-link:");
+        const link2 = span.querySelector("a");
+        if (link2 && !link2.textContent.includes(":external-link:")) link2.append(" :external-link:");
       });
       executeTransformers("beforeTransform", main, payload);
       const pageBlocks = findBlocksOnPage(document2, PAGE_TEMPLATE);
