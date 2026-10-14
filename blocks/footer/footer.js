@@ -53,7 +53,13 @@ export default async function decorate(block) {
   block.textContent = '';
   if (!fragment) return;
 
-  const sections = [...fragment.children].filter((el) => el.tagName === 'DIV');
+  // A section styled footer-top is the band above the navy footer (the regional member
+  // pages' "Federal Employee Program" link). Section metadata arrives as classes, or
+  // unprocessed locally.
+  const isTop = (el) => el.classList.contains('footer-top')
+    || /footer-top/.test(el.querySelector('.section-metadata')?.textContent || '');
+  const topSection = [...fragment.children].find((el) => el.tagName === 'DIV' && isTop(el));
+  const sections = [...fragment.children].filter((el) => el.tagName === 'DIV' && el !== topSection);
   // Source order: [0] brand + social + phone, [1..3] link columns, [last] legal.
   const brandSection = sections[0];
   const columnSections = sections.slice(1, sections.length - 1);
@@ -113,6 +119,16 @@ export default async function decorate(block) {
 
   const footer = document.createElement('div');
   footer.className = 'footer-wrapper';
+  if (topSection) {
+    topSection.querySelector('.section-metadata')?.remove();
+    const top = document.createElement('div');
+    top.className = 'footer-top';
+    const topInner = document.createElement('div');
+    topInner.className = 'footer-top-inner';
+    topInner.append(...topSection.childNodes);
+    top.append(topInner);
+    footer.append(top);
+  }
   footer.append(upper, lower);
   block.append(footer);
 }

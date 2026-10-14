@@ -1,0 +1,15 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/member/bcbswv",
+  "path": "member/bcbswv",
+  "timestamp": "2026-10-14T13:54:14.789Z",
+  "title": "Member Resources | Highmark BCBS West Virginia",
+  "template": "member-regional",
+  "blocks": [
+    "hero-minimal-dark-withimg",
+    "cards-minimal-dark-iconnav",
+    "cards-minimal-dark-withimg-icons",
+    "columns-minimal-dark",
+    "columns-minimal-dark"
+  ]
+}

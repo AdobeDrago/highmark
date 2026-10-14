@@ -1,0 +1,911 @@
+/*
+ * Regional member resources pages (template member-regional: /member/bcbs, /blueshield,
+ * /bcbswv, /bcbsde, /bcbswny, /blueshieldneny). One section per source component
+ * (tools/importer/import-member-regional.js), matched to highmark.com at 1440 / 1280 /
+ * 768 / 390:
+ *   1. hero: photo with white text from 992px; below, the photo then a light-blue panel
+ *      (variants: light = navy text on the photo, dark = a navy panel);
+ *   2. the navy quick-link bar (blocks/cards-minimal-dark-iconnav, shared with chip-landing);
+ *   3. "What would you like to do today?": centred intro, 370px icon cards three across;
+ *   4. image + text panels (Member Portal Assistance on blush, Member Services);
+ *   5. colour bands with centred text: the app band (pale-blue, its store badges side by
+ *      side), "Got Questions?" (pink), Child Health Plus (highlight), bill-pay cards;
+ *   6. West Virginia's prior-authorization footnote.
+ * The header and footer are the region's fragments (blocks/header, blocks/footer).
+ * Buttons: bold link = filled (MEMBER LOGIN), italic link = outlined navy, plain link alone
+ * in a paragraph = the source's uppercase text button.
+ */
+
+/* The rules go component by component, each with its breakpoints, as in the other
+   template stylesheets; their selectors don't overlap across components. */
+/* stylelint-disable no-descending-specificity */
+
+/* ---- shared: section colours, headings, buttons ---- */
+body.member-regional main > .section {
+  margin: 0;
+  padding: 0;
+}
+
+body.member-regional main > .section.pale-blue {
+  background-color: #f0fbff;
+}
+
+body.member-regional main > .section.pink {
+  background-color: #fce1d9;
+}
+
+body.member-regional main > .section.light {
+  background-color: var(--light-color);
+}
+
+body.member-regional main > .section.light-blue {
+  background-color: var(--light-blue-color);
+}
+
+body.member-regional main h2 {
+  margin: 0;
+  padding: 19.2px 0;
+  color: var(--text-color);
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.72px;
+}
+
+body.member-regional main h3 {
+  margin: 0;
+  color: var(--text-color);
+  font-size: 22px;
+  line-height: 1.1;
+}
+
+body.member-regional main h5 {
+  margin: 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.2px;
+}
+
+body.member-regional main p {
+  color: var(--text-body-color);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: -0.2px;
+}
+
+/* text button: a plain link alone in its paragraph */
+body.member-regional main p.button-container:has(> a.button:only-child) {
+  margin: 0;
+  line-height: 20px;
+}
+
+body.member-regional main > .section:not(.hero-minimal-dark-withimg-container) a.button:not(.primary, .secondary):any-link {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--link-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  text-transform: uppercase;
+  white-space: normal;
+}
+
+body.member-regional main > .section:not(.hero-minimal-dark-withimg-container) a.button:not(.primary, .secondary):hover {
+  text-decoration: underline;
+}
+
+/* outlined button: an italic link */
+body.member-regional main a.button.secondary:any-link {
+  display: inline-block;
+  margin: 0;
+  padding: 16px 24px;
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px;
+  text-transform: uppercase;
+}
+
+body.member-regional main a.button.secondary:hover,
+body.member-regional main a.button.secondary:focus {
+  background: var(--text-color);
+  color: #fff;
+}
+
+@media (width >= 768px) {
+  body.member-regional main h2 {
+    font-size: 28px;
+    letter-spacing: -0.78px;
+  }
+
+  body.member-regional main h3 {
+    font-size: 32px;
+  }
+
+  body.member-regional main h5 {
+    font-size: 18px;
+    line-height: 1.3;
+    letter-spacing: -0.4px;
+  }
+
+  body.member-regional main p {
+    line-height: 1.3;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.member-regional main h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 1.2;
+    letter-spacing: -1.36px;
+  }
+
+  body.member-regional main h3 {
+    font-size: 24px;
+  }
+
+  body.member-regional main h5 {
+    font-size: 20px;
+    line-height: 1.5;
+    letter-spacing: -0.3px;
+  }
+
+  body.member-regional main p {
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: -0.1px;
+  }
+}
+
+/* ---- 1. hero ---- */
+body.member-regional .hero-minimal-dark-withimg h1,
+body.member-regional .hero-minimal-dark-withimg h2 {
+  margin: 0;
+  padding: 0;
+  color: var(--text-color);
+}
+
+body.member-regional .hero-minimal-dark-withimg h1 {
+  padding-bottom: 12px;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -1.28px;
+}
+
+body.member-regional .hero-minimal-dark-withimg h2 {
+  margin-top: 8px;
+  padding-bottom: 22px;
+}
+
+body.member-regional .hero-minimal-dark-withimg p.button-container {
+  margin: 0;
+}
+
+body.member-regional main .hero-minimal-dark-withimg a.button:any-link {
+  margin: 0;
+}
+
+/* REGISTER: outlined in navy on the light-blue panel (the source's white outline is
+   barely visible there), white over the photo from 992px */
+body.member-regional main .hero-minimal-dark-withimg .button-container:has(.primary) ~ .button-container a.button:not(.primary):any-link {
+  border-color: var(--text-color);
+  color: var(--text-color);
+}
+
+@media (width < 992px) {
+  body.member-regional .hero-minimal-dark-withimg:has(h1) {
+    display: block;
+    min-height: 0;
+  }
+
+  body.member-regional .hero-minimal-dark-withimg:has(h1) > div:first-child {
+    position: static;
+  }
+
+  body.member-regional .hero-minimal-dark-withimg:has(h1) > div:first-child,
+  body.member-regional .hero-minimal-dark-withimg:has(h1) > div:first-child > div,
+  body.member-regional .hero-minimal-dark-withimg:has(h1) > div:first-child picture {
+    height: auto;
+  }
+
+  body.member-regional .hero-minimal-dark-withimg:has(h1) picture img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 390 / 208;
+    object-fit: cover;
+    object-position: 100% 50%;
+  }
+
+  body.member-regional .hero-minimal-dark-withimg:has(h1) > div:last-child {
+    max-width: none;
+    margin: 0;
+    padding: 35px;
+    background-color: var(--light-blue-color);
+  }
+
+  body.member-regional .hero-minimal-dark-withimg:has(h1) > div:last-child > div {
+    padding: 0;
+  }
+
+  /* the buttons stack, 24px apart */
+  body.member-regional .hero-minimal-dark-withimg p.button-container:has(.primary) {
+    margin-top: 9px;
+  }
+
+  body.member-regional .hero-minimal-dark-withimg p.button-container:has(.primary) + .button-container {
+    margin-top: 24px;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.member-regional .hero-minimal-dark-withimg:has(h1) picture img {
+    aspect-ratio: 768 / 282;
+  }
+
+  body.member-regional .hero-minimal-dark-withimg h1 {
+    font-size: 36px;
+    letter-spacing: -1.44px;
+  }
+
+  body.member-regional .hero-minimal-dark-withimg h2 {
+    font-size: 28px;
+  }
+
+  /* the buttons share a row, 28px apart */
+  body.member-regional .hero-minimal-dark-withimg:has(h1) > div:last-child > div {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    align-items: center;
+    column-gap: 28px;
+  }
+
+  body.member-regional .hero-minimal-dark-withimg:has(h1) > div:last-child > div > :not(.button-container) {
+    grid-column: 1 / -1;
+  }
+
+  body.member-regional .hero-minimal-dark-withimg p.button-container:has(.primary) + .button-container {
+    margin-top: 9px;
+  }
+}
+
+@media (width >= 992px) {
+  body.member-regional .hero-minimal-dark-withimg:has(h1) {
+    min-height: 0;
+    aspect-ratio: 1366 / 400;
+  }
+
+  body.member-regional .hero-minimal-dark-withimg:has(h1) > div:last-child {
+    display: flex;
+    align-items: center;
+    max-width: none;
+    height: 100%;
+    margin: 0;
+    padding: 0 0 0 150px;
+  }
+
+  body.member-regional .hero-minimal-dark-withimg:has(h1) > div:last-child > div {
+    width: 580px;
+    padding: 0;
+  }
+
+  body.member-regional .hero-minimal-dark-withimg h1,
+  body.member-regional .hero-minimal-dark-withimg h2 {
+    color: #fff;
+  }
+
+  body.member-regional .hero-minimal-dark-withimg h1 {
+    font-size: 56px;
+    letter-spacing: -2.8px;
+  }
+
+  body.member-regional .hero-minimal-dark-withimg h2 {
+    font-size: 34px;
+    line-height: 1.2;
+    letter-spacing: -1.36px;
+  }
+
+
+  body.member-regional .hero-minimal-dark-withimg p.button-container:has(.primary) {
+    margin-top: 9px;
+  }
+
+  body.member-regional main .hero-minimal-dark-withimg .button-container:has(.primary) ~ .button-container a.button:not(.primary):any-link {
+    border-color: #fff;
+    color: #fff;
+  }
+
+  body.member-regional main .hero-minimal-dark-withimg .button-container:has(.primary) ~ .button-container a.button:not(.primary):hover,
+  body.member-regional main .hero-minimal-dark-withimg .button-container:has(.primary) ~ .button-container a.button:not(.primary):focus {
+    background-color: #fff;
+    color: var(--text-color);
+  }
+}
+
+/* the CTA pair from 768px: one row, 28px apart, both 9px below the subheading (as
+   specific as the hero block's pair rules, blocks/hero-minimal-dark-withimg) */
+@media (width >= 768px) {
+  body.member-regional .hero-minimal-dark-withimg > div:last-child > div:has(> .button-container .primary):has(> .button-container + .button-container) {
+    column-gap: 28px;
+  }
+
+  body.member-regional .hero-minimal-dark-withimg > div:last-child > div:has(> .button-container .primary):has(> .button-container + .button-container) > .button-container {
+    margin: 9px 0 0;
+  }
+}
+
+/* ---- 3. task cards (and the New York bill-pay cards) ----
+ * The intro (h2 at 34/37.4, its Sofia Pro paragraph 20px below), the cards 30px below it
+ * (40px from 992px); each card: icon image, its h3 20px below, the text 13-14px below
+ * that, the text button 13-16px below; rows 46px apart. The section starts 50px below
+ * the quick-link bar (60px from 768px) and ends 86px below the last card (96px). */
+body.member-regional main > .section.cards-minimal-dark-withimg-icons-container {
+  padding: 50px 15px 86px;
+}
+
+body.member-regional main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper {
+  max-width: 766px;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+}
+
+body.member-regional main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper h2 {
+  padding: 0;
+  line-height: 1.1;
+}
+
+body.member-regional main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper p {
+  margin: 20px 0 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+body.member-regional main > .section.cards-minimal-dark-withimg-icons-container > .cards-minimal-dark-withimg-icons-wrapper {
+  max-width: none;
+  margin: 30px 0 0;
+  padding: 0;
+}
+
+body.member-regional .cards-minimal-dark-withimg-icons > ul {
+  display: grid;
+  grid-template-columns: minmax(0, 300px);
+  justify-content: center;
+  gap: 46px 34px;
+  margin: 0;
+  padding: 0;
+}
+
+body.member-regional .cards-minimal-dark-withimg-icons > ul > li {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  text-align: left;
+}
+
+body.member-regional .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-image {
+  margin: 0;
+  padding: 0;
+}
+
+body.member-regional .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 370 / 200;
+  object-fit: contain;
+}
+
+body.member-regional .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body {
+  padding: 20px 0 0;
+}
+
+body.member-regional .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
+  margin: 0 0 13px;
+  padding: 0;
+  font-size: 22px;
+  line-height: 1.1;
+}
+
+body.member-regional .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p:not(.button-container) {
+  margin: 0 0 13px;
+  padding: 0;
+  color: var(--text-body-color);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+@media (width >= 768px) {
+  body.member-regional main > .section.cards-minimal-dark-withimg-icons-container {
+    padding: 60px 19px 96px;
+  }
+
+  body.member-regional main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper p {
+    font-size: 18px;
+    line-height: 1.3;
+  }
+
+  body.member-regional .cards-minimal-dark-withimg-icons > ul {
+    grid-template-columns: minmax(0, 400px);
+  }
+
+  body.member-regional .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-image img {
+    aspect-ratio: 400 / 216;
+  }
+
+  body.member-regional .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body {
+    padding-top: 21px;
+  }
+
+  body.member-regional .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
+    padding-bottom: 3px;
+    font-size: 32px;
+  }
+
+  body.member-regional .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p:not(.button-container) {
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+}
+
+@media (width >= 992px) {
+  body.member-regional main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper p {
+    font-size: 20px;
+    line-height: 1.5;
+  }
+
+  body.member-regional main > .section.cards-minimal-dark-withimg-icons-container {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  body.member-regional main > .section.cards-minimal-dark-withimg-icons-container > .cards-minimal-dark-withimg-icons-wrapper {
+    margin-top: 40px;
+  }
+
+  body.member-regional .cards-minimal-dark-withimg-icons > ul {
+    grid-template-columns: repeat(3, 370px);
+  }
+
+  body.member-regional .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-image img {
+    aspect-ratio: 370 / 200;
+  }
+
+  body.member-regional .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body {
+    padding-top: 20px;
+  }
+
+  body.member-regional .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
+    margin-bottom: 14px;
+    padding-bottom: 0;
+    font-size: 24px;
+  }
+
+  body.member-regional .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p:not(.button-container) {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+}
+
+/* ---- 4. image + text panels ---- */
+body.member-regional main > .section.columns-minimal-dark-container {
+  padding: 32px 30px 33px;
+}
+
+body.member-regional main > .section.columns-minimal-dark-container > .columns-minimal-dark-wrapper {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+body.member-regional .columns-minimal-dark > div {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+
+body.member-regional .columns-minimal-dark .columns-minimal-dark-img-col img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 555 / 312;
+  object-fit: cover;
+}
+
+body.member-regional .columns-minimal-dark h2 {
+  margin-bottom: 8px;
+}
+
+body.member-regional .columns-minimal-dark ul {
+  margin: 0 0 16px;
+  padding-left: 16px;
+}
+
+body.member-regional .columns-minimal-dark li {
+  color: var(--text-body-color);
+  font-size: 15px;
+  font-weight: 100;
+  line-height: 1.5;
+}
+
+body.member-regional .columns-minimal-dark p:not(.button-container) {
+  margin: 0 0 16px;
+}
+
+/* an outlined button (Member Services' phone number): centred, 16px above the panel's
+   end below 992px */
+body.member-regional .columns-minimal-dark p.button-container:has(em) {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+@media (width >= 768px) {
+  body.member-regional main > .section.columns-minimal-dark-container {
+    padding: 48px 64px 47px;
+  }
+}
+
+@media (width >= 992px) {
+  body.member-regional main > .section.columns-minimal-dark-container {
+    padding: 80px 0;
+  }
+
+  body.member-regional .columns-minimal-dark > div {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 72px;
+  }
+
+  body.member-regional .columns-minimal-dark > div > div {
+    flex: 0 0 auto;
+  }
+
+  body.member-regional .columns-minimal-dark .columns-minimal-dark-img-col {
+    width: min(555px, 40.8vw);
+  }
+
+  body.member-regional .columns-minimal-dark > div > div:not(.columns-minimal-dark-img-col) {
+    width: min(502px, 36.9vw);
+  }
+
+  body.member-regional .columns-minimal-dark p.button-container:has(em) {
+    margin-bottom: 0;
+    text-align: left;
+  }
+}
+
+/* ---- 5. colour bands with centred text ----
+ * padding 20px (40px from 992px) above the heading; the heading 8px above its h5; below
+ * it, the store badges (36px) or the button (52px); the band ends 37-69px below them. */
+body.member-regional main > .section.center:not(.cards-minimal-dark-withimg-icons-container) {
+  padding: 20px 30px 37px;
+}
+
+body.member-regional main > .section.center:not(.cards-minimal-dark-withimg-icons-container) > .default-content-wrapper {
+  max-width: 743px;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+}
+
+body.member-regional main > .section.center:not(.cards-minimal-dark-withimg-icons-container) h2 {
+  margin-bottom: 8px;
+}
+
+body.member-regional main > .section.center:not(.cards-minimal-dark-withimg-icons-container) h5 + p.button-container {
+  margin: 49px 0 0;
+}
+
+/* the app band's store badges: stacked 20px apart, side by side from 768px */
+body.member-regional main > .section.center:has(p > a > picture) > .default-content-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 20px;
+}
+
+body.member-regional main > .section.center:has(p > a > picture) > .default-content-wrapper > * {
+  flex: 0 0 100%;
+}
+
+/* on phones the app band's heading is inset 28px more, as on the source */
+body.member-regional main > .section.center:has(p > a > picture) > .default-content-wrapper > h2 {
+  box-sizing: border-box;
+  padding-left: 28px;
+  padding-right: 28px;
+}
+
+body.member-regional main > .section.center p:has(> a > picture) {
+  display: block;
+  margin: 20px 0 0;
+}
+
+body.member-regional main > .section.center h5 + p:has(> a > picture) {
+  margin-top: 33px;
+}
+
+/* (not the site-wide badge rule's 10px link padding, styles.css) */
+body.member-regional main > .section.center p:has(> a > picture) a {
+  display: inline-block;
+  padding: 0;
+  vertical-align: top;
+}
+
+body.member-regional main > .section.center p:has(> a > picture) img {
+  display: block;
+  width: 110px;
+  max-width: none;
+  height: auto;
+}
+
+@media (width >= 768px) {
+  body.member-regional main > .section.center:not(.cards-minimal-dark-withimg-icons-container) {
+    padding: 20px 64px 36px;
+  }
+
+  body.member-regional main > .section.center:not(.cards-minimal-dark-withimg-icons-container) h5 {
+    max-width: 533px;
+    margin: 0 auto;
+  }
+
+  body.member-regional main > .section.center:not(.cards-minimal-dark-withimg-icons-container):has(p > a > picture) h5 {
+    box-sizing: border-box;
+    max-width: none;
+    padding: 0 calc((100% - 427px) / 2);
+  }
+
+  body.member-regional main > .section.center:has(p > a > picture) > .default-content-wrapper > h2 {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  body.member-regional main > .section.center:has(p > a > picture) > .default-content-wrapper > p:has(> a > picture) {
+    flex: 0 0 auto;
+  }
+
+  body.member-regional main > .section.center:not(.cards-minimal-dark-withimg-icons-container) h5 + p.button-container {
+    margin-top: 51px;
+  }
+
+  body.member-regional main > .section.center:not(.cards-minimal-dark-withimg-icons-container):has(p > a > picture) {
+    padding-bottom: 46px;
+  }
+
+  body.member-regional main > .section.center p:has(> a > picture) {
+    margin: 36px 0 0;
+  }
+
+  body.member-regional main > .section.center p:has(> a > picture) img {
+    width: 100px;
+  }
+}
+
+@media (width >= 992px) {
+  body.member-regional main > .section.center:not(.cards-minimal-dark-withimg-icons-container) {
+    padding: 40px 83px 56px;
+  }
+
+  body.member-regional main > .section.center:not(.cards-minimal-dark-withimg-icons-container) h5 {
+    max-width: 743px;
+  }
+
+  body.member-regional main > .section.center:not(.cards-minimal-dark-withimg-icons-container):has(p > a > picture) h5 {
+    padding: 0;
+  }
+
+  body.member-regional main > .section.center:not(.cards-minimal-dark-withimg-icons-container) h5 + p.button-container {
+    margin-top: 52px;
+  }
+
+  body.member-regional main > .section.center:not(.cards-minimal-dark-withimg-icons-container):has(p > a > picture) {
+    padding-bottom: 69px;
+  }
+
+  body.member-regional main > .section.center p:has(> a > picture) img {
+    width: 179px;
+  }
+}
+
+/* ---- 2. quick-link bar: items are 160px (130px below 992px) including their padding ---- */
+body.member-regional .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
+  box-sizing: border-box;
+}
+
+/* ---- hero variants (from the source's colours, import-member-regional.js) ----
+ * light: navy text and a navy outlined REGISTER over the photo from 992px (Blue Shield,
+ * Delaware); dark: a navy panel with white text and a white outlined REGISTER below
+ * 992px (Western NY). */
+@media (width < 992px) {
+  body.member-regional .hero-minimal-dark-withimg.dark:has(h1) > div:last-child {
+    background-color: var(--text-color);
+  }
+
+  body.member-regional .hero-minimal-dark-withimg.dark h1,
+  body.member-regional .hero-minimal-dark-withimg.dark h2 {
+    color: #fff;
+  }
+
+  body.member-regional main .hero-minimal-dark-withimg.dark .button-container:has(.primary) ~ .button-container a.button:not(.primary):any-link {
+    border-color: #fff;
+    color: #fff;
+  }
+
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.member-regional .hero-minimal-dark-withimg.dark:has(h1) > div:last-child {
+    padding-bottom: 54px;
+  }
+}
+
+/* the dark hero's buttons sit 17px below the subheading */
+@media (width >= 768px) {
+  body.member-regional .hero-minimal-dark-withimg.dark > div:last-child > div:has(> .button-container .primary):has(> .button-container + .button-container) > .button-container {
+    margin-top: 17px;
+  }
+}
+
+
+@media (width >= 992px) {
+  body.member-regional .hero-minimal-dark-withimg.light h1,
+  body.member-regional .hero-minimal-dark-withimg.light h2 {
+    color: var(--text-color);
+  }
+
+  body.member-regional main .hero-minimal-dark-withimg.light .button-container:has(.primary) ~ .button-container a.button:not(.primary):any-link {
+    border-color: var(--text-color);
+    color: var(--text-color);
+  }
+
+  body.member-regional main .hero-minimal-dark-withimg.light .button-container:has(.primary) ~ .button-container a.button:not(.primary):hover,
+  body.member-regional main .hero-minimal-dark-withimg.light .button-container:has(.primary) ~ .button-container a.button:not(.primary):focus {
+    background-color: var(--text-color);
+    color: #fff;
+  }
+}
+
+/* ---- Child Health Plus band (Western NY; section style highlight, center) ----
+ * The source's one-card panel: heading and text in its darker navy, the text Sofia Pro
+ * 400, the outlined button 32px below; 780px wide from 992px. */
+body.member-regional main > .section.highlight.center {
+  padding: 32px 30px 64px;
+}
+
+body.member-regional main > .section.highlight.center h2 {
+  margin: 0;
+  padding: 0;
+  color: #004362;
+  line-height: 1.1;
+  letter-spacing: normal;
+}
+
+body.member-regional main > .section.highlight.center p:not(.button-container) {
+  margin: 8px 0 0;
+  color: #004362;
+  font-family: var(--heading-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+body.member-regional main > .section.highlight.center:not(.cards-minimal-dark-withimg-icons-container) p.button-container {
+  margin-top: 32px;
+}
+
+@media (width >= 768px) {
+  body.member-regional main > .section.highlight.center {
+    padding: 32px 64px 64px;
+  }
+
+  body.member-regional main > .section.highlight.center p:not(.button-container) {
+    font-size: 18px;
+    line-height: 1.3;
+  }
+}
+
+@media (width >= 992px) {
+  body.member-regional main > .section.highlight.center {
+    padding: 64px 30px 80px;
+  }
+
+  body.member-regional main > .section.highlight.center > .default-content-wrapper {
+    max-width: 780px;
+  }
+
+  body.member-regional main > .section.highlight.center h2 {
+    line-height: 1.2;
+  }
+
+  body.member-regional main > .section.highlight.center p:not(.button-container) {
+    font-size: 20px;
+    line-height: 1.4;
+  }
+}
+
+/* ---- text-only cards (the New York bill-pay options) ----
+ * No icon: the card is padded 20px (30px at the sides from 992px), its text button
+ * right-aligned from 992px, as on the source. */
+body.member-regional .cards-minimal-dark-withimg-icons > ul > li:not(:has(picture)) {
+  box-sizing: border-box;
+  padding: 20px 20px 0;
+}
+
+/* (the empty icon cell) */
+body.member-regional .cards-minimal-dark-withimg-icons > ul > li:not(:has(picture)) > div:empty {
+  display: none;
+}
+
+body.member-regional .cards-minimal-dark-withimg-icons > ul > li:not(:has(picture)) .cards-minimal-dark-withimg-icons-card-body {
+  padding-top: 0;
+}
+
+@media (width >= 992px) {
+  body.member-regional .cards-minimal-dark-withimg-icons > ul > li:not(:has(picture)) {
+    padding: 20px 30px 0;
+  }
+
+  body.member-regional .cards-minimal-dark-withimg-icons > ul > li:not(:has(picture)) p.button-container {
+    text-align: right;
+  }
+}
+
+/* ---- West Virginia's prior-authorization footnote ----
+ * A plain section after the bands: its <sub> text left-aligned in the page container,
+ * one line of text below the band (the source's leading line break), 34-40px above the
+ * footer. */
+body.member-regional main > .section:has(> .default-content-wrapper > p > sub) {
+  padding: 21px 30px 34px;
+}
+
+body.member-regional main > .section:has(> .default-content-wrapper > p > sub) > .default-content-wrapper {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+body.member-regional main > .section:has(> .default-content-wrapper > p > sub) p {
+  margin: 0 0 12.8px;
+}
+
+@media (width >= 768px) {
+  body.member-regional main > .section:has(> .default-content-wrapper > p > sub) {
+    padding: 19.5px 64px 36px;
+  }
+
+  body.member-regional main > .section:has(> .default-content-wrapper > p > sub) p {
+    margin-bottom: 16px;
+  }
+}
+
+@media (width >= 992px) {
+  body.member-regional main > .section:has(> .default-content-wrapper > p > sub) {
+    padding: 24px 83px 40px;
+  }
+
+  body.member-regional main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper p {
+    letter-spacing: -0.3px;
+  }
+}

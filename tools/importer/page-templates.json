@@ -2757,6 +2757,59 @@
           "defaultContent": []
         }
       ]
+    },
+    {
+      "name": "member-regional",
+      "urls": [
+        "https://www.highmark.com/member/bcbs",
+        "https://www.highmark.com/member/blueshield",
+        "https://www.highmark.com/member/bcbswv",
+        "https://www.highmark.com/member/bcbsde",
+        "https://www.highmark.com/member/bcbswny",
+        "https://www.highmark.com/member/blueshieldneny"
+      ],
+      "representativeUrl": "https://www.highmark.com/member/bcbs",
+      "description": "Regional member resources pages (/member/bcbs, /blueshield, /bcbswv, /bcbsde, /bcbswny, /blueshieldneny): photo hero with MEMBER LOGIN / REGISTER, navy icon quick-link bar, small-icon task cards, image/text side panels (Member Portal Assistance, Member Services), My Highmark app band with store badges, Got Questions band; the New York pages add Member Bill Pay Options text cards and (Western NY) a Child Health Plus band. One section per source component, styled from its background. Each page gets its region's header and footer fragments (/member/fragments/<region>/nav, /footer; tools/importer/import-member-chrome.js)",
+      "urlPattern": "/member/{bcbs,blueshield,bcbswv,bcbsde,bcbswny,blueshieldneny}",
+      "blocks": [
+        {
+          "name": "hero-minimal-dark-withimg",
+          "instances": [
+            "div.secondary-banner.responsivegrid"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-iconnav",
+          "instances": [
+            "div.quicklinks.section"
+          ]
+        },
+        {
+          "name": "cards-minimal-dark-withimg-icons",
+          "instances": [
+            "div.newcardscomponent-variations:has(li.listSmlImg)"
+          ]
+        },
+        {
+          "name": "columns-minimal-dark",
+          "instances": [
+            "div.newcardscomponent-variations:has(.side-card-panel)"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "1",
+          "name": "component",
+          "selector": [
+            "div.secondary-banner.responsivegrid ~ *"
+          ],
+          "repeat": true,
+          "style": "(from the component's background: blush 25 -> highlight, light pink -> pink, light blue -> pale-blue, polar -> light, splash 15 -> light-blue, paper grey -> grey; text bands add center)",
+          "blocks": [],
+          "defaultContent": []
+        }
+      ]
     }
   ],
   "metadata": {
