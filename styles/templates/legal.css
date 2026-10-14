@@ -85,6 +85,17 @@ body.legal main :is(.default-content-wrapper, .columns) :is(p, li, h5) a:any-lin
   color: #0056b3;
 }
 
+body.legal main :is(.default-content-wrapper, .columns) :is(p, li, h5) a.cms-onc-header-link {
+    font-size: 17px;
+    letter-spacing: -0.2px;
+    line-height: 1.4;
+    color: rgb(0, 120, 193);
+    margin-bottom: 0.8rem;
+    font-family: sofia-pro, sans-serif;
+    font-style: normal;
+    font-weight: 600;
+}
+
 @media (width >= 768px) {
   body.legal main :is(.default-content-wrapper, .columns) h1 {
     padding: 28.8px 0;
