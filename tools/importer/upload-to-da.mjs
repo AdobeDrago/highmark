@@ -13,7 +13,8 @@
  *
  * Links: imports keep the source's absolute https://www.highmark.com/... links. Those
  * to a page this site publishes (the live query index), or to a page in this batch,
- * become relative; links to pages not migrated yet stay on highmark.com.
+ * become relative; links to pages not migrated yet stay on highmark.com. Relative
+ * links to unpublished drafts (which 404 on live) go to highmark.com too.
  *
  * Usage: node tools/importer/upload-to-da.mjs [--no-preview] <path> [path ...]
  *   e.g. node tools/importer/upload-to-da.mjs shop/about-you/qualifying-life-events/landing
@@ -88,11 +89,30 @@ function localizeLinks(html, site) {
   });
 }
 
+const RELATIVE_LINK = /href="(\/(?!\/|providers\b)[^"#?]*)([?#][^"]*)?"/g;
+
+/**
+ * Relative links to an unpublished draft (a DA document that isn't live) 404: the
+ * redirects sheet never covers paths that have a DA document. Point those at the
+ * same page on highmark.com until the draft is published.
+ */
+async function sourceLinksToDrafts(html, site) {
+  const drafts = new Set();
+  const paths = new Set([...html.matchAll(RELATIVE_LINK)].map((m) => m[1].replace(/(.)\/$/, '$1')));
+  for (const p of paths) {
+    if (!site.has(p) && p !== '/' && (await exists(`${p}.html`))) drafts.add(p);
+  }
+  return html.replace(RELATIVE_LINK, (link, linkPath, rest = '') => {
+    const p = linkPath.replace(/(.)\/$/, '$1');
+    return drafts.has(p) ? `href="https://www.highmark.com${p}${rest}"` : link;
+  });
+}
+
 const site = await sitePaths();
 
 for (const page of pages) {
   const file = path.join('content', `${page}.plain.html`);
-  let html = localizeLinks(fs.readFileSync(file, 'utf-8'), site);
+  let html = await sourceLinksToDrafts(localizeLinks(fs.readFileSync(file, 'utf-8'), site), site);
   const pageDir = path.posix.dirname(page) === '.' ? '' : path.posix.dirname(page);
   const pageName = path.posix.basename(page);
 
