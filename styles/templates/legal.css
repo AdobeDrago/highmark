@@ -704,8 +704,9 @@ body.legal main:has(> .section.splash) .default-content-wrapper p > sub:only-chi
   line-height: 0;
 }
 
-/* the footnote's own bottom margin counts towards the gap above the footer */
-body.legal main:has(> .section.splash) > .section:last-child {
+/* the footnote (the section after the box): its own bottom margin counts towards the gap
+   above the footer */
+body.legal main > .section.splash + .section {
   display: flow-root;
 }
 
@@ -727,7 +728,7 @@ body.legal main:has(> .section.splash) > .section:last-child {
     margin-top: 32px;
   }
 
-  body.legal main:has(> .section.splash) > .section:last-child {
+  body.legal main > .section.splash + .section {
     padding-bottom: 20px;
   }
 }
