@@ -165,6 +165,12 @@ body.legal main :is(.default-content-wrapper, .columns) :is(p, li, h5) a.cms-onc
   body.legal main :is(.default-content-wrapper, .columns) p {
     letter-spacing: -0.1px;
   }
+
+  body.legal main :is(.default-content-wrapper, .columns) :is(p, li, h5) a.cms-onc-header-link {
+    font-size: 20px;
+    letter-spacing: -0.3px;
+    line-height: 1.5;
+  }
 }
 
 /* ------------------------------------------------------------------
