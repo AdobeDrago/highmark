@@ -36,6 +36,13 @@
   margin: 0 0 50px;
 }
 
+.form-minimal-light form.fraud-form #form-complaintagainst {
+  font-size: 15px;
+  font-weight: bold;    
+  font-family: 'roboto';
+  color: rgb(0, 20, 70);
+}
+
 .form-minimal-light fieldset {
   display: grid;
   grid-auto-flow: row;
