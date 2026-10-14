@@ -2,11 +2,10 @@
   "status": "success",
   "url": "https://www.highmark.com/resources/answers/faq/explanation-of-benefits",
   "path": "resources/answers/faq/explanation-of-benefits",
-  "timestamp": "2026-09-30T20:34:02.175Z",
+  "timestamp": "2026-10-14T09:58:11.956Z",
   "title": "Explanation of Benefits FAQ | Highmark",
-  "template": "sidebar-listing",
+  "template": "faq-topic",
   "blocks": [
-    "cards-minimal-light-sidenav",
     "cards-minimal-light-sidenav",
     "accordion-minimal-light"
   ]

@@ -1,0 +1,450 @@
+/* eslint-disable */
+var CustomImportScript = (() => {
+  var __defProp = Object.defineProperty;
+  var __defProps = Object.defineProperties;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __propIsEnum = Object.prototype.propertyIsEnumerable;
+  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __spreadValues = (a, b) => {
+    for (var prop in b || (b = {}))
+      if (__hasOwnProp.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    if (__getOwnPropSymbols)
+      for (var prop of __getOwnPropSymbols(b)) {
+        if (__propIsEnum.call(b, prop))
+          __defNormalProp(a, prop, b[prop]);
+      }
+    return a;
+  };
+  var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
+  };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+  // tools/importer/import-faq-topic.js
+  var import_faq_topic_exports = {};
+  __export(import_faq_topic_exports, {
+    default: () => import_faq_topic_default
+  });
+
+  // tools/importer/parsers/cards-minimal-light-sidenav.js
+  function parse(element, { document }) {
+    const labelOf = (a) => (a.textContent || "").replace(/\s+/g, " ").trim();
+    const cleanLink = (a) => {
+      const link = document.createElement("a");
+      link.setAttribute("href", a.getAttribute("href") || "#");
+      link.textContent = labelOf(a);
+      return link;
+    };
+    const rowFor = (level, a) => [level, cleanLink(a)];
+    const cells = [];
+    const parent = element.querySelector("a.side-nav-item-parent, .sidenav-item > a[href]:not(.active)");
+    if (parent) cells.push(rowFor("parent", parent));
+    const activeLink = element.querySelector("a.active");
+    const subnavList = element.querySelector("ul.subnavitem-list.show") || activeLink && activeLink.parentElement.querySelector(":scope > ul.subnavitem-list") || !activeLink && element.querySelector("ul.subnavitem-list, .subnavitem-list");
+    const inCollapsedList = (a) => {
+      const list = a.closest("ul.subnavitem-list");
+      return !!list && list !== subnavList && list.classList.contains("collapse") && !list.classList.contains("show");
+    };
+    if (subnavList) {
+      const current = element.querySelector('a.active, a[aria-expanded="true"]');
+      if (current && current !== parent) cells.push(rowFor("current", current));
+      Array.from(subnavList.querySelectorAll("a[href]")).forEach((a) => {
+        if (a === current || a === parent) return;
+        cells.push(rowFor("child", a));
+      });
+    } else {
+      const siblingAnchors = Array.from(
+        element.querySelectorAll("ul.sidenav-item-list ul a[href], .sidenav-item-list ul a[href], ul li ul a[href]")
+      ).filter((a) => a !== parent && !inCollapsedList(a));
+      const seen = /* @__PURE__ */ new Set();
+      siblingAnchors.forEach((a) => {
+        if (seen.has(a)) return;
+        seen.add(a);
+        const isActive = a.classList.contains("active") || a.getAttribute("aria-current") === "page";
+        cells.push(rowFor(isActive ? "current" : "sibling", a));
+      });
+    }
+    if (cells.length === 0) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
+    const block = WebImporter.Blocks.createBlock(document, {
+      name: "cards-minimal-light-sidenav",
+      cells
+    });
+    element.replaceWith(block);
+  }
+
+  // tools/importer/parsers/accordion-minimal-light.js
+  function parse2(element, { document }) {
+    const leadingEls = [];
+    const heading = element.querySelector("h2.maintitle, .maintitle, h2");
+    if (heading) leadingEls.push(heading);
+    const items = Array.from(element.querySelectorAll("div.collapsible-item, .collapsible-item"));
+    if (items.length === 0) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
+    const cells = [];
+    items.forEach((item) => {
+      const trigger = item.querySelector("button.accordion-trigger, .accordion-trigger");
+      const headingSpan = item.querySelector(
+        "span.collapsible-item-heading, .collapsible-item-heading"
+      );
+      let titleEl;
+      if (headingSpan) {
+        titleEl = document.createElement("p");
+        titleEl.textContent = (headingSpan.textContent || "").replace(/\s+/g, " ").trim();
+      } else if (trigger) {
+        titleEl = document.createElement("p");
+        titleEl.textContent = (trigger.textContent || "").replace(/\s+/g, " ").trim();
+      } else {
+        titleEl = document.createElement("p");
+      }
+      const desc = item.querySelector(
+        "div.collapsible-item-description, .collapsible-item-description"
+      );
+      const contentCell = [];
+      if (desc) {
+        contentCell.push(...Array.from(desc.childNodes));
+      }
+      cells.push([titleEl, contentCell.length ? contentCell : ""]);
+    });
+    const block = WebImporter.Blocks.createBlock(document, {
+      name: "accordion-minimal-light",
+      cells
+    });
+    element.replaceWith(...leadingEls, block);
+  }
+
+  // tools/importer/parsers/table-minimal-dark-compare.js
+  function parse3(element, { document }) {
+    const table = element.querySelector("table");
+    if (!table) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
+    const rows = Array.from(table.querySelectorAll(":scope > tbody > tr, :scope > tr"));
+    if (rows.length === 0) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
+    let colCount = 0;
+    rows.forEach((row) => {
+      const c = row.querySelectorAll(":scope > th, :scope > td").length;
+      if (c > colCount) colCount = c;
+    });
+    const cells = [];
+    rows.forEach((row) => {
+      const rowCells = Array.from(row.querySelectorAll(":scope > th, :scope > td"));
+      const outRow = rowCells.map((cell) => {
+        const inner = Array.from(cell.children);
+        if (inner.length > 0) return inner;
+        const text = (cell.textContent || "").trim();
+        return text;
+      });
+      while (outRow.length < colCount) outRow.push("");
+      cells.push(outRow);
+    });
+    const variant = element.getAttribute("data-block-variant");
+    const name = variant ? `table-minimal-dark-compare (${variant})` : "table-minimal-dark-compare";
+    const block = WebImporter.Blocks.createBlock(document, { name, cells });
+    element.replaceWith(block);
+  }
+
+  // tools/importer/transformers/highmark-cleanup.js
+  var TransformHook = { beforeTransform: "beforeTransform", afterTransform: "afterTransform" };
+  function transform(hookName, element, payload) {
+    if (hookName === TransformHook.beforeTransform) {
+      WebImporter.DOMUtils.remove(element, [
+        "#ZN_bmb74MCuuQ38dlc",
+        // Qualtrics website-feedback snippet (cleaned.html:2)
+        ".mega-menu-overlay",
+        // nav mega-menu overlay (cleaned.html:81)
+        "#modalIeDetect",
+        // legacy IE-detection modal (cleaned.html:1637)
+        "#onetrust-consent-sdk"
+        // OneTrust cookie banner + preference center (plans cleaned.html:2631)
+      ]);
+    }
+    if (hookName === TransformHook.afterTransform) {
+      WebImporter.DOMUtils.remove(element, [
+        "header",
+        // fixed global header/nav (cleaned.html:6)
+        ".footer-content.iparsys.parsys",
+        // global footer experience fragment incl. disclaimer (cleaned.html:2029)
+        "div.col-md-12.col-lg-9"
+        // breadcrumb + print/share utility column (cleaned.html:1656), sibling of content col-lg-12
+      ]);
+      WebImporter.DOMUtils.remove(element, [
+        ".d-block.d-lg-none"
+      ]);
+      element.querySelectorAll('a[href^="/content/dam/"]').forEach((a) => {
+        a.setAttribute("href", `https://www.highmark.com${a.getAttribute("href")}`);
+      });
+      WebImporter.DOMUtils.remove(element, [
+        "link",
+        "noscript",
+        "iframe"
+      ]);
+    }
+  }
+
+  // tools/importer/transformers/highmark-faq-topic-sections.js
+  var SECTION_MARKER_ATTR = "data-excat-section-id";
+  var NAV = "div.col-lg-3 div.nav-container:has(.sidenav, .sidenav-item-list)";
+  var RAIL = ".rightrail-container";
+  var GROUP = "div.accordianTable";
+  var CTA = "div.one-card-one-col-panel.new-hmk-brand-blush-twnetyfive";
+  var clean = (text) => (text || "").replace(/\s+/g, " ").trim();
+  function marker(document, id) {
+    const hr = document.createElement("hr");
+    if (id) hr.setAttribute(SECTION_MARKER_ATTR, id);
+    return hr;
+  }
+  function railContent(document, rail) {
+    const els = [];
+    const title = rail.querySelector(".rightrail-title h3, h3");
+    if (title) {
+      const h3 = document.createElement("h3");
+      h3.textContent = clean(title.textContent);
+      els.push(h3);
+    }
+    const desc = rail.querySelector(".rightrail-description");
+    if (desc) {
+      const p = document.createElement("p");
+      p.innerHTML = desc.innerHTML.trim();
+      els.push(p);
+    }
+    rail.querySelectorAll(".hmk-brand-buttons a[href]").forEach((a) => {
+      const p = document.createElement("p");
+      const link = document.createElement("a");
+      link.href = a.getAttribute("href");
+      link.textContent = clean(a.textContent);
+      p.append(link);
+      els.push(p);
+    });
+    return els;
+  }
+  var isBackToTop = (a) => /^back to top$/i.test(clean(a.textContent));
+  function headingBefore(group, h1) {
+    if (group.querySelector("h2")) return null;
+    let prev = null;
+    const walker = group.ownerDocument.createTreeWalker(group.ownerDocument.body, 1);
+    for (let node = walker.nextNode(); node && node !== group; node = walker.nextNode()) {
+      if (node.matches(GROUP) || node === h1) prev = null;
+      else if (node.tagName === "H2" && !node.closest(GROUP)) prev = node;
+    }
+    return prev;
+  }
+  function plainTable(document, source) {
+    const table = document.createElement("table");
+    const body = document.createElement("tbody");
+    source.querySelectorAll("tr").forEach((tr) => {
+      const row = document.createElement("tr");
+      tr.querySelectorAll(":scope > th, :scope > td").forEach((cell) => {
+        cell.querySelectorAll(".swipemessage").forEach((el) => el.remove());
+        const td = document.createElement("td");
+        td.textContent = clean(cell.textContent);
+        row.append(td);
+      });
+      body.append(row);
+    });
+    table.append(body);
+    const wrapper = document.createElement("div");
+    wrapper.className = "faq-compare-table";
+    wrapper.append(table);
+    return wrapper;
+  }
+  function transform2(hookName, element, payload) {
+    var _a;
+    const { document } = payload;
+    if (hookName === "beforeTransform") {
+      element.querySelectorAll("a *").forEach((el) => {
+        if (/^opens a new tab or window$/i.test(clean(el.textContent))) el.remove();
+      });
+      const nav = element.querySelector(NAV);
+      const h1 = element.querySelector("h1");
+      if (nav) nav.before(marker(document));
+      if (h1) {
+        const rail = element.querySelector(RAIL);
+        if (rail) {
+          const content = railContent(document, rail);
+          (_a = rail.closest(".col-lg-3")) == null ? void 0 : _a.remove();
+          rail.remove();
+          if (content.length) h1.before(marker(document, "right-rail"), ...content);
+        }
+        h1.before(marker(document));
+      }
+      element.querySelectorAll("div.comparisontable:has(table)").forEach((source) => {
+        source.replaceWith(plainTable(document, source.querySelector("table")));
+      });
+      element.querySelectorAll(GROUP).forEach((group) => {
+        (headingBefore(group, h1) || group).before(marker(document));
+        const back = [...group.querySelectorAll("a")].find(isBackToTop);
+        if (!back) return;
+        (back.closest(".hmk-brand-buttons") || back).remove();
+        const p = document.createElement("p");
+        const link = document.createElement("a");
+        link.href = "#top";
+        link.textContent = "Back to Top";
+        p.append(link);
+        group.after(p);
+      });
+      element.querySelectorAll(CTA).forEach((cta) => cta.before(marker(document, "highlight")));
+    }
+    if (hookName === "afterTransform") {
+      element.querySelectorAll(`[${SECTION_MARKER_ATTR}]`).forEach((hr) => {
+        const style = hr.getAttribute(SECTION_MARKER_ATTR);
+        hr.removeAttribute(SECTION_MARKER_ATTR);
+        hr.after(WebImporter.Blocks.createBlock(document, {
+          name: "Section Metadata",
+          cells: { style }
+        }));
+      });
+    }
+  }
+
+  // tools/importer/import-faq-topic.js
+  var parsers = {
+    "cards-minimal-light-sidenav": parse,
+    "accordion-minimal-light": parse2,
+    "table-minimal-dark-compare": parse3
+  };
+  var transformers = [
+    transform,
+    transform2
+  ];
+  var PAGE_TEMPLATE = {
+    name: "faq-topic",
+    description: "FAQ topic page: breadcrumbs with Print / Share, a left nav listing every FAQ topic, an H1 + intro, FAQ accordion groups each followed by Back to Top, and on some pages a right-rail callout and a blush CTA band",
+    urls: [
+      "https://www.highmark.com/resources/answers/faq/aca-plans",
+      "https://www.highmark.com/resources/answers/faq/behavioral-health-medication",
+      "https://www.highmark.com/resources/answers/faq/western-ny-blue-fund",
+      "https://www.highmark.com/resources/answers/faq/northeastern-ny-blue-fund",
+      "https://www.highmark.com/resources/answers/faq/breast-cancer",
+      "https://www.highmark.com/resources/answers/faq/cervical-cancer",
+      "https://www.highmark.com/resources/answers/faq/chip",
+      "https://www.highmark.com/resources/answers/faq/colorectal-cancer",
+      "https://www.highmark.com/resources/answers/faq/covid",
+      "https://www.highmark.com/resources/answers/faq/ebill-help",
+      "https://www.highmark.com/resources/answers/faq/ebill-terms",
+      "https://www.highmark.com/resources/answers/faq/explanation-of-benefits",
+      "https://www.highmark.com/resources/answers/faq/high-blood-pressure",
+      "https://www.highmark.com/resources/answers/faq/home-prescription-delivery",
+      "https://www.highmark.com/resources/answers/faq/insurance-terms",
+      "https://www.highmark.com/resources/answers/faq/measles",
+      "https://www.highmark.com/resources/answers/faq/medicare",
+      "https://www.highmark.com/resources/answers/faq/member-account-login",
+      "https://www.highmark.com/resources/answers/faq/preventive-diagnostic-screening",
+      "https://www.highmark.com/resources/answers/faq/spending-accounts"
+    ],
+    blocks: [
+      { name: "cards-minimal-light-sidenav", instances: ["div.col-lg-3 div.nav-container:has(.sidenav, .sidenav-item-list)"] },
+      { name: "accordion-minimal-light", instances: ["div.accordianTable"] },
+      // source div.comparisontable, rebuilt as a plain table by the sections transformer
+      { name: "table-minimal-dark-compare", instances: ["div.faq-compare-table"] },
+      { name: "section-right-rail", instances: [".rightrail-container"], section: "right-rail" },
+      { name: "section-cta-highlight", instances: ["div.one-card-one-col-panel.new-hmk-brand-blush-twnetyfive"], section: "highlight" }
+    ]
+  };
+  function executeTransformers(hookName, element, payload) {
+    const enhancedPayload = __spreadProps(__spreadValues({}, payload), { template: PAGE_TEMPLATE });
+    transformers.forEach((transformerFn) => {
+      try {
+        transformerFn.call(null, hookName, element, enhancedPayload);
+      } catch (e) {
+        console.error(`Transformer failed at ${hookName}:`, e);
+      }
+    });
+  }
+  function findBlocksOnPage(document, template) {
+    const pageBlocks = [];
+    const claimed = /* @__PURE__ */ new Set();
+    template.blocks.forEach((blockDef) => {
+      if (blockDef.name.startsWith("section-")) return;
+      blockDef.instances.forEach((selector) => {
+        let elements;
+        try {
+          elements = document.querySelectorAll(selector);
+        } catch (e) {
+          console.warn(`Invalid selector for ${blockDef.name}: ${selector}`, e);
+          return;
+        }
+        elements.forEach((element) => {
+          if (claimed.has(element)) return;
+          claimed.add(element);
+          pageBlocks.push({ name: blockDef.name, selector, element });
+        });
+      });
+    });
+    console.log(`Found ${pageBlocks.length} block instances on page`);
+    return pageBlocks;
+  }
+  var import_faq_topic_default = {
+    transform: (payload) => {
+      const {
+        document,
+        url,
+        html,
+        params
+      } = payload;
+      const main = document.body;
+      const crumb = document.querySelector("ol.breadcrumb-list li.active");
+      const crumbLabel = ((crumb == null ? void 0 : crumb.textContent) || "").replace(/\s+/g, " ").trim();
+      executeTransformers("beforeTransform", main, payload);
+      const pageBlocks = findBlocksOnPage(document, PAGE_TEMPLATE);
+      pageBlocks.forEach((block) => {
+        if (!block.element.parentNode) return;
+        const parser = parsers[block.name];
+        if (parser) {
+          try {
+            parser(block.element, { document, url, params });
+          } catch (e) {
+            console.error(`Failed to parse ${block.name} (${block.selector}):`, e);
+          }
+        } else {
+          console.warn(`No parser found for block: ${block.name}`);
+        }
+      });
+      executeTransformers("afterTransform", main, payload);
+      const hr = document.createElement("hr");
+      main.appendChild(hr);
+      const meta = WebImporter.Blocks.getMetadata(document) || {};
+      meta.Template = "faq";
+      meta.breadcrumbs = "true";
+      if (crumbLabel) meta["Breadcrumb Title"] = crumbLabel;
+      main.append(WebImporter.Blocks.getMetadataBlock(document, meta));
+      WebImporter.rules.transformBackgroundImages(main, document);
+      WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
+      const rawPath = new URL(params.originalURL).pathname.replace(/\/$/, "").replace(/\.html?$/, "");
+      const path = WebImporter.FileUtils.sanitizePath(rawPath === "" ? "/index" : rawPath);
+      return [{
+        element: main,
+        path,
+        report: {
+          title: document.title,
+          template: PAGE_TEMPLATE.name,
+          blocks: pageBlocks.map((b) => b.name)
+        }
+      }];
+    }
+  };
+  return __toCommonJS(import_faq_topic_exports);
+})();

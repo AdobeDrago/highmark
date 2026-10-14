@@ -29,17 +29,6 @@ const PAGE_TEMPLATE = {
     'https://www.highmark.com/resources/answers/articles',
     'https://www.highmark.com/resources/answers/community-assistance-resources',
     'https://www.highmark.com/resources/answers/faq',
-    'https://www.highmark.com/resources/answers/faq/aca-plans',
-    'https://www.highmark.com/resources/answers/faq/chip',
-    'https://www.highmark.com/resources/answers/faq/covid',
-    'https://www.highmark.com/resources/answers/faq/ebill-help',
-    'https://www.highmark.com/resources/answers/faq/ebill-terms',
-    'https://www.highmark.com/resources/answers/faq/explanation-of-benefits',
-    'https://www.highmark.com/resources/answers/faq/insurance-terms',
-    'https://www.highmark.com/resources/answers/faq/measles',
-    'https://www.highmark.com/resources/answers/faq/medicare-reservations',
-    'https://www.highmark.com/resources/answers/faq/member-account-login',
-    'https://www.highmark.com/resources/answers/faq/spending-accounts',
   ],
   blocks: [
     { name: 'cards-minimal-light-sidenav', instances: ['div.d-none.d-lg-block.col-lg-3 div.nav-container'] },
@@ -94,6 +83,11 @@ export default {
 
     const main = document.body;
 
+    // Source breadcrumb label ("Frequently Asked Questions"), read before cleanup
+    // removes the breadcrumb row: the FAQ topic pages' trails show it.
+    const crumb = document.querySelector('ol.breadcrumb-list li.active');
+    const crumbLabel = (crumb?.textContent || '').replace(/\s+/g, ' ').trim();
+
     // 1. beforeTransform (cleanup + section breaks)
     executeTransformers('beforeTransform', main, payload);
 
@@ -118,10 +112,12 @@ export default {
     // 4. afterTransform (final cleanup)
     executeTransformers('afterTransform', main, payload);
 
-    // 5. WebImporter built-in rules
+    // 5. WebImporter built-in rules; the page metadata adds the source breadcrumb label
     const hr = document.createElement('hr');
     main.appendChild(hr);
-    WebImporter.rules.createMetadata(main, document);
+    const meta = WebImporter.Blocks.getMetadata(document) || {};
+    if (crumbLabel) meta['Breadcrumb Title'] = crumbLabel;
+    main.append(WebImporter.Blocks.getMetadataBlock(document, meta));
     WebImporter.rules.transformBackgroundImages(main, document);
     WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
 

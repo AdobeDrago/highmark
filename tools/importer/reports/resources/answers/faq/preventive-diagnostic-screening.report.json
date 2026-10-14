@@ -2,11 +2,10 @@
   "status": "success",
   "url": "https://www.highmark.com/resources/answers/faq/preventive-diagnostic-screening",
   "path": "resources/answers/faq/preventive-diagnostic-screening",
-  "timestamp": "2026-09-30T20:32:23.405Z",
+  "timestamp": "2026-10-14T09:58:48.775Z",
   "title": "Preventive Screening vs. Diagnostic | Highmark",
-  "template": "sidebar-faq",
+  "template": "faq-topic",
   "blocks": [
-    "cards-minimal-light-sidenav",
     "cards-minimal-light-sidenav",
     "accordion-minimal-light"
   ]

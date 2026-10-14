@@ -2,11 +2,10 @@
   "status": "success",
   "url": "https://www.highmark.com/resources/answers/faq/spending-accounts",
   "path": "resources/answers/faq/spending-accounts",
-  "timestamp": "2026-09-30T20:34:26.692Z",
+  "timestamp": "2026-10-14T09:58:53.656Z",
   "title": "Spending Accounts FAQ: FSA, HAS, HRA | Highmark",
-  "template": "sidebar-listing",
+  "template": "faq-topic",
   "blocks": [
-    "cards-minimal-light-sidenav",
     "cards-minimal-light-sidenav",
     "accordion-minimal-light"
   ]

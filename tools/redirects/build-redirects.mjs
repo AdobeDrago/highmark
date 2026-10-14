@@ -46,7 +46,8 @@ const LISTS = ['reimbursement-policies', 'news-and-updates', 'provider-news', 'm
 // Paths that always redirect: drafts that exist in DA but should not be published, and
 // retired pages. path -> destination.
 const FORCE = {
-  '/resources/answers/faq/medicare-reservations': `${SOURCE}/resources/answers/faq/medicare`,
+  // the source's old URL for its Medicare FAQ, migrated here (2026-10-14)
+  '/resources/answers/faq/medicare-reservations': '/resources/answers/faq/medicare',
   '/shop/home': '/shop/', // the shop home moved to /shop/ (2026-10-01)
   '/shop': '/shop/', // a folder's index page is only served with the trailing slash
   '/shop/beta/home': '/shop/', // a copy of the old shop home whose links don't work here (2026-10-05)

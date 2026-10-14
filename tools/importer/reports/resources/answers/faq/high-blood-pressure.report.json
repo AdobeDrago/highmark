@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/resources/answers/faq/high-blood-pressure",
+  "path": "resources/answers/faq/high-blood-pressure",
+  "timestamp": "2026-10-14T09:58:16.743Z",
+  "title": "High Blood Pressure",
+  "template": "faq-topic",
+  "blocks": [
+    "cards-minimal-light-sidenav",
+    "accordion-minimal-light",
+    "table-minimal-dark-compare"
+  ]
+}

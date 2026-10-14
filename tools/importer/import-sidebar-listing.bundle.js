@@ -202,18 +202,7 @@ var CustomImportScript = (() => {
     urls: [
       "https://www.highmark.com/resources/answers/articles",
       "https://www.highmark.com/resources/answers/community-assistance-resources",
-      "https://www.highmark.com/resources/answers/faq",
-      "https://www.highmark.com/resources/answers/faq/aca-plans",
-      "https://www.highmark.com/resources/answers/faq/chip",
-      "https://www.highmark.com/resources/answers/faq/covid",
-      "https://www.highmark.com/resources/answers/faq/ebill-help",
-      "https://www.highmark.com/resources/answers/faq/ebill-terms",
-      "https://www.highmark.com/resources/answers/faq/explanation-of-benefits",
-      "https://www.highmark.com/resources/answers/faq/insurance-terms",
-      "https://www.highmark.com/resources/answers/faq/measles",
-      "https://www.highmark.com/resources/answers/faq/medicare-reservations",
-      "https://www.highmark.com/resources/answers/faq/member-account-login",
-      "https://www.highmark.com/resources/answers/faq/spending-accounts"
+      "https://www.highmark.com/resources/answers/faq"
     ],
     blocks: [
       { name: "cards-minimal-light-sidenav", instances: ["div.d-none.d-lg-block.col-lg-3 div.nav-container"] },
@@ -262,6 +251,8 @@ var CustomImportScript = (() => {
         params
       } = payload;
       const main = document2.body;
+      const crumb = document2.querySelector("ol.breadcrumb-list li.active");
+      const crumbLabel = ((crumb == null ? void 0 : crumb.textContent) || "").replace(/\s+/g, " ").trim();
       executeTransformers("beforeTransform", main, payload);
       const pageBlocks = findBlocksOnPage(document2, PAGE_TEMPLATE);
       pageBlocks.forEach((block) => {
@@ -280,7 +271,9 @@ var CustomImportScript = (() => {
       executeTransformers("afterTransform", main, payload);
       const hr = document2.createElement("hr");
       main.appendChild(hr);
-      WebImporter.rules.createMetadata(main, document2);
+      const meta = WebImporter.Blocks.getMetadata(document2) || {};
+      if (crumbLabel) meta["Breadcrumb Title"] = crumbLabel;
+      main.append(WebImporter.Blocks.getMetadataBlock(document2, meta));
       WebImporter.rules.transformBackgroundImages(main, document2);
       WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
       const rawPath = new URL(params.originalURL).pathname.replace(/\/$/, "").replace(/\.html?$/, "");

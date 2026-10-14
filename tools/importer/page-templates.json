@@ -651,18 +651,7 @@
       "urls": [
         "https://www.highmark.com/resources/answers/articles",
         "https://www.highmark.com/resources/answers/community-assistance-resources",
-        "https://www.highmark.com/resources/answers/faq",
-        "https://www.highmark.com/resources/answers/faq/aca-plans",
-        "https://www.highmark.com/resources/answers/faq/chip",
-        "https://www.highmark.com/resources/answers/faq/covid",
-        "https://www.highmark.com/resources/answers/faq/ebill-help",
-        "https://www.highmark.com/resources/answers/faq/ebill-terms",
-        "https://www.highmark.com/resources/answers/faq/explanation-of-benefits",
-        "https://www.highmark.com/resources/answers/faq/insurance-terms",
-        "https://www.highmark.com/resources/answers/faq/measles",
-        "https://www.highmark.com/resources/answers/faq/medicare-reservations",
-        "https://www.highmark.com/resources/answers/faq/member-account-login",
-        "https://www.highmark.com/resources/answers/faq/spending-accounts"
+        "https://www.highmark.com/resources/answers/faq"
       ],
       "coverageGaps": [],
       "description": "Two-column layout with a left-hand section navigation sidebar and a main content column showing a heading, intro, and a list of linked items",
@@ -702,11 +691,7 @@
     },
     {
       "name": "sidebar-faq",
-      "urls": [
-        "https://www.highmark.com/resources/answers/faq/behavioral-health-medication",
-        "https://www.highmark.com/resources/answers/faq/home-prescription-delivery",
-        "https://www.highmark.com/resources/answers/faq/preventive-diagnostic-screening"
-      ],
+      "urls": [],
       "coverageGaps": [],
       "description": "Two-column layout with a left-hand section navigation sidebar, an intro paragraph, and a single FAQ accordion of expandable questions",
       "blocks": [
@@ -727,10 +712,7 @@
     },
     {
       "name": "sidebar-grouped-faq",
-      "urls": [
-        "https://www.highmark.com/resources/answers/faq/northeastern-ny-blue-fund",
-        "https://www.highmark.com/resources/answers/faq/western-ny-blue-fund"
-      ],
+      "urls": [],
       "coverageGaps": [],
       "description": "Two-column layout with a left-hand navigation sidebar, a right-side contact callout box, multiple grouped FAQ accordion sections with back-to-top links, and a tinted CTA band",
       "blocks": [
@@ -745,6 +727,68 @@
           "instances": [
             "div.col-lg-9 div.accordianTable"
           ]
+        },
+        {
+          "name": "section-cta-highlight",
+          "instances": [
+            "div.one-card-one-col-panel.new-hmk-brand-blush-twnetyfive"
+          ],
+          "section": "highlight"
+        }
+      ],
+      "urlPattern": "/resources/answers/faq/*"
+    },
+    {
+      "name": "faq-topic",
+      "urls": [
+        "https://www.highmark.com/resources/answers/faq/aca-plans",
+        "https://www.highmark.com/resources/answers/faq/behavioral-health-medication",
+        "https://www.highmark.com/resources/answers/faq/western-ny-blue-fund",
+        "https://www.highmark.com/resources/answers/faq/northeastern-ny-blue-fund",
+        "https://www.highmark.com/resources/answers/faq/breast-cancer",
+        "https://www.highmark.com/resources/answers/faq/cervical-cancer",
+        "https://www.highmark.com/resources/answers/faq/chip",
+        "https://www.highmark.com/resources/answers/faq/colorectal-cancer",
+        "https://www.highmark.com/resources/answers/faq/covid",
+        "https://www.highmark.com/resources/answers/faq/ebill-help",
+        "https://www.highmark.com/resources/answers/faq/ebill-terms",
+        "https://www.highmark.com/resources/answers/faq/explanation-of-benefits",
+        "https://www.highmark.com/resources/answers/faq/high-blood-pressure",
+        "https://www.highmark.com/resources/answers/faq/home-prescription-delivery",
+        "https://www.highmark.com/resources/answers/faq/insurance-terms",
+        "https://www.highmark.com/resources/answers/faq/measles",
+        "https://www.highmark.com/resources/answers/faq/medicare",
+        "https://www.highmark.com/resources/answers/faq/member-account-login",
+        "https://www.highmark.com/resources/answers/faq/preventive-diagnostic-screening",
+        "https://www.highmark.com/resources/answers/faq/spending-accounts"
+      ],
+      "coverageGaps": [],
+      "description": "FAQ topic page (/resources/answers/faq/*): breadcrumbs with Print / Share, a left nav listing every FAQ topic, an H1 + intro, FAQ accordion groups each followed by Back to Top, and on some pages a right-rail callout and a blush CTA band",
+      "blocks": [
+        {
+          "name": "cards-minimal-light-sidenav",
+          "instances": [
+            "div.col-lg-3 div.nav-container:has(.sidenav, .sidenav-item-list)"
+          ]
+        },
+        {
+          "name": "accordion-minimal-light",
+          "instances": [
+            "div.accordianTable"
+          ]
+        },
+        {
+          "name": "table-minimal-dark-compare",
+          "instances": [
+            "div.faq-compare-table"
+          ]
+        },
+        {
+          "name": "section-right-rail",
+          "instances": [
+            ".rightrail-container"
+          ],
+          "section": "right-rail"
         },
         {
           "name": "section-cta-highlight",

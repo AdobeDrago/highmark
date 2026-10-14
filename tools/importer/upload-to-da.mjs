@@ -11,6 +11,10 @@
  *     /<page dir>/.<page name>/<file>
  * <picture> wrappers are dropped (DA stores plain <img>).
  *
+ * Links: imports keep the source's absolute https://www.highmark.com/... links. Those
+ * to a page this site publishes (the live query index), or to a page in this batch,
+ * become relative; links to pages not migrated yet stay on highmark.com.
+ *
  * Usage: node tools/importer/upload-to-da.mjs [--no-preview] <path> [path ...]
  *   e.g. node tools/importer/upload-to-da.mjs shop/about-you/qualifying-life-events/landing
  * Credentials are injected by the environment (no Authorization header here).
@@ -67,9 +71,28 @@ async function localizeImage(src, pageDir, pageName) {
   return `${DA_CONTENT}${daPath}`;
 }
 
+/** Paths of the pages this site publishes, plus the pages being uploaded now. */
+async function sitePaths() {
+  const resp = await fetch(`https://main--${REPO}--${ORG}.aem.live/query-index.json?limit=10000`);
+  if (!resp.ok) throw new Error(`query index: ${resp.status}`);
+  const { data } = await resp.json();
+  return new Set([...data.map((row) => row.path), ...pages.map((p) => `/${p.replace(/\/index$/, '/')}`)]);
+}
+
+const SOURCE_LINK = /href="https:\/\/www\.highmark\.com(\/[^"#?]*?)(?:\.html)?([?#][^"]*)?"/g;
+
+function localizeLinks(html, site) {
+  return html.replace(SOURCE_LINK, (link, linkPath, rest = '') => {
+    const p = linkPath.replace(/(.)\/$/, '$1');
+    return site.has(p) ? `href="${p}${rest}"` : link;
+  });
+}
+
+const site = await sitePaths();
+
 for (const page of pages) {
   const file = path.join('content', `${page}.plain.html`);
-  let html = fs.readFileSync(file, 'utf-8');
+  let html = localizeLinks(fs.readFileSync(file, 'utf-8'), site);
   const pageDir = path.posix.dirname(page) === '.' ? '' : path.posix.dirname(page);
   const pageName = path.posix.basename(page);
 

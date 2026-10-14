@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/resources/answers/faq/colorectal-cancer",
+  "path": "resources/answers/faq/colorectal-cancer",
+  "timestamp": "2026-10-14T09:57:49.219Z",
+  "title": "Colorectal Cancer",
+  "template": "faq-topic",
+  "blocks": [
+    "cards-minimal-light-sidenav",
+    "accordion-minimal-light"
+  ]
+}

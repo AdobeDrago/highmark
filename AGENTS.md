@@ -161,6 +161,18 @@ Cookie Preferences links to `#`, because this site has no cookie tool. The revie
 - **Fonts.** Roboto comes from the Adobe Fonts kit, as on the source. `fonts.css` used to override it with local files whose vertical metrics moved text by a pixel or two.
 - **Unitless values.** Where the source uses unitless line-heights or rems (1.1, 1.2, 1.6rem), so do we. A px value such as 26.4px rounds to a different 64th of a pixel in Chrome, which showed as one-pixel edges on images further down.
 
+## FAQ topic pages (`template: faq`)
+
+The 20 topics in the FAQ left nav (`/resources/answers/faq/*`, ACA … Spending Accounts) were re-imported on 2026-10-14 with `tools/importer/import-faq-topic.js` (template `faq-topic`, `urls-faq-topic.txt`); Breast Cancer, Cervical Cancer, Colorectal Cancer, High Blood Pressure and Medicare are new. `styles/templates/faq.css` matches highmark.com at 390 / 768 / 1024 / 1440.
+
+- **Metadata.** `Template: faq`, `Breadcrumbs: true` and the source's crumb label as `Breadcrumb Title` ("ACA", "WNY Blue Fund"). The breadcrumbs block brings Print / Share; below 992px it shows the "‹ Frequently Asked Questions" back link. The FAQ landing (`/resources/answers/faq`) needs `Breadcrumb Title: Frequently Asked Questions`, or the trail shows its long page title.
+- **Sections.** Left nav (every topic) | `right-rail` callout (the Blue Fund pages' Contact Us box, moved ahead of the H1) | H1 + intro | one section per FAQ group: H2, accordion, then a `Back to Top` link to `#top` | `highlight` CTA band (Blue Fund pages).
+- **Layout.** From 992px a 1200px container (83px minimum gutters): left nav 25%, text 56.25%, right rail 18.75%, as the source's 3 / 9 (9 / 3) grid. Both navs float, so a long nav pushes the footer down instead of overlapping it, and the CTA band clears both. Below 992px both navs are hidden, as on the source.
+- **Accordions.** The first question of each group is open; answers sit on the #f7fbfd panel.
+- **Import notes.** High Blood Pressure's comparison table is rebuilt as a plain table for the `table-minimal-dark-compare` parser and styled in `faq.css`. The source's "opens a new tab or window" screen-reader text is dropped. Medicare's group H2s sit outside their accordions and are moved into each group's section.
+- **Links.** Imports keep the source's absolute `https://www.highmark.com/...` links; `upload-to-da.mjs` now makes those to published pages (and pages in the same batch) relative.
+- `/resources/answers/faq/medicare-reservations` (the source's old URL for the Medicare FAQ) is in `build-redirects.mjs`'s `FORCE` list, now pointing at our `/resources/answers/faq/medicare`.
+
 ## Legal pages (`template: legal`)
 
 The footer's legal pages and their sub-pages (`/privacy`, `/fraud/*`, `/privacy-center/*`, ...) set `Template: legal` and `Breadcrumbs: true`; `styles/templates/legal.css` matches the highmark.com originals at 390 / 768 / 1280. Authoring conventions in these pages:
@@ -267,7 +279,7 @@ None as of 2026-10-06. #44 (FSA, Commuter Benefits and HSA tables) and #56 (`mig
   - FSA and Commuter Benefits in the header (not yet published).
   - `/reservations/aca` on `/resources/answers/faq/insurance-terms` (broken on the source too).
   - `/because-life`, which the homepage's Because Life card links to. The `/redirects` sheet republished at 10:45 and 11:22 UTC that day (144 rows) no longer redirects it, but the page isn't published yet. Gokulraj is publishing it.
-- The `/resources` sub-pages Lamont imported on 2026-09-16 (published 2026-10-01) have no template, like the live FAQ pages: no breadcrumbs, and the FAQ side navs list only the current topic.
+- The `/resources` sub-pages Lamont imported on 2026-09-16 (published 2026-10-01) have no template: no breadcrumbs. The FAQ topic pages were redone on 2026-10-14 (see FAQ topic pages); the re-imports are local until they are uploaded to DA.
 - Legal pages: the source separates content chunks with fixed "spacing" components (40px desktop / 20px tablet / 0 mobile) that have no EDS equivalent, so some of our pages run 2-8% shorter. `/privacy-center` has no page of its own; it redirects to `/privacy-center/announcements`, as on the source. `/fraud/contact` links to `/fraud/fraud-form`, the source's 55-field Health Care Fraud Form (it posts to an AEM servlet, `/bin/hmk/genericmailer`), which redirects to the source form until a form solution is chosen.
 - Query index data (2026-10-02): `/about/our-story/leadership-team-board` has no title, so search labels it from its URL ("Leadership Team Board").
 - The header's suggestion list fails axe's `nested-interactive` rule (serious): each `role="option"` holds a link. Fixing it means dropping the links and navigating from the option, which loses open-in-new-tab.
