@@ -31,6 +31,11 @@
   margin: 0 0 20px;
 }
 
+.form-minimal-light form.fraud-form > .field-wrapper:not(.submit-wrapper, .radio-wrapper, .heading-wrapper),
+.form-minimal-light form.fraud-form fieldset > .field-wrapper:not(.submit-wrapper, .radio-wrapper, .heading-wrapper) {
+  margin: 0 0 50px;
+}
+
 .form-minimal-light fieldset {
   display: grid;
   grid-auto-flow: row;
