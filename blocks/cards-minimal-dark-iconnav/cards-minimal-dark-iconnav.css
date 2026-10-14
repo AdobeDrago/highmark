@@ -164,7 +164,8 @@
 }
 
 /* ------------------------------------------------------------------
-   CHIP landing (template=chip-landing): 6 image-icon quick links; the answers
+   CHIP landing (template=chip-landing): 6 image-icon quick links, and the regional
+   member pages (template=member-regional) 5; the answers
    landing (template=answers-landing: FAQ / ARTICLES / GLOSSARY / ACA / CHIP) uses
    the same source component with Material icons.
    Source: .quicklinks .quick-link-list-container.bg-blue
@@ -174,19 +175,19 @@
    - >=992: 960px inner, items 160px, padding 16px 12px, label 16px/24px
    Hover: bg #e2e9e9, navy label + navy icon (source swaps to *-hover.svg).
    ------------------------------------------------------------------ */
-body:is(.chip-landing, .answers-landing) .cards-minimal-dark-iconnav > ul {
+body:is(.chip-landing, .answers-landing, .member-regional) .cards-minimal-dark-iconnav > ul {
   flex-wrap: nowrap;
   justify-content: center;
   overflow: visible;
 }
 
-body:is(.chip-landing, .answers-landing) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
+body:is(.chip-landing, .answers-landing, .member-regional) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
   flex: 1 1 0;
   width: auto;
   padding: 16px 0;
 }
 
-body:is(.chip-landing, .answers-landing) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item .cards-minimal-dark-iconnav-label {
+body:is(.chip-landing, .answers-landing, .member-regional) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item .cards-minimal-dark-iconnav-label {
   margin-top: 0;
   font-size: 14px;
   line-height: 21px;
@@ -196,19 +197,19 @@ body:is(.chip-landing, .answers-landing) .cards-minimal-dark-iconnav > ul > li.c
 }
 
 @media (width >= 768px) {
-  body:is(.chip-landing, .answers-landing) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
+  body:is(.chip-landing, .answers-landing, .member-regional) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
     flex: 0 1 auto;
     width: 130px;
   }
 }
 
 @media (width >= 992px) {
-  body:is(.chip-landing, .answers-landing) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
+  body:is(.chip-landing, .answers-landing, .member-regional) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
     width: 160px;
     padding: 16px 12px;
   }
 
-  body:is(.chip-landing, .answers-landing) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item .cards-minimal-dark-iconnav-label {
+  body:is(.chip-landing, .answers-landing, .member-regional) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item .cards-minimal-dark-iconnav-label {
     font-size: 16px;
     line-height: 24px;
   }

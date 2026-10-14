@@ -16,9 +16,9 @@ const navPath = () => {
   return navMeta ? new URL(navMeta, window.location).pathname : '/nav';
 };
 
-async function fetchNav() {
+async function fetchNav(path = navPath()) {
   try {
-    let resp = await fetch(`${navPath()}.plain.html`);
+    let resp = await fetch(`${path}.plain.html`);
     if (!resp.ok) {
       resp = await fetch('/content/nav.plain.html');
     }
@@ -32,6 +32,36 @@ async function fetchNav() {
     console.error('Nav fragment failed to load', e);
     return null;
   }
+}
+
+/**
+ * A menu section that opens with a link alone in a paragraph (e.g. /nav) uses that nav
+ * fragment's menu, so a regional header (/member/fragments/<region>/nav) keeps the corporate
+ * menu. Items listed after the link replace the shared menu's group of the same label with
+ * their sub-list (Western NY: "CHIP - Highmark Healthy Kids" -> NY State Plans).
+ */
+async function inheritMenu(section) {
+  const first = section.firstElementChild;
+  const link = first?.tagName === 'P' && first.children.length === 1 && first.querySelector(':scope > a[href]');
+  if (!link || link.textContent.trim() !== first.textContent.trim()) return;
+  const shared = await fetchNav(new URL(link.href, window.location).pathname);
+  const sharedMenu = shared && [...shared.children].filter((el) => el.tagName === 'DIV')[2];
+  if (!sharedMenu) return;
+  const overrides = [...section.querySelectorAll(':scope > ul > li')];
+  // an item's own label: its text without its sub-list
+  const label = (li) => {
+    const own = li.cloneNode(true);
+    own.querySelectorAll('ul').forEach((ul) => ul.remove());
+    return own.textContent.trim();
+  };
+  overrides.forEach((override) => {
+    sharedMenu.querySelectorAll('li:has(> ul)').forEach((group) => {
+      if (label(group) !== label(override)) return;
+      group.replaceWith(...override.querySelectorAll(':scope > ul > li'));
+    });
+  });
+  section.className = sharedMenu.className;
+  section.replaceChildren(...sharedMenu.childNodes);
 }
 
 /** Close every open megamenu panel. */
@@ -412,7 +442,14 @@ export default async function decorate(block) {
   const sections = [...fragment.children].filter((el) => el.tagName === 'DIV');
   // Source order: [0] utility links, [1] brand + icons, [2] primary nav, and optionally
   // [3] the search target (another site's results page), which puts the box in its own row.
-  const [utilitySection, brandSection, primarySection, searchSection] = sections;
+  // A fragment of two sections has no utility bar: [0] brand, [1] primary nav (the regional
+  // member pages' headers).
+  const regional = sections.length === 2;
+  const [utilitySection, brandSection, primarySection, searchSection] = regional
+    ? [null, ...sections] : sections;
+  // its brand row: below 992px the menu button, the second (mobile) logo centred, search
+  if (regional) nav.classList.add('nav-regional');
+  if (primarySection) await inheritMenu(primarySection);
   const target = searchTarget(searchSection);
 
   // Below the desktop breakpoint highmark.com has no search box in its menu: a search icon

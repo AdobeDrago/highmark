@@ -110,6 +110,18 @@ header {
   }
 }
 
+/* Regional member pages' header (nav = /member/fragments/<region>/nav): no utility bar; an
+   84px bar below 992px, the 94px brand row and the 60px nav row from 992px. */
+html:has(meta[name="nav"][content^="/member/fragments/"]) header {
+  min-height: 84px;
+}
+
+@media (width >= 992px) {
+  html:has(meta[name="nav"][content^="/member/fragments/"]) header {
+    min-height: 154px;
+  }
+}
+
 /* Pages with the ShopX-style shop header (nav = /shop/fragments/shopx-header, see
    blocks/header/shop-header.js) reserve its height instead. */
 html:has(meta[name="nav"][content$="/shopx-header"]) header {

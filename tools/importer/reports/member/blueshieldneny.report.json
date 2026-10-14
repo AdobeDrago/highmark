@@ -1,0 +1,16 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/member/blueshieldneny",
+  "path": "member/blueshieldneny",
+  "timestamp": "2026-10-14T13:54:33.498Z",
+  "title": "Member Resources | Highmark BS Northeastern New York",
+  "template": "member-regional",
+  "blocks": [
+    "hero-minimal-dark-withimg",
+    "cards-minimal-dark-iconnav",
+    "cards-minimal-dark-withimg-icons",
+    "cards-minimal-dark-withimg-icons",
+    "columns-minimal-dark",
+    "columns-minimal-dark"
+  ]
+}

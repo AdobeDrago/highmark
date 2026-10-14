@@ -957,3 +957,74 @@ header nav .nav-drawer-icons {
     vertical-align: -3px;
   }
 }
+
+/* ------------------------------------------------------------------
+ * Regional member headers (the nav fragments under /member/fragments: two
+ * sections, logo + menu; header.js adds .nav-regional). The logo link holds two
+ * images: the region's logo, shown from 992px, and the mobile logo. Below 992px the
+ * bar is 84px tall with a soft shadow: the menu button on the left, the mobile logo
+ * (20px tall) centred, the search icon on the right, as on highmark.com's regional
+ * pages.
+ * ------------------------------------------------------------------ */
+header nav.nav-regional .nav-brand a > :not(:first-child) {
+  display: none;
+}
+
+@media (width < 992px) {
+  header nav.nav-regional .nav-brand-row {
+    display: grid;
+    grid-template-columns: 40px 1fr 40px;
+    align-items: center;
+    height: 84px;
+    padding: 0 30px;
+    box-shadow: 0 3px 3px rgb(0 0 0 / 16%);
+  }
+
+  header nav.nav-regional .nav-hamburger {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+    padding: 8px 0;
+  }
+
+  header nav.nav-regional .nav-brand {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: center;
+  }
+
+  header nav.nav-regional .nav-brand a > :first-child {
+    display: none;
+  }
+
+  header nav.nav-regional .nav-brand a > :nth-child(2) {
+    display: block;
+  }
+
+  header nav.nav-regional .nav-brand a > :nth-child(2) img {
+    height: 20px;
+    max-height: none;
+  }
+
+  header nav.nav-regional .nav-search-toggle {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  /* the opened search box takes the logo's place and the space beside it */
+  header nav.nav-regional.nav-search-open .nav-brand-row .nav-search {
+    grid-column: 2 / 4;
+    grid-row: 1;
+  }
+
+  header nav.nav-regional .nav-primary-row {
+    padding-top: 84px;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  header nav.nav-regional .nav-brand-row {
+    padding: 0 64px;
+  }
+}

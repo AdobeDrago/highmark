@@ -333,3 +333,70 @@ footer .footer-brand ul.footer-social + p {
     letter-spacing: -0.1px;
   }
 }
+
+/* ------------------------------------------------------------------
+ * Regional member footers (the footer fragments under /member/fragments):
+ * - footer-top: the "Federal Employee Program" band above the navy footer, 94px tall
+ *   on polar, its link Sofia Pro 20/30 bold navy, centred;
+ * - the brand column's extra link (COVID-19 Resources, after the phone or, on the
+ *   New York footers, after LinkedIn): Roboto 16/24 500, centred, not underlined;
+ * - an empty line's space after the copyright line, as the source's empty paragraph.
+ * ------------------------------------------------------------------ */
+footer .footer-top {
+  background-color: var(--light-color);
+}
+
+footer .footer-top-inner {
+  box-sizing: border-box;
+  max-width: 1366px;
+  margin: 0 auto;
+  padding: 32px 30px;
+  text-align: center;
+}
+
+footer .footer-top-inner p { /* stylelint-disable-line no-descending-specificity */
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 30px;
+}
+
+footer .footer-top-inner a:any-link {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+footer .footer-top-inner a:hover {
+  text-decoration: underline;
+}
+
+footer .footer-wrapper:has(.footer-top) .footer-legal-inner > p:first-child {
+  margin-bottom: 48px;
+}
+
+@media (width >= 768px) {
+  footer .footer-wrapper:has(.footer-top) .footer-legal-inner > p:first-child {
+    margin-bottom: 53px;
+  }
+}
+
+@media (width >= 992px) {
+  footer .footer-wrapper:has(.footer-top) .footer-legal-inner > p:first-child {
+    margin-bottom: 56px;
+  }
+}
+
+footer .footer-wrapper:has(.footer-top) .footer-brand > p:not(:first-child):has(> a:not([href^="tel:"])) {
+  width: 280px;
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: center;
+}
+
+footer .footer-wrapper:has(.footer-top) .footer-brand > p:not(:first-child) > a:not([href^="tel:"]) {
+  text-decoration: none;
+}
