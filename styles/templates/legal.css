@@ -89,7 +89,7 @@ body.legal main :is(.default-content-wrapper, .columns) :is(p, li, h5) a.cms-onc
     font-size: 17px;
     letter-spacing: -0.2px;
     line-height: 1.4;
-    color: rgb(0, 120, 193);
+    color: rgb(0 120 193);
     margin-bottom: 0.8rem;
     font-family: sofia-pro, sans-serif;
     font-style: normal;
