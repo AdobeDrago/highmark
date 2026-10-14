@@ -296,6 +296,51 @@ var CustomImportScript = (() => {
     });
     return WebImporter.Blocks.createBlock(document, { name: "cards-minimal-light-sidenav", cells });
   }
+  var SPACER_PX = { ten: 20, twenty: 40, thirty: 60, forty: 80 };
+  function spacerHeights(spacer) {
+    var _a;
+    const cls = ((_a = spacer.querySelector("section")) == null ? void 0 : _a.className) || "";
+    const size = (prefix) => SPACER_PX[(cls.match(new RegExp(`(?:^|\\s)${prefix}(ten|twenty|thirty|forty)-padding`)) || [])[1]] || 0;
+    return [size(""), size("tab-"), size("mob-")];
+  }
+  function spaceStyle([d, t, m]) {
+    const styles = [`space-${d}`];
+    if (t !== d) styles.push(`space-tablet-${t}`);
+    if (m !== d) styles.push(`space-mobile-${m}`);
+    return styles.join(", ");
+  }
+  function spacerBreaks(document, column) {
+    const leaves = [...column.querySelectorAll(".aem-GridColumn")].filter((el) => !el.querySelector(".aem-GridColumn") && !el.closest(CTA) && !el.querySelector(CTA));
+    const isSpacer = (el) => el.matches(".spacing");
+    const groupOf = (el) => el.matches(GROUP) ? el : el.querySelector(GROUP);
+    const groupSpace = /* @__PURE__ */ new Map();
+    let pending = null;
+    let afterGroup = false;
+    leaves.forEach((leaf, i) => {
+      if (isSpacer(leaf)) {
+        const h = spacerHeights(leaf);
+        pending = pending ? pending.map((v, j) => v + h[j]) : h;
+        return;
+      }
+      const style = pending && pending.some(Boolean) ? spaceStyle(pending) : "";
+      pending = null;
+      const group = groupOf(leaf);
+      if (group) {
+        if (style) groupSpace.set(group, style);
+        afterGroup = true;
+        return;
+      }
+      const next = leaves.slice(i + 1).find((el) => !isSpacer(el));
+      const titlesGroup = next && groupOf(next) && leaf.querySelector("h2") && clean(leaf.textContent) === clean(leaf.querySelector("h2").textContent);
+      if (titlesGroup) {
+        if (style) groupSpace.set(groupOf(next), style);
+      } else if (style || afterGroup) {
+        leaf.before(marker(document, style || void 0));
+      }
+      afterGroup = false;
+    });
+    return groupSpace;
+  }
   var linkParagraph = (document, href, text) => {
     const p = document.createElement("p");
     const a = document.createElement("a");
@@ -353,11 +398,14 @@ var CustomImportScript = (() => {
         }
         h1.before(marker(document));
       }
+      let column = h1 || element;
+      while (h1 && column.parentElement && column.parentElement !== element && !(nav && column.parentElement.contains(nav))) column = column.parentElement;
+      const groupSpace = h1 ? spacerBreaks(document, column) : /* @__PURE__ */ new Map();
       element.querySelectorAll("div.comparisontable:has(table)").forEach((source) => {
         source.replaceWith(plainTable(document, source.querySelector("table")));
       });
       element.querySelectorAll(GROUP).forEach((group) => {
-        (headingBefore(group, h1) || group).before(marker(document));
+        (headingBefore(group, h1) || group).before(marker(document, groupSpace.get(group)));
         const cta = group.querySelector(".hmk-brand-buttons a[href]") || [...group.querySelectorAll("a")].find(isBackToTop);
         if (!cta) return;
         const p = isBackToTop(cta) ? linkParagraph(document, "#top", "Back to Top") : linkParagraph(document, cta.getAttribute("href"), clean(cta.textContent));

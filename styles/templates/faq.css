@@ -75,6 +75,49 @@ body.faq main > .section > .default-content-wrapper :is(ul, ol) {
   font-weight: 300;
 }
 
+/* ---- the source's spacing components (Section Metadata space-*): top padding,
+   at every width unless space-tablet-* / space-mobile-* say otherwise ---- */
+body.faq main > .section:is([class*="space-"]) {
+  padding-top: var(--faq-space-mobile, var(--faq-space, 0));
+}
+
+body.faq main > .section.space-20 { --faq-space: 20px; }
+body.faq main > .section.space-40 { --faq-space: 40px; }
+body.faq main > .section.space-60 { --faq-space: 60px; }
+body.faq main > .section.space-80 { --faq-space: 80px; }
+body.faq main > .section.space-100 { --faq-space: 100px; }
+body.faq main > .section.space-tablet-20 { --faq-space-tablet: 20px; }
+body.faq main > .section.space-tablet-40 { --faq-space-tablet: 40px; }
+body.faq main > .section.space-tablet-60 { --faq-space-tablet: 60px; }
+body.faq main > .section.space-mobile-20 { --faq-space-mobile: 20px; }
+body.faq main > .section.space-mobile-40 { --faq-space-mobile: 40px; }
+body.faq main > .section.space-mobile-60 { --faq-space-mobile: 60px; }
+
+/* headings in text sections (Measles' "Where to Find Reliable Information"): the
+   group heading's size without its 16px indent, 8px above the text */
+body.faq main > .section:not(.accordion-minimal-light-container, .highlight, .mobile-only, .right-rail) > .default-content-wrapper h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  color: var(--text-color);
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.72px;
+}
+
+/* "Log in to your member portal" (lead text, then a Log In button): centred in the
+   middle 10/12 of the column, the button 33px below (30px on phones) */
+body.faq main > .section > .default-content-wrapper p:not(.button-container):has(> strong:only-child):has(+ p.button-container) {
+  max-width: calc(100% * 10 / 12);
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+body.faq main > .section > .default-content-wrapper p:has(> strong:only-child) + p.button-container {
+  margin-top: 30px;
+  text-align: center;
+}
+
 /* ---- FAQ groups ---- */
 body.faq main > .section.accordion-minimal-light-container {
   margin-bottom: 60px;
@@ -263,9 +306,12 @@ body.faq main > .section.mobile-only {
 /* ---- comparison table (High Blood Pressure): navy header row with rounded
    top corners, bold label column, paper-grey bands on every other row from
    the second column; 60px rows, a 275 / 200 / 200 split of 675px. Phones
-   scroll it sideways, as the source ("scroll to view all columns"). ---- */
+   scroll it sideways, as the source ("scroll to view all columns"). The
+   wrapper sets vertical margins only: its column offset comes from the
+   section rules. ---- */
 body.faq main > .section > .table-minimal-dark-compare-wrapper {
-  margin: 16px 0 24px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 body.faq .table-minimal-dark-compare table {
@@ -407,7 +453,8 @@ body.faq main:has(> .section.highlight:last-child) {
     letter-spacing: -0.4px;
   }
 
-  body.faq main > .section.mobile-only h2 {
+  body.faq main > .section.mobile-only h2,
+  body.faq main > .section:not(.accordion-minimal-light-container, .highlight, .mobile-only, .right-rail) > .default-content-wrapper h2 {
     font-size: 28px;
     letter-spacing: -0.78px;
   }
@@ -464,6 +511,10 @@ body.faq main:has(> .section.highlight:last-child) {
 }
 
 @media (width >= 768px) and (width < 992px) {
+  body.faq main > .section:is([class*="space-"]) {
+    padding-top: var(--faq-space-tablet, var(--faq-space, 0));
+  }
+
   body.faq .breadcrumbs {
     padding-left: 64px;
     padding-right: 64px;
@@ -565,6 +616,21 @@ body.faq main:has(> .section.highlight:last-child) {
     width: auto;
     max-width: 780px;
     margin: 0 auto;
+  }
+
+  body.faq main > .section:is([class*="space-"]) {
+    padding-top: var(--faq-space, 0);
+  }
+
+  body.faq main > .section > .default-content-wrapper p:has(> strong:only-child) + p.button-container {
+    margin-top: 33px;
+  }
+
+  body.faq main > .section:not(.accordion-minimal-light-container, .highlight, .mobile-only, .right-rail) > .default-content-wrapper h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 1.2;
+    letter-spacing: -1.36px;
   }
 
   /* the complete list of topics is phone-only: the left nav lists them */

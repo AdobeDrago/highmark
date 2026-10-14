@@ -143,6 +143,68 @@ function siblingNavWithChildren(document, nav) {
   return WebImporter.Blocks.createBlock(document, { name: 'cards-minimal-light-sidenav', cells });
 }
 
+/** One spacing component's height at each width: the source's "ten-padding" is 10px
+ * above and below (20px), "twenty-padding" 40px; "tab-" / "mob-" set tablet / phone. */
+const SPACER_PX = { ten: 20, twenty: 40, thirty: 60, forty: 80 };
+function spacerHeights(spacer) {
+  const cls = spacer.querySelector('section')?.className || '';
+  const size = (prefix) => SPACER_PX[(cls.match(new RegExp(`(?:^|\\s)${prefix}(ten|twenty|thirty|forty)-padding`)) || [])[1]] || 0;
+  return [size(''), size('tab-'), size('mob-')];
+}
+
+/** A run of spacers as section styles: space-<desktop>, plus space-tablet-<n> /
+ * space-mobile-<n> where those differ (faq.css turns them into top padding). */
+function spaceStyle([d, t, m]) {
+  const styles = [`space-${d}`];
+  if (t !== d) styles.push(`space-tablet-${t}`);
+  if (m !== d) styles.push(`space-mobile-${m}`);
+  return styles.join(', ');
+}
+
+/**
+ * The source spaces its components with empty "spacing" components, which the import
+ * would drop. Walks the content column's components in order: a run of spacers before
+ * a component becomes a section break with its space-* style there (or the style of the
+ * FAQ group's own break), and content after a FAQ group starts a new section, so the
+ * group's 60px bottom margin sits where the source has it.
+ * @returns {Map<Element, string>} space styles for FAQ groups
+ */
+function spacerBreaks(document, column) {
+  const leaves = [...column.querySelectorAll('.aem-GridColumn')]
+    .filter((el) => !el.querySelector('.aem-GridColumn') && !el.closest(CTA) && !el.querySelector(CTA));
+  const isSpacer = (el) => el.matches('.spacing');
+  const groupOf = (el) => (el.matches(GROUP) ? el : el.querySelector(GROUP));
+  const groupSpace = new Map();
+  let pending = null;
+  let afterGroup = false;
+  leaves.forEach((leaf, i) => {
+    if (isSpacer(leaf)) {
+      const h = spacerHeights(leaf);
+      pending = pending ? pending.map((v, j) => v + h[j]) : h;
+      return;
+    }
+    const style = pending && pending.some(Boolean) ? spaceStyle(pending) : '';
+    pending = null;
+    const group = groupOf(leaf);
+    if (group) {
+      if (style) groupSpace.set(group, style);
+      afterGroup = true;
+      return;
+    }
+    // a heading component that only titles the next group (Medicare) goes with it
+    const next = leaves.slice(i + 1).find((el) => !isSpacer(el));
+    const titlesGroup = next && groupOf(next) && leaf.querySelector('h2')
+      && clean(leaf.textContent) === clean(leaf.querySelector('h2').textContent);
+    if (titlesGroup) {
+      if (style) groupSpace.set(groupOf(next), style);
+    } else if (style || afterGroup) {
+      leaf.before(marker(document, style || undefined));
+    }
+    afterGroup = false;
+  });
+  return groupSpace;
+}
+
 const linkParagraph = (document, href, text) => {
   const p = document.createElement('p');
   const a = document.createElement('a');
@@ -219,6 +281,13 @@ export default function transform(hookName, element, payload) {
       h1.before(marker(document));
     }
 
+    // the source's spacing components as section breaks with space-* styles; the
+    // content column is the H1's outermost ancestor without the left nav
+    let column = h1 || element;
+    while (h1 && column.parentElement && column.parentElement !== element
+      && !(nav && column.parentElement.contains(nav))) column = column.parentElement;
+    const groupSpace = h1 ? spacerBreaks(document, column) : new Map();
+
     // comparison tables (High Blood Pressure) as plain tables for the parser
     element.querySelectorAll('div.comparisontable:has(table)').forEach((source) => {
       source.replaceWith(plainTable(document, source.querySelector('table')));
@@ -227,7 +296,7 @@ export default function transform(hookName, element, payload) {
     // 4. FAQ groups (with their heading when it sits just above), each with its
     // text link (Back to Top, or the landing's "SEE ALL … FAQ") after the accordion
     element.querySelectorAll(GROUP).forEach((group) => {
-      (headingBefore(group, h1) || group).before(marker(document));
+      (headingBefore(group, h1) || group).before(marker(document, groupSpace.get(group)));
       const cta = group.querySelector('.hmk-brand-buttons a[href]')
         || [...group.querySelectorAll('a')].find(isBackToTop);
       if (!cta) return;
