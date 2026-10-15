@@ -139,9 +139,11 @@
 }
 
 /* a sibling with its own pages (the FAQ landing's topics, open under the current
-   page; other siblings' sub-menus, collapsed): the 24px chevron button sits in the
-   link's right padding, as on the source */
+   page; other siblings' sub-menus, collapsed): as on the source, the label keeps
+   its 24px right padding and the 24px chevron toggle follows it at the far edge,
+   centred on the label (a two-line label wraps 48px short of the edge) */
 .cards-minimal-light-sidenav-guide :is(.cards-minimal-light-sidenav-current, .cards-minimal-light-sidenav-sibling) > a:has(.cards-minimal-light-sidenav-arrow) {
+  column-gap: 24px;
   padding-right: 0;
 }
 

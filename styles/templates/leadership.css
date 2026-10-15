@@ -316,7 +316,7 @@ body.leadership main .cards-minimal-light-sidenav-children {
   padding-left: 18px;
 }
 
-body.leadership main .cards-minimal-light-sidenav .cards-minimal-light-sidenav-arrow {
+body.leadership main .cards-minimal-light-sidenav-item-list:not(.cards-minimal-light-sidenav-guide) .cards-minimal-light-sidenav-arrow {
   position: absolute;
   top: 0;
   right: 0;
