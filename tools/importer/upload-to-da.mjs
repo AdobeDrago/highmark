@@ -111,6 +111,23 @@ async function sourceLinksToDrafts(html, site) {
   });
 }
 
+/** A heading's id as the pipeline makes it (github-slugger: "ACA - Care" -> "aca---care"). */
+const slug = (text) => text.toLowerCase().replace(/[^\p{L}\p{N}\s_-]/gu, '').replace(/\s/g, '-');
+
+/**
+ * Importers that keep the source's non-breaking spaces (the FAQ topics: "(ACA)&nbsp;FAQ")
+ * write U+E000 for each, since the import turns the character itself into a plain
+ * space. Turn it back into &nbsp;, and rebuild the ids of headings that hold one (the
+ * import's slug dropped it: "aca-faq" became "acafaq").
+ */
+function restoreNbsp(html) {
+  return html
+    .replace(/<(h[1-6])( [^>]*)?\sid="[^"]*"([^>]*)>([\s\S]*?)<\/\1>/g, (m, tag, pre = '', post, inner) => (inner.includes('\ue000')
+      ? `<${tag}${pre} id="${slug(inner.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/\ue000/g, ' ').trim())}"${post}>${inner}</${tag}>`
+      : m))
+    .replace(/\ue000/g, '&nbsp;');
+}
+
 const site = await sitePaths();
 // paths the live /redirects sheet sends somewhere (a retired draft such as
 // /resources/answers/faq/medicare-reservations): relative links to them work
@@ -120,7 +137,7 @@ const redirected = new Set(await fetch(`https://main--${REPO}--${ORG}.aem.live/r
 
 for (const page of pages) {
   const file = path.join('content', `${page}.plain.html`);
-  let html = await sourceLinksToDrafts(localizeLinks(fs.readFileSync(file, 'utf-8'), site), site);
+  let html = await sourceLinksToDrafts(localizeLinks(restoreNbsp(fs.readFileSync(file, 'utf-8')), site), site);
   const pageDir = path.posix.dirname(page) === '.' ? '' : path.posix.dirname(page);
   const pageName = path.posix.basename(page);
 

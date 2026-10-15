@@ -35,7 +35,6 @@ const PAGE_TEMPLATE = {
   description: 'Landing page with hero banner, an icon tab/quick-nav bar, an FAQ accordion section, a three-up card grid, and alternating image/text promo and resource sections',
   urls: [
     'https://www.highmark.com/resources/answers',
-    'https://www.highmark.com/resources/answers/health-insurance-glossary',
     'https://www.highmark.com/resources/spending-accounts/commuter-benefits-account',
     'https://www.highmark.com/resources/spending-accounts/flexible-spending-account-fsa',
     'https://www.highmark.com/resources/spending-accounts/health-saving-account-hsa',

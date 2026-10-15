@@ -1,0 +1,328 @@
+/* Health Insurance Glossary (template: glossary -> body.glossary,
+   /resources/answers/health-insurance-glossary), measured against
+   https://www.highmark.com/resources/answers/health-insurance-glossary at 390 / 800 / 1440.
+
+   Sections: 1. hero (hero-minimal-light: H1 + bold intro, the source's lead style p1) |
+   2. glossary-letters: the A–Z bar, a list whose letters with terms link to their group
+   (the others are plain text, greyed) | 3. glossary: per letter an H2 (the navy letter
+   badge), its terms (H3 + text) and a "Back to Top" link.
+
+   Source gutters: 30px below 768, 64px to 991, 83px from 992 in a 1366px container,
+   where the terms take the middle 8 of 12 columns (800px at 1440). Sections sit flush. */
+
+body.glossary main > .section {
+  margin: 0;
+}
+
+/* ---- 1. hero: 20px above the H1 (40px from 992), the intro 10/12 columns wide
+   (8/12 from 768), 21 / 40 / 60px below it ---- */
+body.glossary main .hero-minimal-light {
+  padding: 20px 0 21px;
+}
+
+body.glossary main .hero-minimal-light h1 {
+  width: calc(100% * 10 / 12);
+  margin: 0 auto 8px;
+}
+
+body.glossary main .hero-minimal-light p {
+  width: calc(100% * 10 / 12);
+  max-width: none;
+  margin: 0 auto 12.8px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+body.glossary main .hero-minimal-light p strong {
+  font-weight: inherit;
+}
+
+/* ---- 2. the A–Z bar: a 72px grey band with a soft shadow; letters 48px apart, each
+   centred in a 72px slot (the source's 72px links overflow their 48px items),
+   centred when the row fits and scrolled sideways when it doesn't ---- */
+body.glossary main > .section.glossary-letters {
+  position: relative;
+  background-color: #f1f4f4;
+  box-shadow: 0 2px 2px 0 rgb(0 0 0 / 16%);
+}
+
+body.glossary main > .section.glossary-letters > div {
+  max-width: none;
+  padding: 0;
+}
+
+body.glossary main > .section.glossary-letters ul {
+  display: flex;
+  justify-content: safe center;
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+  list-style: none;
+  user-select: none;
+}
+
+body.glossary main > .section.glossary-letters li {
+  flex: 0 0 72px;
+  margin: 0 -24px 0 0;
+  color: #9ab1b1;
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 72px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+body.glossary main > .section.glossary-letters li a:any-link {
+  display: block;
+  color: #0b0e0e;
+  text-decoration: none;
+}
+
+body.glossary main > .section.glossary-letters li a:hover {
+  color: var(--link-color);
+}
+
+/* ---- 3. the terms: 40px below the bar (80px from 992), 41px (53px) after the last
+   Back to Top ---- */
+body.glossary main > .section.glossary {
+  padding: 40px 0 41px;
+}
+
+body.glossary main > .section.glossary > div {
+  padding: 0 30px;
+}
+
+/* the letter badge: 48px navy square, 20% radius, a white 40px letter */
+body.glossary main > .section.glossary h2 {
+  width: 48px;
+  height: 48px;
+  margin: 81px 0 32px;
+  padding: 0;
+  border-radius: 9.6px;
+  background-color: var(--text-color);
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 48px;
+  letter-spacing: normal;
+  text-align: center;
+  text-transform: uppercase;
+
+  /* the A–Z links bring the badge to the top of the window, as on the source */
+  scroll-margin: 0;
+}
+
+body.glossary main > .section.glossary .default-content-wrapper > h2:first-child {
+  margin-top: 0;
+}
+
+body.glossary main > .section.glossary h3 {
+  margin: 0 0 8px;
+  padding: 16px 0;
+  color: var(--text-body-color);
+  font-family: var(--heading-font-family);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 24.2px;
+  letter-spacing: -0.4px;
+}
+
+/* a term's text; terms are 13px apart (the source's list items' margin, which the
+   text's own margin collapses into) */
+body.glossary main > .section.glossary p {
+  margin: 0 0 13px;
+  color: var(--text-color);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+/* lists in a term: no bullets or indent, thin 15/22.5 items 13px apart (15px from
+   992), as on the source (its glossary list styles reach them) */
+body.glossary main > .section.glossary ul,
+body.glossary main > .section.glossary ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+body.glossary main > .section.glossary li {
+  margin: 0 0 13px;
+  color: var(--text-body-color);
+  font-size: 15px;
+  font-weight: 100;
+  line-height: 22.5px;
+}
+
+/* Back to Top: 16px below the last term, a bold uppercase link (the source's
+   textButton) */
+body.glossary main > .section.glossary p.button-container:has(> a[href="#top"]) {
+  margin: 16px 0 0;
+}
+
+body.glossary main > .section.glossary a.button[href="#top"]:any-link {
+  display: block;
+  width: fit-content;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: #0066b1;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  white-space: normal;
+}
+
+body.glossary main > .section.glossary a.button[href="#top"]:hover {
+  background: none;
+  color: #0066b1;
+  text-decoration: underline;
+}
+
+@media (width >= 768px) {
+  body.glossary main .hero-minimal-light h1 {
+    width: auto;
+  }
+
+  body.glossary main .hero-minimal-light p {
+    width: calc(100% * 8 / 12);
+    margin-bottom: 16px;
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  body.glossary main .hero-minimal-light {
+    padding-bottom: 40px;
+  }
+
+  body.glossary main > .section.glossary > div {
+    padding: 0 64px;
+  }
+}
+
+@media (width < 992px) {
+  /* the breadcrumbs' back link 17px under the header, 20px above the hero */
+  body.glossary .breadcrumbs {
+    align-items: flex-start;
+    padding: 17px 30px 20px;
+  }
+
+  body.glossary .breadcrumbs .breadcrumbs-back:any-link {
+    padding: 0;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.glossary .breadcrumbs {
+    padding-left: 64px;
+    padding-right: 64px;
+  }
+
+  body.glossary main > .section.glossary h3 {
+    font-size: 24px;
+    line-height: 26.4px;
+    letter-spacing: -0.44px;
+  }
+
+  body.glossary main > .section.glossary p {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.glossary main .hero-minimal-light h1 {
+    padding: 28.8px 0;
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+}
+
+@media (width >= 992px) {
+  body.glossary main .hero-minimal-light {
+    padding: 40px 0 60px;
+  }
+
+  body.glossary main .hero-minimal-light p {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  body.glossary main > .section.glossary {
+    padding: 80px 0 53px;
+  }
+
+  body.glossary main > .section.glossary > div {
+    box-sizing: content-box;
+    max-width: 1200px;
+    padding: 0 83px;
+  }
+
+  body.glossary main > .section.glossary .default-content-wrapper > * {
+    width: calc(100% * 8 / 12);
+    margin-left: calc(100% * 2 / 12);
+  }
+
+  body.glossary main > .section.glossary .default-content-wrapper > h2 {
+    width: 48px;
+    margin-top: 53px;
+    margin-bottom: 16px;
+  }
+
+  body.glossary main > .section.glossary .default-content-wrapper > h2:first-child {
+    margin-top: 0;
+  }
+
+  body.glossary main > .section.glossary h3 {
+    font-size: 24px;
+    line-height: 26.4px;
+    letter-spacing: -0.72px;
+  }
+
+  body.glossary main > .section.glossary p {
+    margin-bottom: 16px;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  body.glossary main > .section.glossary p.button-container:has(> a[href="#top"]) {
+    margin: 16px 0 0 calc(100% * 2 / 12);
+  }
+
+  body.glossary main > .section.glossary li {
+    margin-bottom: 15px;
+  }
+
+  /* in the 1366px container: the trail in the first 9 of 12 columns, Print / Share
+     from the start of the last 3 */
+  body.glossary .breadcrumbs {
+    box-sizing: border-box;
+    max-width: 1366px;
+    margin: 0 auto;
+    padding: 0 83px;
+    gap: 0;
+  }
+
+  body.glossary .breadcrumbs > nav {
+    flex: 0 0 75%;
+  }
+
+  body.glossary .breadcrumbs > .breadcrumbs-actions {
+    flex: 1 1 0;
+  }
+}
