@@ -108,8 +108,12 @@ function plainTable(document, source) {
   return wrapper;
 }
 
-/** The id the pipeline gives a heading (github-slugger: "ACA - Care" -> "aca---care"). */
-const headingId = (text) => clean(text).toLowerCase()
+/**
+ * The id the pipeline gives a heading (github-slugger: "ACA - Care" -> "aca---care").
+ * A non-breaking space (U+E000 during the import, see onLoad in import-faq-topic.js)
+ * counts as a space.
+ */
+const headingId = (text) => clean(text.replace(/\ue000/g, ' ')).toLowerCase()
   .replace(/[^\p{L}\p{N}\s_-]/gu, '')
   .replace(/\s/g, '-');
 
@@ -117,12 +121,16 @@ const headingId = (text) => clean(text).toLowerCase()
  * The FAQ landing's left nav: the parent ("Answers"), its pages as siblings, and
  * the current page's own pages (every FAQ topic) as its children. The topic pages'
  * navs (no child list under the current page) are left to the sidenav parser.
+ * The siblings are a list nested under the parent's item, or (since October 2026)
+ * items next to the parent's in one list, where a link with a submenu sits in a
+ * div.sidenav-item-row beside its toggle.
  */
 function siblingNavWithChildren(document, nav) {
   const active = nav.querySelector('a.active');
-  const children = active?.parentElement.querySelector(':scope > ul.subnavitem-list.show');
-  const siblings = active?.closest('ul:not(.subnavitem-list)');
-  if (!children || !siblings || siblings.matches('.sidenav-item-list')) return null;
+  const item = active?.closest('li');
+  const children = item?.querySelector(':scope > ul.subnavitem-list.show');
+  const siblings = item?.parentElement;
+  if (!children || !siblings) return null;
   const link = (a) => {
     const el = document.createElement('a');
     el.href = a.getAttribute('href');
@@ -132,7 +140,8 @@ function siblingNavWithChildren(document, nav) {
   const cells = [];
   const parent = nav.querySelector('a.side-nav-item-parent');
   if (parent) cells.push(['parent', link(parent)]);
-  siblings.querySelectorAll(':scope > li > a[href]').forEach((a) => {
+  siblings.querySelectorAll(':scope > li > a[href], :scope > li > .sidenav-item-row > a[href]').forEach((a) => {
+    if (a === parent) return;
     if (a !== active) {
       cells.push(['sibling', link(a)]);
       return;
@@ -238,11 +247,20 @@ export default function transform(hookName, element, payload) {
     const nav = element.querySelector(NAV);
     const h1 = element.querySelector('h1');
 
-    // 1. left nav (the FAQ landing's has siblings and children; built here)
+    // 1. left nav (the FAQ landing's has siblings and children; built here). Since
+    // October 2026 the topic pages list the topics next to the parent's item, not in
+    // a list under it, the shape the sidenav parser reads; nest them again.
     if (nav) {
       nav.before(marker(document));
       const block = siblingNavWithChildren(document, nav);
       if (block) nav.replaceWith(block);
+      const root = nav.querySelector('.sidenav-item-list > li.sidenav-item-root');
+      const flat = [...nav.querySelectorAll('.sidenav-item-list > li.sidenav-item-level1')];
+      if (!block && root && flat.length) {
+        const list = document.createElement('ul');
+        list.append(...flat);
+        root.append(list);
+      }
     }
 
     // in-page jump links (the landing's #ACA, #kids, #home, #all) point at the

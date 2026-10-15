@@ -100,6 +100,23 @@ function findBlocksOnPage(document, template) {
 }
 
 export default {
+  /**
+   * Non-breaking spaces in text ("(ACA)&nbsp;FAQ") keep the source's line breaks,
+   * but the importer drops them: it copies the page before the transform, and the
+   * Markdown round trip turns any left (and &nbsp; entities) into plain spaces. So,
+   * on the live page, each becomes U+E000, a private-use character no step treats as
+   * whitespace, and upload-to-da.mjs turns it back into &nbsp;. A text that is only
+   * spaces (the source's empty spacer paragraphs) is left alone.
+   */
+  onLoad: ({ document }) => {
+    const walker = document.createTreeWalker(document.body, 4 /* NodeFilter.SHOW_TEXT */);
+    const texts = [];
+    while (walker.nextNode()) texts.push(walker.currentNode);
+    texts.filter((t) => t.nodeValue.includes('\u00a0') && /[^\s\u00a0]/.test(t.nodeValue)).forEach((t) => {
+      t.nodeValue = t.nodeValue.replace(/\u00a0/g, '\ue000');
+    });
+  },
+
   transform: (payload) => {
     const {
       document, url, html, params,
