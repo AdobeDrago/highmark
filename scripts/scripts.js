@@ -272,6 +272,24 @@ function decorateLegalLinks(main) {
 }
 
 /**
+ * FAQ pages (template faq): a link that ends with the :external-link: icon opens in a
+ * new tab, as on the source, where the icon marks exactly those links (others leaving
+ * highmark.com open in the same tab). The icon says so to screen readers, as the
+ * source's hidden text did.
+ * @param {Element} main The main element
+ */
+function decorateFaqLinks(main) {
+  if (!document.body.classList.contains('faq')) return;
+  main.querySelectorAll('a .icon-external-link').forEach((icon) => {
+    const a = icon.closest('a');
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    const img = icon.querySelector('img');
+    if (img) img.alt = 'opens a new tab or window';
+  });
+}
+
+/**
  * Loads everything needed to get to LCP.
  * @param {Element} doc The container element
  */
@@ -297,6 +315,7 @@ async function loadEager(doc) {
     decorateProviderContent(main);
     decorateLeadershipBio(main);
     decorateLegalLinks(main);
+    decorateFaqLinks(main);
     await templateStyles;
     doc.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);
