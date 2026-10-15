@@ -1,0 +1,554 @@
+/*
+ * Regional member sub-pages (/member/<region>/find-a-dentist, find-a-pharmacy,
+ * medical-drug-formulary, surprise-billing; Template: faq, member-subpage): faq.css lays
+ * them out (left nav, text, right rail, CTA band); this adds what differs from the FAQ
+ * pages, measured against highmark.com at 1440 / 768 / 390:
+ *   - type: the H5 lead lines, H4s, list items; a paragraph that is all bold is a plain
+ *     bold label here (the lead text is an H5, tools/importer/import-member-subpage.js);
+ *   - the left nav's links are Roboto 100;
+ *   - the "Questions?" box: no heading padding; below 992px it shows after the text
+ *     (and the spacer that closes it), inset as the left nav (15px in, 35px short of
+ *     the column's far edge), styled as faq.css styles it from 992px;
+ *   - the CTA band's sizes and padding below 992px, the light-blue band (Find a
+ *     Pharmacy), the spacer that closes the text (an empty space-* section);
+ *   - lists (bullets inside the text, or hanging: Style hanging-bullets), a link
+ *     alone in its paragraph as a plain text link.
+ * Delaware's Disputes and Appeals has no left nav (Template: legal, member-subpage):
+ * its column is at the end of this file.
+ */
+
+/* stylelint-disable no-descending-specificity */
+
+/* ---- type ---- */
+body.faq.member-subpage main h5 {
+  margin: 0 0 12.8px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.2px;
+}
+
+body.faq.member-subpage main h4 {
+  margin: 0 0 8px;
+  color: var(--text-color);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: normal;
+}
+
+body.faq.member-subpage main > .section > .default-content-wrapper ul {
+  margin: 0 0 16px 20px;
+  padding-left: 12px;
+}
+
+/* the bullet inside the text box, as on the source: wrapped lines start under it */
+body.faq.member-subpage main > .section > .default-content-wrapper li {
+  margin: 0 0 5px;
+  list-style-position: inside;
+  color: var(--text-body-color);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+}
+
+body.faq.member-subpage main > .section > .default-content-wrapper p:not(.button-container):has(> strong:only-child) {
+  color: var(--text-body-color);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+body.faq.member-subpage main > .section > .default-content-wrapper p:not(.button-container) > strong:only-child {
+  font-weight: 700;
+}
+
+/* Surprise Billing's lists (Style hanging-bullets): the bullet outside, 18px in; a
+   nested list with circles, flush below its item */
+body.faq.member-subpage main > .section.hanging-bullets > .default-content-wrapper li {
+  margin-left: 18px;
+  list-style-position: outside;
+}
+
+body.faq.member-subpage main > .section.hanging-bullets > .default-content-wrapper li > ul {
+  margin-bottom: 0;
+  list-style-type: circle;
+}
+
+/* a list item with a nested list holds its text in a paragraph: the item's own type */
+body.faq.member-subpage main > .section > .default-content-wrapper li > p {
+  margin: 0;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+/* the new-tab icon 7px after the text, counting the space before it, and 2px before
+   what follows (faq.css: 7px after the space) */
+body.faq.member-subpage main a .icon-external-link {
+  margin: 0 2px 0 3px;
+}
+
+/* a link alone in its paragraph, not bold or italic, is a plain text link (Surprise
+   Billing's PDF forms), as on the legal pages */
+body.faq.member-subpage main > .section:not(.highlight, .light-blue, .right-rail) > .default-content-wrapper p.button-container > a.button:any-link {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: #0066b1;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: inherit;
+  text-transform: none;
+  text-decoration: none;
+  white-space: normal;
+}
+
+body.faq.member-subpage main > .section:not(.highlight, .light-blue, .right-rail) > .default-content-wrapper p.button-container > a.button:hover,
+body.faq.member-subpage main > .section:not(.highlight, .light-blue, .right-rail) > .default-content-wrapper p.button-container > a.button:focus-visible {
+  background: transparent;
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+body.faq.member-subpage main .default-content-wrapper a .icon.icon-pdf {
+  width: 20px;
+  height: 20px;
+  margin: 0 6px 0 2px;
+  vertical-align: text-bottom;
+}
+
+/* faq.css centres such a paragraph when a link follows it (its "Log in" line, an H5
+   here); here it is a text paragraph with one bold phrase */
+body.faq.member-subpage main > .section > .default-content-wrapper p:not(.button-container):has(> strong:only-child):has(+ p.button-container) {
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  text-align: start;
+}
+
+body.faq.member-subpage main > .section > .default-content-wrapper p:not(.button-container):has(> strong:only-child) + p.button-container {
+  margin-top: 0;
+  text-align: start;
+}
+
+@media (width >= 768px) {
+  body.faq.member-subpage main h5 {
+    margin-bottom: 16px;
+    font-size: 18px;
+    line-height: 1.3;
+    letter-spacing: -0.4px;
+  }
+
+  body.faq.member-subpage main > .section > .default-content-wrapper p:not(.button-container):has(> strong:only-child) {
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.faq.member-subpage main h5 {
+    font-size: 20px;
+    line-height: 1.5;
+    letter-spacing: -0.3px;
+  }
+
+  body.faq.member-subpage main > .section > .default-content-wrapper p:not(.button-container):has(> strong:only-child) {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+}
+
+/* ---- breadcrumbs: from 768 to 991px the left nav starts 17px under the back link's
+   row, as on the source (on phones the source's back link wraps under its arrow,
+   which the breadcrumbs block doesn't do, and its row's height is kept) ---- */
+@media (width >= 768px) and (width < 992px) {
+  body.faq.member-subpage .breadcrumbs {
+    min-height: 0;
+    padding-bottom: 14px;
+  }
+}
+
+/* ---- left nav ---- */
+body.faq.member-subpage .cards-minimal-light-sidenav a:not([aria-current]) {
+  font-weight: 100;
+}
+
+/* ---- the "Questions?" box ---- */
+body.faq.member-subpage main > .section.right-rail h3 {
+  padding: 0;
+}
+
+body.faq.member-subpage main > .section.right-rail p {
+  margin: 0;
+}
+
+@media (width < 992px) {
+  /* after the text, before the CTA band: the sections are flex items in source order,
+     the rail and what follows it in the text moved down */
+  body.faq.member-subpage main {
+    display: flex;
+    flex-direction: column;
+  }
+
+  body.faq.member-subpage main > .section.right-rail {
+    display: block;
+    order: 1;
+    margin: 0;
+    padding: 0;
+  }
+
+  body.faq.member-subpage main > .section.right-rail ~ .section:is(.highlight, .light-blue),
+  body.faq.member-subpage main > .section.right-rail ~ .section:is(.highlight, .light-blue) ~ .section {
+    order: 2;
+  }
+
+  body.faq.member-subpage main > .section.right-rail > .default-content-wrapper {
+    box-sizing: border-box;
+    margin: 0 65px 0 45px;
+    padding: 20px;
+    background-color: var(--grey-color);
+  }
+
+  body.faq.member-subpage main > .section.right-rail h3 {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 22px;
+    line-height: 1.1;
+    letter-spacing: -0.4px;
+  }
+
+  body.faq.member-subpage main > .section.right-rail h3::after {
+    content: '';
+    display: block;
+    width: 51px;
+    height: 4px;
+    margin: 10px 0;
+    border-top: 1px solid rgb(0 0 0 / 10%);
+    background-color: #0078c1;
+  }
+
+  body.faq.member-subpage main > .section.right-rail p {
+    color: var(--text-color);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: normal;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.faq.member-subpage main > .section.right-rail > .default-content-wrapper {
+    margin: 0 99px 0 79px;
+  }
+
+  body.faq.member-subpage main > .section.right-rail h3 {
+    font-size: 24px;
+    letter-spacing: -0.44px;
+  }
+}
+
+/* ---- the CTA band below 992px ---- */
+@media (width < 992px) {
+  body.faq.member-subpage main > .section.highlight {
+    margin-top: 41px;
+    padding: 32px 0 48px;
+  }
+
+  body.faq.member-subpage main > .section.highlight h2 {
+    padding: 19.2px 0 8px;
+    font-size: 26px;
+    line-height: 1.1;
+    letter-spacing: -0.72px;
+  }
+
+  body.faq.member-subpage main > .section.highlight p:not(.button-container) {
+    font-size: 15px;
+    line-height: 21px;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.faq.member-subpage main > .section.highlight {
+    margin-top: 60px;
+  }
+
+  body.faq.member-subpage main > .section.highlight h2 {
+    font-size: 28px;
+    letter-spacing: -0.78px;
+  }
+
+  body.faq.member-subpage main > .section.highlight p:not(.button-container) {
+    font-size: 18px;
+    line-height: 23.4px;
+  }
+}
+
+body.faq.member-subpage main > .section.highlight a.button:any-link {
+  letter-spacing: normal;
+}
+
+/* the band runs into the footer (faq.css looks for it as the last section, but the
+   page metadata leaves an empty one after it) */
+body.faq.member-subpage main:has(> .section.highlight + .section:empty:last-child) {
+  padding-bottom: 0;
+}
+
+/* ---- the light-blue band (Find a Pharmacy's "Log in to your member portal") ----
+ * Full width below the text, centred: the heading 40px down (20px below 992px), the
+ * outlined button 60px above the band's end (40px, 21px on phones); the text in the
+ * middle 794px (half the page from 768px, the page less 125px on phones). */
+body.faq.member-subpage main > .section.light-blue {
+  clear: both;
+  margin: 41px 0 0;
+  padding: 20px 0 21px;
+  background-color: var(--light-blue-color);
+  text-align: center;
+}
+
+body.faq.member-subpage main > .section.light-blue > .default-content-wrapper {
+  box-sizing: border-box;
+  width: calc(100% - 125px);
+  max-width: none;
+  margin: 0 auto;
+  padding: 0;
+}
+
+body.faq.member-subpage main > .section.light-blue h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+}
+
+body.faq.member-subpage main > .section.light-blue p.button-container {
+  margin: 0;
+  padding: 16px 0;
+}
+
+body.faq.member-subpage main > .section.light-blue a.button:any-link {
+  margin: 0;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+/* the spacer that closes the text is the band's gap */
+body.faq.member-subpage main > .section:empty[class*="space-"] + .section.light-blue {
+  margin-top: 0;
+}
+
+/* the article's illustration (Find a Pharmacy): centred, two thirds of the column */
+body.faq.member-subpage main > .section > .default-content-wrapper p:has(> picture:only-child) {
+  margin: 0;
+}
+
+body.faq.member-subpage main > .section > .default-content-wrapper p:has(> picture:only-child) img {
+  display: block;
+  width: calc(100% * 8 / 12);
+  height: auto;
+  margin: 0 auto;
+}
+
+@media (width >= 768px) {
+  body.faq.member-subpage main > .section.light-blue {
+    margin-top: 60px;
+    padding-bottom: 40px;
+  }
+
+  body.faq.member-subpage main > .section.light-blue > .default-content-wrapper {
+    width: 50%;
+  }
+}
+
+@media (width >= 992px) {
+  body.faq.member-subpage main > .section.light-blue {
+    margin-top: 100px;
+    padding: 40px 0 60px;
+  }
+
+  body.faq.member-subpage main > .section.light-blue > .default-content-wrapper {
+    width: min(794px, 100% - 166px);
+  }
+
+  body.faq.member-subpage main > .section.light-blue h2 {
+    padding: 24px 0;
+  }
+}
+
+/* after the spacer that closes the text, the CTA band is 60px further down from 992px
+   (faq.css's 100px allows for that spacer, which its pages lose in the import) */
+@media (width >= 992px) {
+  body.faq.member-subpage main > .section:empty[class*="space-"] + .section.highlight {
+    margin-top: 60px;
+  }
+}
+
+/* ---- Delaware's Disputes and Appeals (no left nav: Template legal, member-subpage) ----
+ * From 992px the source centres the article in 8 of 12 columns of a container of
+ * min(1200px, the page less 166px), the trail starting at the article and Print /
+ * Share ending a column short of the container's right edge. */
+
+/* below 992px the back link is 17px under the header and the article 16px under its
+   row (64px in from 768px), as faq.css places it on the other sub-pages */
+@media (width < 992px) {
+  body.legal.member-subpage .breadcrumbs {
+    align-items: flex-start;
+    min-height: 0;
+    padding: 17px 30px 14px;
+  }
+
+  body.legal.member-subpage .breadcrumbs .breadcrumbs-back:any-link {
+    padding: 0;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.legal.member-subpage .breadcrumbs {
+    padding-left: 64px;
+    padding-right: 64px;
+  }
+}
+
+/* the source leaves more room under the article than the legal pages: 13px more on
+   phones, 16px on tablets, 36px from 992px */
+body.legal.member-subpage main {
+  padding-bottom: 13px;
+}
+
+@media (width >= 768px) {
+  body.legal.member-subpage main {
+    padding-bottom: 16px;
+  }
+}
+
+@media (width >= 992px) {
+  body.legal.member-subpage {
+    --member-container: min(1200px, 100% - 166px);
+  }
+
+  body.legal.member-subpage main > .section > .default-content-wrapper {
+    width: calc(var(--member-container) * 8 / 12);
+    max-width: none;
+  }
+
+  body.legal.member-subpage .breadcrumbs {
+    box-sizing: border-box;
+    max-width: none;
+    margin: 0;
+    padding: 0 calc((100% - var(--member-container)) / 2 + var(--member-container) / 12)
+      0 calc((100% - var(--member-container)) / 2 + var(--member-container) / 6);
+  }
+
+  body.legal.member-subpage .breadcrumbs .breadcrumbs-actions {
+    margin-right: 0;
+  }
+
+  body.legal.member-subpage main {
+    padding-bottom: 36px;
+  }
+}
+
+/* the current page in the trail is grey on these pages */
+body.member-subpage .breadcrumbs .breadcrumbs-list li[aria-current] {
+  color: #6c757d;
+}
+
+/* ---- the Forms Library (bcbswny/forms, blueshieldneny/forms: Template legal,
+ * member-subpage; the forms-library block) ----
+ * Its section is two columns from 768px: the block's search panel (a third of the
+ * row) beside the H1, the intro and the forms (two thirds, 15px in). The row is the
+ * page less 64px gutters to 991px, then 9 of 12 columns of the container. On phones
+ * the H1 and the forms are 15px in from the Filter button. */
+body.legal.member-subpage main > .section.forms-library-container > .default-content-wrapper {
+  padding: 0 45px;
+}
+
+/* the forms run 16px from the footer (the last category's margin) */
+body.legal.member-subpage main:has(.forms-library) {
+  padding-bottom: 0;
+}
+
+body.legal.member-subpage main > .section.forms-library-container,
+body.legal.member-subpage main:has(.forms-library) > .section:empty {
+  margin-bottom: 0;
+}
+
+body.legal.member-subpage main:has(.forms-library) > .section:empty {
+  margin-top: 0;
+}
+
+/* on phones the Filter button comes first, above the H1 */
+@media (width < 768px) {
+  body.legal.member-subpage main > .section.forms-library-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  body.legal.member-subpage main > .section.forms-library-container > .forms-library-wrapper,
+  body.legal.member-subpage main > .section.forms-library-container .forms-library {
+    display: contents;
+  }
+
+  body.legal.member-subpage main > .section.forms-library-container .forms-library-toggle,
+  body.legal.member-subpage main > .section.forms-library-container .forms-library-panel {
+    order: -1;
+    margin: 0 30px;
+  }
+
+  body.legal.member-subpage main > .section.forms-library-container .forms-library-results {
+    margin: 0 30px;
+  }
+}
+
+@media (width >= 768px) {
+  body.legal.member-subpage main > .section.forms-library-container {
+    --forms-gutter: 64px;
+    --forms-row: calc(100% - 128px);
+
+    display: grid;
+    grid-template-columns: var(--forms-gutter) calc(var(--forms-row) / 3) calc(var(--forms-row) * 2 / 3);
+    grid-template-rows: auto 1fr;
+    padding: 0;
+  }
+
+  body.legal.member-subpage main > .section.forms-library-container > .default-content-wrapper {
+    grid-area: 1 / 3;
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0 15px;
+  }
+
+  body.legal.member-subpage main > .section.forms-library-container > .forms-library-wrapper,
+  body.legal.member-subpage main > .section.forms-library-container .forms-library {
+    display: contents;
+  }
+
+  body.legal.member-subpage main > .section.forms-library-container .forms-library-panel {
+    grid-area: 1 / 2 / 3;
+    align-self: start;
+    margin-top: 16px;
+  }
+
+  body.legal.member-subpage main > .section.forms-library-container .forms-library-results {
+    grid-area: 2 / 3;
+  }
+}
+
+@media (width >= 992px) {
+  body.legal.member-subpage main > .section.forms-library-container {
+    --forms-gutter: calc((100% - var(--member-container)) / 2);
+    --forms-row: calc(var(--member-container) * 9 / 12);
+  }
+
+  /* the trail starts at the forms column; Print / Share end at the container's edge */
+  body.legal.member-subpage:has(.forms-library) .breadcrumbs {
+    padding: 0 calc((100% - var(--member-container)) / 2)
+      0 calc((100% - var(--member-container)) / 2 + var(--member-container) / 4);
+  }
+}
