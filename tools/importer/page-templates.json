@@ -588,7 +588,6 @@
       "name": "tabbed-answers-landing",
       "urls": [
         "https://www.highmark.com/resources/answers",
-        "https://www.highmark.com/resources/answers/health-insurance-glossary",
         "https://www.highmark.com/resources/spending-accounts/commuter-benefits-account",
         "https://www.highmark.com/resources/spending-accounts/flexible-spending-account-fsa",
         "https://www.highmark.com/resources/spending-accounts/health-saving-account-hsa",
@@ -2810,6 +2809,37 @@
           "defaultContent": []
         }
       ]
+    },
+    {
+      "name": "glossary",
+      "description": "Health Insurance Glossary: breadcrumbs with Print / Share, a hero with the H1 and a lead intro, an A–Z bar, and one group per letter (letter badge, terms, Back to Top)",
+      "urls": [
+        "https://www.highmark.com/resources/answers/health-insurance-glossary"
+      ],
+      "coverageGaps": [],
+      "blocks": [
+        {
+          "name": "hero-minimal-light",
+          "instances": [
+            "section.new-hmk-brand-fifteenpercent-splash"
+          ]
+        },
+        {
+          "name": "section-glossary-letters",
+          "instances": [
+            "div.glossary .glossary-name-list"
+          ],
+          "section": "glossary-letters"
+        },
+        {
+          "name": "section-glossary",
+          "instances": [
+            "div.glossary .glossary-list"
+          ],
+          "section": "glossary"
+        }
+      ],
+      "urlPattern": "/resources/answers/health-insurance-glossary"
     }
   ],
   "metadata": {
