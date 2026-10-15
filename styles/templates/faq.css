@@ -184,12 +184,12 @@ body.faq .accordion-minimal-light .accordion-minimal-light-item-body :is(p, ul, 
   line-height: inherit;
 }
 
-/* the source spaces paragraphs with empty (&nbsp;) paragraphs, which the
-   import drops: one blank line between paragraphs instead. Answer paragraphs
-   take the text paragraphs' letter spacing (-0.2 / -0.4 / -0.1px); lists
-   keep normal spacing, as on the source */
+/* answer paragraphs have no margins: the source spaces some of them with an
+   empty (&nbsp;) paragraph, one line high, which the import keeps, and runs a
+   paragraph into its list. They take the text paragraphs' letter spacing
+   (-0.2 / -0.4 / -0.1px); lists keep normal spacing, as on the source */
 body.faq .accordion-minimal-light .accordion-minimal-light-item-body p {
-  margin: 0 0 1.5em;
+  margin: 0;
   letter-spacing: -0.2px;
 }
 

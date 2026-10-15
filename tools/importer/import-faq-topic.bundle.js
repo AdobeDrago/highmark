@@ -519,10 +519,18 @@ var CustomImportScript = (() => {
      * but the importer drops them: it copies the page before the transform, and the
      * Markdown round trip turns any left (and &nbsp; entities) into plain spaces. So,
      * on the live page, each becomes U+E000, a private-use character no step treats as
-     * whitespace, and upload-to-da.mjs turns it back into &nbsp;. A text that is only
-     * spaces (the source's empty spacer paragraphs) is left alone.
+     * whitespace, and upload-to-da.mjs turns it back into &nbsp;. Other text that is
+     * only spaces is left alone.
+     *
+     * In the answers the source spaces blocks with empty paragraphs (<p>&nbsp;</p>),
+     * one line high, and only some blocks have one (a paragraph is followed by its
+     * list without a gap). They're kept the same way, as a paragraph holding one
+     * non-breaking space; faq.css gives answer paragraphs no margins.
      */
     onLoad: ({ document }) => {
+      document.querySelectorAll(".collapsible-item-description > p").forEach((p) => {
+        if (!p.querySelector("img, br") && !p.textContent.replace(/[\s\u00a0]/g, "")) p.textContent = "\uE000";
+      });
       const walker = document.createTreeWalker(
         document.body,
         4
