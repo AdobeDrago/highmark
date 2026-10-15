@@ -113,6 +113,9 @@ body.glossary main > .section.glossary h2 {
   letter-spacing: normal;
   text-align: center;
   text-transform: uppercase;
+
+  /* the A–Z links bring the badge to the top of the window, as on the source */
+  scroll-margin: 0;
 }
 
 body.glossary main > .section.glossary .default-content-wrapper > h2:first-child {
