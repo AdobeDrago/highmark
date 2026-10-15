@@ -303,7 +303,8 @@ body.leadership main .cards-minimal-light-sidenav a {
   padding-right: 24px;
 }
 
-body.leadership main .cards-minimal-light-sidenav-current {
+/* the guide shape (the source's flat menu) is already indented by its list */
+body.leadership main .cards-minimal-light-sidenav-item-list:not(.cards-minimal-light-sidenav-guide) .cards-minimal-light-sidenav-current {
   padding-left: 18px;
 }
 

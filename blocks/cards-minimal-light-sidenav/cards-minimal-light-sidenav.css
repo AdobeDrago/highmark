@@ -153,6 +153,41 @@
   margin: 0 0 0 auto; /* not the site's 12px button margins */
 }
 
+/* ---- Article/listing shape on pages without a template of their own (the
+   Answers articles; the templates style it themselves). The source's values:
+   the current page sits 18px in, its 3px accent bar pulled 15px into the
+   indent; its pages are 18px further in; every label keeps 24px free on the
+   right, and the current one another 24px for the chevron, which is centred
+   on the label at the far edge ---- */
+body:not(.about-article, .chip, .faq, .leadership, .legal) .cards-minimal-light-sidenav-item-list:not(.cards-minimal-light-sidenav-guide) a {
+  padding-right: 24px;
+}
+
+body:not(.about-article, .chip, .faq, .leadership, .legal) .cards-minimal-light-sidenav-item-list:not(.cards-minimal-light-sidenav-guide) .cards-minimal-light-sidenav-current {
+  padding-left: 18px;
+}
+
+body:not(.about-article, .chip, .faq, .leadership, .legal) .cards-minimal-light-sidenav-item-list:not(.cards-minimal-light-sidenav-guide) .cards-minimal-light-sidenav-current > a {
+  margin-left: -15px;
+  padding-left: 15px;
+}
+
+body:not(.about-article, .chip, .faq, .leadership, .legal) .cards-minimal-light-sidenav-item-list:not(.cards-minimal-light-sidenav-guide) .cards-minimal-light-sidenav-current > a:has(.cards-minimal-light-sidenav-arrow) {
+  padding-right: 48px;
+}
+
+body:not(.about-article, .chip, .faq, .leadership, .legal) .cards-minimal-light-sidenav-item-list:not(.cards-minimal-light-sidenav-guide) .cards-minimal-light-sidenav-children {
+  padding-left: 18px;
+}
+
+body:not(.about-article, .chip, .faq, .leadership, .legal) .cards-minimal-light-sidenav-item-list:not(.cards-minimal-light-sidenav-guide) .cards-minimal-light-sidenav-arrow {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 24px;
+  height: 1.7em;
+  margin: auto 0;
+}
+
 /* ---- Two-column layout (desktop): sidebar left, content right ----
    The block sits first in its section, so EDS names the section
    `.cards-minimal-light-sidenav-container`. On the source the sidebar and the
@@ -198,12 +233,33 @@
   }
 }
 
+/* From 992px, the source's grid, on pages without a template of their own (the
+   articles and mental-health guides; the templates lay the menu out themselves):
+   a 1200px row with 82px minimum gutters, the menu in its first quarter (15px
+   column padding, 20px free on the right) and the text in the next 56.25% */
+@media (width >= 992px) {
+  body:not(.about-article, .chip, .faq, .leadership, .legal) main .section.cards-minimal-light-sidenav-container {
+    width: min(1200px, 100% - 164px);
+    padding: 0;
+  }
+
+  body:not(.about-article, .chip, .faq, .leadership, .legal) main .section.cards-minimal-light-sidenav-container > .cards-minimal-light-sidenav-wrapper {
+    left: 15px;
+    width: calc(25% - 50px);
+  }
+
+  body:not(.about-article, .chip, .faq, .leadership, .legal) main .section.cards-minimal-light-sidenav-container > .default-content-wrapper {
+    width: 56.25%;
+    margin-left: 25%;
+  }
+}
+
 /* Article-listing links in the main content column of a sidebar-listing page.
    EDS auto-decorates a standalone link in a paragraph as an outlined .button,
    but the Highmark source renders these as plain bold navy text links. Reset
    the button treatment within this template's content column. */
 main .section.cards-minimal-light-sidenav-container .default-content-wrapper a.button,
-main .section.cards-minimal-light-sidenav-container .default-content-wrapper .button-container a {
+main .section.cards-minimal-light-sidenav-container .default-content-wrapper .button-container a { /* stylelint-disable-line no-descending-specificity */
   display: inline;
   margin: 0;
   padding: 0;
