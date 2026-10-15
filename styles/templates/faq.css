@@ -54,6 +54,13 @@ body.faq main > .section.right-rail {
   }
 }
 
+@media (width < 768px) {
+  /* 40px below the last footnote's margin, not 60 */
+  body.faq main:not(:has(.accordion-minimal-light)) {
+    padding-bottom: 40px;
+  }
+}
+
 @media (width >= 768px) and (width < 992px) {
   body.faq main:not(:has(.accordion-minimal-light)) > .section.cards-minimal-light-sidenav-container {
     padding: 0 99px 0 79px;
