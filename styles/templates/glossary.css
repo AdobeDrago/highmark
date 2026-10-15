@@ -21,7 +21,8 @@ body.glossary main .hero-minimal-light {
 }
 
 body.glossary main .hero-minimal-light h1 {
-  margin: 0 0 8px;
+  width: calc(100% * 10 / 12);
+  margin: 0 auto 8px;
 }
 
 body.glossary main .hero-minimal-light p {
@@ -171,6 +172,10 @@ body.glossary main > .section.glossary a.button[href="#top"]:hover {
 }
 
 @media (width >= 768px) {
+  body.glossary main .hero-minimal-light h1 {
+    width: auto;
+  }
+
   body.glossary main .hero-minimal-light p {
     width: calc(100% * 8 / 12);
     margin-bottom: 16px;
@@ -188,7 +193,35 @@ body.glossary main > .section.glossary a.button[href="#top"]:hover {
   }
 }
 
+@media (width < 992px) {
+  /* the breadcrumbs' back link 17px under the header, 20px above the hero */
+  body.glossary .breadcrumbs {
+    align-items: flex-start;
+    padding: 17px 30px 20px;
+  }
+
+  body.glossary .breadcrumbs .breadcrumbs-back:any-link {
+    padding: 0;
+  }
+}
+
 @media (width >= 768px) and (width < 992px) {
+  body.glossary .breadcrumbs {
+    padding-left: 64px;
+    padding-right: 64px;
+  }
+
+  body.glossary main > .section.glossary h3 {
+    font-size: 24px;
+    line-height: 26.4px;
+    letter-spacing: -0.44px;
+  }
+
+  body.glossary main > .section.glossary p {
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
   body.glossary main .hero-minimal-light h1 {
     padding: 28.8px 0;
     font-size: 36px;
@@ -247,13 +280,24 @@ body.glossary main > .section.glossary a.button[href="#top"]:hover {
   }
 
   body.glossary main > .section.glossary p.button-container:has(> a[href="#top"]) {
-    margin-top: 16px;
+    margin: 16px 0 0 calc(100% * 2 / 12);
   }
 
-  /* the trail starts at the content's left gutter, Print / Share end at the container */
+  /* in the 1366px container: the trail in the first 9 of 12 columns, Print / Share
+     from the start of the last 3 */
   body.glossary .breadcrumbs {
     box-sizing: border-box;
     max-width: 1366px;
+    margin: 0 auto;
     padding: 0 83px;
+    gap: 0;
+  }
+
+  body.glossary .breadcrumbs > nav {
+    flex: 0 0 75%;
+  }
+
+  body.glossary .breadcrumbs > .breadcrumbs-actions {
+    flex: 1 1 0;
   }
 }
