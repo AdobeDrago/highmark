@@ -271,12 +271,13 @@ var CustomImportScript = (() => {
     wrapper.append(table);
     return wrapper;
   }
-  var headingId = (text) => clean(text).toLowerCase().replace(/[^\p{L}\p{N}\s_-]/gu, "").replace(/\s/g, "-");
+  var headingId = (text) => clean(text.replace(/\ue000/g, " ")).toLowerCase().replace(/[^\p{L}\p{N}\s_-]/gu, "").replace(/\s/g, "-");
   function siblingNavWithChildren(document, nav) {
     const active = nav.querySelector("a.active");
-    const children = active == null ? void 0 : active.parentElement.querySelector(":scope > ul.subnavitem-list.show");
-    const siblings = active == null ? void 0 : active.closest("ul:not(.subnavitem-list)");
-    if (!children || !siblings || siblings.matches(".sidenav-item-list")) return null;
+    const item = active == null ? void 0 : active.closest("li");
+    const children = item == null ? void 0 : item.querySelector(":scope > ul.subnavitem-list.show");
+    const siblings = item == null ? void 0 : item.parentElement;
+    if (!children || !siblings) return null;
     const link = (a) => {
       const el = document.createElement("a");
       el.href = a.getAttribute("href");
@@ -286,7 +287,8 @@ var CustomImportScript = (() => {
     const cells = [];
     const parent = nav.querySelector("a.side-nav-item-parent");
     if (parent) cells.push(["parent", link(parent)]);
-    siblings.querySelectorAll(":scope > li > a[href]").forEach((a) => {
+    siblings.querySelectorAll(":scope > li > a[href], :scope > li > .sidenav-item-row > a[href]").forEach((a) => {
+      if (a === parent) return;
       if (a !== active) {
         cells.push(["sibling", link(a)]);
         return;
@@ -369,6 +371,13 @@ var CustomImportScript = (() => {
         nav.before(marker(document));
         const block = siblingNavWithChildren(document, nav);
         if (block) nav.replaceWith(block);
+        const root = nav.querySelector(".sidenav-item-list > li.sidenav-item-root");
+        const flat = [...nav.querySelectorAll(".sidenav-item-list > li.sidenav-item-level1")];
+        if (!block && root && flat.length) {
+          const list = document.createElement("ul");
+          list.append(...flat);
+          root.append(list);
+        }
       }
       element.querySelectorAll('a[href^="#"]').forEach((a) => {
         const id = a.getAttribute("href").slice(1);
@@ -505,6 +514,26 @@ var CustomImportScript = (() => {
     return pageBlocks;
   }
   var import_faq_topic_default = {
+    /**
+     * Non-breaking spaces in text ("(ACA)&nbsp;FAQ") keep the source's line breaks,
+     * but the importer drops them: it copies the page before the transform, and the
+     * Markdown round trip turns any left (and &nbsp; entities) into plain spaces. So,
+     * on the live page, each becomes U+E000, a private-use character no step treats as
+     * whitespace, and upload-to-da.mjs turns it back into &nbsp;. A text that is only
+     * spaces (the source's empty spacer paragraphs) is left alone.
+     */
+    onLoad: ({ document }) => {
+      const walker = document.createTreeWalker(
+        document.body,
+        4
+        /* NodeFilter.SHOW_TEXT */
+      );
+      const texts = [];
+      while (walker.nextNode()) texts.push(walker.currentNode);
+      texts.filter((t) => t.nodeValue.includes("\xA0") && /[^\s\u00a0]/.test(t.nodeValue)).forEach((t) => {
+        t.nodeValue = t.nodeValue.replace(/\u00a0/g, "\uE000");
+      });
+    },
     transform: (payload) => {
       const {
         document,

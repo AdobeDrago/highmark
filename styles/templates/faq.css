@@ -185,9 +185,12 @@ body.faq .accordion-minimal-light .accordion-minimal-light-item-body :is(p, ul, 
 }
 
 /* the source spaces paragraphs with empty (&nbsp;) paragraphs, which the
-   import drops: one blank line between paragraphs instead */
+   import drops: one blank line between paragraphs instead. Answer paragraphs
+   take the text paragraphs' letter spacing (-0.2 / -0.4 / -0.1px); lists
+   keep normal spacing, as on the source */
 body.faq .accordion-minimal-light .accordion-minimal-light-item-body p {
   margin: 0 0 1.5em;
+  letter-spacing: -0.2px;
 }
 
 body.faq .accordion-minimal-light .accordion-minimal-light-item-body ul,
@@ -486,6 +489,10 @@ body.faq main:has(> .section.highlight:last-child) {
     line-height: 1.3;
   }
 
+  body.faq .accordion-minimal-light .accordion-minimal-light-item-body p {
+    letter-spacing: -0.4px;
+  }
+
   body.faq main > .section.highlight h2 {
     font-size: 34px;
     line-height: 1.2;
@@ -678,6 +685,10 @@ body.faq main:has(> .section.highlight:last-child) {
 
   body.faq .accordion-minimal-light .accordion-minimal-light-item-body {
     line-height: 1.5;
+  }
+
+  body.faq .accordion-minimal-light .accordion-minimal-light-item-body p {
+    letter-spacing: -0.1px;
   }
 
   /* breadcrumbs: the trail starts at the text column, Print / Share end at
