@@ -227,6 +227,14 @@ export default function transform(hookName, element, payload) {
   const { document } = payload;
 
   if (hookName === 'beforeTransform') {
+    // links that open a new tab end with the source's Font Awesome external-link icon
+    // (span.global-clr_externallink > i.fa-external-link-alt, with hidden "opens a new
+    // tab or window" text): the :external-link: icon here, which scripts.js reads as
+    // "open in a new tab". Other links leaving highmark.com open in the same tab.
+    element.querySelectorAll('a .global-clr_externallink').forEach((span) => {
+      span.replaceWith(document.createTextNode(' :external-link:'));
+    });
+
     // the source's script adds a screen-reader hint to new-tab links
     // (<em>opens a new tab or window</em>); it would import as visible text
     element.querySelectorAll('a *').forEach((el) => {

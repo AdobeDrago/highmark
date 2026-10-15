@@ -355,6 +355,9 @@ var CustomImportScript = (() => {
     var _a;
     const { document } = payload;
     if (hookName === "beforeTransform") {
+      element.querySelectorAll("a .global-clr_externallink").forEach((span) => {
+        span.replaceWith(document.createTextNode(" :external-link:"));
+      });
       element.querySelectorAll("a *").forEach((el) => {
         if (/^opens a new tab or window$/i.test(clean(el.textContent))) el.remove();
       });
