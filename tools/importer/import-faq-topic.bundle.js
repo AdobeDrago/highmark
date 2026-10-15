@@ -524,12 +524,13 @@ var CustomImportScript = (() => {
      *
      * In the answers the source spaces blocks with empty paragraphs (<p>&nbsp;</p>),
      * one line high, and only some blocks have one (a paragraph is followed by its
-     * list without a gap). They're kept the same way, as a paragraph holding one
-     * non-breaking space; faq.css gives answer paragraphs no margins.
+     * list without a gap). They're kept as a paragraph holding a zero-width space
+     * (the pipeline drops a paragraph holding only &nbsp; as blank); faq.css gives
+     * answer paragraphs no margins.
      */
     onLoad: ({ document }) => {
       document.querySelectorAll(".collapsible-item-description > p").forEach((p) => {
-        if (!p.querySelector("img, br") && !p.textContent.replace(/[\s\u00a0]/g, "")) p.textContent = "\uE000";
+        if (!p.querySelector("img, br") && !p.textContent.replace(/[\s\u00a0]/g, "")) p.textContent = "\u200B";
       });
       const walker = document.createTreeWalker(
         document.body,
