@@ -180,6 +180,16 @@ The 20 topics in the FAQ left nav (`/resources/answers/faq/*`, ACA … Spending 
 - **Links.** Imports keep the source's absolute `https://www.highmark.com/...` links; `upload-to-da.mjs` now makes those to published pages (and pages in the same batch) relative.
 - `/resources/answers/faq/medicare-reservations` (the source's old URL for the Medicare FAQ) is in `build-redirects.mjs`'s `FORCE` list, now pointing at our `/resources/answers/faq/medicare`.
 
+## Health Insurance Glossary (`template: glossary`)
+
+`/resources/answers/health-insurance-glossary`, re-imported on 2026-10-15 with `tools/importer/import-glossary.js` (`urls-glossary.txt`; it was a `tabbed-answers-landing` page, whose import had pointed every A–Z and Back to Top link at `/`). `styles/templates/glossary.css` matches highmark.com at 390 / 800 / 1440: every letter group lines up within 2px.
+
+- **Sections.** A `hero-minimal-light` block (the H1 and the intro, bold for the source's lead style) | Style `glossary-letters`: the A–Z bar, a list whose letters with terms link to their group (`#a`, the id the pipeline gives the group's "A" heading) and whose others are plain text, greyed | Style `glossary`: per letter an H2 (the navy letter badge), its terms as H3 + text, and a `Back to Top` link to `#top`.
+- **Metadata.** `Template: glossary`, `Breadcrumbs: true`, `Breadcrumb Title: Health Insurance Glossary`.
+- **Layout.** The terms take the middle 8 of 12 columns of the 1366px container from 992px; the A–Z bar is centred when it fits and scrolls sideways when it doesn't. Lists in a term have no bullets or indent, as on the source.
+- **Left out.** The source has an empty term (a blank heading) after Emergency Services, about 45px of blank space; it isn't kept.
+- To add or change a term, edit the page in DA: an H3 and its text under the letter's H2. A new letter needs an H2 and its link in the A–Z list.
+
 ## Legal pages (`template: legal`)
 
 The footer's legal pages and their sub-pages (`/privacy`, `/fraud/*`, `/privacy-center/*`, ...) set `Template: legal` and `Breadcrumbs: true`; `styles/templates/legal.css` matches the highmark.com originals at 390 / 768 / 1280. Authoring conventions in these pages:
