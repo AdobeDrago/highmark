@@ -2840,6 +2840,51 @@
         }
       ],
       "urlPattern": "/resources/answers/health-insurance-glossary"
+    },
+    {
+      "name": "member-subpage",
+      "urls": [
+        "https://www.highmark.com/member/bcbs/find-a-dentist",
+        "https://www.highmark.com/member/bcbs/medical-drug-formulary",
+        "https://www.highmark.com/member/bcbs/find-a-pharmacy",
+        "https://www.highmark.com/member/blueshield/find-a-pharmacy",
+        "https://www.highmark.com/member/blueshield/find-a-dentist",
+        "https://www.highmark.com/member/blueshield/medical-drug-formulary",
+        "https://www.highmark.com/member/bcbswv/find-a-pharmacy",
+        "https://www.highmark.com/member/bcbswv/find-a-dentist",
+        "https://www.highmark.com/member/bcbswv/medical-drug-formulary",
+        "https://www.highmark.com/member/bcbsde/find-a-pharmacy",
+        "https://www.highmark.com/member/bcbsde/find-a-dentist",
+        "https://www.highmark.com/member/bcbsde/disputes-appeals",
+        "https://www.highmark.com/member/bcbsde/medical-drug-formulary",
+        "https://www.highmark.com/member/bcbswny/find-a-pharmacy",
+        "https://www.highmark.com/member/bcbswny/find-a-dentist",
+        "https://www.highmark.com/member/bcbswny/medical-drug-formulary",
+        "https://www.highmark.com/member/bcbswny/surprise-billing",
+        "https://www.highmark.com/member/blueshieldneny/find-a-pharmacy",
+        "https://www.highmark.com/member/blueshieldneny/find-a-dentist",
+        "https://www.highmark.com/member/blueshieldneny/medical-drug-formulary",
+        "https://www.highmark.com/member/blueshieldneny/surprise-billing",
+        "https://www.highmark.com/member/bcbswny/forms",
+        "https://www.highmark.com/member/blueshieldneny/forms"
+      ],
+      "representativeUrl": "https://www.highmark.com/member/bcbs/find-a-dentist",
+      "description": "Regional member sub-pages (/member/<region>/find-a-dentist, find-a-pharmacy, medical-drug-formulary, surprise-billing, disputes-appeals): breadcrumbs with Print / Share, a left nav of the region's pages, an H1 + lead text and text sections with links, a right-rail \"Questions?\" box and a blush \"Questions about your benefits?\" CTA band; Delaware's Disputes and Appeals has no nav (Template legal); the NY Forms Libraries are a Forms Library block (search panel and categorised forms) beside the H1. The same sections as the FAQ topic pages (transformers/highmark-faq-topic-sections.js, Template faq), with the region's header and footer fragments (import-member-chrome.js)",
+      "urlPattern": "/member/{bcbs,blueshield,bcbswv,bcbsde,bcbswny,blueshieldneny}/*",
+      "blocks": [
+        {
+          "name": "cards-minimal-light-sidenav",
+          "instances": [
+            "div.col-lg-3 div.nav-container"
+          ]
+        },
+        {
+          "name": "forms-library",
+          "instances": [
+            "div.pdf-result-container (built by the importer)"
+          ]
+        }
+      ]
     }
   ],
   "metadata": {

@@ -89,6 +89,16 @@ const BACKGROUNDS = [
 // The region is the page's last path segment; it names its header and footer fragments.
 const REGIONS = ['bcbs', 'blueshield', 'bcbswv', 'bcbsde', 'bcbswny', 'blueshieldneny'];
 
+/** Each region's label in its sub-pages' breadcrumbs (Find a Dentist, ...), as on the source. */
+const BREADCRUMB_TITLES = {
+  bcbs: 'Blue Cross Blue Shield',
+  blueshield: 'Blue Shield',
+  bcbswv: 'BCBS West Virginia',
+  bcbsde: 'BCBS Delaware',
+  bcbswny: 'Blue Cross Blue Shield WNY',
+  blueshieldneny: 'Blue Shield NENY',
+};
+
 /**
  * Execute all page transformers for a hook.
  */
@@ -251,13 +261,15 @@ export default {
     // 4. afterTransform (final cleanup)
     executeTransformers('afterTransform', main, payload);
 
-    // 5. Page metadata: source meta tags, the region's header and footer, template.
+    // 5. Page metadata: source meta tags, the region's header and footer, its label in
+    // its sub-pages' breadcrumbs, template.
     const hr = document.createElement('hr');
     main.appendChild(hr);
     const meta = WebImporter.Blocks.getMetadata(document) || {};
     if (REGIONS.includes(region)) {
       meta.nav = `/member/fragments/${region}/nav`;
       meta.footer = `/member/fragments/${region}/footer`;
+      meta['Breadcrumb Title'] = BREADCRUMB_TITLES[region];
     }
     meta.template = 'member-regional';
     main.append(WebImporter.Blocks.getMetadataBlock(document, meta));
