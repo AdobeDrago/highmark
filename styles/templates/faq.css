@@ -34,6 +34,72 @@ body.faq main > .section.right-rail {
   display: none;
 }
 
+/* ---- text pages (no FAQ accordions: Community Resources and Support) ----
+   Below 992px the left nav sits above the H1, 15px in from the text and 35px
+   short of its far edge, as on the source. */
+@media (width < 992px) {
+  body.faq main:not(:has(.accordion-minimal-light)) > .section.cards-minimal-light-sidenav-container {
+    display: block;
+    position: static;
+    max-width: none;
+    margin: 0;
+    padding: 0 65px 0 45px;
+  }
+
+  body.faq main:not(:has(.accordion-minimal-light)) > .section.cards-minimal-light-sidenav-container > .cards-minimal-light-sidenav-wrapper {
+    position: static;
+    width: auto;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.faq main:not(:has(.accordion-minimal-light)) > .section.cards-minimal-light-sidenav-container {
+    padding: 0 99px 0 79px;
+  }
+}
+
+/* links alone in a bold paragraph ("Visit Highmark Community Support"): bold blue
+   text links at the text size, not buttons */
+body.faq main > .section:not(.highlight, .right-rail) > .default-content-wrapper p.button-container > strong > a.button:not([href^="#"]):any-link {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: #0066b1;
+  font-size: inherit;
+  font-weight: 700;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+  white-space: normal;
+}
+
+body.faq main > .section:not(.highlight, .right-rail) > .default-content-wrapper p.button-container > strong > a.button:not([href^="#"]):hover {
+  background: none;
+  color: #0066b1;
+  text-decoration: underline;
+}
+
+/* footnote markers and small print take no line height (the source's sup / sub) */
+body.faq main:not(:has(.accordion-minimal-light)) :is(sup, sub) {
+  position: relative;
+  font-size: 75%;
+  line-height: 0;
+  vertical-align: baseline;
+}
+
+body.faq main:not(:has(.accordion-minimal-light)) sup {
+  top: -0.5em;
+}
+
+body.faq main:not(:has(.accordion-minimal-light)) sub {
+  bottom: -0.25em;
+}
+
 /* ---- H1 + intro ---- */
 body.faq main h1 {
   margin: 0 0 8px;
