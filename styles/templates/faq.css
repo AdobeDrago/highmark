@@ -193,6 +193,9 @@ body.faq .accordion-minimal-light .accordion-minimal-light-item-body p {
   letter-spacing: -0.2px;
 }
 
+/* lists: bullets 10px below the text above them and indented 18px, numbers
+   flush and indented 40px; items are 14/21 at every width (numbered ones 14/15.4
+   on tablets), as on the source */
 body.faq .accordion-minimal-light .accordion-minimal-light-item-body ul,
 body.faq .accordion-minimal-light .accordion-minimal-light-item-body ol {
   margin: 0 0 16px;
@@ -200,8 +203,19 @@ body.faq .accordion-minimal-light .accordion-minimal-light-item-body ol {
   font-weight: 100;
 }
 
+body.faq .accordion-minimal-light .accordion-minimal-light-item-body ol {
+  padding: 0 0 0 40px;
+}
+
 body.faq .accordion-minimal-light .accordion-minimal-light-item-body li {
   margin: 0 0 5px;
+  line-height: 21px;
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.faq .accordion-minimal-light .accordion-minimal-light-item-body ol > li {
+    line-height: 15.4px;
+  }
 }
 
 body.faq .accordion-minimal-light .accordion-minimal-light-item-body > :last-child {
