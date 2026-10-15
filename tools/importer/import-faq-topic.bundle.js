@@ -275,9 +275,10 @@ var CustomImportScript = (() => {
   function siblingNavWithChildren(document, nav) {
     const active = nav.querySelector("a.active");
     const item = active == null ? void 0 : active.closest("li");
-    const children = item == null ? void 0 : item.querySelector(":scope > ul.subnavitem-list.show");
+    const children = item == null ? void 0 : item.querySelector(":scope > ul.subnavitem-list");
     const siblings = item == null ? void 0 : item.parentElement;
-    if (!children || !siblings) return null;
+    const submenus = siblings == null ? void 0 : siblings.querySelector(":scope > li > ul.subnavitem-list");
+    if (!siblings || !submenus) return null;
     const link = (a) => {
       const el = document.createElement("a");
       el.href = a.getAttribute("href");
@@ -289,12 +290,9 @@ var CustomImportScript = (() => {
     if (parent) cells.push(["parent", link(parent)]);
     siblings.querySelectorAll(":scope > li > a[href], :scope > li > .sidenav-item-row > a[href]").forEach((a) => {
       if (a === parent) return;
-      if (a !== active) {
-        cells.push(["sibling", link(a)]);
-        return;
-      }
-      cells.push(["current", link(a)]);
-      children.querySelectorAll(":scope > li > a[href]").forEach((child) => cells.push(["child", link(child)]));
+      cells.push([a === active ? "current" : "sibling", link(a)]);
+      const submenu = a === active ? children : a.closest("li").querySelector(":scope > ul.subnavitem-list");
+      submenu == null ? void 0 : submenu.querySelectorAll(":scope > li > a[href]").forEach((child) => cells.push(["child", link(child)]));
     });
     return WebImporter.Blocks.createBlock(document, { name: "cards-minimal-light-sidenav", cells });
   }
@@ -453,6 +451,7 @@ var CustomImportScript = (() => {
     description: "FAQ landing and topic pages: breadcrumbs with Print / Share, a left nav listing every FAQ topic, an H1 + intro, FAQ accordion groups each followed by Back to Top, and on some pages a right-rail callout and a blush CTA band",
     urls: [
       "https://www.highmark.com/resources/answers/faq",
+      "https://www.highmark.com/resources/answers/community-assistance-resources",
       "https://www.highmark.com/resources/answers/faq/aca-plans",
       "https://www.highmark.com/resources/answers/faq/behavioral-health-medication",
       "https://www.highmark.com/resources/answers/faq/western-ny-blue-fund",

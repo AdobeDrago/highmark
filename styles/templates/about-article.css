@@ -389,7 +389,7 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
     padding-left: 15px;
   }
 
-  body.about-article .cards-minimal-light-sidenav-arrow {
+  body.about-article .cards-minimal-light-sidenav-item-list:not(.cards-minimal-light-sidenav-guide) .cards-minimal-light-sidenav-arrow {
     position: absolute;
     top: 0;
     right: 0;

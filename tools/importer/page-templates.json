@@ -648,8 +648,7 @@
     {
       "name": "sidebar-listing",
       "urls": [
-        "https://www.highmark.com/resources/answers/articles",
-        "https://www.highmark.com/resources/answers/community-assistance-resources"
+        "https://www.highmark.com/resources/answers/articles"
       ],
       "coverageGaps": [],
       "description": "Two-column layout with a left-hand section navigation sidebar and a main content column showing a heading, intro, and a list of linked items",
@@ -740,6 +739,7 @@
       "name": "faq-topic",
       "urls": [
         "https://www.highmark.com/resources/answers/faq",
+        "https://www.highmark.com/resources/answers/community-assistance-resources",
         "https://www.highmark.com/resources/answers/faq/aca-plans",
         "https://www.highmark.com/resources/answers/faq/behavioral-health-medication",
         "https://www.highmark.com/resources/answers/faq/western-ny-blue-fund",

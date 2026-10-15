@@ -123,14 +123,17 @@ const headingId = (text) => clean(text.replace(/\ue000/g, ' ')).toLowerCase()
  * navs (no child list under the current page) are left to the sidenav parser.
  * The siblings are a list nested under the parent's item, or (since October 2026)
  * items next to the parent's in one list, where a link with a submenu sits in a
- * div.sidenav-item-row beside its toggle.
+ * div.sidenav-item-row beside its toggle. A sibling's own submenu (collapsed on the
+ * source: Frequently Asked Questions on Community Resources and Support) follows
+ * it as child rows; the block shows it collapsed under that sibling.
  */
 function siblingNavWithChildren(document, nav) {
   const active = nav.querySelector('a.active');
   const item = active?.closest('li');
-  const children = item?.querySelector(':scope > ul.subnavitem-list.show');
+  const children = item?.querySelector(':scope > ul.subnavitem-list');
   const siblings = item?.parentElement;
-  if (!children || !siblings) return null;
+  const submenus = siblings?.querySelector(':scope > li > ul.subnavitem-list');
+  if (!siblings || !submenus) return null;
   const link = (a) => {
     const el = document.createElement('a');
     el.href = a.getAttribute('href');
@@ -142,12 +145,9 @@ function siblingNavWithChildren(document, nav) {
   if (parent) cells.push(['parent', link(parent)]);
   siblings.querySelectorAll(':scope > li > a[href], :scope > li > .sidenav-item-row > a[href]').forEach((a) => {
     if (a === parent) return;
-    if (a !== active) {
-      cells.push(['sibling', link(a)]);
-      return;
-    }
-    cells.push(['current', link(a)]);
-    children.querySelectorAll(':scope > li > a[href]').forEach((child) => cells.push(['child', link(child)]));
+    cells.push([a === active ? 'current' : 'sibling', link(a)]);
+    const submenu = a === active ? children : a.closest('li').querySelector(':scope > ul.subnavitem-list');
+    submenu?.querySelectorAll(':scope > li > a[href]').forEach((child) => cells.push(['child', link(child)]));
   });
   return WebImporter.Blocks.createBlock(document, { name: 'cards-minimal-light-sidenav', cells });
 }

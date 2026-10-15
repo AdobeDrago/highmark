@@ -98,11 +98,36 @@ export default function decorate(block) {
     rootUl.classList.add('cards-minimal-light-sidenav-guide');
     const siblingList = document.createElement('ul');
     siblingList.className = 'cards-minimal-light-sidenav-children';
-    // "child" rows after the current sibling are its own pages (the FAQ landing's
-    // topics): an open list under it, with the collapse chevron
-    const hasChildren = items.some((it, i) => it.level === 'child'
-      && items.slice(0, i).some((prev) => prev.level === 'current'));
-    let currentChildren = null;
+    // "child" rows are the pages of the sibling or current row above them: under
+    // the current page an open list (the FAQ landing's topics), under another
+    // sibling a collapsed one (its sub-menu), each with the collapse chevron, as
+    // on the source
+    const ownerOf = (i) => {
+      for (let j = i - 1; j >= 0; j -= 1) {
+        if (items[j].level !== 'child') return items[j];
+      }
+      return null;
+    };
+    const owners = new Set(items.map((it, i) => (it.level === 'child' ? ownerOf(i) : null)).filter(Boolean));
+    let openList = null;
+
+    const makeSiblingAnchor = (it, childList) => {
+      const a = makeLink(it);
+      const arrow = document.createElement('button');
+      arrow.type = 'button';
+      arrow.className = 'cards-minimal-light-sidenav-arrow';
+      arrow.setAttribute('aria-label', `${it.label} submenu`);
+      arrow.setAttribute('aria-expanded', 'false');
+      a.append(arrow);
+      childList.hidden = true;
+      arrow.addEventListener('click', (e) => {
+        e.preventDefault();
+        const expanded = arrow.getAttribute('aria-expanded') === 'true';
+        arrow.setAttribute('aria-expanded', String(!expanded));
+        childList.hidden = expanded;
+      });
+      return a;
+    };
 
     items.forEach((it) => {
       const li = document.createElement('li');
@@ -111,21 +136,24 @@ export default function decorate(block) {
       if (it.level === 'parent') {
         li.append(makeLink(it));
         rootUl.append(li);
-      } else if (it.level === 'current') {
-        if (hasChildren) {
-          currentChildren = document.createElement('ul');
-          currentChildren.className = 'cards-minimal-light-sidenav-children';
-          li.append(makeCurrentAnchor(it, currentChildren), currentChildren);
-          li.querySelector('a').setAttribute('aria-current', 'page');
+        openList = null;
+      } else if (it.level === 'current' || it.level === 'sibling') {
+        openList = null;
+        if (owners.has(it)) {
+          openList = document.createElement('ul');
+          openList.className = 'cards-minimal-light-sidenav-children';
+          const a = it.level === 'current' ? makeCurrentAnchor(it, openList) : makeSiblingAnchor(it, openList);
+          if (it.level === 'current') a.setAttribute('aria-current', 'page');
+          li.append(a, openList);
         } else {
-          li.append(makeCurrentAnchor(it, null));
+          li.append(it.level === 'current' ? makeCurrentAnchor(it, null) : makeLink(it));
         }
         siblingList.append(li);
-      } else if (it.level === 'child' && currentChildren) {
+      } else if (openList) {
         li.append(makeLink(it));
-        currentChildren.append(li);
+        openList.append(li);
       } else {
-        // sibling (or stray child)
+        // stray child
         li.append(makeLink(it));
         siblingList.append(li);
       }
