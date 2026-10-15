@@ -123,6 +123,7 @@ body.member-regional main a.button.secondary:hover,
 body.member-regional main a.button.secondary:focus {
   background: var(--text-color);
   color: #fff;
+  text-decoration: none;
 }
 
 @media (width >= 768px) {
