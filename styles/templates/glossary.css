@@ -141,6 +141,23 @@ body.glossary main > .section.glossary p {
   letter-spacing: -0.2px;
 }
 
+/* lists in a term: no bullets or indent, thin 15/22.5 items 13px apart (15px from
+   992), as on the source (its glossary list styles reach them) */
+body.glossary main > .section.glossary ul,
+body.glossary main > .section.glossary ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+body.glossary main > .section.glossary li {
+  margin: 0 0 13px;
+  color: var(--text-body-color);
+  font-size: 15px;
+  font-weight: 100;
+  line-height: 22.5px;
+}
+
 /* Back to Top: 16px below the last term, a bold uppercase link (the source's
    textButton) */
 body.glossary main > .section.glossary p.button-container:has(> a[href="#top"]) {
@@ -218,6 +235,7 @@ body.glossary main > .section.glossary a.button[href="#top"]:hover {
   }
 
   body.glossary main > .section.glossary p {
+    margin-bottom: 16px;
     line-height: 19.5px;
     letter-spacing: -0.4px;
   }
@@ -281,6 +299,10 @@ body.glossary main > .section.glossary a.button[href="#top"]:hover {
 
   body.glossary main > .section.glossary p.button-container:has(> a[href="#top"]) {
     margin: 16px 0 0 calc(100% * 2 / 12);
+  }
+
+  body.glossary main > .section.glossary li {
+    margin-bottom: 15px;
   }
 
   /* in the 1366px container: the trail in the first 9 of 12 columns, Print / Share
