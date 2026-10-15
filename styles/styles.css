@@ -111,9 +111,13 @@ header {
 }
 
 /* Regional member pages' header (nav = /member/fragments/<region>/nav): no utility bar; an
-   84px bar below 992px, the 94px brand row and the 60px nav row from 992px. */
+   84px bar below 992px (69px for Western New York), the 94px brand row and the 60px nav row from 992px. */
 html:has(meta[name="nav"][content^="/member/fragments/"]) header {
   min-height: 84px;
+}
+
+html:has(meta[name="nav"][content="/member/fragments/bcbswny/nav"]) header {
+  min-height: 69px;
 }
 
 @media (width >= 992px) {

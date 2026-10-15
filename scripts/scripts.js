@@ -165,7 +165,7 @@ const TEMPLATE_STYLES = [
   'media-contacts', 'capitol-hill-report', 'legal', 'contact', 'language-assistance',
   'news-alert', 'content-landing', 'zipcode-gate-login', 'campaign-landing', 'subsidiary-home', 'events',
   'home', 'shop-home', 'providers', 'shop-page', 'answers-landing', 'provider-content', 'leadership-bio',
-  'faq', 'member-regional', 'glossary',
+  'faq', 'member-regional', 'glossary', 'member-subpage',
 ];
 
 /**
@@ -296,11 +296,12 @@ function decorateFaqLinks(main) {
 async function loadEager(doc) {
   doc.documentElement.lang = 'en';
   decorateTemplateAndTheme();
-  const template = toClassName(getMetadata('template'));
-  // start the template stylesheet now; it must apply before the first section shows
-  const templateStyles = TEMPLATE_STYLES.includes(template)
-    ? loadCSS(`${window.hlx.codeBasePath}/styles/templates/${template}.css`)
-    : null;
+  // start the template stylesheets now; they must apply before the first section shows. A
+  // page may list several (Template: faq, member-subpage): each is a body class
+  // (decorateTemplateAndTheme), and their stylesheets load in that order.
+  const templates = getMetadata('template').split(',').map((t) => toClassName(t.trim()));
+  const templateStyles = Promise.all(templates.filter((t) => TEMPLATE_STYLES.includes(t))
+    .map((t) => loadCSS(`${window.hlx.codeBasePath}/styles/templates/${t}.css`)));
   if (getMetadata('breadcrumbs').toLowerCase() === 'true') {
     doc.body.dataset.breadcrumbs = true;
     // reserve the row now so the page doesn't shift when the trail loads

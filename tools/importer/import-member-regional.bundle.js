@@ -423,6 +423,14 @@ var CustomImportScript = (() => {
     ["new-hmk-brand-papergrey", "grey"]
   ];
   var REGIONS = ["bcbs", "blueshield", "bcbswv", "bcbsde", "bcbswny", "blueshieldneny"];
+  var BREADCRUMB_TITLES = {
+    bcbs: "Blue Cross Blue Shield",
+    blueshield: "Blue Shield",
+    bcbswv: "BCBS West Virginia",
+    bcbsde: "BCBS Delaware",
+    bcbswny: "Blue Cross Blue Shield WNY",
+    blueshieldneny: "Blue Shield NENY"
+  };
   function executeTransformers(hookName, element, payload) {
     const enhancedPayload = __spreadProps(__spreadValues({}, payload), { template: PAGE_TEMPLATE });
     transformers.forEach((transformerFn) => {
@@ -547,6 +555,7 @@ var CustomImportScript = (() => {
       if (REGIONS.includes(region)) {
         meta.nav = `/member/fragments/${region}/nav`;
         meta.footer = `/member/fragments/${region}/footer`;
+        meta["Breadcrumb Title"] = BREADCRUMB_TITLES[region];
       }
       meta.template = "member-regional";
       main.append(WebImporter.Blocks.getMetadataBlock(document, meta));

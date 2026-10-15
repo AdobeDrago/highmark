@@ -155,7 +155,7 @@ function siblingNavWithChildren(document, nav) {
 /** One spacing component's height at each width: the source's "ten-padding" is 10px
  * above and below (20px), "twenty-padding" 40px; "tab-" / "mob-" set tablet / phone. */
 const SPACER_PX = { ten: 20, twenty: 40, thirty: 60, forty: 80 };
-function spacerHeights(spacer) {
+export function spacerHeights(spacer) {
   const cls = spacer.querySelector('section')?.className || '';
   const size = (prefix) => SPACER_PX[(cls.match(new RegExp(`(?:^|\\s)${prefix}(ten|twenty|thirty|forty)-padding`)) || [])[1]] || 0;
   return [size(''), size('tab-'), size('mob-')];
@@ -163,7 +163,7 @@ function spacerHeights(spacer) {
 
 /** A run of spacers as section styles: space-<desktop>, plus space-tablet-<n> /
  * space-mobile-<n> where those differ (faq.css turns them into top padding). */
-function spaceStyle([d, t, m]) {
+export function spaceStyle([d, t, m]) {
   const styles = [`space-${d}`];
   if (t !== d) styles.push(`space-tablet-${t}`);
   if (m !== d) styles.push(`space-mobile-${m}`);

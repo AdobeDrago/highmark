@@ -980,6 +980,11 @@ header nav.nav-regional .nav-brand a > :not(:first-child) {
     box-shadow: 0 3px 3px rgb(0 0 0 / 16%);
   }
 
+  /* Western New York's bar is 69px (the source's NY header; Northeastern NY's is 84px) */
+  html:has(meta[name="nav"][content="/member/fragments/bcbswny/nav"]) header nav.nav-regional .nav-brand-row {
+    height: 69px;
+  }
+
   header nav.nav-regional .nav-hamburger {
     grid-column: 1;
     grid-row: 1;
