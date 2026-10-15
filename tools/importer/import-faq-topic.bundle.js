@@ -275,9 +275,10 @@ var CustomImportScript = (() => {
   function siblingNavWithChildren(document, nav) {
     const active = nav.querySelector("a.active");
     const item = active == null ? void 0 : active.closest("li");
-    const children = item == null ? void 0 : item.querySelector(":scope > ul.subnavitem-list.show");
+    const children = item == null ? void 0 : item.querySelector(":scope > ul.subnavitem-list");
     const siblings = item == null ? void 0 : item.parentElement;
-    if (!children || !siblings) return null;
+    const submenus = siblings == null ? void 0 : siblings.querySelector(":scope > li > ul.subnavitem-list");
+    if (!siblings || !submenus) return null;
     const link = (a) => {
       const el = document.createElement("a");
       el.href = a.getAttribute("href");
@@ -289,12 +290,9 @@ var CustomImportScript = (() => {
     if (parent) cells.push(["parent", link(parent)]);
     siblings.querySelectorAll(":scope > li > a[href], :scope > li > .sidenav-item-row > a[href]").forEach((a) => {
       if (a === parent) return;
-      if (a !== active) {
-        cells.push(["sibling", link(a)]);
-        return;
-      }
-      cells.push(["current", link(a)]);
-      children.querySelectorAll(":scope > li > a[href]").forEach((child) => cells.push(["child", link(child)]));
+      cells.push([a === active ? "current" : "sibling", link(a)]);
+      const submenu = a === active ? children : a.closest("li").querySelector(":scope > ul.subnavitem-list");
+      submenu == null ? void 0 : submenu.querySelectorAll(":scope > li > a[href]").forEach((child) => cells.push(["child", link(child)]));
     });
     return WebImporter.Blocks.createBlock(document, { name: "cards-minimal-light-sidenav", cells });
   }

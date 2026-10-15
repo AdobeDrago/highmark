@@ -178,7 +178,7 @@ The 20 topics in the FAQ left nav (`/resources/answers/faq/*`, ACA … Spending 
   - **New-tab links.** The source marks the links that open a new tab with Font Awesome's external-link icon (56 on the 21 pages; 18 other answer links leave highmark.com in the same tab). The transformer writes the `:external-link:` icon there, and `scripts.js` (`decorateFaqLinks`) opens a link holding it in a new tab, the icon reading "opens a new tab or window" to screen readers. The source's 11 new-tab links outside the answers without an icon (the Log In buttons, Measles' state links) open in the same tab here.
   - **Letter spacing.** Text paragraphs, answers included, are -0.2 / -0.4 / -0.1px (below 768 / to 991 / from 992); list items stay normal, as on the source.
 - **Links.** Imports keep the source's absolute `https://www.highmark.com/...` links; `upload-to-da.mjs` now makes those to published pages (and pages in the same batch) relative.
-- **Community Resources and Support** (`/resources/answers/community-assistance-resources`, 2026-10-15) uses the same importer and template: it was a sidebar-listing page without breadcrumbs. As a text page (no FAQ accordions) it shows the left nav above the H1 below 992px, as the source does, and its footnote `sup` / `sub` take no line height; bold stand-alone links are bold blue text links. The source now shows the left nav on phones on the FAQ pages too (2026-10-15); ours still hide it there. The source's collapsed-submenu chevrons (Frequently Asked Questions, Health Insurance Articles) aren't shown.
+- **Community Resources and Support** (`/resources/answers/community-assistance-resources`, 2026-10-15) uses the same importer and template: it was a sidebar-listing page without breadcrumbs. As a text page (no FAQ accordions) it shows the left nav above the H1 below 992px, as the source does, and its footnote `sup` / `sub` take no line height; bold stand-alone links are bold blue text links. The source now shows the left nav on phones on the FAQ pages too (2026-10-15); ours still hide it there. Its left nav shows the source's collapsed submenus (Frequently Asked Questions, Health Insurance Articles) with their chevrons.
 - `/resources/answers/faq/medicare-reservations` (the source's old URL for the Medicare FAQ) is in `build-redirects.mjs`'s `FORCE` list, now pointing at our `/resources/answers/faq/medicare`.
 
 ## Health Insurance Glossary (`template: glossary`)
@@ -190,6 +190,14 @@ The 20 topics in the FAQ left nav (`/resources/answers/faq/*`, ACA … Spending 
 - **Layout.** The terms take the middle 8 of 12 columns of the 1366px container from 992px; the A–Z bar is centred when it fits and scrolls sideways when it doesn't. Lists in a term have no bullets or indent, as on the source.
 - **Left out.** The source has an empty term (a blank heading) after Emergency Services, about 45px of blank space; it isn't kept.
 - To add or change a term, edit the page in DA: an H3 and its text under the letter's H2. A new letter needs an H2 and its link in the A–Z list.
+
+## Left nav (`cards-minimal-light-sidenav`)
+
+On 57 pages (Answers, FAQ topics, About, Fraud, Privacy Center, mental-health guides, CHIP, legal pages). Rows: `parent`, then each item as `current` or `sibling`, each followed by its sub-pages as `child` rows. Under the current page they're an open list; under another sibling a collapsed submenu with its chevron, as on the source (2026-10-15).
+
+- `tools/sidenav/sync-sidenav.mjs` compares every page's block with the source's nav (the source writes its own paths, `/content/digital-marketing/.../home/x`, which become `/x`) and, with `--apply`, rebuilds the differing blocks in DA and previews them; nothing else in the documents changes. On 2026-10-15 it rebuilt 9: the collapsed submenus on 8 pages (Corporate Responsibility's SDoH, Sustainability and Valuing Our People; Our Story's Mission and Our Businesses; Community Resources; the FAQ landing; Why Do Mental Health Conditions Occur) and the missing siblings on Sustainability and Leadership Team & Board.
+- New nav links to pages we don't have 404 until `/redirects` covers them: after publishing, run `build-redirects.mjs --upload` and publish the sheet (on 2026-10-15: three Bright Blue Futures pages, `highmark-bright-blue-futures-awards`, `highmark-neny-giving`, `highmark-wny-giving`).
+- Re-imports: the FAQ topic transformer builds the Answers navs with these rows; the shared sidenav parser doesn't add a sibling's submenu, so re-run the sync after other importers.
 
 ## Legal pages (`template: legal`)
 
