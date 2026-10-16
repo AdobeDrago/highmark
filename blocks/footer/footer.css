@@ -373,23 +373,23 @@ footer .footer-top-inner a:hover {
   text-decoration: underline;
 }
 
-footer .footer-wrapper:has(.footer-top) .footer-legal-inner > p:first-child {
+footer .footer-wrapper.footer-regional .footer-legal-inner > p:first-child {
   margin-bottom: 48px;
 }
 
 @media (width >= 768px) {
-  footer .footer-wrapper:has(.footer-top) .footer-legal-inner > p:first-child {
+  footer .footer-wrapper.footer-regional .footer-legal-inner > p:first-child {
     margin-bottom: 53px;
   }
 }
 
 @media (width >= 992px) {
-  footer .footer-wrapper:has(.footer-top) .footer-legal-inner > p:first-child {
+  footer .footer-wrapper.footer-regional .footer-legal-inner > p:first-child {
     margin-bottom: 56px;
   }
 }
 
-footer .footer-wrapper:has(.footer-top) .footer-brand > p:not(:first-child):has(> a:not([href^="tel:"])) {
+footer .footer-wrapper.footer-regional .footer-brand > p:not(:first-child):has(> a:not([href^="tel:"])) {
   width: 280px;
   margin: 0;
   font-family: var(--body-font-family);
@@ -399,6 +399,6 @@ footer .footer-wrapper:has(.footer-top) .footer-brand > p:not(:first-child):has(
   text-align: center;
 }
 
-footer .footer-wrapper:has(.footer-top) .footer-brand > p:not(:first-child) > a:not([href^="tel:"]) {
+footer .footer-wrapper.footer-regional .footer-brand > p:not(:first-child) > a:not([href^="tel:"]) {
   text-decoration: none;
 }
