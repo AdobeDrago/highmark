@@ -769,6 +769,14 @@ var CustomImportScript = (() => {
     return pageBlocks;
   }
   var import_topic_hub_subnav_default = {
+    // A side panel's empty spacer paragraph (/resources/spending-accounts: one line above
+    // "WATCH VIDEO") is kept as a zero-width space, on the live page: the importer copies
+    // the page before the transform, and the pipeline drops a blank paragraph.
+    onLoad: ({ document: document2 }) => {
+      document2.querySelectorAll(".side-card-panel p").forEach((p) => {
+        if (!p.querySelector("img, br, a") && !p.textContent.replace(/[\s\u00a0]/g, "")) p.textContent = "\u200B";
+      });
+    },
     transform: (payload) => {
       var _a;
       const {

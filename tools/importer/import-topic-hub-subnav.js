@@ -145,6 +145,15 @@ function findBlocksOnPage(document, template) {
 }
 
 export default {
+  // A side panel's empty spacer paragraph (/resources/spending-accounts: one line above
+  // "WATCH VIDEO") is kept as a zero-width space, on the live page: the importer copies
+  // the page before the transform, and the pipeline drops a blank paragraph.
+  onLoad: ({ document }) => {
+    document.querySelectorAll('.side-card-panel p').forEach((p) => {
+      if (!p.querySelector('img, br, a') && !p.textContent.replace(/[\s\u00a0]/g, '')) p.textContent = '\u200b';
+    });
+  },
+
   transform: (payload) => {
     const {
       document, url, html, params,
