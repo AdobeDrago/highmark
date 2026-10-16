@@ -110,11 +110,15 @@ export default {
     // 4. afterTransform (final cleanup)
     executeTransformers('afterTransform', main, payload);
 
-    // 5. WebImporter built-in rules; the page metadata adds the source breadcrumb label
+    // 5. WebImporter built-in rules; the page metadata turns on breadcrumbs, with the
+    // source's label, when the source has them
     const hr = document.createElement('hr');
     main.appendChild(hr);
     const meta = WebImporter.Blocks.getMetadata(document) || {};
-    if (crumbLabel) meta['Breadcrumb Title'] = crumbLabel;
+    if (crumb) {
+      meta.breadcrumbs = 'true';
+      if (crumbLabel) meta['Breadcrumb Title'] = crumbLabel;
+    }
     main.append(WebImporter.Blocks.getMetadataBlock(document, meta));
     WebImporter.rules.transformBackgroundImages(main, document);
     WebImporter.rules.adjustImageUrls(main, url, params.originalURL);

@@ -252,6 +252,11 @@ body:not(.about-article, .chip, .faq, .leadership, .legal) .cards-minimal-light-
     width: 56.25%;
     margin-left: 25%;
   }
+
+  /* the title starts the row level with the menu, right under the breadcrumbs */
+  body:not(.about-article, .chip, .faq, .leadership, .legal) main .section.cards-minimal-light-sidenav-container > .default-content-wrapper > h1:first-child {
+    margin-top: 0;
+  }
 }
 
 /* Article-listing links in the main content column of a sidebar-listing page.

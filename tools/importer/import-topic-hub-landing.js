@@ -39,6 +39,9 @@ const PAGE_TEMPLATE = {
     'https://www.highmark.com/resources/mental-health-services/eating-disorders',
     'https://www.highmark.com/resources/spending-accounts',
   ],
+  // Blocks are found by what the component holds, not its position: the two pages
+  // have different runs of components. Section styles (the panels' brand colours)
+  // come from the sections transformer.
   blocks: [
     {
       name: 'hero-minimal-dark-withimg',
@@ -49,22 +52,12 @@ const PAGE_TEMPLATE = {
       instances: ['div.card-block.responsivegrid.section'],
     },
     {
-      name: 'section-glossary-highlight',
-      instances: ['div.onecard1colpanel.section'],
-      section: 'highlight',
-    },
-    {
-      name: 'section-columns-accent',
-      instances: ['div.newcardscomponent-variations.section:nth-of-type(4)'],
-      section: 'accent',
-    },
-    {
       name: 'columns-minimal-dark',
-      instances: ['div.newcardscomponent-variations.section:nth-of-type(4)'],
+      instances: ['div.newcardscomponent-variations.section:has(.side-card-panel)'],
     },
     {
       name: 'cards-minimal-dark-withimg-2',
-      instances: ['div.newcardscomponent-variations.section:nth-of-type(5)'],
+      instances: ['div.newcardscomponent-variations.section:has(.listWideImg)'],
     },
   ],
 };
@@ -168,6 +161,7 @@ export default {
     const hr = document.createElement('hr');
     main.appendChild(hr);
     const meta = WebImporter.Blocks.getMetadata(document) || {};
+    meta.Template = 'topic-hub-landing';
     if (crumb) {
       meta.breadcrumbs = 'true';
       if (crumbLabel) meta['Breadcrumb Title'] = crumbLabel;
