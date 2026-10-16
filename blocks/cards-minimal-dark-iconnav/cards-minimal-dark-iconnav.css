@@ -165,29 +165,32 @@
 
 /* ------------------------------------------------------------------
    CHIP landing (template=chip-landing): 6 image-icon quick links, and the regional
-   member pages (template=member-regional) 5; the answers
-   landing (template=answers-landing: FAQ / ARTICLES / GLOSSARY / ACA / CHIP) uses
-   the same source component with Material icons.
+   member pages (template=member-regional) 5; the answers landing
+   (template=answers-landing: FAQ / ARTICLES / GLOSSARY / ACA / CHIP) and the
+   mental-health topic pages (template=topic-hub-subnav) use the same source
+   component with Material icons.
    Source: .quicklinks .quick-link-list-container.bg-blue
    - mobile (<768): items flex equally across the viewport (labels wrap),
      padding 16px 0, icon 20x25, label 14px/21px
    - 768-991: items 130px (shrink to fit), padding 16px 0, label 14px/21px
-   - >=992: 960px inner, items 160px, padding 16px 12px, label 16px/24px
+   - >=992: 960px inner, items 160px including their 16px 12px padding (136px
+     links), label 16px/24px
    Hover: bg #e2e9e9, navy label + navy icon (source swaps to *-hover.svg).
    ------------------------------------------------------------------ */
-body:is(.chip-landing, .answers-landing, .member-regional) .cards-minimal-dark-iconnav > ul {
+body:is(.chip-landing, .answers-landing, .member-regional, .topic-hub-subnav) .cards-minimal-dark-iconnav > ul {
   flex-wrap: nowrap;
   justify-content: center;
   overflow: visible;
 }
 
-body:is(.chip-landing, .answers-landing, .member-regional) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
+body:is(.chip-landing, .answers-landing, .member-regional, .topic-hub-subnav) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
   flex: 1 1 0;
+  box-sizing: border-box;
   width: auto;
   padding: 16px 0;
 }
 
-body:is(.chip-landing, .answers-landing, .member-regional) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item .cards-minimal-dark-iconnav-label {
+body:is(.chip-landing, .answers-landing, .member-regional, .topic-hub-subnav) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item .cards-minimal-dark-iconnav-label {
   margin-top: 0;
   font-size: 14px;
   line-height: 21px;
@@ -197,19 +200,19 @@ body:is(.chip-landing, .answers-landing, .member-regional) .cards-minimal-dark-i
 }
 
 @media (width >= 768px) {
-  body:is(.chip-landing, .answers-landing, .member-regional) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
+  body:is(.chip-landing, .answers-landing, .member-regional, .topic-hub-subnav) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
     flex: 0 1 auto;
     width: 130px;
   }
 }
 
 @media (width >= 992px) {
-  body:is(.chip-landing, .answers-landing, .member-regional) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
+  body:is(.chip-landing, .answers-landing, .member-regional, .topic-hub-subnav) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
     width: 160px;
     padding: 16px 12px;
   }
 
-  body:is(.chip-landing, .answers-landing, .member-regional) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item .cards-minimal-dark-iconnav-label {
+  body:is(.chip-landing, .answers-landing, .member-regional, .topic-hub-subnav) .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item .cards-minimal-dark-iconnav-label {
     font-size: 16px;
     line-height: 24px;
   }
