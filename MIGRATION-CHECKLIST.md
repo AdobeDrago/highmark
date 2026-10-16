@@ -1,6 +1,6 @@
 # Migration checklist: pages linked from the highmark.com homepage
 
-Tracks every page the [highmark.com](https://www.highmark.com/) homepage links to (header, body, footer, and the regional pages behind the ZIP gate) and whether it is migrated to this site. Updated 2026-10-14.
+Tracks every page the [highmark.com](https://www.highmark.com/) homepage links to (header, body, footer, and the regional pages behind the ZIP gate) and whether it is migrated to this site. Updated 2026-10-15.
 
 The provider pages (providers.highmark.com, migrated to `/providers`) have their own part at the end: [Provider pages](#provider-pages-providershighmarkcom--providers).
 
@@ -184,7 +184,28 @@ The source's member resources page for each region, not linked from the homepage
 - Header: the region's logo (and its mobile logo), the corporate `/nav` menu, no utility bar. Western NY's fragment swaps the CHIP group for "NY State Plans", as on its source. The logos are optimized copies in each nav fragment's `.nav/` folder (the source's SVGs are 61-72 KB, over the 40 KB the pipeline accepts): re-uploading a re-imported nav fragment brings back the source's logos and fails to preview.
 - Footer: the Federal Employee Program band (`footer-top`), the region's phone number, Provider Resource Center link and legal text.
 - Matched to the source at 1440 / 1280 / 768 / 390: the footer lands within 8px on most pages and widths (Western NY 22-25px on tablets and phones, West Virginia 20px on phones). Left out: the source's visible "Skip to main content" bar. REGISTER is navy on the light-blue mobile panel (white on the source, barely visible there).
-- `/redirects` (466 rows, published with the pages): the regions' sub-pages (Find a Pharmacy, Find a Dentist, formularies, Forms, Delaware's Disputes and Appeals) go to highmark.com, `/help` to our home (as the source does), `/public-policy` to highmark.com (a DA draft, 404 on live). `build-redirects.mjs` doesn't read the member fragments yet, so a regeneration drops `/help` and Disputes and Appeals; it also drops `/public-policy`, which has a DA document.
+- `/redirects` (466 rows, published with the pages): the regions' sub-pages went to highmark.com until they were migrated (below), `/help` goes to our home (as the source does), `/public-policy` to highmark.com (a DA draft, 404 on live then). `build-redirects.mjs` reads the member fragments since #125.
+- 2026-10-15 (#130): each region page has a `Breadcrumb Title`, its label in its sub-pages' breadcrumbs ("Blue Cross Blue Shield", "Blue Shield", "BCBS West Virginia", "BCBS Delaware", "Blue Cross Blue Shield WNY", "Blue Shield NENY"), added to the DA documents' metadata only and republished. Western NY's header bar is 69px below 992px, as on its source (it was 84px, the other regions' height).
+
+### Regional member sub-pages
+
+The pages linked from each region page. **Live** 2026-10-15 (#130), 23/23, in both indexes:
+
+- [x] `/member/bcbs/find-a-dentist`, `/member/bcbs/find-a-pharmacy`, `/member/bcbs/medical-drug-formulary` (Find a Dentist, Find a Pharmacy, Find a Formulary) **Live**
+- [x] `/member/blueshield/find-a-dentist`, `/find-a-pharmacy`, `/medical-drug-formulary` **Live**
+- [x] `/member/bcbswv/find-a-dentist`, `/find-a-pharmacy`, `/medical-drug-formulary` **Live**
+- [x] `/member/bcbsde/find-a-dentist`, `/find-a-pharmacy`, `/medical-drug-formulary` **Live**
+- [x] `/member/bcbsde/disputes-appeals` (Dispute and Appeal Process; linked as `disputes-appeals?region=BCBSDE`) **Live**
+- [x] `/member/bcbswny/find-a-dentist`, `/find-a-pharmacy`, `/medical-drug-formulary`, `/surprise-billing` **Live**
+- [x] `/member/blueshieldneny/find-a-dentist`, `/find-a-pharmacy`, `/medical-drug-formulary`, `/surprise-billing` **Live**
+- [x] `/member/bcbswny/forms`, `/member/blueshieldneny/forms` (Forms Library, 29 forms in 6 categories) **Live**
+
+- Import: `tools/importer/import-member-subpage.js` (template `member-subpage`, `urls-member-subpage.txt`): the FAQ topic sections, with the region's header and footer fragments. Pages with the region's left nav have `Template: faq, member-subpage`; Disputes and Appeals and the Forms Libraries `legal, member-subpage`. `styles/templates/member-subpage.css` holds what differs from `faq.css`.
+- Forms Library: the `forms-library` block (category rows, then name | link rows). It builds the source's keyword search (on Enter), the category filter and the no-results message; below 768px a Filter button opens the panel in place (the source's phone overlay is broken). PDFs link to highmark.com's files.
+- Matched to the source at 1440 / 768 / 390: 19 of the 21 article pages land within 1px of the source's footer, the Forms Libraries within 7px (also at 1024), and every link matches. Left out: a stray empty paragraph on Blue Shield's Find a Formulary (40px), and two spans with their own letter spacing on Northeastern NY's Surprise Billing (6-20px). On phones the H1s sit 30-56px higher, because the source puts the breadcrumb back link's label on a second line. The source's sub-page footers differ slightly from the region footers (HIPAA in place of No Surprises Act); ours use the region footers.
+- `/redirects`: published with the pages, the live sheet minus the 21 sub-page rows (445 rows); the two Surprise Billing pages had none. A regeneration afterwards needed no new rows: every internal link on the pages resolves. It would also drop `/fraud/fraud-form`, `/public-policy` (both published by other batches) and a provider link that 404s on the source, so that version wasn't published.
+- Footers (2026-10-16): the sub-pages' source footers have links the region footers lacked, so they were added to the six `/member/fragments/<region>/footer` documents in DA (not in `import-member-chrome.js`; a re-import of the footers drops them again): HIPAA after Fraud Prevention in every region (`/hipaa` redirects to highmark.com), the Highmark WV Network Access Plan PDF after No Surprises Act in West Virginia, Delaware and Western NY, the HealthCare.gov link in the NY legal text, Western NY's 1 (888) BLUE-428 / 1 (888) 558-3428 number under its logo, and the whole "view the Access Plan" as the link in the PA legal text. The region pages show them too.
+- Follow-up: the NY regions' source headers show only a search icon from 992px; ours show the search box.
 
 ## Provider pages (providers.highmark.com → /providers)
 
