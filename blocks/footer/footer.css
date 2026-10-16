@@ -352,6 +352,8 @@ footer .footer-top-inner {
   margin: 0 auto;
   padding: 32px 30px;
   text-align: center;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 footer .footer-top-inner p { /* stylelint-disable-line no-descending-specificity */
