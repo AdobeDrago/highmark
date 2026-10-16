@@ -1,0 +1,463 @@
+/* stylelint-disable no-descending-specificity */
+
+/* Topic hub landings (template: topic-hub-landing -> body.topic-hub-landing):
+   /resources and /resources/mental-health-services, measured against highmark.com
+   at 390 / 768 / 992 / 1024 / 1280 / 1440.
+
+   Each source component is a section (see tools/importer/transformers/
+   highmark-sections.js), its style the panel's colour: dark (navy), highlight
+   (blush), accent (polar), light-blue (splash). Sections sit flush. Gutters are
+   30px below 768 and 64px to 991; from 992 centred text bands are 780px wide and the
+   two-column bands and card rows use the source's min(1200px, 100% - 166px)
+   container. Headings are 26 / 28 / 34px (below 768 / to 991 / from 992). */
+
+body.topic-hub-landing main > .section {
+  margin: 0;
+}
+
+body.topic-hub-landing main h2 {
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.72px;
+}
+
+/* ---- hero-wide: the source's newer hero (mental health services). The photo sets
+   the height, the text is vertically centred in the left two thirds, inset 30px
+   (110px from 1024, 150px from 1100). From 992 the photo is the 3:1 desktop crop;
+   below, the source swaps in 788 x 460 and 414 x 460 crops, so ours is cut to
+   those proportions. ---- */
+body.topic-hub-landing main .section.hero-wide .hero-minimal-dark-withimg {
+  display: block;
+  min-height: 0;
+}
+
+body.topic-hub-landing main .section.hero-wide .hero-minimal-dark-withimg > div:first-child {
+  position: static;
+}
+
+body.topic-hub-landing main .section.hero-wide .hero-minimal-dark-withimg > div:first-child picture img {
+  display: block;
+  height: auto;
+  aspect-ratio: 414 / 460;
+  object-fit: cover;
+  object-position: 68% 50%;
+}
+
+body.topic-hub-landing main .section.hero-wide .hero-minimal-dark-withimg > div:last-child {
+  position: absolute;
+  inset: 0 auto 0 0;
+  display: flex;
+  align-items: center;
+  width: 66.6667%;
+  max-width: none;
+  margin: 0;
+  padding: 0 0 0 30px;
+}
+
+body.topic-hub-landing main .section.hero-wide .hero-minimal-dark-withimg > div:last-child > div {
+  width: 100%;
+}
+
+body.topic-hub-landing main .section.hero-wide .hero-minimal-dark-withimg h1 {
+  max-width: 90%;
+  padding: 0 0 10px;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -1.28px;
+}
+
+body.topic-hub-landing main .section.hero-wide .hero-minimal-dark-withimg h2 {
+  max-width: none;
+  padding: 10px 0 19.2px;
+  font-size: 20px;
+  line-height: 22px;
+  letter-spacing: -0.72px;
+}
+
+body.topic-hub-landing main .section.hero-wide .hero-minimal-dark-withimg p.button-container {
+  margin: 0;
+}
+
+body.topic-hub-landing main .section.hero-wide .hero-minimal-dark-withimg a.button:any-link {
+  margin: 16px 0;
+}
+
+/* ---- centred text bands: navy (dark) and splash (light-blue) ---- */
+body.topic-hub-landing main .section:is(.dark, .light-blue) {
+  padding: 32px 30px 48px;
+}
+
+body.topic-hub-landing main .section:is(.dark, .light-blue) > .default-content-wrapper {
+  max-width: none;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+}
+
+body.topic-hub-landing main .section:is(.dark, .light-blue) h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0 8px;
+}
+
+body.topic-hub-landing main .section:is(.dark, .light-blue) p:not(.button-container) {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.25px;
+}
+
+body.topic-hub-landing main .section.dark p:not(.button-container) {
+  color: #fff;
+}
+
+/* splash band: the source's "in the navy" text and its outlined button */
+body.topic-hub-landing main .section.light-blue :is(h2, p:not(.button-container)) {
+  color: #004362;
+}
+
+body.topic-hub-landing main .section.light-blue p.button-container {
+  margin: 16px 0 0;
+}
+
+body.topic-hub-landing main .section.light-blue a.button:any-link {
+  margin: 16px 0;
+  padding: 16px 24px;
+  border: 1px solid var(--text-color);
+  background: transparent;
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+/* ---- two-column bands (blush, polar): text | photo from 992, the 16:9 photo above
+   the text below ---- */
+body.topic-hub-landing main .section.columns-minimal-dark-container {
+  padding: 32px 30px;
+  text-align: left;
+}
+
+body.topic-hub-landing main .section.columns-minimal-dark-container > .columns-minimal-dark-wrapper {
+  max-width: none;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* the block orders the photo column first */
+body.topic-hub-landing main .columns-minimal-dark > div {
+  flex-direction: column;
+  gap: 0;
+}
+
+body.topic-hub-landing main .columns-minimal-dark img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+body.topic-hub-landing main .columns-minimal-dark h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+}
+
+body.topic-hub-landing main .columns-minimal-dark p:not(.button-container) {
+  margin: 0 0 12.8px;
+  color: rgb(0 20 70);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+body.topic-hub-landing main .columns-minimal-dark p.button-container {
+  margin: 0;
+  line-height: 20px;
+}
+
+/* the polar band's intro is the source's plain text block: roboto 16/24 in navy */
+body.topic-hub-landing main .section.accent .columns-minimal-dark p:not(.button-container) {
+  margin-bottom: 16px;
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+/* ---- card rows ---- */
+body.topic-hub-landing main .section.cards-minimal-dark-withimg-container {
+  padding: 60px 0 65px;
+}
+
+body.topic-hub-landing main .section.cards-minimal-dark-withimg-container > .default-content-wrapper {
+  max-width: none;
+  margin: 0 auto 31px;
+  padding: 0 30px;
+}
+
+/* the section padding holds the source's card margins, so the blush text band after
+   the cards (/resources' glossary) drops its own gap */
+body.topic-hub-landing main .cards-minimal-dark-withimg > ul {
+  padding: 0;
+}
+
+body.topic-hub-landing main > .section + .section.highlight.text-band {
+  margin-top: 0;
+}
+
+body.topic-hub-landing main .section.cards-minimal-dark-withimg-container > .default-content-wrapper h2 {
+  margin: 0 0 16px;
+  padding: 0;
+}
+
+body.topic-hub-landing main .section.cards-minimal-dark-withimg-container > .default-content-wrapper p {
+  margin: 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 27px;
+  letter-spacing: -0.2px;
+}
+
+/* the block adds 20-22px below the cards */
+body.topic-hub-landing main .section.cards-minimal-dark-withimg-2-container {
+  padding: 50px 0 48px;
+}
+
+@media (width >= 768px) {
+  body.topic-hub-landing main h2 {
+    font-size: 28px;
+    letter-spacing: -0.78px;
+  }
+
+  body.topic-hub-landing main .section.hero-wide .hero-minimal-dark-withimg > div:first-child picture img {
+    aspect-ratio: 788 / 460;
+  }
+
+  body.topic-hub-landing main .section.hero-wide .hero-minimal-dark-withimg h1 {
+    margin-top: 5px;
+    padding-bottom: 14.4px;
+    font-size: 36px;
+    letter-spacing: -1.44px;
+  }
+
+  body.topic-hub-landing main .section.hero-wide .hero-minimal-dark-withimg h2 {
+    max-width: 85%;
+    padding-top: 12.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.topic-hub-landing main .section:is(.dark, .light-blue) {
+    padding: 32px 64px 48px;
+  }
+
+  body.topic-hub-landing main .section:is(.dark, .light-blue) p:not(.button-container) {
+    font-size: 18px;
+    line-height: 23.4px;
+  }
+
+  body.topic-hub-landing main .section.columns-minimal-dark-container {
+    padding: 48px 64px;
+  }
+
+  body.topic-hub-landing main .columns-minimal-dark p:not(.button-container) {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.topic-hub-landing main .section.accent .columns-minimal-dark p:not(.button-container) {
+    line-height: 24px;
+    letter-spacing: normal;
+  }
+
+  body.topic-hub-landing main .section.cards-minimal-dark-withimg-container > .default-content-wrapper {
+    padding: 0 64px;
+  }
+
+  body.topic-hub-landing main .section.cards-minimal-dark-withimg-container > .default-content-wrapper p {
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: -0.4px;
+  }
+
+  body.topic-hub-landing main .section.cards-minimal-dark-withimg-2-container {
+    padding: 60px 0;
+  }
+}
+
+@media (width >= 992px) {
+  body.topic-hub-landing main h2 {
+    font-size: 34px;
+    line-height: 1.2;
+    letter-spacing: -1.36px;
+  }
+
+  body.topic-hub-landing main .section.hero-wide .hero-minimal-dark-withimg > div:first-child picture img {
+    aspect-ratio: auto;
+  }
+
+  body.topic-hub-landing main .section.hero-wide .hero-minimal-dark-withimg h1 {
+    margin-top: 0;
+    font-size: 56px;
+    letter-spacing: -2.8px;
+  }
+
+  body.topic-hub-landing main .section.hero-wide .hero-minimal-dark-withimg h2 {
+    padding: 12.8px 0 24px;
+    font-size: 34px;
+    line-height: 1.2;
+    letter-spacing: -1.36px;
+  }
+
+  body.topic-hub-landing main .section:is(.dark, .light-blue) {
+    padding: 64px 0;
+  }
+
+  body.topic-hub-landing main .section:is(.dark, .light-blue) > .default-content-wrapper {
+    max-width: 780px;
+  }
+
+  body.topic-hub-landing main .section:is(.dark, .light-blue) h2 {
+    padding: 0;
+  }
+
+  body.topic-hub-landing main .section:is(.dark, .light-blue) p:not(.button-container) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  /* text at most 502px, the photo at most 555px and right-aligned, 48px apart when
+     the row is short of room (both shrink in proportion), 80px of band around */
+  body.topic-hub-landing main .section.columns-minimal-dark-container {
+    padding: 80px 0;
+  }
+
+  body.topic-hub-landing main .section.columns-minimal-dark-container > .columns-minimal-dark-wrapper {
+    width: min(1200px, 100% - 166px);
+    box-sizing: border-box;
+    padding: 0 24px;
+  }
+
+  body.topic-hub-landing main .columns-minimal-dark > div {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 48px;
+  }
+
+  body.topic-hub-landing main .columns-minimal-dark > div > div {
+    flex: 0 1 502px;
+  }
+
+  body.topic-hub-landing main .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    flex: 0 1 555px;
+  }
+
+  body.topic-hub-landing main .columns-minimal-dark img {
+    aspect-ratio: 555 / 312;
+  }
+
+  body.topic-hub-landing main .columns-minimal-dark h2 {
+    padding: 24px 0;
+  }
+
+  body.topic-hub-landing main .columns-minimal-dark p:not(.button-container) {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  body.topic-hub-landing main .section.accent .columns-minimal-dark p:not(.button-container) {
+    letter-spacing: normal;
+  }
+
+  body.topic-hub-landing main .section.cards-minimal-dark-withimg-container > .default-content-wrapper {
+    max-width: 580px;
+    padding: 0;
+  }
+
+  body.topic-hub-landing main .section.cards-minimal-dark-withimg-container > .default-content-wrapper p {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  body.topic-hub-landing main .section.cards-minimal-dark-withimg-2-container {
+    padding: 60px 0 50px;
+  }
+
+  /* wide cards: stacked and centred, side by side from 1100px (4px right of centre,
+     as on the source) */
+  body.topic-hub-landing main .cards-minimal-dark-withimg-2 > ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 36px;
+    padding-left: 8px;
+  }
+
+  body.topic-hub-landing main .cards-minimal-dark-withimg-2 > ul > li {
+    width: 520px;
+  }
+}
+
+/* three cards (/resources): the source's 400px slots (370px cards, 15px margins) in a
+   min(1200px, 100% - 166px) row, so they wrap 2 + 1, centred, below 1366px */
+@media (width >= 992px) {
+  body.topic-hub-landing main .cards-minimal-dark-withimg-wrapper:has(> .cards-minimal-dark-withimg > ul > li:nth-child(3):last-child) {
+    width: min(1200px, 100% - 166px);
+    max-width: none;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  body.topic-hub-landing main .cards-minimal-dark-withimg > ul:has(> li:nth-child(3):last-child) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px 0;
+  }
+
+  body.topic-hub-landing main .cards-minimal-dark-withimg > ul:has(> li:nth-child(3):last-child) > li {
+    flex: 0 0 370px;
+    margin: 0 15px;
+  }
+}
+
+/* the source's hero steps: subheading 20px to 1024, text inset 110px from 1024 and
+   150px from 1100 */
+@media (width >= 992px) and (width <= 1024px) {
+  body.topic-hub-landing main .section.hero-wide .hero-minimal-dark-withimg h2 {
+    font-size: 20px;
+    line-height: 24px;
+  }
+}
+
+@media (width >= 1024px) {
+  body.topic-hub-landing main .section.hero-wide .hero-minimal-dark-withimg > div:last-child {
+    padding-left: 110px;
+  }
+}
+
+@media (width >= 1100px) {
+  body.topic-hub-landing main .section.hero-wide .hero-minimal-dark-withimg > div:last-child {
+    padding-left: 150px;
+  }
+
+  body.topic-hub-landing main .section.cards-minimal-dark-withimg-2-container > .cards-minimal-dark-withimg-2-wrapper {
+    max-width: none;
+    padding: 0;
+  }
+
+  body.topic-hub-landing main .cards-minimal-dark-withimg-2 > ul {
+    flex-direction: row;
+    justify-content: center;
+    column-gap: 42px;
+  }
+}

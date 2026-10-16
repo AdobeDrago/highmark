@@ -231,6 +231,8 @@ var CustomImportScript = (() => {
         params
       } = payload;
       const main = document2.body;
+      const crumb = document2.querySelector("ol.breadcrumb-list li.active");
+      const crumbLabel = ((crumb == null ? void 0 : crumb.textContent) || "").replace(/\s+/g, " ").trim();
       executeTransformers("beforeTransform", main, payload);
       const pageBlocks = findBlocksOnPage(document2, PAGE_TEMPLATE);
       pageBlocks.forEach((block) => {
@@ -249,7 +251,12 @@ var CustomImportScript = (() => {
       executeTransformers("afterTransform", main, payload);
       const hr = document2.createElement("hr");
       main.appendChild(hr);
-      WebImporter.rules.createMetadata(main, document2);
+      const meta = WebImporter.Blocks.getMetadata(document2) || {};
+      if (crumb) {
+        meta.breadcrumbs = "true";
+        if (crumbLabel) meta["Breadcrumb Title"] = crumbLabel;
+      }
+      main.append(WebImporter.Blocks.getMetadataBlock(document2, meta));
       WebImporter.rules.transformBackgroundImages(main, document2);
       WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
       const rawPath = new URL(params.originalURL).pathname.replace(/\/$/, "").replace(/\.html?$/, "");

@@ -270,7 +270,10 @@ var CustomImportScript = (() => {
       const hr = document2.createElement("hr");
       main.appendChild(hr);
       const meta = WebImporter.Blocks.getMetadata(document2) || {};
-      if (crumbLabel) meta["Breadcrumb Title"] = crumbLabel;
+      if (crumb) {
+        meta.breadcrumbs = "true";
+        if (crumbLabel) meta["Breadcrumb Title"] = crumbLabel;
+      }
       main.append(WebImporter.Blocks.getMetadataBlock(document2, meta));
       WebImporter.rules.transformBackgroundImages(main, document2);
       WebImporter.rules.adjustImageUrls(main, url, params.originalURL);

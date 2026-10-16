@@ -165,7 +165,7 @@ const TEMPLATE_STYLES = [
   'media-contacts', 'capitol-hill-report', 'legal', 'contact', 'language-assistance',
   'news-alert', 'content-landing', 'zipcode-gate-login', 'campaign-landing', 'subsidiary-home', 'events',
   'home', 'shop-home', 'providers', 'shop-page', 'answers-landing', 'provider-content', 'leadership-bio',
-  'faq', 'member-regional', 'glossary', 'member-subpage',
+  'faq', 'member-regional', 'glossary', 'member-subpage', 'topic-hub-landing',
 ];
 
 /**
