@@ -212,6 +212,16 @@ body:is(.topic-hub-subnav, .answers-landing) .cards-minimal-dark-list .cards-min
   letter-spacing: -0.4px;
 }
 
+/* the source's Do / Don't headings have no blue rule under them (its hr.breakLineNone
+   is display: none) */
+body.topic-hub-subnav .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3 {
+  margin: 20px 0 13px;
+}
+
+body.topic-hub-subnav .cards-minimal-dark-list .cards-minimal-dark-list-title-underline {
+  display: none;
+}
+
 body:is(.topic-hub-subnav, .answers-landing) .cards-minimal-dark-list .cards-minimal-dark-list-card-body ul {
   margin: 0 0 0 8px;
   padding: 0;
@@ -330,4 +340,9 @@ body:is(.topic-hub-subnav, .answers-landing) .cards-minimal-dark-list .cards-min
   body:is(.topic-hub-subnav, .answers-landing) .cards-minimal-dark-list > ul > li:nth-child(3n+2) {
     margin: 0 30px;
   }
+}
+
+/* a topic card without a read-more link ends with its list (eating-disorders) */
+body.topic-hub-subnav .cards-minimal-dark-list .cards-minimal-dark-list-card-body:not(:has(.button-container)) {
+  padding-bottom: 0;
 }
