@@ -448,6 +448,11 @@ body.topic-hub-subnav main .section .columns-minimal-dark.block sup {
   line-height: 0;
 }
 
+/* the "WATCH VIDEO" link at the start of that paragraph is the source's #0078c1 */
+body.topic-hub-subnav main .section .columns-minimal-dark.block p:has(> sub) strong > a:any-link {
+  color: #0078c1;
+}
+
 body.topic-hub-subnav main .section .columns-minimal-dark.block ul {
   margin: 0 0 16px 8px;
   padding: 0;

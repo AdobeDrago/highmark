@@ -394,3 +394,26 @@ body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-container:not(:
     justify-content: flex-end;
   }
 }
+
+/* spending-accounts video cards: the "WATCH VIDEO" link and its disclaimer share a
+   paragraph, as on the source (no padding between it and the copy above; the
+   footnote markers don't grow the line box) */
+/* stylelint-disable no-descending-specificity -- card paragraphs, not the section intro */
+body.topic-hub-subnav main .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body p:has(+ p > sub) {
+  padding-bottom: 0;
+}
+
+body.topic-hub-subnav main .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body p:has(> sub) {
+  padding-top: 0;
+}
+
+body.topic-hub-subnav main .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body p:has(> sub) :is(sub, sup) {
+  font-size: 75%;
+  line-height: 0;
+}
+
+body.topic-hub-subnav main .cards-minimal-dark-withimg p:has(> sub) strong > a:any-link {
+  color: #0078c1;
+}
+
+/* stylelint-enable no-descending-specificity */

@@ -145,6 +145,15 @@ function findBlocksOnPage(document, template) {
 }
 
 export default {
+  // A side panel's empty spacer paragraph (/resources/spending-accounts: one line above
+  // "WATCH VIDEO") is kept as a zero-width space, on the live page: the importer copies
+  // the page before the transform, and the pipeline drops a blank paragraph.
+  onLoad: ({ document }) => {
+    document.querySelectorAll('.side-card-panel p').forEach((p) => {
+      if (!p.querySelector('img, br, a') && !p.textContent.replace(/[\s\u00a0]/g, '')) p.textContent = '\u200b';
+    });
+  },
+
   transform: (payload) => {
     const {
       document, url, html, params,
@@ -159,6 +168,25 @@ export default {
 
     // 1. beforeTransform (cleanup + section breaks)
     executeTransformers('beforeTransform', main, payload);
+
+    // A card or side-panel link that shares its paragraph (/resources/spending-accounts:
+    // "WATCH VIDEO", then "See disclaimer below¹") stays in the text, as on the source:
+    // the cards and columns parsers move every link after the copy as a CTA, so these
+    // are held out until they have run.
+    const inlineLinks = [];
+    main.querySelectorAll('.cardText p a[href], .side-card-panel p a[href]').forEach((a) => {
+      const p = a.closest('p');
+      if (p.textContent.trim() === a.textContent.trim()) return;
+      // the source's line break sits at the end of the bold, which Markdown drops
+      const bold = a.parentElement;
+      if (/^(B|STRONG)$/.test(bold.tagName) && bold.lastElementChild?.tagName === 'BR') {
+        bold.after(bold.lastElementChild);
+      }
+      const marker = document.createElement('span');
+      marker.dataset.inlineLink = inlineLinks.length;
+      inlineLinks.push(a);
+      a.replaceWith(marker);
+    });
 
     // 2. Discover blocks
     const pageBlocks = findBlocksOnPage(document, PAGE_TEMPLATE);
@@ -176,6 +204,10 @@ export default {
       } else {
         console.warn(`No parser found for block: ${block.name}`);
       }
+    });
+
+    main.querySelectorAll('span[data-inline-link]').forEach((marker) => {
+      marker.replaceWith(inlineLinks[Number(marker.dataset.inlineLink)]);
     });
 
     // 4. afterTransform (final cleanup + section metadata)
