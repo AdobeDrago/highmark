@@ -371,6 +371,7 @@ footer .footer-top-inner a:any-link {
 
 footer .footer-top-inner a:hover {
   text-decoration: underline;
+  color: #0078c1;
 }
 
 footer .footer-wrapper.footer-regional .footer-legal-inner > p:first-child {
