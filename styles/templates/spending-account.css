@@ -1,0 +1,660 @@
+/* stylelint-disable no-descending-specificity */
+
+/* Spending-account pages (template: spending-account -> body.spending-account):
+   /resources/spending-accounts/health-saving-account-hsa and -hra, measured against
+   highmark.com at 390 / 768 / 1024 / 1280 / 1440.
+
+   Each source component is a section (tools/importer/transformers/
+   highmark-spending-sections.js): title-band (light blue), the account quick-link bar,
+   intro (centred), side panels (columns-minimal-dark; accent = polar, highlight =
+   blush, image-left), text-card grids (cards), text and table bands (grey, accent)
+   and footnotes. Sections sit flush; text bands are centred, the side panels and card
+   rows use the source's min(1200px, 100% - 166px) container. */
+
+body.spending-account main > .section {
+  margin: 0;
+}
+
+body.spending-account main h2 {
+  color: var(--text-color);
+  font-size: 34px;
+  line-height: 1.2;
+  letter-spacing: -1.36px;
+}
+
+body.spending-account main h3 {
+  font-size: 24px;
+  line-height: 1.1;
+  letter-spacing: -0.72px;
+}
+
+body.spending-account main p {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* ---- title band: light blue, the title centred ---- */
+body.spending-account main .section.title-band {
+  padding: 80px 0;
+  background-color: rgb(237 245 250);
+}
+
+body.spending-account main .section.title-band > .default-content-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+body.spending-account main .section.title-band h1 {
+  margin: 0 0 8px;
+  padding: 28.8px 0;
+  font-size: 56px;
+  line-height: 1.1;
+  letter-spacing: -2.8px;
+  text-align: center;
+}
+
+/* ---- centred intro ---- */
+body.spending-account main .section.intro {
+  padding: 64px 0;
+}
+
+body.spending-account main .section.intro > .default-content-wrapper {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+}
+
+body.spending-account main .section.intro h2 {
+  margin: 0 0 8px;
+  color: #004362;
+}
+
+body.spending-account main .section.intro p {
+  margin: 0;
+  color: #004362;
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 28px;
+  letter-spacing: -0.25px;
+}
+
+/* ---- side panels: text | photo, or photo | text (image-left) ---- */
+body.spending-account main .section.columns-minimal-dark-container {
+  padding: 80px 0;
+  text-align: left;
+}
+
+body.spending-account main .section.columns-minimal-dark-container > .columns-minimal-dark-wrapper {
+  width: min(1200px, 100% - 166px);
+  max-width: none;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+
+body.spending-account main .columns-minimal-dark > div {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 48px;
+}
+
+/* the source's photo-first panels are centred, 72px apart */
+body.spending-account main .section.image-left .columns-minimal-dark > div {
+  justify-content: center;
+  gap: 72px;
+}
+
+body.spending-account main .columns-minimal-dark > div > div {
+  flex: 0 1 502px;
+}
+
+body.spending-account main .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+  flex: 0 1 555px;
+}
+
+body.spending-account main .columns-minimal-dark img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 555 / 312;
+  object-fit: cover;
+}
+
+body.spending-account main .columns-minimal-dark h2 {
+  margin: 0 0 8px;
+  padding: 24px 0;
+}
+
+body.spending-account main .columns-minimal-dark p:not(.button-container) {
+  margin: 0 0 16px;
+  color: rgb(0 20 70);
+  font-weight: 300;
+  letter-spacing: -0.1px;
+}
+
+body.spending-account main .columns-minimal-dark p.button-container {
+  margin: 0;
+  line-height: 20px;
+}
+
+/* copy that is bare text on the source (plain-copy): roboto 16/24 in navy, with the
+   16px of its (empty) button row below */
+body.spending-account main .section.plain-copy .columns-minimal-dark p:not(.button-container) {
+  margin-bottom: 16px;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+body.spending-account main .columns-minimal-dark ul {
+  margin: 0 0 16px;
+  padding-left: 8px;
+}
+
+body.spending-account main .columns-minimal-dark li {
+  margin-left: 8px;
+  color: rgb(0 20 70);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 22.5px;
+}
+
+/* the inline video link and its "See disclaimer below" note */
+body.spending-account main .columns-minimal-dark p:not(.button-container) a:any-link {
+  color: #0078c1;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+body.spending-account main sub {
+  font-size: 12px;
+  line-height: 0;
+}
+
+body.spending-account main sup {
+  line-height: 0;
+}
+
+/* ---- text-card grids: a centred heading and intro over 370px cards in 400px slots,
+   wrapping centred ---- */
+body.spending-account main .section.cards-container {
+  padding: 60px 0 65px;
+}
+
+body.spending-account main .section.cards-container > .default-content-wrapper {
+  max-width: 580px;
+  margin: 0 auto 31px;
+  padding: 0;
+  text-align: center;
+}
+
+body.spending-account main .section.cards-container > .default-content-wrapper h2 {
+  margin: 0 0 16px;
+}
+
+body.spending-account main .section.cards-container > .default-content-wrapper p {
+  margin: 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 30px;
+  letter-spacing: -0.3px;
+}
+
+body.spending-account main .section.cards-container > .cards-wrapper {
+  width: min(1200px, 100% - 166px);
+  max-width: none;
+  margin: 0 auto;
+  padding: 0;
+}
+
+body.spending-account main .cards > ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px 0;
+}
+
+body.spending-account main .cards > ul > li {
+  flex: 0 0 370px;
+  box-sizing: border-box;
+  margin: 0 15px;
+  padding: 20px;
+  border: 0;
+  background: none;
+}
+
+body.spending-account main .cards .cards-card-body {
+  margin: 0;
+}
+
+body.spending-account main .cards h3 {
+  margin: 0 0 10px;
+}
+
+body.spending-account main .cards p {
+  margin: 0 0 16px;
+  color: rgb(0 20 70);
+  font-weight: 300;
+  letter-spacing: -0.1px;
+}
+
+body.spending-account main .cards h3 + p {
+  padding-top: 10px;
+}
+
+body.spending-account main .cards p:last-child {
+  padding-bottom: 4px;
+}
+
+/* ---- text and table bands (How HSAs Work, the limit and savings tables) ---- */
+body.spending-account main .section:is(.grey, :has(.table-minimal-dark-compare)) {
+  padding: 40px 0 60px;
+}
+
+body.spending-account main .section.grey {
+  background-color: rgb(241 244 244);
+}
+
+body.spending-account main .section.accent:has(.table-minimal-dark-compare) {
+  background-color: rgb(247 251 253);
+}
+
+body.spending-account main .section:is(.grey, :has(.table-minimal-dark-compare)) > div {
+  width: min(1200px, 100% - 166px);
+  max-width: none;
+  margin: 0 auto;
+  padding: 0;
+}
+
+body.spending-account main .section:is(.grey, :has(.table-minimal-dark-compare)) h2 {
+  margin: 0 0 8px;
+  padding: 24px 0;
+  text-align: center;
+}
+
+/* the source's "How HSAs Work" copy is its 20/30 semibold lead style */
+body.spending-account main .section.grey p {
+  box-sizing: border-box;
+  max-width: 50vw;
+  margin: 0 auto 16px;
+  padding: 0 5px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 30px;
+  letter-spacing: -0.3px;
+  text-align: center;
+}
+
+body.spending-account main .section:has(.table-minimal-dark-compare) h5 {
+  max-width: 1000px;
+  margin: 0 auto 16px;
+  color: var(--text-color);
+  font-size: 20px;
+  line-height: 30px;
+  letter-spacing: -0.3px;
+  text-align: center;
+}
+
+body.spending-account main .section:has(.table-minimal-dark-compare) p:not(.button-container) {
+  margin: 0 0 16px;
+  color: rgb(0 20 70);
+  font-weight: 300;
+  letter-spacing: -0.1px;
+}
+
+/* padding, not margins: they'd collapse into the heading's and the button's */
+body.spending-account main .section:has(.table-minimal-dark-compare) .table-minimal-dark-compare-wrapper {
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+body.spending-account main .table-minimal-dark-compare.data table tbody td {
+  padding: 10px;
+}
+
+body.spending-account main .table-minimal-dark-compare.data table td p,
+body.spending-account main .table-minimal-dark-compare.data table td p:last-child {
+  margin: 0 0 16px;
+}
+
+body.spending-account main .table-minimal-dark-compare.data table thead th h3 {
+  color: var(--text-color);
+  font-size: 24px;
+  letter-spacing: -0.72px;
+}
+
+body.spending-account main .section:has(.table-minimal-dark-compare) p.button-container {
+  margin: 0;
+  padding-top: 20px;
+  text-align: center;
+}
+
+body.spending-account main .section:has(.table-minimal-dark-compare) a.button:any-link {
+  display: inline-block;
+  margin: 16px 0;
+  padding: 16px 24px;
+  border: 1px solid var(--text-color);
+  background: transparent;
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+/* ---- footnotes ---- */
+body.spending-account main .section.footnotes {
+  padding: 80px 0 60px;
+}
+
+body.spending-account main .section.footnotes > .default-content-wrapper {
+  width: min(1200px, 100% - 166px);
+  max-width: none;
+  margin: 0 auto;
+  padding: 0;
+}
+
+body.spending-account main .section.footnotes p {
+  margin: 0 0 16px;
+  color: rgb(0 20 70);
+  font-weight: 300;
+  letter-spacing: -0.1px;
+}
+
+/* ---- the account quick-link bar: from 992 four 136px links, 24px apart, centred
+   (below, the block's own tablet and phone layout) ---- */
+@media (width >= 992px) {
+  body.spending-account main .cards-minimal-dark-iconnav > ul {
+    justify-content: center;
+    gap: 24px;
+    max-width: none;
+    margin: 0;
+  }
+
+  body.spending-account main .cards-minimal-dark-iconnav-item {
+    flex: 0 0 136px;
+  }
+
+  body.spending-account main .cards-minimal-dark-iconnav-link {
+    width: 100%;
+    gap: 0;
+  }
+
+  body.spending-account main .cards-minimal-dark-iconnav-label {
+    margin-top: 0;
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+/* ---- tablet (768-991): 64px gutters, headings 28px, text 15/19.5; side panels stack
+   the photo over the text, cards are one 400px column ---- */
+@media (width < 992px) {
+  body.spending-account main h2 {
+    font-size: 28px;
+    line-height: 1.1;
+    letter-spacing: -0.78px;
+  }
+
+  body.spending-account main h3 {
+    letter-spacing: -0.44px;
+  }
+
+  body.spending-account main :is(.columns-minimal-dark, .cards, .section:has(.table-minimal-dark-compare), .section.footnotes) p:not(.button-container) {
+    margin-bottom: 16px;
+    color: rgb(0 20 70);
+    font-family: var(--body-font-family);
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.spending-account main .section.title-band {
+    padding: 60px 0;
+  }
+
+  body.spending-account main .section.title-band h1 {
+    font-size: 36px;
+    letter-spacing: -1.44px;
+  }
+
+  body.spending-account main .section.intro {
+    padding: 32px 64px 48px;
+  }
+
+  body.spending-account main .section.intro > .default-content-wrapper {
+    max-width: none;
+  }
+
+  body.spending-account main .section.intro h2 {
+    padding: 19.2px 0 8px;
+  }
+
+  body.spending-account main .section.intro p {
+    font-size: 18px;
+    line-height: 23.4px;
+  }
+
+  body.spending-account main .section.columns-minimal-dark-container {
+    padding: 48px 64px;
+  }
+
+  body.spending-account main .section.columns-minimal-dark-container > .columns-minimal-dark-wrapper {
+    width: auto;
+    padding: 0;
+  }
+
+  body.spending-account main .columns-minimal-dark > div,
+  body.spending-account main .section.image-left .columns-minimal-dark > div {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  body.spending-account main .columns-minimal-dark > div > div,
+  body.spending-account main .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    flex: none;
+  }
+
+  body.spending-account main .columns-minimal-dark img {
+    aspect-ratio: 16 / 9;
+  }
+
+  body.spending-account main .columns-minimal-dark h2 {
+    padding: 19.2px 0;
+  }
+
+  body.spending-account main .section.cards-container > .default-content-wrapper {
+    max-width: none;
+    padding: 0 64px;
+  }
+
+  body.spending-account main .section.cards-container > .default-content-wrapper p {
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: -0.4px;
+  }
+
+  body.spending-account main .section.cards-container > .cards-wrapper {
+    width: auto;
+  }
+
+  body.spending-account main .cards > ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  body.spending-account main .cards > ul > li {
+    flex: none;
+    width: 400px;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  body.spending-account main .section.grey {
+    padding: 20px 64px 40px;
+  }
+
+  body.spending-account main .section.grey p {
+    max-width: none;
+    padding: 0;
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  body.spending-account main .section:is(.grey, :has(.table-minimal-dark-compare)) h2 {
+    padding: 19.2px 0;
+  }
+
+  body.spending-account main .section:has(.table-minimal-dark-compare) {
+    padding: 60px 64px;
+  }
+
+  body.spending-account main .section:is(.grey, :has(.table-minimal-dark-compare)) > div {
+    width: auto;
+  }
+
+  body.spending-account main .section:has(.table-minimal-dark-compare) .table-minimal-dark-compare-wrapper {
+    padding-bottom: 40px;
+  }
+
+  body.spending-account main .section:has(.table-minimal-dark-compare) h5 {
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  body.spending-account main .table-minimal-dark-compare.data table td p,
+  body.spending-account main .table-minimal-dark-compare.data table td p:last-child {
+    font-size: 15px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.spending-account main .section.footnotes {
+    padding: 60px 64px 40px;
+  }
+
+  body.spending-account main .section.footnotes > .default-content-wrapper {
+    width: auto;
+  }
+}
+
+/* ---- phone (< 768): 30px gutters, headings 26px, text 15/21, 300px cards ---- */
+@media (width < 768px) {
+  body.spending-account main h2 {
+    font-size: 26px;
+    letter-spacing: -0.72px;
+  }
+
+  body.spending-account main h3 {
+    font-size: 22px;
+    letter-spacing: -0.4px;
+  }
+
+  body.spending-account main :is(.columns-minimal-dark, .cards, .section:has(.table-minimal-dark-compare), .section.footnotes) p:not(.button-container),
+  body.spending-account main .table-minimal-dark-compare.data table td p,
+  body.spending-account main .table-minimal-dark-compare.data table td p:last-child {
+    margin-bottom: 12.8px;
+    line-height: 21px;
+    letter-spacing: -0.2px;
+  }
+
+  body.spending-account main .section.title-band {
+    padding: 40px 32px;
+  }
+
+  body.spending-account main .section.title-band h1 {
+    padding: 24px 0;
+    font-size: 32px;
+    letter-spacing: -1.28px;
+  }
+
+  body.spending-account main .section.intro {
+    padding: 32px 30px 48px;
+  }
+
+  body.spending-account main .section.intro p {
+    font-size: 15px;
+    line-height: 21px;
+  }
+
+  body.spending-account main .section.columns-minimal-dark-container {
+    padding: 32px 30px;
+  }
+
+  body.spending-account main .section.cards-container > .default-content-wrapper {
+    padding: 0 30px;
+  }
+
+  body.spending-account main .section.cards-container > .default-content-wrapper p {
+    font-size: 17px;
+    line-height: 27px;
+    letter-spacing: -0.2px;
+  }
+
+  body.spending-account main .cards > ul > li {
+    width: 300px;
+  }
+
+  body.spending-account main .section.grey {
+    padding: 20px 32px 19px;
+  }
+
+  body.spending-account main .section.grey p {
+    margin-bottom: 12.8px;
+    font-size: 17px;
+    line-height: 23.8px;
+    letter-spacing: -0.2px;
+  }
+
+  body.spending-account main .table-minimal-dark-compare.data table thead th h3 {
+    font-size: 22px;
+    letter-spacing: -0.4px;
+  }
+
+  body.spending-account main .section:has(.table-minimal-dark-compare) {
+    padding: 20px 30px 60px;
+  }
+
+  body.spending-account main .section:has(.table-minimal-dark-compare) .table-minimal-dark-compare-wrapper {
+    padding-bottom: 20px;
+  }
+
+  /* the savings table band (its h5 example line) starts lower and keeps 40px under
+     its table, as on the source */
+  body.spending-account main .section:has(.table-minimal-dark-compare):has(h5) {
+    padding-top: 60px;
+  }
+
+  body.spending-account main .section:has(.table-minimal-dark-compare):has(h5) .table-minimal-dark-compare-wrapper {
+    padding-bottom: 40px;
+  }
+
+  body.spending-account main .section:has(.table-minimal-dark-compare) a.button:any-link {
+    white-space: normal;
+  }
+
+  body.spending-account main .section:has(.table-minimal-dark-compare) h5 {
+    font-size: 17px;
+    line-height: 23.8px;
+    letter-spacing: -0.2px;
+  }
+
+  body.spending-account main .section.footnotes {
+    padding: 40px 30px;
+  }
+}
