@@ -119,6 +119,9 @@ export default async function decorate(block) {
 
   const footer = document.createElement('div');
   footer.className = 'footer-wrapper';
+  // a regional member footer (/member/fragments/<region>/...) keeps its layout with or
+  // without the band: some sub-pages' footers have none, as on the source
+  if (footerPath().startsWith('/member/fragments/')) footer.classList.add('footer-regional');
   if (topSection) {
     topSection.querySelector('.section-metadata')?.remove();
     const top = document.createElement('div');
