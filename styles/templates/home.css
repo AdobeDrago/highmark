@@ -1,21 +1,80 @@
 /* stylelint-disable no-descending-specificity */
 
-/* Homepage (template: home), matched to highmark.com's homepage at 1280 and 1440. On the
-   source the sections butt against each other, each with its own padding, so the sections
-   here have no outer margins. */
+/* Homepage (template: home), matched to highmark.com's homepage at 1280 and 1440, and below
+   992px at 390 and 768 (the source's breakpoints: 768px and 992px). On the source the
+   sections butt against each other, each with its own padding, so the sections here have no
+   outer margins. */
 
-/* the hero photo is dark, so its text is white at every width, as on the source (which also
-   has phone and tablet crops of the photo; this page uses the desktop one throughout) */
+/* the hero photo is dark, so its text is white at every width, as on the source. The hero
+   and the two promo bands hold the source's three crops of each photo (desktop, tablet,
+   mobile), which their blocks turn into one art-directed <picture>. */
 body.home .hero-minimal-dark-withimg h1,
 body.home .hero-minimal-dark-withimg h2 {
   color: #fff;
 }
 
-@media (width >= 992px) {
-  body.home main > .section {
-    margin: 0;
-  }
+body.home main > .section {
+  margin: 0;
+}
 
+/* the hero's text lies over the photo without adding to its height, as the source's overlay:
+   centred, or from the top when it is taller than the photo */
+body.home .hero-minimal-dark-withimg.art-directed > div:last-child {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: safe center;
+}
+
+/* card sections: 60px above, 50px below; the app section is three sections here (intro,
+   cards, button), so the first gets the top and the last the bottom */
+body.home main > .section.cards-minimal-dark-withimg-container {
+  padding: 60px 0 50px;
+}
+
+body.home main > .section.center:has(> .default-content-wrapper > h2) {
+  padding-top: 60px;
+}
+
+body.home main > .section.center:has(.button-container) {
+  padding-bottom: 50px;
+}
+
+/* the app section's outlined button, 16px above and below */
+body.home main > .section.center .button-container {
+  margin: 0;
+}
+
+body.home main > .section.center a.button:any-link {
+  margin: 16px 0;
+  border: 1px solid #003963;
+  border-radius: 5px;
+  padding: 16px 24px;
+  background-color: transparent;
+  color: #003963;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: normal;
+  text-transform: uppercase;
+}
+
+/* the promo bands (mental health, group health) are full-bleed */
+body.home main > .section.accent.columns-minimal-dark-overlay-container {
+  padding: 0;
+}
+
+body.home .section.accent .columns-minimal-dark-overlay-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+/* the quick links are the shared quick-links layout (cards-minimal-dark-iconnav.css) */
+
+@media (width >= 992px) {
   /* ---- hero: the 1500 x 500 photo at its natural 3:1; the text in a column two thirds
      wide with 150px padding, centred; white Sofia Pro over the photo ---- */
   body.home .hero-minimal-dark-withimg {
@@ -23,11 +82,12 @@ body.home .hero-minimal-dark-withimg h2 {
     min-height: 0;
   }
 
+  /* the source's inset: 30px up to 1023px, 110px to 1080px, 150px above */
   body.home .hero-minimal-dark-withimg > div:last-child {
     width: 66.6667%;
     max-width: none;
     margin: 0;
-    padding: 0 0 0 150px;
+    padding: 0 0 0 30px;
   }
 
   body.home .hero-minimal-dark-withimg h1 {
@@ -44,18 +104,6 @@ body.home .hero-minimal-dark-withimg h2 {
     font-size: 34px;
     line-height: 40.8px;
     letter-spacing: -1.36px;
-  }
-
-  /* ---- quick links: 160px items, 16px 12px padding, a 20 x 25 icon over a 16px label ---- */
-  body.home .cards-minimal-dark-iconnav > ul > li.cards-minimal-dark-iconnav-item {
-    box-sizing: border-box;
-    width: 160px;
-    padding: 16px 12px;
-  }
-
-  body.home .cards-minimal-dark-iconnav-label {
-    font-size: 16px;
-    line-height: 24px;
   }
 
   /* ---- section intros (coverage, app, community): a centred 580px column; a 34px Sofia
@@ -84,20 +132,6 @@ body.home .hero-minimal-dark-withimg h2 {
     letter-spacing: -0.3px;
     color: #003963;
     text-align: center;
-  }
-
-  /* card sections: 60px above, 50px below; the app section is three sections here
-     (intro, cards, button), so the first gets the top and the last the bottom */
-  body.home main > .section.cards-minimal-dark-withimg-container {
-    padding: 60px 0 50px;
-  }
-
-  body.home main > .section.center:has(> .default-content-wrapper > h2) {
-    padding-top: 60px;
-  }
-
-  body.home main > .section.center:has(.button-container) {
-    padding-bottom: 50px;
   }
 
   /* the source's cards sit in 400px slots (370px + 15px margins) that wrap and centre in a
@@ -131,36 +165,8 @@ body.home .hero-minimal-dark-withimg h2 {
     width: 470px;
   }
 
-  /* the app section's outlined button, 16px above and below */
-  body.home main > .section.center .button-container {
-    margin: 0;
-  }
-
-  body.home main > .section.center a.button:any-link {
-    margin: 16px 0;
-    border: 1px solid #003963;
-    border-radius: 5px;
-    padding: 16px 24px;
-    background-color: transparent;
-    color: #003963;
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 24px;
-    letter-spacing: normal;
-    text-transform: uppercase;
-  }
-
   /* ---- promo panels (mental health, group health): the full-width image sets the height;
      a 480px text column sits on the source's content edge, centred vertically ---- */
-  body.home main > .section.accent.columns-minimal-dark-overlay-container {
-    padding: 0;
-  }
-
-  body.home .section.accent .columns-minimal-dark-overlay-wrapper {
-    max-width: none;
-    padding: 0;
-  }
-
   body.home .section.accent .columns-minimal-dark-overlay > div {
     width: 100%;
     margin-left: 0;
@@ -284,5 +290,364 @@ body.home .hero-minimal-dark-withimg h2 {
     font-size: 12px;
     line-height: 0;
     vertical-align: baseline;
+  }
+}
+
+/* ============ below 992px: highmark.com's homepage measured at 390 and 768 ============
+   The source's 30px container (64px from 768px); its phone type (h2 26px, text 15px/1.4),
+   a step up from 768px (h2 28px, text 15px/1.3). */
+@media (width < 992px) {
+  /* ---- hero: the photo at its own proportions (375 x 460 up to 428px, 788 x 460 up to
+     768px, 3:1 above); the text in its left two-thirds, 30px in, centred vertically ---- */
+  body.home .hero-minimal-dark-withimg > div:last-child {
+    width: 66.6667%;
+    max-width: none;
+    margin: 0;
+    padding: 0 0 0 30px;
+  }
+
+  body.home .hero-minimal-dark-withimg h1 {
+    max-width: none;
+    padding: 0 0 10px;
+    font-size: 32px;
+    line-height: 1.1;
+    letter-spacing: -1.28px;
+  }
+
+  body.home .hero-minimal-dark-withimg h2 {
+    max-width: none;
+    padding: 10px 0 19.2px;
+    font-size: 20px;
+    line-height: 1.1;
+    letter-spacing: -0.72px;
+  }
+
+  body.home .hero-minimal-dark-withimg p.button-container {
+    margin: 0;
+  }
+
+  body.home main .hero-minimal-dark-withimg a.button:any-link {
+    margin: 16px 0;
+  }
+
+  /* ---- section intros (coverage, app, community): a 26px heading and a 17px/27px
+     semibold intro, each 16px above what follows ---- */
+  body.home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper,
+  body.home main > .section.center > .default-content-wrapper:has(> h2) {
+    max-width: none;
+    padding: 0 30px;
+  }
+
+  body.home main > .section > .default-content-wrapper > h2 {
+    margin: 0 0 16px;
+    padding: 0;
+    font-size: 26px;
+    line-height: 1.1;
+    letter-spacing: -0.72px;
+    color: #003963;
+    text-align: center;
+  }
+
+  body.home main > .section > .default-content-wrapper > h2 + p {
+    margin: 0 0 16px;
+    font-family: var(--heading-font-family);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 27px;
+    letter-spacing: -0.2px;
+    color: #003963;
+    text-align: center;
+  }
+
+  /* ---- promo bands: the photo (375 x 200 below 768px, 768 x 288 below 992px) above the
+     text, which sits on the polar band in the 30px container; the group band centres its
+     button ---- */
+  body.home .section.accent .columns-minimal-dark-overlay > div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  body.home .section.accent .columns-minimal-dark-overlay > div > .columns-minimal-dark-overlay-img-col {
+    order: -1;
+  }
+
+  body.home .section.accent .columns-minimal-dark-overlay > div > .columns-minimal-dark-overlay-content-col {
+    position: static;
+    display: block;
+    width: auto;
+    padding: 0 30px;
+  }
+
+  body.home .section.accent .columns-minimal-dark-overlay-content-col h2 {
+    margin: 0 0 8px;
+    padding: 19.2px 0 8px;
+    font-size: 26px;
+    line-height: 1.1;
+    letter-spacing: -0.72px;
+  }
+
+  body.home .section.accent .columns-minimal-dark-overlay-content-col p {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  body.home .section.accent .columns-minimal-dark-overlay p.button-container {
+    margin: 16px 0 0;
+    padding: 0;
+  }
+
+  body.home .section.accent .columns-minimal-dark-overlay-right p.button-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  body.home main .section.accent .columns-minimal-dark-overlay a.button:any-link {
+    margin: 16px 0;
+    line-height: 24px;
+  }
+
+  /* ---- Find Care: a blush panel 32px above and below; the photo first, then the text, in
+     the 30px container (at most 720px wide) ---- */
+  body.home main > .section.highlight.columns-minimal-dark-overlay-container {
+    padding: 32px 0;
+  }
+
+  body.home .section.highlight .columns-minimal-dark-overlay-wrapper {
+    max-width: none;
+    padding: 0 30px;
+  }
+
+  body.home .highlight .columns-minimal-dark-overlay > div {
+    gap: 0;
+  }
+
+  body.home .highlight .columns-minimal-dark-overlay > div > .columns-minimal-dark-overlay-img-col,
+  body.home .highlight .columns-minimal-dark-overlay > div > .columns-minimal-dark-overlay-content-col {
+    max-width: 720px;
+  }
+
+  body.home .highlight .columns-minimal-dark-overlay > div > .columns-minimal-dark-overlay-img-col {
+    order: -1;
+  }
+
+  body.home .highlight .columns-minimal-dark-overlay h2 {
+    margin: 0 0 8px;
+    padding: 19.2px 0;
+    font-size: 26px;
+    line-height: 1.1;
+    letter-spacing: -0.72px;
+    color: #003963;
+  }
+
+  body.home .highlight .columns-minimal-dark-overlay p {
+    margin: 0 0 0.8rem;
+    padding: 0;
+    font-family: var(--body-font-family);
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.4;
+    letter-spacing: -0.2px;
+    color: #001446;
+  }
+
+  body.home .highlight .columns-minimal-dark-overlay p.button-container {
+    margin: 0;
+  }
+
+  body.home .highlight .columns-minimal-dark-overlay .button-container a.button:any-link {
+    display: block;
+    width: max-content;
+    font-size: 16px;
+    line-height: 20px;
+    color: #0066b1;
+  }
+
+  /* ---- footnote: 20px above and below, in the 30px container; 15px text, the sub 0.75em
+     and nudged down as Bootstrap's ---- */
+  body.home main > .section:has(sub) > .default-content-wrapper {
+    max-width: none;
+    padding: 20px 30px;
+  }
+
+  body.home main > .section:has(sub) p {
+    margin: 0 0 0.8rem;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.4;
+    letter-spacing: -0.2px;
+    color: #001446;
+  }
+
+  body.home main > .section:has(sub) sub {
+    position: relative;
+    bottom: -0.25em;
+    font-size: 0.75em;
+    line-height: 0;
+    vertical-align: baseline;
+  }
+}
+
+/* below 768px the source's cards (both kinds) are at most 300px with 15px margins, in a
+   wrapping row in the 30px container: narrower on small phones, two to a row from 720px */
+@media (width < 768px) {
+  body.home .cards-minimal-dark-withimg-wrapper,
+  body.home .cards-minimal-dark-withimg-icons-wrapper {
+    max-width: none;
+    padding: 0 30px;
+  }
+
+  body.home .cards-minimal-dark-withimg > ul,
+  body.home .cards-minimal-dark-withimg-icons > ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0;
+    padding: 0;
+  }
+
+  body.home .cards-minimal-dark-withimg > ul > li,
+  body.home .cards-minimal-dark-withimg-icons > ul > li {
+    flex: 0 1 300px;
+    min-width: 0;
+    margin: 15px;
+  }
+
+  /* side by side (from 720px), a card's link follows its text, not the card's foot */
+  body.home .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body p.button-container {
+    margin-top: 0;
+  }
+}
+
+/* from 576px the promo bands' text is 18px and the Find Care panel has 48px above and below */
+@media (width >= 576px) and (width < 992px) {
+  body.home .section.accent .columns-minimal-dark-overlay-content-col p {
+    font-size: 18px;
+  }
+
+  body.home main > .section.highlight.columns-minimal-dark-overlay-container {
+    padding: 48px 0;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  /* the app cards' 15px margins above and below the list (padding, as on the plans page, so
+     they don't collapse) */
+  body.home .cards-minimal-dark-withimg-icons > ul {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+
+  body.home .hero-minimal-dark-withimg h1 {
+    margin-top: 5px;
+    padding-bottom: 14.4px;
+    font-size: 36px;
+    letter-spacing: -1.44px;
+  }
+
+  body.home .hero-minimal-dark-withimg h2 {
+    width: 85%;
+    padding-top: 12.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.home main > .section.cards-minimal-dark-withimg-container > .default-content-wrapper,
+  body.home main > .section.center > .default-content-wrapper:has(> h2) {
+    padding: 0 64px;
+  }
+
+  body.home main > .section > .default-content-wrapper > h2 {
+    font-size: 28px;
+    letter-spacing: -0.78px;
+  }
+
+  body.home main > .section > .default-content-wrapper > h2 + p {
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: -0.4px;
+  }
+
+  body.home .section.accent .columns-minimal-dark-overlay > div > .columns-minimal-dark-overlay-content-col {
+    padding: 0 64px;
+  }
+
+  body.home .section.accent .columns-minimal-dark-overlay-content-col h2 {
+    font-size: 28px;
+    letter-spacing: -0.78px;
+  }
+
+  body.home .section.accent .columns-minimal-dark-overlay-content-col p {
+    font-size: 18px;
+    line-height: 1.3;
+  }
+
+  body.home .section.highlight .columns-minimal-dark-overlay-wrapper {
+    padding: 0 64px;
+  }
+
+  body.home .highlight .columns-minimal-dark-overlay h2 {
+    font-size: 28px;
+    letter-spacing: -0.78px;
+  }
+
+  body.home .highlight .columns-minimal-dark-overlay p {
+    margin-bottom: 1rem;
+    line-height: 1.3;
+    letter-spacing: -0.4px;
+  }
+
+  body.home main > .section:has(sub) > .default-content-wrapper {
+    padding: 20px 64px;
+  }
+
+  body.home main > .section:has(sub) p {
+    margin-bottom: 1rem;
+    line-height: 1.3;
+    letter-spacing: -0.4px;
+  }
+}
+
+/* the card blocks switch to their desktop rows at 900px; the source keeps its tablet column up
+   to 991px (cards 470px, 400px in a three-card list, with their 15px margins) */
+@media (width >= 900px) and (width < 992px) {
+  body.home .cards-minimal-dark-withimg > ul {
+    grid-template-columns: minmax(0, 470px);
+    padding: 15px 0;
+  }
+
+  body.home .cards-minimal-dark-withimg > ul:has(> li:nth-child(3):last-child) {
+    grid-template-columns: minmax(0, 400px);
+  }
+
+  body.home .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body h3 {
+    letter-spacing: -0.44px;
+  }
+
+  body.home .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body p {
+    font-size: 15px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.home .cards-minimal-dark-withimg-icons > ul {
+    display: grid;
+    grid-template-columns: minmax(0, 400px);
+  }
+
+  body.home .cards-minimal-dark-withimg-icons > ul > li {
+    width: auto;
+  }
+}
+
+@media (width >= 1024px) {
+  body.home .hero-minimal-dark-withimg > div:last-child {
+    padding-left: 110px;
+  }
+}
+
+@media (width >= 1081px) {
+  body.home .hero-minimal-dark-withimg > div:last-child {
+    padding-left: 150px;
   }
 }

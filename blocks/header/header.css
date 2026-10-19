@@ -339,7 +339,9 @@ header nav .nav-search-toggle {
   display: none;
 }
 
-/* hamburger — hidden on desktop */
+/* hamburger — hidden on desktop. The glyph is highmark.com's menu icon (a 25px SVG): three
+   3px lines 8px apart, 22.5px long, the left ends rounded and the right ends cut by the
+   SVG's edge */
 header nav .nav-hamburger {
   display: none;
   border: none;
@@ -352,8 +354,9 @@ header nav .nav-hamburger-icon,
 header nav .nav-hamburger-icon::before,
 header nav .nav-hamburger-icon::after {
   display: block;
-  width: 24px;
-  height: 2px;
+  width: 22.5px;
+  height: 3px;
+  border-radius: 1.5px 0 0 1.5px;
   background-color: #003963;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
@@ -369,21 +372,28 @@ header nav .nav-hamburger-icon {
   position: relative;
 }
 
-header nav .nav-hamburger-icon::before { top: -7px; }
-header nav .nav-hamburger-icon::after { top: 7px; }
+header nav .nav-hamburger-icon::before { top: -8px; }
+header nav .nav-hamburger-icon::after { top: 8px; }
 
-/* hamburger morphs to a close (x) when the drawer is open */
+/* with the drawer open it becomes the source's close icon: two 18 x 2.16px bars crossed */
 header nav.nav-open .nav-hamburger-icon {
   background-color: transparent;
 }
 
+header nav.nav-open .nav-hamburger-icon::before,
+header nav.nav-open .nav-hamburger-icon::after {
+  top: 0.4px;
+  left: 2.25px;
+  width: 18px;
+  height: 2.16px;
+  border-radius: 0;
+}
+
 header nav.nav-open .nav-hamburger-icon::before {
-  top: 0;
   transform: rotate(45deg);
 }
 
 header nav.nav-open .nav-hamburger-icon::after {
-  top: 0;
   transform: rotate(-45deg);
 }
 
@@ -687,7 +697,6 @@ header nav .nav-drawer-icons {
   header nav .nav-hamburger {
     display: block;
     flex: 0 0 auto;
-    order: 3;
     z-index: 40;
     margin: 0; /* not the global button margin */
   }
@@ -780,7 +789,80 @@ header nav .nav-drawer-icons {
     width: auto;
   }
 
-  /* primary row becomes a full-screen slide-in drawer */
+  /* highmark.com's bar (the corporate and provider headers; the regional one is below): 84px
+     with a soft shadow, the menu button on the left, the 20px logo centred in 90% of the row
+     and the search icon at the start of the last 10%. These are the source's flex sizes
+     (27px, 90%, 10%, the first two shrinking), so the logo sits where the source's does,
+     a little left of centre. */
+  header nav:not(.nav-regional) .nav-brand-row {
+    justify-content: flex-start;
+    height: 84px;
+    padding: 20px 30px;
+    gap: 0;
+    box-shadow: 0 3px 3px rgb(0 0 0 / 16%);
+  }
+
+  /* the source's button: its 25px icon 1px in, 10px below the row's top */
+  header nav:not(.nav-regional) .nav-hamburger {
+    position: relative;
+    width: 27px;
+    height: 44px;
+    padding: 0;
+  }
+
+  header nav:not(.nav-regional) .nav-hamburger-icon {
+    position: absolute;
+    top: 23.6px;
+    left: 3.5px;
+  }
+
+  header nav:not(.nav-regional) .nav-brand {
+    display: flex;
+    flex: 0 1 auto;
+    justify-content: center;
+    width: 90%;
+    min-width: auto;
+  }
+
+  header nav:not(.nav-regional) .nav-brand img {
+    height: 20px;
+    max-width: none;
+    max-height: none;
+  }
+
+  /* the source's icon (a 24px glyph) sits 12.5px below the row's top, not centred */
+  header nav:not(.nav-regional) .nav-search-toggle {
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex: 0 1 auto;
+    width: 10%;
+    height: 44px;
+    padding: 12.5px 6px 0;
+  }
+
+  header nav:not(.nav-regional) .nav-search-toggle .nav-search-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* the opened box takes the logo's and the icon's place, clear of the menu button */
+  header nav:not(.nav-regional).nav-search-open .nav-brand {
+    display: none;
+  }
+
+  header nav:not(.nav-regional).nav-search-open .nav-brand-row .nav-search {
+    margin-left: 13px;
+  }
+
+  /* while the menu is open the bar stays at the top of the screen, over the drawer, as on
+     highmark.com, wherever the page was scrolled to (and below the homepage's alert banner) */
+  header nav.nav-open .nav-brand-row {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  /* primary row becomes a full-screen slide-in drawer, under the 84px bar */
   header nav .nav-primary-row {
     display: flex;
     flex-direction: column;
@@ -789,7 +871,7 @@ header nav .nav-drawer-icons {
     inset: 0;
     top: 0;
     z-index: 30;
-    padding: 72px 0 24px;
+    padding: 84px 0 24px;
     margin: 0;
     max-width: none;
     background: #fff;
@@ -927,7 +1009,7 @@ header nav .nav-drawer-icons {
     margin: 0 0 20px;
   }
 
-  header nav .nav-drawer-icons img {
+  header nav .nav-drawer-icons img { /* stylelint-disable-line no-descending-specificity */
     width: 16px;
     height: 16px;
     margin: 4px 0 0;
@@ -1031,5 +1113,9 @@ header nav.nav-regional .nav-brand a > :not(:first-child) {
 @media (width >= 768px) and (width < 992px) {
   header nav.nav-regional .nav-brand-row {
     padding: 0 64px;
+  }
+
+  header nav:not(.nav-regional) .nav-brand-row {
+    padding: 20px 64px;
   }
 }

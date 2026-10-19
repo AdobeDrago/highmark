@@ -79,7 +79,7 @@ export default async function decorate(block) {
     inner.append(brandSection);
   }
 
-  const isMobile = window.matchMedia('(max-width: 899px)');
+  const isMobile = window.matchMedia('(max-width: 991px)');
   const columns = document.createElement('div');
   columns.className = 'footer-columns';
   columnSections.forEach((col) => {
@@ -122,6 +122,8 @@ export default async function decorate(block) {
   // a regional member footer (/member/fragments/<region>/...) keeps its layout with or
   // without the band: some sub-pages' footers have none, as on the source
   if (footerPath().startsWith('/member/fragments/')) footer.classList.add('footer-regional');
+  // the provider footer copies this layout; providers.highmark.com's own footer differs
+  if (footerPath().startsWith('/providers/')) footer.classList.add('footer-providers');
   if (topSection) {
     topSection.querySelector('.section-metadata')?.remove();
     const top = document.createElement('div');

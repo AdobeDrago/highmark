@@ -138,80 +138,157 @@ footer .footer-brand ul.footer-social + p {
   font-size: 20px;
 }
 
-/* ============ MOBILE (< 900px) ============ */
-@media (width < 900px) {
+/* ============ BELOW 992px: highmark.com's footer, measured at 390 and 768 ============
+   In the source's 30px container (64px from 768px), 64px above and below: the brand block
+   centred in 280px (logo, LinkedIn, customer service, phone), then 48px below it the link
+   columns as accordions, their headings 24px tall and 24px apart. Legal band: 25.6px
+   padding, centred 16px text at line-height 1.4 (1.3 from 768px). */
+@media (width < 992px) {
   footer .footer-inner {
     flex-direction: column;
-    gap: 28px;
+    gap: 0;
     padding: 64px 30px;
   }
 
   footer .footer-brand {
+    width: 280px;
     min-width: 0;
+    margin: 0 auto;
     text-align: center;
+  }
+
+  footer .footer-brand > p:first-child {
+    margin: 0;
+    line-height: 0;
+  }
+
+  footer .footer-brand > p:first-child img {
+    width: 200px;
+    max-width: none;
+    height: 136px;
   }
 
   footer .footer-social {
     justify-content: center;
+    margin: 28px 0 16px;
+    gap: 0;
+  }
+
+  footer .footer-social a {
+    display: block;
+    line-height: 0;
+  }
+
+  footer .footer-brand ul.footer-social + p {
+    margin: 0 0 11.2px;
+    line-height: 30px;
+  }
+
+  footer .footer-brand ul.footer-social + p + p {
+    margin: 0;
+    font-weight: 400;
+    line-height: 24px;
   }
 
   footer .footer-columns {
     flex-direction: column;
     gap: 0;
     justify-content: flex-start;
+    margin-top: 48px;
   }
 
-  /* each column becomes a collapsible accordion section */
+  /* each column becomes a collapsible accordion section, its heading followed by the
+     source's keyboard_arrow_down icon */
   footer .footer-column {
     min-width: 0;
   }
 
-  footer .footer-column > p {
-    margin: 0;
-    padding: 16px 0;
+  footer .footer-column > p { /* stylelint-disable-line no-descending-specificity */
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 24px;
+    line-height: 1.4;
+    letter-spacing: -0.2px;
     cursor: pointer;
-    position: relative;
   }
 
   footer .footer-column > p::after {
     content: '';
-    position: absolute;
-    right: 4px;
-    top: 20px;
-    width: 9px;
-    height: 9px;
-    border-right: 2px solid #fff;
-    border-bottom: 2px solid #fff;
-    transform: rotate(45deg);
+    flex: 0 0 24px;
+    height: 24px;
+    background-color: #fff;
+    mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>') center / contain no-repeat;
     transition: transform 0.3s ease;
   }
 
   footer .footer-column.open > p::after {
-    transform: rotate(-135deg);
+    transform: rotate(180deg);
   }
 
   footer .footer-column ul {
     display: none;
-    padding: 0 0 16px;
   }
 
   footer .footer-column.open ul {
     display: block;
   }
 
+  footer .footer-column li {
+    margin: 0 0 8px;
+  }
+
+  footer .footer-column a {
+    display: inline-block;
+    padding: 5px 0;
+    line-height: 1.2;
+  }
+
   footer .footer-legal-inner {
-    padding: 24px 28px;
+    padding: 1.6rem 30px; /* 25.6px */
+  }
+
+  footer .footer-legal p { /* stylelint-disable-line no-descending-specificity */
+    margin: 0 0 0.8rem;
+    line-height: 1.4;
+    letter-spacing: -0.2px;
   }
 }
 
-@media (width >= 768px) and (width <= 992px) {
-  footer .footer-legal-inner {
-    padding-left: 60px;
-    padding-right: 60px;
+/* LinkedIn is 75 x 30 below 768px, but highmark.com's own stylesheet narrows it to 36px there
+   (its regional member pages don't load that stylesheet and keep 75px) */
+@media (width < 768px) {
+  footer .footer-wrapper:not(.footer-regional) .footer-social img {
+    width: 36px;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  footer .footer-inner {
+    padding: 64px;
+  }
+
+  footer .footer-social img {
+    width: 75px;
+    height: 24px;
   }
 
   footer .footer-columns {
     padding: 0 6rem;
+  }
+
+  footer .footer-column > p {
+    line-height: 1.3;
+    letter-spacing: -0.4px;
+  }
+
+  footer .footer-legal-inner {
+    padding: 1.6rem 64px;
+  }
+
+  footer .footer-legal p {
+    margin-bottom: 1rem;
+    line-height: 1.3;
+    letter-spacing: -0.4px;
   }
 }
 
@@ -294,6 +371,12 @@ footer .footer-brand ul.footer-social + p {
     font-size: 20px;
     line-height: 30px;
     letter-spacing: -0.3px;
+  }
+
+  /* highmark.com's headings became h2s (by 2026-10-19) and took its h2 padding, 24px above
+     and below (the corporate and regional footers; not providers.highmark.com's) */
+  footer .footer-wrapper:not(.footer-providers) .footer-column > p {
+    padding: 24px 0;
   }
 
   footer .footer-column li {
@@ -402,4 +485,12 @@ footer .footer-wrapper.footer-regional .footer-brand > p:not(:first-child):has(>
 
 footer .footer-wrapper.footer-regional .footer-brand > p:not(:first-child) > a:not([href^="tel:"]) {
   text-decoration: none;
+}
+
+/* below 992px the brand block's last line has no margin (the link columns keep their 48px),
+   so the extra link after the phone gets the phone's 32px itself, as on the source */
+@media (width < 992px) {
+  footer .footer-wrapper.footer-regional .footer-brand > p:has(> a[href^="tel:"]) + p:has(> a:not([href^="tel:"])) {
+    margin-top: 32px;
+  }
 }

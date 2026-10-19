@@ -1,9 +1,10 @@
 /* eslint-env node */
 /* eslint-disable no-console */
 /* eslint-disable no-await-in-loop, no-restricted-syntax -- steps run one after another */
-// Phone/tablet header search (highmark.com's pattern): a search icon in the brand row opens
-// the search box in place of the logo; the drawer has no search box; the closed drawer is
-// out of the tab order. Desktop keeps the nav-row search box.
+// Phone/tablet header search (highmark.com's pattern): the 84px bar holds the menu button, the
+// logo and the search icon, in that order on screen and in the tab order; the icon opens the
+// search box in place of the logo; the drawer has no search box; the closed drawer is out of
+// the tab order. Desktop keeps the nav-row search box.
 // optional dependency (see README): npm i --no-save playwright
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { chromium } from 'playwright';
@@ -93,13 +94,15 @@ const state = (pg) => pg.evaluate(() => {
   for (const width of [390, 768]) {
     console.log(`\n---- @${width} ----`);
     const { ctx, pg } = await open(b, '/plans', width);
+    // the source's container padding: 30px, 64px from 768px
+    const pad = width < 768 ? 30 : 64;
     let s = await state(pg);
     check(s.toggleShown && s.logoShown && !s.formShown && !s.open, `@${width} closed: logo + search icon shown, box hidden`);
-    check(s.toggle.r <= s.hamburger.l && s.toggle.w >= 40 && s.toggle.h >= 40, `@${width} search icon left of the menu button, 40x40`, `${s.toggle.w}x${s.toggle.h} at ${s.toggle.l}-${s.toggle.r}, menu at ${s.hamburger.l}`);
+    check(s.hamburger.l === pad && s.hamburger.w === 27 && s.toggle.l > s.hamburger.r && s.toggle.r <= width - pad + 1 && s.toggle.h === 44, `@${width} menu button at the left edge, search icon on the right, 44px tall`, `menu ${s.hamburger.l}+${s.hamburger.w}, icon ${s.toggle.l}-${s.toggle.r} h${s.toggle.h}`);
     check(s.expanded === 'false' && s.controls === 'nav-search', `@${width} icon aria-expanded=false, aria-controls=nav-search`);
     check(!s.drawerHasSearch && s.formParent === 'nav-brand-row', `@${width} search box is in the brand row, not the menu`, s.formParent);
     check(s.drawerVisibility === 'hidden', `@${width} closed menu is visibility:hidden`, s.drawerVisibility);
-    check(s.header.h === 64 && s.row.h <= 64, `@${width} header 64px (reserved), row fits`, `header ${s.header.h} row ${s.row.h}`);
+    check(s.header.h === 84 && s.row.h === 84, `@${width} header 84px (reserved), the bar 84px`, `header ${s.header.h} row ${s.row.h}`);
     check(s.scrollW === width, `@${width} no sideways scroll (closed)`, `${s.scrollW}`);
     const before = s;
     await pg.screenshot({
@@ -116,7 +119,7 @@ const state = (pg) => pg.evaluate(() => {
     s = await state(pg);
     check(s.open && s.formShown && !s.logoShown && !s.toggleShown && s.focused, `@${width} icon opens the box, focused; logo and icon hidden`, s.active);
     check(s.expanded === 'true', `@${width} icon aria-expanded=true while open`);
-    check(s.form.l === 16 && s.form.r === s.hamburger.l - 8 && s.form.h === 40, `@${width} box fills the row up to the menu button`, `${s.form.l}-${s.form.r} h${s.form.h}`);
+    check(s.form.l === s.hamburger.r + 13 && s.form.r === width - pad && s.form.h === 40, `@${width} box fills the row after the menu button`, `${s.form.l}-${s.form.r} h${s.form.h}`);
     check(s.inputFont === '16px', `@${width} input text 16px (no iOS zoom)`, s.inputFont);
     check(s.popupOpen && s.authored && s.items.length === 5, `@${width} 5 authored suggestions on open`, s.items.join(', '));
     check(s.popup.l === 0 && s.popup.r === width && s.popup.t === s.row.b, `@${width} suggestions full width under the row`, `${s.popup.l}-${s.popup.r} top ${s.popup.t} row bottom ${s.row.b}`);
@@ -192,11 +195,19 @@ const state = (pg) => pg.evaluate(() => {
         x: 0, y: 0, width, height: 520,
       },
     });
-    // Tab from the menu button goes into the open menu
+    // Tab from the menu button: the logo, the search icon, then the open menu
     await pg.focus('header .nav-hamburger');
-    await pg.keyboard.press('Tab');
-    const intoMenu = await pg.evaluate(() => !!document.activeElement.closest('.nav-primary-row') && document.activeElement.textContent.trim());
-    check(intoMenu === 'Plans', `@${width} Tab from the menu button enters the open menu`, String(intoMenu));
+    const openOrder = [];
+    for (let i = 0; i < 3; i += 1) {
+      await pg.keyboard.press('Tab');
+      openOrder.push(await pg.evaluate(() => {
+        const a = document.activeElement;
+        if (a.closest('.nav-primary-row')) return `menu:${a.textContent.trim()}`;
+        if (a.closest('.nav-brand')) return 'logo';
+        return a.className;
+      }));
+    }
+    check(openOrder.join(' > ') === 'logo > nav-search-toggle > menu:Plans', `@${width} Tab from the menu button: logo, search icon, then the open menu`, openOrder.join(' > '));
     await pg.click('header .nav-search-toggle');
     await pg.waitForTimeout(450);
     s = await state(pg);
@@ -205,19 +216,23 @@ const state = (pg) => pg.evaluate(() => {
     await pg.keyboard.press('Escape');
     await pg.keyboard.press('Escape');
 
-    // closed menu is out of the tab order: Tab from the menu button leaves the header
+    // closed menu is out of the tab order: Tab from the search icon (the bar's last control)
+    // leaves the header
     await pg.waitForTimeout(450);
-    await pg.focus('header .nav-hamburger');
+    await pg.focus('header .nav-search-toggle');
     await pg.keyboard.press('Tab');
     const next = await pg.evaluate(() => {
       const a = document.activeElement;
       return { inMenu: !!a.closest('.nav-primary-row'), inHeader: !!a.closest('header'), what: `${a.tagName} ${a.textContent.trim().slice(0, 24)}` };
     });
-    check(!next.inMenu && !next.inHeader, `@${width} closed menu: Tab from the menu button leaves the header`, next.what);
-    // and the icon comes before the menu button
-    await pg.focus('header .nav-search-toggle');
+    check(!next.inMenu && !next.inHeader, `@${width} closed menu: Tab from the search icon leaves the header`, next.what);
+    // and the menu button comes first, then the logo, then the icon
+    await pg.focus('header .nav-hamburger');
     await pg.keyboard.press('Tab');
-    check(await pg.evaluate(() => document.activeElement.classList.contains('nav-hamburger')), `@${width} tab order: search icon, then menu button`);
+    const second = await pg.evaluate(() => !!document.activeElement.closest('.nav-brand'));
+    await pg.keyboard.press('Tab');
+    const third = await pg.evaluate(() => document.activeElement.classList.contains('nav-search-toggle'));
+    check(second && third, `@${width} tab order: menu button, logo, search icon`);
 
     check(pg.errors.length === 0, `@${width} no console errors / failed requests`, pg.errors.join(' | '));
     await ctx.close();
