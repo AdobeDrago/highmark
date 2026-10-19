@@ -1,6 +1,21 @@
+import { buildArtDirectedPicture, INTERCEPT_MEDIA } from '../hero-minimal-dark-withimg/hero-minimal-dark-withimg.js';
+
 export default function decorate(block) {
   const cols = [...block.firstElementChild.children];
   block.classList.add(`columns-minimal-dark-overlay-${cols.length}-cols`);
+
+  // Art direction: an image cell holding three images (desktop, tablet, mobile, as on the
+  // homepage's promo bands) becomes one <picture> that switches where the source's does:
+  // mobile below 768px, tablet below 992px.
+  [...block.children].forEach((row) => {
+    [...row.children].forEach((col) => {
+      const imgs = [...col.querySelectorAll('img')];
+      if (imgs.length >= 3 && !col.textContent.trim()) {
+        col.replaceChildren(buildArtDirectedPicture(imgs, INTERCEPT_MEDIA));
+        block.classList.add('art-directed');
+      }
+    });
+  });
 
   // check if parent section has highlight class
   const isHighlight = block.closest('.highlight');

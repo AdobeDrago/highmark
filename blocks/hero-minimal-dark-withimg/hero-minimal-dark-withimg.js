@@ -16,7 +16,8 @@ const MEDIA = {
   tablet: '(max-width: 768px)',
 };
 
-const INTERCEPT_MEDIA = {
+// also the homepage's promo bands (columns-minimal-dark-overlay)
+export const INTERCEPT_MEDIA = {
   mobile: '(max-width: 767px)',
   tablet: '(max-width: 991px)',
 };
@@ -30,7 +31,7 @@ function rendition(src, width, format) {
   return url.pathname + url.search;
 }
 
-function buildArtDirectedPicture(imgs, breakpoints = MEDIA) {
+export function buildArtDirectedPicture(imgs, breakpoints = MEDIA) {
   const [desktop, tablet, mobile] = imgs;
   const picture = document.createElement('picture');
   [

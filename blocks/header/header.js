@@ -466,7 +466,8 @@ export default async function decorate(block) {
     nav.append(utilitySection);
   }
 
-  // Brand + tools row (logo left, utility icons right, search icon + hamburger on mobile).
+  // Brand + tools row: the logo and the utility icons on desktop; below 992px the menu
+  // button, the logo and the search icon, in that order on screen and in the tab order.
   const brandRow = document.createElement('div');
   brandRow.className = 'nav-brand-row';
   if (brandSection) {
@@ -500,7 +501,8 @@ export default async function decorate(block) {
       decorateIconLinks(iconsUl);
       tools.append(iconsUl);
     }
-    brandRow.append(tools, searchToggle, hamburger);
+    brandRow.prepend(hamburger);
+    brandRow.append(tools, searchToggle);
     nav.append(brandRow);
 
     const setMenuOpen = (open) => {

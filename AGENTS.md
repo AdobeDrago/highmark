@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Status and working notes for the Highmark AEM Edge Delivery Services project. Updated 2026-10-13.
+Status and working notes for the Highmark AEM Edge Delivery Services project. Updated 2026-10-19.
 
 ## Project
 
@@ -104,10 +104,11 @@ Everything under `/shop` is a migration of the Highmark ShopX Angular SPA (`shop
 - `/search` is the `search` block (its one row links `/search-index.json`), laid out like highmark.com's results page: the page's authored "Search Highmark" H1 and `Breadcrumbs: true`, then a search bar, "Showing N of M results for …", title + description rows, and "Show more results" (10 at a time). When nothing matches, it shows the source's search tips and a link to the same search on highmark.com.
 - The header search box submits to `/search?q=`. From the third letter it lists up to 5 matching page titles, as on highmark.com; arrow keys and Enter open one. It imports `blocks/search/search.js` the first time the box gets focus and uses the same `loadIndex` / `searchIndex` as the page, so the suggestions are the top of the results.
 - Phones and tablets (below 992px), as on highmark.com (2026-10-05): the menu has no search box.
-  - A search icon next to the menu button opens the box in place of the logo, with focus in it; the suggestions drop under the bar, full width.
+  - The bar holds the menu button, the logo and a search icon, left to right and in that tab order (see Homepage, "Header"). The icon opens the box in place of the logo, from just after the menu button to the row's end, with focus in it; the suggestions drop under the bar, full width.
   - A tap outside closes it, and so do tabbing out and Escape (the first Escape closes an open suggestion list).
   - `header.js` moves the one search form between the desktop nav row and the bar when the viewport crosses 992px, so the tab order follows the screen.
-  - The bar keeps its height when the box opens (both are 40px), so nothing shifts; the closed menu is `visibility: hidden`, which keeps its links out of the tab order.
+  - The bar keeps its height when the box opens (the box is 40px in the 44px row), so nothing shifts; the closed menu is `visibility: hidden`, which keeps its links out of the tab order.
+  - While the menu is open the bar stays at the top of the screen, over the drawer, as on highmark.com. (Before 2026-10-19 it stayed where it was, so under the homepage's alert banner it covered the menu's items.)
 - Before anything is typed, the box lists the searches in the `/search-suggestions` DA sheet, as highmark.com lists Careers, Member Login, ExpressScripts, Formulary and Dentist.
   - Columns: `Suggestion`, plus an optional `Link`. The first 5 rows are shown.
   - A row with a `Link` opens that link. Otherwise the item runs `/search` when this site has a match for it, or highmark.com's results when it doesn't, so items move to our search as pages are migrated.
@@ -136,16 +137,23 @@ The homepage and footer content were published the same day:
 - the alert banner;
 - today's footer link lists and legal text.
 
-Cookie Preferences links to `#`, because this site has no cookie tool. The review drafts, `/drafts/pixel/home` and `/drafts/pixel/footer`, are no longer needed.
+Cookie Preferences links to `#`, because this site has no cookie tool. `/drafts/pixel/home` (the 10-06 version) and `/drafts/pixel/footer` are still in DA.
 
-- **Template.** `styles/templates/home.css` holds the homepage's desktop rules (from 992px), plus white hero text at every width, since the photo is dark. Phone and tablet widths were not matched.
+On 2026-10-19 `/index`, `/nav` and `/footer` in DA were restored to their live versions. Between 10-09 and 10-15 unpublished writes had replaced all three with older copies (one write at 2026-10-12 14:08 UTC hit all three), and preview showed the reverted homepage. Before you publish any of them, compare the DA document with live, so an old copy doesn't go out.
+
+Matched below 992px on 2026-10-19, against the test draft `/drafts/william/home-mobile` (the 10-06 page with the art-directed photos, below; delete it once `/index` has them): at 360, 390, 428, 429, 576, 700, 740, 767, 768, 800 and 900 the page is as tall as the source's and a screenshot diff differs in 0.01–0.1% of pixels; 1280 and 1440 still match (0.016%). Not copied: the source's 1px tablet gap at 991px (its tablet rules end at 990px, so it shows phone sizes there) and its 760–767px subheading (26px). From 992 to 1199px the page isn't matched (see BACKLOG.md).
+
+- **Template.** `styles/templates/home.css`: the shared rules, the desktop rules (from 992px), then the phone and tablet rules: the source's 30px container (64px from 768px), headings 26px (28px from 768px), text 15px/1.4 (15px/1.3 from 768px).
 - **Sections.** On the source, sections butt against each other, so home sections have no outer margins.
-- **Card lists.** They use the source's 400px slots (370px cards plus 15px margins; 470px cards in a two-card list) in a 1366px container with 83px padding: 2 + 1 at 1280, 3 across from 1366px.
+- **Art-directed photos.** The hero and the two promo bands hold three images in their photo cell, desktop, tablet and mobile, as on `/wholecare`: the source's crops, in `/.index/` in DA. The blocks make them one `<picture>`: the hero switches at the source's 428px and 768px (`hero-minimal-dark-withimg.js`), the bands at 767px and 991px (`columns-minimal-dark-overlay.js`, with the hero's picture builder). The photo keeps its proportions and the hero's text lies over it without adding height, as the source's overlay. Below 992px the bands put the photo above the text (and Find Care its photo first).
+- **Quick links** use the shared quick-links layout in `cards-minimal-dark-iconnav.css` (template `home` is in its list): four across below 768px, 130px items to 991px, 160px from 992px.
+- **Card lists.** They use the source's 400px slots (370px cards plus 15px margins; 470px cards in a two-card list) in a 1366px container with 83px padding: 2 + 1 at 1280, 3 across from 1366px. From 768 to 991px one column (470px, 400px in a three-card list); below 768px 300px cards with 15px margins, two to a row from 720px, each link right after its text.
 - **Footnote.** The "Not all benefits" footnote is its own section.
 - **Alert banner.** `blocks/alert-banner` is highmark.com's "Important Notifications" banner, which only the homepage shows.
   - Author it as a one-cell block at the top of the page: a title, a text and a link.
   - It moves itself above the header while the first section loads, so nothing shifts.
   - Closing it sets `sessionStorage.disabledAlertBanner`, the source's own flag.
+  - Below 992px: 48px above and below, at least 250px tall (200px from 768px), in the 30px container (64px); title 22px (24px), text 15px/1.4 (15px/1.3).
 - **Header (all pages, desktop).** Full-width bands with 64px padding:
   - utility bar: 42.5px, 145px piped cells;
   - brand row: 94px, 273 x 28 logo;
@@ -153,9 +161,11 @@ Cookie Preferences links to `#`, because this site has no cookie tool. The revie
   - search: a 44px pill, a sixth of the row (at least 200px).
 
   `styles.css` reserves the 196.5px. The brand row's icon links are rebuilt as icon then label link (`decorateIconLinks`) and are copied into the phone menu.
+- **Header (corporate and provider pages, below 992px, 2026-10-19).** highmark.com's 84px bar with a soft shadow, 30px padding (64px from 768px): the 27px menu button, the logo 20px tall centred in 90% of the row and the search icon at the start of the last 10%. These are the source's flex sizes, so the logo sits a little left of centre, as there. The menu icon is the source's (three 3px lines), and the open menu's close icon too. `styles.css` reserves the 84px (`--nav-height`). The regional member headers keep their own grid bar.
 - **Dropdowns (corporate nav, 2026-10-08).** The `/nav` menu section has Style `full width`, as the provider nav does: each dropdown opens from the row's left edge in ruled columns, as on highmark.com. Plans has six columns; Additional Plans (Dental Plans, Dental, Vision, and Hearing Plans, Travel Health Insurance) was added then, and Medicaid gained Get Help (`/wholecare/medicare/get-help`), as on the source. `/plans/additional-plans`, its Blue Edge Balance page and that Get Help page redirect to highmark.com until migrated.
-- **Footer (all pages, desktop).**
-  - Brand column: 400px, its items centred in 280px. Then three 240px link columns.
+- **Footer (all pages).**
+  - Desktop: the brand column is 400px, its items centred in 280px. Then three 240px link columns. Their headings have 24px above and below, since highmark.com made them h2s (by 2026-10-19); not the provider footer (`footer-providers`), as providers.highmark.com's differs.
+  - Below 992px (2026-10-19; it was 900px): the brand block centred in 280px, then the columns as accordions 48px below it, their headings 24px tall and 24px apart with the source's arrow icon. LinkedIn is 36px wide below 768px, as highmark.com's own stylesheet makes it; the regional member pages keep 75px, as theirs don't load it.
   - Links to other sites, and PDFs, open in a new tab with Font Awesome's external-link icon (`icons/external-link-alt.svg`, CC BY 4.0).
   - The legal text is the source's, with its non-breaking spaces and curly quotes.
 - **Fonts.** Roboto comes from the Adobe Fonts kit, as on the source. `fonts.css` used to override it with local files whose vertical metrics moved text by a pixel or two.
