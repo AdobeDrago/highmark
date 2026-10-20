@@ -1,7 +1,10 @@
-<div><h2 id="name-brief-to-pagedescription-build-a-new-highmarkcom-page-in-document-authoring-from-a-highmark-content-brief-a-word-document-titled-content-brief-with-a-metadata-table-and-a-page-content-table-of-web-components-such-as-secondary-banner-text-component-and-intercept-banner-use-when-the-user-attaches-a-content-brief-and-wants-the-page-created-not-for-documents-that-mark-changes-to-existing-pages-in-red-and-strikethrough-use-redline-to-page-update-for-those">name: brief-to-page
-description: Build a new highmark.com page in Document Authoring from a Highmark content brief (a Word document titled "CONTENT BRIEF", with a Metadata table and a Page Content table of web components such as Secondary Banner, Text Component and Intercept Banner). Use when the user attaches a content brief and wants the page created. Not for documents that mark changes to existing pages in red and strikethrough; use redline-to-page-update for those.</h2>
+<div><h2 id="name-brief-to-pagedescription-build-a-new-highmarkcom-page-in-document-authoring-from-a-highmark-content-brief-a-word-document-titled-content-brief-with-a-metadata-table-and-a-page-content-table-of-web-components-such-as-secondary-banner-text-component-and-intercept-banner-use-when-the-user-attaches-a-content-brief-and-wants-the-page-created-not-for-documents-that-mark-changes-to-existing-pages-in-red-and-strikethrough-use-redline-to-page-update-for-thoseversion-1status-approved">name: brief-to-page
+description: Build a new highmark.com page in Document Authoring from a Highmark content brief (a Word document titled "CONTENT BRIEF", with a Metadata table and a Page Content table of web components such as Secondary Banner, Text Component and Intercept Banner). Use when the user attaches a content brief and wants the page created. Not for documents that mark changes to existing pages in red and strikethrough; use redline-to-page-update for those.
+version: 1
+status: approved</h2>
 <h1 id="brief-to-page">Brief to page</h1>
 <p>You turn a Highmark content brief into a page in Document Authoring (DA) for the site <code>adobedrago/highmark</code>, then preview it. You never publish.</p>
+<p><strong>The result is a DA page, created with the <code>da-live-admin</code> MCP tools.</strong> The attached Word document is only your input. Never create a Word document, a file to download or an artifact, and never answer with the page as text instead of creating it. If the DA tools (<code>da_get_source</code>, <code>da_create_source</code>) aren't available to you, stop and tell the user so; don't make a file instead.</p>
 <p>Work through the five steps in order. Each step ends with something you show the user; do not start the next step until it is done. Do not skip step 5: the report is part of the job.</p>
 <h2 id="step-1-read-the-brief">Step 1. Read the brief</h2>
 <p>Read the attached Word document. A brief has:</p>
@@ -75,13 +78,20 @@ description: Build a new highmark.com page in Document Authoring from a Highmark
 <li><strong>No:</strong> I'll create it at <code>&#x3C;path></code>.</li>
 </ul>
 </blockquote>
-<p>For Yes, suggest the user's first name in lowercase as <code>&#x3C;your-name></code> (for example <code>/drafts/lamont/plans/medicaid/ph95</code>) and let them change it. If a document already exists at the chosen path, say so and ask before replacing it.</p>
-<h2 id="step-4-build-the-page-and-preview-it">Step 4. Build the page and preview it</h2>
-<p>Build the document described in <strong>Page structure</strong> below, create it in DA at the path from step 3 (<code>&#x3C;path>.html</code>), and preview it. Do not publish.</p>
+<p>For Yes, suggest the user's first name in lowercase as <code>&#x3C;your-name></code> (for example <code>/drafts/lamont/plans/medicaid/ph95</code>) and let them change it.</p>
+<p>Then call <code>da_get_source</code> with org <code>adobedrago</code>, repo <code>highmark</code> and the path plus <code>.html</code> (no leading slash, e.g. <code>drafts/lamont/plans/medicaid/ph95.html</code>). If a document is already there, say so and ask before replacing it.</p>
+<h2 id="step-4-create-the-page-in-da-and-preview-it">Step 4. Create the page in DA and preview it</h2>
+<ol>
+<li>Write the page as HTML, as described in <strong>Page structure</strong> below.</li>
+<li>Create it with <code>da_create_source</code>: org <code>adobedrago</code>, repo <code>highmark</code>, path <code>&#x3C;path>.html</code> (no leading slash), and the HTML as its content. If the user agreed in step 3 to replace an existing document, call <code>da_create_version</code> on it first, then <code>da_update_source</code>.</li>
+<li>Read it back with <code>da_get_source</code> to check it was saved.</li>
+<li>Preview it, if your DA tools have a preview action. Never call <code>da_publish</code>.</li>
+</ol>
+<p>If any of these calls fails, show the user the error and ask how to go on. Don't fall back to making a file.</p>
 <h2 id="step-5-report">Step 5. Report</h2>
 <p>Tell the user:</p>
 <ol>
-<li>Where the page is: the DA edit link (<code>https://da.live/edit#/adobedrago/highmark/&#x3C;path></code>) and the preview link (<code>https://main--highmark--adobedrago.aem.page/&#x3C;path></code>).</li>
+<li>Where the page is: the DA edit link (<code>https://da.live/edit#/adobedrago/highmark/&#x3C;path></code>) and the preview link (<code>https://main--highmark--adobedrago.aem.page/&#x3C;path></code>). If you couldn't preview it, say so: the user can preview it from the DA editor.</li>
 <li>The warnings from step 2.</li>
 <li>What is left to do by hand:
 <ul>

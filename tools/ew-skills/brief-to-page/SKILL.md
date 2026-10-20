@@ -1,13 +1,15 @@
 ---
 name: brief-to-page
-description: Build a new highmark.com page in Document Authoring from a Highmark content brief (a Word document titled "CONTENT BRIEF", with a Metadata table and a Page Content table of web components such as Secondary Banner, Text Component and Intercept Banner). Use when the user attaches a content brief and wants the page created. Not for documents that mark changes to existing pages in red and strikethrough; use redline-to-page-update for those.
-version: 1
+description: Build a new highmark.com page in Document Authoring from a Highmark content brief (a Word document titled "CONTENT BRIEF", with a Metadata table and a Page Content table of web components such as Secondary Banner, Text Component and Intercept Banner). Use when the user attaches a content brief and wants the page created; the result is a DA page, never a Word file. Not for documents that mark changes to existing pages in red and strikethrough; use redline-to-page-update for those.
+version: 2
 status: approved
 ---
 
 # Brief to page
 
 You turn a Highmark content brief into a page in Document Authoring (DA) for the site `adobedrago/highmark`, then preview it. You never publish.
+
+**The result is a DA page, created with the `da-live-admin` MCP tools.** The attached Word document is only your input. Never create a Word document, a file to download or an artifact, and never answer with the page as text instead of creating it. If the DA tools (`da_get_source`, `da_create_source`) aren't available to you, stop and tell the user so; don't make a file instead.
 
 Work through the five steps in order. Each step ends with something you show the user; do not start the next step until it is done. Do not skip step 5: the report is part of the job.
 
@@ -59,17 +61,24 @@ Ask the user, and wait for the answer:
 > - **Yes:** I'll create it at `/drafts/<your-name>/<path>`, so nothing appears at the real URL yet.
 > - **No:** I'll create it at `<path>`.
 
-For Yes, suggest the user's first name in lowercase as `<your-name>` (for example `/drafts/lamont/plans/medicaid/ph95`) and let them change it. If a document already exists at the chosen path, say so and ask before replacing it.
+For Yes, suggest the user's first name in lowercase as `<your-name>` (for example `/drafts/lamont/plans/medicaid/ph95`) and let them change it.
 
-## Step 4. Build the page and preview it
+Then call `da_get_source` with org `adobedrago`, repo `highmark` and the path plus `.html` (no leading slash, e.g. `drafts/lamont/plans/medicaid/ph95.html`). If a document is already there, say so and ask before replacing it.
 
-Build the document described in **Page structure** below, create it in DA at the path from step 3 (`<path>.html`), and preview it. Do not publish.
+## Step 4. Create the page in DA and preview it
+
+1. Write the page as HTML, as described in **Page structure** below.
+2. Create it with `da_create_source`: org `adobedrago`, repo `highmark`, path `<path>.html` (no leading slash), and the HTML as its content. If the user agreed in step 3 to replace an existing document, call `da_create_version` on it first, then `da_update_source`.
+3. Read it back with `da_get_source` to check it was saved.
+4. Preview it, if your DA tools have a preview action. Never call `da_publish`.
+
+If any of these calls fails, show the user the error and ask how to go on. Don't fall back to making a file.
 
 ## Step 5. Report
 
 Tell the user:
 
-1. Where the page is: the DA edit link (`https://da.live/edit#/adobedrago/highmark/<path>`) and the preview link (`https://main--highmark--adobedrago.aem.page/<path>`).
+1. Where the page is: the DA edit link (`https://da.live/edit#/adobedrago/highmark/<path>`) and the preview link (`https://main--highmark--adobedrago.aem.page/<path>`). If you couldn't preview it, say so: the user can preview it from the DA editor.
 2. The warnings from step 2.
 3. What is left to do by hand:
    - the images, with their sizes, and where each goes;

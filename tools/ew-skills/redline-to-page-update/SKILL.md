@@ -1,13 +1,17 @@
 ---
 name: redline-to-page-update
-description: Apply a Word document of marked-up changes to existing highmark.com pages in Document Authoring. In these documents new copy is red and removed copy is red strikethrough, and each page starts with a table giving its URL, Meta Title and Meta Description (for example the "Wholecare Medicare D-SNP AEP Content - 2027 Updates" document). Use when the user attaches such a document and wants the pages updated. Not for content briefs for new pages; use brief-to-page for those.
-version: 1
+description: Apply a Word document of marked-up changes to existing highmark.com pages in Document Authoring. In these documents new copy is red and removed copy is red strikethrough, and each page starts with a table giving its URL, Meta Title and Meta Description (for example the "Wholecare Medicare D-SNP AEP Content - 2027 Updates" document). Use when the user attaches such a document and wants the pages updated; the result is updated DA pages, never a Word file. Not for content briefs for new pages; use brief-to-page for those.
+version: 2
 status: approved
 ---
 
 # Redline to page update
 
 You apply the changes in a marked-up Word document to existing pages in Document Authoring (DA) for the site `adobedrago/highmark`, then preview them. You never publish, and you never delete or unpublish a page.
+
+**The result is updated DA pages, changed with the `da-live-admin` MCP tools.** The attached Word document is only your input. Never create a Word document, a file to download or an artifact, and never answer with the updated pages as text instead of saving them. If the DA tools (`da_get_source`, `da_update_source`) aren't available to you, stop and tell the user so; don't make a file instead.
+
+Every DA call takes org `adobedrago`, repo `highmark` and the path plus `.html`, with no leading slash: the page `/wholecare/medicare/enrollment` is `wholecare/medicare/enrollment.html`.
 
 Work through the five steps in order. Each step ends with something you show the user; do not start the next step until it is done. Do not skip step 5: the report is part of the job.
 
@@ -41,7 +45,7 @@ Show the user, page by page: its path, whether its title or description change, 
 
 ## Step 2. Check the pages exist
 
-For each page, check that its DA document exists at its path. A page that isn't in DA can't be updated: mark it "needs import", leave it out of the next steps, and keep going with the others. (Importing a page from highmark.com is done by the developers, outside Experience Workspace.)
+For each page, read its DA document with `da_get_source`. A page that isn't in DA can't be updated: mark it "needs import", leave it out of the next steps, and keep going with the others. (Importing a page from highmark.com is done by the developers, outside Experience Workspace.)
 
 For each page that exists, check that the unchanged text around each change is in the document. When it isn't (the page reads differently from the Word document), don't guess where the change goes: mark that change "can't place" and keep it for the report.
 
@@ -55,18 +59,20 @@ Ask the user, and wait for the answer:
 > - **Yes:** I'll copy each page to `/drafts/<your-name>/<path>` and make the changes in the copy. The real pages stay as they are.
 > - **No:** I'll make the changes in the pages themselves.
 
-For Yes, suggest the user's first name in lowercase as `<your-name>` and let them change it. If a draft copy already exists at a path, say so and ask before replacing it.
+For Yes, suggest the user's first name in lowercase as `<your-name>` and let them change it. Check each draft path with `da_get_source`; if a draft copy is already there, say so and ask before replacing it. Make each copy with `da_copy_content` (from `<path>.html` to `drafts/<your-name>/<path>.html`).
 
 ## Step 4. Apply the changes and preview
 
 For each page that is ready (in its draft copy, when the answer was Yes):
 
+- Before changing a page itself (not a draft copy), call `da_create_version` on it, labelled for the update (e.g. `before 2027 AEP update`). If that fails, leave the page alone and report it.
+- Read the current HTML with `da_get_source`, make the changes in it, and save the whole page with `da_update_source`. Read it back to check it was saved.
 - Make each change from step 1 that can be placed: add the red text, delete the struck text, follow this update's comments. Keep the page's blocks, sections and formatting as they are; change only the copy. New text takes the formatting of the text around it (a new list item is a list item; a new heading takes the level the document shows).
 - Update the Title and Description in the page's metadata block when the table gives new values.
 - A new link from the document keeps its address. A link to `https://www.highmark.com/<path>` becomes the relative `/<path>` when this site has that page.
 - Embedded images: don't add them; list them.
 
-Then preview each changed document. Do not publish.
+Then preview each changed document, if your DA tools have a preview action. Never call `da_publish`. If a DA call fails, show the user the error and ask how to go on; don't fall back to making a file.
 
 ## Step 5. Report
 
