@@ -6,6 +6,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "4321", "--directory", "docs"],
       "port": 4321
+    },
+    {
+      "name": "aem-examples",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "@adobe/aem-cli@16.22.12", "up", "--port", "3100", "--no-open", "--html-folder", "drafts/ew-examples"],
+      "port": 3100
     }
   ]
 }

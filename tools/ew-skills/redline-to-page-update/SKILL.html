@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta
+  http-equiv="Content-Security-Policy"
+  content="script-src 'nonce-aem' 'strict-dynamic' 'unsafe-inline' http: https:; base-uri 'self'; object-src 'none';"
+  move-to-http-header="true"
+>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="preconnect" href="https://use.typekit.net" crossorigin>
+<link rel="stylesheet" href="https://use.typekit.net/iaj7yko.css">
+<script nonce="aem" src="/scripts/aem.js" type="module"></script>
+<script nonce="aem" src="/scripts/scripts.js" type="module"></script>
+<link rel="stylesheet" href="/styles/styles.css"/>
+</head>
+<body>
+<header></header>
+<main>
+<div><h2 id="name-redline-to-page-updatedescription-apply-a-word-document-of-marked-up-changes-to-existing-highmarkcom-pages-in-document-authoring-in-these-documents-new-copy-is-red-and-removed-copy-is-red-strikethrough-and-each-page-starts-with-a-table-giving-its-url-meta-title-and-meta-description-for-example-the-wholecare-medicare-d-snp-aep-content---2027-updates-document-use-when-the-user-attaches-such-a-document-and-wants-the-pages-updated-not-for-content-briefs-for-new-pages-use-brief-to-page-for-thoseversion-1status-approved">name: redline-to-page-update
+description: Apply a Word document of marked-up changes to existing highmark.com pages in Document Authoring. In these documents new copy is red and removed copy is red strikethrough, and each page starts with a table giving its URL, Meta Title and Meta Description (for example the "Wholecare Medicare D-SNP AEP Content - 2027 Updates" document). Use when the user attaches such a document and wants the pages updated. Not for content briefs for new pages; use brief-to-page for those.
+version: 1
+status: approved</h2>
+<h1 id="redline-to-page-update">Redline to page update</h1>
+<p>You apply the changes in a marked-up Word document to existing pages in Document Authoring (DA) for the site <code>adobedrago/highmark</code>, then preview them. You never publish, and you never delete or unpublish a page.</p>
+<p><strong>The result is updated DA pages, changed with the <code>da-live-admin</code> MCP tools.</strong> The attached Word document is only your input. Never create a Word document, a file to download or an artifact, and never answer with the updated pages as text instead of saving them. If the DA tools (<code>da_get_source</code>, <code>da_update_source</code>) aren't available to you, stop and tell the user so; don't make a file instead.</p>
+<p>Every DA call takes org <code>adobedrago</code>, repo <code>highmark</code> and the path plus <code>.html</code>, with no leading slash: the page <code>/wholecare/medicare/enrollment</code> is <code>wholecare/medicare/enrollment.html</code>.</p>
+<p>Work through the five steps in order. Each step ends with something you show the user; do not start the next step until it is done. Do not skip step 5: the report is part of the job.</p>
+<h2 id="step-1-read-the-document">Step 1. Read the document</h2>
+<p>Read the attached Word document. It covers one or more pages. Each page starts with a title line (such as "... 2027 Updates- Enrollment") and a table:</p>
+<ul>
+<li><code>URL</code>: the page. <code>https://www.highmark.com/wholecare/medicare/enrollment</code> is the DA document <code>/wholecare/medicare/enrollment</code>.</li>
+<li><code>Meta Title / Title Tag</code> and <code>Meta Description</code>: the new values, or "No updates."</li>
+</ul>
+<p>The page's copy follows, as it should read after the update:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="in-the-document"><div><div>Black text</div><div>Unchanged. Use it to find the place to edit.</div></div><div><div>Red text</div><div>New: add it.</div></div><div><div>Strikethrough (red or black)</div><div>Removed: delete it.</div></div><div><div><code>[Coming soon:] ...</code></div><div>Not part of this update. Don't add it; list it.</div></div><div><div>Other text in square brackets (<code>[VIEW REQUIREMENTS]</code>, <code>[Last Updated: July 22, 2026]</code>)</div><div>An editor's note, not copy. Don't add it; list it.</div></div></div>
+<p><strong>Comments</strong> in the margin are instructions for the text they're attached to:</p>
+<ul>
+<li>Do the ones meant for this update: "REMOVE", "This link should be updated to the anchored section on the page", "Redirect link: <url>" (point the link there), "Adding a quick link section".</url></li>
+<li>Don't do the ones about a later date or still waiting on someone: "Will need to remove for January", "Will need to update for January", "Not update for October", "Joanna still to confirm this link needs to be updated". List them, with the text they're attached to.</li>
+<li>"This page should be removed entirely ..." is never yours to do: list it.</li>
+<li>A comment that names a file you don't have ("Link to PDF: ....pdf", "Image also saved here: ....png"): list the file.</li>
+</ul>
+<p>If you can't see the document's colours, strikethrough or comments, stop and tell the user: without them the changes can't be told apart from the unchanged text.</p>
+<p>Show the user, page by page: its path, whether its title or description change, and a short list of its changes.</p>
+<h2 id="step-2-check-the-pages-exist">Step 2. Check the pages exist</h2>
+<p>For each page, read its DA document with <code>da_get_source</code>. A page that isn't in DA can't be updated: mark it "needs import", leave it out of the next steps, and keep going with the others. (Importing a page from highmark.com is done by the developers, outside Experience Workspace.)</p>
+<p>For each page that exists, check that the unchanged text around each change is in the document. When it isn't (the page reads differently from the Word document), don't guess where the change goes: mark that change "can't place" and keep it for the report.</p>
+<p>Show the user which pages are ready, which need import, and which changes can't be placed.</p>
+<h2 id="step-3-ask-where-the-changes-go">Step 3. Ask where the changes go</h2>
+<p>Ask the user, and wait for the answer:</p>
+<blockquote>
+<p><strong>Should these pages be drafted in drafts?</strong></p>
+<ul>
+<li><strong>Yes:</strong> I'll copy each page to <code>/drafts/&#x3C;your-name>/&#x3C;path></code> and make the changes in the copy. The real pages stay as they are.</li>
+<li><strong>No:</strong> I'll make the changes in the pages themselves.</li>
+</ul>
+</blockquote>
+<p>For Yes, suggest the user's first name in lowercase as <code>&#x3C;your-name></code> and let them change it. Check each draft path with <code>da_get_source</code>; if a draft copy is already there, say so and ask before replacing it. Make each copy with <code>da_copy_content</code> (from <code>&#x3C;path>.html</code> to <code>drafts/&#x3C;your-name>/&#x3C;path>.html</code>).</p>
+<h2 id="step-4-apply-the-changes-and-preview">Step 4. Apply the changes and preview</h2>
+<p>For each page that is ready (in its draft copy, when the answer was Yes):</p>
+<ul>
+<li>Before changing a page itself (not a draft copy), call <code>da_create_version</code> on it, labelled for the update (e.g. <code>before 2027 AEP update</code>). If that fails, leave the page alone and report it.</li>
+<li>Read the current HTML with <code>da_get_source</code>, make the changes in it, and save the whole page with <code>da_update_source</code>. Read it back to check it was saved.</li>
+<li>Make each change from step 1 that can be placed: add the red text, delete the struck text, follow this update's comments. Keep the page's blocks, sections and formatting as they are; change only the copy. New text takes the formatting of the text around it (a new list item is a list item; a new heading takes the level the document shows).</li>
+<li>Update the Title and Description in the page's metadata block when the table gives new values.</li>
+<li>A new link from the document keeps its address. A link to <code>https://www.highmark.com/&#x3C;path></code> becomes the relative <code>/&#x3C;path></code> when this site has that page.</li>
+<li>Embedded images: don't add them; list them.</li>
+</ul>
+<p>Then preview each changed document, if your DA tools have a preview action. Never call <code>da_publish</code>. If a DA call fails, show the user the error and ask how to go on; don't fall back to making a file.</p>
+<h2 id="step-5-report">Step 5. Report</h2>
+<p>Tell the user:</p>
+<ol>
+<li>Each updated page, with its DA edit link (<code>https://da.live/edit#/adobedrago/highmark/&#x3C;path></code>) and preview link (<code>https://main--highmark--adobedrago.aem.page/&#x3C;path></code>), and a one-line summary of what changed.</li>
+<li>Pages that need import.</li>
+<li>Changes that couldn't be placed, with the text from the document.</li>
+<li>What wasn't done, and why:
+<ul>
+<li>"Coming soon" items and editor's notes;</li>
+<li>later-date and unconfirmed comments, with the text they're attached to (a to-do list for the next update);</li>
+<li>pages to remove, which is a decision for the content owner;</li>
+<li>files and images named in the document.</li>
+</ul>
+</li>
+<li>For pages in drafts: their changes go to the real pages once approved.</li>
+</ol></div>
+</main>
+<footer></footer>
+</body>
+</html>
