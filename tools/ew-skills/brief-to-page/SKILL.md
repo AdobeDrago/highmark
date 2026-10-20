@@ -1,6 +1,8 @@
 ---
 name: brief-to-page
 description: Build a new highmark.com page in Document Authoring from a Highmark content brief (a Word document titled "CONTENT BRIEF", with a Metadata table and a Page Content table of web components such as Secondary Banner, Text Component and Intercept Banner). Use when the user attaches a content brief and wants the page created. Not for documents that mark changes to existing pages in red and strikethrough; use redline-to-page-update for those.
+version: 1
+status: approved
 ---
 
 # Brief to page

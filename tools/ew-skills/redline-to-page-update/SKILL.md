@@ -1,6 +1,8 @@
 ---
 name: redline-to-page-update
 description: Apply a Word document of marked-up changes to existing highmark.com pages in Document Authoring. In these documents new copy is red and removed copy is red strikethrough, and each page starts with a table giving its URL, Meta Title and Meta Description (for example the "Wholecare Medicare D-SNP AEP Content - 2027 Updates" document). Use when the user attaches such a document and wants the pages updated. Not for content briefs for new pages; use brief-to-page for those.
+version: 1
+status: approved
 ---
 
 # Redline to page update
