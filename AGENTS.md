@@ -329,6 +329,21 @@ Started 2026-10-07. The Provider Resource Center is migrated into this site unde
   - 2026-10-13: batch 4 (the 18 P2 pages: 16 news articles and 2 manual units, the spotlight fragment and the `provider-panel` block), with region panels and grey boxes on 39 batch-2 pages, merged as #103 and published. All 18 are in both indexes; P2 is 18/18.
 - **Search.** Provider pages are in the site search (`search-index` has no `/providers/**` exclude, decided 2026-10-07). The provider header's own box searches providers.highmark.com.
 
+## Pages from Word documents (Experience Workspace skills)
+
+Started 2026-10-20. Two skills for the assistant in Experience Workspace build pages from the Word documents Highmark's content team sends. Their source is in `tools/ew-skills/` (see its README); EW reads them from the `skills` sheet of the site config, status `approved`.
+
+- `brief-to-page`: a content brief (Metadata and Page Content tables) becomes a new page with `Template: program-page`. The two sample briefs are Well in Place (`/member/well-in-place`) and PH95 (`/plans/medicaid/ph95`); `tools/ew-skills/examples/` holds the documents the skill should produce for them.
+- `redline-to-page-update`: a document with red (new) and red strikethrough (removed) copy updates existing pages. Its first input, the Wholecare Medicare D-SNP 2027 update, covers 16 pages under `/wholecare/medicare`, none of them migrated yet: they have to be imported here first.
+- Both ask whether to work in `/drafts/<name>/...`, preview, and never publish. Images are left out and listed; nav entries and redirects are listed for a person to do.
+- **Template `program-page`** (`styles/templates/program-page.css`), matched to highmark.com's `/member/case-manager` at 390 / 768 / 1440:
+  - Secondary Banner → `hero-minimal-dark-withimg`;
+  - Text Component → default content in a 780px column (the P1 lead is an H5; FAQs are an `accordion`);
+  - Intercept Banner → Style `intercept`;
+  - disclaimers → Style `footnotes`.
+
+  Without its photos the banner is the splash-blue text panel.
+
 ## Open PRs
 
 None as of 2026-10-06. #44 (FSA, Commuter Benefits and HSA tables) and #56 (`migrate-top-level-pages`) were merged on 2026-10-05, but their pages are mostly still preview-only:
