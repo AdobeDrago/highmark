@@ -197,6 +197,9 @@ body.faq.employer-plan main .columns.icon-rows :is(p, h5) {
 body.faq.employer-plan main .columns.icon-rows h3 {
   margin: 0 0 8px;
   padding: 16px 0;
+  font-size: 24px;
+  line-height: 1.1;
+  letter-spacing: -0.72px;
 }
 
 /* Balanced Funding's formula box: the copy in 7 of the text column's 8 columns */
@@ -214,17 +217,20 @@ body.faq.employer-plan main .columns.icon-rows p {
 
 /* the specialties (CopayGo): the source's two lists, 10 and 9 items, side by side */
 body.faq.employer-plan main .columns.icon-rows ul {
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(10, auto);
-  align-items: start;
   margin: 0 0 30px;
   padding: 0;
+  columns: 2;
+  column-gap: 0;
+}
+
+/* each column its own: the second starts at the 11th item */
+body.faq.employer-plan main .columns.icon-rows li:nth-child(11) {
+  break-before: column;
 }
 
 body.faq.employer-plan main .columns.icon-rows li {
   margin: 0 0 5px 42px;
+  break-inside: avoid;
   color: rgb(0 20 70);
   font-size: 16px;
   font-weight: 400;
@@ -241,11 +247,19 @@ body.faq.employer-plan main > .section.accent {
   background: none;
 }
 
-body.faq.employer-plan main > .section.accent > .default-content-wrapper {
-  padding-top: var(--band-top);
-  padding-bottom: var(--band-bottom);
+/* every wrapper in the band (its text, or a block's: the formula box) has its colour;
+   the first its top padding, the last its bottom padding */
+body.faq.employer-plan main > .section.accent > div {
   background-color: rgb(247 251 253);
   text-align: center;
+}
+
+body.faq.employer-plan main > .section.accent > div:first-child {
+  padding-top: var(--band-top);
+}
+
+body.faq.employer-plan main > .section.accent > div:last-child {
+  padding-bottom: var(--band-bottom);
 }
 
 /* a band's later parts: the spacer before them is inside its colour */
@@ -253,7 +267,7 @@ body.faq.employer-plan main > .section.accent:not([class*="band-top"])[class*="s
   padding-top: 0;
 }
 
-body.faq.employer-plan main > .section.accent:not([class*="band-top"])[class*="space-"] > .default-content-wrapper {
+body.faq.employer-plan main > .section.accent:not([class*="band-top"])[class*="space-"] > div:first-child {
   padding-top: var(--faq-space, 0);
 }
 
@@ -313,7 +327,7 @@ body.faq.employer-plan main > .section.band-bottom-0 { --band-bottom: 0; }
   }
 
   /* the band inside the page's gutters */
-  body.faq.employer-plan main > .section.accent > .default-content-wrapper {
+  body.faq.employer-plan main > .section.accent > div {
     margin: 0 30px;
     padding-right: 0;
     padding-left: 0;
@@ -336,7 +350,7 @@ body.faq.employer-plan main > .section.band-bottom-0 { --band-bottom: 0; }
   body.faq.employer-plan main > .section.band-bottom-tablet-20 { --band-bottom: 20px; }
   body.faq.employer-plan main > .section.band-bottom-tablet-40 { --band-bottom: 40px; }
 
-  body.faq.employer-plan main > .section.accent:not([class*="band-top"])[class*="space-"] > .default-content-wrapper {
+  body.faq.employer-plan main > .section.accent:not([class*="band-top"])[class*="space-"] > div:first-child {
     padding-top: var(--faq-space-tablet, var(--faq-space, 0));
   }
 
@@ -405,7 +419,7 @@ body.faq.employer-plan main > .section.band-bottom-0 { --band-bottom: 0; }
 }
 
 @media (width >= 768px) and (width < 992px) {
-  body.faq.employer-plan main > .section.accent > .default-content-wrapper {
+  body.faq.employer-plan main > .section.accent > div {
     margin: 0 64px;
   }
 
@@ -449,9 +463,11 @@ body.faq.employer-plan main > .section.band-bottom-0 { --band-bottom: 0; }
   }
 
   body.faq.employer-plan main .columns.icon-rows ul {
-    grid-auto-flow: row;
-    grid-template-columns: 1fr;
-    grid-template-rows: none;
+    columns: 1;
+  }
+
+  body.faq.employer-plan main .columns.icon-rows li:nth-child(11) {
+    break-before: auto;
   }
 
   body.faq.employer-plan main .columns.icon-rows h5 {
@@ -505,7 +521,7 @@ body.faq.employer-plan main > .section.band-bottom-0 { --band-bottom: 0; }
   body.faq.employer-plan main > .section.band-bottom-mobile-20 { --band-bottom: 20px; }
   body.faq.employer-plan main > .section.band-bottom-mobile-40 { --band-bottom: 40px; }
 
-  body.faq.employer-plan main > .section.accent:not([class*="band-top"])[class*="space-"] > .default-content-wrapper {
+  body.faq.employer-plan main > .section.accent:not([class*="band-top"])[class*="space-"] > div:first-child {
     padding-top: var(--faq-space-mobile, var(--faq-space-tablet, var(--faq-space, 0)));
   }
 }
