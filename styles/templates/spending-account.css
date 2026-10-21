@@ -135,11 +135,6 @@ body.spending-account main .columns-minimal-dark p:not(.button-container) {
   letter-spacing: -0.1px;
 }
 
-body.spending-account main .columns-minimal-dark p.button-container {
-  margin: 0;
-  line-height: 20px;
-}
-
 /* copy that is bare text on the source (plain-copy): roboto 16/24 in navy, with the
    16px of its (empty) button row below */
 body.spending-account main .section.plain-copy .columns-minimal-dark p:not(.button-container) {
@@ -657,4 +652,204 @@ body.spending-account main .section.footnotes p {
   body.spending-account main .section.footnotes {
     padding: 40px 30px;
   }
+}
+
+/* ---- FSA and Commuter Benefits ---- */
+
+/* the intro's call to action (FSA TAX SAVINGS CALCULATOR): the outlined navy button,
+   32px under the copy */
+body.spending-account main .section.intro p.button-container {
+  margin: 16px 0 0;
+}
+
+/* a link alone in a side panel's copy (View all eligible medical expenses) is a text
+   link, as on the source */
+body.spending-account main .columns-minimal-dark p.button-container {
+  margin: 0 0 16px;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+}
+
+body.spending-account main .columns-minimal-dark p.button-container a.button:any-link {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: #0078c1;
+  font: inherit;
+  letter-spacing: -0.1px;
+  text-transform: none;
+  white-space: normal;
+}
+
+/* a centred text band (FSA's Limited Purpose FSAs): the heading across the band, the
+   copy in its middle half, an outlined button and the disclaimer under it */
+body.spending-account main .section.text-band:not(.grey) {
+  padding-right: 32px;
+  padding-left: 32px;
+  text-align: center;
+}
+
+body.spending-account main .section.highlight.text-band {
+  background-color: rgb(254 240 236);
+}
+
+body.spending-account main .section.text-band:not(.grey) > .default-content-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+body.spending-account main .section.text-band:not(.grey) h2 {
+  margin: 0 0 8px;
+  padding: 24px 0;
+}
+
+body.spending-account main .section.text-band:not(.grey) p {
+  margin: 0 0 16px;
+  color: rgb(0 20 70);
+  font-weight: 300;
+  letter-spacing: -0.1px;
+}
+
+body.spending-account main .section.text-band:not(.grey) p:not(.button-container, :has(sub)) {
+  max-width: 50vw;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+body.spending-account main .section.text-band:not(.grey) p.button-container {
+  margin: 0;
+}
+
+body.spending-account main .section:is(.intro, .text-band) a.button:any-link {
+  display: inline-block;
+  margin: 16px 0;
+  padding: 16px 24px;
+  border: 1px solid var(--text-color);
+  background: transparent;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+/* text cards with a photo on top (Commuter Benefits): the photo across the card */
+body.spending-account main .cards > ul > li:has(.cards-card-image) {
+  padding: 0;
+}
+
+body.spending-account main .cards .cards-card-image {
+  line-height: 0;
+}
+
+body.spending-account main .cards .cards-card-image img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 370 / 200;
+  object-fit: cover;
+}
+
+body.spending-account main .cards li:has(.cards-card-image) .cards-card-body {
+  padding: 20px;
+}
+
+/* a table right under its heading (table-flush), 20px over what follows it */
+body.spending-account main .section.table-flush .table-minimal-dark-compare-wrapper {
+  padding: 0 0 20px;
+}
+
+body.spending-account main .section.table-flush .table-minimal-dark-compare-wrapper:last-child {
+  padding-bottom: 0;
+}
+
+/* a band's own spacing (top-* / bottom-*: the source's spacing components) */
+body.spending-account main .section[class*="top-"] {
+  padding-top: var(--sa-top);
+}
+
+body.spending-account main .section[class*="bottom-"] {
+  padding-bottom: var(--sa-bottom);
+}
+
+body.spending-account main .section.top-20 { --sa-top: 20px; }
+body.spending-account main .section.top-40 { --sa-top: 40px; }
+body.spending-account main .section.top-60 { --sa-top: 60px; }
+body.spending-account main .section.top-80 { --sa-top: 80px; }
+body.spending-account main .section.top-100 { --sa-top: 100px; }
+body.spending-account main .section.top-120 { --sa-top: 120px; }
+body.spending-account main .section.bottom-20 { --sa-bottom: 20px; }
+body.spending-account main .section.bottom-40 { --sa-bottom: 40px; }
+body.spending-account main .section.bottom-60 { --sa-bottom: 60px; }
+body.spending-account main .section.bottom-80 { --sa-bottom: 80px; }
+body.spending-account main .section.bottom-100 { --sa-bottom: 100px; }
+body.spending-account main .section.bottom-120 { --sa-bottom: 120px; }
+
+@media (width < 992px) {
+  body.spending-account main .section.intro a.button:any-link,
+  body.spending-account main .section.text-band:not(.grey) a.button:any-link {
+    white-space: normal;
+  }
+
+  body.spending-account main .columns-minimal-dark p.button-container {
+    font-size: 15px;
+    line-height: 19.5px;
+  }
+
+  body.spending-account main .columns-minimal-dark p.button-container a.button:any-link {
+    letter-spacing: -0.4px;
+  }
+
+  body.spending-account main .section.text-band:not(.grey) h2 {
+    padding: 19.2px 0;
+  }
+
+  body.spending-account main .section.text-band:not(.grey) p {
+    font-size: 15px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.spending-account main .section.table-flush .table-minimal-dark-compare-wrapper {
+    padding-bottom: 20px;
+  }
+
+  body.spending-account main .section.top-tablet-20 { --sa-top: 20px; }
+  body.spending-account main .section.top-tablet-40 { --sa-top: 40px; }
+  body.spending-account main .section.top-tablet-60 { --sa-top: 60px; }
+  body.spending-account main .section.top-tablet-80 { --sa-top: 80px; }
+  body.spending-account main .section.bottom-tablet-20 { --sa-bottom: 20px; }
+  body.spending-account main .section.bottom-tablet-40 { --sa-bottom: 40px; }
+  body.spending-account main .section.bottom-tablet-60 { --sa-bottom: 60px; }
+  body.spending-account main .section.bottom-tablet-80 { --sa-bottom: 80px; }
+}
+
+@media (width < 768px) {
+  body.spending-account main .columns-minimal-dark p.button-container {
+    margin-bottom: 12.8px;
+    line-height: 21px;
+  }
+
+  body.spending-account main .columns-minimal-dark p.button-container a.button:any-link {
+    letter-spacing: -0.2px;
+  }
+
+  body.spending-account main .section.text-band:not(.grey) p {
+    margin-bottom: 12.8px;
+    line-height: 21px;
+    letter-spacing: -0.2px;
+  }
+
+  body.spending-account main .section.top-mobile-20 { --sa-top: 20px; }
+  body.spending-account main .section.top-mobile-40 { --sa-top: 40px; }
+  body.spending-account main .section.top-mobile-60 { --sa-top: 60px; }
+  body.spending-account main .section.top-mobile-80 { --sa-top: 80px; }
+  body.spending-account main .section.bottom-mobile-20 { --sa-bottom: 20px; }
+  body.spending-account main .section.bottom-mobile-40 { --sa-bottom: 40px; }
+  body.spending-account main .section.bottom-mobile-60 { --sa-bottom: 60px; }
+  body.spending-account main .section.bottom-mobile-80 { --sa-bottom: 80px; }
 }

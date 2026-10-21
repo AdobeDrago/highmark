@@ -12,13 +12,18 @@ import sectionsTransformer from './transformers/highmark-spending-sections.js';
 
 /**
  * Text-card grid (div.card-block: a centred heading and intro over cards that are a
- * heading and text, no photo) -> the heading and intro as default content, then a
- * `Cards` block with one card per row.
+ * heading and text, with a photo on top on some pages: Commuter Benefits) -> the
+ * heading and intro as default content, then a `Cards` block with one card per row
+ * ([photo |] text).
  */
 function textCardsParser(element, { document }) {
   const title = element.querySelector('.cardBlockTitleContainer');
   const nodes = title ? [...title.querySelectorAll(':scope > h2, :scope > .cardDescription > *')] : [];
-  const cells = [...element.querySelectorAll('.cardBlock .cardText')].map((card) => [[...card.children]]);
+  const cells = [...element.querySelectorAll('.cardBlock')].map((card) => {
+    const text = card.querySelector('.cardText');
+    const img = card.querySelector('img');
+    return img ? [img, [...text.children]] : [[...text.children]];
+  });
   if (!cells.length) return;
   const block = WebImporter.Blocks.createBlock(document, { name: 'Cards', cells });
   element.replaceWith(...nodes, block);
@@ -88,7 +93,13 @@ export default {
   // A side panel's empty spacer paragraph (one line above "WATCH VIDEO") is kept as a
   // zero-width space, on the live page: the importer copies the page before the
   // transform, and the pipeline drops a blank paragraph.
+  // Each spacing component's height on the live page (the importer's desktop width)
+  // is kept for the sections transformer: its classes give tablet and phone heights
+  // (tab-/mob-*-padding) but not always the desktop one.
   onLoad: ({ document }) => {
+    document.querySelectorAll('.spacing section').forEach((s) => {
+      s.setAttribute('data-space', Math.round(s.getBoundingClientRect().height));
+    });
     document.querySelectorAll('.side-card-panel p').forEach((p) => {
       if (!p.querySelector('img, br, a') && !p.textContent.replace(/[\s\u00a0]/g, '')) p.textContent = '\u200b';
     });

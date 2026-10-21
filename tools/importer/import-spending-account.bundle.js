@@ -234,6 +234,44 @@ var CustomImportScript = (() => {
     for (let e = el.firstElementChild; !found && e; e = e.firstElementChild) found = own(e);
     return found ? found[1] : "";
   }
+  var SPACER_PX = { ten: 20, twenty: 40, thirty: 60, forty: 80 };
+  function spacerHeights(spacer) {
+    var _a, _b;
+    const s = spacer.querySelector("section");
+    const cls = (s == null ? void 0 : s.className) || "";
+    const size = (prefix) => SPACER_PX[(cls.match(new RegExp(`(?:^|\\s)${prefix}(ten|twenty|thirty|forty)-padding`)) || [])[1]];
+    const d = Number(s == null ? void 0 : s.getAttribute("data-space")) || size("") || 0;
+    const t = (_a = size("tab-")) != null ? _a : d;
+    return [d, t, (_b = size("mob-")) != null ? _b : t];
+  }
+  function spacingStyles(band) {
+    var _a;
+    const grid = [...band.querySelectorAll(".aem-Grid")].find((g) => [...g.children].some((c) => c.matches(".spacing")));
+    if (!grid) return [];
+    const kids = [...grid.children];
+    const sum = (run) => run.reduce((a, sp) => spacerHeights(sp).map((v, i) => a[i] + v), [0, 0, 0]);
+    const lead = [];
+    for (const k of kids) {
+      if (!k.matches(".spacing")) break;
+      lead.push(k);
+    }
+    const trail = [];
+    for (const k of [...kids].reverse()) {
+      if (!k.matches(".spacing")) break;
+      trail.push(k);
+    }
+    const styles = [];
+    [["top", lead], ["bottom", trail]].forEach(([side, run]) => {
+      if (!run.length || run.length === kids.length) return;
+      const [d, t, m] = sum(run);
+      styles.push(`${side}-${d}`);
+      if (t !== d) styles.push(`${side}-tablet-${t}`);
+      if (m !== t) styles.push(`${side}-mobile-${m}`);
+    });
+    const table = kids.find((k) => k.querySelector("table"));
+    if (table && !((_a = table.previousElementSibling) == null ? void 0 : _a.matches(".spacing"))) styles.push("table-flush");
+    return styles;
+  }
   function styleFor(component, isLast) {
     if (component.matches("section.container-fluid-fullwidth") && component.querySelector("h1")) return "title-band";
     if (component.matches("div.quicklinks.section, div.card-block.section")) return "";
@@ -245,9 +283,11 @@ var CustomImportScript = (() => {
       if ([...component.querySelectorAll(".text-area > div")].some((d) => !d.children.length && d.textContent.trim())) styles.push("plain-copy");
       return styles.filter(Boolean).join(", ");
     }
-    if (isLast && component.querySelector("sup") && !component.querySelector("h2, table")) return "footnotes";
+    const spacing = spacingStyles(component);
+    if (isLast && component.querySelector("sup") && !component.querySelector("h2, table")) return ["footnotes", ...spacing].join(", ");
     const inner = component.querySelector(":scope > .parent-width > section") || component;
-    return brandOf(inner);
+    const kind = component.querySelector("h2") && !component.querySelector("table") ? "text-band" : "";
+    return [brandOf(inner), kind, ...spacing].filter(Boolean).join(", ");
   }
   function transform2(hookName, element, payload) {
     if (hookName === "beforeTransform") {
@@ -292,7 +332,11 @@ var CustomImportScript = (() => {
   function textCardsParser(element, { document: document2 }) {
     const title = element.querySelector(".cardBlockTitleContainer");
     const nodes = title ? [...title.querySelectorAll(":scope > h2, :scope > .cardDescription > *")] : [];
-    const cells = [...element.querySelectorAll(".cardBlock .cardText")].map((card) => [[...card.children]]);
+    const cells = [...element.querySelectorAll(".cardBlock")].map((card) => {
+      const text = card.querySelector(".cardText");
+      const img = card.querySelector("img");
+      return img ? [img, [...text.children]] : [[...text.children]];
+    });
     if (!cells.length) return;
     const block = WebImporter.Blocks.createBlock(document2, { name: "Cards", cells });
     element.replaceWith(...nodes, block);
@@ -351,7 +395,13 @@ var CustomImportScript = (() => {
     // A side panel's empty spacer paragraph (one line above "WATCH VIDEO") is kept as a
     // zero-width space, on the live page: the importer copies the page before the
     // transform, and the pipeline drops a blank paragraph.
+    // Each spacing component's height on the live page (the importer's desktop width)
+    // is kept for the sections transformer: its classes give tablet and phone heights
+    // (tab-/mob-*-padding) but not always the desktop one.
     onLoad: ({ document: document2 }) => {
+      document2.querySelectorAll(".spacing section").forEach((s) => {
+        s.setAttribute("data-space", Math.round(s.getBoundingClientRect().height));
+      });
       document2.querySelectorAll(".side-card-panel p").forEach((p) => {
         if (!p.querySelector("img, br, a") && !p.textContent.replace(/[\s\u00a0]/g, "")) p.textContent = "\u200B";
       });
