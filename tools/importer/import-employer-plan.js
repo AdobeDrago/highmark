@@ -174,18 +174,59 @@ export default {
       h5.append(...span.childNodes);
       p.replaceWith(h5);
     });
-    // The light-blue band below the article (Find a Pharmacy's "Log in to your member
-    // portal", outside the source's <main>): its own section, Style light-blue (the
-    // sections transformer turns the marker into Section Metadata, as its own).
-    main.querySelectorAll('section.new-hmk-brand-fifteenpercent-splash').forEach((band) => {
-      if (!band.textContent.trim()) return;
-      const hr = document.createElement('hr');
-      hr.setAttribute('data-excat-section-id', 'light-blue');
-      band.before(hr);
-    });
     // the source's PDF icon (a Material Icons ligature, "picture_as_pdf") -> the :pdf: icon
     main.querySelectorAll('a i[class*="material-icons"]').forEach((i) => {
       if (i.textContent.trim() === 'picture_as_pdf') i.replaceWith(document.createTextNode(':pdf: '));
+    });
+    // The source's buttons: a filled one (brand-button-normal) is a bold link, an outlined
+    // one (brand-button-light) an italic link, and a text button (textButton, "WATCH
+    // VIDEO") a plain link alone in its paragraph; employer-plan.css styles them.
+    main.querySelectorAll('.hmk-brand-buttons a[href]').forEach((a) => {
+      const p = document.createElement('p');
+      const link = document.createElement('a');
+      link.href = a.getAttribute('href');
+      link.textContent = a.textContent.replace(/\s+/g, ' ').trim();
+      if (a.matches('.brand-button-normal, .brand-button-light')) {
+        const wrap = document.createElement(a.matches('.brand-button-normal') ? 'strong' : 'em');
+        wrap.append(link);
+        p.append(wrap);
+      } else p.append(link);
+      (a.closest('.hmk-brand-buttons') || a).replaceWith(p);
+    });
+    // A video's image links to the video; the WATCH VIDEO link under it does too.
+    main.querySelectorAll('.image a:has(img)').forEach((a) => a.replaceWith(...a.childNodes));
+    // CopayGo's icon rows (a 2-column icon beside a 10-column heading and text, spaced
+    // by spacing components): one Columns (icon-rows) block, a row each; a row's two
+    // side-by-side lists (gridcontrol) are one list, which the CSS sets in two columns.
+    const iconRow = (c) => c.matches('section.container-fluid-fullwidth')
+      && c.querySelector(':scope > .parent-width > section > .aem-Grid > .container-fluid-fullwidth > .parent-width > section > .aem-Grid--10');
+    main.querySelectorAll('.aem-Grid').forEach((grid) => {
+      const kids = [...grid.children];
+      const rows = kids.filter(iconRow);
+      if (!rows.length) return;
+      const cells = rows.map((row) => {
+        const img = row.querySelector('.aem-Grid--2 img');
+        const text = row.querySelector(':scope > .parent-width > section > .aem-Grid > .container-fluid-fullwidth > .parent-width > section > .aem-Grid--10');
+        text.querySelectorAll('.gridcontrol').forEach((gc) => {
+          const ul = document.createElement('ul');
+          gc.querySelectorAll('li').forEach((li) => ul.append(li));
+          gc.replaceWith(ul);
+        });
+        text.querySelectorAll('.spacing').forEach((s) => s.remove());
+        const content = [...text.querySelectorAll('h5, p, ul')].filter((e) => !e.parentElement.closest('ul'));
+        return img ? [img, content] : [content];
+      });
+      const block = WebImporter.Blocks.createBlock(document, { name: 'Columns (icon-rows)', cells });
+      rows[0].before(block);
+      // the rows and the spacers between them go
+      const first = kids.indexOf(rows[0]);
+      const last = kids.indexOf(rows[rows.length - 1]);
+      kids.slice(first, last + 1).forEach((k) => (rows.includes(k) || k.matches('.spacing')) && k.remove());
+    });
+    // The closing "Get started" band (a polar section): Style accent on its section
+    // (added to the section break before it, after the parsers run).
+    main.querySelectorAll('section.new-hmk-brand-polar').forEach((band) => {
+      if (band.textContent.trim()) band.setAttribute('data-employer-band', 'accent');
     });
     // Without a left nav the page is a plain article: Template legal (and employer-plan).
     const navEl = main.querySelector('div.col-lg-3 div.nav-container:has(.sidenav, .sidenav-item-list)');
@@ -234,6 +275,18 @@ export default {
       } else {
         console.warn(`No parser found for block: ${block.name}`);
       }
+    });
+
+    // the polar band's section: Style accent on its section break (the band's own, from
+    // its leading spacer, or else the one before it)
+    const breaks = [...main.querySelectorAll('hr')];
+    main.querySelectorAll('[data-employer-band]').forEach((band) => {
+      // eslint-disable-next-line no-bitwise
+      const hr = band.querySelector('hr') || breaks.filter((b) => b.compareDocumentPosition(band) & 4 /* FOLLOWING */).pop();
+      band.removeAttribute('data-employer-band');
+      if (!hr) return;
+      const style = hr.getAttribute('data-excat-section-id');
+      hr.setAttribute('data-excat-section-id', style ? `${style}, accent` : 'accent');
     });
 
     // 4. afterTransform (final cleanup + section metadata)

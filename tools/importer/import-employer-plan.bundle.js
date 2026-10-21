@@ -588,14 +588,47 @@ var CustomImportScript = (() => {
         h5.append(...span.childNodes);
         p.replaceWith(h5);
       });
-      main.querySelectorAll("section.new-hmk-brand-fifteenpercent-splash").forEach((band) => {
-        if (!band.textContent.trim()) return;
-        const hr2 = document.createElement("hr");
-        hr2.setAttribute("data-excat-section-id", "light-blue");
-        band.before(hr2);
-      });
       main.querySelectorAll('a i[class*="material-icons"]').forEach((i) => {
         if (i.textContent.trim() === "picture_as_pdf") i.replaceWith(document.createTextNode(":pdf: "));
+      });
+      main.querySelectorAll(".hmk-brand-buttons a[href]").forEach((a) => {
+        const p = document.createElement("p");
+        const link = document.createElement("a");
+        link.href = a.getAttribute("href");
+        link.textContent = a.textContent.replace(/\s+/g, " ").trim();
+        if (a.matches(".brand-button-normal, .brand-button-light")) {
+          const wrap = document.createElement(a.matches(".brand-button-normal") ? "strong" : "em");
+          wrap.append(link);
+          p.append(wrap);
+        } else p.append(link);
+        (a.closest(".hmk-brand-buttons") || a).replaceWith(p);
+      });
+      main.querySelectorAll(".image a:has(img)").forEach((a) => a.replaceWith(...a.childNodes));
+      const iconRow = (c) => c.matches("section.container-fluid-fullwidth") && c.querySelector(":scope > .parent-width > section > .aem-Grid > .container-fluid-fullwidth > .parent-width > section > .aem-Grid--10");
+      main.querySelectorAll(".aem-Grid").forEach((grid) => {
+        const kids = [...grid.children];
+        const rows = kids.filter(iconRow);
+        if (!rows.length) return;
+        const cells = rows.map((row) => {
+          const img = row.querySelector(".aem-Grid--2 img");
+          const text = row.querySelector(":scope > .parent-width > section > .aem-Grid > .container-fluid-fullwidth > .parent-width > section > .aem-Grid--10");
+          text.querySelectorAll(".gridcontrol").forEach((gc) => {
+            const ul = document.createElement("ul");
+            gc.querySelectorAll("li").forEach((li) => ul.append(li));
+            gc.replaceWith(ul);
+          });
+          text.querySelectorAll(".spacing").forEach((s) => s.remove());
+          const content = [...text.querySelectorAll("h5, p, ul")].filter((e) => !e.parentElement.closest("ul"));
+          return img ? [img, content] : [content];
+        });
+        const block = WebImporter.Blocks.createBlock(document, { name: "Columns (icon-rows)", cells });
+        rows[0].before(block);
+        const first = kids.indexOf(rows[0]);
+        const last = kids.indexOf(rows[rows.length - 1]);
+        kids.slice(first, last + 1).forEach((k) => (rows.includes(k) || k.matches(".spacing")) && k.remove());
+      });
+      main.querySelectorAll("section.new-hmk-brand-polar").forEach((band) => {
+        if (band.textContent.trim()) band.setAttribute("data-employer-band", "accent");
       });
       const navEl = main.querySelector("div.col-lg-3 div.nav-container:has(.sidenav, .sidenav-item-list)");
       const hasNav = !!navEl;
@@ -628,6 +661,17 @@ var CustomImportScript = (() => {
         } else {
           console.warn(`No parser found for block: ${block.name}`);
         }
+      });
+      const breaks = [...main.querySelectorAll("hr")];
+      main.querySelectorAll("[data-employer-band]").forEach((band) => {
+        const hr2 = band.querySelector("hr") || breaks.filter(
+          (b) => b.compareDocumentPosition(band) & 4
+          /* FOLLOWING */
+        ).pop();
+        band.removeAttribute("data-employer-band");
+        if (!hr2) return;
+        const style = hr2.getAttribute("data-excat-section-id");
+        hr2.setAttribute("data-excat-section-id", style ? `${style}, accent` : "accent");
       });
       executeTransformers("afterTransform", main, payload);
       const hr = document.createElement("hr");
