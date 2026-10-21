@@ -187,9 +187,15 @@ body.employer-subpage.employer-plans-landing main > .section.documents {
   padding: 40px 0 60px;
 }
 
-/* 20px under the heading's 8px margin */
+/* 20px under the heading's 8px margin; a single document (Central PA) is a centred
+   paragraph under the heading */
 body.employer-subpage.employer-plans-landing main > .section.documents .columns {
   margin-top: 28px;
+}
+
+body.employer-subpage.employer-plans-landing main > .section.documents h3 + p {
+  margin-top: 20px;
+  text-align: center;
 }
 
 body.employer-subpage.employer-plans-landing main > .section.documents h3 {
