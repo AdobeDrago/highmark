@@ -70,6 +70,17 @@ function styleFor(component, isLast) {
 
 export default function transform(hookName, element, payload) {
   if (hookName === 'beforeTransform') {
+    // A band that only wraps whole components (FSA's "How FSAs Work": the table band,
+    // a side panel and the footnotes) gives way to them, so each is its own section.
+    element.querySelectorAll('section.container-fluid-fullwidth.section').forEach((band) => {
+      const grid = band.querySelector(':scope > .parent-width > section > .aem-Grid');
+      const inner = grid ? [...grid.children] : [];
+      const isComponent = (c) => c.matches('section.container-fluid-fullwidth, div.newcardscomponent-variations');
+      if (inner.length < 2 || !inner.every(isComponent)) return;
+      inner.forEach((c) => c.classList.add('section'));
+      band.replaceWith(...inner);
+    });
+
     const components = [...element.querySelectorAll(COMPONENTS)]
       .filter((c) => !c.parentElement.closest(COMPONENTS));
     components.forEach((component, i) => {
