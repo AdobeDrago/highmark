@@ -116,6 +116,7 @@ body.employer-subpage.employer-plans-landing .cards-minimal-dark-list .cards-min
   padding: 0;
   font-size: 15px;
   line-height: 21px;
+  letter-spacing: -0.2px;
 }
 
 /* the source's title rule is hidden (hr.breakLineNone) */
@@ -143,7 +144,7 @@ body.employer-subpage.employer-plans-landing main:has(> .section.size-links) > .
   font-size: 15px;
   font-weight: 300;
   line-height: 21px;
-  letter-spacing: normal;
+  letter-spacing: -0.2px;
 }
 
 /* 6. Business-size bar (large group): three centred links on polar */
@@ -173,10 +174,12 @@ body.employer-subpage.employer-plans-landing main > .section:is(.size-links, .do
   margin: 0 0 12.8px;
   font-size: 15px;
   line-height: 21px;
+  letter-spacing: -0.2px;
 }
 
 body.employer-subpage.employer-plans-landing main > .section:is(.size-links, .documents) a:any-link {
   font-weight: 300;
+  letter-spacing: inherit;
 }
 
 /* 7. Rate justification documents (small group): a centred H3, PDF text links */
@@ -184,8 +187,9 @@ body.employer-subpage.employer-plans-landing main > .section.documents {
   padding: 40px 0 60px;
 }
 
+/* 20px under the heading's 8px margin */
 body.employer-subpage.employer-plans-landing main > .section.documents .columns {
-  margin-top: 20px;
+  margin-top: 28px;
 }
 
 body.employer-subpage.employer-plans-landing main > .section.documents h3 {
@@ -231,14 +235,14 @@ body.employer-subpage.employer-plans-landing main > .section.documents a .icon {
 /* 8. Footnotes (employer-subpage.css section 7): 40 / 60px apart (small group), none
    for the large group's BlueCard note; the marker doesn't open up the line */
 body.employer-subpage.employer-plans-landing main > .section.footnote:has(> .default-content-wrapper > p:first-child > sup:first-child) {
-  padding: 40px 0 27.2px;
+  padding: 40px 0;
 }
 
 body.employer-subpage.employer-plans-landing main:has(> .section.size-links) > .section.footnote:has(> .default-content-wrapper > p:first-child > sup:first-child) {
   padding: 0;
 }
 
-body.employer-subpage.employer-plans-landing main > .section.footnote:has(> .default-content-wrapper > p:first-child > sup:first-child) p > sup {
+body.employer-subpage.employer-plans-landing main > .section.footnote:has(> .default-content-wrapper > p:first-child > sup:first-child) p > :is(sup, sub) {
   line-height: 0;
 }
 
@@ -258,8 +262,7 @@ body.employer-subpage.employer-plans-landing main > .section.footnote:has(> .def
     letter-spacing: -0.4px;
   }
 
-  body.employer-subpage.employer-plans-landing main:has(> .section.size-links) > .section:first-child,
-  body.employer-subpage.employer-plans-landing main:has(> .section.size-links) > .section.highlight {
+  body.employer-subpage.employer-plans-landing main:has(> .section.size-links) > .section:first-child {
     padding: 20px 0 40px;
   }
 
@@ -292,6 +295,7 @@ body.employer-subpage.employer-plans-landing main > .section.footnote:has(> .def
   body.employer-subpage.employer-plans-landing main > .section.documents p.button-container {
     margin-bottom: 16px;
     line-height: 19.5px;
+    letter-spacing: -0.4px;
   }
 
   body.employer-subpage.employer-plans-landing main > .section.accent.size-links {
@@ -323,7 +327,7 @@ body.employer-subpage.employer-plans-landing main > .section.footnote:has(> .def
   }
 
   body.employer-subpage.employer-plans-landing main > .section.footnote:has(> .default-content-wrapper > p:first-child > sup:first-child) {
-    padding: 60px 0 44px;
+    padding: 60px 0;
   }
 }
 
@@ -384,6 +388,11 @@ body.employer-subpage.employer-plans-landing main > .section.footnote:has(> .def
   body.employer-subpage.employer-plans-landing main > .section.documents p.button-container {
     font-size: 16px;
     line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  body.employer-subpage.employer-plans-landing main:has(> .section.size-links) > .section.highlight {
+    padding: 20px 0 40px;
   }
 
   body.employer-subpage.employer-plans-landing main:not(:has(> .section.size-links)) > .section.highlight {
