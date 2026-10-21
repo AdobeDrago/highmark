@@ -109,8 +109,11 @@ body.faq.employer-plan main > .section:not(.right-rail) > .default-content-wrapp
 }
 
 /* the filled and outlined buttons, centred */
+
+/* the source's button component: 16px above and below the button, inside it */
 body.faq.employer-plan main > .section:not(.right-rail) > .default-content-wrapper p.button-container:has(> :is(strong, em) > a.button) {
-  margin: 16px 0;
+  margin: 0;
+  padding: 16px 0;
   line-height: normal;
   text-align: center;
 }
@@ -191,6 +194,16 @@ body.faq.employer-plan main .columns.icon-rows :is(p, h5) {
   margin: 0 0 16px;
 }
 
+body.faq.employer-plan main .columns.icon-rows h3 {
+  margin: 0 0 8px;
+  padding: 16px 0;
+}
+
+/* Balanced Funding's formula box: the copy in 7 of the text column's 8 columns */
+body.faq.employer-plan main .columns.icon-rows.icon-4 p {
+  max-width: calc(100% * 7 / 8);
+}
+
 body.faq.employer-plan main .columns.icon-rows p {
   color: rgb(0 20 70);
   font-size: 16px;
@@ -199,16 +212,19 @@ body.faq.employer-plan main .columns.icon-rows p {
   letter-spacing: -0.1px;
 }
 
+/* the specialties (CopayGo): the source's two lists, 10 and 9 items, side by side */
 body.faq.employer-plan main .columns.icon-rows ul {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(10, auto);
+  align-items: start;
   margin: 0 0 30px;
   padding: 0;
-  columns: 2;
-  column-gap: 0;
 }
 
 body.faq.employer-plan main .columns.icon-rows li {
   margin: 0 0 5px 42px;
-  break-inside: avoid;
   color: rgb(0 20 70);
   font-size: 16px;
   font-weight: 400;
@@ -433,7 +449,34 @@ body.faq.employer-plan main > .section.band-bottom-0 { --band-bottom: 0; }
   }
 
   body.faq.employer-plan main .columns.icon-rows ul {
-    columns: 1;
+    grid-auto-flow: row;
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
+
+  body.faq.employer-plan main .columns.icon-rows h5 {
+    margin-bottom: 12.8px;
+  }
+
+  /* the formula box stacks: its image across the column, then the text in the middle
+     10 of 12 columns */
+  body.faq.employer-plan main .columns.icon-rows.icon-4 > div {
+    flex-direction: column;
+  }
+
+  body.faq.employer-plan main .columns.icon-rows.icon-4 > div > .columns-img-col {
+    flex: none;
+    width: 100%;
+  }
+
+  body.faq.employer-plan main .columns.icon-rows.icon-4 > div > div:not(.columns-img-col) {
+    flex: none;
+    width: calc(100% * 10 / 12);
+    margin-left: calc(100% / 12);
+  }
+
+  body.faq.employer-plan main .columns.icon-rows.icon-4 p {
+    max-width: none;
   }
 
   body.faq.employer-plan main .columns.icon-rows li {

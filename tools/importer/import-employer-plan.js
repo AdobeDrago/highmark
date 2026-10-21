@@ -131,6 +131,11 @@ export default {
    * answer paragraphs no margins.
    */
   onLoad: ({ document }) => {
+    // each spacing component's height on the live page (the importer's desktop width):
+    // its classes give the tablet and phone heights, but not always the desktop one
+    document.querySelectorAll('.spacing section').forEach((sp) => {
+      sp.setAttribute('data-space', Math.round(sp.getBoundingClientRect().height));
+    });
     // an image the source fails to load (CopayGo's last icon) shows nothing there
     document.querySelectorAll('main img, #main-content img').forEach((img) => {
       if (img.complete && !img.naturalWidth && img.getAttribute('src')) img.setAttribute('data-broken', '');
@@ -213,7 +218,13 @@ export default {
       && c.querySelector(':scope > .parent-width > section > .aem-Grid');
     const gridSpan = (grid) => Number((grid.className.match(/aem-Grid--(\d+)(?:\s|$)/) || [])[1]);
     const leadSpacers = (grid) => { const r = []; for (const k of grid.children) { if (!k.matches('.spacing')) break; r.push(k); } return r; };
-    const height = (spacers) => spacers.map(spacerHeights).reduce((a, h) => a.map((v, i) => v + h[i]), [0, 0, 0]);
+    // a spacer's heights: desktop as measured (onLoad), tablet and phone from its classes
+    const spacerPx = (sp) => {
+      const [d, t, m] = spacerHeights(sp);
+      const measured = Number(sp.querySelector('section')?.getAttribute('data-space'));
+      return Number.isNaN(measured) || !sp.querySelector('section[data-space]') ? [d, t, m] : [measured, t, m];
+    };
+    const height = (spacers) => spacers.map(spacerPx).reduce((a, h) => a.map((v, i) => v + h[i]), [0, 0, 0]);
     // a column's top spacer as <name>-top-<n> (and -tablet- / -mobile- where it differs)
     const topStyles = (name, [d, t, m]) => [d ? `${name}-top-${d}` : '', t !== d ? `${name}-top-tablet-${t}` : '', m !== t ? `${name}-top-mobile-${m}` : ''].filter(Boolean);
     // An image column beside a text column (two containers, their grids N and 12 - N wide;

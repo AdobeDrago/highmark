@@ -546,6 +546,9 @@ var CustomImportScript = (() => {
      * answer paragraphs no margins.
      */
     onLoad: ({ document }) => {
+      document.querySelectorAll(".spacing section").forEach((sp) => {
+        sp.setAttribute("data-space", Math.round(sp.getBoundingClientRect().height));
+      });
       document.querySelectorAll("main img, #main-content img").forEach((img) => {
         if (img.complete && !img.naturalWidth && img.getAttribute("src")) img.setAttribute("data-broken", "");
       });
@@ -622,7 +625,13 @@ var CustomImportScript = (() => {
         }
         return r;
       };
-      const height = (spacers) => spacers.map(spacerHeights).reduce((a, h) => a.map((v, i) => v + h[i]), [0, 0, 0]);
+      const spacerPx = (sp) => {
+        var _a;
+        const [d, t, m] = spacerHeights(sp);
+        const measured = Number((_a = sp.querySelector("section")) == null ? void 0 : _a.getAttribute("data-space"));
+        return Number.isNaN(measured) || !sp.querySelector("section[data-space]") ? [d, t, m] : [measured, t, m];
+      };
+      const height = (spacers) => spacers.map(spacerPx).reduce((a, h) => a.map((v, i) => v + h[i]), [0, 0, 0]);
       const topStyles = (name, [d, t, m]) => [d ? `${name}-top-${d}` : "", t !== d ? `${name}-top-tablet-${t}` : "", m !== t ? `${name}-top-mobile-${m}` : ""].filter(Boolean);
       const pairOf = (a, b) => {
         const ga = a && innerGrid(a);
