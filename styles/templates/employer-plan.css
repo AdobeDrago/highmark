@@ -466,10 +466,11 @@ body.faq.employer-plan main > .section.band-bottom-0 { --band-bottom: 0; }
     columns: 1;
   }
 
-  /* the source's two lists, one under the other */
+  /* the source's two lists, one under the other (25px apart: this margin collapses
+     with the item's 5px above) */
   body.faq.employer-plan main .columns.icon-rows li:nth-child(11) {
     break-before: auto;
-    margin-top: 20px;
+    margin-top: 25px;
   }
 
   body.faq.employer-plan main .columns.icon-rows h5 {
