@@ -118,6 +118,11 @@ body.employer-subpage.employer-plans-landing .cards-minimal-dark-list .cards-min
   line-height: 21px;
 }
 
+/* the source's title rule is hidden (hr.breakLineNone) */
+body.employer-subpage.employer-plans-landing .cards-minimal-dark-list .cards-minimal-dark-list-title-underline {
+  display: none;
+}
+
 body.employer-subpage.employer-plans-landing main .cards-minimal-dark-list .cards-minimal-dark-list-card-body p.button-container {
   margin: 0;
   text-align: left;
@@ -129,8 +134,9 @@ body.employer-subpage.employer-plans-landing main .cards-minimal-dark-withimg-ic
   margin-bottom: 0;
 }
 
-/* 5. Closing blush callout: body copy */
-body.employer-subpage.employer-plans-landing main > .section.highlight p:not(.button-container) {
+/* 5. Closing blush callout: body copy on the large-group pages (the small group's is
+   the bold lead), 40px under the small group's button from 992px */
+body.employer-subpage.employer-plans-landing main:has(> .section.size-links) > .section.highlight p:not(.button-container) {
   margin-bottom: 12.8px;
   color: var(--text-body-color);
   font-family: var(--body-font-family);
@@ -163,7 +169,7 @@ body.employer-subpage.employer-plans-landing main > .section:is(.size-links, .do
   text-align: center;
 }
 
-body.employer-subpage.employer-plans-landing main > .section:is(.size-links, .documents, .footnote) p {
+body.employer-subpage.employer-plans-landing main > .section:is(.size-links, .documents) p {
   margin: 0 0 12.8px;
   font-size: 15px;
   line-height: 21px;
@@ -175,7 +181,11 @@ body.employer-subpage.employer-plans-landing main > .section:is(.size-links, .do
 
 /* 7. Rate justification documents (small group): a centred H3, PDF text links */
 body.employer-subpage.employer-plans-landing main > .section.documents {
-  padding: 40px 0 47.2px;
+  padding: 40px 0 60px;
+}
+
+body.employer-subpage.employer-plans-landing main > .section.documents .columns {
+  margin-top: 20px;
 }
 
 body.employer-subpage.employer-plans-landing main > .section.documents h3 {
@@ -212,30 +222,24 @@ body.employer-subpage.employer-plans-landing main > .section.documents a.button:
 }
 
 body.employer-subpage.employer-plans-landing main > .section.documents a .icon {
-  width: 21px;
-  height: 21px;
-  margin-right: 4px;
-  vertical-align: -5px;
+  width: 20px;
+  height: 20px;
+  margin: 0 6px 0 2px;
+  vertical-align: -4px;
 }
 
-/* 8. Footnotes: 40 / 60px apart (small group), none for the large group's BlueCard note */
-body.employer-subpage.employer-plans-landing main > .section.footnote {
+/* 8. Footnotes (employer-subpage.css section 7): 40 / 60px apart (small group), none
+   for the large group's BlueCard note; the marker doesn't open up the line */
+body.employer-subpage.employer-plans-landing main > .section.footnote:has(> .default-content-wrapper > p:first-child > sup:first-child) {
   padding: 40px 0 27.2px;
 }
 
-body.employer-subpage.employer-plans-landing main:has(> .section.size-links) > .section.footnote {
+body.employer-subpage.employer-plans-landing main:has(> .section.size-links) > .section.footnote:has(> .default-content-wrapper > p:first-child > sup:first-child) {
   padding: 0;
 }
 
-body.employer-subpage.employer-plans-landing main > .section.footnote > div {
-  padding: 0 30px;
-}
-
-body.employer-subpage.employer-plans-landing main > .section.footnote sup {
-  position: relative;
-  top: -0.5em;
+body.employer-subpage.employer-plans-landing main > .section.footnote:has(> .default-content-wrapper > p:first-child > sup:first-child) p > sup {
   line-height: 0;
-  vertical-align: baseline;
 }
 
 @media (width >= 576px) {
@@ -283,8 +287,8 @@ body.employer-subpage.employer-plans-landing main > .section.footnote sup {
   }
 
   body.employer-subpage.employer-plans-landing .cards-minimal-dark-list .cards-minimal-dark-list-card-body p,
-  body.employer-subpage.employer-plans-landing main > .section.highlight p:not(.button-container),
-  body.employer-subpage.employer-plans-landing main > .section:is(.size-links, .documents, .footnote) p,
+  body.employer-subpage.employer-plans-landing main:has(> .section.size-links) > .section.highlight p:not(.button-container),
+  body.employer-subpage.employer-plans-landing main > .section:is(.size-links, .documents) p,
   body.employer-subpage.employer-plans-landing main > .section.documents p.button-container {
     margin-bottom: 16px;
     line-height: 19.5px;
@@ -295,8 +299,7 @@ body.employer-subpage.employer-plans-landing main > .section.footnote sup {
   }
 
   body.employer-subpage.employer-plans-landing main > .section.size-links > .columns-wrapper,
-  body.employer-subpage.employer-plans-landing main > .section.documents > div,
-  body.employer-subpage.employer-plans-landing main > .section.footnote > div {
+  body.employer-subpage.employer-plans-landing main > .section.documents > div {
     padding: 0 64px;
   }
 
@@ -311,7 +314,7 @@ body.employer-subpage.employer-plans-landing main > .section.footnote sup {
   }
 
   body.employer-subpage.employer-plans-landing main > .section.documents {
-    padding-bottom: 49px;
+    padding-bottom: 65px;
   }
 
   body.employer-subpage.employer-plans-landing main > .section.documents h3 {
@@ -319,7 +322,7 @@ body.employer-subpage.employer-plans-landing main > .section.footnote sup {
     line-height: 26.4px;
   }
 
-  body.employer-subpage.employer-plans-landing main > .section.footnote {
+  body.employer-subpage.employer-plans-landing main > .section.footnote:has(> .default-content-wrapper > p:first-child > sup:first-child) {
     padding: 60px 0 44px;
   }
 }
@@ -376,11 +379,15 @@ body.employer-subpage.employer-plans-landing main > .section.footnote sup {
   }
 
   body.employer-subpage.employer-plans-landing .cards-minimal-dark-list .cards-minimal-dark-list-card-body p,
-  body.employer-subpage.employer-plans-landing main > .section.highlight p:not(.button-container),
-  body.employer-subpage.employer-plans-landing main > .section:is(.size-links, .documents, .footnote) p,
+  body.employer-subpage.employer-plans-landing main:has(> .section.size-links) > .section.highlight p:not(.button-container),
+  body.employer-subpage.employer-plans-landing main > .section:is(.size-links, .documents) p,
   body.employer-subpage.employer-plans-landing main > .section.documents p.button-container {
     font-size: 16px;
     line-height: 24px;
+  }
+
+  body.employer-subpage.employer-plans-landing main:not(:has(> .section.size-links)) > .section.highlight {
+    padding-bottom: 40px;
   }
 
   body.employer-subpage.employer-plans-landing main > .section.accent.size-links {
@@ -388,20 +395,13 @@ body.employer-subpage.employer-plans-landing main > .section.footnote sup {
   }
 
   body.employer-subpage.employer-plans-landing main > .section.size-links > .columns-wrapper,
-  body.employer-subpage.employer-plans-landing main > .section.documents > div,
-  body.employer-subpage.employer-plans-landing main > .section.footnote > div {
+  body.employer-subpage.employer-plans-landing main > .section.documents > div {
     max-width: 1366px;
     padding: 0 83px;
   }
 
   body.employer-subpage.employer-plans-landing main > .section.documents {
-    padding: 60px 0 74px;
-  }
-
-  body.employer-subpage.employer-plans-landing main > .section.documents a .icon {
-    width: 24px;
-    height: 24px;
-    vertical-align: -6px;
+    padding: 60px 0 90px;
   }
 }
 
