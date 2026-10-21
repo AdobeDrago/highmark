@@ -100,8 +100,10 @@ function styleFor(component, isLast) {
     const panel = component.querySelector('.side-card-panel');
     const styles = [panel ? brandOf(panel) : ''];
     if (component.querySelector('.image-area.left-content')) styles.push('image-left');
-    // copy that is bare text in a div (no <p>) has the source's plain 16/24 style
-    if ([...component.querySelectorAll('.text-area > div')].some((d) => !d.children.length && d.textContent.trim())) styles.push('plain-copy');
+    // copy that is bare text in a div (no <p>; at most a closing <br>) has the source's
+    // plain 16/24 style
+    const bare = (d) => [...d.children].every((c) => c.tagName === 'BR') && d.textContent.trim();
+    if ([...component.querySelectorAll('.text-area > div')].some(bare)) styles.push('plain-copy');
     return styles.filter(Boolean).join(', ');
   }
   const spacing = spacingStyles(component);

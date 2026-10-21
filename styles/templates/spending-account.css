@@ -714,10 +714,17 @@ body.spending-account main .section.text-band:not(.grey) p {
   letter-spacing: -0.1px;
 }
 
+/* its copy is the source's lead style (20/30 semibold), as in How HSAs Work */
 body.spending-account main .section.text-band:not(.grey) p:not(.button-container, :has(sub)) {
   max-width: 50vw;
   margin-right: auto;
   margin-left: auto;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 30px;
+  letter-spacing: -0.3px;
 }
 
 body.spending-account main .section.text-band:not(.grey) p.button-container {
@@ -814,6 +821,11 @@ body.spending-account main .section.bottom-120 { --sa-bottom: 120px; }
     letter-spacing: -0.4px;
   }
 
+  body.spending-account main .section.text-band:not(.grey) p:not(.button-container, :has(sub)) {
+    font-size: 18px;
+    line-height: 23.4px;
+  }
+
   body.spending-account main .section.table-flush .table-minimal-dark-compare-wrapper {
     padding-bottom: 20px;
   }
@@ -842,6 +854,11 @@ body.spending-account main .section.bottom-120 { --sa-bottom: 120px; }
     margin-bottom: 12.8px;
     line-height: 21px;
     letter-spacing: -0.2px;
+  }
+
+  body.spending-account main .section.text-band:not(.grey) p:not(.button-container, :has(sub)) {
+    font-size: 17px;
+    line-height: 23.8px;
   }
 
   body.spending-account main .section.top-mobile-20 { --sa-top: 20px; }
