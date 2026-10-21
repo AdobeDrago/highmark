@@ -63,9 +63,32 @@ body.faq.employer-plan main h5 {
   letter-spacing: -0.3px;
 }
 
+/* a paragraph that is all bold is a plain bold label here ("Penn State Health", the
+   Balanced Funding formula's "+"); the lead lines are H5s */
+body.faq.employer-plan main > .section > .default-content-wrapper p:not(.button-container):has(> strong:only-child) {
+  color: rgb(0 20 70);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+  letter-spacing: -0.1px;
+}
+
+body.faq.employer-plan main > .section > .default-content-wrapper p:not(.button-container) > strong:only-child {
+  font-weight: 700;
+}
+
+body.faq.employer-plan main > .section > .default-content-wrapper p:not(.button-container):has(> strong:only-child):has(+ p.button-container) {
+  max-width: none;
+  margin-right: 0;
+  margin-left: 0;
+  text-align: inherit;
+}
+
 /* ---- buttons ---- */
 body.faq.employer-plan main > .section:not(.right-rail) > .default-content-wrapper p.button-container {
   margin: 0;
+  line-height: 20px;
 }
 
 /* the text CTA (WATCH VIDEO) */
@@ -88,6 +111,7 @@ body.faq.employer-plan main > .section:not(.right-rail) > .default-content-wrapp
 /* the filled and outlined buttons, centred */
 body.faq.employer-plan main > .section:not(.right-rail) > .default-content-wrapper p.button-container:has(> :is(strong, em) > a.button) {
   margin: 16px 0;
+  line-height: normal;
   text-align: center;
 }
 
@@ -224,6 +248,12 @@ body.faq.employer-plan main > .section.band-bottom-60 { --band-bottom: 60px; }
     line-height: 16.5px;
   }
 
+  body.faq.employer-plan main > .section > .default-content-wrapper p:not(.button-container):has(> strong:only-child) {
+    font-size: 15px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
   body.faq.employer-plan main h5 {
     font-size: 18px;
     line-height: 23.4px;
@@ -319,6 +349,11 @@ body.faq.employer-plan main > .section.band-bottom-60 { --band-bottom: 60px; }
   body.faq.employer-plan main > .section > .default-content-wrapper ol > li {
     font-size: 14px;
     line-height: 21px;
+  }
+
+  body.faq.employer-plan main > .section > .default-content-wrapper p:not(.button-container):has(> strong:only-child) {
+    line-height: 21px;
+    letter-spacing: -0.2px;
   }
 
   body.faq.employer-plan main h5 {
