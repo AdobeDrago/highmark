@@ -193,8 +193,8 @@ body.employer-subpage.employer-plans-landing main > .section.documents .columns 
   margin-top: 28px;
 }
 
-body.employer-subpage.employer-plans-landing main > .section.documents h3 + p {
-  margin-top: 20px;
+body.employer-subpage.employer-plans-landing main > .section.documents h3 + p.button-container {
+  margin-top: 28px;
   text-align: center;
 }
 
