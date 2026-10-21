@@ -21,7 +21,7 @@
 
 /* ---- type ---- */
 body.faq.employer-plan main > .section > .default-content-wrapper ul {
-  margin: 0 0 11px;
+  margin: 0 0 16px;
   padding-left: 32px;
   list-style-position: inside;
 }
@@ -162,16 +162,29 @@ body.faq.employer-plan main .columns.icon-rows > div:last-child {
   margin-bottom: 0;
 }
 
+body.faq.employer-plan main .columns.icon-rows {
+  --icon-span: 2;
+}
+
+body.faq.employer-plan main .columns.icon-rows.icon-4 {
+  --icon-span: 4;
+}
+
 body.faq.employer-plan main .columns.icon-rows > div > div {
-  flex: 0 0 calc(100% * 10 / 12);
+  flex: 0 0 calc(100% * (12 - var(--icon-span)) / 12);
   order: unset;
   box-sizing: border-box;
-  padding-top: 20px;
 }
 
 body.faq.employer-plan main .columns.icon-rows > div > .columns-img-col {
-  flex: 0 0 calc(100% * 2 / 12);
-  padding: 0;
+  flex: 0 0 calc(100% * var(--icon-span) / 12);
+}
+
+/* the spacer at the top of the text column (CopayGo) or the icon column (Balanced
+   Funding's formula box) */
+body.faq.employer-plan main .columns.icon-rows.text-top-20 > div > div:not(.columns-img-col),
+body.faq.employer-plan main .columns.icon-rows.icon-top-20 > div > .columns-img-col {
+  padding-top: 20px;
 }
 
 body.faq.employer-plan main .columns.icon-rows :is(p, h5) {
@@ -221,11 +234,20 @@ body.faq.employer-plan main > .section.accent > .default-content-wrapper > :is(h
   margin-left: auto;
 }
 
-body.faq.employer-plan main > .section.accent.span-10 > .default-content-wrapper > :is(h2, h3, h5, p:not(.button-container)) {
+/* the heading's share of the band (span-*), the copy's (text-span-*) */
+body.faq.employer-plan main > .section.accent.span-10 > .default-content-wrapper > :is(h2, h3) {
   max-width: calc(100% * 10 / 12);
 }
 
-body.faq.employer-plan main > .section.accent.span-8 > .default-content-wrapper > :is(h2, h3, h5, p:not(.button-container)) {
+body.faq.employer-plan main > .section.accent.span-8 > .default-content-wrapper > :is(h2, h3) {
+  max-width: calc(100% * 8 / 12);
+}
+
+body.faq.employer-plan main > .section.accent.text-span-10 > .default-content-wrapper > :is(h5, p:not(.button-container)) {
+  max-width: calc(100% * 10 / 12);
+}
+
+body.faq.employer-plan main > .section.accent.text-span-8 > .default-content-wrapper > :is(h5, p:not(.button-container)) {
   max-width: calc(100% * 8 / 12);
 }
 
@@ -234,6 +256,8 @@ body.faq.employer-plan main > .section.band-top-40 { --band-top: 40px; }
 body.faq.employer-plan main > .section.band-bottom-20 { --band-bottom: 20px; }
 body.faq.employer-plan main > .section.band-bottom-40 { --band-bottom: 40px; }
 body.faq.employer-plan main > .section.band-bottom-60 { --band-bottom: 60px; }
+body.faq.employer-plan main > .section.band-top-0 { --band-top: 0; }
+body.faq.employer-plan main > .section.band-bottom-0 { --band-bottom: 0; }
 
 /* ---- the left nav: 15px in from both sides of its column ---- */
 @media (width >= 992px) {
@@ -370,11 +394,19 @@ body.faq.employer-plan main > .section.band-bottom-60 { --band-bottom: 60px; }
     margin-left: 32px;
   }
 
-  body.faq.employer-plan main > .section.accent.span-phone-8 > .default-content-wrapper > :is(h2, h3, h5, p:not(.button-container)) {
+  body.faq.employer-plan main > .section.accent.span-phone-8 > .default-content-wrapper > :is(h2, h3) {
     max-width: calc(100% * 8 / 12);
   }
 
-  body.faq.employer-plan main > .section.accent.span-phone-10 > .default-content-wrapper > :is(h2, h3, h5, p:not(.button-container)) {
+  body.faq.employer-plan main > .section.accent.span-phone-10 > .default-content-wrapper > :is(h2, h3) {
+    max-width: calc(100% * 10 / 12);
+  }
+
+  body.faq.employer-plan main > .section.accent.text-span-phone-8 > .default-content-wrapper > :is(h5, p:not(.button-container)) {
+    max-width: calc(100% * 8 / 12);
+  }
+
+  body.faq.employer-plan main > .section.accent.text-span-phone-10 > .default-content-wrapper > :is(h5, p:not(.button-container)) {
     max-width: calc(100% * 10 / 12);
   }
 

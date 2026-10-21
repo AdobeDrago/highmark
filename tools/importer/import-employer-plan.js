@@ -187,12 +187,17 @@ export default {
     });
     // The source's buttons: a filled one (brand-button-normal) is a bold link, an outlined
     // one (brand-button-light) an italic link, and a text button (textButton, "WATCH
-    // VIDEO") a plain link alone in its paragraph; employer-plan.css styles them.
-    main.querySelectorAll('.hmk-brand-buttons a[href]').forEach((a) => {
+    // VIDEO") a plain link alone in its paragraph; employer-plan.css styles them. A
+    // "get started" button without a link on the source (Choice Blue: an <a type=submit>
+    // that goes nowhere) links where the page's other "get started" links go.
+    main.querySelectorAll('.hmk-brand-buttons a').forEach((a) => {
+      const text = a.textContent.replace(/\s+/g, ' ').trim();
+      const href = a.getAttribute('href') || (/^get started$/i.test(text) ? '/employer/get-started' : '');
+      if (!href) return;
       const p = document.createElement('p');
       const link = document.createElement('a');
-      link.href = a.getAttribute('href');
-      link.textContent = a.textContent.replace(/\s+/g, ' ').trim();
+      link.href = href;
+      link.textContent = text;
       if (a.matches('.brand-button-normal, .brand-button-light')) {
         const wrap = document.createElement(a.matches('.brand-button-normal') ? 'strong' : 'em');
         wrap.append(link);
@@ -202,37 +207,75 @@ export default {
     });
     // A video's image links to the video; the WATCH VIDEO link under it does too.
     main.querySelectorAll('.image a:has(img)').forEach((a) => a.replaceWith(...a.childNodes));
-    // CopayGo's icon rows (a 2-column icon beside a 10-column heading and text, spaced
-    // by spacing components): one Columns (icon-rows) block, a row each; a row's two
-    // side-by-side lists (gridcontrol) are one list, which the CSS sets in two columns.
-    const iconRow = (c) => c.matches('section.container-fluid-fullwidth')
-      && c.querySelector(':scope > .parent-width > section > .aem-Grid > .container-fluid-fullwidth > .parent-width > section > .aem-Grid--10');
+
+    const gridClass = (el, kind) => Number((el.className.match(new RegExp(`aem-GridColumn--${kind}--(\\d+)`)) || [])[1]);
+    const innerGrid = (c) => c.matches('section.container-fluid-fullwidth')
+      && c.querySelector(':scope > .parent-width > section > .aem-Grid');
+    const gridSpan = (grid) => Number((grid.className.match(/aem-Grid--(\d+)(?:\s|$)/) || [])[1]);
+    const leadSpacers = (grid) => { const r = []; for (const k of grid.children) { if (!k.matches('.spacing')) break; r.push(k); } return r; };
+    const height = (spacers) => spacers.map(spacerHeights).reduce((a, h) => a + h[0], 0);
+    // An image column beside a text column (two containers, their grids N and 12 - N wide;
+    // the image one may have failed to load): [image grid, text grid], or null.
+    const pairOf = (a, b) => {
+      const ga = a && innerGrid(a);
+      const gb = b && innerGrid(b);
+      if (!ga || !gb || !ga.querySelector('.image') || gb.querySelector('.image')) return null;
+      return gridSpan(ga) + gridSpan(gb) === 12 ? [ga, gb] : null;
+    };
+    // A row: the icon (or none) and its text, with the spacers at the top of each column.
+    const rowCells = ([icon, text]) => {
+      const iconTop = height(leadSpacers(icon));
+      const textTop = height(leadSpacers(text));
+      text.querySelectorAll('.gridcontrol').forEach((gc) => {
+        const ul = document.createElement('ul');
+        gc.querySelectorAll('li').forEach((li) => ul.append(li));
+        gc.replaceWith(ul);
+      });
+      text.querySelectorAll('.spacing').forEach((s) => s.remove());
+      const img = icon.querySelector('img:not([data-broken])');
+      const content = [...text.querySelectorAll('h3, h5, p, ul')].filter((e) => !e.parentElement.closest('ul'));
+      return { cells: img ? [img, content] : [content], span: gridSpan(icon), iconTop, textTop };
+    };
+    const rowsBlock = (rows) => {
+      const { span, iconTop, textTop } = rows[0];
+      const options = ['icon-rows', `icon-${span}`, iconTop ? `icon-top-${iconTop}` : '', textTop ? `text-top-${textTop}` : ''].filter(Boolean);
+      return WebImporter.Blocks.createBlock(document, { name: `Columns (${options.join(', ')})`, cells: rows.map((r) => r.cells) });
+    };
+    // Icon rows: CopayGo's (each row a container of an icon column and a text column,
+    // spaced by spacing components) are one Columns (icon-rows, icon-2, text-top-20)
+    // block, a row each; Balanced Funding's formula box is one such pair, in the band.
+    // A row's two side-by-side lists (gridcontrol) are one list, set in two columns.
     main.querySelectorAll('.aem-Grid').forEach((grid) => {
       const kids = [...grid.children];
-      const rows = kids.filter(iconRow);
-      if (!rows.length) return;
-      const cells = rows.map((row) => {
-        const img = row.querySelector('.aem-Grid--2 img:not([data-broken])');
-        const text = row.querySelector(':scope > .parent-width > section > .aem-Grid > .container-fluid-fullwidth > .parent-width > section > .aem-Grid--10');
-        text.querySelectorAll('.gridcontrol').forEach((gc) => {
-          const ul = document.createElement('ul');
-          gc.querySelectorAll('li').forEach((li) => ul.append(li));
-          gc.replaceWith(ul);
-        });
-        text.querySelectorAll('.spacing').forEach((s) => s.remove());
-        const content = [...text.querySelectorAll('h5, p, ul')].filter((e) => !e.parentElement.closest('ul'));
-        return img ? [img, content] : [content];
+      // (a row's grid is just the two columns; a band with spacers around a pair isn't one)
+      const rowEls = kids.filter((c) => {
+        const g = innerGrid(c);
+        const parts = g ? [...g.children] : [];
+        return parts.length === 2 && pairOf(parts[0], parts[1]);
       });
-      const block = WebImporter.Blocks.createBlock(document, { name: 'Columns (icon-rows)', cells });
-      rows[0].before(block);
-      // the rows and the spacers between them go
-      const first = kids.indexOf(rows[0]);
-      const last = kids.indexOf(rows[rows.length - 1]);
-      kids.slice(first, last + 1).forEach((k) => (rows.includes(k) || k.matches('.spacing')) && k.remove());
+      if (rowEls.length) {
+        const rows = rowEls.map((c) => {
+          const parts = [...innerGrid(c).children];
+          return rowCells(pairOf(parts[0], parts[1]));
+        });
+        rowEls[0].before(rowsBlock(rows));
+        // the rows and the spacers between them go
+        kids.slice(kids.indexOf(rowEls[0]), kids.indexOf(rowEls[rowEls.length - 1]) + 1)
+          .forEach((k) => (rowEls.includes(k) || k.matches('.spacing')) && k.remove());
+        return;
+      }
+      for (let i = 0; i < kids.length - 1; i += 1) {
+        const pair = pairOf(kids[i], kids[i + 1]);
+        if (pair) {
+          kids[i].before(rowsBlock([rowCells(pair)]));
+          kids[i].remove();
+          kids[i + 1].remove();
+          i += 1;
+        }
+      }
     });
     // The source's other images (an image component: a span of its 12-column grid,
     // offset or not) -> an Image block, Image (span-8, offset-2).
-    const gridClass = (el, kind) => Number((el.className.match(new RegExp(`aem-GridColumn--${kind}--(\\d+)`)) || [])[1]);
     main.querySelectorAll('.image').forEach((cmp) => {
       const img = cmp.querySelector('img:not([data-broken])');
       if (!img) { cmp.remove(); return; }
@@ -245,23 +288,26 @@ export default {
       cmp.classList.remove('image');
     });
     // A polar band (the closing "Get started" band, Balanced Funding's formula box): its
-    // own section, Style accent, with the share of the column its text takes (span-10:
-    // its heading's grid span; span-phone-8) and its own leading and trailing spacers as
-    // its padding (band-top-* / band-bottom-*). Those spacers are taken out, so the
-    // sections transformer doesn't add them to its neighbours'; the band starts with its
-    // own section break (inside it, after the break the transformer puts before it) and
-    // is followed by a plain one.
+    // own section, Style accent, with the shares of the column its heading and its text
+    // take (span-10 / text-span-8: their grid spans; span-phone-8, text-span-phone-8) and
+    // its own leading and trailing spacers as its padding (band-top-* / band-bottom-*).
+    // Those spacers are taken out, so the sections transformer doesn't add them to its
+    // neighbours'; the band starts with its own section break (inside it, after the break
+    // the transformer puts before it) and is followed by a plain one.
     main.querySelectorAll('section.new-hmk-brand-polar').forEach((band) => {
       if (!band.textContent.trim()) return;
-      const text = band.querySelector('h2')?.closest('.cmp-text, .text, [class*="aem-GridColumn"]');
-      const grid = text?.parentElement || band.querySelector('.aem-Grid');
+      const cmpOf = (el) => el?.closest('.cmp-text, .text, [class*="aem-GridColumn"]');
+      const heading = cmpOf(band.querySelector('h2'));
+      const copy = cmpOf(band.querySelector('p span.p1, h5, p'));
+      const grid = heading?.parentElement || band.querySelector('.aem-Grid');
       const styles = ['accent'];
-      if (text) {
-        const span = gridClass(text, 'default');
-        const phone = gridClass(text, 'phone');
-        if (span && span < 12) styles.push(`span-${span}`);
-        if (phone && phone < 12 && phone !== span) styles.push(`span-phone-${phone}`);
-      }
+      [['span', heading], ['text-span', copy]].forEach(([name, cmp]) => {
+        if (!cmp) return;
+        const span = gridClass(cmp, 'default') || 12;
+        const phone = gridClass(cmp, 'phone') || span;
+        if (span < 12) styles.push(`${name}-${span}`);
+        if (phone !== span) styles.push(`${name}-phone-${phone}`);
+      });
       if (grid) {
         const kids = [...grid.children];
         const run = (list) => { const r = []; for (const k of list) { if (!k.matches('.spacing')) break; r.push(k); } return r; };
@@ -354,7 +400,7 @@ export default {
       const inner = parts.slice(parts.indexOf(start) + 1);
       if (!start || !inner.length) return;
       const own = start.getAttribute('data-excat-section-id').split(', ');
-      const keep = own.filter((t) => t === 'accent' || t.startsWith('span-'));
+      const keep = own.filter((t) => t === 'accent' || /^(text-)?span-/.test(t));
       const bottom = own.filter((t) => t.startsWith('band-bottom'));
       start.setAttribute('data-excat-section-id', own.filter((t) => !bottom.includes(t)).join(', '));
       inner.forEach((hr, i) => {

@@ -595,11 +595,14 @@ var CustomImportScript = (() => {
       main.querySelectorAll('a i[class*="material-icons"]').forEach((i) => {
         if (i.textContent.trim() === "picture_as_pdf") i.replaceWith(document.createTextNode(":pdf: "));
       });
-      main.querySelectorAll(".hmk-brand-buttons a[href]").forEach((a) => {
+      main.querySelectorAll(".hmk-brand-buttons a").forEach((a) => {
+        const text = a.textContent.replace(/\s+/g, " ").trim();
+        const href = a.getAttribute("href") || (/^get started$/i.test(text) ? "/employer/get-started" : "");
+        if (!href) return;
         const p = document.createElement("p");
         const link = document.createElement("a");
-        link.href = a.getAttribute("href");
-        link.textContent = a.textContent.replace(/\s+/g, " ").trim();
+        link.href = href;
+        link.textContent = text;
         if (a.matches(".brand-button-normal, .brand-button-light")) {
           const wrap = document.createElement(a.matches(".brand-button-normal") ? "strong" : "em");
           wrap.append(link);
@@ -608,30 +611,68 @@ var CustomImportScript = (() => {
         (a.closest(".hmk-brand-buttons") || a).replaceWith(p);
       });
       main.querySelectorAll(".image a:has(img)").forEach((a) => a.replaceWith(...a.childNodes));
-      const iconRow = (c) => c.matches("section.container-fluid-fullwidth") && c.querySelector(":scope > .parent-width > section > .aem-Grid > .container-fluid-fullwidth > .parent-width > section > .aem-Grid--10");
+      const gridClass = (el, kind) => Number((el.className.match(new RegExp(`aem-GridColumn--${kind}--(\\d+)`)) || [])[1]);
+      const innerGrid = (c) => c.matches("section.container-fluid-fullwidth") && c.querySelector(":scope > .parent-width > section > .aem-Grid");
+      const gridSpan = (grid) => Number((grid.className.match(/aem-Grid--(\d+)(?:\s|$)/) || [])[1]);
+      const leadSpacers = (grid) => {
+        const r = [];
+        for (const k of grid.children) {
+          if (!k.matches(".spacing")) break;
+          r.push(k);
+        }
+        return r;
+      };
+      const height = (spacers) => spacers.map(spacerHeights).reduce((a, h) => a + h[0], 0);
+      const pairOf = (a, b) => {
+        const ga = a && innerGrid(a);
+        const gb = b && innerGrid(b);
+        if (!ga || !gb || !ga.querySelector(".image") || gb.querySelector(".image")) return null;
+        return gridSpan(ga) + gridSpan(gb) === 12 ? [ga, gb] : null;
+      };
+      const rowCells = ([icon, text]) => {
+        const iconTop = height(leadSpacers(icon));
+        const textTop = height(leadSpacers(text));
+        text.querySelectorAll(".gridcontrol").forEach((gc) => {
+          const ul = document.createElement("ul");
+          gc.querySelectorAll("li").forEach((li) => ul.append(li));
+          gc.replaceWith(ul);
+        });
+        text.querySelectorAll(".spacing").forEach((s) => s.remove());
+        const img = icon.querySelector("img:not([data-broken])");
+        const content = [...text.querySelectorAll("h3, h5, p, ul")].filter((e) => !e.parentElement.closest("ul"));
+        return { cells: img ? [img, content] : [content], span: gridSpan(icon), iconTop, textTop };
+      };
+      const rowsBlock = (rows) => {
+        const { span, iconTop, textTop } = rows[0];
+        const options = ["icon-rows", `icon-${span}`, iconTop ? `icon-top-${iconTop}` : "", textTop ? `text-top-${textTop}` : ""].filter(Boolean);
+        return WebImporter.Blocks.createBlock(document, { name: `Columns (${options.join(", ")})`, cells: rows.map((r) => r.cells) });
+      };
       main.querySelectorAll(".aem-Grid").forEach((grid) => {
         const kids = [...grid.children];
-        const rows = kids.filter(iconRow);
-        if (!rows.length) return;
-        const cells = rows.map((row) => {
-          const img = row.querySelector(".aem-Grid--2 img:not([data-broken])");
-          const text = row.querySelector(":scope > .parent-width > section > .aem-Grid > .container-fluid-fullwidth > .parent-width > section > .aem-Grid--10");
-          text.querySelectorAll(".gridcontrol").forEach((gc) => {
-            const ul = document.createElement("ul");
-            gc.querySelectorAll("li").forEach((li) => ul.append(li));
-            gc.replaceWith(ul);
-          });
-          text.querySelectorAll(".spacing").forEach((s) => s.remove());
-          const content = [...text.querySelectorAll("h5, p, ul")].filter((e) => !e.parentElement.closest("ul"));
-          return img ? [img, content] : [content];
+        const rowEls = kids.filter((c) => {
+          const g = innerGrid(c);
+          const parts = g ? [...g.children] : [];
+          return parts.length === 2 && pairOf(parts[0], parts[1]);
         });
-        const block = WebImporter.Blocks.createBlock(document, { name: "Columns (icon-rows)", cells });
-        rows[0].before(block);
-        const first = kids.indexOf(rows[0]);
-        const last = kids.indexOf(rows[rows.length - 1]);
-        kids.slice(first, last + 1).forEach((k) => (rows.includes(k) || k.matches(".spacing")) && k.remove());
+        if (rowEls.length) {
+          const rows = rowEls.map((c) => {
+            const parts = [...innerGrid(c).children];
+            return rowCells(pairOf(parts[0], parts[1]));
+          });
+          rowEls[0].before(rowsBlock(rows));
+          kids.slice(kids.indexOf(rowEls[0]), kids.indexOf(rowEls[rowEls.length - 1]) + 1).forEach((k) => (rowEls.includes(k) || k.matches(".spacing")) && k.remove());
+          return;
+        }
+        for (let i = 0; i < kids.length - 1; i += 1) {
+          const pair = pairOf(kids[i], kids[i + 1]);
+          if (pair) {
+            kids[i].before(rowsBlock([rowCells(pair)]));
+            kids[i].remove();
+            kids[i + 1].remove();
+            i += 1;
+          }
+        }
       });
-      const gridClass = (el, kind) => Number((el.className.match(new RegExp(`aem-GridColumn--${kind}--(\\d+)`)) || [])[1]);
       main.querySelectorAll(".image").forEach((cmp) => {
         const img = cmp.querySelector("img:not([data-broken])");
         if (!img) {
@@ -646,17 +687,19 @@ var CustomImportScript = (() => {
         cmp.classList.remove("image");
       });
       main.querySelectorAll("section.new-hmk-brand-polar").forEach((band) => {
-        var _a;
         if (!band.textContent.trim()) return;
-        const text = (_a = band.querySelector("h2")) == null ? void 0 : _a.closest('.cmp-text, .text, [class*="aem-GridColumn"]');
-        const grid = (text == null ? void 0 : text.parentElement) || band.querySelector(".aem-Grid");
+        const cmpOf = (el) => el == null ? void 0 : el.closest('.cmp-text, .text, [class*="aem-GridColumn"]');
+        const heading = cmpOf(band.querySelector("h2"));
+        const copy = cmpOf(band.querySelector("p span.p1, h5, p"));
+        const grid = (heading == null ? void 0 : heading.parentElement) || band.querySelector(".aem-Grid");
         const styles = ["accent"];
-        if (text) {
-          const span = gridClass(text, "default");
-          const phone = gridClass(text, "phone");
-          if (span && span < 12) styles.push(`span-${span}`);
-          if (phone && phone < 12 && phone !== span) styles.push(`span-phone-${phone}`);
-        }
+        [["span", heading], ["text-span", copy]].forEach(([name, cmp]) => {
+          if (!cmp) return;
+          const span = gridClass(cmp, "default") || 12;
+          const phone = gridClass(cmp, "phone") || span;
+          if (span < 12) styles.push(`${name}-${span}`);
+          if (phone !== span) styles.push(`${name}-phone-${phone}`);
+        });
         if (grid) {
           const kids = [...grid.children];
           const run = (list) => {
@@ -736,7 +779,7 @@ var CustomImportScript = (() => {
         const inner = parts.slice(parts.indexOf(start) + 1);
         if (!start || !inner.length) return;
         const own = start.getAttribute("data-excat-section-id").split(", ");
-        const keep = own.filter((t) => t === "accent" || t.startsWith("span-"));
+        const keep = own.filter((t) => t === "accent" || /^(text-)?span-/.test(t));
         const bottom = own.filter((t) => t.startsWith("band-bottom"));
         start.setAttribute("data-excat-section-id", own.filter((t) => !bottom.includes(t)).join(", "));
         inner.forEach((hr2, i) => {
