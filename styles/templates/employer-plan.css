@@ -1,5 +1,362 @@
 /*
  * Employer plan pages (/employer/solutions/{small,large}-business/<region>/medical-plans/
  * <plan>, Western PA's balanced-funding and pharmacy; Template: faq, employer-plan):
- * faq.css lays them out (left nav, text, right rail); this adds what differs.
+ * faq.css lays them out (left nav, text, right rail; below 992px the nav above the H1);
+ * this adds what differs, measured against highmark.com at 1440 / 1024 / 768 / 390:
+ *   - type: lists (16/26), the numbered steps (15/22.5, navy, light), the H5 lead lines
+ *     (the source's p1 style, 20/30 semibold);
+ *   - buttons: a plain link alone in its paragraph is the uppercase text CTA (WATCH
+ *     VIDEO), a bold one the filled blue button, an italic one the outlined button; the
+ *     two buttons are centred (tools/importer/import-employer-plan.js);
+ *   - Columns (icon-rows): CopayGo's icon rows, a 2/12 icon beside 10/12 text, a long
+ *     list in two columns;
+ *   - Style accent: a polar band in the text column (the closing "Get started" band,
+ *     Balanced Funding's formula box): band-top-* / band-bottom-* its padding, span-<n>
+ *     (span-phone-<n>) its text's share of the column;
+ *   - the left nav 15px in from both sides of its column; below 992px the "Get more
+ *     info" box after the text, inset as the nav.
  */
+
+/* stylelint-disable no-descending-specificity */
+
+/* ---- type ---- */
+body.faq.employer-plan main > .section > .default-content-wrapper ul {
+  margin: 0 0 11px;
+  padding-left: 32px;
+  list-style-position: inside;
+}
+
+body.faq.employer-plan main > .section > .default-content-wrapper ul > li {
+  margin: 0 0 5px;
+  color: rgb(0 20 70);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: normal;
+}
+
+body.faq.employer-plan main > .section > .default-content-wrapper ol {
+  margin: 0 0 1px;
+  padding-left: 40px;
+}
+
+body.faq.employer-plan main > .section > .default-content-wrapper ol > li {
+  margin: 0 0 15px;
+  color: var(--text-color);
+  font-size: 15px;
+  font-weight: 100;
+  line-height: 22.5px;
+  letter-spacing: normal;
+}
+
+body.faq.employer-plan main > .section > .default-content-wrapper ol > li strong {
+  font-weight: 700;
+}
+
+body.faq.employer-plan main h5 {
+  margin: 0 0 16px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 30px;
+  letter-spacing: -0.3px;
+}
+
+/* ---- buttons ---- */
+body.faq.employer-plan main > .section:not(.right-rail) > .default-content-wrapper p.button-container {
+  margin: 0;
+}
+
+/* the text CTA (WATCH VIDEO) */
+body.faq.employer-plan main > .section:not(.right-rail) > .default-content-wrapper p.button-container > a.button:any-link {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: #0066b1;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  white-space: normal;
+}
+
+/* the filled and outlined buttons, centred */
+body.faq.employer-plan main > .section:not(.right-rail) > .default-content-wrapper p.button-container:has(> :is(strong, em) > a.button) {
+  margin: 16px 0;
+  text-align: center;
+}
+
+body.faq.employer-plan main > .section:not(.right-rail) > .default-content-wrapper p.button-container > :is(strong, em) > a.button:any-link {
+  display: inline-block;
+  margin: 0;
+  padding: 16px 24px;
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  white-space: normal;
+}
+
+body.faq.employer-plan main > .section:not(.right-rail) > .default-content-wrapper p.button-container > strong > a.button:any-link {
+  border-color: #0066b1;
+  background-color: #0066b1;
+  color: #fff;
+}
+
+body.faq.employer-plan main > .section:not(.right-rail) > .default-content-wrapper p.button-container > strong > a.button:is(:hover, :focus-visible) {
+  border-color: var(--text-color);
+  background-color: var(--text-color);
+  color: #fff;
+}
+
+body.faq.employer-plan main > .section:not(.right-rail) > .default-content-wrapper p.button-container > em > a.button:is(:hover, :focus-visible) {
+  background-color: var(--text-color);
+  color: #fff;
+}
+
+/* ---- images (the Image block) ---- */
+body.faq.employer-plan main .image-wrapper {
+  margin: 0;
+}
+
+/* ---- Columns (icon-rows): CopayGo ---- */
+body.faq.employer-plan main .columns.icon-rows > div {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0;
+  margin: 0 0 20px;
+}
+
+body.faq.employer-plan main .columns.icon-rows > div:last-child {
+  margin-bottom: 0;
+}
+
+body.faq.employer-plan main .columns.icon-rows > div > div {
+  flex: 0 0 calc(100% * 10 / 12);
+  order: unset;
+  box-sizing: border-box;
+  padding-top: 20px;
+}
+
+body.faq.employer-plan main .columns.icon-rows > div > .columns-img-col {
+  flex: 0 0 calc(100% * 2 / 12);
+  padding: 0;
+}
+
+body.faq.employer-plan main .columns.icon-rows :is(p, h5) {
+  margin: 0 0 16px;
+}
+
+body.faq.employer-plan main .columns.icon-rows ul {
+  margin: 0 0 30px;
+  padding: 0;
+  columns: 2;
+  column-gap: 0;
+}
+
+body.faq.employer-plan main .columns.icon-rows li {
+  margin: 0 0 5px 42px;
+  break-inside: avoid;
+  color: rgb(0 20 70);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+}
+
+/* ---- the polar band (Style accent), in the text column ---- */
+body.faq.employer-plan main > .section.accent {
+  --band-top: 0;
+  --band-bottom: 0;
+}
+
+body.faq.employer-plan main > .section.accent > .default-content-wrapper {
+  padding-top: var(--band-top);
+  padding-bottom: var(--band-bottom);
+  background-color: rgb(247 251 253);
+  text-align: center;
+}
+
+/* a band's later parts: the spacer before them is inside its colour */
+body.faq.employer-plan main > .section.accent:not([class*="band-top"])[class*="space-"] {
+  padding-top: 0;
+}
+
+body.faq.employer-plan main > .section.accent:not([class*="band-top"])[class*="space-"] > .default-content-wrapper {
+  padding-top: var(--faq-space, 0);
+}
+
+body.faq.employer-plan main > .section.accent > .default-content-wrapper > :is(h2, h3, h5, p:not(.button-container)) {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+body.faq.employer-plan main > .section.accent.span-10 > .default-content-wrapper > :is(h2, h3, h5, p:not(.button-container)) {
+  max-width: calc(100% * 10 / 12);
+}
+
+body.faq.employer-plan main > .section.accent.span-8 > .default-content-wrapper > :is(h2, h3, h5, p:not(.button-container)) {
+  max-width: calc(100% * 8 / 12);
+}
+
+body.faq.employer-plan main > .section.band-top-20 { --band-top: 20px; }
+body.faq.employer-plan main > .section.band-top-40 { --band-top: 40px; }
+body.faq.employer-plan main > .section.band-bottom-20 { --band-bottom: 20px; }
+body.faq.employer-plan main > .section.band-bottom-40 { --band-bottom: 40px; }
+body.faq.employer-plan main > .section.band-bottom-60 { --band-bottom: 60px; }
+
+/* ---- the left nav: 15px in from both sides of its column ---- */
+@media (width >= 992px) {
+  body.faq.employer-plan main > .section.cards-minimal-light-sidenav-container {
+    width: calc(var(--faq-container) * 0.25 - 30px);
+  }
+}
+
+/* ---- tablet and phone ---- */
+@media (width < 992px) {
+  body.faq.employer-plan main > .section > .default-content-wrapper ol > li {
+    line-height: 16.5px;
+  }
+
+  body.faq.employer-plan main h5 {
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  body.faq.employer-plan main > .section.band-top-tablet-0 { --band-top: 0; }
+  body.faq.employer-plan main > .section.band-top-tablet-20 { --band-top: 20px; }
+  body.faq.employer-plan main > .section.band-bottom-tablet-0 { --band-bottom: 0; }
+  body.faq.employer-plan main > .section.band-bottom-tablet-20 { --band-bottom: 20px; }
+  body.faq.employer-plan main > .section.band-bottom-tablet-40 { --band-bottom: 40px; }
+
+  body.faq.employer-plan main > .section.accent:not([class*="band-top"])[class*="space-"] > .default-content-wrapper {
+    padding-top: var(--faq-space-tablet, var(--faq-space, 0));
+  }
+
+  /* the "Get more info" box after the text, inset as the left nav */
+  body.faq.employer-plan main {
+    display: flex;
+    flex-direction: column;
+  }
+
+  body.faq.employer-plan main > .section.right-rail {
+    display: block;
+    order: 1;
+    margin: 0;
+    padding: 0;
+  }
+
+  body.faq.employer-plan main > .section.right-rail > .default-content-wrapper {
+    box-sizing: border-box;
+    margin: 0 65px 0 45px;
+    padding: 20px;
+    background-color: var(--grey-color);
+  }
+
+  body.faq.employer-plan main > .section.right-rail h3 {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 22px;
+    line-height: 1.1;
+    letter-spacing: -0.4px;
+  }
+
+  body.faq.employer-plan main > .section.right-rail h3::after {
+    content: '';
+    display: block;
+    width: 51px;
+    height: 4px;
+    margin: 10px 0;
+    background-color: #0078c1;
+  }
+
+  body.faq.employer-plan main > .section.right-rail p {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: normal;
+  }
+
+  body.faq.employer-plan main > .section.right-rail p.button-container {
+    margin-top: 16px;
+  }
+
+  body.faq.employer-plan main > .section.right-rail a.button:any-link {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: #0066b1;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+    text-transform: uppercase;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.faq.employer-plan main > .section.right-rail > .default-content-wrapper {
+    margin: 0 99px 0 79px;
+  }
+
+  body.faq.employer-plan main > .section.right-rail h3 {
+    font-size: 24px;
+    letter-spacing: -0.44px;
+  }
+}
+
+@media (width < 768px) {
+  body.faq.employer-plan main > .section > .default-content-wrapper ol > li {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  body.faq.employer-plan main h5 {
+    font-size: 17px;
+    line-height: 23.8px;
+    letter-spacing: -0.2px;
+  }
+
+  body.faq.employer-plan main .columns.icon-rows ul {
+    columns: 1;
+  }
+
+  body.faq.employer-plan main .columns.icon-rows li {
+    margin-left: 32px;
+  }
+
+  body.faq.employer-plan main > .section.accent.span-phone-8 > .default-content-wrapper > :is(h2, h3, h5, p:not(.button-container)) {
+    max-width: calc(100% * 8 / 12);
+  }
+
+  body.faq.employer-plan main > .section.accent.span-phone-10 > .default-content-wrapper > :is(h2, h3, h5, p:not(.button-container)) {
+    max-width: calc(100% * 10 / 12);
+  }
+
+  body.faq.employer-plan main > .section.band-top-mobile-0 { --band-top: 0; }
+  body.faq.employer-plan main > .section.band-top-mobile-20 { --band-top: 20px; }
+  body.faq.employer-plan main > .section.band-bottom-mobile-0 { --band-bottom: 0; }
+  body.faq.employer-plan main > .section.band-bottom-mobile-20 { --band-bottom: 20px; }
+  body.faq.employer-plan main > .section.band-bottom-mobile-40 { --band-bottom: 40px; }
+
+  body.faq.employer-plan main > .section.accent:not([class*="band-top"])[class*="space-"] > .default-content-wrapper {
+    padding-top: var(--faq-space-mobile, var(--faq-space-tablet, var(--faq-space, 0)));
+  }
+}
+
+/* stylelint-enable no-descending-specificity */

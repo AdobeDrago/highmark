@@ -546,6 +546,9 @@ var CustomImportScript = (() => {
      * answer paragraphs no margins.
      */
     onLoad: ({ document }) => {
+      document.querySelectorAll("main img, #main-content img").forEach((img) => {
+        if (img.complete && !img.naturalWidth && img.getAttribute("src")) img.setAttribute("data-broken", "");
+      });
       document.querySelectorAll(".collapsible-item-description > p").forEach((p) => {
         if (!p.querySelector("img, br") && !p.textContent.replace(/[\s\u00a0]/g, "")) p.textContent = "\u200B";
       });
@@ -610,7 +613,7 @@ var CustomImportScript = (() => {
         const rows = kids.filter(iconRow);
         if (!rows.length) return;
         const cells = rows.map((row) => {
-          const img = row.querySelector(".aem-Grid--2 img");
+          const img = row.querySelector(".aem-Grid--2 img:not([data-broken])");
           const text = row.querySelector(":scope > .parent-width > section > .aem-Grid > .container-fluid-fullwidth > .parent-width > section > .aem-Grid--10");
           text.querySelectorAll(".gridcontrol").forEach((gc) => {
             const ul = document.createElement("ul");
@@ -627,8 +630,56 @@ var CustomImportScript = (() => {
         const last = kids.indexOf(rows[rows.length - 1]);
         kids.slice(first, last + 1).forEach((k) => (rows.includes(k) || k.matches(".spacing")) && k.remove());
       });
+      const gridClass = (el, kind) => Number((el.className.match(new RegExp(`aem-GridColumn--${kind}--(\\d+)`)) || [])[1]);
+      main.querySelectorAll(".image").forEach((cmp) => {
+        const img = cmp.querySelector("img:not([data-broken])");
+        if (!img) {
+          cmp.remove();
+          return;
+        }
+        const span = gridClass(cmp, "default");
+        const offset = gridClass(cmp, "offset--default");
+        const options = [span && span < 12 ? `span-${span}` : "", offset ? `offset-${offset}` : ""].filter(Boolean);
+        const name = options.length ? `Image (${options.join(", ")})` : "Image";
+        cmp.replaceWith(WebImporter.Blocks.createBlock(document, { name, cells: [[img]] }));
+      });
       main.querySelectorAll("section.new-hmk-brand-polar").forEach((band) => {
-        if (band.textContent.trim()) band.setAttribute("data-employer-band", "accent");
+        var _a;
+        if (!band.textContent.trim()) return;
+        const text = (_a = band.querySelector("h2")) == null ? void 0 : _a.closest('.cmp-text, .text, [class*="aem-GridColumn"]');
+        const grid = (text == null ? void 0 : text.parentElement) || band.querySelector(".aem-Grid");
+        const styles = ["accent"];
+        if (text) {
+          const span = gridClass(text, "default");
+          const phone = gridClass(text, "phone");
+          if (span && span < 12) styles.push(`span-${span}`);
+          if (phone && phone < 12 && phone !== span) styles.push(`span-phone-${phone}`);
+        }
+        if (grid) {
+          const kids = [...grid.children];
+          const run = (list) => {
+            const r = [];
+            for (const k of list) {
+              if (!k.matches(".spacing")) break;
+              r.push(k);
+            }
+            return r;
+          };
+          [["top", run(kids)], ["bottom", run([...kids].reverse())]].forEach(([side, spacers]) => {
+            if (!spacers.length || spacers.length === kids.length) return;
+            const [d, t, m] = spacers.map(spacerHeights).reduce((a, h) => a.map((v, k) => v + h[k]), [0, 0, 0]);
+            styles.push(`band-${side}-${d}`);
+            if (t !== d) styles.push(`band-${side}-tablet-${t}`);
+            if (m !== t) styles.push(`band-${side}-mobile-${m}`);
+            spacers.forEach((sp) => sp.remove());
+          });
+        }
+        const start = document.createElement("hr");
+        start.setAttribute("data-excat-section-id", styles.join(", "));
+        start.setAttribute("data-band-start", "");
+        band.setAttribute("data-band", "");
+        band.prepend(start);
+        band.after(document.createElement("hr"));
       });
       const navEl = main.querySelector("div.col-lg-3 div.nav-container:has(.sidenav, .sidenav-item-list)");
       const hasNav = !!navEl;
@@ -662,16 +713,34 @@ var CustomImportScript = (() => {
           console.warn(`No parser found for block: ${block.name}`);
         }
       });
-      const breaks = [...main.querySelectorAll("hr")];
-      main.querySelectorAll("[data-employer-band]").forEach((band) => {
-        const hr2 = band.querySelector("hr") || breaks.filter(
-          (b) => b.compareDocumentPosition(band) & 4
+      main.querySelectorAll("hr[data-band-start]").forEach((start) => {
+        start.removeAttribute("data-band-start");
+        const next = [...main.querySelectorAll("hr")].find(
+          (h) => start.compareDocumentPosition(h) & 4
           /* FOLLOWING */
-        ).pop();
-        band.removeAttribute("data-employer-band");
-        if (!hr2) return;
-        const style = hr2.getAttribute("data-excat-section-id");
-        hr2.setAttribute("data-excat-section-id", style ? `${style}, accent` : "accent");
+        );
+        if (!next || !next.hasAttribute("data-excat-section-id")) return;
+        const between = document.createRange();
+        between.setStartAfter(start);
+        between.setEndBefore(next);
+        const gap = between.cloneContents();
+        if (gap.textContent.trim() || gap.querySelector("img, picture, table")) return;
+        next.after(start);
+      });
+      main.querySelectorAll("[data-band]").forEach((band) => {
+        band.removeAttribute("data-band");
+        const parts = [...band.querySelectorAll("hr[data-excat-section-id]")];
+        const start = parts.find((h) => h.getAttribute("data-excat-section-id").startsWith("accent"));
+        const inner = parts.slice(parts.indexOf(start) + 1);
+        if (!start || !inner.length) return;
+        const own = start.getAttribute("data-excat-section-id").split(", ");
+        const keep = own.filter((t) => t === "accent" || t.startsWith("span-"));
+        const bottom = own.filter((t) => t.startsWith("band-bottom"));
+        start.setAttribute("data-excat-section-id", own.filter((t) => !bottom.includes(t)).join(", "));
+        inner.forEach((hr2, i) => {
+          const add = [...keep, ...i === inner.length - 1 ? bottom : []];
+          hr2.setAttribute("data-excat-section-id", `${hr2.getAttribute("data-excat-section-id")}, ${add.join(", ")}`);
+        });
       });
       executeTransformers("afterTransform", main, payload);
       const hr = document.createElement("hr");
