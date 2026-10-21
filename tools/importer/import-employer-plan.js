@@ -178,6 +178,9 @@ export default {
       h5.append(...span.childNodes);
       p.replaceWith(h5);
     });
+    // a line break at the end of a bold ("WATCH VIDEO", then "See disclaimer below¹"):
+    // after it, as Markdown drops it there
+    main.querySelectorAll('p b > br:last-child, p strong > br:last-child').forEach((br) => br.parentElement.after(br));
     // the source's PDF icon (a Material Icons ligature, "picture_as_pdf") -> the :pdf: icon
     main.querySelectorAll('a i[class*="material-icons"]').forEach((i) => {
       if (i.textContent.trim() === 'picture_as_pdf') i.replaceWith(document.createTextNode(':pdf: '));
@@ -237,7 +240,9 @@ export default {
       const offset = gridClass(cmp, 'offset--default');
       const options = [span && span < 12 ? `span-${span}` : '', offset ? `offset-${offset}` : ''].filter(Boolean);
       const name = options.length ? `Image (${options.join(', ')})` : 'Image';
-      cmp.replaceWith(WebImporter.Blocks.createBlock(document, { name, cells: [[img]] }));
+      // in place: the component stays, so a spacer before it still makes its break
+      cmp.replaceChildren(WebImporter.Blocks.createBlock(document, { name, cells: [[img]] }));
+      cmp.classList.remove('image');
     });
     // A polar band (the closing "Get started" band, Balanced Funding's formula box): its
     // own section, Style accent, with the share of the column its text takes (span-10:

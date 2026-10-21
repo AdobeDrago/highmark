@@ -591,6 +591,7 @@ var CustomImportScript = (() => {
         h5.append(...span.childNodes);
         p.replaceWith(h5);
       });
+      main.querySelectorAll("p b > br:last-child, p strong > br:last-child").forEach((br) => br.parentElement.after(br));
       main.querySelectorAll('a i[class*="material-icons"]').forEach((i) => {
         if (i.textContent.trim() === "picture_as_pdf") i.replaceWith(document.createTextNode(":pdf: "));
       });
@@ -641,7 +642,8 @@ var CustomImportScript = (() => {
         const offset = gridClass(cmp, "offset--default");
         const options = [span && span < 12 ? `span-${span}` : "", offset ? `offset-${offset}` : ""].filter(Boolean);
         const name = options.length ? `Image (${options.join(", ")})` : "Image";
-        cmp.replaceWith(WebImporter.Blocks.createBlock(document, { name, cells: [[img]] }));
+        cmp.replaceChildren(WebImporter.Blocks.createBlock(document, { name, cells: [[img]] }));
+        cmp.classList.remove("image");
       });
       main.querySelectorAll("section.new-hmk-brand-polar").forEach((band) => {
         var _a;

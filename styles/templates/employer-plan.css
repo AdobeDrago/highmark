@@ -126,11 +126,6 @@ body.faq.employer-plan main > .section:not(.right-rail) > .default-content-wrapp
   color: #fff;
 }
 
-/* ---- images (the Image block) ---- */
-body.faq.employer-plan main .image-wrapper {
-  margin: 0;
-}
-
 /* ---- Columns (icon-rows): CopayGo ---- */
 body.faq.employer-plan main .columns.icon-rows > div {
   flex-direction: row;
