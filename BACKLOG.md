@@ -53,34 +53,6 @@ When you fix an item, delete it here in the same PR. Add new findings in the sam
 - **Owner:** provider migration (William).
 - **Fix:** run `node tools/provider-lists/build-provider-lists.mjs --upload`, check preview, and publish the five sheets. Then regenerate `/redirects` (compare DA, preview and live first) so the new articles' links get rows, and publish it. The source adds news weekly, so this comes back; it may need a schedule.
 
-### 7. Homepage below 992px doesn't match highmark.com (in progress)
-
-- **What (2026-10-16, at 390 and 768):**
-  - the hero used the desktop photo, squeezed to 220px, with the text crammed over it;
-  - the mental-health and group bands laid their text over a 91px strip of the desktop photo;
-  - three of the four quick links showed at 390;
-  - white gaps between sections;
-  - Find Care's photo came after its text;
-  - type and spacing were off throughout.
-- **Shared chrome:**
-  - the phone header bar had the logo on the left and the menu on the right;
-  - the alert banner's insets and type were off;
-  - the footer's rows, LinkedIn size and legal line height were off;
-  - with the banner showing, the open menu was covered by the bar.
-- **Owner:** William.
-- **Status:** fixed in code on `william-gajewski-dev` (2026-10-19), not merged. Against the test draft `/drafts/william/home-mobile`, the page is as tall as the source's at 360 to 900 and at 1280 and 1440, and 0.01–0.1% of pixels differ. AGENTS.md ("Homepage") has the details.
-- **Restored first:** on 2026-10-19 `/index`, `/nav` and `/footer` in DA were put back to their live versions, and each preview now matches live byte for byte. Unpublished overwrites between 10-09 and 10-15 (lamont@adobe.com, previewed by mer81531@adobe.com) had reverted all three:
-  - the homepage had lost its alert banner and autumn hero;
-  - the nav had lost the 10-08 menu;
-  - the footer had lost the 10-06 link lists.
-
-  Their versions are in DA's version history.
-- **Still to do:**
-  1. Merge.
-  2. Put the source's tablet and mobile crops in `/index`'s three photo cells (the crops are already in `/.index/`), and preview. A script for this is ready: `import-work/scratch-backup-2026-10-19/day16/content/index-add-crops.mjs.bak` (gitignored). It stops if `main` doesn't have the code yet, or if `/index` changed after the restore.
-  3. Check the preview, then publish `/index`.
-  4. Delete the test draft.
-
 ## Minor
 
 - **`/reservations/aca` 404s.** It is broken on the source too.
@@ -91,8 +63,7 @@ When you fix an item, delete it here in the same PR. Add new findings in the sam
   - Fix: make that heading the h1, which departs from the source on purpose.
 - **Heading order on `/about/our-story/leadership-team-board`.** axe reports `heading-order` (moderate) at `#gustavo-giraldo`: the bio names skip a heading level.
   - Owner: #94 (Bhupesh).
-- **`/docs/library/blocks/hero` is published.** It requests `/blocks/library-metadata/library-metadata.{js,css}`, which don't exist, so the page logs two 404s. Search already excludes `/docs/**`.
-  - Fix: unpublish it, unless the Sidekick library uses it from live; in that case add the block.
+- **Library docs log two 404s on preview.** Each `/docs/library/blocks/*` doc requests `/blocks/library-metadata/library-metadata.{js,css}`, which don't exist. They are preview-only (DA's Library reads DA, not live; `/docs/library/blocks/hero` was unpublished on 2026-10-21), so visitors never see this. An empty `library-metadata` block that hides itself would silence it.
 - **Glossary links fail `link-in-text-block`.** `/resources/answers/health-insurance-glossary` has 58 serious failures: its links in body text are told apart only by colour, as on the source.
   - Owner: #128 (Gokulraj).
   - Fix: underline links in running text.

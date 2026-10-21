@@ -423,9 +423,12 @@ body.home .section.accent .columns-minimal-dark-overlay-wrapper {
     gap: 0;
   }
 
+  /* centred in the container once it is wider than 720px (from about 850px), as on the source */
   body.home .highlight .columns-minimal-dark-overlay > div > .columns-minimal-dark-overlay-img-col,
   body.home .highlight .columns-minimal-dark-overlay > div > .columns-minimal-dark-overlay-content-col {
     max-width: 720px;
+    margin-right: auto;
+    margin-left: auto;
   }
 
   body.home .highlight .columns-minimal-dark-overlay > div > .columns-minimal-dark-overlay-img-col {

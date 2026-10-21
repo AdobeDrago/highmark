@@ -141,7 +141,7 @@ Cookie Preferences links to `#`, because this site has no cookie tool. `/drafts/
 
 On 2026-10-19 `/index`, `/nav` and `/footer` in DA were restored to their live versions. Between 10-09 and 10-15 unpublished writes had replaced all three with older copies (one write at 2026-10-12 14:08 UTC hit all three), and preview showed the reverted homepage. Before you publish any of them, compare the DA document with live, so an old copy doesn't go out.
 
-Matched below 992px on 2026-10-19, against the test draft `/drafts/william/home-mobile` (the 10-06 page with the art-directed photos, below; delete it once `/index` has them): at 360, 390, 428, 429, 576, 700, 740, 767, 768, 800 and 900 the page is as tall as the source's and a screenshot diff differs in 0.01–0.1% of pixels; 1280 and 1440 still match (0.016%). Not copied: the source's 1px tablet gap at 991px (its tablet rules end at 990px, so it shows phone sizes there) and its 760–767px subheading (26px). From 992 to 1199px the page isn't matched (see BACKLOG.md).
+Matched below 992px on 2026-10-19; the art-directed photos below were published to `/index` the same day. At 360, 390, 428, 429, 576, 700, 740, 767, 768, 800, 850, 900 and 950 the page is as tall as the source's and a screenshot diff differs in 0.01–0.1% of pixels; 1280 and 1440 still match (0.016%). Not copied: the source's 1px tablet gap at 991px (its tablet rules end at 990px, so it shows phone sizes there) and its 760–767px subheading (26px). From 992 to 1199px the page isn't matched (see BACKLOG.md).
 
 - **Template.** `styles/templates/home.css`: the shared rules, the desktop rules (from 992px), then the phone and tablet rules: the source's 30px container (64px from 768px), headings 26px (28px from 768px), text 15px/1.4 (15px/1.3 from 768px).
 - **Sections.** On the source, sections butt against each other, so home sections have no outer margins.
@@ -328,6 +328,15 @@ Started 2026-10-07. The Provider Resource Center is migrated into this site unde
   - 2026-10-13: batch 3 (the 5 P1 list pages, with their 5 list sheets and the `provider-list` block), merged as #101 and published. All 5 are in both indexes; the 311 list links all resolve (217 through `/redirects` to the source, 92 PDFs, 1 behind the Availity login).
   - 2026-10-13: batch 4 (the 18 P2 pages: 16 news articles and 2 manual units, the spotlight fragment and the `provider-panel` block), with region panels and grey boxes on 39 batch-2 pages, merged as #103 and published. All 18 are in both indexes; P2 is 18/18.
 - **Search.** Provider pages are in the site search (`search-index` has no `/providers/**` exclude, decided 2026-10-07). The provider header's own box searches providers.highmark.com.
+
+## DA block library
+
+DA's Library panel (site config `library`: Blocks, Templates, Icons) reads `/docs/library/blocks.json`: one row per block, `name` and `path` (a `content.da.live/.../docs/library/blocks/<doc>` URL). Each doc's sections are the Library items: a `library-metadata` block (`name`, `description`) then the block.
+
+- On 2026-10-21 the 23 project blocks got docs (43 items, one per variant in use), built from trimmed copies of the blocks on live pages' DA source, so the examples use those pages' images. Header, footer and the ZIP modal have no entry, as they aren't authored as tables. Code, Form thank you and Fragment include were dropped from the sheet, as they have no code here; their docs are still in DA. The 17 other starter entries are unchanged.
+- The docs are preview-only: the Library reads DA, not live. `/docs/library/blocks/hero` was unpublished from live and removed from the query index the same day.
+- When a block or variant is added, add an item to its doc (or a new doc and a sheet row) and preview both.
+- `docs/library/templates.json`, which the Templates entry points at, doesn't exist.
 
 ## Open PRs
 
