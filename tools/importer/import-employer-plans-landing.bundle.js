@@ -792,7 +792,7 @@ var CustomImportScript = (() => {
         meta.breadcrumbs = "true";
         if (crumbLabel) meta["Breadcrumb Title"] = crumbLabel;
       }
-      meta.template = "employer-subpage";
+      meta.template = "employer-subpage, employer-plans-landing";
       main.append(WebImporter.Blocks.getMetadataBlock(document2, meta));
       WebImporter.rules.transformBackgroundImages(main, document2);
       WebImporter.rules.adjustImageUrls(main, url, params.originalURL);

@@ -1,0 +1,33 @@
+/*
+ * Employer medical-plan landings (/employer/solutions/{small,large}-business/<region>/
+ * medical-plans; Template: employer-subpage, employer-plans-landing): employer-subpage.css
+ * lays them out; this adds what differs, measured against highmark.com at 1440 / 1024 /
+ * 768 / 390:
+ *   - the plans' side-panel CTAs are outlined buttons (.brand-button-light, as on Care
+ *     Management), 16px above and below.
+ */
+
+/* stylelint-disable no-descending-specificity */
+
+body.employer-subpage.employer-plans-landing main .columns-minimal-dark p.button-container {
+  margin-top: 0;
+  line-height: 24px;
+}
+
+body.employer-subpage.employer-plans-landing main .columns-minimal-dark a.button:any-link {
+  margin: 16px 0;
+  padding: 16px 24px;
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  color: var(--text-color);
+  line-height: 24px;
+  white-space: nowrap;
+}
+
+body.employer-subpage.employer-plans-landing main .columns-minimal-dark a.button:is(:hover, :focus) {
+  background-color: var(--text-color);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* stylelint-enable no-descending-specificity */

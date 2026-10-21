@@ -345,7 +345,7 @@ export default {
       meta.breadcrumbs = 'true';
       if (crumbLabel) meta['Breadcrumb Title'] = crumbLabel;
     }
-    meta.template = 'employer-subpage';
+    meta.template = 'employer-subpage, employer-plans-landing';
     main.append(WebImporter.Blocks.getMetadataBlock(document, meta));
     WebImporter.rules.transformBackgroundImages(main, document);
     WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
