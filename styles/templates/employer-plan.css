@@ -254,6 +254,11 @@ body.faq.employer-plan main > .section.accent > div {
   text-align: center;
 }
 
+/* the light-blue band (Pharmacy's white-paper callout) */
+body.faq.employer-plan main > .section.accent.light-blue > div {
+  background-color: rgb(237 245 250);
+}
+
 body.faq.employer-plan main > .section.accent > div:first-child {
   padding-top: var(--band-top);
 }

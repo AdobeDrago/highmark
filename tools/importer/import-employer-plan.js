@@ -300,20 +300,21 @@ export default {
       cmp.replaceChildren(WebImporter.Blocks.createBlock(document, { name, cells: [[img]] }));
       cmp.classList.remove('image');
     });
-    // A polar band (the closing "Get started" band, Balanced Funding's formula box): its
+    // A polar band (the closing "Get started" band, Balanced Funding's formula box), or a
+    // light-blue one (Pharmacy's white-paper callout: Style accent, light-blue): its
     // own section, Style accent, with the shares of the column its heading and its text
     // take (span-10 / text-span-8: their grid spans; span-phone-8, text-span-phone-8) and
     // its own leading and trailing spacers as its padding (band-top-* / band-bottom-*).
     // Those spacers are taken out, so the sections transformer doesn't add them to its
     // neighbours'; the band starts with its own section break (inside it, after the break
     // the transformer puts before it) and is followed by a plain one.
-    main.querySelectorAll('section.new-hmk-brand-polar').forEach((band) => {
+    main.querySelectorAll('section.new-hmk-brand-polar, section.global-helionlightblue').forEach((band) => {
       if (!band.textContent.trim()) return;
       const cmpOf = (el) => el?.closest('.cmp-text, .text, [class*="aem-GridColumn"]');
       const heading = cmpOf(band.querySelector('h2'));
       const copy = cmpOf(band.querySelector('p span.p1, h5, p'));
       const grid = heading?.parentElement || band.querySelector('.aem-Grid');
-      const styles = ['accent'];
+      const styles = band.matches('.global-helionlightblue') ? ['accent', 'light-blue'] : ['accent'];
       [['span', heading], ['text-span', copy]].forEach(([name, cmp]) => {
         if (!cmp) return;
         const span = gridClass(cmp, 'default') || 12;
@@ -413,7 +414,7 @@ export default {
       const inner = parts.slice(parts.indexOf(start) + 1);
       if (!start || !inner.length) return;
       const own = start.getAttribute('data-excat-section-id').split(', ');
-      const keep = own.filter((t) => t === 'accent' || /^(text-)?span-/.test(t));
+      const keep = own.filter((t) => t === 'accent' || t === 'light-blue' || /^(text-)?span-/.test(t));
       const bottom = own.filter((t) => t.startsWith('band-bottom'));
       start.setAttribute('data-excat-section-id', own.filter((t) => !bottom.includes(t)).join(', '));
       inner.forEach((hr, i) => {

@@ -696,13 +696,13 @@ var CustomImportScript = (() => {
         cmp.replaceChildren(WebImporter.Blocks.createBlock(document, { name, cells: [[img]] }));
         cmp.classList.remove("image");
       });
-      main.querySelectorAll("section.new-hmk-brand-polar").forEach((band) => {
+      main.querySelectorAll("section.new-hmk-brand-polar, section.global-helionlightblue").forEach((band) => {
         if (!band.textContent.trim()) return;
         const cmpOf = (el) => el == null ? void 0 : el.closest('.cmp-text, .text, [class*="aem-GridColumn"]');
         const heading = cmpOf(band.querySelector("h2"));
         const copy = cmpOf(band.querySelector("p span.p1, h5, p"));
         const grid = (heading == null ? void 0 : heading.parentElement) || band.querySelector(".aem-Grid");
-        const styles = ["accent"];
+        const styles = band.matches(".global-helionlightblue") ? ["accent", "light-blue"] : ["accent"];
         [["span", heading], ["text-span", copy]].forEach(([name, cmp]) => {
           if (!cmp) return;
           const span = gridClass(cmp, "default") || 12;
@@ -789,7 +789,7 @@ var CustomImportScript = (() => {
         const inner = parts.slice(parts.indexOf(start) + 1);
         if (!start || !inner.length) return;
         const own = start.getAttribute("data-excat-section-id").split(", ");
-        const keep = own.filter((t) => t === "accent" || /^(text-)?span-/.test(t));
+        const keep = own.filter((t) => t === "accent" || t === "light-blue" || /^(text-)?span-/.test(t));
         const bottom = own.filter((t) => t.startsWith("band-bottom"));
         start.setAttribute("data-excat-section-id", own.filter((t) => !bottom.includes(t)).join(", "));
         inner.forEach((hr2, i) => {
