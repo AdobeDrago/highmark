@@ -183,6 +183,26 @@ const PAGE_TEMPLATE = {
       "defaultContent": []
     },
     {
+      "id": "footnote",
+      "name": "Footnote (a text band without a heading or a colour)",
+      "selector": [
+        "section.container-fluid-fullwidth.section.employer-footnote"
+      ],
+      "style": "footnote",
+      "blocks": [],
+      "defaultContent": []
+    },
+    {
+      "id": "rate-documents",
+      "name": "Rate justification documents (small group)",
+      "selector": [
+        "section.container-fluid-fullwidth.section.employer-documents"
+      ],
+      "style": "documents",
+      "blocks": [],
+      "defaultContent": []
+    },
+    {
       "id": "callout-blush",
       "name": "Blush callout",
       "selector": [
@@ -299,8 +319,22 @@ export default {
       inner.forEach((c) => c.classList.add('section'));
       band.replaceWith(...inner);
     });
-    // The rate justification documents (a gridcontrol: two columns of PDF links) -> a
-    // Columns block, a cell per column.
+    // the cards' screen-reader text ("Learn More<span>, Dental Plans</span>") is dropped,
+    // as on the other imports
+    main.querySelectorAll('a .hmk-visually-hidden').forEach((span) => span.remove());
+    // the source's PDF icon (a Material Icons ligature, "picture_as_pdf") -> the :pdf: icon
+    main.querySelectorAll('a i[class*="material-icons"], a span[class*="material-icons"]').forEach((i) => {
+      if (i.textContent.trim() === 'picture_as_pdf') i.replaceWith(document.createTextNode(':pdf: '));
+    });
+    // A text band without a heading or a colour (the large-group pages' "* According to
+    // the BlueCard" note, the small-group pages' closing footnotes): its own section,
+    // Style footnote. The small-group rate justification documents: Style documents.
+    main.querySelectorAll('section.container-fluid-fullwidth.section').forEach((band) => {
+      if (band.querySelector('.gridcontrol') && band.querySelector('h3') && !band.querySelector('.new-hmk-brand-polar')) band.classList.add('employer-documents');
+      else if (!band.querySelector('h1, h2, h3, .gridcontrol, img, .hmk-brand-buttons, [class*="new-hmk-brand"]') && band.textContent.trim()) band.classList.add('employer-footnote');
+    });
+    // A gridcontrol (the documents' two columns of PDF links, the business-size bar's
+    // three links) -> a Columns block, a cell per column.
     main.querySelectorAll('.gridcontrol').forEach((gc) => {
       // the large-group pages' polar bar of business-size links (Small Business |
       // Medium/Large Business | National Business): its own section, Style accent, size-links

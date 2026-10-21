@@ -42,7 +42,52 @@ var CustomImportScript = (() => {
   });
 
   // tools/importer/parsers/columns-minimal-dark.js
+  function parseBio(element, document2) {
+    const img = element.querySelector(".div-bio-images img, img");
+    const header = element.querySelector(".div-bio-header") || element;
+    const name = header.querySelector("h1, h2, h3, h4");
+    const title = header.querySelector("p");
+    const content = [];
+    if (name) {
+      const h1 = document2.createElement("h1");
+      h1.textContent = name.textContent.replace(/\s+/g, " ").trim();
+      content.push(h1);
+    }
+    if (title) {
+      const p = document2.createElement("p");
+      p.textContent = title.textContent.replace(/\s+/g, " ").trim();
+      content.push(p);
+    }
+    const linkPara = (href, text) => {
+      const p = document2.createElement("p");
+      const a = document2.createElement("a");
+      a.href = href;
+      a.textContent = text;
+      p.append(a);
+      return p;
+    };
+    header.querySelectorAll("a").forEach((a) => {
+      const raw = (a.getAttribute("href") || "").trim();
+      const href = raw.replace(/(%20|\s)+$/i, "");
+      const label = a.textContent.replace(/\s+/g, " ").trim();
+      if (/linkedin\.com/i.test(href) || a.querySelector(".fa-linkedin") || label === "LinkedIn") {
+        content.push(linkPara(href || "#", "LinkedIn"));
+      } else if (a.id === "bio-modal" || /request interview/i.test(label)) {
+        content.push(linkPara("/modals/request-interview", "Request Interview"));
+      } else if (/\.pdf$/i.test(href)) {
+        content.push(linkPara(href, "View as a PDF"));
+      } else if (href && href !== "#") {
+        content.push(linkPara(href, label || href));
+      }
+    });
+    const cells = [[img ? [img] : "", content]];
+    element.replaceWith(WebImporter.Blocks.createBlock(document2, { name: "columns-minimal-dark", cells }));
+  }
   function parse(element, { document: document2 }) {
+    if (element.matches("section.flex-container") && element.querySelector(".div-bio-header")) {
+      parseBio(element, document2);
+      return;
+    }
     const textArea = element.querySelector(".text-area") || element;
     const imageArea = element.querySelector(".image-area") || element;
     const image = imageArea.querySelector("picture, img");

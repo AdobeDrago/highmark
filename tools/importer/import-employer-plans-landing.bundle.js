@@ -664,6 +664,26 @@ var CustomImportScript = (() => {
         "defaultContent": []
       },
       {
+        "id": "footnote",
+        "name": "Footnote (a text band without a heading or a colour)",
+        "selector": [
+          "section.container-fluid-fullwidth.section.employer-footnote"
+        ],
+        "style": "footnote",
+        "blocks": [],
+        "defaultContent": []
+      },
+      {
+        "id": "rate-documents",
+        "name": "Rate justification documents (small group)",
+        "selector": [
+          "section.container-fluid-fullwidth.section.employer-documents"
+        ],
+        "style": "documents",
+        "blocks": [],
+        "defaultContent": []
+      },
+      {
         "id": "callout-blush",
         "name": "Blush callout",
         "selector": [
@@ -760,6 +780,14 @@ var CustomImportScript = (() => {
         if (!inner.length || !inner.every((c) => c.matches("div.newcardscomponent-variations"))) return;
         inner.forEach((c) => c.classList.add("section"));
         band.replaceWith(...inner);
+      });
+      main.querySelectorAll("a .hmk-visually-hidden").forEach((span) => span.remove());
+      main.querySelectorAll('a i[class*="material-icons"], a span[class*="material-icons"]').forEach((i) => {
+        if (i.textContent.trim() === "picture_as_pdf") i.replaceWith(document2.createTextNode(":pdf: "));
+      });
+      main.querySelectorAll("section.container-fluid-fullwidth.section").forEach((band) => {
+        if (band.querySelector(".gridcontrol") && band.querySelector("h3") && !band.querySelector(".new-hmk-brand-polar")) band.classList.add("employer-documents");
+        else if (!band.querySelector('h1, h2, h3, .gridcontrol, img, .hmk-brand-buttons, [class*="new-hmk-brand"]') && band.textContent.trim()) band.classList.add("employer-footnote");
       });
       main.querySelectorAll(".gridcontrol").forEach((gc) => {
         const band = gc.closest("section.container-fluid-fullwidth.section");
