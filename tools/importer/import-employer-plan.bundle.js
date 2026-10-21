@@ -622,7 +622,8 @@ var CustomImportScript = (() => {
         }
         return r;
       };
-      const height = (spacers) => spacers.map(spacerHeights).reduce((a, h) => a + h[0], 0);
+      const height = (spacers) => spacers.map(spacerHeights).reduce((a, h) => a.map((v, i) => v + h[i]), [0, 0, 0]);
+      const topStyles = (name, [d, t, m]) => [d ? `${name}-top-${d}` : "", t !== d ? `${name}-top-tablet-${t}` : "", m !== t ? `${name}-top-mobile-${m}` : ""].filter(Boolean);
       const pairOf = (a, b) => {
         const ga = a && innerGrid(a);
         const gb = b && innerGrid(b);
@@ -644,7 +645,7 @@ var CustomImportScript = (() => {
       };
       const rowsBlock = (rows) => {
         const { span, iconTop, textTop } = rows[0];
-        const options = ["icon-rows", `icon-${span}`, iconTop ? `icon-top-${iconTop}` : "", textTop ? `text-top-${textTop}` : ""].filter(Boolean);
+        const options = ["icon-rows", `icon-${span}`, ...topStyles("icon", iconTop), ...topStyles("text", textTop)];
         return WebImporter.Blocks.createBlock(document, { name: `Columns (${options.join(", ")})`, cells: rows.map((r) => r.cells) });
       };
       main.querySelectorAll(".aem-Grid").forEach((grid) => {

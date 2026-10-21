@@ -23,7 +23,7 @@
 body.faq.employer-plan main > .section > .default-content-wrapper ul {
   margin: 0 0 16px;
   padding-left: 32px;
-  list-style-position: inside;
+  list-style-position: outside;
 }
 
 body.faq.employer-plan main > .section > .default-content-wrapper ul > li {
@@ -191,6 +191,14 @@ body.faq.employer-plan main .columns.icon-rows :is(p, h5) {
   margin: 0 0 16px;
 }
 
+body.faq.employer-plan main .columns.icon-rows p {
+  color: rgb(0 20 70);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+  letter-spacing: -0.1px;
+}
+
 body.faq.employer-plan main .columns.icon-rows ul {
   margin: 0 0 30px;
   padding: 0;
@@ -211,6 +219,10 @@ body.faq.employer-plan main .columns.icon-rows li {
 body.faq.employer-plan main > .section.accent {
   --band-top: 0;
   --band-bottom: 0;
+
+  padding-top: 0;
+  padding-bottom: 0;
+  background: none;
 }
 
 body.faq.employer-plan main > .section.accent > .default-content-wrapper {
@@ -282,6 +294,24 @@ body.faq.employer-plan main > .section.band-bottom-0 { --band-bottom: 0; }
     font-size: 18px;
     line-height: 23.4px;
     letter-spacing: -0.4px;
+  }
+
+  /* the band inside the page's gutters */
+  body.faq.employer-plan main > .section.accent > .default-content-wrapper {
+    margin: 0 30px;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  body.faq.employer-plan main .columns.icon-rows p {
+    font-size: 15px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.faq.employer-plan main .columns.icon-rows.text-top-tablet-0 > div > div:not(.columns-img-col),
+  body.faq.employer-plan main .columns.icon-rows.icon-top-tablet-0 > div > .columns-img-col {
+    padding-top: 0;
   }
 
   body.faq.employer-plan main > .section.band-top-tablet-0 { --band-top: 0; }
@@ -359,6 +389,10 @@ body.faq.employer-plan main > .section.band-bottom-0 { --band-bottom: 0; }
 }
 
 @media (width >= 768px) and (width < 992px) {
+  body.faq.employer-plan main > .section.accent > .default-content-wrapper {
+    margin: 0 64px;
+  }
+
   body.faq.employer-plan main > .section.right-rail > .default-content-wrapper {
     margin: 0 99px 0 79px;
   }
@@ -381,9 +415,21 @@ body.faq.employer-plan main > .section.band-bottom-0 { --band-bottom: 0; }
   }
 
   body.faq.employer-plan main h5 {
+    margin-bottom: 12.8px;
     font-size: 17px;
     line-height: 23.8px;
     letter-spacing: -0.2px;
+  }
+
+  body.faq.employer-plan main .columns.icon-rows p {
+    margin-bottom: 12.8px;
+    line-height: 21px;
+    letter-spacing: -0.2px;
+  }
+
+  body.faq.employer-plan main .columns.icon-rows.text-top-mobile-0 > div > div:not(.columns-img-col),
+  body.faq.employer-plan main .columns.icon-rows.icon-top-mobile-0 > div > .columns-img-col {
+    padding-top: 0;
   }
 
   body.faq.employer-plan main .columns.icon-rows ul {

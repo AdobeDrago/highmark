@@ -213,7 +213,9 @@ export default {
       && c.querySelector(':scope > .parent-width > section > .aem-Grid');
     const gridSpan = (grid) => Number((grid.className.match(/aem-Grid--(\d+)(?:\s|$)/) || [])[1]);
     const leadSpacers = (grid) => { const r = []; for (const k of grid.children) { if (!k.matches('.spacing')) break; r.push(k); } return r; };
-    const height = (spacers) => spacers.map(spacerHeights).reduce((a, h) => a + h[0], 0);
+    const height = (spacers) => spacers.map(spacerHeights).reduce((a, h) => a.map((v, i) => v + h[i]), [0, 0, 0]);
+    // a column's top spacer as <name>-top-<n> (and -tablet- / -mobile- where it differs)
+    const topStyles = (name, [d, t, m]) => [d ? `${name}-top-${d}` : '', t !== d ? `${name}-top-tablet-${t}` : '', m !== t ? `${name}-top-mobile-${m}` : ''].filter(Boolean);
     // An image column beside a text column (two containers, their grids N and 12 - N wide;
     // the image one may have failed to load): [image grid, text grid], or null.
     const pairOf = (a, b) => {
@@ -238,7 +240,7 @@ export default {
     };
     const rowsBlock = (rows) => {
       const { span, iconTop, textTop } = rows[0];
-      const options = ['icon-rows', `icon-${span}`, iconTop ? `icon-top-${iconTop}` : '', textTop ? `text-top-${textTop}` : ''].filter(Boolean);
+      const options = ['icon-rows', `icon-${span}`, ...topStyles('icon', iconTop), ...topStyles('text', textTop)];
       return WebImporter.Blocks.createBlock(document, { name: `Columns (${options.join(', ')})`, cells: rows.map((r) => r.cells) });
     };
     // Icon rows: CopayGo's (each row a container of an icon column and a text column,
