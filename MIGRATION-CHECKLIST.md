@@ -98,6 +98,7 @@ Also in P3:
 - [x] `/employer/client-resources` (Client Resources) **Live**
 - [x] `/employer/thought-leadership` (Thought Leadership) **Live**
 - [ ] `/employer/get-started` (Get Started) **To do** redirects to highmark.com for now
+- [ ] `/employer/solutions/{small,large}-business/<region>/medical-plans` (11 medical-plan landings) and their 37 plan pages **Preview only** imported 2026-10-21 (branch `spending-employer-pages`); the size and region pages above them are empty on the source and stay redirected
 - [x] `/resources/answers/faq/aca-plans` (Individual and Family Insurance (ACA)) **Live**
 - [x] `/resources/answers/faq/chip` (CHIP - Highmark Healthy Kids) **Live**
 - [x] `/resources/answers/faq/home-prescription-delivery` (Home Prescription Delivery) **Live**
@@ -112,9 +113,9 @@ Also in P3:
 - [x] `/resources/mental-health-services/mental-health-resources` (Mental Health Resources) **Live**
 - [x] `/resources/spending-accounts` (Spending Accounts) **Live**
 - [x] `/resources/spending-accounts/health-saving-account-hsa` (Health Savings Accounts (HSA)) **Live**
-- [ ] `/resources/spending-accounts/flexible-spending-account-fsa` (Flexible Savings Accounts (FSA)) **Preview only** held back from publishing until art-golk's PR #44 (data-table fix) merges; re-previewed 2026-10-01
+- [ ] `/resources/spending-accounts/flexible-spending-account-fsa` (Flexible Savings Accounts (FSA)) **Preview only** re-imported 2026-10-21 (spending-account template); to publish after branch `spending-employer-pages` merges
 - [x] `/resources/spending-accounts/health-reimbursement-arrangement-hra` (Health Reimbursement Arrangement (HRA)) **Live**
-- [ ] `/resources/spending-accounts/commuter-benefits-account` (Commuter Benefits) **Preview only** held back from publishing until art-golk's PR #44 (data-table fix) merges; re-previewed 2026-10-01
+- [ ] `/resources/spending-accounts/commuter-benefits-account` (Commuter Benefits) **Preview only** re-imported 2026-10-21 (spending-account template); to publish after branch `spending-employer-pages` merges
 - [x] `/about/our-story` (Our Story) **Live** imported 2026-09-29; the `nav-group4` batch re-published it 2026-09-30 with breadcrumbs and `template: about-article` metadata (body unchanged)
 - [x] `/about/our-story/mission-vision` (Mission, Vision & Core Behaviors) **Live** imported by the `nav-group4` batch
 - [x] `/about/our-story/our-businesses` (Our Businesses) **Live** imported by the `nav-group4` batch

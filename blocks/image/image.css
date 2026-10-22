@@ -1,0 +1,40 @@
+/* Image: a picture at span-<n> twelfths of the text column, offset-<n> twelfths in.
+   On phones an image that starts at the column's edge (no offset) takes the full
+   width, as the source's image component does; an offset one keeps its share. */
+.image {
+  --image-span: 12;
+  --image-offset: 0;
+
+  box-sizing: border-box;
+  width: calc(100% * var(--image-span) / 12);
+  margin-left: calc(100% * var(--image-offset) / 12);
+  line-height: 0;
+}
+
+.image picture,
+.image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.image.span-2 { --image-span: 2; }
+.image.span-3 { --image-span: 3; }
+.image.span-4 { --image-span: 4; }
+.image.span-5 { --image-span: 5; }
+.image.span-6 { --image-span: 6; }
+.image.span-7 { --image-span: 7; }
+.image.span-8 { --image-span: 8; }
+.image.span-9 { --image-span: 9; }
+.image.span-10 { --image-span: 10; }
+.image.span-11 { --image-span: 11; }
+.image.offset-1 { --image-offset: 1; }
+.image.offset-2 { --image-offset: 2; }
+.image.offset-3 { --image-offset: 3; }
+.image.offset-4 { --image-offset: 4; }
+
+@media (width < 768px) {
+  .image:not([class*="offset-"]) {
+    --image-span: 12;
+  }
+}

@@ -192,11 +192,11 @@ body.employer-subpage .columns-minimal-dark h2 {
    pharmacy footnote marker into its own paragraph - run them back together */
 body.employer-subpage .columns-minimal-dark p:has(+ p > sup:only-child),
 body.employer-subpage .columns-minimal-dark p:has(> sup:only-child),
-body.employer-subpage .columns-minimal-dark p:has(> sup:only-child) + p {
+body.employer-subpage .columns-minimal-dark p:has(> sup:only-child) + p:not(.button-container) {
   display: inline;
 }
 
-body.employer-subpage .columns-minimal-dark p:has(> sup:only-child) + p::before {
+body.employer-subpage .columns-minimal-dark p:has(> sup:only-child) + p:not(.button-container)::before {
   content: " ";
 }
 

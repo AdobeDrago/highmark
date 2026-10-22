@@ -1,0 +1,429 @@
+/*
+ * Employer medical-plan landings (/employer/solutions/{small,large}-business/<region>/
+ * medical-plans; Template: employer-subpage, employer-plans-landing): employer-subpage.css
+ * lays them out; this adds what differs, measured against highmark.com at 1440 / 1024 /
+ * 768 / 390:
+ *   - the plans' side-panel CTAs are outlined buttons (.brand-button-light, as on Care
+ *     Management), 16px above and below; from 992 to 1199px a text-first panel has no
+ *     gap after its text (the source's 47px margin starts at 1200px);
+ *   - "Head-to-toe coverage": white cards on the splash band, as the icon cards' grid;
+ *   - the closing blush callout's copy is body text;
+ *   - the large-group pages (they end with the business-size bar, Style size-links) have
+ *     an H5 lead in the intro, and less space in the intro and the callout; their
+ *     BlueCard note (Style footnote) has none;
+ *   - the small-group pages' rate justification documents (Style documents): two
+ *     centred columns of PDF links, and their footnotes 60px (40px on phones) apart.
+ */
+
+/* stylelint-disable no-descending-specificity */
+
+/* 1. Intro: the large-group pages' H5 lead, as the small-group pages' paragraph */
+body.employer-subpage.employer-plans-landing main > .section:first-child h5 {
+  width: 83.333%;
+  margin: 0 auto 12.8px;
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+body.employer-subpage.employer-plans-landing main:has(> .section.size-links) > .section:first-child,
+body.employer-subpage.employer-plans-landing main:has(> .section.size-links) > .section.highlight {
+  padding: 0 0 20px;
+}
+
+/* 2. Side panels: outlined CTAs */
+body.employer-subpage.employer-plans-landing main .columns-minimal-dark p.button-container {
+  margin-top: 0;
+  line-height: 24px;
+}
+
+body.employer-subpage.employer-plans-landing main .columns-minimal-dark a.button:any-link {
+  margin: 16px 0;
+  padding: 16px 24px;
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  color: var(--text-color);
+  line-height: 24px;
+  white-space: nowrap;
+}
+
+body.employer-subpage.employer-plans-landing main .columns-minimal-dark a.button:is(:hover, :focus) {
+  background-color: var(--text-color);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* 3. Head-to-toe coverage: .cards-variation.new-hmk-brand-splashblue li.cardThree -
+   white 300 / 400 / 370px cards (30px apart, 34px across), 20px (30px from 992) inside */
+body.employer-subpage.employer-plans-landing main > .section.cards-minimal-dark-list-container {
+  padding: 50px 0 40px;
+  background-color: #bfe2f4;
+}
+
+body.employer-subpage.employer-plans-landing main > .section.cards-minimal-dark-list-container > div {
+  box-sizing: border-box;
+  max-width: none;
+  padding: 0 max(15px, 2.5vw);
+}
+
+body.employer-subpage.employer-plans-landing main > .section.cards-minimal-dark-list-container > .default-content-wrapper h2 {
+  margin: 0 0 20px;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.employer-subpage.employer-plans-landing main > .section.cards-minimal-dark-list-container > .default-content-wrapper p {
+  margin: 0 0 30px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+body.employer-subpage.employer-plans-landing .cards-minimal-dark-list > ul {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  gap: 30px 34px;
+  padding: 0 0 30px;
+}
+
+body.employer-subpage.employer-plans-landing .cards-minimal-dark-list > ul > li {
+  flex: none;
+  width: 300px;
+  text-align: left;
+}
+
+body.employer-subpage.employer-plans-landing .cards-minimal-dark-list .cards-minimal-dark-list-card-body {
+  padding: 20px 20px 16px;
+}
+
+body.employer-subpage.employer-plans-landing .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3 {
+  margin: 0 0 13px;
+  font-size: 22px;
+  line-height: 24.2px;
+  letter-spacing: -0.4px;
+}
+
+body.employer-subpage.employer-plans-landing .cards-minimal-dark-list .cards-minimal-dark-list-card-body p {
+  margin: 0 0 12.8px;
+  padding: 0;
+  font-size: 15px;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+/* the source's title rule is hidden (hr.breakLineNone) */
+body.employer-subpage.employer-plans-landing .cards-minimal-dark-list .cards-minimal-dark-list-title-underline {
+  display: none;
+}
+
+body.employer-subpage.employer-plans-landing main .cards-minimal-dark-list .cards-minimal-dark-list-card-body p.button-container {
+  margin: 0;
+  text-align: left;
+  line-height: 20px;
+}
+
+/* 4. Health Plan Features: a CTA ends its card */
+body.employer-subpage.employer-plans-landing main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p.button-container {
+  margin-bottom: 0;
+}
+
+/* 5. Closing blush callout: body copy on the large-group pages (the small group's is
+   the bold lead), 40px under the small group's button from 992px */
+body.employer-subpage.employer-plans-landing main:has(> .section.size-links) > .section.highlight p:not(.button-container) {
+  margin-bottom: 12.8px;
+  color: var(--text-body-color);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+/* 6. Business-size bar (large group): three centred links on polar */
+body.employer-subpage.employer-plans-landing main > .section.accent.size-links {
+  padding: 20px 0;
+}
+
+body.employer-subpage.employer-plans-landing main > .section.size-links > .columns-wrapper,
+body.employer-subpage.employer-plans-landing main > .section.documents > div {
+  box-sizing: border-box;
+  max-width: 1366px;
+  padding: 0 30px;
+}
+
+body.employer-subpage.employer-plans-landing main > .section:is(.size-links, .documents) .columns > div {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 20px;
+}
+
+body.employer-subpage.employer-plans-landing main > .section:is(.size-links, .documents) .columns > div > div {
+  flex: 1 1 0;
+  text-align: center;
+}
+
+body.employer-subpage.employer-plans-landing main > .section:is(.size-links, .documents) p {
+  margin: 0 0 12.8px;
+  font-size: 15px;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+body.employer-subpage.employer-plans-landing main > .section:is(.size-links, .documents) a:any-link {
+  font-weight: 300;
+  letter-spacing: inherit;
+}
+
+/* 7. Rate justification documents (small group): a centred H3, PDF text links */
+body.employer-subpage.employer-plans-landing main > .section.documents {
+  padding: 40px 0 60px;
+}
+
+/* 20px under the heading's 8px margin; a single document (Central PA) is a centred
+   paragraph under the heading */
+body.employer-subpage.employer-plans-landing main > .section.documents .columns {
+  margin-top: 28px;
+}
+
+body.employer-subpage.employer-plans-landing main > .section.documents h3 + p.button-container {
+  margin-top: 28px;
+  text-align: center;
+}
+
+body.employer-subpage.employer-plans-landing main > .section.documents h3 {
+  margin: 0 0 8px;
+  padding: 16px 0;
+  font-size: 22px;
+  line-height: 24.2px;
+  text-align: center;
+}
+
+body.employer-subpage.employer-plans-landing main > .section.documents p.button-container {
+  margin: 0 0 12.8px;
+  line-height: 21px;
+}
+
+body.employer-subpage.employer-plans-landing main > .section.documents a.button:any-link {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--link-color);
+  font-size: inherit;
+  line-height: inherit;
+  text-transform: none;
+  white-space: normal;
+}
+
+body.employer-subpage.employer-plans-landing main > .section.documents a.button:is(:hover, :focus) {
+  background: none;
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+body.employer-subpage.employer-plans-landing main > .section.documents a .icon {
+  width: 20px;
+  height: 20px;
+  margin: 0 6px 0 2px;
+  vertical-align: -4px;
+}
+
+/* 8. Footnotes (employer-subpage.css section 7): 40 / 60px apart (small group), none
+   for the large group's BlueCard note; the marker doesn't open up the line */
+body.employer-subpage.employer-plans-landing main > .section.footnote:has(> .default-content-wrapper > p:first-child > sup:first-child) {
+  padding: 40px 0;
+}
+
+body.employer-subpage.employer-plans-landing main:has(> .section.size-links) > .section.footnote:has(> .default-content-wrapper > p:first-child > sup:first-child) {
+  padding: 0;
+}
+
+body.employer-subpage.employer-plans-landing main > .section.footnote:has(> .default-content-wrapper > p:first-child > sup:first-child) p > :is(sup, sub) {
+  line-height: 0;
+}
+
+@media (width >= 576px) {
+  body.employer-subpage.employer-plans-landing main > .section.cards-minimal-dark-list-container {
+    padding: 60px 0 50px;
+  }
+}
+
+@media (width >= 768px) {
+  body.employer-subpage.employer-plans-landing main > .section:first-child h5 {
+    width: auto;
+    max-width: 83.333%;
+    margin-bottom: 16px;
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  body.employer-subpage.employer-plans-landing main:has(> .section.size-links) > .section:first-child {
+    padding: 20px 0 40px;
+  }
+
+  body.employer-subpage.employer-plans-landing main > .section.cards-minimal-dark-list-container > .default-content-wrapper h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.employer-subpage.employer-plans-landing main > .section.cards-minimal-dark-list-container > .default-content-wrapper p {
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  body.employer-subpage.employer-plans-landing .cards-minimal-dark-list > ul > li {
+    width: 400px;
+  }
+
+  body.employer-subpage.employer-plans-landing .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3 {
+    padding-bottom: 3px;
+    font-size: 32px;
+    line-height: 35.2px;
+    letter-spacing: -0.44px;
+  }
+
+  body.employer-subpage.employer-plans-landing .cards-minimal-dark-list .cards-minimal-dark-list-card-body p,
+  body.employer-subpage.employer-plans-landing main:has(> .section.size-links) > .section.highlight p:not(.button-container),
+  body.employer-subpage.employer-plans-landing main > .section:is(.size-links, .documents) p,
+  body.employer-subpage.employer-plans-landing main > .section.documents p.button-container {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.employer-subpage.employer-plans-landing main > .section.accent.size-links {
+    padding: 40px 0 25px;
+  }
+
+  body.employer-subpage.employer-plans-landing main > .section.size-links > .columns-wrapper,
+  body.employer-subpage.employer-plans-landing main > .section.documents > div {
+    padding: 0 64px;
+  }
+
+  body.employer-subpage.employer-plans-landing main > .section:is(.size-links, .documents) .columns > div {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  body.employer-subpage.employer-plans-landing main > .section:is(.size-links, .documents) .columns > div > div {
+    padding: 0 10px;
+  }
+
+  body.employer-subpage.employer-plans-landing main > .section.documents {
+    padding-bottom: 65px;
+  }
+
+  body.employer-subpage.employer-plans-landing main > .section.documents h3 {
+    font-size: 24px;
+    line-height: 26.4px;
+  }
+
+  body.employer-subpage.employer-plans-landing main > .section.footnote:has(> .default-content-wrapper > p:first-child > sup:first-child) {
+    padding: 60px 0;
+  }
+}
+
+@media (width >= 992px) {
+  body.employer-subpage.employer-plans-landing main > .section:first-child h5 {
+    max-width: 50%;
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  body.employer-subpage.employer-plans-landing main > .section.cards-minimal-dark-list-container > div {
+    max-width: 1180px;
+    padding: 0;
+  }
+
+  body.employer-subpage.employer-plans-landing main > .section.cards-minimal-dark-list-container > .default-content-wrapper {
+    max-width: 766px;
+  }
+
+  body.employer-subpage.employer-plans-landing main > .section.cards-minimal-dark-list-container > .default-content-wrapper h2 {
+    font-size: 34px;
+    line-height: 37.4px;
+    letter-spacing: -1.36px;
+  }
+
+  body.employer-subpage.employer-plans-landing main > .section.cards-minimal-dark-list-container > .default-content-wrapper p {
+    margin-bottom: 40px;
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  body.employer-subpage.employer-plans-landing .cards-minimal-dark-list > ul {
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: stretch;
+  }
+
+  body.employer-subpage.employer-plans-landing .cards-minimal-dark-list > ul > li {
+    width: 370px;
+  }
+
+  body.employer-subpage.employer-plans-landing .cards-minimal-dark-list .cards-minimal-dark-list-card-body {
+    padding: 20px 30px 16px;
+  }
+
+  body.employer-subpage.employer-plans-landing .cards-minimal-dark-list .cards-minimal-dark-list-card-body h3 {
+    padding-bottom: 0;
+    font-size: 24px;
+    line-height: 26.4px;
+    letter-spacing: -0.72px;
+  }
+
+  body.employer-subpage.employer-plans-landing .cards-minimal-dark-list .cards-minimal-dark-list-card-body p,
+  body.employer-subpage.employer-plans-landing main:has(> .section.size-links) > .section.highlight p:not(.button-container),
+  body.employer-subpage.employer-plans-landing main > .section:is(.size-links, .documents) p,
+  body.employer-subpage.employer-plans-landing main > .section.documents p.button-container {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  body.employer-subpage.employer-plans-landing main:has(> .section.size-links) > .section.highlight {
+    padding: 20px 0 40px;
+  }
+
+  body.employer-subpage.employer-plans-landing main:not(:has(> .section.size-links)) > .section.highlight {
+    padding-bottom: 40px;
+  }
+
+  body.employer-subpage.employer-plans-landing main > .section.accent.size-links {
+    padding-bottom: 30px;
+  }
+
+  body.employer-subpage.employer-plans-landing main > .section.size-links > .columns-wrapper,
+  body.employer-subpage.employer-plans-landing main > .section.documents > div {
+    max-width: 1366px;
+    padding: 0 83px;
+  }
+
+  body.employer-subpage.employer-plans-landing main > .section.documents {
+    padding: 60px 0 90px;
+  }
+}
+
+@media (width >= 992px) and (width < 1200px) {
+  body.employer-subpage.employer-plans-landing .columns-minimal-dark > div > div:not(.columns-minimal-dark-img-col):first-child {
+    margin: 0;
+  }
+}
+
+/* stylelint-enable no-descending-specificity */
