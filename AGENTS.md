@@ -242,6 +242,17 @@ The employer solutions pages under `/employer/solutions/{small,large}-business/<
 - **NEPA small group's Custom PPO logo** (`custom-ppo.svg`, 45 KB) is over EDS's 40 KB SVG limit, so its preview fails (409). The DA document points at the 2x PNG in `/employer/solutions/small-business/nepa/.medical-plans/custom-ppo.png` instead; a re-upload brings the SVG back, so swap it again after one. Its band of plan panels holds an empty AEM placeholder (`div.ghost`), which the importer removes.
 - Upload the plan pages and the landings in one `upload-to-da.mjs` run, so their links to each other stay relative.
 
+## Medicare articles (`template: medicare-article`)
+
+`/plans/medicare/learn-about-medicare/benefits-of-medicare-advisors`, imported on 2026-10-22 with `tools/importer/import-medicare-article.js` (`urls-medicare-article.txt`). `styles/templates/medicare-article.css` matches highmark.com within 1px at 390 / 768 / 1024 / 1440.
+
+- **Sections.** The article, i.e. the banner image straight under the breadcrumb row, the h1 and the text, in the source's centred 8/12 column (800px at 1440); each spacing component becomes a section with Style `space-<px>`. Then `highlight`, the blush call panel (centred heading, copy and the outlined call button in a 780px column; the source writes its heading and copy twice, for desktop and phones, and the desktop copy is kept), and `footnote`, the job code.
+- The template is in `NO_AUTO_HERO_TEMPLATES` (`scripts.js`), so the banner image and h1 aren't turned into a hero block.
+
+The employer plan-page importer also took National Business Pharmacy, Blue Integration and Payment Integrity (2026-10-22). Their lists are the source's `li.insidebullets`, 18px further in: the importer adds `inset-bullets` to the page's `Template` when it finds one. A text component that ends with an empty paragraph keeps it as a zero-width-space line (Blue Integration).
+
+The local preview (`aem up --html-folder content`) serves `/content/<path>` without a doctype and with metadata names as written (`Template`, not `template`), so templates don't load and a line holding only a `<sub>` collapses there. To check a page locally, have the test browser lowercase and hyphenate the meta names and add `<!DOCTYPE html>` (a Playwright route on `http://localhost:3000/content/**`); the private-use U+E000 non-breaking-space placeholders still show as odd characters, so phone line breaks can differ from the uploaded page.
+
 ## Breadcrumbs on imported pages
 
 Every `/resources` page has the source's trail (2026-10-16). `tools/breadcrumbs/add-breadcrumbs.mjs [--apply] path ...` turns it on for pages imported without it: it sets `Breadcrumbs: true` and the source's active crumb as `Breadcrumb Title` in the DA metadata block and previews the page; nothing else changes (on the 11 pages it was run on, the `.plain.html` stayed byte-identical). The other crumbs come from the published ancestors, so compare the trail with the source's first. The sidebar article, guide-article and listing importers now add both rows when the source has a trail, as the topic-hub and tabbed-answers importers do.

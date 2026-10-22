@@ -71,9 +71,10 @@ function autolinkModals(doc) {
 
 /**
  * Page templates whose leading image + h1 is inline content, not a hero
- * (e.g. medicare-hra: a small illustration above the centered title).
+ * (e.g. medicare-hra: a small illustration above the centered title; medicare-article:
+ * the banner image at the top of the article column).
  */
-const NO_AUTO_HERO_TEMPLATES = ['medicare-hra'];
+const NO_AUTO_HERO_TEMPLATES = ['medicare-hra', 'medicare-article'];
 
 /**
  * Builds all synthetic blocks in a container element.
@@ -166,7 +167,7 @@ const TEMPLATE_STYLES = [
   'news-alert', 'content-landing', 'zipcode-gate-login', 'campaign-landing', 'subsidiary-home', 'events',
   'home', 'shop-home', 'providers', 'shop-page', 'answers-landing', 'provider-content', 'leadership-bio',
   'faq', 'member-regional', 'glossary', 'member-subpage', 'topic-hub-landing', 'spending-account',
-  'employer-plan', 'employer-plans-landing',
+  'employer-plan', 'employer-plans-landing', 'medicare-article',
 ];
 
 /**

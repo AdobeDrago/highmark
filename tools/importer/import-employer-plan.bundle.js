@@ -555,6 +555,9 @@ var CustomImportScript = (() => {
       document.querySelectorAll(".collapsible-item-description > p").forEach((p) => {
         if (!p.querySelector("img, br") && !p.textContent.replace(/[\s\u00a0]/g, "")) p.textContent = "\u200B";
       });
+      document.querySelectorAll(".cmp-text > p:last-child").forEach((p) => {
+        if (p.previousElementSibling && !p.querySelector("img, br") && !p.textContent.replace(/[\s\u00a0]/g, "")) p.textContent = "\u200B";
+      });
       const walker = document.createTreeWalker(
         document.body,
         4
@@ -574,6 +577,7 @@ var CustomImportScript = (() => {
         params
       } = payload;
       const main = document.body;
+      const insetBullets = !!main.querySelector("li.insidebullets");
       WebImporter.DOMUtils.remove(main, [
         ".newheaderbar",
         ".newmainnavigation",
@@ -802,6 +806,7 @@ var CustomImportScript = (() => {
       main.appendChild(hr);
       const meta = WebImporter.Blocks.getMetadata(document) || {};
       meta.Template = hasNav ? "faq, employer-plan" : "legal, employer-plan";
+      if (insetBullets) meta.Template += ", inset-bullets";
       meta.breadcrumbs = "true";
       if (crumbLabel) meta["Breadcrumb Title"] = crumbLabel;
       main.append(WebImporter.Blocks.getMetadataBlock(document, meta));
