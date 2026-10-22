@@ -774,6 +774,7 @@ var CustomImportScript = (() => {
         if (!el.querySelector('i[class*="material-icons"]')) el.setAttribute("data-iconnav-image-icons", "");
       });
       WebImporter.DOMUtils.remove(main, ["div.spacing.section"]);
+      WebImporter.DOMUtils.remove(main, ["div.ghost"]);
       main.querySelectorAll("section.container-fluid-fullwidth.section").forEach((band) => {
         const grid = band.querySelector(":scope > .parent-width > section > .aem-Grid");
         const inner = grid ? [...grid.children] : [];

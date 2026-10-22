@@ -59,6 +59,9 @@ const FORCE = {
   // the regional member footers' Help link: highmark.com sends /help to its home page
   // (/content/.../home.html, which the source-redirect check can't map), here ours (2026-10-14)
   '/help': '/',
+  // published here, but its row still sent it to highmark.com; kept that way until its
+  // owner decides to show our page (2026-10-22)
+  '/public-policy': 'https://www.highmark.com/public-policy',
   // Leadership bios whose highmark.com URLs aren't valid EDS paths (mixed case, trailing
   // hyphen): served here at the lowercase path (2026-10-12).
   ...Object.fromEntries([
@@ -100,6 +103,18 @@ const normPath = (p) => decodeURI(p).replace(/\.html$/, '').replace(/\/+$/, '') 
 // means the run saw an incomplete site, so it stops before writing a sheet: a sheet built
 // from 429s once came out with 13 of its 466 rows.
 const failures = [];
+// The live CDN rate-limits a full run (429): retry those, waiting as long as it asks
+// (Retry-After) or 2, 4, 8, ... seconds, before counting the request as failed.
+async function get(url, opts) {
+  for (let i = 0; ; i += 1) {
+    // eslint-disable-next-line no-await-in-loop
+    const res = await fetch(url, opts);
+    if ((res.status !== 429 && res.status < 500) || i >= 5) return res;
+    const wait = Number(res.headers.get('retry-after')) || 2 ** (i + 1);
+    // eslint-disable-next-line no-await-in-loop
+    await new Promise((resolve) => { setTimeout(resolve, wait * 1000); });
+  }
+}
 const note = (res, url) => {
   if (!res.ok && res.status !== 404) failures.push(`${res.status} ${url}`);
   return res;
@@ -107,7 +122,7 @@ const note = (res, url) => {
 
 async function internalLinks(host, page) {
   const url = `${host}${page === '/' ? '/index' : page}.plain.html`;
-  const res = note(await fetch(url), url);
+  const res = note(await get(url), url);
   if (!res.ok) return [];
   const html = await res.text();
   return [...html.matchAll(/href="([^"]+)"/g)].map(([, href]) => {
@@ -123,7 +138,7 @@ const LISTED = new Map();
 
 async function sheetLinks(host, sheet) {
   const url = `${host}${sheet}?limit=5000`;
-  const res = note(await fetch(url), url);
+  const res = note(await get(url), url);
   if (!res.ok) return [];
   const { data = [] } = await res.json();
   return data.filter((row) => /^\/(?!\/)/.test(String(row.Link || ''))).map((row) => {
@@ -178,7 +193,7 @@ const linkLists = await pool(sources, 8, ([host, p]) => internalLinks(host, p));
 const sheetSources = LISTS.flatMap((l) => [[LIVE, l], [PREVIEW, l]]);
 const sheetLists = await pool(sheetSources, 4, ([host, l]) => sheetLinks(host, l));
 const targets = [...new Set([...linkLists, ...sheetLists].flat())];
-const statuses = await pool(targets, 10, async (p) => [p, (await fetch(`${LIVE}${encodeURI(p)}`, { method: 'HEAD', redirect: 'manual' })).status]);
+const statuses = await pool(targets, 10, async (p) => [p, (await get(`${LIVE}${encodeURI(p)}`, { method: 'HEAD', redirect: 'manual' })).status]);
 statuses.filter(([, s]) => s === 429 || s >= 500).forEach(([p, s]) => failures.push(`${s} ${LIVE}${p}`));
 const dead = statuses.filter(([, s]) => s === 404).map(([p]) => p);
 const currentRes = note(await fetch(`${LIVE}/redirects.json?limit=5000`), `${LIVE}/redirects.json`);
