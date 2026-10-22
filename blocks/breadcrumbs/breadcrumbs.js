@@ -5,7 +5,9 @@
  * published page (listed in the query index) is shown, labelled with its
  * `Breadcrumb Title` metadata or, failing that, its title without the " | …"
  * site suffix. Other ancestors are skipped. The trail starts at `/`, or at the
- * page that `Breadcrumb Home` names (the provider pages' /providers/).
+ * page that `Breadcrumb Home` names (the provider pages' /providers/, the employer
+ * business-size pages' /employer). `Breadcrumb Current: false` leaves the page itself
+ * out of the trail, as on those business-size pages on highmark.com.
  */
 
 import { getMetadata } from '../../scripts/aem.js';
@@ -120,13 +122,15 @@ export default async function decorate(block) {
   // a section with its own home page sets `Breadcrumb Home` (the provider pages: /providers/)
   const home = { path: getMetadata('breadcrumb-home') || '/', label: 'Home' };
   const current = getMetadata('breadcrumb-title') || shortTitle(getMetadata('og:title') || document.title);
+  const showCurrent = getMetadata('breadcrumb-current').toLowerCase() !== 'false';
 
   const nav = document.createElement('nav');
   nav.setAttribute('aria-label', 'Breadcrumb');
 
   const list = document.createElement('ol');
   list.className = 'breadcrumbs-list';
-  list.append(crumbItem(home.label, home.path), crumbItem(current));
+  list.append(crumbItem(home.label, home.path));
+  if (showCurrent) list.append(crumbItem(current));
 
   // mobile: single back link to the nearest ancestor
   const back = document.createElement('a');
@@ -152,14 +156,17 @@ export default async function decorate(block) {
 
   // ancestors load after first render; the row keeps its height meanwhile
   // only ancestors below the home page (/providers itself is the home crumb)
+  const homeBase = home.path.replace(/\/$/, '');
   const ancestors = ancestorPaths(window.location.pathname)
-    .filter((path) => `${path}/`.startsWith(home.path) && `${path}/` !== home.path);
+    .filter((path) => `${path}/`.startsWith(`${homeBase}/`) && path !== homeBase);
   if (!ancestors.length) return;
   const published = await publishedPaths();
   const existing = ancestors.filter((path) => published.has(path));
   const crumbs = (await Promise.all(existing.map(fetchCrumb))).filter(Boolean);
   if (!crumbs.length) return;
-  list.lastElementChild.before(...crumbs.map(({ path, label }) => crumbItem(label, path)));
+  const items = crumbs.map(({ path, label }) => crumbItem(label, path));
+  if (showCurrent) list.lastElementChild.before(...items);
+  else list.append(...items);
   const parent = crumbs[crumbs.length - 1];
   back.href = parent.path;
   back.textContent = parent.label;
