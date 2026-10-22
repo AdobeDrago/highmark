@@ -693,8 +693,15 @@ body.spending-account main .section.text-band:not(.grey) {
   text-align: center;
 }
 
-body.spending-account main .section.highlight.text-band {
+/* flush with the panel above (styles.css gives the /resources text band 65px) */
+body.spending-account main > .section.highlight.text-band {
+  margin: 0;
   background-color: rgb(254 240 236);
+}
+
+/* the disclaimer's marker and fine print don't open up the line */
+body.spending-account main .section.text-band:not(.grey) p > :is(sub, sup) {
+  line-height: 0;
 }
 
 body.spending-account main .section.text-band:not(.grey) > .default-content-wrapper {

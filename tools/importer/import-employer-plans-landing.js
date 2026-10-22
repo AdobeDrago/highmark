@@ -312,6 +312,8 @@ export default {
     // The small-group pages wrap their components in bands (one holding every plan's
     // side panel, one each for the two card grids); a band that holds only components
     // gives way to them, so each is a section as on the large-group pages.
+    // (an empty AEM placeholder, div.ghost, doesn't count: NEPA's band has one)
+    WebImporter.DOMUtils.remove(main, ['div.ghost']);
     main.querySelectorAll('section.container-fluid-fullwidth.section').forEach((band) => {
       const grid = band.querySelector(':scope > .parent-width > section > .aem-Grid');
       const inner = grid ? [...grid.children] : [];
