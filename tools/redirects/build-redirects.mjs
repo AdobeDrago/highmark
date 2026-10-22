@@ -59,9 +59,6 @@ const FORCE = {
   // the regional member footers' Help link: highmark.com sends /help to its home page
   // (/content/.../home.html, which the source-redirect check can't map), here ours (2026-10-14)
   '/help': '/',
-  // published here, but its row still sent it to highmark.com; kept that way until its
-  // owner decides to show our page (2026-10-22)
-  '/public-policy': 'https://www.highmark.com/public-policy',
   // Leadership bios whose highmark.com URLs aren't valid EDS paths (mixed case, trailing
   // hyphen): served here at the lowercase path (2026-10-12).
   ...Object.fromEntries([
