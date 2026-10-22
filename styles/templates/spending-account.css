@@ -866,6 +866,7 @@ body.spending-account main .section.bottom-120 { --sa-bottom: 120px; }
   body.spending-account main .section.text-band:not(.grey) p:not(.button-container, :has(sub)) {
     font-size: 17px;
     line-height: 23.8px;
+    letter-spacing: -0.2px;
   }
 
   body.spending-account main .section.top-mobile-20 { --sa-top: 20px; }
