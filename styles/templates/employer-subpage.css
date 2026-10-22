@@ -943,3 +943,10 @@ body.employer-subpage main > .section:has(> .default-content-wrapper > p:first-c
     letter-spacing: -0.1px;
   }
 }
+
+/* the business-size pages (/employer/solutions/small-business, /large-business) have no
+   content on highmark.com, so their one section is empty: the footer follows the
+   breadcrumb row */
+body.employer-subpage main > .section:first-child:empty {
+  padding: 0;
+}
