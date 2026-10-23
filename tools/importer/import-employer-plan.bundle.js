@@ -52,6 +52,18 @@ var CustomImportScript = (() => {
     };
     const rowFor = (level, a) => [level, cleanLink(a)];
     const cells = [];
+    const topItems = Array.from(element.querySelectorAll("ul.sidenav-item-list > li"));
+    const flat = !element.querySelector("a.side-nav-item-parent") && topItems.length > 1 && topItems.every((li) => li.classList.contains("sidenav-item-level1") && !li.querySelector("ul"));
+    if (flat) {
+      topItems.forEach((li) => {
+        const a = li.querySelector("a[href]");
+        if (!a) return;
+        const isActive = a.classList.contains("active") || a.getAttribute("aria-current") === "page";
+        cells.push(rowFor(isActive ? "current" : "sibling", a));
+      });
+      element.replaceWith(WebImporter.Blocks.createBlock(document, { name: "cards-minimal-light-sidenav", cells }));
+      return;
+    }
     const parent = element.querySelector("a.side-nav-item-parent, .sidenav-item > a[href]:not(.active)");
     if (parent) cells.push(rowFor("parent", parent));
     const activeLink = element.querySelector("a.active");
