@@ -687,6 +687,12 @@ var CustomImportScript = (() => {
           }
         }
       });
+      main.querySelectorAll(".gridcontrol").forEach((gc) => {
+        const cols = [...gc.querySelectorAll('[class*="hmk-col-"]')].filter((c) => !c.parentElement.closest('[class*="hmk-col-"]'));
+        if (cols.length < 2 || !cols.every((c) => c.querySelector(".image img"))) return;
+        const cells = [cols.map((c) => [c.querySelector(".image img"), ...c.querySelectorAll(".cmp-text p")])];
+        gc.replaceWith(WebImporter.Blocks.createBlock(document, { name: "Columns (image-grid)", cells }));
+      });
       main.querySelectorAll(".image").forEach((cmp) => {
         const img = cmp.querySelector("img:not([data-broken])");
         if (!img) {

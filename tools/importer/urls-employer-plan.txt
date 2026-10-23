@@ -38,3 +38,4 @@ https://www.highmark.com/employer/solutions/small-business/wpa/pharmacy?zg=false
 https://www.highmark.com/employer/solutions/national-business/pharmacy?zg=false
 https://www.highmark.com/employer/cost-management/blue-integration?zg=false
 https://www.highmark.com/employer/cost-management/payment-integrity?zg=false
+https://www.highmark.com/employer/cost-management/integrated-approach?zg=false
