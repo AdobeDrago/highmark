@@ -582,6 +582,7 @@ var CustomImportScript = (() => {
       });
     },
     transform: (payload) => {
+      var _a;
       const {
         document,
         url,
@@ -642,9 +643,9 @@ var CustomImportScript = (() => {
         return r;
       };
       const spacerPx = (sp) => {
-        var _a;
+        var _a2;
         const [d, t, m] = spacerHeights(sp);
-        const measured = Number((_a = sp.querySelector("section")) == null ? void 0 : _a.getAttribute("data-space"));
+        const measured = Number((_a2 = sp.querySelector("section")) == null ? void 0 : _a2.getAttribute("data-space"));
         return Number.isNaN(measured) || !sp.querySelector("section[data-space]") ? [d, t, m] : [measured, t, m];
       };
       const height = (spacers) => spacers.map(spacerPx).reduce((a, h) => a.map((v, i) => v + h[i]), [0, 0, 0]);
@@ -699,6 +700,20 @@ var CustomImportScript = (() => {
           }
         }
       });
+      main.querySelectorAll(".dynamictable table").forEach((tbl) => {
+        const rows = [...tbl.querySelectorAll("tr")].map((tr) => [...tr.children].map((cell) => {
+          const paras = [...cell.querySelectorAll("p")].map((p) => {
+            const np = document.createElement("p");
+            np.innerHTML = p.innerHTML;
+            np.querySelectorAll("span").forEach((s) => s.replaceWith(...s.childNodes));
+            return np;
+          });
+          return paras.length ? paras : cell.textContent.trim();
+        }));
+        if (!rows.length) return;
+        const dyn = tbl.closest(".dynamictable") || tbl;
+        dyn.replaceChildren(WebImporter.Blocks.createBlock(document, { name: "Table (blue-header)", cells: rows }));
+      });
       main.querySelectorAll(".gridcontrol").forEach((gc) => {
         const cols = [...gc.querySelectorAll('[class*="hmk-col-"]')].filter((c) => !c.parentElement.closest('[class*="hmk-col-"]'));
         if (cols.length < 2 || !cols.every((c) => c.querySelector(".image img"))) return;
@@ -718,13 +733,15 @@ var CustomImportScript = (() => {
         cmp.replaceChildren(WebImporter.Blocks.createBlock(document, { name, cells: [[img]] }));
         cmp.classList.remove("image");
       });
-      main.querySelectorAll("section.new-hmk-brand-polar, section.global-helionlightblue").forEach((band) => {
+      main.querySelectorAll("section.new-hmk-brand-polar, section.global-helionlightblue, section.global-light-blue").forEach((band) => {
         if (!band.textContent.trim()) return;
         const cmpOf = (el) => el == null ? void 0 : el.closest('.cmp-text, .text, [class*="aem-GridColumn"]');
         const heading = cmpOf(band.querySelector("h2"));
         const copy = cmpOf(band.querySelector("p span.p1, h5, p"));
         const grid = (heading == null ? void 0 : heading.parentElement) || band.querySelector(".aem-Grid");
-        const styles = band.matches(".global-helionlightblue") ? ["accent", "light-blue"] : ["accent"];
+        const styles = ["accent"];
+        if (band.matches(".global-helionlightblue")) styles.push("light-blue");
+        if (band.matches(".global-light-blue")) styles.push("sky");
         [["span", heading], ["text-span", copy]].forEach(([name, cmp]) => {
           if (!cmp) return;
           const span = gridClass(cmp, "default") || 12;
@@ -770,7 +787,9 @@ var CustomImportScript = (() => {
         if (lastContent >= 0 && trailing.some(Boolean)) {
           const hr2 = document.createElement("hr");
           hr2.setAttribute("data-excat-section-id", spaceStyle(trailing));
-          leaves[lastContent].after(hr2);
+          const band = leaves[lastContent].closest("section.new-hmk-brand-polar, section.global-helionlightblue, section.global-light-blue");
+          const anchor = band && ((_a = band.nextElementSibling) == null ? void 0 : _a.tagName) === "HR" ? band.nextElementSibling : band || leaves[lastContent];
+          anchor.after(hr2);
         }
       }
       const crumb = document.querySelector("ol.breadcrumb-list li.active");
@@ -811,7 +830,7 @@ var CustomImportScript = (() => {
         const inner = parts.slice(parts.indexOf(start) + 1);
         if (!start || !inner.length) return;
         const own = start.getAttribute("data-excat-section-id").split(", ");
-        const keep = own.filter((t) => t === "accent" || t === "light-blue" || /^(text-)?span-/.test(t));
+        const keep = own.filter((t) => ["accent", "light-blue", "sky"].includes(t) || /^(text-)?span-/.test(t));
         const bottom = own.filter((t) => t.startsWith("band-bottom"));
         start.setAttribute("data-excat-section-id", own.filter((t) => !bottom.includes(t)).join(", "));
         inner.forEach((hr2, i) => {
