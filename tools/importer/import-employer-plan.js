@@ -293,6 +293,14 @@ export default {
         }
       }
     });
+    // A gridcontrol whose columns each hold an image and its caption (Integrated
+    // Approach's three illustrations) -> Columns (image-grid), a cell per column.
+    main.querySelectorAll('.gridcontrol').forEach((gc) => {
+      const cols = [...gc.querySelectorAll('[class*="hmk-col-"]')].filter((c) => !c.parentElement.closest('[class*="hmk-col-"]'));
+      if (cols.length < 2 || !cols.every((c) => c.querySelector('.image img'))) return;
+      const cells = [cols.map((c) => [c.querySelector('.image img'), ...c.querySelectorAll('.cmp-text p')])];
+      gc.replaceWith(WebImporter.Blocks.createBlock(document, { name: 'Columns (image-grid)', cells }));
+    });
     // The source's other images (an image component: a span of its 12-column grid,
     // offset or not) -> an Image block, Image (span-8, offset-2).
     main.querySelectorAll('.image').forEach((cmp) => {

@@ -248,6 +248,12 @@ body.employer-subpage.employer-plans-landing main:has(> .section.size-links) > .
   padding: 0;
 }
 
+/* the national-business landing (neither the size bar nor the documents): its footnotes
+   have the source's 40 / 20px spacers (60 / 40px from 992) */
+body.employer-subpage.employer-plans-landing main:not(:has(> .section.size-links, > .section.documents)) > .section.footnote:has(> .default-content-wrapper > p:first-child > sup:first-child) {
+  padding: 40px 0 20px;
+}
+
 body.employer-subpage.employer-plans-landing main > .section.footnote:has(> .default-content-wrapper > p:first-child > sup:first-child) p > :is(sup, sub) {
   line-height: 0;
 }
@@ -335,9 +341,17 @@ body.employer-subpage.employer-plans-landing main > .section.footnote:has(> .def
   body.employer-subpage.employer-plans-landing main > .section.footnote:has(> .default-content-wrapper > p:first-child > sup:first-child) {
     padding: 60px 0;
   }
+
+  body.employer-subpage.employer-plans-landing main:not(:has(> .section.size-links, > .section.documents)) > .section.footnote:has(> .default-content-wrapper > p:first-child > sup:first-child) {
+    padding: 40px 0 20px;
+  }
 }
 
 @media (width >= 992px) {
+  body.employer-subpage.employer-plans-landing main:not(:has(> .section.size-links, > .section.documents)) > .section.footnote:has(> .default-content-wrapper > p:first-child > sup:first-child) {
+    padding: 60px 0 40px;
+  }
+
   body.employer-subpage.employer-plans-landing main > .section:first-child h5 {
     max-width: 50%;
     font-size: 20px;
@@ -401,7 +415,7 @@ body.employer-subpage.employer-plans-landing main > .section.footnote:has(> .def
     padding: 20px 0 40px;
   }
 
-  body.employer-subpage.employer-plans-landing main:not(:has(> .section.size-links)) > .section.highlight {
+  body.employer-subpage.employer-plans-landing main:has(> .section.documents) > .section.highlight {
     padding-bottom: 40px;
   }
 

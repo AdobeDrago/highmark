@@ -539,4 +539,69 @@ body.faq.employer-plan main > .section.band-bottom-0 { --band-bottom: 0; }
   }
 }
 
+/* ---- image grid (Columns (image-grid)): Integrated Approach's three illustrations, each
+   over its bold caption; equal columns from 768px (10px apart from the edges of each),
+   stacked below; 30 / 25 / 20px under each ---- */
+body.faq.employer-plan main .columns.image-grid > div {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+
+body.faq.employer-plan main .columns.image-grid > div > div {
+  flex: 1 1 0;
+  order: 0;
+  padding: 0 0 20px;
+}
+
+body.faq.employer-plan main .columns.image-grid img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+body.faq.employer-plan main .columns.image-grid p {
+  margin: 0 0 12.8px;
+  color: rgb(0 20 70);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+  text-align: center;
+}
+
+body.faq.employer-plan main .columns.image-grid p:has(> picture) {
+  margin: 0;
+  line-height: 0;
+}
+
+@media (width >= 768px) {
+  body.faq.employer-plan main .columns.image-grid > div {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  body.faq.employer-plan main .columns.image-grid > div > div {
+    padding: 0 10px 25px;
+  }
+
+  body.faq.employer-plan main .columns.image-grid p {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.faq.employer-plan main .columns.image-grid > div > div {
+    padding-bottom: 30px;
+  }
+
+  body.faq.employer-plan main .columns.image-grid p {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+}
+
 /* stylelint-enable no-descending-specificity */
