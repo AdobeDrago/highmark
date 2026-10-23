@@ -1,0 +1,292 @@
+/* Template "medicare-article" (page metadata template=medicare-article -> body.medicare-article).
+   Loaded by scripts/scripts.js (TEMPLATE_STYLES) before the first section renders.
+
+   Values extracted (getComputedStyle) from
+   https://www.highmark.com/plans/medicare/learn-about-medicare/benefits-of-medicare-advisors
+   at 390 / 768 / 1024 / 1440. Source breakpoints: < 768 (30px gutters), 768-991 (64px),
+   >= 992 (1366px container, 83px padding, the article in the centred col-lg-8: 2/3 of
+   min(1200px, 100% - 166px), 800px at 1440).
+
+   EDS sections (tools/importer/import-medicare-article.js):
+   1. the article: the banner image (straight under the breadcrumb row), h1, text; the
+      source's spacing components are sections with Style space-<px> (top padding);
+   2. `highlight`: the blush one-card-one-col panel (centred heading, copy, outlined call
+      button; padding 32 / 48px, 64px from 992, a 780px column);
+   3. `footnote`: the job code (fine print); its section ends 60px (40px on phones)
+      above the footer. */
+
+/* stylelint-disable no-descending-specificity */
+
+body.medicare-article main > .section {
+  margin: 0;
+  padding: 0;
+}
+
+body.medicare-article main > .section > .default-content-wrapper {
+  box-sizing: border-box;
+  max-width: none;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+body.medicare-article main > .section.space-20 { padding-top: 20px; }
+body.medicare-article main > .section.space-40 { padding-top: 40px; }
+body.medicare-article main > .section.space-60 { padding-top: 60px; }
+body.medicare-article main > .section.space-80 { padding-top: 80px; }
+
+/* ---------- 1. Article ---------- */
+
+body.medicare-article main > .section:not(.highlight, .footnote) p:has(> picture) {
+  margin: 0;
+  line-height: 0;
+}
+
+body.medicare-article main > .section:not(.highlight, .footnote) picture,
+body.medicare-article main > .section:not(.highlight, .footnote) img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+body.medicare-article main > .section:not(.highlight, .footnote) :is(h1, h2, h3) {
+  margin: 0 0 8px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-weight: 600;
+}
+
+body.medicare-article main > .section:not(.highlight, .footnote) h1 {
+  padding: 24px 0;
+  font-size: 32px;
+  line-height: 35.2px;
+  letter-spacing: -1.28px;
+}
+
+body.medicare-article main > .section:not(.highlight, .footnote) h2 {
+  padding: 19.2px 0;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.medicare-article main > .section:not(.highlight, .footnote) h3 {
+  padding: 16px 0;
+  font-size: 22px;
+  line-height: 24.2px;
+  letter-spacing: -0.4px;
+}
+
+body.medicare-article main > .section:not(.highlight, .footnote) p {
+  margin: 0 0 12.8px;
+  color: rgb(0 20 70);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+body.medicare-article main > .section:not(.highlight, .footnote) :is(ul, ol) {
+  margin: 0 0 16px 20px;
+  padding: 0 0 0 12px;
+  color: rgb(0 20 70);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: normal;
+}
+
+body.medicare-article main > .section:not(.highlight, .footnote) li {
+  margin: 0 0 5px;
+}
+
+body.medicare-article main > .section:not(.highlight, .footnote) a:any-link {
+  color: var(--link-color);
+  font-weight: inherit;
+}
+
+/* ---------- 2. Blush call panel ---------- */
+
+body.medicare-article main > .section.highlight {
+  padding: 32px 0 48px;
+  background-color: var(--highlight-color);
+  text-align: center;
+}
+
+body.medicare-article main > .section.highlight h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0 8px;
+  color: #004362;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.medicare-article main > .section.highlight p:not(.button-container) {
+  margin: 0;
+  color: #004362;
+  font-family: var(--heading-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.25px;
+}
+
+/* the button group sits 16px under the copy (.buttonGroup .mt-3) */
+body.medicare-article main > .section.highlight p.button-container {
+  margin: 16px 0 0;
+  line-height: 24px;
+}
+
+/* .brand-button-light: navy outline and label, 58px tall */
+body.medicare-article main > .section.highlight a.button:any-link {
+  margin: 16px 0;
+  padding: 16px 24px;
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: normal;
+  white-space: nowrap;
+}
+
+body.medicare-article main > .section.highlight a.button:is(:hover, :focus) {
+  background-color: var(--text-color);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* ---------- 3. Footnote (job code) ---------- */
+
+body.medicare-article main > .section.footnote {
+  padding: 20px 0 40px;
+}
+
+body.medicare-article main > .section.footnote p {
+  margin: 0 0 12.8px;
+  color: rgb(0 20 70);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+body.medicare-article main > .section.footnote :is(sub, sup) {
+  font-size: 75%;
+  line-height: 0;
+}
+
+/* ---------- Tablet (768-991) ---------- */
+@media (width >= 768px) {
+  body.medicare-article main > .section > .default-content-wrapper {
+    padding: 0 64px;
+  }
+
+  body.medicare-article main > .section:not(.highlight, .footnote) h1 {
+    padding: 28.8px 0;
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  body.medicare-article main > .section:not(.highlight, .footnote) h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.medicare-article main > .section:not(.highlight, .footnote) h3 {
+    font-size: 24px;
+    line-height: 26.4px;
+    letter-spacing: -0.44px;
+  }
+
+  body.medicare-article main > .section:not(.highlight, .footnote) p,
+  body.medicare-article main > .section.footnote p {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.medicare-article main > .section.highlight h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.medicare-article main > .section.highlight p:not(.button-container) {
+    font-size: 18px;
+    line-height: 23.4px;
+  }
+
+  body.medicare-article main > .section.footnote {
+    padding-bottom: 60px;
+  }
+}
+
+/* ---------- Desktop (>= 992) ---------- */
+@media (width >= 992px) {
+  /* the article: the centred 8/12 column */
+  body.medicare-article main > .section:not(.highlight, .footnote) > .default-content-wrapper {
+    max-width: calc(min(1200px, 100% - 166px) * 2 / 3);
+    padding: 0;
+  }
+
+  body.medicare-article main > .section:not(.highlight, .footnote) h1 {
+    font-size: 56px;
+    line-height: 61.6px;
+    letter-spacing: -2.8px;
+  }
+
+  body.medicare-article main > .section:not(.highlight, .footnote) h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.medicare-article main > .section:not(.highlight, .footnote) h3 {
+    letter-spacing: -0.72px;
+  }
+
+  body.medicare-article main > .section:not(.highlight, .footnote) p,
+  body.medicare-article main > .section.footnote p {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  body.medicare-article main > .section.highlight {
+    padding: 64px 0;
+  }
+
+  body.medicare-article main > .section.highlight > .default-content-wrapper {
+    max-width: 780px;
+    padding: 0;
+  }
+
+  body.medicare-article main > .section.highlight h2 {
+    padding: 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.medicare-article main > .section.highlight p:not(.button-container) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  body.medicare-article main > .section.footnote {
+    padding-top: 40px;
+  }
+
+  body.medicare-article main > .section.footnote > .default-content-wrapper {
+    max-width: 1366px;
+    padding: 0 83px;
+  }
+}
+
+/* stylelint-enable no-descending-specificity */

@@ -35,6 +35,11 @@ body.faq.employer-plan main > .section > .default-content-wrapper ul > li {
   letter-spacing: normal;
 }
 
+/* the cost-management pages' li.insidebullets (Template ..., inset-bullets): 18px further in */
+body.faq.employer-plan.inset-bullets main > .section > .default-content-wrapper ul > li {
+  margin-left: 18px;
+}
+
 body.faq.employer-plan main > .section > .default-content-wrapper ol {
   margin: 0 0 1px;
   padding-left: 40px;
