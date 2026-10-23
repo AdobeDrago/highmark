@@ -293,6 +293,22 @@ export default {
         }
       }
     });
+    // The source's dynamic table (SDOH's "What the chart shows. | What it may not show.")
+    // -> Table (blue-header): its first row is the header; each cell keeps its paragraphs.
+    main.querySelectorAll('.dynamictable table').forEach((tbl) => {
+      const rows = [...tbl.querySelectorAll('tr')].map((tr) => [...tr.children].map((cell) => {
+        const paras = [...cell.querySelectorAll('p')].map((p) => {
+          const np = document.createElement('p');
+          np.innerHTML = p.innerHTML;
+          np.querySelectorAll('span').forEach((s) => s.replaceWith(...s.childNodes));
+          return np;
+        });
+        return paras.length ? paras : cell.textContent.trim();
+      }));
+      if (!rows.length) return;
+      const dyn = tbl.closest('.dynamictable') || tbl;
+      dyn.replaceChildren(WebImporter.Blocks.createBlock(document, { name: 'Table (blue-header)', cells: rows }));
+    });
     // A gridcontrol whose columns each hold an image and its caption (Integrated
     // Approach's three illustrations) -> Columns (image-grid), a cell per column.
     main.querySelectorAll('.gridcontrol').forEach((gc) => {
@@ -315,20 +331,23 @@ export default {
       cmp.classList.remove('image');
     });
     // A polar band (the closing "Get started" band, Balanced Funding's formula box), or a
-    // light-blue one (Pharmacy's white-paper callout: Style accent, light-blue): its
+    // light-blue one (Pharmacy's white-paper callout: Style accent, light-blue; Behavioral
+    // Health's paler closing band, section.global-light-blue: Style accent, sky): its
     // own section, Style accent, with the shares of the column its heading and its text
     // take (span-10 / text-span-8: their grid spans; span-phone-8, text-span-phone-8) and
     // its own leading and trailing spacers as its padding (band-top-* / band-bottom-*).
     // Those spacers are taken out, so the sections transformer doesn't add them to its
     // neighbours'; the band starts with its own section break (inside it, after the break
     // the transformer puts before it) and is followed by a plain one.
-    main.querySelectorAll('section.new-hmk-brand-polar, section.global-helionlightblue').forEach((band) => {
+    main.querySelectorAll('section.new-hmk-brand-polar, section.global-helionlightblue, section.global-light-blue').forEach((band) => {
       if (!band.textContent.trim()) return;
       const cmpOf = (el) => el?.closest('.cmp-text, .text, [class*="aem-GridColumn"]');
       const heading = cmpOf(band.querySelector('h2'));
       const copy = cmpOf(band.querySelector('p span.p1, h5, p'));
       const grid = heading?.parentElement || band.querySelector('.aem-Grid');
-      const styles = band.matches('.global-helionlightblue') ? ['accent', 'light-blue'] : ['accent'];
+      const styles = ['accent'];
+      if (band.matches('.global-helionlightblue')) styles.push('light-blue');
+      if (band.matches('.global-light-blue')) styles.push('sky');
       [['span', heading], ['text-span', copy]].forEach(([name, cmp]) => {
         if (!cmp) return;
         const span = gridClass(cmp, 'default') || 12;
@@ -374,7 +393,11 @@ export default {
       if (lastContent >= 0 && trailing.some(Boolean)) {
         const hr = document.createElement('hr');
         hr.setAttribute('data-excat-section-id', spaceStyle(trailing));
-        leaves[lastContent].after(hr);
+        // content that ends in a band (Stop Loss's closing polar band): the spacers come
+        // after the band and the break that closes it, not inside it
+        const band = leaves[lastContent].closest('section.new-hmk-brand-polar, section.global-helionlightblue, section.global-light-blue');
+        const anchor = band && band.nextElementSibling?.tagName === 'HR' ? band.nextElementSibling : (band || leaves[lastContent]);
+        anchor.after(hr);
       }
     }
 
@@ -428,7 +451,7 @@ export default {
       const inner = parts.slice(parts.indexOf(start) + 1);
       if (!start || !inner.length) return;
       const own = start.getAttribute('data-excat-section-id').split(', ');
-      const keep = own.filter((t) => t === 'accent' || t === 'light-blue' || /^(text-)?span-/.test(t));
+      const keep = own.filter((t) => ['accent', 'light-blue', 'sky'].includes(t) || /^(text-)?span-/.test(t));
       const bottom = own.filter((t) => t.startsWith('band-bottom'));
       start.setAttribute('data-excat-section-id', own.filter((t) => !bottom.includes(t)).join(', '));
       inner.forEach((hr, i) => {

@@ -264,6 +264,11 @@ body.faq.employer-plan main > .section.accent.light-blue > div {
   background-color: rgb(237 245 250);
 }
 
+/* the paler sky band (Behavioral Health's closing band, section.global-light-blue) */
+body.faq.employer-plan main > .section.accent.sky > div {
+  background-color: rgb(240 251 255);
+}
+
 body.faq.employer-plan main > .section.accent > div:first-child {
   padding-top: var(--band-top);
 }
@@ -602,6 +607,70 @@ body.faq.employer-plan main .columns.image-grid p:has(> picture) {
     font-size: 16px;
     line-height: 24px;
     letter-spacing: -0.1px;
+  }
+}
+
+/* ---- Table (blue-header): SDOH's two-column chart; Highmark-blue header cells with
+   white bold labels, 1px black rules, 25px padding, 16/24 copy at every width, 5px in
+   from the column ---- */
+body.faq.employer-plan main .table.blue-header {
+  box-sizing: border-box;
+  padding: 0 5px;
+  overflow: visible;
+}
+
+body.faq.employer-plan main .table.blue-header table {
+  border-collapse: collapse;
+  font-size: 16px;
+}
+
+body.faq.employer-plan main .table.blue-header table :is(thead tr, tbody tr) {
+  border: 0;
+}
+
+/* the source's cell text is a paragraph with a 16px bottom margin: here it's the cell's
+   own text, the margin part of its bottom padding */
+body.faq.employer-plan main .table.blue-header table :is(th, td) {
+  padding: 25px 25px 41px;
+  border: 1px solid #000;
+  color: rgb(0 20 70);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+  letter-spacing: -0.1px;
+  vertical-align: middle;
+}
+
+body.faq.employer-plan main .table.blue-header table th {
+  border-color: #fff;
+  background-color: rgb(0 164 228);
+  color: #fff;
+  font-weight: 700;
+}
+
+body.faq.employer-plan main .table.blue-header table :is(th, td) p {
+  margin: 0 0 16px;
+}
+
+body.faq.employer-plan main .table.blue-header table :is(th, td) p:last-child {
+  margin-bottom: 0;
+}
+
+/* below 992px the cell text takes the body sizes: 15/19.5 (15/21 and a 12.8px margin on
+   phones) */
+@media (width < 992px) {
+  body.faq.employer-plan main .table.blue-header table :is(th, td) {
+    font-size: 15px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width < 768px) {
+  body.faq.employer-plan main .table.blue-header table :is(th, td) {
+    padding-bottom: 37.8px;
+    line-height: 21px;
+    letter-spacing: -0.2px;
   }
 }
 
