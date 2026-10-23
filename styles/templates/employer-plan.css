@@ -311,10 +311,11 @@ body.faq.employer-plan main > .section.band-bottom-60 { --band-bottom: 60px; }
 body.faq.employer-plan main > .section.band-top-0 { --band-top: 0; }
 body.faq.employer-plan main > .section.band-bottom-0 { --band-bottom: 0; }
 
-/* ---- the left nav: 15px in from both sides of its column ---- */
+/* ---- the left nav: 15px in from the left of its column and 35px from the right, as
+   the source's links (250px at 1440) ---- */
 @media (width >= 992px) {
   body.faq.employer-plan main > .section.cards-minimal-light-sidenav-container {
-    width: calc(var(--faq-container) * 0.25 - 30px);
+    width: calc(var(--faq-container) * 0.25 - 50px);
   }
 }
 

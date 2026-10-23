@@ -132,6 +132,12 @@
   padding-left: 18px;
 }
 
+/* a sibling list that opens the nav (no parent link above it, e.g. National Business
+   Pharmacy's Medical Plans | Pharmacy) starts level with the page heading */
+.cards-minimal-light-sidenav-group:first-child > .cards-minimal-light-sidenav-children {
+  margin-top: 0;
+}
+
 .cards-minimal-light-sidenav-guide .cards-minimal-light-sidenav-current > a { /* stylelint-disable-line no-descending-specificity */
   margin-left: -15px;
   padding-left: 15px;

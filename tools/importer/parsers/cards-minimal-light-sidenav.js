@@ -53,6 +53,23 @@ export default function parse(element, { document }) {
 
   const cells = [];
 
+  // --- Shape 3: a flat list (National Business Pharmacy: Medical Plans | Pharmacy) ---
+  // Top-level items only, none of them a parent link or holding a sub-list: each is a
+  // sibling, the active one "current".
+  const topItems = Array.from(element.querySelectorAll('ul.sidenav-item-list > li'));
+  const flat = !element.querySelector('a.side-nav-item-parent') && topItems.length > 1
+    && topItems.every((li) => li.classList.contains('sidenav-item-level1') && !li.querySelector('ul'));
+  if (flat) {
+    topItems.forEach((li) => {
+      const a = li.querySelector('a[href]');
+      if (!a) return;
+      const isActive = a.classList.contains('active') || a.getAttribute('aria-current') === 'page';
+      cells.push(rowFor(isActive ? 'current' : 'sibling', a));
+    });
+    element.replaceWith(WebImporter.Blocks.createBlock(document, { name: 'cards-minimal-light-sidenav', cells }));
+    return;
+  }
+
   // --- Parent section link (level: parent) ---
   const parent = element.querySelector('a.side-nav-item-parent, .sidenav-item > a[href]:not(.active)');
   if (parent) cells.push(rowFor('parent', parent));
