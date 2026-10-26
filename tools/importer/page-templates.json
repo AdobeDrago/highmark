@@ -1566,7 +1566,20 @@
         "https://www.highmark.com/about/corporate-responsibility",
         "https://www.highmark.com/about/corporate-responsibility/valuing-our-people",
         "https://www.highmark.com/about/corporate-responsibility/social-determinants-of-health",
-        "https://www.highmark.com/about/corporate-responsibility/sustainability"
+        "https://www.highmark.com/about/corporate-responsibility/sustainability",
+        "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/happenings",
+        "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/community-health",
+        "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/community-economic-resilience",
+        "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/community-health-employee-programs",
+        "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/highmark-bright-blue-futures-community-reports",
+        "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/corporate-giving",
+        "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/highmark-caring-place",
+        "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/highmark-delaware-blueprints",
+        "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/blue-fund",
+        "https://www.highmark.com/about/corporate-responsibility/sustainability/what-you-can-do",
+        "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/highmark-bright-blue-futures-awards",
+        "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/highmark-neny-giving",
+        "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/highmark-wny-giving"
       ],
       "representativeUrl": "https://www.highmark.com/about/our-story/mission-vision",
       "description": "About / Corporate Responsibility article: left section navigation, long-form article (headings, paragraphs, lists, images) and an optional right-rail callout",
@@ -1575,6 +1588,7 @@
         {
           "name": "cards-minimal-light-sidenav",
           "instances": [
+            "div.col-lg-3 div.nav-container:has(.sidenav-item-list)",
             "div.d-none.d-lg-block.col-lg-3 div.nav-container:has(.sidenav)",
             "div.d-none.d-lg-block.col-lg-3 div.nav-container"
           ]
@@ -1585,6 +1599,7 @@
           "id": "1",
           "name": "sidenav",
           "selector": [
+            "div.col-lg-3 div.nav-container:has(.sidenav-item-list)",
             "div.d-none.d-lg-block.col-lg-3 div.nav-container:has(.sidenav)",
             "div.d-none.d-lg-block.col-lg-3 div.nav-container"
           ],

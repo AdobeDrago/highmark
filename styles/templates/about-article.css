@@ -74,7 +74,7 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
    in span.p1 (sofia-pro 600, navy); the import drops the span, so the first
    one is keyed to the page title */
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] + p,
-body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p {
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a) + p {
   color: var(--text-color);
   font-family: var(--heading-font-family);
   font-size: 17px;
@@ -113,13 +113,14 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
   margin-left: 40px;
 }
 
+/* text links: #0066b1 on the source, underlined on hover (same colour) */
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a:any-link {
-  color: #0078c1;
+  color: #0066b1;
 }
 
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a:any-link:hover,
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a:any-link:focus {
-  color: #0056b3;
+  color: #0066b1;
   text-decoration: underline;
 }
 
@@ -136,7 +137,7 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
   border: 0;
   border-radius: 0;
   background: transparent;
-  color: #0078c1;
+  color: #0066b1;
   font-size: inherit;
   font-weight: 700;
   line-height: inherit;
@@ -148,35 +149,36 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a.button:hover,
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a.button:focus {
   background: transparent;
-  color: #0056b3;
+  color: #0066b1;
   text-decoration: underline;
 }
 
 /* blush-25 callout box (SDoH "SDoH programs for members"): the first h2 that
-   is followed by an intro and a bold CTA link. Source: 20px spacer, then a
+   is followed by an intro and a bold CTA link, on the SDoH page only (Bright
+   Blue Futures' Community Health opens its plain sections the same way). Source: 20px spacer, then a
    blush container (container padding 30 / 64 / 83px) holding 20px spacer +
    h2 + p + CTA + 20px spacer, then another 20px spacer */
-body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a),
-body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p,
-body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p + p {
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a),
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a) + p,
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a) + p + p {
   margin: 0;
   padding-right: 30px;
   padding-left: 30px;
   background-color: var(--highlight-color);
 }
 
-body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) {
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a) {
   margin-top: 32.8px;
   padding-top: 39.2px;
   padding-bottom: 27.2px;
 }
 
-body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p {
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a) + p {
   padding-bottom: 12.8px;
 }
 
 /* the callout CTA is right-aligned on the source (inline text-align: right) */
-body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p + p {
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a) + p + p {
   margin-bottom: 20px;
   padding-bottom: 32.8px;
   text-align: right;
@@ -246,6 +248,34 @@ body.about-article .cards-minimal-light-sidenav-container + .section + .section 
   letter-spacing: normal;
 }
 
+/* right-rail CTA (Blue Fund "SEND EMAIL"): the source's text button, an
+   uppercase bold blue link 16px below the description, underlined on hover */
+body.about-article .cards-minimal-light-sidenav-container + .section + .section > .default-content-wrapper p.button-container {
+  margin-top: 16px;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section + .section > .default-content-wrapper a.button:any-link {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #0066b1;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  text-transform: uppercase;
+  white-space: normal;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section + .section > .default-content-wrapper a.button:hover,
+body.about-article .cards-minimal-light-sidenav-container + .section + .section > .default-content-wrapper a.button:focus {
+  background: transparent;
+  color: #0066b1;
+  text-decoration: underline;
+}
+
 @media (width >= 768px) {
   body.about-article main {
     padding-bottom: 60px;
@@ -282,29 +312,29 @@ body.about-article .cards-minimal-light-sidenav-container + .section + .section 
   }
 
   body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] + p,
-body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p {
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a) + p {
     font-size: 18px;
     line-height: 23.4px;
     letter-spacing: -0.4px;
   }
 
-  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a),
-  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p,
-  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p + p {
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a),
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a) + p,
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a) + p + p {
     margin-bottom: 0;
     padding-right: 64px;
     padding-left: 64px;
   }
 
-  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) {
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a) {
     margin-top: 36px;
   }
 
-  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p {
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a) + p {
     padding-bottom: 16px;
   }
 
-  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p + p {
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a) + p + p {
     margin-bottom: 20px;
     padding-bottom: 36px;
   }
@@ -444,20 +474,20 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
   }
 
   body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] + p,
-body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p {
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a) + p {
     font-size: 20px;
     line-height: 30px;
     letter-spacing: -0.3px;
   }
 
-  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a),
-  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p,
-  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) + p + p {
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a),
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a) + p,
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a) + p + p {
     padding-right: 83px;
     padding-left: 83px;
   }
 
-  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2:first-of-type:has(+ p + p > strong > a) {
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a) {
     padding-top: 44px;
     padding-bottom: 32px;
   }

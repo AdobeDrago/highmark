@@ -52,6 +52,18 @@ var CustomImportScript = (() => {
     };
     const rowFor = (level, a) => [level, cleanLink(a)];
     const cells = [];
+    const topItems = Array.from(element.querySelectorAll("ul.sidenav-item-list > li"));
+    const flat = !element.querySelector("a.side-nav-item-parent") && topItems.length > 1 && topItems.every((li) => li.classList.contains("sidenav-item-level1") && !li.querySelector("ul"));
+    if (flat) {
+      topItems.forEach((li) => {
+        const a = li.querySelector("a[href]");
+        if (!a) return;
+        const isActive = a.classList.contains("active") || a.getAttribute("aria-current") === "page";
+        cells.push(rowFor(isActive ? "current" : "sibling", a));
+      });
+      element.replaceWith(WebImporter.Blocks.createBlock(document2, { name: "cards-minimal-light-sidenav", cells }));
+      return;
+    }
     const parent = element.querySelector("a.side-nav-item-parent, .sidenav-item > a[href]:not(.active)");
     if (parent) cells.push(rowFor("parent", parent));
     const activeLink = element.querySelector("a.active");
@@ -220,8 +232,39 @@ var CustomImportScript = (() => {
   }
 
   // tools/importer/import-about-article.js
+  function sidenavParser(element, { document: document2, url, params }) {
+    const list = element.querySelector(".sidenav-item-list");
+    const items = list ? [...list.querySelectorAll(":scope > li.sidenav-item-level1")] : [];
+    if (!items.length) {
+      parse(element, { document: document2, url, params });
+      return;
+    }
+    const clean = (t) => (t || "").replace(/\s+/g, " ").trim();
+    const link = (a) => {
+      const el = document2.createElement("a");
+      el.setAttribute("href", (a.getAttribute("href") || "").replace(/^https:\/\/www\.highmark\.com/, "").replace(/^\/content\/digital-marketing\/en\/highmark\/highmarkdotcom\/home/, "").replace(/\.html$/, "").replace(/(.)\/$/, "$1") || "/");
+      el.textContent = clean(a.textContent);
+      return el;
+    };
+    const linkOf = (li) => li.querySelector(":scope > a, :scope > .sidenav-item-row > a");
+    const cells = [];
+    const parent = list.querySelector("a.side-nav-item-parent");
+    if (parent) cells.push(["parent", link(parent)]);
+    items.forEach((li) => {
+      var _a;
+      const a = linkOf(li);
+      if (!a) return;
+      const active = a.classList.contains("active") || a.getAttribute("aria-current") === "page";
+      cells.push([active ? "current" : "sibling", link(a)]);
+      [...((_a = li.querySelector(":scope > ul.subnavitem-list")) == null ? void 0 : _a.children) || []].forEach((c) => {
+        const ca = linkOf(c);
+        if (ca) cells.push(["child", link(ca)]);
+      });
+    });
+    element.replaceWith(WebImporter.Blocks.createBlock(document2, { name: "cards-minimal-light-sidenav", cells }));
+  }
   var parsers = {
-    "cards-minimal-light-sidenav": parse
+    "cards-minimal-light-sidenav": sidenavParser
   };
   var transformers = [
     transform,
@@ -237,12 +280,26 @@ var CustomImportScript = (() => {
       "https://www.highmark.com/about/corporate-responsibility",
       "https://www.highmark.com/about/corporate-responsibility/valuing-our-people",
       "https://www.highmark.com/about/corporate-responsibility/social-determinants-of-health",
-      "https://www.highmark.com/about/corporate-responsibility/sustainability"
+      "https://www.highmark.com/about/corporate-responsibility/sustainability",
+      "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/happenings",
+      "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/community-health",
+      "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/community-economic-resilience",
+      "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/community-health-employee-programs",
+      "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/highmark-bright-blue-futures-community-reports",
+      "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/corporate-giving",
+      "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/highmark-caring-place",
+      "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/highmark-delaware-blueprints",
+      "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/blue-fund",
+      "https://www.highmark.com/about/corporate-responsibility/sustainability/what-you-can-do",
+      "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/highmark-bright-blue-futures-awards",
+      "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/highmark-neny-giving",
+      "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/highmark-wny-giving"
     ],
     "blocks": [
       {
         "name": "cards-minimal-light-sidenav",
         "instances": [
+          "div.col-lg-3 div.nav-container:has(.sidenav-item-list)",
           "div.d-none.d-lg-block.col-lg-3 div.nav-container:has(.sidenav)",
           "div.d-none.d-lg-block.col-lg-3 div.nav-container"
         ]
@@ -253,6 +310,7 @@ var CustomImportScript = (() => {
         "id": "1",
         "name": "sidenav",
         "selector": [
+          "div.col-lg-3 div.nav-container:has(.sidenav-item-list)",
           "div.d-none.d-lg-block.col-lg-3 div.nav-container:has(.sidenav)",
           "div.d-none.d-lg-block.col-lg-3 div.nav-container"
         ],
@@ -347,6 +405,15 @@ var CustomImportScript = (() => {
         } else {
           console.warn(`No parser found for block: ${block.name}`);
         }
+      });
+      const clean = (t) => (t || "").replace(/\s+/g, " ").trim();
+      const headingId = (t) => clean(t).toLowerCase().replace(/[^\p{L}\p{N}\s_-]/gu, "").replace(/\s/g, "-");
+      main.querySelectorAll('a[href^="#"]:not([href="#"]):not([href="#top"])').forEach((a) => {
+        const id = a.getAttribute("href").slice(1);
+        if (main.querySelector(`[id="${id}"], a[name="${id}"]`)) return;
+        const text = clean(a.textContent).toLowerCase();
+        const heading = [...main.querySelectorAll("h2, h3, h4")].find((h) => clean(h.textContent) && text.startsWith(clean(h.textContent).toLowerCase()));
+        if (heading) a.setAttribute("href", `#${headingId(heading.textContent)}`);
       });
       executeTransformers("afterTransform", main, payload);
       const hr = document2.createElement("hr");

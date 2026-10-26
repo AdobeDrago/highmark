@@ -8,9 +8,52 @@ import cardsMinimalLightSidenavParser from './parsers/cards-minimal-light-sidena
 import cleanupTransformer from './transformers/highmark-cleanup.js';
 import sectionsTransformer from './transformers/highmark-template-sections.js';
 
+/**
+ * The left nav as the block's rows (see blocks/cards-minimal-light-sidenav): parent,
+ * then each item as current or sibling, each followed by its sub-pages as child rows,
+ * as tools/sidenav/sync-sidenav.mjs builds them. Since October 2026 the source lists
+ * the items next to the parent's item (li.sidenav-item-level1), a link with a submenu
+ * in a div.sidenav-item-row; the shared parser reads the older nested shape, so it
+ * still handles navs without level-1 items.
+ */
+function sidenavParser(element, { document, url, params }) {
+  const list = element.querySelector('.sidenav-item-list');
+  const items = list ? [...list.querySelectorAll(':scope > li.sidenav-item-level1')] : [];
+  if (!items.length) {
+    cardsMinimalLightSidenavParser(element, { document, url, params });
+    return;
+  }
+  const clean = (t) => (t || '').replace(/\s+/g, ' ').trim();
+  const link = (a) => {
+    const el = document.createElement('a');
+    el.setAttribute('href', (a.getAttribute('href') || '')
+      .replace(/^https:\/\/www\.highmark\.com/, '')
+      .replace(/^\/content\/digital-marketing\/en\/highmark\/highmarkdotcom\/home/, '')
+      .replace(/\.html$/, '')
+      .replace(/(.)\/$/, '$1') || '/');
+    el.textContent = clean(a.textContent);
+    return el;
+  };
+  const linkOf = (li) => li.querySelector(':scope > a, :scope > .sidenav-item-row > a');
+  const cells = [];
+  const parent = list.querySelector('a.side-nav-item-parent');
+  if (parent) cells.push(['parent', link(parent)]);
+  items.forEach((li) => {
+    const a = linkOf(li);
+    if (!a) return;
+    const active = a.classList.contains('active') || a.getAttribute('aria-current') === 'page';
+    cells.push([active ? 'current' : 'sibling', link(a)]);
+    [...(li.querySelector(':scope > ul.subnavitem-list')?.children || [])].forEach((c) => {
+      const ca = linkOf(c);
+      if (ca) cells.push(['child', link(ca)]);
+    });
+  });
+  element.replaceWith(WebImporter.Blocks.createBlock(document, { name: 'cards-minimal-light-sidenav', cells }));
+}
+
 // PARSER REGISTRY
 const parsers = {
-  'cards-minimal-light-sidenav': cardsMinimalLightSidenavParser,
+  'cards-minimal-light-sidenav': sidenavParser,
 };
 
 // TRANSFORMER REGISTRY — cleanup first, then section boundaries/metadata.
@@ -30,12 +73,26 @@ const PAGE_TEMPLATE = {
     "https://www.highmark.com/about/corporate-responsibility",
     "https://www.highmark.com/about/corporate-responsibility/valuing-our-people",
     "https://www.highmark.com/about/corporate-responsibility/social-determinants-of-health",
-    "https://www.highmark.com/about/corporate-responsibility/sustainability"
+    "https://www.highmark.com/about/corporate-responsibility/sustainability",
+    "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/happenings",
+    "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/community-health",
+    "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/community-economic-resilience",
+    "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/community-health-employee-programs",
+    "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/highmark-bright-blue-futures-community-reports",
+    "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/corporate-giving",
+    "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/highmark-caring-place",
+    "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/highmark-delaware-blueprints",
+    "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/blue-fund",
+    "https://www.highmark.com/about/corporate-responsibility/sustainability/what-you-can-do",
+    "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/highmark-bright-blue-futures-awards",
+    "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/highmark-neny-giving",
+    "https://www.highmark.com/about/corporate-responsibility/bright-blue-futures/highmark-wny-giving"
   ],
   "blocks": [
     {
       "name": "cards-minimal-light-sidenav",
       "instances": [
+        "div.col-lg-3 div.nav-container:has(.sidenav-item-list)",
         "div.d-none.d-lg-block.col-lg-3 div.nav-container:has(.sidenav)",
         "div.d-none.d-lg-block.col-lg-3 div.nav-container"
       ]
@@ -46,6 +103,7 @@ const PAGE_TEMPLATE = {
       "id": "1",
       "name": "sidenav",
       "selector": [
+        "div.col-lg-3 div.nav-container:has(.sidenav-item-list)",
         "div.d-none.d-lg-block.col-lg-3 div.nav-container:has(.sidenav)",
         "div.d-none.d-lg-block.col-lg-3 div.nav-container"
       ],
@@ -162,6 +220,19 @@ export default {
       }
     });
 
+    // In-page links without a target on the source (Community & Economic Resilience's
+    // #providing / #taking / #power) point at the heading their text starts with, by
+    // the id the pipeline gives it. #top scrolls to the top in browsers.
+    const clean = (t) => (t || '').replace(/\s+/g, ' ').trim();
+    const headingId = (t) => clean(t).toLowerCase().replace(/[^\p{L}\p{N}\s_-]/gu, '').replace(/\s/g, '-');
+    main.querySelectorAll('a[href^="#"]:not([href="#"]):not([href="#top"])').forEach((a) => {
+      const id = a.getAttribute('href').slice(1);
+      if (main.querySelector(`[id="${id}"], a[name="${id}"]`)) return;
+      const text = clean(a.textContent).toLowerCase();
+      const heading = [...main.querySelectorAll('h2, h3, h4')]
+        .find((h) => clean(h.textContent) && text.startsWith(clean(h.textContent).toLowerCase()));
+      if (heading) a.setAttribute('href', `#${headingId(heading.textContent)}`);
+    });
     // 4. afterTransform (final cleanup + section metadata)
     executeTransformers('afterTransform', main, payload);
 
