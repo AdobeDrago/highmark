@@ -616,6 +616,7 @@ var CustomImportScript = (() => {
         if (i.textContent.trim() === "picture_as_pdf") i.replaceWith(document.createTextNode(":pdf: "));
       });
       main.querySelectorAll(".hmk-brand-buttons a").forEach((a) => {
+        if (a.closest(".rightrail-container")) return;
         const text = a.textContent.replace(/\s+/g, " ").trim();
         const href = a.getAttribute("href") || (/^get started$/i.test(text) ? "/employer/get-started" : "");
         if (!href) return;

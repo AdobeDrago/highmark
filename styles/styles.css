@@ -360,6 +360,69 @@ main .section.highlight {
   text-align: center;
 }
 
+/* tabbed sections (Style: tab; scripts.js decorateSectionTabs): the tab bar before them,
+   as highmark.com's tab component (.newtabnav, /employer/client-resources/onboarding-tools):
+   uppercase Sofia Pro 20px tabs, 64px padding, the current one blue and underlined (4px),
+   over a 1px rule; it scrolls sideways when it doesn't fit (one or two tabs on phones).
+   Only the chosen tab's section shows. */
+main > .section-tabs {
+  display: flex;
+  justify-content: safe center;
+  gap: 4px;
+  box-sizing: border-box;
+  width: calc(100% - 60px);
+  margin: 0 auto;
+  border-bottom: 1px solid #e8e8e8;
+  padding: 1px 32px 0;
+  overflow-x: auto;
+}
+
+main > .section-tabs > .section-tabs-tab {
+  flex: none;
+  margin: 0;
+  border: 0;
+  border-bottom: 4px solid transparent;
+  border-radius: 0;
+  padding: 16px 64px;
+  background: none;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+main > .section-tabs > .section-tabs-tab:hover,
+main > .section-tabs > .section-tabs-tab:focus {
+  background: none;
+  color: var(--text-color);
+}
+
+main > .section-tabs > .section-tabs-tab[aria-selected="true"] {
+  border-bottom-color: #0078c1;
+  color: #0078c1;
+  font-weight: 600;
+}
+
+main > .section.tab[aria-hidden="true"] {
+  display: none;
+}
+
+@media (width >= 768px) {
+  main > .section-tabs {
+    width: calc(100% - 128px);
+  }
+}
+
+@media (width >= 992px) {
+  main > .section-tabs {
+    width: min(1200px, 100% - 166px);
+  }
+}
+
 /* accent — polar band ("your entire plan at your fingertips") */
 main .section.accent {
   background-color: var(--accent-color);
