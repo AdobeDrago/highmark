@@ -201,7 +201,10 @@ export default {
     // VIDEO") a plain link alone in its paragraph; employer-plan.css styles them. A
     // "get started" button without a link on the source (Choice Blue: an <a type=submit>
     // that goes nowhere) links where the page's other "get started" links go.
+    // (The "Get more info" box's button is left to the sections transformer, which reads
+    // it from the box's .hmk-brand-buttons.)
     main.querySelectorAll('.hmk-brand-buttons a').forEach((a) => {
+      if (a.closest('.rightrail-container')) return;
       const text = a.textContent.replace(/\s+/g, ' ').trim();
       const href = a.getAttribute('href') || (/^get started$/i.test(text) ? '/employer/get-started' : '');
       if (!href) return;

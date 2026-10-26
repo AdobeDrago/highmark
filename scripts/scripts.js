@@ -74,7 +74,7 @@ function autolinkModals(doc) {
  * (e.g. medicare-hra: a small illustration above the centered title; medicare-article:
  * the banner image at the top of the article column).
  */
-const NO_AUTO_HERO_TEMPLATES = ['medicare-hra', 'medicare-article'];
+const NO_AUTO_HERO_TEMPLATES = ['medicare-hra', 'medicare-article', 'employer-article'];
 
 /**
  * Builds all synthetic blocks in a container element.
@@ -167,7 +167,7 @@ const TEMPLATE_STYLES = [
   'news-alert', 'content-landing', 'zipcode-gate-login', 'campaign-landing', 'subsidiary-home', 'events',
   'home', 'shop-home', 'providers', 'shop-page', 'answers-landing', 'provider-content', 'leadership-bio',
   'faq', 'member-regional', 'glossary', 'member-subpage', 'topic-hub-landing', 'spending-account',
-  'employer-plan', 'employer-plans-landing', 'medicare-article',
+  'employer-plan', 'employer-plans-landing', 'medicare-article', 'employer-article', 'employer-tabs',
 ];
 
 /**
@@ -274,20 +274,78 @@ function decorateLegalLinks(main) {
 }
 
 /**
- * FAQ pages (template faq): a link that ends with the :external-link: icon opens in a
- * new tab, as on the source, where the icon marks exactly those links (others leaving
- * highmark.com open in the same tab). The icon says so to screen readers, as the
- * source's hidden text did.
+ * FAQ pages (template faq) and employer articles (employer-article): a link that ends
+ * with the :external-link: icon opens in a new tab, as on the source, where the icon
+ * marks exactly those links (others leaving highmark.com open in the same tab). The icon
+ * says so to screen readers, as the source's hidden text did.
  * @param {Element} main The main element
  */
 function decorateFaqLinks(main) {
-  if (!document.body.classList.contains('faq')) return;
+  if (!['faq', 'employer-article'].some((t) => document.body.classList.contains(t))) return;
   main.querySelectorAll('a .icon-external-link').forEach((icon) => {
     const a = icon.closest('a');
     a.target = '_blank';
     a.rel = 'noopener noreferrer';
     const img = icon.querySelector('img');
     if (img) img.alt = 'opens a new tab or window';
+  });
+}
+
+/**
+ * Tabbed sections (Section Metadata Style: tab): each run of tab sections gets a tab bar
+ * before it, a tab for each section, labelled with the section's `Tab` metadata or its
+ * first heading (Onboarding: Stay Healthy, Tools, Find Care, Save Money). The first
+ * section shows; the others are hidden until their tab is chosen. The sections stay in
+ * place, so they load as any other.
+ * @param {Element} main The main element
+ */
+function decorateSectionTabs(main) {
+  const sections = [...main.querySelectorAll(':scope > .section.tab')];
+  const runs = [];
+  sections.forEach((section) => {
+    const run = runs[runs.length - 1];
+    if (run && run[run.length - 1].nextElementSibling === section) run.push(section);
+    else runs.push([section]);
+  });
+  runs.forEach((run, r) => {
+    const bar = document.createElement('div');
+    bar.className = 'section-tabs';
+    bar.setAttribute('role', 'tablist');
+    const tabs = run.map((section, i) => {
+      const label = section.dataset.tab || section.querySelector('h1, h2, h3')?.textContent || `Tab ${i + 1}`;
+      const id = `section-tab-${r}-${i}`;
+      section.id = section.id || `${id}-panel`;
+      section.setAttribute('role', 'tabpanel');
+      section.setAttribute('aria-labelledby', id);
+      const tab = document.createElement('button');
+      tab.type = 'button';
+      tab.id = id;
+      tab.className = 'section-tabs-tab';
+      tab.textContent = label.trim();
+      tab.setAttribute('role', 'tab');
+      tab.setAttribute('aria-controls', section.id);
+      bar.append(tab);
+      return tab;
+    });
+    const select = (index, focus) => {
+      tabs.forEach((tab, i) => {
+        tab.setAttribute('aria-selected', i === index);
+        tab.tabIndex = i === index ? 0 : -1;
+        run[i].setAttribute('aria-hidden', i !== index);
+      });
+      if (focus) tabs[index].focus();
+    };
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(i));
+      tab.addEventListener('keydown', (e) => {
+        const step = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+        if (!step) return;
+        e.preventDefault();
+        select((i + step + tabs.length) % tabs.length, true);
+      });
+    });
+    select(0);
+    run[0].before(bar);
   });
 }
 
@@ -319,6 +377,7 @@ async function loadEager(doc) {
     decorateLeadershipBio(main);
     decorateLegalLinks(main);
     decorateFaqLinks(main);
+    decorateSectionTabs(main);
     await templateStyles;
     doc.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);
