@@ -1,0 +1,42 @@
+/* Callout: highmark.com's tinted boxes in an article's text. Measured at 1440, 768 and 390
+   on Highmark Delaware BluePrints (light-blue) and What You Can Do (grey); the text inside
+   keeps the page template's type. */
+
+/* the last list or paragraph's bottom margin stays inside the tint, as on the source */
+main .callout .callout-content {
+  display: flow-root;
+}
+
+/* light blue (the source's new-hmk-brand-fifteenpercent-splash, #d9ebf6): no padding of
+   its own, inset 30px from the text column (64px from 768, 83px from 992) */
+main .callout.light-blue {
+  margin: 0 30px;
+  background-color: #d9ebf6;
+}
+
+/* grey (global-grey_garden, #f2f5f7): the full width of the column, the text in its
+   middle ten twelfths (the source's 10-column cell, offset 1) */
+main .callout.grey {
+  background-color: #f2f5f7;
+}
+
+main .callout.grey .callout-content {
+  padding: 0 calc(100% / 12);
+}
+
+/* the source's grey note ends on a line break (a blank last line); the import drops it */
+main .callout.grey .callout-content > p:last-child {
+  padding-bottom: 1lh;
+}
+
+@media (width >= 768px) {
+  main .callout.light-blue {
+    margin: 0 64px;
+  }
+}
+
+@media (width >= 992px) {
+  main .callout.light-blue {
+    margin: 0 83px;
+  }
+}

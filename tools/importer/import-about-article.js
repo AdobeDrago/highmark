@@ -179,6 +179,20 @@ function findBlocksOnPage(document, template) {
 }
 
 export default {
+  /**
+   * An empty paragraph opening the text after a tinted box (Delaware's <p>&nbsp;</p>)
+   * spaces the box from what follows by a line. The import drops blank paragraphs (it
+   * copies the page before the transform), so it's kept here, on the live page, as a
+   * paragraph holding a zero-width space, as the FAQ importer does.
+   */
+  onLoad: ({ document }) => {
+    document.querySelectorAll('.page__par section.container-fluid-fullwidth:has(section.new-hmk-brand-fifteenpercent-splash, section.global-grey_garden)').forEach((box) => {
+      const next = box.nextElementSibling;
+      const p = next?.matches('.cmp-text') && next.querySelector(':scope > p:first-child');
+      if (p && !p.querySelector('img, br') && !p.textContent.replace(/[\s\u00a0]/g, '')) p.textContent = '\u200b';
+    });
+  },
+
   transform: (payload) => {
     const {
       document, url, html, params,
@@ -198,6 +212,24 @@ export default {
       const em = document.createElement('em');
       em.append(...a.childNodes);
       a.append(em);
+    });
+
+    // The source's tinted boxes in the text become Callout blocks (blocks/callout): the
+    // 15% splash box (Delaware BluePrints' report lists) and the grey garden band (What You
+    // Can Do's cleaning-recipes note). Each holds its text component(s).
+    const CALLOUTS = {
+      'section.new-hmk-brand-fifteenpercent-splash': 'Callout (light-blue)',
+      'section.global-grey_garden': 'Callout (grey)',
+    };
+    Object.entries(CALLOUTS).forEach(([selector, name]) => {
+      main.querySelectorAll(`.page__par ${selector}`).forEach((box) => {
+        const cell = document.createElement('div');
+        box.querySelectorAll('.cmp-text').forEach((text) => cell.append(...text.childNodes));
+        if (!cell.textContent.trim()) return;
+        const block = WebImporter.Blocks.createBlock(document, { name, cells: [[cell]] });
+        const wrapper = box.closest('section.container-fluid-fullwidth') || box;
+        wrapper.replaceWith(block);
+      });
     });
 
     // Global nav / search bar and the breadcrumb + print/share row, on layouts

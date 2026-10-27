@@ -376,6 +376,19 @@ var CustomImportScript = (() => {
     return pageBlocks;
   }
   var import_about_article_default = {
+    /**
+     * An empty paragraph opening the text after a tinted box (Delaware's <p>&nbsp;</p>)
+     * spaces the box from what follows by a line. The import drops blank paragraphs (it
+     * copies the page before the transform), so it's kept here, on the live page, as a
+     * paragraph holding a zero-width space, as the FAQ importer does.
+     */
+    onLoad: ({ document: document2 }) => {
+      document2.querySelectorAll(".page__par section.container-fluid-fullwidth:has(section.new-hmk-brand-fifteenpercent-splash, section.global-grey_garden)").forEach((box) => {
+        const next = box.nextElementSibling;
+        const p = (next == null ? void 0 : next.matches(".cmp-text")) && next.querySelector(":scope > p:first-child");
+        if (p && !p.querySelector("img, br") && !p.textContent.replace(/[\s\u00a0]/g, "")) p.textContent = "\u200B";
+      });
+    },
     transform: (payload) => {
       const {
         document: document2,
@@ -390,6 +403,20 @@ var CustomImportScript = (() => {
         const em = document2.createElement("em");
         em.append(...a.childNodes);
         a.append(em);
+      });
+      const CALLOUTS = {
+        "section.new-hmk-brand-fifteenpercent-splash": "Callout (light-blue)",
+        "section.global-grey_garden": "Callout (grey)"
+      };
+      Object.entries(CALLOUTS).forEach(([selector, name]) => {
+        main.querySelectorAll(`.page__par ${selector}`).forEach((box) => {
+          const cell = document2.createElement("div");
+          box.querySelectorAll(".cmp-text").forEach((text) => cell.append(...text.childNodes));
+          if (!cell.textContent.trim()) return;
+          const block = WebImporter.Blocks.createBlock(document2, { name, cells: [[cell]] });
+          const wrapper = box.closest("section.container-fluid-fullwidth") || box;
+          wrapper.replaceWith(block);
+        });
       });
       WebImporter.DOMUtils.remove(main, [
         ".experiencefragment:has(.main-search-bar)",

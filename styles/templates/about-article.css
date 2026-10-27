@@ -61,7 +61,8 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
   letter-spacing: -0.4px;
 }
 
-body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p {
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p,
+body.about-article .cards-minimal-light-sidenav-container + .section .callout-content p {
   margin: 0 0 12.8px;
   color: var(--text-body-color);
   font-size: 15px;
@@ -89,13 +90,15 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
   padding-top: 39.2px;
 }
 
-body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper ul {
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper ul,
+body.about-article .cards-minimal-light-sidenav-container + .section .callout-content ul {
   margin: 0 0 16px 20px;
   padding: 0 0 0 12px;
   list-style: disc;
 }
 
-body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper li {
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper li,
+body.about-article .cards-minimal-light-sidenav-container + .section .callout-content li {
   margin: 0 0 5px 18px;
   color: var(--text-body-color);
   font-size: 16px;
@@ -103,7 +106,24 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
   line-height: 26px;
 }
 
-body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper strong {
+/* numbered lists: the source's ol type (roboto 100, navy), 40px indent, items 13px apart
+   (15px from 992); 14/21, 15/16.5 from 768, 15/22.5 from 992 */
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper ol {
+  margin: 0 0 16px;
+  padding: 0 0 0 40px;
+  list-style: decimal;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper ol > li {
+  margin: 0 0 13px 18px;
+  color: var(--text-color);
+  font-size: 14px;
+  font-weight: 100;
+  line-height: 21px;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper strong,
+body.about-article .cards-minimal-light-sidenav-container + .section .callout-content strong {
   font-weight: 700;
 }
 
@@ -114,12 +134,15 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
 }
 
 /* text links: #0066b1 on the source, underlined on hover (same colour) */
-body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a:any-link {
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a:any-link,
+body.about-article .cards-minimal-light-sidenav-container + .section .callout-content a:any-link {
   color: #0066b1;
 }
 
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a:any-link:hover,
-body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a:any-link:focus {
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a:any-link:focus,
+body.about-article .cards-minimal-light-sidenav-container + .section .callout-content a:any-link:hover,
+body.about-article .cards-minimal-light-sidenav-container + .section .callout-content a:any-link:focus {
   color: #0066b1;
   text-decoration: underline;
 }
@@ -370,7 +393,8 @@ h5#learn-how-we-support-the-community-health-and-programs {
   }
 
   body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p,
-  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.button-container {
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.button-container,
+  body.about-article .cards-minimal-light-sidenav-container + .section .callout-content p {
     margin-bottom: 16px;
     line-height: 19.5px;
     letter-spacing: -0.4px;
@@ -388,6 +412,11 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
     font-size: 18px;
     line-height: 23.4px;
     letter-spacing: -0.4px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper ol > li {
+    font-size: 15px;
+    line-height: 16.5px;
   }
 
   body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a),
@@ -539,7 +568,8 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
   }
 
   body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p,
-  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.button-container {
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.button-container,
+  body.about-article .cards-minimal-light-sidenav-container + .section .callout-content p {
     font-size: 16px;
     line-height: 24px;
     letter-spacing: -0.1px;
@@ -556,6 +586,11 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
     font-size: 20px;
     line-height: 30px;
     letter-spacing: -0.3px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper ol > li {
+    margin-bottom: 15px;
+    line-height: 22.5px;
   }
 
   body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a),
