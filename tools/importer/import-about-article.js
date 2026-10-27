@@ -244,16 +244,21 @@ export default {
     // the spacing components right before a component (its own, or its container's when it
     // opens one, or the ones closing the component before it: Happenings' second event) as
     // [desktop, tablet, phone] px, for its top margin (space-<n>, space-tablet-<n>, ...)
+    // All the spacers between the component and the content before it, in document order,
+    // add up, across container edges (Blue Fund's map: two spacers closing the container
+    // before it, then one opening its own, 60px).
+    const PARTS = ['.spacing', '.cmp-text', '.image', '.button', '.title', 'table'].map((s) => `.page__par ${s}`).join(', ');
     const spaceBefore = (el) => {
-      let node = el;
-      while (node && !node.previousElementSibling && !node.matches('.page__par')) node = node.parentElement;
-      let prev = node?.previousElementSibling;
-      if (prev && !prev.matches('.spacing')) {
-        while (prev.lastElementChild && !prev.matches('.spacing')) prev = prev.lastElementChild;
-      }
+      const parts = [...main.querySelectorAll(PARTS)];
+      // eslint-disable-next-line no-bitwise
+      let i = parts.findIndex((p) => p === el || el.contains(p) || (el.compareDocumentPosition(p) & Node.DOCUMENT_POSITION_FOLLOWING));
+      if (i < 0) i = parts.length;
       const space = [0, 0, 0];
-      for (; prev?.matches('.spacing'); prev = prev.previousElementSibling) {
-        spacerHeights(prev).forEach((h, i) => { space[i] += h; });
+      for (i -= 1; i >= 0; i -= 1) {
+        const part = parts[i];
+        if (part.matches('.spacing')) {
+          if (!part.closest('.page__par .cmp-text')) spacerHeights(part).forEach((h, k) => { space[k] += h; });
+        } else if (!part.contains(el) && (part.textContent.trim() || part.querySelector('img'))) break;
       }
       return space;
     };

@@ -430,18 +430,19 @@ var CustomImportScript = (() => {
         lead.replaceWith(h5);
       }
       const gridSpan = (el, kind) => +(el.className.match(new RegExp(`aem-GridColumn--${kind}--(\\d+)`)) || [])[1] || 0;
+      const PARTS = [".spacing", ".cmp-text", ".image", ".button", ".title", "table"].map((s) => `.page__par ${s}`).join(", ");
       const spaceBefore = (el) => {
-        let node = el;
-        while (node && !node.previousElementSibling && !node.matches(".page__par")) node = node.parentElement;
-        let prev = node == null ? void 0 : node.previousElementSibling;
-        if (prev && !prev.matches(".spacing")) {
-          while (prev.lastElementChild && !prev.matches(".spacing")) prev = prev.lastElementChild;
-        }
+        const parts2 = [...main.querySelectorAll(PARTS)];
+        let i = parts2.findIndex((p) => p === el || el.contains(p) || el.compareDocumentPosition(p) & Node.DOCUMENT_POSITION_FOLLOWING);
+        if (i < 0) i = parts2.length;
         const space = [0, 0, 0];
-        for (; prev == null ? void 0 : prev.matches(".spacing"); prev = prev.previousElementSibling) {
-          spacerHeights(prev).forEach((h, i) => {
-            space[i] += h;
-          });
+        for (i -= 1; i >= 0; i -= 1) {
+          const part = parts2[i];
+          if (part.matches(".spacing")) {
+            if (!part.closest(".page__par .cmp-text")) spacerHeights(part).forEach((h, k) => {
+              space[k] += h;
+            });
+          } else if (!part.contains(el) && (part.textContent.trim() || part.querySelector("img"))) break;
         }
         return space;
       };
