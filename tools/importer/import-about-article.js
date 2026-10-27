@@ -191,6 +191,15 @@ export default {
     const crumb = document.querySelector('ol.breadcrumb-list li.active');
     const crumbLabel = (crumb?.textContent || '').replace(/\s+/g, ' ').trim();
 
+    // The source's text buttons (Blue Fund's "Go to ... overview", the rail's SEND EMAIL)
+    // become italic links (<p><em><a>, the uppercase text CTA); its filled brand buttons
+    // (a.brand-button-normal) stay links alone in their paragraph (the filled button).
+    main.querySelectorAll('.hmk-brand-buttons a.textButton').forEach((a) => {
+      const em = document.createElement('em');
+      em.append(...a.childNodes);
+      a.append(em);
+    });
+
     // Global nav / search bar and the breadcrumb + print/share row, on layouts
     // without a <header> element (highmark-cleanup.js removes <header> only).
     WebImporter.DOMUtils.remove(main, [

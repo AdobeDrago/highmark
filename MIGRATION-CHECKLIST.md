@@ -1,6 +1,6 @@
 # Migration checklist: pages linked from the highmark.com homepage
 
-Tracks every page the [highmark.com](https://www.highmark.com/) homepage links to (header, body, footer, and the regional pages behind the ZIP gate) and whether it is migrated to this site. Updated 2026-10-16.
+Tracks every page the [highmark.com](https://www.highmark.com/) homepage links to (header, body, footer, and the regional pages behind the ZIP gate) and whether it is migrated to this site. Updated 2026-10-26.
 
 The provider pages (providers.highmark.com, migrated to `/providers`) have their own part at the end: [Provider pages](#provider-pages-providershighmarkcom--providers).
 
@@ -131,7 +131,7 @@ Also in P3:
 - [x] `/newsroom/news-alert` (News Alert) **Live** 2026-10-06 (`news-alert` template, `form-minimal-light` block, #59), with its `/newsroom/news-alert-form.json` field sheet. The form does not work yet: it still posts to the source's `/bin/hmk/genericmailer`, which expects the reCAPTCHA token tied to highmark.com (why `nav-group5`, #34, deferred it). Replace the submit URL (row 2 of the block), then re-publish the page
 - [x] `/newsroom/weekly-capitol-hill-report` (Weekly Capitol Hill Report) **Live** imported by the `nav-group5` batch (#34)
 - [x] `/resources/answers/faq` (Frequently Asked Questions) **Live**
-- [ ] `/about/corporate-responsibility/blue-fund` (Blue Fund) **To do**
+- [ ] `/about/corporate-responsibility/blue-fund` (Blue Fund) **To do** an older copy of the Blue Fund page on the source (its 2025 grant cycle). The current page, `/about/corporate-responsibility/bright-blue-futures/blue-fund`, is **Live** (see [Corporate Responsibility sub-pages](#corporate-responsibility-sub-pages)). Our `/nav` has no Blue Fund item, and this path 404s on live (no `/redirects` row: nothing on our site links it)
 
 Also in P4:
 
@@ -170,6 +170,30 @@ Not linked from the homepage; found in the sitemap. Imported 2026-10-05, **Previ
 - [ ] `/medicare-hra` (`medicare-hra` template): the quiz's welcome screen only; "I'm ready" goes to the quiz on highmark.com.
 - [ ] `/wholecare`, `/health-options-de` (`subsidiary-home` template). The Delaware "We're in your community" video plays inline through `columns-minimal-dark` (a cell holding only an `.mp4` link).
 - [ ] `/health-options-wv`, `/ventures` (`campaign-landing` template, with `/because-life`). Ventures keeps the source's closing "Let's change healthcare" band.
+
+## Corporate Responsibility sub-pages
+
+The pages in the Bright Blue Futures and Sustainability left navs, not linked from the homepage. Imported 2026-10-26 with `tools/importer/import-about-article.js` (template `about-article`, `urls-about-article.txt`; branch `bbf-about-article-pages`), uploaded to DA with `upload-to-da.mjs`, **Live** 2026-10-26 (published about 11:52 UTC), 13/13:
+
+- [x] `/about/corporate-responsibility/bright-blue-futures/happenings` (Happenings) **Live**
+- [x] `/about/corporate-responsibility/bright-blue-futures/community-health` (Community Health) **Live**
+- [x] `/about/corporate-responsibility/bright-blue-futures/community-economic-resilience` (Community & Economic Resilience) **Live**
+- [x] `/about/corporate-responsibility/bright-blue-futures/community-health-employee-programs` (Community Health & Employee Programs) **Live**
+- [x] `/about/corporate-responsibility/bright-blue-futures/corporate-giving` (Corporate Giving) **Live**
+- [x] `/about/corporate-responsibility/bright-blue-futures/highmark-delaware-blueprints` (Highmark Delaware BluePrints) **Live**
+- [x] `/about/corporate-responsibility/bright-blue-futures/blue-fund` (Highmark Blue Fund) **Live**
+- [x] `/about/corporate-responsibility/bright-blue-futures/highmark-bright-blue-futures-awards` (Highmark Bright Blue Futures Awards) **Live**
+- [x] `/about/corporate-responsibility/bright-blue-futures/highmark-caring-place` (The Highmark Caring Place) **Live**
+- [x] `/about/corporate-responsibility/bright-blue-futures/highmark-neny-giving` (Highmark BS Giving Guidelines (Northeastern NY)) **Live**
+- [x] `/about/corporate-responsibility/bright-blue-futures/highmark-wny-giving` (Highmark BCBS Giving Guidelines (Western NY)) **Live**
+- [x] `/about/corporate-responsibility/bright-blue-futures/highmark-bright-blue-futures-community-reports` (Highmark Bright Blue Futures Community Reports) **Live**
+- [x] `/about/corporate-responsibility/sustainability/what-you-can-do` (What You Can Do) **Live**
+
+- Import: the source's left nav changed in October 2026 (items next to the parent's, `li.sidenav-item-level1`); the importer builds the block's rows as `tools/sidenav/sync-sidenav.mjs` does. No text, link or image of the source is missing; the live pages match the DA documents.
+- Styling (`about-article.css`, `scripts.js`, branch `bbf-about-article-pages`, not merged yet): until it merges, Community Health's Access to Care shows SDoH's blush callout, text links are #0078c1 (the source's #0066b1), Blue Fund's SEND EMAIL is an outlined button, the Giving Guidelines' "Sponsorship Application" is a bold text link (a filled button on the source), their "*" notes are navy (grey on the source) and the h5 lead lines (Northeastern NY, Corporate Giving, Caring Place, Community & Economic Resilience) are smaller. The link colour fix also applies to the six older `about-article` pages.
+- CTA links in `about-article` (2026-10-27): a link alone in its paragraph is the source's filled brand button; `_link_` (italic) is its text button, uppercase bold blue (Blue Fund's "Go to … overview" and SEND EMAIL, uploaded to DA 2026-10-27, not yet previewed); `**link**` (bold) stays a bold blue text link. Western NY's "…generally does not accept applications for or from:" line is a `div` on the source (no gap before its list), so the rest of that page sits 16px lower.
+- Not matched yet: three tinted boxes come through as plain text (Blue Fund's "2026 Grant Process", Delaware BluePrints' report list, What You Can Do's cleaning-recipes callout); Blue Fund's Contact Us box is this template's light blue (grey on the source).
+- `/redirects`: the live sheet (443 rows, 2026-10-26 12:27 UTC) has no rows for these 13 paths, and none for the 11 sub-pages their navs and "LEARN MORE" links point at, which **404 on live** (2026-10-26): Community Health's five topic pages (`community-health/{access-to-care,economic-stability,social-community-context,education-access,neighborhood-built-environment}`), Community Health & Employee Programs' three (`making-a-difference`, `supporting-united-way`, `employee-volunteering`), `corporate-giving/corporate-giving-contact`, and the two NY Blue Fund pages (`bright-blue-futures/blue-fund/{western,northeastern}-ny-blue-fund`, plus Corporate Giving's links to `/about/corporate-responsibility/blue-fund/...`, which do have rows). None of the 13 is in the query index (2026-10-26), so they are missing from search and breadcrumbs, and the redirects tool doesn't read their links. To fix: re-index the 13 pages (`POST https://admin.hlx.page/index/adobedrago/highmark/main/<path>`), run `build-redirects.mjs --upload`, compare the sheet with live, then publish it.
 
 ## Regional member pages
 

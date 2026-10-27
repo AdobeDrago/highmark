@@ -386,6 +386,11 @@ var CustomImportScript = (() => {
       const main = document2.body;
       const crumb = document2.querySelector("ol.breadcrumb-list li.active");
       const crumbLabel = ((crumb == null ? void 0 : crumb.textContent) || "").replace(/\s+/g, " ").trim();
+      main.querySelectorAll(".hmk-brand-buttons a.textButton").forEach((a) => {
+        const em = document2.createElement("em");
+        em.append(...a.childNodes);
+        a.append(em);
+      });
       WebImporter.DOMUtils.remove(main, [
         ".experiencefragment:has(.main-search-bar)",
         ".experiencefragment:has(.footer-list)",
