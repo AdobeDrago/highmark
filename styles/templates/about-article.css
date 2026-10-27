@@ -276,6 +276,10 @@ body.about-article .cards-minimal-light-sidenav-container + .section + .section 
   text-decoration: underline;
 }
 
+h5#learn-how-we-support-the-community-health-and-programs {
+    margin-bottom: 16px;
+}
+
 @media (width >= 768px) {
   body.about-article main {
     padding-bottom: 60px;
