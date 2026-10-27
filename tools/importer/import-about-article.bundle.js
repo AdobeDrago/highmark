@@ -405,6 +405,21 @@ var CustomImportScript = (() => {
         const p = (next == null ? void 0 : next.matches(".cmp-text")) && next.querySelector(":scope > p:first-child");
         if (p && !p.querySelector("img, br") && !p.textContent.replace(/[\s\u00a0]/g, "")) p.textContent = "\u200B";
       });
+      const parts = [...document2.querySelectorAll(".page__par .spacing, .page__par .cmp-text, .page__par .button, .page__par .gridcontrol")];
+      parts.forEach((button, index) => {
+        var _a;
+        if (!button.matches(".button") || !button.querySelector('a.textButton[href="#top"]')) return;
+        const space = [0, 0, 0];
+        for (let i = index + 1; (_a = parts[i]) == null ? void 0 : _a.matches(".spacing"); i += 1) {
+          spacerHeights(parts[i]).forEach((h, k) => {
+            space[k] += h;
+          });
+        }
+        if (space.join() !== "20,20,20") return;
+        const p = document2.createElement("p");
+        p.textContent = "\u200B";
+        button.after(p);
+      });
     },
     transform: (payload) => {
       const {
@@ -420,6 +435,18 @@ var CustomImportScript = (() => {
         const em = document2.createElement("em");
         em.append(...a.childNodes);
         a.append(em);
+      });
+      main.querySelectorAll(".page__par .hmk-brand-buttons a.brand-button-normal").forEach((a) => {
+        const strong = document2.createElement("strong");
+        const em = document2.createElement("em");
+        em.append(...a.childNodes);
+        strong.append(em);
+        a.append(strong);
+      });
+      const sectionHeadings = {};
+      main.querySelectorAll('.page__par section[id]:not([id="top"])').forEach((section) => {
+        const heading = section.querySelector("h2, h3, h4");
+        if (heading == null ? void 0 : heading.textContent.trim()) sectionHeadings[section.id] = heading.textContent;
       });
       const title = main.querySelector(".page__par h1");
       const lead = title && [...main.querySelectorAll(".page__par p")].find((p) => title.compareDocumentPosition(p) & Node.DOCUMENT_POSITION_FOLLOWING);
@@ -478,15 +505,56 @@ var CustomImportScript = (() => {
         const name = options.length ? `Image (${options.join(", ")})` : "Image";
         cmp.replaceWith(WebImporter.Blocks.createBlock(document2, { name, cells: [[img]] }));
       });
+      main.querySelectorAll(".page__par .gridcontrol").forEach((grid) => {
+        const cells = [...grid.querySelectorAll('.aem-hmk-row > [class*="hmk-col-"]')].map((col) => {
+          const cell = document2.createElement("div");
+          col.querySelectorAll(".cmp-text").forEach((text) => cell.append(...text.childNodes));
+          return cell;
+        });
+        if (!cells.some((cell) => cell.textContent.trim())) return;
+        const wrapper = grid.closest("section.container-fluid-fullwidth");
+        const alone = wrapper && [...wrapper.querySelectorAll(PARTS)].every((part) => grid.contains(part) || part.matches(".spacing") && !(grid.compareDocumentPosition(part) & Node.DOCUMENT_POSITION_FOLLOWING));
+        const target = alone ? wrapper : grid;
+        const pad = [0, 0, 0];
+        if (alone) {
+          wrapper.querySelectorAll(".spacing").forEach((spacer) => {
+            if (!grid.contains(spacer)) spacerHeights(spacer).forEach((h, i) => {
+              pad[i] += h;
+            });
+          });
+        }
+        const space = spaceBefore(target);
+        const options = [
+          alone && wrapper.querySelector(":scope > .parent-width > section.global-grey_garden") ? "grey" : "",
+          pad.some(Boolean) ? spaceStyle(pad).replace(/space-/g, "pad-") : "",
+          space.some(Boolean) ? spaceStyle(space) : ""
+        ].filter(Boolean);
+        const name = options.length ? `Grid (${options.join(", ")})` : "Grid";
+        target.replaceWith(WebImporter.Blocks.createBlock(document2, { name, cells: [cells] }));
+      });
       const CALLOUTS = {
         "section.new-hmk-brand-fifteenpercent-splash": "light-blue",
         "section.global-grey_garden": "grey",
-        "section.global-helionlightblue": "pale-blue"
+        "section.global-helionlightblue": "pale-blue",
+        "section.new-hmk-brand-blush-twnetyfive:has(.brand-center-content)": "blush, center"
       };
       Object.entries(CALLOUTS).forEach(([selector, variant]) => {
         main.querySelectorAll(`.page__par ${selector}`).forEach((box) => {
           const cell = document2.createElement("div");
-          box.querySelectorAll(".cmp-text").forEach((text) => cell.append(...text.childNodes));
+          box.querySelectorAll(".cmp-text, .button").forEach((part) => {
+            if (part.matches(".cmp-text")) {
+              cell.append(...part.childNodes);
+              return;
+            }
+            const link = part.querySelector("a[href]");
+            if (!link) return;
+            const p = document2.createElement("p");
+            const a = document2.createElement("a");
+            a.href = link.getAttribute("href");
+            a.textContent = link.textContent.trim();
+            p.append(a);
+            cell.append(p);
+          });
           if (!cell.textContent.trim()) return;
           const wrapper = box.closest("section.container-fluid-fullwidth") || box;
           const space = spaceBefore(wrapper);
@@ -496,6 +564,8 @@ var CustomImportScript = (() => {
               after[i] += h;
             });
           }
+          const rest = [...main.querySelectorAll(PARTS)].filter((part) => !wrapper.contains(part) && wrapper.compareDocumentPosition(part) & Node.DOCUMENT_POSITION_FOLLOWING);
+          if (!rest.some((part) => !part.matches(".spacing") && (part.textContent.trim() || part.querySelector("img")))) after.fill(0);
           const options = [
             variant,
             space.some(Boolean) ? spaceStyle(space) : "",
@@ -518,6 +588,10 @@ var CustomImportScript = (() => {
         } else if (part.textContent.trim() || part.querySelector("img")) break;
       }
       payload.articleStyle = closing.some(Boolean) ? spaceStyle(closing).replace(/space-/g, "space-after-") : null;
+      const last = parts.reverse().find((part) => !part.matches(".spacing") && part.textContent.trim());
+      if (!payload.articleStyle && (last == null ? void 0 : last.querySelector(":scope > p:last-child > :is(b, strong):only-child > a:only-child"))) {
+        payload.articleStyle = "close-flush";
+      }
       WebImporter.DOMUtils.remove(main, [
         ".experiencefragment:has(.main-search-bar)",
         ".experiencefragment:has(.footer-list)",
@@ -542,6 +616,10 @@ var CustomImportScript = (() => {
       const headingId = (t) => clean(t).toLowerCase().replace(/[^\p{L}\p{N}\s_-]/gu, "").replace(/\s/g, "-");
       main.querySelectorAll('a[href^="#"]:not([href="#"]):not([href="#top"])').forEach((a) => {
         const id = a.getAttribute("href").slice(1);
+        if (sectionHeadings[id]) {
+          a.setAttribute("href", `#${headingId(sectionHeadings[id])}`);
+          return;
+        }
         if (main.querySelector(`[id="${id}"], a[name="${id}"]`)) return;
         const text = clean(a.textContent).toLowerCase();
         const heading = [...main.querySelectorAll("h2, h3, h4")].find((h) => clean(h.textContent) && text.startsWith(clean(h.textContent).toLowerCase()));

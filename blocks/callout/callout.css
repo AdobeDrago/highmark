@@ -15,8 +15,14 @@ main .callout .callout-content {
 
 main .callout.space-20 { --callout-space: 20px; }
 main .callout.space-40 { --callout-space: 40px; }
+main .callout.space-60 { --callout-space: 60px; }
+main .callout.space-80 { --callout-space: 80px; }
 main .callout.space-tablet-20 { --callout-space-tablet: 20px; }
+main .callout.space-tablet-40 { --callout-space-tablet: 40px; }
+main .callout.space-tablet-60 { --callout-space-tablet: 60px; }
 main .callout.space-mobile-20 { --callout-space-mobile: 20px; }
+main .callout.space-mobile-40 { --callout-space-mobile: 40px; }
+main .callout.space-mobile-60 { --callout-space-mobile: 60px; }
 
 /* space-after-<n> / space-after-tablet-<n> / space-after-mobile-<n>: the spacers after it */
 main .callout.space-after-20 { --callout-after: 20px; }
@@ -55,6 +61,20 @@ main .callout.pale-blue .callout-content {
 
 main .callout.pale-blue .callout-content > p {
   max-width: calc(100% * 9 / 11);
+}
+
+/* blush (new-hmk-brand-blush-twnetyfive, #fef0ec): the full width of the column, its
+   spacers inside (20px above, 40px below); center: the text centred, as the source's */
+main .callout.blush {
+  background-color: #fef0ec;
+}
+
+main .callout.blush .callout-content {
+  padding: 20px 0 40px;
+}
+
+main .callout.center {
+  text-align: center;
 }
 
 /* the source's grey note ends on a line break (a blank last line); the import drops it */

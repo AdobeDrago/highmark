@@ -68,7 +68,8 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
 }
 
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p,
-body.about-article .cards-minimal-light-sidenav-container + .section .callout-content p {
+body.about-article .cards-minimal-light-sidenav-container + .section .callout-content p,
+body.about-article .cards-minimal-light-sidenav-container + .section .grid-cell p {
   margin: 0 0 12.8px;
   color: var(--text-body-color);
   font-size: 15px;
@@ -97,14 +98,16 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
 }
 
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper ul,
-body.about-article .cards-minimal-light-sidenav-container + .section .callout-content ul {
+body.about-article .cards-minimal-light-sidenav-container + .section .callout-content ul,
+body.about-article .cards-minimal-light-sidenav-container + .section .grid-cell ul {
   margin: 0 0 16px 20px;
   padding: 0 0 0 12px;
   list-style: disc;
 }
 
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper li,
-body.about-article .cards-minimal-light-sidenav-container + .section .callout-content li {
+body.about-article .cards-minimal-light-sidenav-container + .section .callout-content li,
+body.about-article .cards-minimal-light-sidenav-container + .section .grid-cell li {
   margin: 0 0 5px 18px;
   color: var(--text-body-color);
   font-size: 16px;
@@ -132,7 +135,8 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
    <p> (Awards' Maternity Care Coalition); the source's items are plain text: the p takes
    the item's type, and a nested list has no bottom margin of its own (the items' 5px) */
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper li > p,
-body.about-article .cards-minimal-light-sidenav-container + .section .callout-content li > p {
+body.about-article .cards-minimal-light-sidenav-container + .section .callout-content li > p,
+body.about-article .cards-minimal-light-sidenav-container + .section .grid-cell li > p {
   margin: 0;
   color: inherit;
   font-size: inherit;
@@ -142,12 +146,14 @@ body.about-article .cards-minimal-light-sidenav-container + .section .callout-co
 }
 
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper li > :is(ul, ol),
-body.about-article .cards-minimal-light-sidenav-container + .section .callout-content li > :is(ul, ol) {
+body.about-article .cards-minimal-light-sidenav-container + .section .callout-content li > :is(ul, ol),
+body.about-article .cards-minimal-light-sidenav-container + .section .grid-cell li > :is(ul, ol) {
   margin-bottom: 0;
 }
 
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper strong,
-body.about-article .cards-minimal-light-sidenav-container + .section .callout-content strong {
+body.about-article .cards-minimal-light-sidenav-container + .section .callout-content strong,
+body.about-article .cards-minimal-light-sidenav-container + .section .grid-cell strong {
   font-weight: 700;
 }
 
@@ -159,25 +165,29 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
 
 /* text links: #0066b1 on the source, underlined on hover (same colour) */
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a:any-link,
-body.about-article .cards-minimal-light-sidenav-container + .section .callout-content a:any-link {
+body.about-article .cards-minimal-light-sidenav-container + .section .callout-content a:any-link,
+body.about-article .cards-minimal-light-sidenav-container + .section .grid-cell a:any-link {
   color: #0066b1;
 }
 
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a:any-link:hover,
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a:any-link:focus,
 body.about-article .cards-minimal-light-sidenav-container + .section .callout-content a:any-link:hover,
-body.about-article .cards-minimal-light-sidenav-container + .section .callout-content a:any-link:focus {
+body.about-article .cards-minimal-light-sidenav-container + .section .grid-cell a:any-link:hover,
+body.about-article .cards-minimal-light-sidenav-container + .section .callout-content a:any-link:focus,
+body.about-article .cards-minimal-light-sidenav-container + .section .grid-cell a:any-link:focus {
   color: #0066b1;
   text-decoration: underline;
 }
 
 /* bold CTA links (<p><strong><a>): EDS decorates them as .button, the source
-   renders plain bold blue text links */
+   renders plain bold blue text links (in a grid too: the Blue Fund pages' Quick guide) */
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.button-container {
   margin: 0 0 12.8px;
 }
 
-body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a.button:any-link {
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a.button:any-link,
+body.about-article .cards-minimal-light-sidenav-container + .section .grid-cell a.button:any-link {
   display: inline;
   margin: 0;
   padding: 0;
@@ -194,15 +204,27 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
 }
 
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a.button:hover,
-body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a.button:focus {
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper a.button:focus,
+body.about-article .cards-minimal-light-sidenav-container + .section .grid-cell a.button:hover,
+body.about-article .cards-minimal-light-sidenav-container + .section .grid-cell a.button:focus {
   background: transparent;
   color: #0066b1;
   text-decoration: underline;
 }
 
-/* a link alone in its paragraph (<p><a>): the source's filled brand button
-   (Giving Guidelines' "Sponsorship Application"), 16px below the text, navy on hover */
+/* a link alone in its paragraph (<p><a>): a plain text link (Economic Stability's jump
+   links), in the paragraph's weight */
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.button-container > a.button:any-link {
+  font-weight: inherit;
+}
+
+/* bold italic links (<p><strong><em><a>): the source's filled brand button (Giving
+   Guidelines' "Sponsorship Application"), 16px below the text, navy on hover */
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p > :is(strong, em):only-child > :is(strong, em):only-child {
+  font-style: normal;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p > :is(strong, em):only-child > :is(strong, em):only-child > a:only-child:any-link {
   display: inline-block;
   margin: 16px 0 0;
   padding: 16px 24px;
@@ -210,13 +232,77 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
   background: #0066b1;
   color: #fff;
   font-size: 16px;
+  font-weight: 700;
   line-height: 24px;
   letter-spacing: normal;
+  text-decoration: none;
   text-transform: uppercase;
 }
 
-body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.button-container > a.button:hover,
-body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.button-container > a.button:focus {
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p > :is(strong, em):only-child > :is(strong, em):only-child > a:only-child:hover,
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p > :is(strong, em):only-child > :is(strong, em):only-child > a:only-child:focus {
+  background: #003963;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* a region heading in a grid (Corporate Giving Contact): the source's h4, sofia-pro 600
+   24/28.8, 8px above its text at every width */
+body.about-article .cards-minimal-light-sidenav-container + .section .grid-cell h4 {
+  margin: 0 0 8px;
+  padding: 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 28.8px;
+  letter-spacing: normal;
+}
+
+/* the blush callout (Callout (blush, center): the NY Blue Fund pages' "Do you have more
+   questions?"): its heading in the middle two thirds, its text the lead line (sofia-pro
+   600, navy) in the middle ten twelfths, then the outlined button in a 90px row */
+body.about-article .cards-minimal-light-sidenav-container + .section .callout.blush .callout-content h2 {
+  max-width: calc(100% * 8 / 12);
+  margin: 0 auto;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section .callout.blush .callout-content p:not(.button-container) {
+  max-width: calc(100% * 10 / 12);
+  margin-right: auto;
+  margin-left: auto;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section .callout.blush .callout-content p.button-container {
+  margin: 0;
+  padding: 16px 0;
+  line-height: 0;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section .callout.blush .callout-content a.button:any-link {
+  display: inline-block;
+  margin: 0;
+  padding: 16px 24px;
+  border: 1px solid #003963;
+  border-radius: 5px;
+  background: transparent;
+  color: #003963;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: normal;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section .callout.blush .callout-content a.button:hover,
+body.about-article .cards-minimal-light-sidenav-container + .section .callout.blush .callout-content a.button:focus {
   background: #003963;
   color: #fff;
   text-decoration: none;
@@ -232,6 +318,25 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
   line-height: 20px;
   letter-spacing: normal;
   text-transform: uppercase;
+}
+
+/* "Back to top" (the NY Blue Fund pages): the source's small text button, a 100px block
+   with the next section's heading right under it */
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.button-container:has(> em > a[href="#top"]) {
+  margin-bottom: 0;
+  line-height: 20px;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.spacer {
+  height: 20px;
+  margin: 0;
+  overflow: hidden;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.button-container > em > a.button[href="#top"]:any-link {
+  display: inline-block;
+  min-width: 100px;
+  vertical-align: top;
 }
 
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.button-container > em > a.button:hover,
@@ -291,6 +396,10 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
 /* article closing on a bold CTA link (SDoH): 60px spacer (80px at >= 992) */
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper:last-child:has(> p:last-child > strong > a) {
   padding-bottom: 60px;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section.close-flush > .default-content-wrapper:last-child:has(> p:last-child > strong > a) {
+  padding-bottom: 0;
 }
 
 /* logo row (sustainability): consecutive image paragraphs form a grid,
@@ -471,7 +580,8 @@ h5#learn-how-we-support-the-community-health-and-programs {
 
   body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p,
   body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.button-container,
-  body.about-article .cards-minimal-light-sidenav-container + .section .callout-content p {
+  body.about-article .cards-minimal-light-sidenav-container + .section .callout-content p,
+  body.about-article .cards-minimal-light-sidenav-container + .section .grid-cell p {
     margin-bottom: 16px;
     line-height: 19.5px;
     letter-spacing: -0.4px;
@@ -479,6 +589,12 @@ h5#learn-how-we-support-the-community-health-and-programs {
 
   body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] + p,
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a) + p {
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section .callout.blush .callout-content p:not(.button-container) {
     font-size: 18px;
     line-height: 23.4px;
     letter-spacing: -0.4px;
@@ -665,7 +781,8 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
 
   body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p,
   body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.button-container,
-  body.about-article .cards-minimal-light-sidenav-container + .section .callout-content p {
+  body.about-article .cards-minimal-light-sidenav-container + .section .callout-content p,
+  body.about-article .cards-minimal-light-sidenav-container + .section .grid-cell p {
     font-size: 16px;
     line-height: 24px;
     letter-spacing: -0.1px;
@@ -673,6 +790,12 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
 
   body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] + p,
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a) + p {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section .callout.blush .callout-content p:not(.button-container) {
     font-size: 20px;
     line-height: 30px;
     letter-spacing: -0.3px;
@@ -703,6 +826,12 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
 
   body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper:last-child:has(> p:last-child > strong > a) {
     padding-bottom: 80px;
+  }
+
+  /* Style close-flush: an article closing on a bold link with no spacer after it on the
+     source (the Community Health sub-pages' "Back to Top") */
+  body.about-article .cards-minimal-light-sidenav-container + .section.close-flush > .default-content-wrapper:last-child:has(> p:last-child > strong > a) {
+    padding-bottom: 0;
   }
 
   body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p:has(> picture) {

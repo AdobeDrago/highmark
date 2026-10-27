@@ -198,6 +198,22 @@ export default {
       const p = next?.matches('.cmp-text') && next.querySelector(':scope > p:first-child');
       if (p && !p.querySelector('img, br') && !p.textContent.replace(/[\s\u00a0]/g, '')) p.textContent = '\u200b';
     });
+    // A 20px spacer after a "Back to top" button (the NY Blue Fund pages, before each
+    // section's heading) is kept as a paragraph holding a zero-width space, which
+    // scripts.js (decorateAboutArticle) styles 20px high; the pipeline drops spacers.
+    // The spacer may open the next section (most of them) or follow the button in its own.
+    const parts = [...document.querySelectorAll('.page__par .spacing, .page__par .cmp-text, .page__par .button, .page__par .gridcontrol')];
+    parts.forEach((button, index) => {
+      if (!button.matches('.button') || !button.querySelector('a.textButton[href="#top"]')) return;
+      const space = [0, 0, 0];
+      for (let i = index + 1; parts[i]?.matches('.spacing'); i += 1) {
+        spacerHeights(parts[i]).forEach((h, k) => { space[k] += h; });
+      }
+      if (space.join() !== '20,20,20') return;
+      const p = document.createElement('p');
+      p.textContent = '\u200b';
+      button.after(p);
+    });
   },
 
   transform: (payload) => {
@@ -214,11 +230,29 @@ export default {
 
     // The source's text buttons (Blue Fund's "Go to ... overview", the rail's SEND EMAIL)
     // become italic links (<p><em><a>, the uppercase text CTA); its filled brand buttons
-    // (a.brand-button-normal) stay links alone in their paragraph (the filled button).
+    // (a.brand-button-normal: Giving Guidelines' "Sponsorship Application") become bold
+    // italic links (<p><strong><em><a>, the filled button); a link alone in its paragraph
+    // stays a plain text link (Economic Stability's jump links).
     main.querySelectorAll('.hmk-brand-buttons a.textButton').forEach((a) => {
       const em = document.createElement('em');
       em.append(...a.childNodes);
       a.append(em);
+    });
+    main.querySelectorAll('.page__par .hmk-brand-buttons a.brand-button-normal').forEach((a) => {
+      const strong = document.createElement('strong');
+      const em = document.createElement('em');
+      em.append(...a.childNodes);
+      strong.append(em);
+      a.append(strong);
+    });
+
+    // In-page links to a section's id (the Blue Fund pages' "Quick guide": #overview,
+    // #funding, ...) point at the section's first heading, by the id the pipeline gives it;
+    // the import drops the sections.
+    const sectionHeadings = {};
+    main.querySelectorAll('.page__par section[id]:not([id="top"])').forEach((section) => {
+      const heading = section.querySelector('h2, h3, h4');
+      if (heading?.textContent.trim()) sectionHeadings[section.id] = heading.textContent;
     });
 
     // A lead line under the title (a paragraph wholly in span.p1, sofia-pro 600: Blue Fund's
@@ -300,23 +334,76 @@ export default {
     // Can Do's cleaning-recipes note). Each holds its text component(s).
     // A pale blue band (global-helionlightblue: Blue Fund's "2026 Grant Process") is
     // Callout (pale-blue), with the spacers before it as its top margin.
+    // The source's grid control (gridcontrol > aem-hmk-row > hmk-col-*) becomes a Grid
+    // block (blocks/grid), one cell per column: the Blue Fund pages' "Quick guide" link
+    // lists, side by side. A band holding nothing but the grid (Corporate Giving Contact's
+    // region cards, every other one grey) is replaced whole: Grid (grey) on a grey band,
+    // the band's spacers above the grid as pad-<n>, the ones before the band as space-<n>.
+    main.querySelectorAll('.page__par .gridcontrol').forEach((grid) => {
+      const cells = [...grid.querySelectorAll('.aem-hmk-row > [class*="hmk-col-"]')].map((col) => {
+        const cell = document.createElement('div');
+        col.querySelectorAll('.cmp-text').forEach((text) => cell.append(...text.childNodes));
+        return cell;
+      });
+      if (!cells.some((cell) => cell.textContent.trim())) return;
+      const wrapper = grid.closest('section.container-fluid-fullwidth');
+      const alone = wrapper && [...wrapper.querySelectorAll(PARTS)]
+        .every((part) => grid.contains(part) || (part.matches('.spacing') && !(grid.compareDocumentPosition(part) & Node.DOCUMENT_POSITION_FOLLOWING))); // eslint-disable-line no-bitwise
+      const target = alone ? wrapper : grid;
+      const pad = [0, 0, 0];
+      if (alone) {
+        wrapper.querySelectorAll('.spacing').forEach((spacer) => {
+          if (!grid.contains(spacer)) spacerHeights(spacer).forEach((h, i) => { pad[i] += h; });
+        });
+      }
+      const space = spaceBefore(target);
+      const options = [
+        alone && wrapper.querySelector(':scope > .parent-width > section.global-grey_garden') ? 'grey' : '',
+        pad.some(Boolean) ? spaceStyle(pad).replace(/space-/g, 'pad-') : '',
+        space.some(Boolean) ? spaceStyle(space) : '',
+      ].filter(Boolean);
+      const name = options.length ? `Grid (${options.join(', ')})` : 'Grid';
+      target.replaceWith(WebImporter.Blocks.createBlock(document, { name, cells: [cells] }));
+    });
+
+    // A blush band with a centred button (the NY Blue Fund pages' "Do you have more
+    // questions?": h2, lead line, READ FAQS) is Callout (blush, center); its button is a link
+    // alone in its paragraph (the outlined button). An empty band (Blue Fund's) is a spacer.
     const CALLOUTS = {
       'section.new-hmk-brand-fifteenpercent-splash': 'light-blue',
       'section.global-grey_garden': 'grey',
       'section.global-helionlightblue': 'pale-blue',
+      'section.new-hmk-brand-blush-twnetyfive:has(.brand-center-content)': 'blush, center',
     };
     Object.entries(CALLOUTS).forEach(([selector, variant]) => {
       main.querySelectorAll(`.page__par ${selector}`).forEach((box) => {
         const cell = document.createElement('div');
-        box.querySelectorAll('.cmp-text').forEach((text) => cell.append(...text.childNodes));
+        box.querySelectorAll('.cmp-text, .button').forEach((part) => {
+          if (part.matches('.cmp-text')) {
+            cell.append(...part.childNodes);
+            return;
+          }
+          const link = part.querySelector('a[href]');
+          if (!link) return;
+          const p = document.createElement('p');
+          const a = document.createElement('a');
+          a.href = link.getAttribute('href');
+          a.textContent = link.textContent.trim();
+          p.append(a);
+          cell.append(p);
+        });
         if (!cell.textContent.trim()) return;
         const wrapper = box.closest('section.container-fluid-fullwidth') || box;
         const space = spaceBefore(wrapper);
-        // and the spacers right after it as its bottom margin (space-after-<n>, ...)
+        // and the spacers right after it as its bottom margin (space-after-<n>, ...), unless
+        // they close the article (the NY Blue Fund pages' blush band: the article's own)
         const after = [0, 0, 0];
         for (let next = wrapper.nextElementSibling; next?.matches('.spacing'); next = next.nextElementSibling) {
           spacerHeights(next).forEach((h, i) => { after[i] += h; });
         }
+        const rest = [...main.querySelectorAll(PARTS)]
+          .filter((part) => !wrapper.contains(part) && (wrapper.compareDocumentPosition(part) & Node.DOCUMENT_POSITION_FOLLOWING)); // eslint-disable-line no-bitwise
+        if (!rest.some((part) => !part.matches('.spacing') && (part.textContent.trim() || part.querySelector('img')))) after.fill(0);
         const options = [
           variant,
           space.some(Boolean) ? spaceStyle(space) : '',
@@ -344,6 +431,13 @@ export default {
       } else if (part.textContent.trim() || part.querySelector('img')) break;
     }
     payload.articleStyle = closing.some(Boolean) ? spaceStyle(closing).replace(/space-/g, 'space-after-') : null;
+    // An article closing on a bold link with no spacer after it (the Community Health
+    // sub-pages' "Back to Top") gets Style close-flush: no closing space, where the
+    // template gives SDoH's closing CTA 60 / 80px.
+    const last = parts.reverse().find((part) => !part.matches('.spacing') && part.textContent.trim());
+    if (!payload.articleStyle && last?.querySelector(':scope > p:last-child > :is(b, strong):only-child > a:only-child')) {
+      payload.articleStyle = 'close-flush';
+    }
 
     // Global nav / search bar and the breadcrumb + print/share row, on layouts
     // without a <header> element (highmark-cleanup.js removes <header> only).
@@ -381,6 +475,10 @@ export default {
     const headingId = (t) => clean(t).toLowerCase().replace(/[^\p{L}\p{N}\s_-]/gu, '').replace(/\s/g, '-');
     main.querySelectorAll('a[href^="#"]:not([href="#"]):not([href="#top"])').forEach((a) => {
       const id = a.getAttribute('href').slice(1);
+      if (sectionHeadings[id]) {
+        a.setAttribute('href', `#${headingId(sectionHeadings[id])}`);
+        return;
+      }
       if (main.querySelector(`[id="${id}"], a[name="${id}"]`)) return;
       const text = clean(a.textContent).toLowerCase();
       const heading = [...main.querySelectorAll('h2, h3, h4')]

@@ -229,6 +229,9 @@ function decorateAboutArticle(main) {
   if (!document.body.classList.contains('about-article')) return;
   main.querySelectorAll('.default-content-wrapper > p').forEach((p) => {
     if (p.textContent.trim().startsWith('*')) p.classList.add('footnote');
+    // the source's 20px spacer after a "Back to top" link (an empty paragraph, kept as a
+    // zero-width space by the importer)
+    if (p.textContent === '\u200b' && p.previousElementSibling?.querySelector(':scope > em > a[href="#top"]')) p.classList.add('spacer');
   });
 }
 
