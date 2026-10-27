@@ -220,6 +220,19 @@ function decorateProviderContent(main) {
 }
 
 /**
+ * About articles (template about-article): a note starting with "*" (the Giving Guidelines'
+ * "*All requests must be received ...") gets the class footnote, for the source's grey
+ * text, which authored content can't carry.
+ * @param {Element} main The main element
+ */
+function decorateAboutArticle(main) {
+  if (!document.body.classList.contains('about-article')) return;
+  main.querySelectorAll('.default-content-wrapper > p').forEach((p) => {
+    if (p.textContent.trim().startsWith('*')) p.classList.add('footnote');
+  });
+}
+
+/**
  * Leadership bios (template leadership-bio): paragraphs that get a class by their text,
  * since authored content can't carry classes. Text -> class.
  */
@@ -374,6 +387,7 @@ async function loadEager(doc) {
     decorateMain(main);
     decorateShopHomeLinks(main);
     decorateProviderContent(main);
+    decorateAboutArticle(main);
     decorateLeadershipBio(main);
     decorateLegalLinks(main);
     decorateFaqLinks(main);

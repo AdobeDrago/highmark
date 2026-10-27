@@ -153,6 +153,63 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
   text-decoration: underline;
 }
 
+/* a link alone in its paragraph (<p><a>): the source's filled brand button
+   (Giving Guidelines' "Sponsorship Application"), 16px below the text, navy on hover */
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.button-container > a.button:any-link {
+  display: inline-block;
+  margin: 16px 0 0;
+  padding: 16px 24px;
+  border-radius: 5px;
+  background: #0066b1;
+  color: #fff;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: normal;
+  text-transform: uppercase;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.button-container > a.button:hover,
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.button-container > a.button:focus {
+  background: #003963;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* italic CTA links (<p><em><a>): the source's text button (Blue Fund's "Go to ...
+   overview"), uppercase bold blue */
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.button-container > em {
+  font-style: normal;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.button-container > em > a.button:any-link {
+  line-height: 20px;
+  letter-spacing: normal;
+  text-transform: uppercase;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.button-container > em > a.button:hover,
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.button-container > em > a.button:focus {
+  text-decoration: none;
+}
+
+/* the lead line under the title (Northeastern NY Giving Guidelines, Corporate Giving):
+   the source's h5, sofia-pro 600, navy */
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h5 {
+  margin: 0 0 12.8px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+/* a note starting with "*" (scripts.js adds .footnote): the source's grey text
+   (span.global-clr_greyskull), which the import can't keep */
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper p.footnote {
+  color: #7a8b97;
+}
+
 /* blush-25 callout box (SDoH "SDoH programs for members"): the first h2 that
    is followed by an intro and a bold CTA link, on the SDoH page only (Bright
    Blue Futures' Community Health opens its plain sections the same way). Source: 20px spacer, then a
@@ -254,6 +311,10 @@ body.about-article .cards-minimal-light-sidenav-container + .section + .section 
   margin-top: 16px;
 }
 
+body.about-article .cards-minimal-light-sidenav-container + .section + .section > .default-content-wrapper p.button-container > em {
+  font-style: normal;
+}
+
 body.about-article .cards-minimal-light-sidenav-container + .section + .section > .default-content-wrapper a.button:any-link {
   display: inline;
   margin: 0;
@@ -313,6 +374,13 @@ body.about-article .cards-minimal-light-sidenav-container + .section + .section 
 
   body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] + p,
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a) + p {
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h5 {
+    margin-bottom: 16px;
     font-size: 18px;
     line-height: 23.4px;
     letter-spacing: -0.4px;
@@ -475,6 +543,12 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
 
   body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] + p,
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h1[id="social-determinants-of-health-sdoh"] ~ h2:first-of-type:has(+ p + p > strong > a) + p {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h5 {
     font-size: 20px;
     line-height: 30px;
     letter-spacing: -0.3px;
