@@ -415,6 +415,25 @@ body.employer-article .accordion-minimal-light .accordion-minimal-light-item-bod
 
 /* ---------- Desktop (>= 992) ---------- */
 @media (width >= 992px) {
+  /* the breadcrumb row: the source's col-lg-9 after a col-lg-2 of the 1200px container
+     (320 to 1220px at 1440), so it starts level with the article and a long trail
+     wraps (Highmark Blue Shield's current crumb goes to a second line) */
+  body.employer-article .breadcrumbs {
+    --ea-container: min(1200px, 100% - 166px);
+
+    box-sizing: border-box;
+    width: calc(var(--ea-container) * 9 / 12);
+    max-width: none;
+    margin: 0 0 0 calc((100% - var(--ea-container)) / 2 + var(--ea-container) * 2 / 12);
+    padding: 0;
+  }
+
+  /* PRINT / SHARE stay level with the trail's first line when it wraps */
+  body.employer-article .breadcrumbs .breadcrumbs-actions {
+    align-self: flex-start;
+    margin: 33px 0 0;
+  }
+
   /* the article: the centred 8/12 column */
   body.employer-article main > .section > div {
     max-width: calc(min(1200px, 100% - 166px) * 2 / 3);
