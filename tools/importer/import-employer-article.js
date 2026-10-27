@@ -158,10 +158,6 @@ export default {
     const h1 = body.querySelector('h1');
     const column = h1.closest('.col-lg-8') || h1.closest('.page__par');
     const crumb = document.querySelector('ol.breadcrumb-list li.active');
-    // the trail's first crumb: highmark.com's employer pages start at Home = /employer, so
-    // the page gets Breadcrumb Home /employer (the trail then has no Employer crumb)
-    const crumbHome = (document.querySelector('ol.breadcrumb-list li:first-child a')?.getAttribute('href') || '')
-      .replace(/^https:\/\/www\.highmark\.com/, '').replace(/\/$/, '');
     const crumbLabel = clean(crumb?.textContent);
     const meta = WebImporter.Blocks.getMetadata(document) || {};
 
@@ -260,7 +256,6 @@ export default {
     meta.Template = 'employer-article';
     meta.breadcrumbs = 'true';
     if (crumbLabel) meta['Breadcrumb Title'] = crumbLabel;
-    if (crumbHome.startsWith('/')) meta['Breadcrumb Home'] = crumbHome;
     main.append(WebImporter.Blocks.getMetadataBlock(document, meta));
 
     body.replaceChildren(...main.childNodes);

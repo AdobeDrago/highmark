@@ -654,7 +654,7 @@ var CustomImportScript = (() => {
       });
     },
     transform: (payload) => {
-      var _a, _b, _c;
+      var _a, _b;
       const {
         document: document2,
         url,
@@ -663,7 +663,6 @@ var CustomImportScript = (() => {
       } = payload;
       const main = document2.body;
       const crumb = document2.querySelector("ol.breadcrumb-list li.active");
-      const crumbHome = (((_a = document2.querySelector("ol.breadcrumb-list li:first-child a")) == null ? void 0 : _a.getAttribute("href")) || "").replace(/^https:\/\/www\.highmark\.com/, "").replace(/\/$/, "");
       const crumbLabel = ((crumb == null ? void 0 : crumb.textContent) || "").replace(/\s+/g, " ").trim();
       WebImporter.DOMUtils.remove(main, [
         ".experiencefragment:has(.main-search-bar)",
@@ -691,7 +690,7 @@ var CustomImportScript = (() => {
         if (span("default") && span("default") !== 6) introStyles.push(`intro-span-${span("default")}`);
         if (span("tablet") && span("tablet") !== 8) introStyles.push(`intro-tablet-span-${span("tablet")}`);
         const last = [...introGrid.children].pop();
-        const size = (((_b = last == null ? void 0 : last.querySelector("section")) == null ? void 0 : _b.className.match(/(?:^|\s)(ten|twenty|thirty|forty)-padding/)) || [])[1];
+        const size = (((_a = last == null ? void 0 : last.querySelector("section")) == null ? void 0 : _a.className.match(/(?:^|\s)(ten|twenty|thirty|forty)-padding/)) || [])[1];
         const px = { ten: 20, twenty: 40, thirty: 60, forty: 80 }[size];
         if ((last == null ? void 0 : last.matches(".spacing")) && px && px !== 40) introStyles.push(`intro-bottom-${px}`);
       }
@@ -716,10 +715,10 @@ var CustomImportScript = (() => {
           var _a2;
           return /^section metadata$/i.test((((_a2 = t.querySelector("tr")) == null ? void 0 : _a2.textContent) || "").trim());
         });
-        const cell = sm && ((_c = [...sm.querySelectorAll("tr")].find((tr) => {
+        const cell = sm && ((_b = [...sm.querySelectorAll("tr")].find((tr) => {
           var _a2;
           return /^style$/i.test((_a2 = tr.children[0]) == null ? void 0 : _a2.textContent.trim());
-        })) == null ? void 0 : _c.children[1]);
+        })) == null ? void 0 : _b.children[1]);
         if (cell) cell.textContent = `${cell.textContent.trim()}, ${introStyles.join(", ")}`;
       }
       const hr = document2.createElement("hr");
@@ -728,7 +727,6 @@ var CustomImportScript = (() => {
       if (crumb) {
         meta.breadcrumbs = "true";
         if (crumbLabel) meta["Breadcrumb Title"] = crumbLabel;
-        if (crumbHome.startsWith("/")) meta["Breadcrumb Home"] = crumbHome;
       }
       meta.template = "employer-subpage";
       main.append(WebImporter.Blocks.getMetadataBlock(document2, meta));

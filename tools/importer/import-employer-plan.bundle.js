@@ -582,7 +582,7 @@ var CustomImportScript = (() => {
       });
     },
     transform: (payload) => {
-      var _a, _b;
+      var _a;
       const {
         document,
         url,
@@ -794,7 +794,6 @@ var CustomImportScript = (() => {
         }
       }
       const crumb = document.querySelector("ol.breadcrumb-list li.active");
-      const crumbHome = (((_b = document.querySelector("ol.breadcrumb-list li:first-child a")) == null ? void 0 : _b.getAttribute("href")) || "").replace(/^https:\/\/www\.highmark\.com/, "").replace(/\/$/, "");
       const crumbLabel = ((crumb == null ? void 0 : crumb.textContent) || "").replace(/\s+/g, " ").trim();
       executeTransformers("beforeTransform", main, payload);
       const pageBlocks = findBlocksOnPage(document, PAGE_TEMPLATE);
@@ -848,7 +847,6 @@ var CustomImportScript = (() => {
       if (insetBullets) meta.Template += ", inset-bullets";
       meta.breadcrumbs = "true";
       if (crumbLabel) meta["Breadcrumb Title"] = crumbLabel;
-      if (crumbHome.startsWith("/")) meta["Breadcrumb Home"] = crumbHome;
       main.append(WebImporter.Blocks.getMetadataBlock(document, meta));
       WebImporter.rules.transformBackgroundImages(main, document);
       WebImporter.rules.adjustImageUrls(main, url, params.originalURL);

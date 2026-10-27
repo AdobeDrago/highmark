@@ -243,10 +243,6 @@ export default {
     // Source breadcrumb label for this page, read before cleanup removes the
     // breadcrumb row; pages without a source breadcrumb don't get one either.
     const crumb = document.querySelector('ol.breadcrumb-list li.active');
-    // the trail's first crumb: highmark.com's employer pages start at Home = /employer, so
-    // the page gets Breadcrumb Home /employer (the trail then has no Employer crumb)
-    const crumbHome = (document.querySelector('ol.breadcrumb-list li:first-child a')?.getAttribute('href') || '')
-      .replace(/^https:\/\/www\.highmark\.com/, '').replace(/\/$/, '');
     const crumbLabel = (crumb?.textContent || '').replace(/\s+/g, ' ').trim();
 
     // Global nav / search bar and the breadcrumb + print/share row, on layouts
@@ -328,7 +324,6 @@ export default {
     if (crumb) {
       meta.breadcrumbs = 'true';
       if (crumbLabel) meta['Breadcrumb Title'] = crumbLabel;
-      if (crumbHome.startsWith('/')) meta['Breadcrumb Home'] = crumbHome;
     }
     meta.template = 'employer-subpage';
     main.append(WebImporter.Blocks.getMetadataBlock(document, meta));

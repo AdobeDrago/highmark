@@ -407,10 +407,6 @@ export default {
     // Source breadcrumb label for this page ("ACA", "WNY Blue Fund"), read before
     // cleanup removes the breadcrumb row.
     const crumb = document.querySelector('ol.breadcrumb-list li.active');
-    // the trail's first crumb: highmark.com's employer pages start at Home = /employer, so
-    // the page gets Breadcrumb Home /employer (the trail then has no Employer crumb)
-    const crumbHome = (document.querySelector('ol.breadcrumb-list li:first-child a')?.getAttribute('href') || '')
-      .replace(/^https:\/\/www\.highmark\.com/, '').replace(/\/$/, '');
     const crumbLabel = (crumb?.textContent || '').replace(/\s+/g, ' ').trim();
 
     // 1. beforeTransform (cleanup + section breaks)
@@ -481,7 +477,6 @@ export default {
     if (insetBullets) meta.Template += ', inset-bullets';
     meta.breadcrumbs = 'true';
     if (crumbLabel) meta['Breadcrumb Title'] = crumbLabel;
-    if (crumbHome.startsWith('/')) meta['Breadcrumb Home'] = crumbHome;
     main.append(WebImporter.Blocks.getMetadataBlock(document, meta));
     WebImporter.rules.transformBackgroundImages(main, document);
     WebImporter.rules.adjustImageUrls(main, url, params.originalURL);

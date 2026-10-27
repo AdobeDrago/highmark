@@ -224,14 +224,13 @@ var CustomImportScript = (() => {
       });
     },
     transform: (payload) => {
-      var _a, _b;
+      var _a;
       const { document, url, params } = payload;
       const body = document.body;
       transform("beforeTransform", body, payload);
       const h1 = body.querySelector("h1");
       const column = h1.closest(".col-lg-8") || h1.closest(".page__par");
       const crumb = document.querySelector("ol.breadcrumb-list li.active");
-      const crumbHome = (((_a = document.querySelector("ol.breadcrumb-list li:first-child a")) == null ? void 0 : _a.getAttribute("href")) || "").replace(/^https:\/\/www\.highmark\.com/, "").replace(/\/$/, "");
       const crumbLabel = clean(crumb == null ? void 0 : crumb.textContent);
       const meta = WebImporter.Blocks.getMetadata(document) || {};
       column.querySelectorAll("a .global-clr_externallink").forEach((span) => {
@@ -318,12 +317,11 @@ var CustomImportScript = (() => {
         }
       });
       if (pending.some(Boolean)) sectionBreak(document, main, [spaceStyle(pending)]);
-      if (((_b = main.firstElementChild) == null ? void 0 : _b.tagName) === "HR") main.firstElementChild.remove();
+      if (((_a = main.firstElementChild) == null ? void 0 : _a.tagName) === "HR") main.firstElementChild.remove();
       sectionBreak(document, main, []);
       meta.Template = "employer-article";
       meta.breadcrumbs = "true";
       if (crumbLabel) meta["Breadcrumb Title"] = crumbLabel;
-      if (crumbHome.startsWith("/")) meta["Breadcrumb Home"] = crumbHome;
       main.append(WebImporter.Blocks.getMetadataBlock(document, meta));
       body.replaceChildren(...main.childNodes);
       transform("afterTransform", body, payload);

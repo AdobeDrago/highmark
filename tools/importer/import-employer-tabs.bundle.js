@@ -101,12 +101,10 @@ var CustomImportScript = (() => {
   }
   var import_employer_tabs_default = {
     transform: (payload) => {
-      var _a;
       const { document, url, params } = payload;
       const body = document.body;
       transform("beforeTransform", body, payload);
       const crumb = document.querySelector("ol.breadcrumb-list li.active");
-      const crumbHome = (((_a = document.querySelector("ol.breadcrumb-list li:first-child a")) == null ? void 0 : _a.getAttribute("href")) || "").replace(/^https:\/\/www\.highmark\.com/, "").replace(/\/$/, "");
       const crumbLabel = clean(crumb == null ? void 0 : crumb.textContent);
       const meta = WebImporter.Blocks.getMetadata(document) || {};
       const main = document.createElement("div");
@@ -163,7 +161,6 @@ var CustomImportScript = (() => {
       meta.Template = "employer-tabs";
       meta.breadcrumbs = "true";
       if (crumbLabel) meta["Breadcrumb Title"] = crumbLabel;
-      if (crumbHome.startsWith("/")) meta["Breadcrumb Home"] = crumbHome;
       main.append(WebImporter.Blocks.getMetadataBlock(document, meta));
       body.replaceChildren(...main.childNodes);
       transform("afterTransform", body, payload);
