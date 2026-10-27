@@ -45,12 +45,18 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
   letter-spacing: -1.28px;
 }
 
-body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2 {
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2,
+body.about-article .cards-minimal-light-sidenav-container + .section .callout-content h2 {
   margin: 0 0 8px;
   padding: 19.2px 0;
   font-size: 26px;
   line-height: 28.6px;
   letter-spacing: -0.72px;
+}
+
+/* a callout's heading sits right on its text (Blue Fund's "2026 Grant Process") */
+body.about-article .cards-minimal-light-sidenav-container + .section .callout-content h2 {
+  margin: 0;
 }
 
 body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h3 {
@@ -291,6 +297,42 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
   clear: both;
 }
 
+/* the spacers closing the article (Style space-after-<n>, space-after-tablet-<n>,
+   space-after-mobile-<n>; Blue Fund's 140 / 140 / 100px) below its text: on phones and
+   tablets, the gap before the stacked right rail */
+body.about-article .cards-minimal-light-sidenav-container + .section[class*="space-after-"] {
+  padding-bottom: var(--article-after-mobile, var(--article-after, 0));
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section[class*="space-after-"] > :last-child > :last-child {
+  margin-bottom: 0;
+}
+
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-20 { --article-after: 20px; }
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-40 { --article-after: 40px; }
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-60 { --article-after: 60px; }
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-80 { --article-after: 80px; }
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-100 { --article-after: 100px; }
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-120 { --article-after: 120px; }
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-140 { --article-after: 140px; }
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-160 { --article-after: 160px; }
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-tablet-20 { --article-after-tablet: 20px; }
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-tablet-40 { --article-after-tablet: 40px; }
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-tablet-60 { --article-after-tablet: 60px; }
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-tablet-80 { --article-after-tablet: 80px; }
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-tablet-100 { --article-after-tablet: 100px; }
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-tablet-120 { --article-after-tablet: 120px; }
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-tablet-140 { --article-after-tablet: 140px; }
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-tablet-160 { --article-after-tablet: 160px; }
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-mobile-20 { --article-after-mobile: 20px; }
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-mobile-40 { --article-after-mobile: 40px; }
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-mobile-60 { --article-after-mobile: 60px; }
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-mobile-80 { --article-after-mobile: 80px; }
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-mobile-100 { --article-after-mobile: 100px; }
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-mobile-120 { --article-after-mobile: 120px; }
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-mobile-140 { --article-after-mobile: 140px; }
+body.about-article .cards-minimal-light-sidenav-container + .section.space-after-mobile-160 { --article-after-mobile: 160px; }
+
 /* -- right-rail callout: light-blue (splash 15) box, 20px padding, blue
    51 x 5 rule under the title -- */
 body.about-article .cards-minimal-light-sidenav-container + .section + .section > .default-content-wrapper {
@@ -299,13 +341,18 @@ body.about-article .cards-minimal-light-sidenav-container + .section + .section 
   background-color: var(--light-blue-color);
 }
 
+/* a grey rail (Style rail-grey: the source's new-hmk-brand-papergrey, Blue Fund's Contact Us) */
+body.about-article .cards-minimal-light-sidenav-container + .section + .section.rail-grey > .default-content-wrapper {
+  background-color: #f1f4f4;
+}
+
 body.about-article .cards-minimal-light-sidenav-container + .section + .section > .default-content-wrapper h3 {
   margin: 0;
   padding: 0;
   color: var(--text-color);
-  font-size: 24px;
-  line-height: 26.4px;
-  letter-spacing: -0.72px;
+  font-size: 22px;
+  line-height: 24.2px;
+  letter-spacing: -0.4px;
 }
 
 body.about-article .cards-minimal-light-sidenav-container + .section + .section > .default-content-wrapper h3::after {
@@ -332,6 +379,7 @@ body.about-article .cards-minimal-light-sidenav-container + .section + .section 
    uppercase bold blue link 16px below the description, underlined on hover */
 body.about-article .cards-minimal-light-sidenav-container + .section + .section > .default-content-wrapper p.button-container {
   margin-top: 16px;
+  line-height: 20px;
 }
 
 body.about-article .cards-minimal-light-sidenav-container + .section + .section > .default-content-wrapper p.button-container > em {
@@ -348,7 +396,7 @@ body.about-article .cards-minimal-light-sidenav-container + .section + .section 
   color: #0066b1;
   font-size: 16px;
   font-weight: 700;
-  line-height: 24px;
+  line-height: 20px;
   text-transform: uppercase;
   white-space: normal;
 }
@@ -369,6 +417,16 @@ h5#learn-how-we-support-the-community-health-and-programs {
     padding-bottom: 60px;
   }
 
+  body.about-article .cards-minimal-light-sidenav-container + .section[class*="space-after-"] {
+    padding-bottom: var(--article-after-tablet, var(--article-after, 0));
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section + .section > .default-content-wrapper h3 {
+    font-size: 24px;
+    line-height: 26.4px;
+    letter-spacing: -0.44px;
+  }
+
   body.about-article main > .section > div {
     padding: 0 64px;
   }
@@ -380,7 +438,8 @@ h5#learn-how-we-support-the-community-health-and-programs {
     letter-spacing: -1.44px;
   }
 
-  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2 {
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2,
+  body.about-article .cards-minimal-light-sidenav-container + .section .callout-content h2 {
     font-size: 28px;
     line-height: 30.8px;
     letter-spacing: -0.78px;
@@ -452,10 +511,20 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
 }
 
 @media (width < 992px) {
-  /* source: left nav and right rail are d-none below lg */
-  body.about-article main > .section.cards-minimal-light-sidenav-container,
-  body.about-article .cards-minimal-light-sidenav-container + .section + .section {
+  /* source: the left nav is d-none below lg; the right rail (col-12 col-lg-3) follows the
+     article, its box 15px in from the column and 20px short of its right gutter */
+  body.about-article main > .section.cards-minimal-light-sidenav-container {
     display: none;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section + .section > .default-content-wrapper {
+    margin: 0 65px 0 45px;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.about-article .cards-minimal-light-sidenav-container + .section + .section > .default-content-wrapper {
+    margin: 0 99px 0 79px;
   }
 }
 
@@ -539,6 +608,14 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
     grid-column: 3;
   }
 
+  body.about-article .cards-minimal-light-sidenav-container + .section + .section > .default-content-wrapper h3 {
+    letter-spacing: -0.72px;
+  }
+
+  body.about-article .cards-minimal-light-sidenav-container + .section[class*="space-after-"] {
+    padding-bottom: var(--article-after, 0);
+  }
+
   /* right rail */
   body.about-article main > .cards-minimal-light-sidenav-container + .section + .section {
     grid-row: 1;
@@ -552,7 +629,8 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
     letter-spacing: -2.8px;
   }
 
-  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2 {
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper h2,
+  body.about-article .cards-minimal-light-sidenav-container + .section .callout-content h2 {
     padding: 24px 0;
     font-size: 34px;
     line-height: 40.8px;

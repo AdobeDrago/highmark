@@ -359,7 +359,9 @@ var CustomImportScript = (() => {
     ]
   };
   function executeTransformers(hookName, element, payload) {
-    const enhancedPayload = __spreadProps(__spreadValues({}, payload), { template: PAGE_TEMPLATE });
+    const styles = { "right-rail": payload.railStyle, article: payload.articleStyle };
+    const template = payload.railStyle || payload.articleStyle ? __spreadProps(__spreadValues({}, PAGE_TEMPLATE), { sections: PAGE_TEMPLATE.sections.map((s) => styles[s.name] ? __spreadProps(__spreadValues({}, s), { style: styles[s.name] }) : s) }) : PAGE_TEMPLATE;
+    const enhancedPayload = __spreadProps(__spreadValues({}, payload), { template });
     transformers.forEach((transformerFn) => {
       try {
         transformerFn.call(null, hookName, element, enhancedPayload);
@@ -419,14 +421,17 @@ var CustomImportScript = (() => {
         em.append(...a.childNodes);
         a.append(em);
       });
+      const title = main.querySelector(".page__par h1");
+      const lead = title && [...main.querySelectorAll(".page__par p")].find((p) => title.compareDocumentPosition(p) & Node.DOCUMENT_POSITION_FOLLOWING);
+      const leadSpan = lead == null ? void 0 : lead.querySelector(":scope > span.p1");
+      if (leadSpan && lead.textContent.trim() === leadSpan.textContent.trim()) {
+        const h5 = document2.createElement("h5");
+        h5.append(...leadSpan.childNodes);
+        lead.replaceWith(h5);
+      }
       const gridSpan = (el, kind) => +(el.className.match(new RegExp(`aem-GridColumn--${kind}--(\\d+)`)) || [])[1] || 0;
-      main.querySelectorAll(".page__par .image").forEach((cmp) => {
-        const img = cmp.querySelector("img");
-        const span = gridSpan(cmp, "default");
-        if (!img || !span) return;
-        const offset = gridSpan(cmp, "offset--default");
-        const phone = gridSpan(cmp, "phone") || span;
-        let node = cmp;
+      const spaceBefore = (el) => {
+        let node = el;
         while (node && !node.previousElementSibling && !node.matches(".page__par")) node = node.parentElement;
         let prev = node == null ? void 0 : node.previousElementSibling;
         if (prev && !prev.matches(".spacing")) {
@@ -438,6 +443,15 @@ var CustomImportScript = (() => {
             space[i] += h;
           });
         }
+        return space;
+      };
+      main.querySelectorAll(".page__par .image").forEach((cmp) => {
+        const img = cmp.querySelector("img");
+        const span = gridSpan(cmp, "default");
+        if (!img || !span) return;
+        const offset = gridSpan(cmp, "offset--default");
+        const phone = gridSpan(cmp, "phone") || span;
+        const space = spaceBefore(cmp);
         const options = [
           span < 12 ? `span-${span}` : "",
           offset ? `offset-${offset}` : "",
@@ -448,19 +462,45 @@ var CustomImportScript = (() => {
         cmp.replaceWith(WebImporter.Blocks.createBlock(document2, { name, cells: [[img]] }));
       });
       const CALLOUTS = {
-        "section.new-hmk-brand-fifteenpercent-splash": "Callout (light-blue)",
-        "section.global-grey_garden": "Callout (grey)"
+        "section.new-hmk-brand-fifteenpercent-splash": "light-blue",
+        "section.global-grey_garden": "grey",
+        "section.global-helionlightblue": "pale-blue"
       };
-      Object.entries(CALLOUTS).forEach(([selector, name]) => {
+      Object.entries(CALLOUTS).forEach(([selector, variant]) => {
         main.querySelectorAll(`.page__par ${selector}`).forEach((box) => {
           const cell = document2.createElement("div");
           box.querySelectorAll(".cmp-text").forEach((text) => cell.append(...text.childNodes));
           if (!cell.textContent.trim()) return;
-          const block = WebImporter.Blocks.createBlock(document2, { name, cells: [[cell]] });
           const wrapper = box.closest("section.container-fluid-fullwidth") || box;
+          const space = spaceBefore(wrapper);
+          const after = [0, 0, 0];
+          for (let next = wrapper.nextElementSibling; next == null ? void 0 : next.matches(".spacing"); next = next.nextElementSibling) {
+            spacerHeights(next).forEach((h, i) => {
+              after[i] += h;
+            });
+          }
+          const options = [
+            variant,
+            space.some(Boolean) ? spaceStyle(space) : "",
+            after.some(Boolean) ? spaceStyle(after).replace(/space-/g, "space-after-") : ""
+          ].filter(Boolean);
+          const block = WebImporter.Blocks.createBlock(document2, { name: `Callout (${options.join(", ")})`, cells: [[cell]] });
           wrapper.replaceWith(block);
         });
       });
+      const railGrey = !!main.querySelector(".rightrail-container.new-hmk-brand-papergrey");
+      payload.railStyle = railGrey ? "rail-grey" : null;
+      const parts = [...main.querySelectorAll('.page__par .spacing, .page__par .cmp-text, .page__par .image, .page__par .button, .page__par .title, .page__par [class*="callout"], .page__par table')];
+      const closing = [0, 0, 0];
+      for (let i = parts.length - 1; i >= 0; i -= 1) {
+        const part = parts[i];
+        if (part.matches(".spacing")) {
+          if (!part.closest(".page__par .cmp-text")) spacerHeights(part).forEach((h, k) => {
+            closing[k] += h;
+          });
+        } else if (part.textContent.trim() || part.querySelector("img")) break;
+      }
+      payload.articleStyle = closing.some(Boolean) ? spaceStyle(closing).replace(/space-/g, "space-after-") : null;
       WebImporter.DOMUtils.remove(main, [
         ".experiencefragment:has(.main-search-bar)",
         ".experiencefragment:has(.footer-list)",

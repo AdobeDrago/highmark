@@ -142,7 +142,13 @@ const PAGE_TEMPLATE = {
  * Execute all page transformers for a hook.
  */
 function executeTransformers(hookName, element, payload) {
-  const enhancedPayload = { ...payload, template: PAGE_TEMPLATE };
+  // section styles set per page: the right rail's (payload.railStyle: rail-grey) and the
+  // article's (payload.articleStyle: space-after-<n>, its closing spacers)
+  const styles = { 'right-rail': payload.railStyle, article: payload.articleStyle };
+  const template = (payload.railStyle || payload.articleStyle)
+    ? { ...PAGE_TEMPLATE, sections: PAGE_TEMPLATE.sections.map((s) => (styles[s.name] ? { ...s, style: styles[s.name] } : s)) }
+    : PAGE_TEMPLATE;
+  const enhancedPayload = { ...payload, template };
   transformers.forEach((transformerFn) => {
     try {
       transformerFn.call(null, hookName, element, enhancedPayload);
@@ -215,23 +221,32 @@ export default {
       a.append(em);
     });
 
+    // A lead line under the title (a paragraph wholly in span.p1, sofia-pro 600: Blue Fund's
+    // "Highmark Western and Northeastern New York grant program ...") becomes an h5, the
+    // template's lead-line style, as the member sub-pages' lead lines. Only the first
+    // paragraph after the h1; the import would drop the span.
+    const title = main.querySelector('.page__par h1');
+    const lead = title && [...main.querySelectorAll('.page__par p')]
+      .find((p) => title.compareDocumentPosition(p) & Node.DOCUMENT_POSITION_FOLLOWING); // eslint-disable-line no-bitwise
+    const leadSpan = lead?.querySelector(':scope > span.p1');
+    if (leadSpan && lead.textContent.trim() === leadSpan.textContent.trim()) {
+      const h5 = document.createElement('h5');
+      h5.append(...leadSpan.childNodes);
+      lead.replaceWith(h5);
+    }
+
     // The source's image components (a span of its 12-column grid) become Image blocks
     // (blocks/image), Image (span-5): the picture on its own line at that share of the
     // column, the text below it. On phones a component without a phone span keeps its
     // share (span-phone-<n>); one with phone--12 takes the full width. Images outside a
     // spanned component (Sustainability's logo row) stay as they are.
     const gridSpan = (el, kind) => +(el.className.match(new RegExp(`aem-GridColumn--${kind}--(\\d+)`)) || [])[1] || 0;
-    main.querySelectorAll('.page__par .image').forEach((cmp) => {
-      const img = cmp.querySelector('img');
-      const span = gridSpan(cmp, 'default');
-      if (!img || !span) return;
-      const offset = gridSpan(cmp, 'offset--default');
-      const phone = gridSpan(cmp, 'phone') || span;
-      // the spacing components right before the image (its own, or its container's when
-      // it opens one) as its top margin: space-<n>, space-tablet-<n>, space-mobile-<n>
-      let node = cmp;
+    // the spacing components right before a component (its own, or its container's when it
+    // opens one, or the ones closing the component before it: Happenings' second event) as
+    // [desktop, tablet, phone] px, for its top margin (space-<n>, space-tablet-<n>, ...)
+    const spaceBefore = (el) => {
+      let node = el;
       while (node && !node.previousElementSibling && !node.matches('.page__par')) node = node.parentElement;
-      // (or the spacers closing the component before it: Happenings' second event)
       let prev = node?.previousElementSibling;
       if (prev && !prev.matches('.spacing')) {
         while (prev.lastElementChild && !prev.matches('.spacing')) prev = prev.lastElementChild;
@@ -240,6 +255,15 @@ export default {
       for (; prev?.matches('.spacing'); prev = prev.previousElementSibling) {
         spacerHeights(prev).forEach((h, i) => { space[i] += h; });
       }
+      return space;
+    };
+    main.querySelectorAll('.page__par .image').forEach((cmp) => {
+      const img = cmp.querySelector('img');
+      const span = gridSpan(cmp, 'default');
+      if (!img || !span) return;
+      const offset = gridSpan(cmp, 'offset--default');
+      const phone = gridSpan(cmp, 'phone') || span;
+      const space = spaceBefore(cmp);
       const options = [
         span < 12 ? `span-${span}` : '',
         offset ? `offset-${offset}` : '',
@@ -253,20 +277,52 @@ export default {
     // The source's tinted boxes in the text become Callout blocks (blocks/callout): the
     // 15% splash box (Delaware BluePrints' report lists) and the grey garden band (What You
     // Can Do's cleaning-recipes note). Each holds its text component(s).
+    // A pale blue band (global-helionlightblue: Blue Fund's "2026 Grant Process") is
+    // Callout (pale-blue), with the spacers before it as its top margin.
     const CALLOUTS = {
-      'section.new-hmk-brand-fifteenpercent-splash': 'Callout (light-blue)',
-      'section.global-grey_garden': 'Callout (grey)',
+      'section.new-hmk-brand-fifteenpercent-splash': 'light-blue',
+      'section.global-grey_garden': 'grey',
+      'section.global-helionlightblue': 'pale-blue',
     };
-    Object.entries(CALLOUTS).forEach(([selector, name]) => {
+    Object.entries(CALLOUTS).forEach(([selector, variant]) => {
       main.querySelectorAll(`.page__par ${selector}`).forEach((box) => {
         const cell = document.createElement('div');
         box.querySelectorAll('.cmp-text').forEach((text) => cell.append(...text.childNodes));
         if (!cell.textContent.trim()) return;
-        const block = WebImporter.Blocks.createBlock(document, { name, cells: [[cell]] });
         const wrapper = box.closest('section.container-fluid-fullwidth') || box;
+        const space = spaceBefore(wrapper);
+        // and the spacers right after it as its bottom margin (space-after-<n>, ...)
+        const after = [0, 0, 0];
+        for (let next = wrapper.nextElementSibling; next?.matches('.spacing'); next = next.nextElementSibling) {
+          spacerHeights(next).forEach((h, i) => { after[i] += h; });
+        }
+        const options = [
+          variant,
+          space.some(Boolean) ? spaceStyle(space) : '',
+          after.some(Boolean) ? spaceStyle(after).replace(/space-/g, 'space-after-') : '',
+        ].filter(Boolean);
+        const block = WebImporter.Blocks.createBlock(document, { name: `Callout (${options.join(', ')})`, cells: [[cell]] });
         wrapper.replaceWith(block);
       });
     });
+
+    // A grey right rail (rightrail-container.new-hmk-brand-papergrey: Blue Fund's Contact
+    // Us) gets Style rail-grey; the others keep the light blue (SDoH's Need assistance?).
+    const railGrey = !!main.querySelector('.rightrail-container.new-hmk-brand-papergrey');
+    payload.railStyle = railGrey ? 'rail-grey' : null;
+
+    // The spacers closing the article (Blue Fund: 80 + 60px, 60 + 40px on phones, around an
+    // empty blush band) give the article section Style space-after-<n> (+ tablet / mobile),
+    // the space below its text: on phones and tablets, the gap before the stacked right rail.
+    const parts = [...main.querySelectorAll('.page__par .spacing, .page__par .cmp-text, .page__par .image, .page__par .button, .page__par .title, .page__par [class*="callout"], .page__par table')];
+    const closing = [0, 0, 0];
+    for (let i = parts.length - 1; i >= 0; i -= 1) {
+      const part = parts[i];
+      if (part.matches('.spacing')) {
+        if (!part.closest('.page__par .cmp-text')) spacerHeights(part).forEach((h, k) => { closing[k] += h; });
+      } else if (part.textContent.trim() || part.querySelector('img')) break;
+    }
+    payload.articleStyle = closing.some(Boolean) ? spaceStyle(closing).replace(/space-/g, 'space-after-') : null;
 
     // Global nav / search bar and the breadcrumb + print/share row, on layouts
     // without a <header> element (highmark-cleanup.js removes <header> only).
