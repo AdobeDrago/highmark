@@ -417,3 +417,17 @@ body.topic-hub-subnav main .cards-minimal-dark-withimg p:has(> sub) strong > a:a
 }
 
 /* stylelint-enable no-descending-specificity */
+
+/* (rule): the source's accent rule under each card's title (hr.breakLine, the News You
+   Can Use / Whole Person Health landings): 13px under the title, a 51px blue bar 4px
+   tall over a 1px faint line, then 15px to the text (the title's bottom margin, set by
+   the page template: employer-subpage.css) */
+.cards-minimal-dark-withimg.rule .cards-minimal-dark-withimg-card-body h3::after {
+  content: '';
+  display: block;
+  width: 51px;
+  height: 4px;
+  margin-top: 13px;
+  border-top: 1px solid rgb(0 0 0 / 10%);
+  background-color: #0078c1;
+}

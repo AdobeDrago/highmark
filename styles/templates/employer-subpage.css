@@ -144,6 +144,26 @@ body.employer-subpage main > .section.dark:first-child a.button:focus {
   }
 }
 
+/* the intro's options (import-employer-subpage.js, from the source's grid): its copy in
+   intro-span-<n> of 12 columns from 992 and intro-tablet-span-<n> on tablets, and
+   intro-bottom-<px> under it from 992 (the News You Can Use and Whole Person Health
+   landings: 8 / 10 of 12, 60px) */
+@media (width >= 768px) and (width < 992px) {
+  body.employer-subpage main > .section.intro-tablet-span-10:first-child p:not(.button-container) {
+    width: 83.333%;
+  }
+}
+
+@media (width >= 992px) {
+  body.employer-subpage main > .section.intro-span-8:first-child p:not(.button-container) {
+    width: 66.667%;
+  }
+
+  body.employer-subpage main > .section.intro-bottom-60:first-child:not(:has(a.button)) {
+    padding-bottom: 60px;
+  }
+}
+
 /* ==========================================================================
    2. Side card panels (columns-minimal-dark, white or polar band).
    Source .side-card-panel: stacked photo -> text below 992px (photo first
@@ -620,6 +640,11 @@ body.employer-subpage .cards-minimal-dark-withimg .cards-minimal-dark-withimg-ca
   letter-spacing: -0.4px;
 }
 
+/* (rule): 13px to the rule under the title (the block CSS), then 15px to the text */
+body.employer-subpage .cards-minimal-dark-withimg.rule .cards-minimal-dark-withimg-card-body h3 {
+  margin-bottom: 15px;
+}
+
 body.employer-subpage .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body p {
   margin: 0 0 12.8px;
   padding: 0;
@@ -682,11 +707,11 @@ body.employer-subpage .cards-minimal-dark-withimg .cards-minimal-dark-withimg-ca
     letter-spacing: -1.36px;
   }
 
-  /* inline-block cards: 34px apart, rows 31px apart (30px margin + line box) */
+  /* inline-block cards: 34px apart, rows 30px apart (the source cards' 30px margin; measured on the thought-leadership landings) */
   body.employer-subpage .cards-minimal-dark-withimg > ul,
   body.employer-subpage .cards-minimal-dark-withimg > ul:has(> li:nth-child(3):last-child) {
     grid-template-columns: repeat(auto-fill, 370px);
-    gap: 31px 34px;
+    gap: 30px 34px;
   }
 
   body.employer-subpage .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body {
