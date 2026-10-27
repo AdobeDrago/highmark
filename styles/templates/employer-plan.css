@@ -316,6 +316,16 @@ body.faq.employer-plan main > .section.band-bottom-60 { --band-bottom: 60px; }
 body.faq.employer-plan main > .section.band-top-0 { --band-top: 0; }
 body.faq.employer-plan main > .section.band-bottom-0 { --band-bottom: 0; }
 
+/* ---- the "Get more info" box: its title has no padding (the FAQ pages' h3 rule gives
+   h3s 16px above and below) and its GET STARTED link is a 20px line, as on the source ---- */
+body.faq.employer-plan main > .section.right-rail > .default-content-wrapper h3 {
+  padding: 0;
+}
+
+body.faq.employer-plan main > .section.right-rail > .default-content-wrapper p.button-container {
+  line-height: 20px;
+}
+
 /* ---- the left nav: 15px in from the left of its column and 35px from the right, as
    the source's links (250px at 1440) ---- */
 @media (width >= 992px) {
