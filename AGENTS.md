@@ -255,13 +255,13 @@ The local preview (`aem up --html-folder content`) serves `/content/<path>` with
 
 ## Employer client resources and thought-leadership articles (2026-10-26)
 
-Imported locally on 2026-10-26, not yet uploaded to DA (each path is still a `/redirects` row to highmark.com):
+Imported (#150) and published on 2026-10-26, with 4 `/redirects` rows for the pages they link to that we don't have (Educational Tools, Coronavirus Support, and two Whole Person Health articles; 447 rows):
 
 - **My Highmark** (`/employer/client-resources/myhighmark`): the employer plan importer (`urls-employer-plan.txt`), `Template: faq, employer-plan`. It matches highmark.com at 1440; at 768 / 390 only the shared header and breadcrumb row's offset differs. The importer used to drop the "Get more info" box's GET STARTED link (it turned the box's button into a paragraph before the sections transformer read it). That's fixed, but the plan, Cost Management and Care Management pages imported before still lack it, on live too.
 - **Articles** (`template: employer-article`, `tools/importer/import-employer-article.js`, `urls-employer-article.txt`): Podcasts (`/employer/thought-leadership/reinventing-health-care-podcasts`), `health-insurance-news-you-can-use/highmark-blue-shield`, and `whole-person-health/{social-care-network-sdoh,kids-mental-health-eap,family-mental-health}`. `styles/templates/employer-article.css` matches highmark.com at 1440 to the pixel, and within 3px at 768 and 390, apart from the shared header offset (29px at 390, as elsewhere).
   - **Sections.** One centred 8/12 column, as on the source: h1, the banner image, the lead (H5), text. Spacers become `space-*` sections. `grey` is the paper-grey box (Family Mental Health's "Watch how …"). Then the fine print, the Sources accordion (`accordion-minimal-light`, 60px under it) and `highlight`, the blush "Find a plan" band. Bands keep their own spacers as `band-top-*` / `band-bottom-*`; the column ends 60px (40px on phones) above the footer.
   - **New-tab links.** `:external-link:` links open in a new tab here too (`decorateFaqLinks`). The source's own script fills only some of its empty icon placeholders, so a link whose icon stays empty there has none here either.
-  - **Breadcrumbs.** The trail skips "Whole Person Health" and "News You Can Use" (not migrated), so on Highmark Blue Shield the source's two-line trail is one line here and the page sits 30px higher.
+  - **Breadcrumbs.** From 992px the row sits where the source's does: 9 of the 1200px container's 12 columns, 2 in, level with the article (320 to 1220px at 1440), with PRINT / SHARE on the trail's first line when it wraps. The trail skips "Whole Person Health" and "News You Can Use" (not migrated) and has the site's "Employer" crumb. So at 1440 Highmark Blue Shield's trail fits on one line, where the source's wraps, and the page sits 30px higher; from 1280 down it wraps there too.
   - **Not copied.** Kids' Mental Health has an inline `letter-spacing` span that makes one line wrap differently on tablets (19px).
   - **Accordion block.** `accordion-minimal-light.css` leaves `body.employer-article` out of its sidebar offset.
 - **Onboarding** (`/employer/client-resources/onboarding-tools`, `template: employer-tabs`, `import-employer-tabs.js`, `urls-employer-tabs.txt`). It matches highmark.com within 1–3px at 1440 / 768 / 390, on every tab (Save Money: 8px, a baseline quirk of the source's first card).
@@ -269,7 +269,6 @@ Imported locally on 2026-10-26, not yet uploaded to DA (each path is still a `/r
   - **Tabs.** `scripts.js` (`decorateSectionTabs`) puts a tab bar (`.section-tabs`, styled in `styles.css` as the source's tab component) before each run of `tab` sections and shows one at a time. A section's `Tab` metadata overrides the label.
   - **Cards.** On the source the middle card of three has no bottom margin, so a row ends 30px under its tallest card unless that is the middle one; the CSS does the same.
   - **Links.** Tools' "LOG IN OR REGISTER" has no link on the source; here it goes to the member login, as the footer's Member Login does.
-- **To publish:** upload the 7 pages in one `upload-to-da.mjs` run, then follow the redirects procedure. The tool drops their 7 rows, and once the pages are published it needs rows for the links they hold that we don't have: Educational Tools, Coronavirus Support, and two Whole Person Health articles.
 
 ## Breadcrumbs on imported pages
 
