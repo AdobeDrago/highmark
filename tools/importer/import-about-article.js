@@ -262,6 +262,20 @@ export default {
       }
       return space;
     };
+    // and the spacers between it and the content after it (Blue Fund's map: 20px)
+    const spaceAfter = (el) => {
+      const parts = [...main.querySelectorAll(PARTS)];
+      // eslint-disable-next-line no-bitwise
+      const i = parts.findIndex((p) => p !== el && !el.contains(p) && (el.compareDocumentPosition(p) & Node.DOCUMENT_POSITION_FOLLOWING));
+      const space = [0, 0, 0];
+      for (let k = i; k >= 0 && k < parts.length; k += 1) {
+        const part = parts[k];
+        if (part.matches('.spacing')) {
+          if (!part.closest('.page__par .cmp-text')) spacerHeights(part).forEach((h, j) => { space[j] += h; });
+        } else if (part.textContent.trim() || part.querySelector('img')) break;
+      }
+      return space;
+    };
     main.querySelectorAll('.page__par .image').forEach((cmp) => {
       const img = cmp.querySelector('img');
       const span = gridSpan(cmp, 'default');
@@ -269,11 +283,13 @@ export default {
       const offset = gridSpan(cmp, 'offset--default');
       const phone = gridSpan(cmp, 'phone') || span;
       const space = spaceBefore(cmp);
+      const after = spaceAfter(cmp);
       const options = [
         span < 12 ? `span-${span}` : '',
         offset ? `offset-${offset}` : '',
         !offset && phone < 12 ? `span-phone-${phone}` : '',
         space.some(Boolean) ? spaceStyle(space) : '',
+        after.some(Boolean) ? spaceStyle(after).replace(/space-/g, 'space-after-') : '',
       ].filter(Boolean);
       const name = options.length ? `Image (${options.join(', ')})` : 'Image';
       cmp.replaceWith(WebImporter.Blocks.createBlock(document, { name, cells: [[img]] }));

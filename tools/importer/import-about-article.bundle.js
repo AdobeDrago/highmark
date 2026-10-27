@@ -446,6 +446,20 @@ var CustomImportScript = (() => {
         }
         return space;
       };
+      const spaceAfter = (el) => {
+        const parts2 = [...main.querySelectorAll(PARTS)];
+        const i = parts2.findIndex((p) => p !== el && !el.contains(p) && el.compareDocumentPosition(p) & Node.DOCUMENT_POSITION_FOLLOWING);
+        const space = [0, 0, 0];
+        for (let k = i; k >= 0 && k < parts2.length; k += 1) {
+          const part = parts2[k];
+          if (part.matches(".spacing")) {
+            if (!part.closest(".page__par .cmp-text")) spacerHeights(part).forEach((h, j) => {
+              space[j] += h;
+            });
+          } else if (part.textContent.trim() || part.querySelector("img")) break;
+        }
+        return space;
+      };
       main.querySelectorAll(".page__par .image").forEach((cmp) => {
         const img = cmp.querySelector("img");
         const span = gridSpan(cmp, "default");
@@ -453,11 +467,13 @@ var CustomImportScript = (() => {
         const offset = gridSpan(cmp, "offset--default");
         const phone = gridSpan(cmp, "phone") || span;
         const space = spaceBefore(cmp);
+        const after = spaceAfter(cmp);
         const options = [
           span < 12 ? `span-${span}` : "",
           offset ? `offset-${offset}` : "",
           !offset && phone < 12 ? `span-phone-${phone}` : "",
-          space.some(Boolean) ? spaceStyle(space) : ""
+          space.some(Boolean) ? spaceStyle(space) : "",
+          after.some(Boolean) ? spaceStyle(after).replace(/space-/g, "space-after-") : ""
         ].filter(Boolean);
         const name = options.length ? `Image (${options.join(", ")})` : "Image";
         cmp.replaceWith(WebImporter.Blocks.createBlock(document2, { name, cells: [[img]] }));
