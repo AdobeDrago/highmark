@@ -7,6 +7,7 @@ import cardsMinimalLightSidenavParser from './parsers/cards-minimal-light-sidena
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/highmark-cleanup.js';
 import sectionsTransformer from './transformers/highmark-template-sections.js';
+import { spacerHeights, spaceStyle } from './transformers/highmark-faq-topic-sections.js';
 
 /**
  * The left nav as the block's rows (see blocks/cards-minimal-light-sidenav): parent,
@@ -212,6 +213,41 @@ export default {
       const em = document.createElement('em');
       em.append(...a.childNodes);
       a.append(em);
+    });
+
+    // The source's image components (a span of its 12-column grid) become Image blocks
+    // (blocks/image), Image (span-5): the picture on its own line at that share of the
+    // column, the text below it. On phones a component without a phone span keeps its
+    // share (span-phone-<n>); one with phone--12 takes the full width. Images outside a
+    // spanned component (Sustainability's logo row) stay as they are.
+    const gridSpan = (el, kind) => +(el.className.match(new RegExp(`aem-GridColumn--${kind}--(\\d+)`)) || [])[1] || 0;
+    main.querySelectorAll('.page__par .image').forEach((cmp) => {
+      const img = cmp.querySelector('img');
+      const span = gridSpan(cmp, 'default');
+      if (!img || !span) return;
+      const offset = gridSpan(cmp, 'offset--default');
+      const phone = gridSpan(cmp, 'phone') || span;
+      // the spacing components right before the image (its own, or its container's when
+      // it opens one) as its top margin: space-<n>, space-tablet-<n>, space-mobile-<n>
+      let node = cmp;
+      while (node && !node.previousElementSibling && !node.matches('.page__par')) node = node.parentElement;
+      // (or the spacers closing the component before it: Happenings' second event)
+      let prev = node?.previousElementSibling;
+      if (prev && !prev.matches('.spacing')) {
+        while (prev.lastElementChild && !prev.matches('.spacing')) prev = prev.lastElementChild;
+      }
+      const space = [0, 0, 0];
+      for (; prev?.matches('.spacing'); prev = prev.previousElementSibling) {
+        spacerHeights(prev).forEach((h, i) => { space[i] += h; });
+      }
+      const options = [
+        span < 12 ? `span-${span}` : '',
+        offset ? `offset-${offset}` : '',
+        !offset && phone < 12 ? `span-phone-${phone}` : '',
+        space.some(Boolean) ? spaceStyle(space) : '',
+      ].filter(Boolean);
+      const name = options.length ? `Image (${options.join(', ')})` : 'Image';
+      cmp.replaceWith(WebImporter.Blocks.createBlock(document, { name, cells: [[img]] }));
     });
 
     // The source's tinted boxes in the text become Callout blocks (blocks/callout): the

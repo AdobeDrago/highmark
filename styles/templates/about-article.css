@@ -265,7 +265,7 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
 }
 
 /* article closing on a bold CTA link (SDoH): 60px spacer (80px at >= 992) */
-body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper:has(> p:last-child > strong > a) {
+body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper:last-child:has(> p:last-child > strong > a) {
   padding-bottom: 60px;
 }
 
@@ -605,7 +605,7 @@ body.about-article .cards-minimal-light-sidenav-container + .section > .default-
     padding-bottom: 32px;
   }
 
-  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper:has(> p:last-child > strong > a) {
+  body.about-article .cards-minimal-light-sidenav-container + .section > .default-content-wrapper:last-child:has(> p:last-child > strong > a) {
     padding-bottom: 80px;
   }
 

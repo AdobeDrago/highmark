@@ -231,6 +231,21 @@ var CustomImportScript = (() => {
     }
   }
 
+  // tools/importer/transformers/highmark-faq-topic-sections.js
+  var SPACER_PX = { ten: 20, twenty: 40, thirty: 60, forty: 80 };
+  function spacerHeights(spacer) {
+    var _a;
+    const cls = ((_a = spacer.querySelector("section")) == null ? void 0 : _a.className) || "";
+    const size = (prefix) => SPACER_PX[(cls.match(new RegExp(`(?:^|\\s)${prefix}(ten|twenty|thirty|forty)-padding`)) || [])[1]] || 0;
+    return [size(""), size("tab-"), size("mob-")];
+  }
+  function spaceStyle([d, t, m]) {
+    const styles = [`space-${d}`];
+    if (t !== d) styles.push(`space-tablet-${t}`);
+    if (m !== d) styles.push(`space-mobile-${m}`);
+    return styles.join(", ");
+  }
+
   // tools/importer/import-about-article.js
   function sidenavParser(element, { document: document2, url, params }) {
     const list = element.querySelector(".sidenav-item-list");
@@ -403,6 +418,34 @@ var CustomImportScript = (() => {
         const em = document2.createElement("em");
         em.append(...a.childNodes);
         a.append(em);
+      });
+      const gridSpan = (el, kind) => +(el.className.match(new RegExp(`aem-GridColumn--${kind}--(\\d+)`)) || [])[1] || 0;
+      main.querySelectorAll(".page__par .image").forEach((cmp) => {
+        const img = cmp.querySelector("img");
+        const span = gridSpan(cmp, "default");
+        if (!img || !span) return;
+        const offset = gridSpan(cmp, "offset--default");
+        const phone = gridSpan(cmp, "phone") || span;
+        let node = cmp;
+        while (node && !node.previousElementSibling && !node.matches(".page__par")) node = node.parentElement;
+        let prev = node == null ? void 0 : node.previousElementSibling;
+        if (prev && !prev.matches(".spacing")) {
+          while (prev.lastElementChild && !prev.matches(".spacing")) prev = prev.lastElementChild;
+        }
+        const space = [0, 0, 0];
+        for (; prev == null ? void 0 : prev.matches(".spacing"); prev = prev.previousElementSibling) {
+          spacerHeights(prev).forEach((h, i) => {
+            space[i] += h;
+          });
+        }
+        const options = [
+          span < 12 ? `span-${span}` : "",
+          offset ? `offset-${offset}` : "",
+          !offset && phone < 12 ? `span-phone-${phone}` : "",
+          space.some(Boolean) ? spaceStyle(space) : ""
+        ].filter(Boolean);
+        const name = options.length ? `Image (${options.join(", ")})` : "Image";
+        cmp.replaceWith(WebImporter.Blocks.createBlock(document2, { name, cells: [[img]] }));
       });
       const CALLOUTS = {
         "section.new-hmk-brand-fifteenpercent-splash": "Callout (light-blue)",
