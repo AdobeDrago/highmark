@@ -99,7 +99,7 @@ Also in P3:
 - [x] `/employer/thought-leadership` (Thought Leadership) **Live**
 - [ ] `/employer/get-started` (Get Started) **To do** redirects to highmark.com for now
 - [x] `/employer/client-resources/{onboarding-tools,myhighmark}` and the thought-leadership articles (`reinventing-health-care-podcasts`, `health-insurance-news-you-can-use/highmark-blue-shield`, `whole-person-health/{social-care-network-sdoh,kids-mental-health-eap,family-mental-health}`) **Live** imported and published 2026-10-26 (#150)
-- [ ] `/employer/thought-leadership/{health-insurance-news-you-can-use,whole-person-health}` (News You Can Use, Whole Person Health) **Preview only** imported 2026-10-27
+- [x] `/employer/thought-leadership/{health-insurance-news-you-can-use,whole-person-health}` (News You Can Use, Whole Person Health) **Live** imported (#153) and published 2026-10-27
 - [x] `/employer/solutions/{small,large}-business/<region>/medical-plans` (11 medical-plan landings) and their 37 plan pages **Live** imported 2026-10-21 (#142), published 2026-10-22; the size and region pages above them are empty on the source and stay redirected
 - [x] `/resources/answers/faq/aca-plans` (Individual and Family Insurance (ACA)) **Live**
 - [x] `/resources/answers/faq/chip` (CHIP - Highmark Healthy Kids) **Live**
