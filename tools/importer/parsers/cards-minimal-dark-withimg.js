@@ -130,6 +130,12 @@ export default function parse(element, { document }) {
     cells.push([image || '', contentCell]);
   });
 
-  const block = WebImporter.Blocks.createBlock(document, { name: 'cards-minimal-dark-withimg', cells });
+  // cards with the source's accent rule under the title (hr.breakLine, not breakLineNone:
+  // the News You Can Use and Whole Person Health landings) -> the (rule) variant
+  // (the importer marks the component data-card-rule before the transformers run, as the
+  // sections transformer takes <hr>s for section breaks)
+  const rule = element.matches('[data-card-rule]') || !!element.querySelector('li hr.breakLine');
+  const name = rule ? 'cards-minimal-dark-withimg (rule)' : 'cards-minimal-dark-withimg';
+  const block = WebImporter.Blocks.createBlock(document, { name, cells });
   element.replaceWith(...introEls, block);
 }

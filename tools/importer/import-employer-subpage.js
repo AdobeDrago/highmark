@@ -221,6 +221,18 @@ function findBlocksOnPage(document, template) {
 }
 
 export default {
+  /**
+   * Card grids whose cards have the accent rule under their title (hr.breakLine, the
+   * News You Can Use and Whole Person Health landings) are marked data-card-rule on the
+   * live page, as the import drops <hr>s; the cards-minimal-dark-withimg parser makes
+   * them its (rule) variant.
+   */
+  onLoad: ({ document }) => {
+    document.querySelectorAll('li hr.breakLine').forEach((hr) => {
+      hr.closest('.newcardscomponent-variations')?.setAttribute('data-card-rule', '');
+    });
+  },
+
   transform: (payload) => {
     const {
       document, url, html, params,
@@ -252,6 +264,27 @@ export default {
       if (!el.querySelector('i[class*="material-icons"]')) el.setAttribute('data-iconnav-image-icons', '');
     });
     WebImporter.DOMUtils.remove(main, ['div.spacing.section']);
+    // the source's screen-reader text in links ("READ ARTICLE<span>, Scaling
+    // "Remarkable"</span>", since October 2026) would become visible link text
+    main.querySelectorAll('a .hmk-visually-hidden').forEach((span) => span.remove());
+
+    // The intro band's copy and bottom spacer, where they differ from the CSS defaults
+    // (copy 6/12 from 992, 8/12 on tablets in a polar band; 40px under it): Section
+    // Metadata intro-span-<n>, intro-tablet-span-<n> and intro-bottom-<px> (the News
+    // You Can Use and Whole Person Health landings: 8/12, 10/12, 60px).
+    const introStyles = [];
+    const introH1 = main.querySelector('h1');
+    const introGrid = introH1?.closest('.aem-Grid');
+    if (introGrid) {
+      const copy = [...introGrid.children].find((c) => c.matches('.cmp-text') && !c.querySelector('h1') && c.querySelector('p'));
+      const span = (kind) => Number((copy?.className.match(new RegExp(`aem-GridColumn--${kind}--(\\d+)`)) || [])[1]);
+      if (span('default') && span('default') !== 6) introStyles.push(`intro-span-${span('default')}`);
+      if (span('tablet') && span('tablet') !== 8) introStyles.push(`intro-tablet-span-${span('tablet')}`);
+      const last = [...introGrid.children].pop();
+      const size = (last?.querySelector('section')?.className.match(/(?:^|\s)(ten|twenty|thirty|forty)-padding/) || [])[1];
+      const px = { ten: 20, twenty: 40, thirty: 60, forty: 80 }[size];
+      if (last?.matches('.spacing') && px && px !== 40) introStyles.push(`intro-bottom-${px}`);
+    }
 
     // 1. beforeTransform (cleanup + section breaks)
     executeTransformers('beforeTransform', main, payload);
@@ -276,6 +309,12 @@ export default {
 
     // 4. afterTransform (final cleanup + section metadata)
     executeTransformers('afterTransform', main, payload);
+    // the intro's options, on its section's style
+    if (introStyles.length) {
+      const sm = [...main.querySelectorAll('table')].find((t) => /^section metadata$/i.test((t.querySelector('tr')?.textContent || '').trim()));
+      const cell = sm && [...sm.querySelectorAll('tr')].find((tr) => /^style$/i.test(tr.children[0]?.textContent.trim()))?.children[1];
+      if (cell) cell.textContent = `${cell.textContent.trim()}, ${introStyles.join(', ')}`;
+    }
 
     // 5. Page metadata: source meta tags, breadcrumbs (when the source has them)
     // with the source label, and template=employer-subpage (body class scoping).

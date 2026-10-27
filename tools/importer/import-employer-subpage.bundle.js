@@ -310,7 +310,9 @@ var CustomImportScript = (() => {
       contentCell.push(...links);
       cells.push([image || "", contentCell]);
     });
-    const block = WebImporter.Blocks.createBlock(document2, { name: "cards-minimal-dark-withimg", cells });
+    const rule = element.matches("[data-card-rule]") || !!element.querySelector("li hr.breakLine");
+    const name = rule ? "cards-minimal-dark-withimg (rule)" : "cards-minimal-dark-withimg";
+    const block = WebImporter.Blocks.createBlock(document2, { name, cells });
     element.replaceWith(...introEls, block);
   }
 
@@ -639,7 +641,20 @@ var CustomImportScript = (() => {
     return pageBlocks;
   }
   var import_employer_subpage_default = {
+    /**
+     * Card grids whose cards have the accent rule under their title (hr.breakLine, the
+     * News You Can Use and Whole Person Health landings) are marked data-card-rule on the
+     * live page, as the import drops <hr>s; the cards-minimal-dark-withimg parser makes
+     * them its (rule) variant.
+     */
+    onLoad: ({ document: document2 }) => {
+      document2.querySelectorAll("li hr.breakLine").forEach((hr) => {
+        var _a;
+        (_a = hr.closest(".newcardscomponent-variations")) == null ? void 0 : _a.setAttribute("data-card-rule", "");
+      });
+    },
     transform: (payload) => {
+      var _a, _b;
       const {
         document: document2,
         url,
@@ -665,6 +680,20 @@ var CustomImportScript = (() => {
         if (!el.querySelector('i[class*="material-icons"]')) el.setAttribute("data-iconnav-image-icons", "");
       });
       WebImporter.DOMUtils.remove(main, ["div.spacing.section"]);
+      main.querySelectorAll("a .hmk-visually-hidden").forEach((span) => span.remove());
+      const introStyles = [];
+      const introH1 = main.querySelector("h1");
+      const introGrid = introH1 == null ? void 0 : introH1.closest(".aem-Grid");
+      if (introGrid) {
+        const copy = [...introGrid.children].find((c) => c.matches(".cmp-text") && !c.querySelector("h1") && c.querySelector("p"));
+        const span = (kind) => Number(((copy == null ? void 0 : copy.className.match(new RegExp(`aem-GridColumn--${kind}--(\\d+)`))) || [])[1]);
+        if (span("default") && span("default") !== 6) introStyles.push(`intro-span-${span("default")}`);
+        if (span("tablet") && span("tablet") !== 8) introStyles.push(`intro-tablet-span-${span("tablet")}`);
+        const last = [...introGrid.children].pop();
+        const size = (((_a = last == null ? void 0 : last.querySelector("section")) == null ? void 0 : _a.className.match(/(?:^|\s)(ten|twenty|thirty|forty)-padding/)) || [])[1];
+        const px = { ten: 20, twenty: 40, thirty: 60, forty: 80 }[size];
+        if ((last == null ? void 0 : last.matches(".spacing")) && px && px !== 40) introStyles.push(`intro-bottom-${px}`);
+      }
       executeTransformers("beforeTransform", main, payload);
       const pageBlocks = findBlocksOnPage(document2, PAGE_TEMPLATE);
       pageBlocks.forEach((block) => {
@@ -681,6 +710,17 @@ var CustomImportScript = (() => {
         }
       });
       executeTransformers("afterTransform", main, payload);
+      if (introStyles.length) {
+        const sm = [...main.querySelectorAll("table")].find((t) => {
+          var _a2;
+          return /^section metadata$/i.test((((_a2 = t.querySelector("tr")) == null ? void 0 : _a2.textContent) || "").trim());
+        });
+        const cell = sm && ((_b = [...sm.querySelectorAll("tr")].find((tr) => {
+          var _a2;
+          return /^style$/i.test((_a2 = tr.children[0]) == null ? void 0 : _a2.textContent.trim());
+        })) == null ? void 0 : _b.children[1]);
+        if (cell) cell.textContent = `${cell.textContent.trim()}, ${introStyles.join(", ")}`;
+      }
       const hr = document2.createElement("hr");
       main.appendChild(hr);
       const meta = WebImporter.Blocks.getMetadata(document2) || {};
