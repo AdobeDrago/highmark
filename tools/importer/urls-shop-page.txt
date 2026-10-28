@@ -1,0 +1,6 @@
+http://localhost:8765/shop/info-pages/legal-policies.html
+http://localhost:8765/shop/about-you/qualifying-life-events/landing.html
+http://localhost:8765/shop/about-you/build-your-family/dental-enrollment.html
+http://localhost:8765/shop/about-you/build-your-family/blue-edge-balance-enrollment.html
+http://localhost:8765/shop/about-you/build-your-family/dental-enrollment.html?fragment=header
+http://localhost:8765/shop/about-you/build-your-family/blue-edge-balance-enrollment.html?fragment=header

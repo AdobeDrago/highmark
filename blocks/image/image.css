@@ -1,0 +1,88 @@
+/* Image: a picture at span-<n> twelfths of the text column, offset-<n> twelfths in.
+   On phones an image that starts at the column's edge (no offset) takes the full
+   width, as the source's image component does; an offset one keeps its share. */
+.image {
+  --image-span: 12;
+  --image-offset: 0;
+
+  box-sizing: border-box;
+  width: calc(100% * var(--image-span) / 12);
+  margin-top: var(--image-space-mobile, var(--image-space, 0));
+  margin-bottom: var(--image-after-mobile, var(--image-after, 0));
+  margin-left: calc(100% * var(--image-offset) / 12);
+  line-height: 0;
+}
+
+/* space-<n> / space-tablet-<n> / space-mobile-<n>: the source's spacing components before
+   the image as its top margin (desktop from 992px; phone and tablet fall back to it) */
+
+.image.space-20 { --image-space: 20px; }
+.image.space-40 { --image-space: 40px; }
+.image.space-60 { --image-space: 60px; }
+.image.space-80 { --image-space: 80px; }
+.image.space-tablet-0 { --image-space-tablet: 0; }
+.image.space-tablet-20 { --image-space-tablet: 20px; }
+.image.space-tablet-40 { --image-space-tablet: 40px; }
+.image.space-tablet-60 { --image-space-tablet: 60px; }
+.image.space-mobile-0 { --image-space-mobile: 0; }
+.image.space-mobile-20 { --image-space-mobile: 20px; }
+.image.space-mobile-40 { --image-space-mobile: 40px; }
+.image.space-mobile-60 { --image-space-mobile: 60px; }
+
+/* space-after-<n> / space-after-tablet-<n> / space-after-mobile-<n>: the spacers after it */
+.image.space-after-20 { --image-after: 20px; }
+.image.space-after-40 { --image-after: 40px; }
+.image.space-after-60 { --image-after: 60px; }
+.image.space-after-tablet-20 { --image-after-tablet: 20px; }
+.image.space-after-tablet-40 { --image-after-tablet: 40px; }
+.image.space-after-mobile-20 { --image-after-mobile: 20px; }
+.image.space-after-mobile-40 { --image-after-mobile: 40px; }
+
+@media (width >= 768px) {
+  .image {
+    margin-top: var(--image-space-tablet, var(--image-space, 0));
+    margin-bottom: var(--image-after-tablet, var(--image-after, 0));
+  }
+}
+
+@media (width >= 992px) {
+  .image {
+    margin-top: var(--image-space, 0);
+    margin-bottom: var(--image-after, 0);
+  }
+}
+
+.image picture,
+.image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.image.span-2 { --image-span: 2; }
+.image.span-3 { --image-span: 3; }
+.image.span-4 { --image-span: 4; }
+.image.span-5 { --image-span: 5; }
+.image.span-6 { --image-span: 6; }
+.image.span-7 { --image-span: 7; }
+.image.span-8 { --image-span: 8; }
+.image.span-9 { --image-span: 9; }
+.image.span-10 { --image-span: 10; }
+.image.span-11 { --image-span: 11; }
+.image.offset-1 { --image-offset: 1; }
+.image.offset-2 { --image-offset: 2; }
+.image.offset-3 { --image-offset: 3; }
+.image.offset-4 { --image-offset: 4; }
+
+@media (width < 768px) {
+  .image:not([class*="offset-"]) {
+    --image-span: 12;
+  }
+
+  /* span-phone-<n>: an image whose source component keeps its share on phones (no phone
+     span of its own, e.g. Bright Blue Futures' Happenings, 5 of 12) */
+  .image.span-phone-4 { --image-span: 4; }
+  .image.span-phone-5 { --image-span: 5; }
+  .image.span-phone-6 { --image-span: 6; }
+  .image.span-phone-8 { --image-span: 8; }
+}

@@ -68,28 +68,50 @@ header nav .nav-brand img {
   display: block;
 }
 
+/* icon links, as highmark.com's: an 18px icon, then the label link (Roboto 16px), items 40px
+   apart. An item may shrink, and then wraps its label under the icon, as the source does at
+   1024px. The whole item is the link's hit area; hovering changes nothing, as on the source. */
 header nav .nav-tools .nav-icons {
   display: flex;
-  align-items: center;
-  gap: 28px;
+  justify-content: flex-end;
 }
 
-header nav .nav-icons a { /* stylelint-disable-line no-descending-specificity */
-  display: inline-flex;
+header nav .nav-icons > li {
+  position: relative;
+  display: flex;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  color: #003963;
-  white-space: nowrap;
+  margin: 0 20px;
+}
+
+header nav .nav-icons picture {
+  display: contents;
 }
 
 header nav .nav-icons img {
-  height: 22px;
-  width: 22px;
+  width: 18px;
+  height: 18px;
+  margin-right: 7px;
+}
+
+header nav .nav-icons a { /* stylelint-disable-line no-descending-specificity */
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #001446;
+}
+
+header nav .nav-icons a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
 }
 
 header nav .nav-icons a:hover {
-  color: #0066b1;
+  color: #001446;
+  text-decoration: none;
 }
 
 /* ---- Band 3: primary nav row (nav links + search) ---- */
@@ -203,13 +225,14 @@ body.nav-panel-open::after {
 
 /* ---- Search ---- */
 header nav .nav-search {
+  position: relative;
   display: flex;
   align-items: center;
   align-self: center;
   border: 1px solid #c9cfd4;
   border-radius: 4px;
-  overflow: hidden;
   height: 40px;
+  background-color: #fff;
 }
 
 header nav .nav-search input {
@@ -219,6 +242,74 @@ header nav .nav-search input {
   font-size: 14px;
   width: 180px;
   color: #003963;
+  background: transparent;
+}
+
+/* type-ahead suggestions (highmark.com's: white panel under the box, "Suggestions"
+   label, up to five page titles with the typed part regular and the rest bold) */
+header nav .nav-search-suggestions {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: -1px;
+  z-index: 25; /* under an open megamenu panel (30) */
+  width: 377px;
+  border-radius: 0 0 4px 4px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
+  font-weight: 400;
+}
+
+header nav .nav-search-suggestions-heading {
+  margin: 0;
+  padding: 10px 16px 0;
+  color: rgb(0 20 70 / 80%);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+header nav .nav-search-suggestions li > a:any-link { /* stylelint-disable-line no-descending-specificity */
+  display: block;
+  padding: 10px 16px;
+  color: #000;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  text-decoration: none;
+}
+
+/* the suggestions shown before typing (from the DA sheet) are plain, regular weight */
+header nav .nav-search-suggestions.nav-search-authored li > a:any-link {
+  font-weight: 400;
+}
+
+header nav .nav-search-suggestions li:hover,
+header nav .nav-search-suggestions li.active {
+  background-color: #ecf7ff;
+}
+
+header nav .nav-search-suggestions mark {
+  background: none;
+  color: inherit;
+  font-weight: 400;
+}
+
+header nav .nav-search-empty {
+  margin: 0;
+  padding: 10px 16px;
+  color: #000;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* screen-reader announcement of the suggestion count */
+header nav .nav-search-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 header nav .nav-search button {
@@ -238,7 +329,19 @@ header nav .nav-search-icon {
   mask-size: contain;
 }
 
-/* hamburger — hidden on desktop */
+/* the button's "Search" text shows only in the search row (a search target in the nav) */
+header nav .nav-search-label {
+  display: none;
+}
+
+/* search icon (opens the search box on phones and tablets) — hidden on desktop */
+header nav .nav-search-toggle {
+  display: none;
+}
+
+/* hamburger — hidden on desktop. The glyph is highmark.com's menu icon (a 25px SVG): three
+   3px lines 8px apart, 22.5px long, the left ends rounded and the right ends cut by the
+   SVG's edge */
 header nav .nav-hamburger {
   display: none;
   border: none;
@@ -251,8 +354,9 @@ header nav .nav-hamburger-icon,
 header nav .nav-hamburger-icon::before,
 header nav .nav-hamburger-icon::after {
   display: block;
-  width: 24px;
-  height: 2px;
+  width: 22.5px;
+  height: 3px;
+  border-radius: 1.5px 0 0 1.5px;
   background-color: #003963;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
@@ -268,21 +372,28 @@ header nav .nav-hamburger-icon {
   position: relative;
 }
 
-header nav .nav-hamburger-icon::before { top: -7px; }
-header nav .nav-hamburger-icon::after { top: 7px; }
+header nav .nav-hamburger-icon::before { top: -8px; }
+header nav .nav-hamburger-icon::after { top: 8px; }
 
-/* hamburger morphs to a close (x) when the drawer is open */
+/* with the drawer open it becomes the source's close icon: two 18 x 2.16px bars crossed */
 header nav.nav-open .nav-hamburger-icon {
   background-color: transparent;
 }
 
+header nav.nav-open .nav-hamburger-icon::before,
+header nav.nav-open .nav-hamburger-icon::after {
+  top: 0.4px;
+  left: 2.25px;
+  width: 18px;
+  height: 2.16px;
+  border-radius: 0;
+}
+
 header nav.nav-open .nav-hamburger-icon::before {
-  top: 0;
   transform: rotate(45deg);
 }
 
 header nav.nav-open .nav-hamburger-icon::after {
-  top: 0;
   transform: rotate(-45deg);
 }
 
@@ -292,12 +403,302 @@ header nav .nav-drawer-icons {
   display: none;
 }
 
+/* ============ DESKTOP (>= 992px): highmark.com's header, measured at 1280 and 1440 ============
+   Full-width bands with 64px side padding: utility bar 42.5px, brand row 94px, nav row 60px. */
+@media (width >= 992px) {
+  /* utility bar: 145px cells (a centred 134px link, 5px margins), 1px #b8b8b8 dividers. The
+     source's cells are inline-blocks, so a space (3.72px at 15px) separates them, and the last
+     has an extra 13px; the row ends 5px inside the side padding. */
+  header nav .nav-utility ul {
+    gap: 0;
+    max-width: none;
+    padding: 5px 69px 5px 64px;
+  }
+
+  header nav .nav-utility li {
+    box-sizing: border-box;
+    width: 145px;
+    border-right: 1px solid #b8b8b8;
+  }
+
+  header nav .nav-utility li + li {
+    margin-left: 3.72px;
+  }
+
+  header nav .nav-utility li:last-child {
+    margin-left: 16.72px;
+    border-right: 0;
+  }
+
+  header nav .nav-utility a {
+    display: flex;
+    justify-content: center;
+    width: 134px;
+    margin: 5px;
+    font-size: 15px;
+    line-height: 22.5px;
+    color: #001446;
+  }
+
+  header nav .nav-utility li:last-child a {
+    width: 135px;
+  }
+
+  /* brand row: 20px above and below a 54px-high row; the logo is 273 x 28 */
+  header nav .nav-brand-row {
+    box-sizing: border-box;
+    max-width: none;
+    min-height: 94px;
+    padding: 20px 64px;
+  }
+
+  header nav .nav-brand img {
+    height: 28px;
+  }
+
+  /* nav row: 60px, Sofia Pro 20px labels 30px wider than their text, 20px apart; a soft
+     5px shadow shows above and below it (over the top of the hero), as on the source */
+  header nav .nav-primary-row {
+    position: relative;
+    box-sizing: border-box;
+    height: 60px;
+    max-width: none;
+    padding: 0 64px;
+    border-top: 0;
+  }
+
+  /* the list fills the row's height, so each label centres in the 60px */
+  header nav .nav-sections {
+    display: flex;
+  }
+
+  header nav .nav-primary-row::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    box-shadow: 0 0 5px 0 rgb(211 211 211);
+    pointer-events: none;
+  }
+
+  header nav .nav-primary > li { /* stylelint-disable-line no-descending-specificity */
+    align-items: stretch;
+    margin: 0 10px;
+  }
+
+  header nav .nav-primary > li > a { /* stylelint-disable-line no-descending-specificity */
+    padding: 0 15px;
+    border-bottom: 0;
+    font-family: var(--heading-font-family);
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: -0.2px;
+    color: #001446;
+  }
+
+  header nav .nav-primary > li:hover > a,
+  header nav .nav-primary > li.open > a {
+    color: #001446;
+    box-shadow: inset 0 -3px 0 #0066b1;
+  }
+
+  /* search: a 44px pill, a sixth of the row but at least 200px; 16px Roboto placeholder
+     in #6d787f; the 24px icon sits 16px from the right edge */
+  header nav .nav-search {
+    box-sizing: border-box;
+    width: max(200px, 16.6667%);
+    height: 44px;
+    border-color: #b6bcc0;
+    border-radius: 999px;
+  }
+
+  header nav .nav-search input {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+    padding: 0 0 0 16px;
+    font-family: var(--body-font-family);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    color: #6d787f;
+  }
+
+  header nav .nav-search input::placeholder {
+    color: #6d787f;
+    opacity: 1;
+  }
+
+  header nav .nav-search button {
+    padding: 0 15px 0 8px;
+  }
+
+  header nav .nav-search .nav-search-icon {
+    width: 24px;
+    height: 24px;
+    background-color: #000;
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.9 20.9746L13.325 14.3996C12.825 14.8329 12.2417 15.1704 11.575 15.4121C10.9083 15.6538 10.2 15.7746 9.45 15.7746C7.65 15.7746 6.125 15.1496 4.875 13.8996C3.625 12.6496 3 11.1413 3 9.37461C3 7.60794 3.625 6.09961 4.875 4.84961C6.125 3.59961 7.64167 2.97461 9.425 2.97461C11.1917 2.97461 12.6958 3.59961 13.9375 4.84961C15.1792 6.09961 15.8 7.60794 15.8 9.37461C15.8 10.0913 15.6833 10.7829 15.45 11.4496C15.2167 12.1163 14.8667 12.7413 14.4 13.3246L21 19.8746L19.9 20.9746ZM9.425 14.2746C10.775 14.2746 11.925 13.7954 12.875 12.8371C13.825 11.8788 14.3 10.7246 14.3 9.37461C14.3 8.02461 13.825 6.87044 12.875 5.91211C11.925 4.95378 10.775 4.47461 9.425 4.47461C8.05833 4.47461 6.89583 4.95378 5.9375 5.91211C4.97917 6.87044 4.5 8.02461 4.5 9.37461C4.5 10.7246 4.97917 11.8788 5.9375 12.8371C6.89583 13.7954 8.05833 14.2746 9.425 14.2746Z"/></svg>');
+  }
+
+  /* search row (a search target in the nav, as on providers.highmark.com): a #f1f4f4 band
+     with 83px sides; a 46px box with a #0078c1 border, joined to an uppercase SEARCH button */
+  header nav .nav-search-row {
+    box-sizing: border-box;
+    padding: 14px 83px;
+    background-color: #f1f4f4;
+  }
+
+  header nav .nav-search-row .nav-search {
+    width: 100%;
+    height: 46px;
+    border: 0;
+    border-radius: 0;
+    background: none;
+  }
+
+  header nav .nav-search-row .nav-search input {
+    box-sizing: border-box;
+    height: 100%;
+    border: 1px solid #0078c1;
+    border-radius: 5px 0 0 5px;
+    padding: 0 15px;
+    background-color: #fff;
+    color: #000;
+  }
+
+  header nav .nav-search-row .nav-search input::placeholder {
+    color: #0078c1;
+  }
+
+  header nav .nav-search-row .nav-search button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 0 40px;
+    border-radius: 0 5px 5px 0;
+    background-color: #0078c1;
+    color: #fff;
+    font-family: var(--body-font-family);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+    text-transform: uppercase;
+  }
+
+  header nav .nav-search-row .nav-search .nav-search-icon {
+    background-color: #fff;
+  }
+
+  header nav .nav-search-row .nav-search-label {
+    display: inline;
+  }
+
+  /* panels in a nav styled "full width" (providers.highmark.com's): from the row's left edge,
+     as wide as their columns (at most the row); a Sofia Pro 20px heading over 15px links per
+     column, 30px above and below, columns divided by rules; items without a link are grey
+     group labels; a lock marks a page behind the Availity login */
+  header nav.nav-panels-full .nav-primary > li {
+    position: static;
+  }
+
+  /* six labels fill the row and shrink: they wrap between words, as on the source, not
+     inside one ("Authorizatio-ns") */
+  header nav.nav-panels-full .nav-primary > li > a {
+    word-break: normal;
+  }
+
+  /* one column per category, each between its longest word and its longest line: when the
+     row is short of room the long columns give way first, and labels wrap between words
+     ("Cost / Management"), never inside one ("Employ / er") */
+  header nav.nav-panels-full .nav-primary > li.open .nav-panel {
+    display: grid;
+    grid-auto-columns: minmax(min-content, max-content);
+    grid-auto-flow: column;
+    justify-content: start;
+    box-sizing: border-box;
+    width: 100%; /* a definite width, so the columns shrink to fit it */
+    min-width: 0;
+    gap: 0;
+    padding: 0;
+    border: 0;
+    box-shadow: 0 8px 10px rgb(0 0 0 / 10%);
+  }
+
+  header nav.nav-panels-full .nav-panel > li {
+    min-width: 0; /* not the corporate panel's 200px columns */
+    margin: 30px 0;
+    padding: 0 40px;
+    border-left: 1px solid #d9dfe3;
+  }
+
+  /* links otherwise break inside words, which also lets a column shrink below its longest one */
+  header nav.nav-panels-full .nav-panel a { /* stylelint-disable-line no-descending-specificity */
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  header nav.nav-panels-full .nav-panel > li:first-child {
+    padding-left: 65px;
+    border-left: 0;
+  }
+
+  header nav.nav-panels-full .nav-panel > li > a {
+    margin-bottom: 4px;
+    font-family: var(--heading-font-family);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 30px;
+    color: #003963;
+  }
+
+  header nav.nav-panels-full .nav-panel > li > ul > li { /* stylelint-disable-line no-descending-specificity */
+    margin: 0;
+    padding-top: 6px;
+    font-size: 15px;
+    line-height: 17px;
+    color: #8996a1;
+  }
+
+  header nav.nav-panels-full .nav-panel > li > ul > li:not(:has(a)) { /* stylelint-disable-line no-descending-specificity */
+    padding-top: 18px;
+  }
+
+  header nav.nav-panels-full .nav-panel > li > ul > li > a {
+    display: inline-block;
+    padding: 5px 0;
+    font-size: 15px;
+    line-height: 17px;
+    color: #003963;
+  }
+
+  header nav.nav-panels-full .nav-panel .icon-lock {
+    width: 22px;
+    height: 22px;
+    margin-left: 6px;
+    vertical-align: -5px;
+  }
+}
+
+/* small desktops (992-1199px): full-width panel columns get narrower gutters, so six columns
+   of longest words still fit */
+@media (width >= 992px) and (width < 1200px) {
+  header nav.nav-panels-full .nav-panel > li { /* stylelint-disable-line no-descending-specificity */
+    padding: 0 20px;
+  }
+
+  header nav.nav-panels-full .nav-panel > li:first-child {
+    padding-left: 64px;
+  }
+}
+
 /* ============ MOBILE (< 992px) ============ */
 @media (width < 992px) {
   header nav .nav-hamburger {
     display: block;
-    order: 3;
+    flex: 0 0 auto;
     z-index: 40;
+    margin: 0; /* not the global button margin */
   }
 
   /* hide the desktop utility bar and desktop icon row on mobile */
@@ -314,13 +715,154 @@ header nav .nav-drawer-icons {
     max-width: none;
     width: 100%;
     box-sizing: border-box;
+    gap: 8px;
+  }
+
+  /* the logo shrinks (keeping its proportions) to leave room for the search icon and
+     hamburger: at a fixed 36px height it is 351px wide and pushed the button past 390px
+     screens */
+  header nav .nav-brand {
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
   header nav .nav-brand img {
-    height: 36px;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 36px;
   }
 
-  /* primary row becomes a full-screen slide-in drawer */
+  /* search, as on highmark.com: no box in the menu; the search icon opens the box in
+     place of the logo (header.js moves the form into this row below 992px) */
+  header nav .nav-search-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+  }
+
+  header nav .nav-search-toggle .nav-search-icon {
+    width: 22px;
+    height: 22px;
+    background-color: #003963;
+  }
+
+  header nav .nav-brand-row .nav-search {
+    display: none;
+    position: static; /* the suggestions span the row, not just the box */
+    flex: 1 1 auto;
+    min-width: 0;
+    box-sizing: border-box; /* as tall as the search icon, so the row keeps its height */
+    border-color: #b6bcc0;
+    border-radius: 999px;
+  }
+
+  header nav.nav-search-open .nav-brand-row .nav-search {
+    display: flex;
+  }
+
+  header nav.nav-search-open .nav-brand,
+  header nav.nav-search-open .nav-search-toggle {
+    display: none;
+  }
+
+  header nav .nav-brand-row .nav-search input {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+    padding: 0 4px 0 16px;
+    font-size: 16px; /* smaller text makes iOS zoom the page on focus */
+  }
+
+  /* suggestions drop under the row, full width */
+  header nav .nav-brand-row .nav-search-suggestions {
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: auto;
+  }
+
+  /* highmark.com's bar (the corporate and provider headers; the regional one is below): 84px
+     with a soft shadow, the menu button on the left, the 20px logo centred in 90% of the row
+     and the search icon at the start of the last 10%. These are the source's flex sizes
+     (27px, 90%, 10%, the first two shrinking), so the logo sits where the source's does,
+     a little left of centre. */
+  header nav:not(.nav-regional) .nav-brand-row {
+    justify-content: flex-start;
+    height: 84px;
+    padding: 20px 30px;
+    gap: 0;
+    box-shadow: 0 3px 3px rgb(0 0 0 / 16%);
+  }
+
+  /* the source's button: its 25px icon 1px in, 10px below the row's top */
+  header nav:not(.nav-regional) .nav-hamburger {
+    position: relative;
+    width: 27px;
+    height: 44px;
+    padding: 0;
+  }
+
+  header nav:not(.nav-regional) .nav-hamburger-icon {
+    position: absolute;
+    top: 23.6px;
+    left: 3.5px;
+  }
+
+  header nav:not(.nav-regional) .nav-brand {
+    display: flex;
+    flex: 0 1 auto;
+    justify-content: center;
+    width: 90%;
+    min-width: auto;
+  }
+
+  header nav:not(.nav-regional) .nav-brand img {
+    height: 20px;
+    max-width: none;
+    max-height: none;
+  }
+
+  /* the source's icon (a 24px glyph) sits 12.5px below the row's top, not centred */
+  header nav:not(.nav-regional) .nav-search-toggle {
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex: 0 1 auto;
+    width: 10%;
+    height: 44px;
+    padding: 12.5px 6px 0;
+  }
+
+  header nav:not(.nav-regional) .nav-search-toggle .nav-search-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* the opened box takes the logo's and the icon's place, clear of the menu button */
+  header nav:not(.nav-regional).nav-search-open .nav-brand {
+    display: none;
+  }
+
+  header nav:not(.nav-regional).nav-search-open .nav-brand-row .nav-search {
+    margin-left: 13px;
+  }
+
+  /* while the menu is open the bar stays at the top of the screen, over the drawer, as on
+     highmark.com, wherever the page was scrolled to (and below the homepage's alert banner) */
+  header nav.nav-open .nav-brand-row {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  /* primary row becomes a full-screen slide-in drawer, under the 84px bar */
   header nav .nav-primary-row {
     display: flex;
     flex-direction: column;
@@ -329,37 +871,30 @@ header nav .nav-drawer-icons {
     inset: 0;
     top: 0;
     z-index: 30;
-    padding: 72px 0 24px;
+    padding: 84px 0 24px;
     margin: 0;
     max-width: none;
     background: #fff;
     border-top: none;
     overflow-y: auto;
     transform: translateX(-100%);
-    transition: transform 0.3s ease;
+
+    /* closed, it is also out of the tab order and the accessibility tree (once it has
+       slid away) */
+    visibility: hidden;
+    transition: transform 0.3s ease, visibility 0s 0.3s;
     gap: 0;
   }
 
   header nav.nav-open .nav-primary-row {
     transform: translateX(0);
-  }
-
-  /* search sits at the top of the drawer */
-  header nav .nav-search {
-    order: 0;
-    align-self: stretch;
-    margin: 0 16px 16px;
-  }
-
-  header nav .nav-search input {
-    width: 100%;
-    flex: 1;
+    visibility: visible;
+    transition: transform 0.3s ease;
   }
 
   header nav .nav-primary {
     flex-direction: column;
     width: 100%;
-    order: 1;
   }
 
   header nav .nav-primary > li {
@@ -455,10 +990,12 @@ header nav .nav-drawer-icons {
     color: #003963;
   }
 
+  /* the icon links again, as in highmark.com's menu: a 16px icon, then the label (14px)
+     20px after it, rows 20px apart */
   header nav .nav-drawer-icons {
     display: block;
     order: 3;
-    padding: 8px 0;
+    padding: 16px 24px 0;
   }
 
   header nav .nav-drawer-icons ul {
@@ -466,22 +1003,119 @@ header nav .nav-drawer-icons {
     flex-direction: column;
   }
 
-  header nav .nav-drawer-icons a { /* stylelint-disable-line no-descending-specificity */
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 16px;
-    font-size: 15px;
-    color: #003963;
+  header nav .nav-drawer-icons li {
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    margin: 0 0 20px;
   }
 
-  header nav .nav-drawer-icons img {
-    width: 22px;
-    height: 22px;
+  header nav .nav-drawer-icons img { /* stylelint-disable-line no-descending-specificity */
+    width: 16px;
+    height: 16px;
+    margin: 4px 0 0;
+  }
+
+  header nav .nav-drawer-icons a { /* stylelint-disable-line no-descending-specificity */
+    margin-left: 10px;
+    padding-left: 10px;
+    font-size: 14px;
+    line-height: 21px;
   }
 
   /* no dimmed overlay on the mobile drawer */
   body.nav-panel-open::after {
     display: none;
+  }
+
+  /* the search row is empty here: its box moves into the brand row */
+  header nav .nav-search-row {
+    display: none;
+  }
+
+  header nav .nav-panel .icon-lock {
+    width: 18px;
+    height: 18px;
+    margin-left: 6px;
+    vertical-align: -3px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * Regional member headers (the nav fragments under /member/fragments: two
+ * sections, logo + menu; header.js adds .nav-regional). The logo link holds two
+ * images: the region's logo, shown from 992px, and the mobile logo. Below 992px the
+ * bar is 84px tall with a soft shadow: the menu button on the left, the mobile logo
+ * (20px tall) centred, the search icon on the right, as on highmark.com's regional
+ * pages.
+ * ------------------------------------------------------------------ */
+header nav.nav-regional .nav-brand a > :not(:first-child) {
+  display: none;
+}
+
+@media (width < 992px) {
+  header nav.nav-regional .nav-brand-row {
+    display: grid;
+    grid-template-columns: 40px 1fr 40px;
+    align-items: center;
+    height: 84px;
+    padding: 0 30px;
+    box-shadow: 0 3px 3px rgb(0 0 0 / 16%);
+  }
+
+  /* Western New York's bar is 69px (the source's NY header; Northeastern NY's is 84px) */
+  html:has(meta[name="nav"][content="/member/fragments/bcbswny/nav"]) header nav.nav-regional .nav-brand-row {
+    height: 69px;
+  }
+
+  header nav.nav-regional .nav-hamburger {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+    padding: 8px 0;
+  }
+
+  header nav.nav-regional .nav-brand {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: center;
+  }
+
+  header nav.nav-regional .nav-brand a > :first-child {
+    display: none;
+  }
+
+  header nav.nav-regional .nav-brand a > :nth-child(2) {
+    display: block;
+  }
+
+  header nav.nav-regional .nav-brand a > :nth-child(2) img {
+    height: 20px;
+    max-height: none;
+  }
+
+  header nav.nav-regional .nav-search-toggle {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  /* the opened search box takes the logo's place and the space beside it */
+  header nav.nav-regional.nav-search-open .nav-brand-row .nav-search {
+    grid-column: 2 / 4;
+    grid-row: 1;
+  }
+
+  header nav.nav-regional .nav-primary-row {
+    padding-top: 84px;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  header nav.nav-regional .nav-brand-row {
+    padding: 0 64px;
+  }
+
+  header nav:not(.nav-regional) .nav-brand-row {
+    padding: 20px 64px;
   }
 }

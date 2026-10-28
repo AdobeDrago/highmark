@@ -1,0 +1,441 @@
+/* Template "employer-tabs" (page metadata Template: employer-tabs -> body.employer-tabs).
+   Loaded by scripts/scripts.js (TEMPLATE_STYLES) before the first section renders.
+
+   /employer/client-resources/onboarding-tools ("Thinking outside the doctor's office").
+   Values extracted (getComputedStyle) from the highmark.com original at 390 / 768 / 1440.
+   Source breakpoints: < 768 (30px gutters), 768-991 (64px), >= 992 (min(1200px, 100% -
+   166px)). The two bands run edge to edge; their text takes a share of the page's 12
+   columns.
+
+   EDS sections (tools/importer/import-employer-tabs.js):
+   1. `accent`: the polar band, h1 and lead (H5), centred;
+   2. `tab` sections, one per tab (scripts.js builds the tab bar, .section-tabs, before
+      them; its look is in styles.css): the title (H2), the lead (H5), Cards (small-image)
+      (image, heading, text, text link) and the tab's footnote;
+   3. `highlight`: the blush band (H2, lead, note, the outlined GET STARTED);
+   4. `footnote`: the footnotes. */
+
+/* stylelint-disable no-descending-specificity */
+
+body.employer-tabs main > .section {
+  margin: 0;
+  padding: 0;
+}
+
+body.employer-tabs main > .section > div {
+  box-sizing: border-box;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+body.employer-tabs main :is(h1, h2, h3, h5) {
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-weight: 600;
+}
+
+body.employer-tabs main p {
+  color: var(--text-body-color);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: -0.2px;
+}
+
+body.employer-tabs main a:any-link {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+body.employer-tabs main a:any-link:hover {
+  text-decoration: underline;
+}
+
+/* the lead (the source's p1 style) */
+body.employer-tabs main h5 {
+  padding: 0;
+  font-size: 17px;
+  line-height: 1.4;
+  letter-spacing: -0.2px;
+}
+
+/* ---- 1. the polar band: h1 across the page (10/12 on phones), the lead in 10/12 (6/12
+   from 992); 20px above and below (20 / 40 on tablets, 40 / 60 from 992) ---- */
+body.employer-tabs main > .section.accent {
+  padding: 20px 0;
+  background-color: var(--accent-color);
+  text-align: center;
+}
+
+body.employer-tabs main > .section.accent h1 {
+  width: calc(100% * 10 / 12);
+  margin: 0 auto 8px;
+  padding: 24px 0;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -1.28px;
+}
+
+body.employer-tabs main > .section.accent h5 {
+  width: calc(100% * 10 / 12);
+  margin: 0 auto 12.8px;
+}
+
+/* ---- 2. the tab panels: the title and lead centred, then the cards ---- */
+body.employer-tabs main > .section.tab {
+  width: calc(100% - 60px);
+  margin: 0 auto;
+}
+
+body.employer-tabs main > .section.tab > .default-content-wrapper:first-child {
+  padding-top: 50px;
+  text-align: center;
+}
+
+body.employer-tabs main > .section.tab h2 {
+  max-width: 766px;
+  margin: 0 auto 20px;
+  padding: 0;
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.72px;
+}
+
+body.employer-tabs main > .section.tab h5 {
+  max-width: 766px;
+  margin: 0 auto 30px;
+}
+
+/* 40px under the cards (50px from 768), after the 30px each card keeps under it */
+body.employer-tabs main > .section.tab > .cards-wrapper {
+  padding-bottom: 40px;
+}
+
+/* the tab's footnote, under the cards */
+body.employer-tabs main > .section.tab > .default-content-wrapper:not(:first-child) p {
+  margin: 0 0 12.8px;
+}
+
+body.employer-tabs main :is(sup, sub) {
+  position: relative;
+  font-size: 75%;
+  line-height: 0;
+  vertical-align: baseline;
+}
+
+body.employer-tabs main sup { top: -0.5em; }
+
+/* Cards (small-image): one centred column of 300px cards (400px on tablets), each with
+   30px under it; from 992 370px cards side by side, 34px apart, rows top-aligned. As on
+   the source, the middle card of three has no margin under it, so a row ends 30px under
+   its tallest card unless that is the middle one (then 1px under it, the source's line
+   box). */
+body.employer-tabs main .cards.small-image > ul {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+}
+
+body.employer-tabs main .cards.small-image > ul > li {
+  width: 300px;
+  max-width: 100%;
+  margin-bottom: 30px;
+  border: 0;
+  background: none;
+  text-align: left;
+}
+
+body.employer-tabs main .cards.small-image .cards-card-image {
+  line-height: 0;
+}
+
+body.employer-tabs main .cards.small-image > ul > li img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 37 / 20;
+  object-fit: fill;
+}
+
+body.employer-tabs main .cards.small-image .cards-card-body {
+  margin: 0;
+}
+
+body.employer-tabs main .cards.small-image h3 {
+  margin: 20px 0 13px;
+  padding: 0;
+  font-size: 22px;
+  line-height: 1.1;
+  letter-spacing: -0.4px;
+}
+
+/* the card's text: a text paragraph, its margin under it */
+body.employer-tabs main .cards.small-image p {
+  margin: 0 0 12.8px;
+}
+
+/* the card's link: the source's small text button, bold uppercase blue, 16px under it */
+body.employer-tabs main .cards.small-image p.button-container {
+  margin: 0 0 16px;
+  line-height: 20px;
+}
+
+body.employer-tabs main .cards.small-image a.button:any-link {
+  display: inline;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: none;
+  color: var(--link-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: normal;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: normal;
+}
+
+body.employer-tabs main .cards.small-image a.button:any-link:hover {
+  background: none;
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+/* ---- 3. the blush band: heading 10/12 on phones, lead 10/12 (8/12 from 768), note 6/12 ---- */
+body.employer-tabs main > .section.highlight {
+  padding: 20px 0;
+  text-align: center;
+}
+
+body.employer-tabs main > .section.highlight h2 {
+  width: calc(100% * 10 / 12);
+  margin: 0 auto 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.72px;
+}
+
+body.employer-tabs main > .section.highlight h5 {
+  width: calc(100% * 10 / 12);
+  margin: 0 auto 12.8px;
+}
+
+body.employer-tabs main > .section.highlight p:not(.button-container) {
+  width: 50%;
+  margin: 0 auto 12.8px;
+}
+
+/* the outlined button (.brand-button-light): 16px above and below it */
+body.employer-tabs main > .section.highlight p.button-container {
+  margin: 0;
+  line-height: 24px;
+}
+
+body.employer-tabs main > .section.highlight p.button-container > em > a.button:any-link {
+  margin: 16px 0;
+  padding: 16px 24px;
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+body.employer-tabs main > .section.highlight p.button-container > em > a.button:is(:hover, :focus-visible) {
+  background-color: var(--text-color);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* ---- 4. the footnotes: in the page's container, 20px above and below (40 from 768) ---- */
+body.employer-tabs main > .section.footnote {
+  width: calc(100% - 60px);
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+body.employer-tabs main > .section.footnote p {
+  margin: 0 0 12.8px;
+}
+
+/* ---------- Tablet (768-991) ---------- */
+@media (width >= 768px) {
+  body.employer-tabs main p {
+    line-height: 1.3;
+    letter-spacing: -0.4px;
+  }
+
+  body.employer-tabs main h5 {
+    font-size: 18px;
+    line-height: 1.3;
+    letter-spacing: -0.4px;
+  }
+
+  body.employer-tabs main > .section.accent {
+    padding-bottom: 40px;
+  }
+
+  body.employer-tabs main > .section.accent h1 {
+    width: auto;
+    padding: 28.8px 0;
+    font-size: 36px;
+    letter-spacing: -1.44px;
+  }
+
+  body.employer-tabs main > .section.accent h5 {
+    margin-bottom: 16px;
+  }
+
+  body.employer-tabs main > .section:is(.tab, .footnote) {
+    width: calc(100% - 128px);
+  }
+
+  body.employer-tabs main > .section.tab > div:is(.default-content-wrapper:first-child, .cards-wrapper) {
+    margin: 0 16px;
+  }
+
+  body.employer-tabs main > .section.tab > .default-content-wrapper:first-child {
+    padding-top: 60px;
+  }
+
+  body.employer-tabs main > .section.tab h2 {
+    font-size: 28px;
+    letter-spacing: -0.78px;
+  }
+
+  body.employer-tabs main > .section.tab > .cards-wrapper {
+    padding-bottom: 50px;
+  }
+
+  body.employer-tabs main > .section.tab > .default-content-wrapper:not(:first-child) p,
+  body.employer-tabs main > .section.footnote p {
+    margin-bottom: 16px;
+  }
+
+  body.employer-tabs main .cards.small-image > ul > li {
+    width: 400px;
+  }
+
+  body.employer-tabs main .cards.small-image p {
+    margin-bottom: 16px;
+  }
+
+  body.employer-tabs main .cards.small-image h3 {
+    padding-bottom: 3px;
+    font-size: 32px;
+    letter-spacing: -0.44px;
+  }
+
+  body.employer-tabs main > .section.highlight {
+    padding-bottom: 40px;
+  }
+
+  body.employer-tabs main > .section.highlight h2 {
+    width: auto;
+    font-size: 28px;
+    letter-spacing: -0.78px;
+  }
+
+  body.employer-tabs main > .section.highlight h5 {
+    width: calc(100% * 8 / 12);
+    margin-bottom: 16px;
+  }
+
+  body.employer-tabs main > .section.highlight p:not(.button-container) {
+    margin-bottom: 16px;
+  }
+
+  body.employer-tabs main > .section.footnote {
+    padding: 40px 0;
+  }
+}
+
+/* ---------- Desktop (>= 992) ---------- */
+@media (width >= 992px) {
+  body.employer-tabs main p {
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: -0.1px;
+  }
+
+  body.employer-tabs main h5 {
+    font-size: 20px;
+    line-height: 1.5;
+    letter-spacing: -0.3px;
+  }
+
+  body.employer-tabs main > .section.accent {
+    padding: 40px 0 60px;
+  }
+
+  body.employer-tabs main > .section.accent h1 {
+    font-size: 56px;
+    letter-spacing: -2.8px;
+  }
+
+  body.employer-tabs main > .section.accent h5 {
+    width: 50%;
+  }
+
+  body.employer-tabs main > .section:is(.tab, .footnote) {
+    width: min(1200px, 100% - 166px);
+  }
+
+  body.employer-tabs main > .section.tab > div:is(.default-content-wrapper:first-child, .cards-wrapper) {
+    margin: 0 10px;
+  }
+
+  body.employer-tabs main > .section.tab h2 {
+    font-size: 34px;
+    letter-spacing: -1.36px;
+  }
+
+  body.employer-tabs main > .section.tab h5 {
+    margin-bottom: 40px;
+  }
+
+  body.employer-tabs main .cards.small-image > ul {
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1px 34px;
+  }
+
+  body.employer-tabs main .cards.small-image > ul > li {
+    width: 370px;
+  }
+
+  body.employer-tabs main .cards.small-image > ul > li:nth-child(3n + 2) {
+    margin-bottom: 0;
+  }
+
+  body.employer-tabs main .cards.small-image h3 {
+    padding-bottom: 0;
+    font-size: 24px;
+    letter-spacing: -0.72px;
+  }
+
+  body.employer-tabs main > .section.highlight {
+    padding: 40px 0 60px;
+  }
+
+  body.employer-tabs main > .section.highlight h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 1.2;
+    letter-spacing: -1.36px;
+  }
+}
+
+/* stylelint-enable no-descending-specificity */

@@ -1,0 +1,762 @@
+/* Template "bright-blue-futures" (page metadata template=bright-blue-futures -> body.bright-blue-futures).
+   Loaded by scripts/scripts.js (TEMPLATE_STYLES) before the first section renders.
+
+   Values extracted (getComputedStyle) from
+   https://www.highmark.com/about/corporate-responsibility/bright-blue-futures
+   (?zg=false) at 390 / 768 / 1440 (hero also at 430, 992, 1024, 1200, 1920).
+   Source breakpoints: < 768 mobile, 768-991 tablet (everything stacked),
+   >= 992 desktop. Source bands butt against each other (no section margins). */
+
+/* Rules are grouped by section; selectors in different groups target
+   disjoint elements, so source order across groups does not matter. */
+/* stylelint-disable no-descending-specificity */
+
+body.bright-blue-futures main > .section {
+  margin: 0;
+}
+
+/* ==========================================================================
+   1. Hero (div.hide-bgimg.bgimg-pos.sub-hero-sec) - below 992px the photo
+   (375x200 crop <= 425px, 768x288 above) is stacked over a navy
+   (.new-hmk-brand-togatherblue) panel, padding 20/20/35, centred white
+   text. >= 992 white text over the photo, left inset 30 / 110 / 150px; the
+   text column is 2/3 of the viewport minus the inset, h1 90% / h2 80% of it.
+   Band height follows the photo: 768x288 up to 1024px, 1366x400 above.
+   ========================================================================== */
+body.bright-blue-futures main .hero-minimal-dark-withimg h1,
+body.bright-blue-futures main .hero-minimal-dark-withimg h2 {
+  color: #fff;
+}
+
+@media (width < 992px) {
+  body.bright-blue-futures main .hero-minimal-dark-withimg {
+    display: block;
+    min-height: 0;
+  }
+
+  body.bright-blue-futures main .hero-minimal-dark-withimg > div:first-child {
+    position: static;
+  }
+
+  body.bright-blue-futures main .hero-minimal-dark-withimg > div:first-child,
+  body.bright-blue-futures main .hero-minimal-dark-withimg > div:first-child > div,
+  body.bright-blue-futures main .hero-minimal-dark-withimg > div:first-child picture {
+    height: auto;
+  }
+
+  body.bright-blue-futures main .hero-minimal-dark-withimg picture img {
+    display: block;
+    height: auto;
+    aspect-ratio: 768 / 288;
+  }
+
+  body.bright-blue-futures main .hero-minimal-dark-withimg > div:last-child {
+    max-width: none;
+    margin: 0;
+    padding: 20px 20px 35px;
+    background-color: var(--dark-color);
+    text-align: center;
+  }
+
+  body.bright-blue-futures main .hero-minimal-dark-withimg h1 {
+    max-width: none;
+    margin: 5px 0 0;
+    padding: 15px;
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  body.bright-blue-futures main .hero-minimal-dark-withimg h2 {
+    max-width: none;
+    margin: 0;
+    padding: 15px;
+    font-size: 20px;
+    line-height: 22px;
+    letter-spacing: -0.44px;
+  }
+}
+
+@media (width < 768px) {
+  body.bright-blue-futures main .hero-minimal-dark-withimg h1 {
+    margin-top: 16px;
+    padding-top: 0;
+    font-size: 32px;
+    line-height: 35.2px;
+    letter-spacing: -1.28px;
+  }
+
+  body.bright-blue-futures main .hero-minimal-dark-withimg h2 {
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width <= 425px) {
+  body.bright-blue-futures main .hero-minimal-dark-withimg picture img {
+    aspect-ratio: 375 / 200;
+  }
+}
+
+@media (width >= 992px) {
+  body.bright-blue-futures main .hero-minimal-dark-withimg {
+    --bbf-hero-inset: 30px;
+
+    min-height: calc(100vw * 288 / 768);
+  }
+
+  body.bright-blue-futures main .hero-minimal-dark-withimg > div:last-child {
+    max-width: none;
+    margin: 0;
+    padding: 0 0 0 var(--bbf-hero-inset);
+  }
+
+  body.bright-blue-futures main .hero-minimal-dark-withimg h1 {
+    max-width: calc((100vw * 2 / 3 - var(--bbf-hero-inset)) * 0.9);
+  }
+
+  body.bright-blue-futures main .hero-minimal-dark-withimg h2 {
+    max-width: calc((100vw * 2 / 3 - var(--bbf-hero-inset)) * 0.8);
+  }
+}
+
+@media (width >= 1024px) {
+  body.bright-blue-futures main .hero-minimal-dark-withimg {
+    --bbf-hero-inset: 110px;
+  }
+}
+
+@media (width >= 1025px) {
+  body.bright-blue-futures main .hero-minimal-dark-withimg {
+    min-height: calc(100vw * 400 / 1366);
+  }
+}
+
+@media (width >= 1200px) {
+  body.bright-blue-futures main .hero-minimal-dark-withimg {
+    --bbf-hero-inset: 150px;
+  }
+}
+
+/* ==========================================================================
+   2. Bright Blue Futures logo (the section.center holding only a picture; image component 4/6 of a
+   6/12 column = 1/3 of the viewport, centred). Spacer 20 / 20 / 40px
+   above, nothing below.
+   ========================================================================== */
+body.bright-blue-futures main > .section.center:has(> .default-content-wrapper > p:only-child > picture) {
+  padding: 20px 0 0;
+}
+
+body.bright-blue-futures main > .section.center:has(> .default-content-wrapper > p:only-child > picture) > .default-content-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+body.bright-blue-futures main > .section.center:has(> .default-content-wrapper > p:only-child > picture) p {
+  margin: 0;
+  line-height: 0;
+}
+
+body.bright-blue-futures main > .section.center:has(> .default-content-wrapper > p:only-child > picture) img {
+  display: block;
+  width: calc(100vw / 3);
+  height: auto;
+  margin: 0 auto;
+}
+
+@media (width >= 992px) {
+  body.bright-blue-futures main > .section.center:has(> .default-content-wrapper > p:only-child > picture) {
+    padding-top: 40px;
+  }
+}
+
+/* ==========================================================================
+   3. Side card panels (.side-card-panel; white / polar / white / polar):
+   stacked photo -> text below 992px (photo first even when authored
+   second), 555 / 312 photo; >= 992 555px photo + 550px text column (24px
+   inner padding) centred in a 1200px container, vertically centred.
+   Band padding 32 / 48 / 80px; gutters 30 / 64px.
+   "Improving lives" and "Events" copy is rich text (light 15-16px
+   #001446 paragraphs + bold #0078c1 link, 16px under the last one); the
+   "Corporate Giving" and "Awards" copy is a bare 16px/24px navy text run.
+   ========================================================================== */
+body.bright-blue-futures main > .section.columns-minimal-dark-container {
+  padding: 32px 0;
+}
+
+body.bright-blue-futures main > .section > .columns-minimal-dark-wrapper {
+  max-width: none;
+  padding: 0 30px;
+}
+
+body.bright-blue-futures main .columns-minimal-dark > div {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+
+body.bright-blue-futures main .columns-minimal-dark > div > div {
+  flex: 0 1 auto;
+  order: 1;
+}
+
+body.bright-blue-futures main .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+  order: 0;
+}
+
+body.bright-blue-futures main .columns-minimal-dark .columns-minimal-dark-img-col img {
+  aspect-ratio: 555 / 312;
+  object-fit: cover;
+}
+
+body.bright-blue-futures main .columns-minimal-dark h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+/* rich-text copy ("Improving lives", "Events") */
+body.bright-blue-futures main .columns-minimal-dark:has(h2:is(#improving-lives-in-the-communities-we-serve, #events-happenings-near-you)) p {
+  margin: 0 0 12.8px;
+  color: var(--text-body-color);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+/* the empty .hmk-brand-buttons.mt-3 under the copy: 16px below the last paragraph */
+body.bright-blue-futures main .columns-minimal-dark:has(h2:is(#improving-lives-in-the-communities-we-serve, #events-happenings-near-you)) p:last-child {
+  margin-bottom: 16px;
+}
+
+body.bright-blue-futures main .columns-minimal-dark p:not(.button-container) a:any-link {
+  color: rgb(0 120 193);
+}
+
+/* "SEE OUR EVENTS" is a bold link inside the copy, not a .textButton */
+body.bright-blue-futures main .columns-minimal-dark a.button[href$="/happenings"]:any-link {
+  display: inline;
+  color: rgb(0 120 193);
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+}
+
+/* WATCH VIDEO + fine print: the source <sup>1<br>&nbsp;</sup> adds a blank
+   third line; 75% sub / sup that never open up the line box */
+body.bright-blue-futures main .columns-minimal-dark p:has(> sub) {
+  padding-bottom: 21px;
+}
+
+body.bright-blue-futures main .columns-minimal-dark p > sub,
+body.bright-blue-futures main .columns-minimal-dark p > sup {
+  position: relative;
+  font-size: 75%;
+  line-height: inherit;
+  vertical-align: baseline;
+}
+
+body.bright-blue-futures main .columns-minimal-dark p > sub {
+  top: 0.25em;
+}
+
+body.bright-blue-futures main .columns-minimal-dark p > sup {
+  top: -0.5em;
+}
+
+/* .textButton CTAs: 16px/20px bold uppercase link blue, left-aligned;
+   "Corporate Giving" sits 16px (.mt-3) under the copy, "Awards" 24px
+   (a trailing "<br>&nbsp;" line). */
+body.bright-blue-futures main .columns-minimal-dark p.button-container {
+  margin: 24px 0 0;
+  line-height: 20px;
+}
+
+body.bright-blue-futures main .columns-minimal-dark p.button-container:has(> a[href$="/corporate-giving"]) {
+  margin-top: 16px;
+}
+
+body.bright-blue-futures main .columns-minimal-dark p.button-container:has(> a[href$="/happenings"]) {
+  margin: 0 0 16px;
+  line-height: inherit;
+}
+
+@media (width >= 768px) {
+  body.bright-blue-futures main > .section.columns-minimal-dark-container {
+    padding: 48px 0;
+  }
+
+  body.bright-blue-futures main > .section > .columns-minimal-dark-wrapper {
+    padding: 0 64px;
+  }
+
+  body.bright-blue-futures main .columns-minimal-dark h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.bright-blue-futures main .columns-minimal-dark:has(h2:is(#improving-lives-in-the-communities-we-serve, #events-happenings-near-you)) p {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.bright-blue-futures main .columns-minimal-dark p:has(> sub) {
+    padding-bottom: 19.5px;
+  }
+}
+
+@media (width >= 992px) {
+  body.bright-blue-futures main > .section.columns-minimal-dark-container {
+    padding: 80px 0;
+  }
+
+  body.bright-blue-futures main > .section > .columns-minimal-dark-wrapper {
+    max-width: 1200px;
+    padding: 0 32px;
+  }
+
+  body.bright-blue-futures main .columns-minimal-dark > div {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* desktop keeps the authored order: photo | text or text | photo */
+  body.bright-blue-futures main .columns-minimal-dark > div > div,
+  body.bright-blue-futures main .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    order: 0;
+  }
+
+  body.bright-blue-futures main .columns-minimal-dark > div > div {
+    box-sizing: border-box;
+    flex: 0 1 550px;
+    padding: 0 24px;
+  }
+
+  body.bright-blue-futures main .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    flex: 0 1 555px;
+    margin: 0 24px;
+    padding: 0;
+  }
+
+  /* photo | text: 24px between the photo margin and the text column */
+  body.bright-blue-futures main .columns-minimal-dark > div > .columns-minimal-dark-img-col + div {
+    margin-left: 24px;
+  }
+
+  /* text | photo: the text column carries a 47px right margin */
+  body.bright-blue-futures main .columns-minimal-dark > div > div:has(+ .columns-minimal-dark-img-col) {
+    margin-right: 47px;
+  }
+
+  body.bright-blue-futures main .columns-minimal-dark h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.bright-blue-futures main .columns-minimal-dark:has(h2:is(#improving-lives-in-the-communities-we-serve, #events-happenings-near-you)) p {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  body.bright-blue-futures main .columns-minimal-dark p:has(> sub) {
+    padding-bottom: 24px;
+  }
+}
+
+/* ==========================================================================
+   4. "Charitable Giving and Community Involvement" (.cards-variation
+   .container-sm-img, li.listSmlImg): sofia-pro semibold intro, transparent
+   icon cards with no body padding - one 300px (< 768) / 400px (768-991)
+   column, 3 x 370px cards 34px apart >= 992. Band padding 50/40 (< 576)
+   or 60/50, plus the 30px margin under the cards.
+   ========================================================================== */
+body.bright-blue-futures main > .section.cards-minimal-dark-withimg-icons-container {
+  padding: 50px 0 40px;
+}
+
+body.bright-blue-futures main > .section.cards-minimal-dark-withimg-icons-container > div {
+  box-sizing: border-box;
+  max-width: none;
+  padding: 0 max(15px, 2.5vw);
+}
+
+body.bright-blue-futures main .cards-minimal-dark-withimg-icons > ul {
+  grid-template-columns: 300px;
+  gap: 30px;
+  padding: 0 0 30px;
+}
+
+body.bright-blue-futures main .cards-minimal-dark-withimg-icons > ul > li {
+  background-color: transparent;
+  border-radius: 0;
+}
+
+body.bright-blue-futures main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body {
+  padding: 0;
+}
+
+body.bright-blue-futures main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
+  margin: 20px 0 13px;
+  font-size: 22px;
+  line-height: 24.2px;
+  letter-spacing: -0.4px;
+}
+
+body.bright-blue-futures main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p {
+  padding: 0;
+}
+
+body.bright-blue-futures main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p.button-container {
+  margin: 0 0 16px;
+}
+
+body.bright-blue-futures main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:any-link {
+  width: fit-content;
+}
+
+body.bright-blue-futures main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper h2 {
+  margin: 0 0 20px;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.bright-blue-futures main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper p {
+  margin: 0 0 30px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+@media (width >= 576px) {
+  body.bright-blue-futures main > .section.cards-minimal-dark-withimg-icons-container {
+    padding: 60px 0 50px;
+  }
+}
+
+@media (width >= 768px) {
+  body.bright-blue-futures main .cards-minimal-dark-withimg-icons > ul {
+    grid-template-columns: 400px;
+  }
+
+  body.bright-blue-futures main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.bright-blue-futures main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper p {
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.bright-blue-futures main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
+    padding-bottom: 3px;
+    font-size: 32px;
+    line-height: 35.2px;
+    letter-spacing: -0.44px;
+  }
+}
+
+/* 900-991px: the source keeps the single 400px column */
+@media (width >= 900px) and (width < 992px) {
+  body.bright-blue-futures main .cards-minimal-dark-withimg-icons > ul {
+    display: grid;
+  }
+
+  body.bright-blue-futures main .cards-minimal-dark-withimg-icons > ul > li {
+    width: auto;
+  }
+}
+
+@media (width >= 992px) {
+  body.bright-blue-futures main > .section.cards-minimal-dark-withimg-icons-container > div {
+    max-width: 1180px;
+    padding: 0;
+  }
+
+  /* inline-block source cards: illustrations of different heights
+     (211 / 200px) share a bottom edge, so the h3s line up. The card's
+     baseline is the bottom of its line-height:0 image cell. */
+  body.bright-blue-futures main .cards-minimal-dark-withimg-icons > ul {
+    gap: 30px 34px;
+    align-items: baseline;
+  }
+
+  body.bright-blue-futures main .cards-minimal-dark-withimg-icons > ul > li {
+    flex: 0 0 370px;
+    width: 370px;
+  }
+
+  body.bright-blue-futures main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
+    font-size: 24px;
+    line-height: 26.4px;
+    letter-spacing: -0.72px;
+  }
+
+  body.bright-blue-futures main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper {
+    max-width: 766px;
+  }
+
+  body.bright-blue-futures main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper h2 {
+    font-size: 34px;
+    line-height: 37.4px;
+    letter-spacing: -1.36px;
+  }
+
+  body.bright-blue-futures main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper p {
+    margin-bottom: 40px;
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+}
+
+/* ==========================================================================
+   5. "Community Impact Report" (blush) and "Introducing Blue Fund" (splash)
+   bands - .one-card-one-col-panel: padding 32/48 (< 992) or 64/64, 330 /
+   640 / 780px column, regular-weight sofia-pro lead, outlined 58px
+   .brand-button-light 16px (.mt-3) under the copy. Blue Fund text is
+   #004362. The two report buttons stack below 768px (15px apart) and sit
+   in one centred row 24px apart from 768px up (20px trailing line box).
+   ========================================================================== */
+body.bright-blue-futures main > .section:is(.highlight, .light-blue) {
+  padding: 32px 0 48px;
+}
+
+body.bright-blue-futures main > .section:is(.highlight, .light-blue) > .default-content-wrapper {
+  max-width: none;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+body.bright-blue-futures main > .section:is(.highlight, .light-blue) h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0 8px;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.bright-blue-futures main > .section:is(.highlight, .light-blue) p:not(.button-container) {
+  margin: 0;
+  color: var(--text-body-color);
+  font-family: var(--heading-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.25px;
+}
+
+body.bright-blue-futures main > .section.light-blue h2,
+body.bright-blue-futures main > .section.light-blue p:not(.button-container) {
+  color: #004362;
+}
+
+body.bright-blue-futures main > .section:is(.highlight, .light-blue) p.button-container {
+  margin: 16px 0 0;
+  line-height: 24px;
+}
+
+body.bright-blue-futures main > .section:is(.highlight, .light-blue) a.button:any-link {
+  margin: 16px 0;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+body.bright-blue-futures main > .section.highlight p.button-container + p.button-container {
+  margin-top: 0;
+}
+
+body.bright-blue-futures main > .section.highlight a.button:any-link {
+  margin: 0 0 15px;
+}
+
+@media (width >= 768px) {
+  body.bright-blue-futures main > .section:is(.highlight, .light-blue) > .default-content-wrapper {
+    padding: 0 64px;
+  }
+
+  body.bright-blue-futures main > .section:is(.highlight, .light-blue) h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.bright-blue-futures main > .section:is(.highlight, .light-blue) p:not(.button-container) {
+    font-size: 18px;
+    line-height: 23.4px;
+  }
+
+  body.bright-blue-futures main > .section.highlight {
+    padding-bottom: 68px;
+  }
+
+  body.bright-blue-futures main > .section.highlight > .default-content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 24px;
+  }
+
+  body.bright-blue-futures main > .section.highlight > .default-content-wrapper > :not(.button-container) {
+    flex: 0 0 100%;
+  }
+
+  body.bright-blue-futures main > .section.highlight p.button-container + p.button-container {
+    margin-top: 16px;
+  }
+}
+
+@media (width >= 992px) {
+  body.bright-blue-futures main > .section:is(.highlight, .light-blue) {
+    padding: 64px 0;
+  }
+
+  body.bright-blue-futures main > .section.highlight {
+    padding-bottom: 84px;
+  }
+
+  body.bright-blue-futures main > .section:is(.highlight, .light-blue) > .default-content-wrapper {
+    max-width: 780px;
+    padding: 0;
+  }
+
+  body.bright-blue-futures main > .section:is(.highlight, .light-blue) h2 {
+    padding: 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.bright-blue-futures main > .section:is(.highlight, .light-blue) p:not(.button-container) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}
+
+/* ==========================================================================
+   6. The Highmark Caring Place / Delaware Blueprints (.cards-variation
+   .wideImgContainer): padding 50/20 (< 768), 60/30 (768-899), 60/20 plus
+   the 30px card margin (36px with the trailing inline-block box >= 900);
+   square photos while stacked / 2-up below 900px.
+   ========================================================================== */
+body.bright-blue-futures main > .section > .cards-minimal-dark-withimg-2-wrapper {
+  max-width: none;
+  padding: 50px 0 20px;
+}
+
+body.bright-blue-futures main .cards-minimal-dark-withimg-2 {
+  padding-bottom: 30px;
+}
+
+@media (width < 900px) {
+  body.bright-blue-futures main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-image img {
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+}
+
+@media (width >= 768px) {
+  body.bright-blue-futures main > .section > .cards-minimal-dark-withimg-2-wrapper {
+    padding: 60px 0 30px;
+  }
+}
+
+@media (width >= 900px) {
+  body.bright-blue-futures main > .section > .cards-minimal-dark-withimg-2-wrapper {
+    padding: 60px 0 20px;
+  }
+
+  /* source li margin-left: 8px nudges the centred pair 4px right */
+  body.bright-blue-futures main .cards-minimal-dark-withimg-2 {
+    padding-bottom: 36px;
+  }
+
+  body.bright-blue-futures main .cards-minimal-dark-withimg-2 > ul {
+    padding-left: 8px;
+  }
+}
+
+/* ==========================================================================
+   7. Video disclaimer (plain section starting with a <sup> marker):
+   spacers 40 / 20px (< 992) or 60 / 40px; 30 / 64 / 83px gutters (1366px
+   container); 75% marker and fine print that never open up the line box.
+   ========================================================================== */
+body.bright-blue-futures main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) {
+  display: flow-root;
+  padding: 40px 0 20px;
+}
+
+body.bright-blue-futures main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) > .default-content-wrapper {
+  box-sizing: border-box;
+  max-width: none;
+  padding: 0 30px;
+}
+
+body.bright-blue-futures main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) p {
+  margin: 0 0 12.8px;
+  font-size: 15px;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+body.bright-blue-futures main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) p > sup,
+body.bright-blue-futures main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) p > sub {
+  position: relative;
+  font-size: 75%;
+  line-height: inherit;
+  vertical-align: baseline;
+}
+
+body.bright-blue-futures main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) p > sup {
+  top: -0.5em;
+}
+
+body.bright-blue-futures main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) p > sub {
+  top: 0.25em;
+}
+
+@media (width >= 768px) {
+  body.bright-blue-futures main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) > .default-content-wrapper {
+    padding: 0 64px;
+  }
+
+  body.bright-blue-futures main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) p {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.bright-blue-futures main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) {
+    padding: 60px 0 40px;
+  }
+
+  body.bright-blue-futures main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) > .default-content-wrapper {
+    max-width: 1366px;
+    padding: 0 83px;
+  }
+
+  body.bright-blue-futures main > .section:has(> .default-content-wrapper > p:first-child > sup:first-child) p {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+}

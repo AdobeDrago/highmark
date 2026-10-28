@@ -8,6 +8,8 @@ import columnsMinimalDarkParser from './parsers/columns-minimal-dark.js';
 import cardsMinimalDarkWithimgParser from './parsers/cards-minimal-dark-withimg.js';
 import cardsMinimalDarkListParser from './parsers/cards-minimal-dark-list.js';
 import cardsMinimalDarkWithimg2Parser from './parsers/cards-minimal-dark-withimg-2.js';
+import cardsMinimalDarkWithimgIconsParser from './parsers/cards-minimal-dark-withimg-icons.js';
+import columnsMinimalDarkOverlayParser from './parsers/columns-minimal-dark-overlay.js';
 import tableMinimalDarkCompareParser from './parsers/table-minimal-dark-compare.js';
 
 // TRANSFORMER IMPORTS
@@ -22,6 +24,8 @@ const parsers = {
   'cards-minimal-dark-withimg': cardsMinimalDarkWithimgParser,
   'cards-minimal-dark-list': cardsMinimalDarkListParser,
   'cards-minimal-dark-withimg-2': cardsMinimalDarkWithimg2Parser,
+  'cards-minimal-dark-withimg-icons': cardsMinimalDarkWithimgIconsParser,
+  'columns-minimal-dark-overlay': columnsMinimalDarkOverlayParser,
   'table-minimal-dark-compare': tableMinimalDarkCompareParser,
 };
 
@@ -40,6 +44,9 @@ const PAGE_TEMPLATE = {
     'https://www.highmark.com/resources/mental-health-services/depression',
     'https://www.highmark.com/resources/mental-health-services/eating-disorders',
     'https://www.highmark.com/resources/spending-accounts',
+    'https://www.highmark.com/resources/mental-health-services/substance-use-disorders',
+    'https://www.highmark.com/resources/mental-health-services/mental-health-resources-teens-children',
+    'https://www.highmark.com/resources/mental-health-services/mental-health-resources',
   ],
   blocks: [
     { name: 'hero-minimal-dark-withimg', instances: ['div.hero.responsivegrid.section'] },
@@ -57,7 +64,12 @@ const PAGE_TEMPLATE = {
         'div.newcardscomponent-variations.section:has(ul.gridcardsul):has(.cardThree picture)',
         'div.newcardscomponent-variations.section:has(ul.gridcardsul):has(.cardThree img)',
         'section.container-fluid-fullwidth.section:has(.cardText)',
+        'div.card-block.responsivegrid.section:has(.cardBlock)',
       ],
+    },
+    {
+      name: 'cards-minimal-dark-withimg-icons',
+      instances: ['div.newcardscomponent-variations.section:has(li.listSmlImg:not(.cardThree))'],
     },
     {
       name: 'cards-minimal-dark-list',
@@ -68,7 +80,21 @@ const PAGE_TEMPLATE = {
       name: 'table-minimal-dark-compare',
       instances: ['.dynamic-table-container', 'section.container-fluid-fullwidth.section:has(table)'],
     },
-    { name: 'section-crisis-highlight', instances: ['div.onecard1colpanel.section'], section: 'highlight' },
+    {
+      name: 'columns-minimal-dark-overlay',
+      instances: ['div.onecard1colpanel.section:has(.one-card-one-col-panel.image)'],
+    },
+    {
+      name: 'section-crisis-highlight',
+      instances: ['div.onecard1colpanel.section:not(:has(.one-card-one-col-panel.image)):not(:has(.new-hmk-brand-papergrey))'],
+      section: 'highlight',
+    },
+    { name: 'section-grey', instances: ['div.onecard1colpanel.section:has(.new-hmk-brand-papergrey)'], section: 'grey' },
+    {
+      name: 'section-white',
+      instances: ['div.newcardscomponent-variations.section:has(.listWideImg):not(:has(.new-hmk-brand-polar))'],
+      section: 'white',
+    },
   ],
 };
 
@@ -119,6 +145,15 @@ function findBlocksOnPage(document, template) {
 }
 
 export default {
+  // A side panel's empty spacer paragraph (/resources/spending-accounts: one line above
+  // "WATCH VIDEO") is kept as a zero-width space, on the live page: the importer copies
+  // the page before the transform, and the pipeline drops a blank paragraph.
+  onLoad: ({ document }) => {
+    document.querySelectorAll('.side-card-panel p').forEach((p) => {
+      if (!p.querySelector('img, br, a') && !p.textContent.replace(/[\s\u00a0]/g, '')) p.textContent = '\u200b';
+    });
+  },
+
   transform: (payload) => {
     const {
       document, url, html, params,
@@ -126,8 +161,32 @@ export default {
 
     const main = document.body;
 
+    // Source breadcrumb label for this page ("Anxiety"), read before cleanup removes
+    // the breadcrumb row. Page titles don't always give it ("…Treatments| Highmark").
+    const crumbLabel = (document.querySelector('ol.breadcrumb-list li.active')?.textContent || '')
+      .replace(/\s+/g, ' ').trim();
+
     // 1. beforeTransform (cleanup + section breaks)
     executeTransformers('beforeTransform', main, payload);
+
+    // A card or side-panel link that shares its paragraph (/resources/spending-accounts:
+    // "WATCH VIDEO", then "See disclaimer below¹") stays in the text, as on the source:
+    // the cards and columns parsers move every link after the copy as a CTA, so these
+    // are held out until they have run.
+    const inlineLinks = [];
+    main.querySelectorAll('.cardText p a[href], .side-card-panel p a[href]').forEach((a) => {
+      const p = a.closest('p');
+      if (p.textContent.trim() === a.textContent.trim()) return;
+      // the source's line break sits at the end of the bold, which Markdown drops
+      const bold = a.parentElement;
+      if (/^(B|STRONG)$/.test(bold.tagName) && bold.lastElementChild?.tagName === 'BR') {
+        bold.after(bold.lastElementChild);
+      }
+      const marker = document.createElement('span');
+      marker.dataset.inlineLink = inlineLinks.length;
+      inlineLinks.push(a);
+      a.replaceWith(marker);
+    });
 
     // 2. Discover blocks
     const pageBlocks = findBlocksOnPage(document, PAGE_TEMPLATE);
@@ -147,13 +206,23 @@ export default {
       }
     });
 
+    main.querySelectorAll('span[data-inline-link]').forEach((marker) => {
+      marker.replaceWith(inlineLinks[Number(marker.dataset.inlineLink)]);
+    });
+
     // 4. afterTransform (final cleanup + section metadata)
     executeTransformers('afterTransform', main, payload);
 
     // 5. WebImporter built-in rules
     const hr = document.createElement('hr');
     main.appendChild(hr);
-    WebImporter.rules.createMetadata(main, document);
+    // Page metadata: source meta tags + breadcrumbs=true (read by scripts/scripts.js),
+    // the source's breadcrumb label, and template=topic-hub-subnav (body class scoping).
+    const meta = WebImporter.Blocks.getMetadata(document) || {};
+    meta.breadcrumbs = 'true';
+    if (crumbLabel) meta['Breadcrumb Title'] = crumbLabel;
+    meta.template = 'topic-hub-subnav';
+    main.append(WebImporter.Blocks.getMetadataBlock(document, meta));
     WebImporter.rules.transformBackgroundImages(main, document);
     WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
 

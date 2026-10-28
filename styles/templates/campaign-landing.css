@@ -1,0 +1,1158 @@
+/* Template "campaign-landing" (page metadata template=campaign-landing ->
+   body.campaign-landing). Loaded by scripts/scripts.js (TEMPLATE_STYLES).
+
+   Pages: /because-life, /health-options-wv, /ventures, and
+   /because-life/south-park-activities (section 10). Values extracted
+   (getComputedStyle) from https://www.highmark.com/because-life (and the two
+   other pages for the shared components) at 390 / 768 / 992 / 1280 / 1440.
+
+   Source grid: a bootstrap-style .container, max 1366px, with 30px gutters
+   below 768, 64px from 768 and 83px from 992 (so the content row is
+   min(1200px, 100% - 166px) on desktop). --cl-gutter carries those gutters.
+
+   Components, source -> ours:
+   1. .secondary-banner (because-life, health-options-wv) and .sub-hero-sec
+      (ventures) -> hero-minimal-dark-withimg with an h1. Desktop (>= 992):
+      white text over the 1500x400 photo, column starts at x = 150. Below 992
+      the photo (784x288 / 375x200 art-direction crops) stacks above a
+      coloured text panel.
+   2. .card-block -> default content (h2 + lead) + cards-minimal-dark-withimg
+      (-icons) sections: 60/50px band, 580px centered intro, 370px cards (470
+      for 2-card sets) in rows of floor(row / 400px), odd last card centered.
+   3. .one-card-one-col-panel.image -> hero-minimal-dark-withimg without h1:
+      photo band (1500x320), white copy + outlined white CTA over it; the
+      text panel below the photo on mobile is the band's grey.
+   4. .side-card-panel -> columns-minimal-dark: 80/48/32px band, 550px text
+      | 555px photo (24px apart, centered), photo above text below 992.
+   5. Footnote (default content <sub>): 20px spacers, source container inset.
+   6. .one-card-one-col-panel.color (navy / polar / blush text bands) -> a
+      `center` section of default content (style dark / light / highlight):
+      32/48px band (64px from 992), 780px column, filled blue CTA (highlight)
+      or uppercase text links with the new-tab icon (light).
+   7. /health-options-wv plan cards: cards-minimal-dark-withimg (underline,
+      mobile-center) -- title rule and CTA centred below 992.
+   8. Side panel CTAs (all pages) and /health-options-wv's paragraph + list
+      side panel copy.
+   9. /health-options-wv help cards (cards-minimal-dark-withimg-2): band
+      padding, title colour, inline phone links.
+
+   Every rule targets a distinct element of this one template, so the
+   specificity ordering lint is off (same convention as the other templates). */
+
+/* stylelint-disable no-descending-specificity */
+
+body.campaign-landing {
+  --cl-gutter: 30px;
+  --cl-container: 1366px;
+  --cl-band-grey: #8996a1;
+}
+
+@media (width >= 768px) {
+  body.campaign-landing {
+    --cl-gutter: 64px;
+  }
+}
+
+@media (width >= 992px) {
+  body.campaign-landing {
+    --cl-gutter: 83px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 1. Top hero (hero-minimal-dark-withimg with h1)
+ * ------------------------------------------------------------------ */
+
+/* Mobile + tablet: photo on top, text panel below (source
+   .secondaryBannerContentInner.mobileBackground*: padding 35px). The panel
+   colour differs per page: navy + white text (because-life), splash blue +
+   navy text (health-options-wv), see the page overrides below. */
+@media (width < 992px) {
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1) {
+    display: block;
+    min-height: 0;
+  }
+
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1) > div:first-child {
+    position: static;
+  }
+
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1) > div:first-child,
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1) > div:first-child > div,
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1) > div:first-child picture {
+    height: auto;
+  }
+
+  /* source swaps in a 784x288 crop (768x282 at 768) centred on the subjects,
+     who sit on the right of the authored desktop photo */
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1) picture img {
+    display: block;
+    height: auto;
+    aspect-ratio: 784 / 288;
+    object-position: 100% 50%;
+  }
+
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1) > div:last-child {
+    max-width: none;
+    padding: 35px;
+    background-color: var(--text-color);
+  }
+
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1) h1 {
+    max-width: none;
+    margin: 0 0 8px;
+    padding: 0 0 12px;
+    color: #fff;
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1) h2 {
+    max-width: none;
+    margin: 0 0 8px;
+    padding: 0 0 22px;
+    color: #fff;
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+}
+
+@media (width < 768px) {
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1) h1 {
+    font-size: 32px;
+    line-height: 35.2px;
+    letter-spacing: -1.28px;
+  }
+
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1) h2 {
+    font-size: 26px;
+    line-height: 28.6px;
+    letter-spacing: -0.72px;
+  }
+}
+
+@media (width <= 425px) {
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1) picture img {
+    aspect-ratio: 375 / 200;
+  }
+}
+
+/* Desktop: band follows the 1500x400 photo; white h1 (56px) + h2 (34px),
+   580px wide, starting 150px from the viewport edge, vertically centred */
+@media (width >= 992px) {
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1) {
+    min-height: calc(100vw * 400 / 1500);
+  }
+
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1) > div:last-child {
+    max-width: none;
+    margin: 0;
+    padding: 0 150px;
+  }
+
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1) h1,
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1) h2 {
+    max-width: 580px;
+    color: #fff;
+  }
+
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1) h1 {
+    margin: 0 0 8px;
+    padding: 0 0 12px;
+  }
+
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1) h2 {
+    margin: 0 0 8px;
+    padding: 0 0 22px;
+  }
+}
+
+/* the source keeps its 784x288 tablet crop up to 1024px */
+@media (width >= 992px) and (width <= 1024px) {
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1) {
+    min-height: calc(100vw * 288 / 784);
+  }
+
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1) picture img {
+    object-position: 100% 50%;
+  }
+}
+
+/* health-options-wv: splash-blue mobile panel with navy text
+   (.mobileBackgroundSplashBlueFifteen) */
+@media (width < 992px) {
+  body.campaign-landing .hero-minimal-dark-withimg:has(#medicare-d-snp-medicaid-and-chip) > div:last-child {
+    background-color: var(--light-blue-color);
+  }
+
+  body.campaign-landing .hero-minimal-dark-withimg:has(#medicare-d-snp-medicaid-and-chip) :is(h1, h2) {
+    color: var(--text-color);
+    text-align: center;
+  }
+}
+
+/* ventures: the source hero is the .sub-hero-sec component instead. Desktop
+   column is 2/3 of the viewport minus the 150px inset; the h1 is 90% and the
+   h2 85% of it. Mobile/tablet panel is navy, padding 20/20/35, with a
+   smaller 20px subheading (the source's mobile h3). */
+@media (width < 992px) {
+  body.campaign-landing .hero-minimal-dark-withimg:has(#highmark-ventures-is-transforming-healthcare) > div:last-child {
+    padding: 20px 20px 35px;
+  }
+
+  body.campaign-landing .hero-minimal-dark-withimg:has(#highmark-ventures-is-transforming-healthcare) h1 {
+    margin: 5px 0 0;
+    padding: 15px;
+  }
+
+  body.campaign-landing .hero-minimal-dark-withimg:has(#highmark-ventures-is-transforming-healthcare) h2 {
+    margin: 0;
+    padding: 15px;
+    font-size: 20px;
+    line-height: 22px;
+    letter-spacing: -0.44px;
+  }
+}
+
+@media (width < 768px) {
+  body.campaign-landing .hero-minimal-dark-withimg:has(#highmark-ventures-is-transforming-healthcare) h1 {
+    margin-top: 16px;
+    padding-top: 0;
+  }
+
+  body.campaign-landing .hero-minimal-dark-withimg:has(#highmark-ventures-is-transforming-healthcare) h2 {
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.campaign-landing .hero-minimal-dark-withimg:has(#highmark-ventures-is-transforming-healthcare) {
+    --cl-hero-inset: 150px;
+  }
+
+  body.campaign-landing .hero-minimal-dark-withimg:has(#highmark-ventures-is-transforming-healthcare) > div:last-child {
+    padding: 0 0 0 var(--cl-hero-inset);
+  }
+
+  body.campaign-landing .hero-minimal-dark-withimg:has(#highmark-ventures-is-transforming-healthcare) h1 {
+    max-width: calc((100vw * 2 / 3 - var(--cl-hero-inset)) * 0.9);
+    margin: 0;
+    padding: 0 0 14.4px;
+  }
+
+  body.campaign-landing .hero-minimal-dark-withimg:has(#highmark-ventures-is-transforming-healthcare) h2 {
+    max-width: calc((100vw * 2 / 3 - var(--cl-hero-inset)) * 0.85);
+    margin: 0;
+    padding: 12.8px 0 24px;
+  }
+}
+
+/* the .sub-hero-sec inset is 30px below 1024px and 110px up to 1099px */
+@media (width >= 992px) and (width < 1024px) {
+  body.campaign-landing .hero-minimal-dark-withimg:has(#highmark-ventures-is-transforming-healthcare) {
+    --cl-hero-inset: 30px;
+  }
+}
+
+@media (width >= 1024px) and (width < 1100px) {
+  body.campaign-landing .hero-minimal-dark-withimg:has(#highmark-ventures-is-transforming-healthcare) {
+    --cl-hero-inset: 110px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 2. Card-block sections: intro + card grid
+ * ------------------------------------------------------------------ */
+body.campaign-landing main > .section:is(.cards-minimal-dark-withimg-icons-container, .cards-minimal-dark-withimg-container) {
+  margin: 0;
+  padding: 60px 0 50px;
+}
+
+body.campaign-landing main > .section:is(.cards-minimal-dark-withimg-icons-container, .cards-minimal-dark-withimg-container) > div {
+  box-sizing: border-box;
+  max-width: var(--cl-container);
+  padding: 0 var(--cl-gutter);
+}
+
+/* intro: 580px centered column on desktop, full row below */
+body.campaign-landing main > .section:is(.cards-minimal-dark-withimg-icons-container, .cards-minimal-dark-withimg-container) > .default-content-wrapper:first-child {
+  text-align: center;
+}
+
+body.campaign-landing main > .section:is(.cards-minimal-dark-withimg-icons-container, .cards-minimal-dark-withimg-container) > .default-content-wrapper:first-child h2 {
+  margin: 0 auto 16px;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.campaign-landing main > .section:is(.cards-minimal-dark-withimg-icons-container, .cards-minimal-dark-withimg-container) > .default-content-wrapper:first-child h2 + p {
+  margin: 0 auto 16px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 27px;
+  letter-spacing: -0.2px;
+}
+
+/* cards: 15px margin around each card -> 30px apart, 15px inside the row */
+body.campaign-landing main > .section :is(.cards-minimal-dark-withimg-icons, .cards-minimal-dark-withimg) > ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin: 0;
+  padding: 15px;
+}
+
+body.campaign-landing main > .section :is(.cards-minimal-dark-withimg-icons, .cards-minimal-dark-withimg) > ul > li {
+  flex: 0 1 400px;
+  width: auto;
+}
+
+body.campaign-landing main > .section :is(.cards-minimal-dark-withimg-icons, .cards-minimal-dark-withimg) > ul:has(> li:nth-child(2):last-child) > li {
+  flex-basis: 470px;
+}
+
+/* source card wrappers have square corners under the shadow */
+body.campaign-landing main > .section .cards-minimal-dark-withimg > ul > li {
+  border-radius: 0;
+}
+
+/* CTA under the grid (.hmk-brand-buttons .brand-button-light): 211x58 */
+body.campaign-landing main > .section:is(.cards-minimal-dark-withimg-icons-container, .cards-minimal-dark-withimg-container) > .default-content-wrapper:last-child:not(:first-child) p.button-container {
+  margin: 0;
+}
+
+body.campaign-landing main > .section:is(.cards-minimal-dark-withimg-icons-container, .cards-minimal-dark-withimg-container) > .default-content-wrapper:last-child:not(:first-child) a.button:any-link {
+  margin: 16px 0;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+@media (width >= 768px) {
+  body.campaign-landing main > .section:is(.cards-minimal-dark-withimg-icons-container, .cards-minimal-dark-withimg-container) > .default-content-wrapper:first-child h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.campaign-landing main > .section:is(.cards-minimal-dark-withimg-icons-container, .cards-minimal-dark-withimg-container) > .default-content-wrapper:first-child h2 + p {
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.campaign-landing main > .section:is(.cards-minimal-dark-withimg-icons-container, .cards-minimal-dark-withimg-container) > .default-content-wrapper:first-child > * {
+    max-width: 580px;
+  }
+
+  body.campaign-landing main > .section:is(.cards-minimal-dark-withimg-icons-container, .cards-minimal-dark-withimg-container) > .default-content-wrapper:first-child h2 {
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.campaign-landing main > .section:is(.cards-minimal-dark-withimg-icons-container, .cards-minimal-dark-withimg-container) > .default-content-wrapper:first-child h2 + p {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  body.campaign-landing main > .section :is(.cards-minimal-dark-withimg-icons, .cards-minimal-dark-withimg) > ul > li {
+    flex: 0 0 370px;
+  }
+
+  body.campaign-landing main > .section :is(.cards-minimal-dark-withimg-icons, .cards-minimal-dark-withimg) > ul:has(> li:nth-child(2):last-child) > li {
+    flex-basis: 470px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 3. Photo banner with CTA (hero-minimal-dark-withimg without h1)
+ * ------------------------------------------------------------------ */
+body.campaign-landing .hero-minimal-dark-withimg:not(:has(h1)) {
+  background-color: var(--cl-band-grey);
+}
+
+body.campaign-landing .hero-minimal-dark-withimg:not(:has(h1)) h2,
+body.campaign-landing .hero-minimal-dark-withimg:not(:has(h1)) p {
+  color: #fff;
+}
+
+/* outlined white CTA (.brand-button-light on the dark band) */
+body.campaign-landing main .hero-minimal-dark-withimg:not(:has(h1)) a.button:any-link {
+  margin: 16px 0;
+  border: 1px solid #fff;
+  color: #fff;
+}
+
+body.campaign-landing main .hero-minimal-dark-withimg:not(:has(h1)) a.button:hover,
+body.campaign-landing main .hero-minimal-dark-withimg:not(:has(h1)) a.button:focus {
+  background-color: #fff;
+  color: var(--text-color);
+}
+
+/* mobile/tablet: art-directed crops (375x200 <= 425px, 768x288 above),
+   text in the container gutters */
+@media (width < 992px) {
+  body.campaign-landing .hero-minimal-dark-withimg:not(:has(h1)) {
+    display: block;
+    min-height: 0;
+  }
+
+  body.campaign-landing .hero-minimal-dark-withimg:not(:has(h1)) > div:first-child {
+    position: static;
+  }
+
+  body.campaign-landing .hero-minimal-dark-withimg:not(:has(h1)) > div:first-child,
+  body.campaign-landing .hero-minimal-dark-withimg:not(:has(h1)) > div:first-child > div,
+  body.campaign-landing .hero-minimal-dark-withimg:not(:has(h1)) > div:first-child picture {
+    height: auto;
+  }
+
+  body.campaign-landing .hero-minimal-dark-withimg:not(:has(h1)) picture img {
+    display: block;
+    height: auto;
+    aspect-ratio: 768 / 288;
+  }
+
+  body.campaign-landing .hero-minimal-dark-withimg:not(:has(h1)) > div:last-child {
+    padding: 0 var(--cl-gutter);
+  }
+}
+
+@media (width <= 425px) {
+  body.campaign-landing .hero-minimal-dark-withimg:not(:has(h1)) picture img {
+    aspect-ratio: 375 / 200;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.campaign-landing .hero-minimal-dark-withimg:not(:has(h1)) h2 {
+    margin: 0 0 8px;
+    padding: 19.2px 0 8px;
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.campaign-landing .hero-minimal-dark-withimg:not(:has(h1)) p:not(.button-container) {
+    font-size: 18px;
+    line-height: 23.4px;
+  }
+}
+
+/* desktop: band = 1500x320 photo; 480px copy column at the container inset,
+   vertically centred */
+@media (width >= 992px) {
+  body.campaign-landing .hero-minimal-dark-withimg:not(:has(h1)) {
+    align-items: center;
+  }
+
+  /* the copy (280px) is a little taller than the band at 1280 (273px); the
+     source keeps the photo height and lets the copy overflow, centred. The
+     -4px block margins do the same while the band is taller than ~272px. */
+  body.campaign-landing .hero-minimal-dark-withimg:not(:has(h1)) > div:last-child {
+    max-width: var(--cl-container);
+    margin-block: -4px;
+    padding: 0 var(--cl-gutter);
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 4. Side card panels (columns-minimal-dark)
+ * ------------------------------------------------------------------ */
+body.campaign-landing main > .section.columns-minimal-dark-container {
+  margin: 0;
+  padding: 0;
+}
+
+body.campaign-landing main > .section > .columns-minimal-dark-wrapper {
+  box-sizing: border-box;
+  max-width: var(--cl-container);
+  padding: 32px var(--cl-gutter);
+}
+
+body.campaign-landing main .section .columns-minimal-dark > div {
+  flex-direction: column;
+  gap: 0;
+}
+
+body.campaign-landing main .section .columns-minimal-dark > div > div {
+  flex: 0 1 auto;
+}
+
+body.campaign-landing main .section .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+  order: -1;
+}
+
+body.campaign-landing main .section .columns-minimal-dark h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+/* .hmk-brand-buttons.mt-3 under the copy */
+body.campaign-landing main .section .columns-minimal-dark p.button-container {
+  display: flex;
+  margin: 16px 0 0;
+}
+
+/* because-life: the source copy ends in a <br> (one empty 24px line) and the
+   CTA follows it with no margin */
+body.campaign-landing main .section .columns-minimal-dark:has(#feel-empowered-on-your-path-to-better-health, #get-connected-to-support) p.button-container {
+  margin-top: 24px;
+}
+
+@media (width >= 544px) {
+  body.campaign-landing main > .section > .columns-minimal-dark-wrapper {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+}
+
+@media (width >= 544px) and (width < 992px) {
+  body.campaign-landing main .section .columns-minimal-dark {
+    max-width: 768px;
+    margin: 0 auto;
+  }
+
+  body.campaign-landing main .section .columns-minimal-dark > div > div {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+@media (width >= 768px) {
+  body.campaign-landing main .section .columns-minimal-dark h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+}
+
+/* desktop: 550px text | 555px photo, 24px apart, centred in the row; a
+   photo-right row pushes the photo to the row edge */
+@media (width >= 992px) {
+  body.campaign-landing main > .section > .columns-minimal-dark-wrapper {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+
+  body.campaign-landing main .section .columns-minimal-dark > div {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  body.campaign-landing main .section .columns-minimal-dark > div > div:not(.columns-minimal-dark-img-col) {
+    flex: 0 1 550px;
+    box-sizing: border-box;
+    max-width: 720px;
+    margin: 0 auto 0 0;
+    padding: 0 24px;
+  }
+
+  body.campaign-landing main .section .columns-minimal-dark > div > .columns-minimal-dark-img-col + div {
+    margin: 0 0 0 24px;
+  }
+
+  body.campaign-landing main .section .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    order: 0;
+    flex: 0 1 555px;
+    max-width: 555px;
+    margin: 0 24px;
+  }
+
+  body.campaign-landing main .section .columns-minimal-dark h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 5. Footnote (<sub> line): source container inset, 20px spacers
+ * ------------------------------------------------------------------ */
+
+/* the trailing empty section (left by the metadata block) adds no gap
+   above the footer */
+body.campaign-landing main > .section:not(:has(> *)) {
+  display: none;
+}
+
+body.campaign-landing main > .section:has(> .default-content-wrapper > p > sub) {
+  margin: 0;
+  padding: 20px 0;
+}
+
+body.campaign-landing main > .section:has(> .default-content-wrapper > p > sub) > .default-content-wrapper {
+  box-sizing: border-box;
+  max-width: var(--cl-container);
+  padding: 0 var(--cl-gutter);
+}
+
+body.campaign-landing main > .section > .default-content-wrapper p:has(> sub) {
+  margin: 0 0 12.8px;
+  font-size: 15px;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+body.campaign-landing main > .section > .default-content-wrapper p > sub {
+  font-size: 11.25px;
+  line-height: 0;
+  vertical-align: baseline;
+}
+
+@media (width >= 768px) {
+  body.campaign-landing main > .section > .default-content-wrapper p:has(> sub) {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.campaign-landing main > .section > .default-content-wrapper p:has(> sub) {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  body.campaign-landing main > .section > .default-content-wrapper p > sub {
+    font-size: 12px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 6. Text bands: a `center` section of default content only (Style dark /
+ *    light / highlight; sections holding a block get a *-container class)
+ * ------------------------------------------------------------------ */
+body.campaign-landing main > .section.center:not([class*="-container"]) {
+  margin: 0;
+  padding: 32px 0 48px;
+}
+
+body.campaign-landing main > .section.center:not([class*="-container"]) > .default-content-wrapper {
+  box-sizing: border-box;
+  max-width: var(--cl-container);
+  padding: 0 var(--cl-gutter);
+}
+
+body.campaign-landing main > .section.center:not([class*="-container"]) h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0 8px;
+  color: #004362;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.campaign-landing main > .section.center:not([class*="-container"]) p:not(.button-container) {
+  margin: 0;
+  color: #004362;
+  font-family: var(--heading-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.25px;
+}
+
+body.campaign-landing main > .section.center.dark:not([class*="-container"]) :is(h2, p) {
+  color: #fff;
+}
+
+/* polar band icon (.logo-image): 300px wide, centred */
+body.campaign-landing main > .section.center:not([class*="-container"]) p:has(> picture) img {
+  display: block;
+  width: 300px;
+  margin: 0 auto;
+}
+
+/* CTAs: the source's .buttonGroup .button.mt-3 sits 16px under the copy */
+body.campaign-landing main > .section.center:not([class*="-container"]) p.button-container {
+  margin: 16px 0 0;
+}
+
+/* highlight band (/ventures "Let's change healthcare"): filled blue
+   .brand-button-normal, 145x56, navy on hover */
+body.campaign-landing main > .section.highlight.center:not([class*="-container"]) a.button:any-link {
+  display: inline-block;
+  margin: 16px 0;
+  padding: 16px 24px;
+  border: 0;
+  border-radius: 5px;
+  background-color: var(--link-color);
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+body.campaign-landing main > .section.highlight.center:not([class*="-container"]) a.button:focus {
+  background-color: var(--link-color);
+  color: #fff;
+}
+
+body.campaign-landing main > .section.highlight.center:not([class*="-container"]) a.button:hover {
+  background-color: var(--text-color);
+  color: #fff;
+}
+
+/* light band (/health-options-wv "Find a network doctor"): uppercase blue
+   .textButton links (one per line below 768, side by side from 768) */
+body.campaign-landing main > .section.light.center:not([class*="-container"]) p.button-container + p.button-container {
+  margin-top: 0;
+}
+
+body.campaign-landing main > .section.light.center:not([class*="-container"]) a.button:any-link {
+  display: inline-block;
+  margin: 0 5px 15px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--link-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: normal;
+  vertical-align: top;
+  white-space: normal;
+}
+
+body.campaign-landing main > .section.light.center:not([class*="-container"]) a.button:hover,
+body.campaign-landing main > .section.light.center:not([class*="-container"]) a.button:focus {
+  background-color: transparent;
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+/* new-tab icon after off-site text CTAs (the source's svg.externalIcon,
+   Material "open_in_new": an 18px glyph in a 24px box, text-top) */
+body.campaign-landing main > .section.light.center:not([class*="-container"]) a.button[href*="//"]::after,
+body.campaign-landing main .section .columns-minimal-dark a.button[href*="//"]::after {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-left: 4px;
+  background-color: currentcolor;
+  vertical-align: text-top;
+  mask: url('../../icons/open-in-new.svg') center / 18px 18px no-repeat;
+}
+
+/* above 480 the source's .button wrappers are inline-flex (16px / 10px above,
+   20px below, links 24px apart), baseline-aligned, wrapping when narrow */
+@media (width > 480px) {
+  body.campaign-landing main > .section.light.center:not([class*="-container"]) p.button-container {
+    display: inline-block;
+    margin: 16px 7px 20px;
+  }
+
+  body.campaign-landing main > .section.light.center:not([class*="-container"]) p.button-container + p.button-container {
+    margin-top: 10px;
+  }
+}
+
+@media (width >= 768px) {
+  body.campaign-landing main > .section.center:not([class*="-container"]) h2 {
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.campaign-landing main > .section.center:not([class*="-container"]) p:not(.button-container) {
+    font-size: 18px;
+    line-height: 23.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.campaign-landing main > .section.center:not([class*="-container"]) {
+    padding: 64px 0;
+  }
+
+  body.campaign-landing main > .section.center:not([class*="-container"]) > .default-content-wrapper > :not(.button-container) {
+    max-width: 780px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  body.campaign-landing main > .section.center:not([class*="-container"]) h2 {
+    padding: 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.campaign-landing main > .section.center:not([class*="-container"]) p:not(.button-container) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  body.campaign-landing main > .section.center:not([class*="-container"]) p:not(.button-container):has(> picture) {
+    margin-bottom: 48px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 7. Plan cards with a title rule (cards-minimal-dark-withimg (underline,
+ *    mobile-center), /health-options-wv): <hr class="titleUnderline"> 51x4px
+ *    #0078c1, 1px rgba(0,0,0,.1) top border, 2px radius, 10px under the
+ *    title, the copy straight under it; CTA centred below 992
+ * ------------------------------------------------------------------ */
+body.campaign-landing .cards-minimal-dark-withimg.underline .cards-minimal-dark-withimg-card-body h3 {
+  margin-bottom: 0;
+}
+
+body.campaign-landing .cards-minimal-dark-withimg.underline .cards-minimal-dark-withimg-card-body h3::after {
+  content: '';
+  display: block;
+  box-sizing: content-box;
+  width: 51px;
+  height: 4px;
+  margin-top: 10px;
+  border-top: 1px solid rgb(0 0 0 / 10%);
+  border-radius: 2px;
+  background-color: #0078c1;
+}
+
+body.campaign-landing .cards-minimal-dark-withimg.underline .cards-minimal-dark-withimg-card-body h3 + p {
+  margin-top: 0;
+}
+
+@media (width < 992px) {
+  body.campaign-landing .cards-minimal-dark-withimg.mobile-center .cards-minimal-dark-withimg-card-body p.button-container {
+    justify-content: center;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 8. Side panels: CTA hover; /health-options-wv paragraph + list copy
+ * ------------------------------------------------------------------ */
+
+/* source .textButton: underlined on hover, colour unchanged */
+body.campaign-landing main .section .columns-minimal-dark a.button:hover,
+body.campaign-landing main .section .columns-minimal-dark a.button:focus {
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+/* /health-options-wv "Use no-cost resources": the source copy is <p>s and a
+   <ul> (body copy: light, #001446), where /ventures and /because-life have
+   bare text in a div (regular navy); a list marks the paragraph variant */
+body.campaign-landing main .section .columns-minimal-dark:has(ul) p:not(.button-container) {
+  margin: 0 0 12.8px;
+  color: var(--text-body-color);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+body.campaign-landing main .section .columns-minimal-dark:has(ul) ul {
+  margin: 0 0 16px 8px;
+  padding: 0;
+  color: var(--text-body-color);
+  font-size: 15px;
+  font-weight: 100;
+  line-height: 22.5px;
+}
+
+body.campaign-landing main .section .columns-minimal-dark:has(ul) li {
+  margin-left: 8px;
+}
+
+/* the paragraph margin above is the CTA's gap */
+body.campaign-landing main .section .columns-minimal-dark:has(ul) p.button-container {
+  margin-top: 0;
+}
+
+@media (width >= 768px) {
+  body.campaign-landing main .section .columns-minimal-dark:has(ul) p:not(.button-container) {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.campaign-landing main .section .columns-minimal-dark:has(ul) p:not(.button-container) {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 9. Help cards (cards-minimal-dark-withimg-2, /health-options-wv): source
+ *    .wideImgContainer padding 50/20 (< 768), 60/30 (768-991), 60/20 (>= 992)
+ *    plus the li's 30px bottom margin (and 6px of inline-block line box on
+ *    desktop); title in the source's #084266; phone numbers are inline bold
+ *    #0078c1 links in the body copy
+ * ------------------------------------------------------------------ */
+body.campaign-landing main > .section.cards-minimal-dark-withimg-2-container {
+  margin: 0;
+  padding: 50px 0 20px;
+}
+
+body.campaign-landing main .cards-minimal-dark-withimg-2 {
+  padding: 0 0 30px;
+}
+
+body.campaign-landing main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body h3 {
+  color: #084266;
+}
+
+/* the source's empty .hmk-brand-buttons row (15px + 20px margins) closes the card */
+body.campaign-landing main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p.button-container:has(a[href^="tel:"]) {
+  margin: 0 0 35px;
+  letter-spacing: -0.2px;
+}
+
+body.campaign-landing main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body a.button[href^="tel:"]:any-link {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  color: #0078c1;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+  white-space: normal;
+}
+
+body.campaign-landing main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body a.button[href^="tel:"]:focus {
+  background-color: transparent;
+  color: #0078c1;
+  text-decoration: underline;
+}
+
+body.campaign-landing main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body a.button[href^="tel:"]:hover {
+  background-color: transparent;
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+@media (width >= 768px) {
+  body.campaign-landing main > .section.cards-minimal-dark-withimg-2-container {
+    padding: 60px 0 30px;
+  }
+
+  body.campaign-landing main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p.button-container:has(a[href^="tel:"]) {
+    letter-spacing: -0.4px;
+  }
+}
+
+/* desktop: the source cards are 520x200 inline-blocks (overflow hidden, so
+   each line adds 6px of strut under the 30px bottom margin: 36px here), 8px
+   left margin, 30px + a space after the first card, in a min(1200px, 100%) row:
+   side by side from a 1090px row, stacked (centred) below it */
+@media (width >= 900px) {
+  body.campaign-landing main > .section.cards-minimal-dark-withimg-2-container {
+    padding: 60px 0 20px;
+  }
+
+  body.campaign-landing main > .section > .cards-minimal-dark-withimg-2-wrapper {
+    padding: 0;
+  }
+
+  body.campaign-landing main .cards-minimal-dark-withimg-2 {
+    padding: 0;
+  }
+
+  body.campaign-landing main .cards-minimal-dark-withimg-2 > ul {
+    display: block;
+    padding: 0;
+    font-size: 15px;
+    line-height: 22.5px;
+    text-align: center;
+  }
+
+  body.campaign-landing main .cards-minimal-dark-withimg-2 > ul > li {
+    display: inline-flex;
+    box-sizing: border-box;
+    width: 520px;
+    margin: 0 0 36px 8px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  body.campaign-landing main .cards-minimal-dark-withimg-2 > ul > li:first-child {
+    margin-right: 34px;
+  }
+
+  body.campaign-landing main .cards-minimal-dark-withimg-2 .cards-minimal-dark-withimg-2-card-body p.button-container:has(a[href^="tel:"]) {
+    margin: 0 0 15px;
+    letter-spacing: -0.1px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 10. /because-life/south-park-activities
+ *    - .secondary-banner.noImage -> hero-minimal-dark-withimg with an h1 and
+ *      no picture: a navy band, centred white h1 + h2 in a 780px column
+ *      (.contentWrapper padding 35px inside a 24 / 48 / 65px band).
+ *    - .container-sm-img li.cardThree.listSmlImg -> cards-minimal-dark-withimg
+ *      (small-image): 370px cards 34px apart (3 a row from 1200px, 2 from
+ *      992px, last row centred), stacked 400px cards below 992; image, title,
+ *      bullet list, address, left-aligned DIRECTIONS link.
+ *    Both are keyed on content the other campaign pages don't have (a hero
+ *    without a picture, the small-image variant), so they are unchanged.
+ * ------------------------------------------------------------------ */
+body.campaign-landing .hero-minimal-dark-withimg:has(h1):not(:has(picture)) {
+  display: block;
+  min-height: 0;
+  padding: 24px 0;
+  background-color: var(--text-color);
+}
+
+body.campaign-landing .hero-minimal-dark-withimg:has(h1):not(:has(picture)) > div:first-child {
+  position: relative;
+  inset: auto;
+  height: auto;
+}
+
+body.campaign-landing .hero-minimal-dark-withimg:has(h1):not(:has(picture)) > div:first-child > div {
+  height: auto;
+}
+
+body.campaign-landing .hero-minimal-dark-withimg:has(h1):not(:has(picture)) > div:last-child {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 35px;
+  background-color: transparent;
+  text-align: center;
+}
+
+body.campaign-landing .hero-minimal-dark-withimg:has(h1):not(:has(picture)) :is(h1, h2) {
+  max-width: none;
+  color: #fff;
+}
+
+@media (width >= 768px) {
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1):not(:has(picture)) {
+    padding: 48px 0;
+  }
+}
+
+@media (width >= 992px) {
+  body.campaign-landing .hero-minimal-dark-withimg:has(h1):not(:has(picture)) {
+    padding: 65px 0;
+  }
+}
+
+body.campaign-landing main > .section.cards-minimal-dark-withimg-container:has(.cards-minimal-dark-withimg.small-image) {
+  padding: 50px 0 70px;
+}
+
+body.campaign-landing main > .section .cards-minimal-dark-withimg.small-image > ul {
+  padding: 0 15px;
+}
+
+body.campaign-landing main > .section .cards-minimal-dark-withimg.small-image > ul > li {
+  box-shadow: rgb(0 0 0 / 16%) 0 3px 6px 0;
+}
+
+body.campaign-landing .cards-minimal-dark-withimg.small-image .cards-minimal-dark-withimg-card-body {
+  padding: 20px 20px 16px;
+}
+
+body.campaign-landing .cards-minimal-dark-withimg.small-image .cards-minimal-dark-withimg-card-body h3 {
+  margin-bottom: 13px;
+}
+
+body.campaign-landing .cards-minimal-dark-withimg.small-image .cards-minimal-dark-withimg-card-body ul {
+  margin: 0 0 0 8px;
+  padding: 0;
+  list-style: disc;
+}
+
+body.campaign-landing .cards-minimal-dark-withimg.small-image .cards-minimal-dark-withimg-card-body li {
+  margin: 0 0 13px 8px;
+  color: var(--text-body-color);
+  font-size: 15px;
+  line-height: 22.5px;
+}
+
+body.campaign-landing .cards-minimal-dark-withimg.small-image .cards-minimal-dark-withimg-card-body p {
+  padding: 0;
+}
+
+body.campaign-landing .cards-minimal-dark-withimg.small-image .cards-minimal-dark-withimg-card-body p.button-container {
+  margin: 0;
+  justify-content: flex-start;
+}
+
+@media (width >= 768px) {
+  body.campaign-landing main > .section.cards-minimal-dark-withimg-container:has(.cards-minimal-dark-withimg.small-image) {
+    padding: 60px 0 80px;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body.campaign-landing .cards-minimal-dark-withimg.small-image .cards-minimal-dark-withimg-card-body h3 {
+    padding-bottom: 3px;
+    font-size: 32px;
+    line-height: 35.2px;
+    letter-spacing: -0.44px;
+  }
+
+  body.campaign-landing .cards-minimal-dark-withimg.small-image .cards-minimal-dark-withimg-card-body p {
+    margin-bottom: 16px;
+    font-size: 15px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  body.campaign-landing main > .section .cards-minimal-dark-withimg.small-image > ul {
+    max-width: 774px;
+    margin: 0 auto;
+    padding: 0;
+    column-gap: 34px;
+  }
+
+  body.campaign-landing .cards-minimal-dark-withimg.small-image .cards-minimal-dark-withimg-card-body {
+    padding: 20px 30px 16px;
+  }
+
+  body.campaign-landing .cards-minimal-dark-withimg.small-image .cards-minimal-dark-withimg-card-body li {
+    margin-bottom: 15px;
+  }
+}
+
+/* two a row (992-1199): the source's lone last card sits 15px left of centre */
+@media (width >= 992px) and (width < 1200px) {
+  body.campaign-landing main > .section .cards-minimal-dark-withimg.small-image > ul > li:nth-child(odd):last-child {
+    margin-right: 30px;
+  }
+}
+
+@media (width >= 1200px) {
+  body.campaign-landing main > .section.cards-minimal-dark-withimg-container:has(.cards-minimal-dark-withimg.small-image) > div {
+    padding: 0;
+  }
+
+  body.campaign-landing main > .section .cards-minimal-dark-withimg.small-image > ul {
+    max-width: 1178px;
+  }
+}

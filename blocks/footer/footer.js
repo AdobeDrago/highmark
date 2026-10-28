@@ -8,11 +8,14 @@ import { getMetadata } from '../../scripts/aem.js';
  * resolves normally, so try/catch can't suppress it — the browser still logs
  * the failed request; the only fix is to not make the failing request).
  */
+const footerPath = () => {
+  const footerMeta = getMetadata('footer');
+  return footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
+};
+
 async function fetchFooter() {
   try {
-    const footerMeta = getMetadata('footer');
-    const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
-    let resp = await fetch(`${footerPath}.plain.html`);
+    let resp = await fetch(`${footerPath()}.plain.html`);
     if (!resp.ok) {
       resp = await fetch('/content/footer.plain.html');
     }
@@ -34,10 +37,29 @@ async function fetchFooter() {
  */
 export default async function decorate(block) {
   const fragment = await fetchFooter();
+
+  // A footer fragment whose sections are styled shop-* gets the shop footer, laid out
+  // like ShopX (shop-footer.js). The pipeline delivers a section's Style as classes on
+  // its div (or, unprocessed, as a section-metadata table).
+  const isShop = [...(fragment?.children || [])].some((section) => [...section.classList]
+    .some((name) => name.startsWith('shop-'))
+    || /\bshop-/.test(section.querySelector('.section-metadata')?.textContent || ''));
+  if (isShop) {
+    const { default: decorateShopFooter } = await import('./shop-footer.js');
+    await decorateShopFooter(block, footerPath());
+    return;
+  }
+
   block.textContent = '';
   if (!fragment) return;
 
-  const sections = [...fragment.children].filter((el) => el.tagName === 'DIV');
+  // A section styled footer-top is the band above the navy footer (the regional member
+  // pages' "Federal Employee Program" link). Section metadata arrives as classes, or
+  // unprocessed locally.
+  const isTop = (el) => el.classList.contains('footer-top')
+    || /footer-top/.test(el.querySelector('.section-metadata')?.textContent || '');
+  const topSection = [...fragment.children].find((el) => el.tagName === 'DIV' && isTop(el));
+  const sections = [...fragment.children].filter((el) => el.tagName === 'DIV' && el !== topSection);
   // Source order: [0] brand + social + phone, [1..3] link columns, [last] legal.
   const brandSection = sections[0];
   const columnSections = sections.slice(1, sections.length - 1);
@@ -57,7 +79,7 @@ export default async function decorate(block) {
     inner.append(brandSection);
   }
 
-  const isMobile = window.matchMedia('(max-width: 899px)');
+  const isMobile = window.matchMedia('(max-width: 991px)');
   const columns = document.createElement('div');
   columns.className = 'footer-columns';
   columnSections.forEach((col) => {
@@ -71,6 +93,16 @@ export default async function decorate(block) {
       });
     }
     columns.append(col);
+  });
+  // As on highmark.com, links to other sites (and PDFs) open in a new tab and carry the
+  // external-link icon; links to highmark.com pages we haven't migrated don't.
+  columns.querySelectorAll('a[href]').forEach((a) => {
+    const url = new URL(a.href, window.location.href);
+    const ownSite = [window.location.host, 'www.highmark.com'].includes(url.host);
+    if (!ownSite || /\.pdf$/i.test(url.pathname)) {
+      a.target = '_blank';
+      a.classList.add('footer-external');
+    }
   });
   inner.append(columns);
   upper.append(inner);
@@ -87,6 +119,21 @@ export default async function decorate(block) {
 
   const footer = document.createElement('div');
   footer.className = 'footer-wrapper';
+  // a regional member footer (/member/fragments/<region>/...) keeps its layout with or
+  // without the band: some sub-pages' footers have none, as on the source
+  if (footerPath().startsWith('/member/fragments/')) footer.classList.add('footer-regional');
+  // the provider footer copies this layout; providers.highmark.com's own footer differs
+  if (footerPath().startsWith('/providers/')) footer.classList.add('footer-providers');
+  if (topSection) {
+    topSection.querySelector('.section-metadata')?.remove();
+    const top = document.createElement('div');
+    top.className = 'footer-top';
+    const topInner = document.createElement('div');
+    topInner.className = 'footer-top-inner';
+    topInner.append(...topSection.childNodes);
+    top.append(topInner);
+    footer.append(top);
+  }
   footer.append(upper, lower);
   block.append(footer);
 }

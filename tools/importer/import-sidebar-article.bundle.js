@@ -54,7 +54,12 @@ var CustomImportScript = (() => {
     const cells = [];
     const parent = element.querySelector("a.side-nav-item-parent, .sidenav-item > a[href]:not(.active)");
     if (parent) cells.push(rowFor("parent", parent));
-    const subnavList = element.querySelector("ul.subnavitem-list, .subnavitem-list");
+    const activeLink = element.querySelector("a.active");
+    const subnavList = element.querySelector("ul.subnavitem-list.show") || activeLink && activeLink.parentElement.querySelector(":scope > ul.subnavitem-list") || !activeLink && element.querySelector("ul.subnavitem-list, .subnavitem-list");
+    const inCollapsedList = (a) => {
+      const list = a.closest("ul.subnavitem-list");
+      return !!list && list !== subnavList && list.classList.contains("collapse") && !list.classList.contains("show");
+    };
     if (subnavList) {
       const current = element.querySelector('a.active, a[aria-expanded="true"]');
       if (current && current !== parent) cells.push(rowFor("current", current));
@@ -65,7 +70,7 @@ var CustomImportScript = (() => {
     } else {
       const siblingAnchors = Array.from(
         element.querySelectorAll("ul.sidenav-item-list ul a[href], .sidenav-item-list ul a[href], ul li ul a[href]")
-      ).filter((a) => a !== parent);
+      ).filter((a) => a !== parent && !inCollapsedList(a));
       const seen = /* @__PURE__ */ new Set();
       siblingAnchors.forEach((a) => {
         if (seen.has(a)) return;
@@ -94,8 +99,10 @@ var CustomImportScript = (() => {
         // Qualtrics website-feedback snippet (cleaned.html:2)
         ".mega-menu-overlay",
         // nav mega-menu overlay (cleaned.html:81)
-        "#modalIeDetect"
+        "#modalIeDetect",
         // legacy IE-detection modal (cleaned.html:1637)
+        "#onetrust-consent-sdk"
+        // OneTrust cookie banner + preference center (plans cleaned.html:2631)
       ]);
     }
     if (hookName === TransformHook.afterTransform) {
@@ -110,6 +117,9 @@ var CustomImportScript = (() => {
       WebImporter.DOMUtils.remove(element, [
         ".d-block.d-lg-none"
       ]);
+      element.querySelectorAll('a[href^="/content/dam/"]').forEach((a) => {
+        a.setAttribute("href", `https://www.highmark.com${a.getAttribute("href")}`);
+      });
       WebImporter.DOMUtils.remove(element, [
         "link",
         "noscript",
@@ -196,6 +206,8 @@ var CustomImportScript = (() => {
         params
       } = payload;
       const main = document2.body;
+      const crumb = document2.querySelector("ol.breadcrumb-list li.active");
+      const crumbLabel = ((crumb == null ? void 0 : crumb.textContent) || "").replace(/\s+/g, " ").trim();
       executeTransformers("beforeTransform", main, payload);
       const pageBlocks = findBlocksOnPage(document2, PAGE_TEMPLATE);
       pageBlocks.forEach((block) => {
@@ -214,7 +226,12 @@ var CustomImportScript = (() => {
       executeTransformers("afterTransform", main, payload);
       const hr = document2.createElement("hr");
       main.appendChild(hr);
-      WebImporter.rules.createMetadata(main, document2);
+      const meta = WebImporter.Blocks.getMetadata(document2) || {};
+      if (crumb) {
+        meta.breadcrumbs = "true";
+        if (crumbLabel) meta["Breadcrumb Title"] = crumbLabel;
+      }
+      main.append(WebImporter.Blocks.getMetadataBlock(document2, meta));
       WebImporter.rules.transformBackgroundImages(main, document2);
       WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
       const rawPath = new URL(params.originalURL).pathname.replace(/\/$/, "").replace(/\.html?$/, "");

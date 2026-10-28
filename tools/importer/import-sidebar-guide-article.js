@@ -87,6 +87,11 @@ export default {
 
     const main = document.body;
 
+    // Source breadcrumb label for this page, read before cleanup removes the
+    // breadcrumb row; pages without a source breadcrumb don't get one either.
+    const crumb = document.querySelector('ol.breadcrumb-list li.active');
+    const crumbLabel = (crumb?.textContent || '').replace(/\s+/g, ' ').trim();
+
     // 1. beforeTransform (cleanup + section breaks)
     executeTransformers('beforeTransform', main, payload);
 
@@ -114,7 +119,14 @@ export default {
     // 5. WebImporter built-in rules
     const hr = document.createElement('hr');
     main.appendChild(hr);
-    WebImporter.rules.createMetadata(main, document);
+    // Page metadata: source meta tags, and breadcrumbs (with the source label) when
+    // the source has them.
+    const meta = WebImporter.Blocks.getMetadata(document) || {};
+    if (crumb) {
+      meta.breadcrumbs = 'true';
+      if (crumbLabel) meta['Breadcrumb Title'] = crumbLabel;
+    }
+    main.append(WebImporter.Blocks.getMetadataBlock(document, meta));
     WebImporter.rules.transformBackgroundImages(main, document);
     WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
 

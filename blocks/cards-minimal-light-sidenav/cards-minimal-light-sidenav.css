@@ -4,7 +4,7 @@
      - every link: roboto 16px / line-height 27.2px (~1.7), navy #003963,
        no underline; non-active weight is thin, the current item is bold (600)
      - current item carries a blue (#0078c1) 3px vertical accent bar on the
-       left plus a collapse chevron on the right
+       left plus, when it has child pages, a collapse chevron on the right
      - list items sit 10px apart; the list has a 16px bottom margin
      - child links are indented one level under the current item
    Layout: on desktop the block occupies a ~25% left column beside the main
@@ -26,6 +26,13 @@
 
 .cards-minimal-light-sidenav-item {
   margin: 0 0 10px;
+}
+
+/* unstyled wrapper <li> that holds the section-guide sibling list (ul > li >
+   ul); its list's 10px top margin collapses with the parent item's gap */
+.cards-minimal-light-sidenav-group {
+  margin: 0;
+  padding: 0;
 }
 
 .cards-minimal-light-sidenav-children .cards-minimal-light-sidenav-item:last-child {
@@ -108,6 +115,85 @@
   font-weight: 300;
 }
 
+/* ---- Section-guide shape (parent + flat sibling list, e.g. CHIP and the
+   mental-health guides). Values from the source .sidenav on
+   /western-pennsylvania/chip/* and /resources/mental-health-services/*:
+     - sibling list indented 18px (ul padding-left)
+     - every link reserves 24px on the right (a padding-right)
+     - the current sibling is bold (600) and pulled 15px left so its 3px
+       accent bar sits in the indent while its label lines up with the
+       other siblings (a margin-left -15px + label offset 15px)
+     - no collapse chevron (the JS omits it in this shape) ---- */
+.cards-minimal-light-sidenav-guide a { /* stylelint-disable-line no-descending-specificity */
+  padding-right: 24px;
+}
+
+.cards-minimal-light-sidenav-guide .cards-minimal-light-sidenav-children {
+  padding-left: 18px;
+}
+
+/* a sibling list that opens the nav (no parent link above it, e.g. National Business
+   Pharmacy's Medical Plans | Pharmacy) starts level with the page heading */
+.cards-minimal-light-sidenav-group:first-child > .cards-minimal-light-sidenav-children {
+  margin-top: 0;
+}
+
+.cards-minimal-light-sidenav-guide .cards-minimal-light-sidenav-current > a { /* stylelint-disable-line no-descending-specificity */
+  margin-left: -15px;
+  padding-left: 15px;
+  font-weight: 600;
+}
+
+/* a sibling with its own pages (the FAQ landing's topics, open under the current
+   page; other siblings' sub-menus, collapsed): as on the source, the label keeps
+   its 24px right padding and the 24px chevron toggle follows it at the far edge,
+   centred on the label (a two-line label wraps 48px short of the edge) */
+.cards-minimal-light-sidenav-guide :is(.cards-minimal-light-sidenav-current, .cards-minimal-light-sidenav-sibling) > a:has(.cards-minimal-light-sidenav-arrow) {
+  column-gap: 24px;
+  padding-right: 0;
+}
+
+.cards-minimal-light-sidenav-guide .cards-minimal-light-sidenav-arrow {
+  width: 24px;
+  height: 1.7em;
+  margin: 0 0 0 auto; /* not the site's 12px button margins */
+}
+
+/* ---- Article/listing shape on pages without a template of their own (the
+   Answers articles; the templates style it themselves). The source's values:
+   the current page sits 18px in, its 3px accent bar pulled 15px into the
+   indent; its pages are 18px further in; every label keeps 24px free on the
+   right, and the current one another 24px for the chevron, which is centred
+   on the label at the far edge ---- */
+body:not(.about-article, .chip, .faq, .leadership, .legal) .cards-minimal-light-sidenav-item-list:not(.cards-minimal-light-sidenav-guide) a {
+  padding-right: 24px;
+}
+
+body:not(.about-article, .chip, .faq, .leadership, .legal) .cards-minimal-light-sidenav-item-list:not(.cards-minimal-light-sidenav-guide) .cards-minimal-light-sidenav-current {
+  padding-left: 18px;
+}
+
+body:not(.about-article, .chip, .faq, .leadership, .legal) .cards-minimal-light-sidenav-item-list:not(.cards-minimal-light-sidenav-guide) .cards-minimal-light-sidenav-current > a {
+  margin-left: -15px;
+  padding-left: 15px;
+}
+
+body:not(.about-article, .chip, .faq, .leadership, .legal) .cards-minimal-light-sidenav-item-list:not(.cards-minimal-light-sidenav-guide) .cards-minimal-light-sidenav-current > a:has(.cards-minimal-light-sidenav-arrow) {
+  padding-right: 48px;
+}
+
+body:not(.about-article, .chip, .faq, .leadership, .legal) .cards-minimal-light-sidenav-item-list:not(.cards-minimal-light-sidenav-guide) .cards-minimal-light-sidenav-children {
+  padding-left: 18px;
+}
+
+body:not(.about-article, .chip, .faq, .leadership, .legal) .cards-minimal-light-sidenav-item-list:not(.cards-minimal-light-sidenav-guide) .cards-minimal-light-sidenav-arrow {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 24px;
+  height: 1.7em;
+  margin: auto 0;
+}
+
 /* ---- Two-column layout (desktop): sidebar left, content right ----
    The block sits first in its section, so EDS names the section
    `.cards-minimal-light-sidenav-container`. On the source the sidebar and the
@@ -153,12 +239,38 @@
   }
 }
 
+/* From 992px, the source's grid, on pages without a template of their own (the
+   articles and mental-health guides; the templates lay the menu out themselves):
+   a 1200px row with 82px minimum gutters, the menu in its first quarter (15px
+   column padding, 20px free on the right) and the text in the next 56.25% */
+@media (width >= 992px) {
+  body:not(.about-article, .chip, .faq, .leadership, .legal) main .section.cards-minimal-light-sidenav-container {
+    width: min(1200px, 100% - 164px);
+    padding: 0;
+  }
+
+  body:not(.about-article, .chip, .faq, .leadership, .legal) main .section.cards-minimal-light-sidenav-container > .cards-minimal-light-sidenav-wrapper {
+    left: 15px;
+    width: calc(25% - 50px);
+  }
+
+  body:not(.about-article, .chip, .faq, .leadership, .legal) main .section.cards-minimal-light-sidenav-container > .default-content-wrapper {
+    width: 56.25%;
+    margin-left: 25%;
+  }
+
+  /* the title starts the row level with the menu, right under the breadcrumbs */
+  body:not(.about-article, .chip, .faq, .leadership, .legal) main .section.cards-minimal-light-sidenav-container > .default-content-wrapper > h1:first-child {
+    margin-top: 0;
+  }
+}
+
 /* Article-listing links in the main content column of a sidebar-listing page.
    EDS auto-decorates a standalone link in a paragraph as an outlined .button,
    but the Highmark source renders these as plain bold navy text links. Reset
    the button treatment within this template's content column. */
 main .section.cards-minimal-light-sidenav-container .default-content-wrapper a.button,
-main .section.cards-minimal-light-sidenav-container .default-content-wrapper .button-container a {
+main .section.cards-minimal-light-sidenav-container .default-content-wrapper .button-container a { /* stylelint-disable-line no-descending-specificity */
   display: inline;
   margin: 0;
   padding: 0;

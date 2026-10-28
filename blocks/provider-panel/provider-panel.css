@@ -1,0 +1,61 @@
+/* stylelint-disable no-descending-specificity */
+
+/* Provider panel: the source's grey box (custom-layout-container: #f1f4f4, 12px padding) and its
+   regional text (pink #fef0ec, 8px sides and 10px under, region badges in a 30px row: 13px bold
+   on navy, 2px apart). Measured at 1280 and 390. Selectors start at main .section so they
+   outrank the provider-content template's article type. */
+
+/* a region panel's rows (one per region group) stack edge to edge, as the source's boxes do */
+main .section .provider-panel.block {
+  margin: 0 0 10px;
+}
+
+main .section .provider-panel.block .provider-panel-item {
+  padding: 12px;
+  background-color: #f1f4f4;
+}
+
+main .section .provider-panel.block .provider-panel-item > :last-child {
+  margin-bottom: 0;
+}
+
+main .section .provider-panel.block .provider-panel-item > :is(ul, ol):last-child > li:last-child {
+  padding-bottom: 0;
+}
+
+/* the source's regional text sits 10px under a list (not the list items' 20px) */
+main .section .default-content-wrapper:has(+ .provider-panel-wrapper > .region) > :is(ul, ol):last-child > li:last-child {
+  padding-bottom: 0;
+}
+
+main .section .provider-panel.region.block .provider-panel-item {
+  padding: 0 8px 10px;
+  background-color: #fef0ec;
+}
+
+main .section .provider-panel.region.plain.block .provider-panel-item {
+  padding: 0 0 10px;
+  background-color: transparent;
+}
+
+main .section .provider-panel.block ul.provider-panel-regions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 2px;
+  margin: 0;
+  padding: 8px 0 4px;
+  list-style: none;
+}
+
+main .section .provider-panel.block ul.provider-panel-regions li {
+  margin: 0;
+  padding: 2px 8px;
+  background-color: #003963;
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 14px;
+  letter-spacing: -0.26px;
+  text-transform: uppercase;
+}

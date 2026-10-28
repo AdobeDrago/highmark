@@ -11,9 +11,16 @@
  * selectors used for block mapping) rather than nth-of-type position. Selectors
  * that don't match on a given page are simply skipped — never guessed.
  *
- * The only styled band on these pages is the tinted callout/intro band
- * (div.onecard1colpanel.section -> style: highlight), used for the crisis callout
- * (depression) and the "Spending Account Types" intro (spending-accounts).
+ * Styled bands (section metadata `style`):
+ *   - blush callout/intro band (div.onecard1colpanel.section) -> highlight: the crisis
+ *     callout (mental-health pages) and the "Spending Account Types" intro
+ *   - paper-grey callout (.new-hmk-brand-papergrey) -> grey: "Questions to ask your
+ *     child's provider", "Explore social determinants of health"
+ *   - polar side panels (.side-card-panel.new-hmk-brand-polar) -> light:
+ *     mental-health-resources "24/7 crisis hotlines", "Break the stigma"
+ *   - wide cards without the polar band -> white (mental-health-resources)
+ * The photo story band (.one-card-one-col-panel.image, "Sara's story") is its own
+ * unstyled section holding a columns-minimal-dark-overlay block.
  *
  * Follows the reference before/after hook + marker pattern: <hr> breaks are
  * inserted in beforeTransform (while every section element still exists), and
@@ -29,12 +36,20 @@ const SECTIONS = [
   { id: 'section-hero', selector: 'div.hero.responsivegrid.section' },
   { id: 'section-iconnav', selector: 'div.quicklinks.section' },
   { id: 'section-video-cards', selector: 'section.container-fluid-fullwidth.section:has(.cardText)' },
-  { id: 'section-columns', selector: 'div.newcardscomponent-variations.section:has(.side-card-panel)' },
-  { id: 'section-crisis', selector: 'div.onecard1colpanel.section', style: 'highlight' },
+  { id: 'section-columns', selector: 'div.newcardscomponent-variations.section:has(.side-card-panel):not(:has(.side-card-panel.new-hmk-brand-polar))' },
+  { id: 'section-columns-light', selector: 'div.newcardscomponent-variations.section:has(.side-card-panel.new-hmk-brand-polar)', style: 'light' },
+  { id: 'section-crisis', selector: 'div.onecard1colpanel.section:not(:has(.one-card-one-col-panel.image)):not(:has(.new-hmk-brand-papergrey))', style: 'highlight' },
+  { id: 'section-grey', selector: 'div.onecard1colpanel.section:has(.new-hmk-brand-papergrey)', style: 'grey' },
+  { id: 'section-story', selector: 'div.onecard1colpanel.section:has(.one-card-one-col-panel.image)' },
   { id: 'section-table', selector: '.dynamic-table-container' },
   { id: 'section-cards-img', selector: 'div.newcardscomponent-variations.section:has(ul.gridcardsul):has(.cardThree img)' },
+  { id: 'section-card-block', selector: 'div.card-block.responsivegrid.section:has(.cardBlock)' },
+  { id: 'section-cards-icons', selector: 'div.newcardscomponent-variations.section:has(li.listSmlImg:not(.cardThree))' },
   { id: 'section-cards-list', selector: 'div.newcardscomponent-variations.section:has(ul.gridcardsul):not(:has(picture)):not(:has(img))' },
-  { id: 'section-cards-wide', selector: 'div.newcardscomponent-variations.section:has(.listWideImg)' },
+  // Wide cards sit on the polar band (the block's default on these pages); the
+  // white variant (mental-health-resources) opts out with style: white.
+  { id: 'section-cards-wide', selector: 'div.newcardscomponent-variations.section:has(.listWideImg):has(.new-hmk-brand-polar)' },
+  { id: 'section-cards-wide-white', selector: 'div.newcardscomponent-variations.section:has(.listWideImg):not(:has(.new-hmk-brand-polar))', style: 'white' },
 ];
 
 export default function transform(hookName, element, payload) {
@@ -68,17 +83,17 @@ export default function transform(hookName, element, payload) {
       const section = sections[i];
       if (!section.style) continue;
 
-      const marker = element.querySelector(`[${SECTION_MARKER_ATTR}="${section.id}"]`);
-      const anchor = marker || element.querySelector(section.selector);
-      if (!anchor) continue; // neither survived — skip, never guess
-
-      const metadataBlock = WebImporter.Blocks.createBlock(document, {
-        name: 'Section Metadata',
-        cells: { style: section.style },
+      // Every matched instance gets its own metadata (e.g. two light side panels).
+      const markers = [...element.querySelectorAll(`[${SECTION_MARKER_ATTR}="${section.id}"]`)];
+      const anchors = markers.length ? markers : [...element.querySelectorAll(section.selector)];
+      anchors.forEach((anchor) => {
+        const metadataBlock = WebImporter.Blocks.createBlock(document, {
+          name: 'Section Metadata',
+          cells: { style: section.style },
+        });
+        anchor.after(metadataBlock);
+        anchor.removeAttribute(SECTION_MARKER_ATTR);
       });
-      anchor.after(metadataBlock);
-
-      if (marker) marker.removeAttribute(SECTION_MARKER_ATTR);
     }
   }
 }

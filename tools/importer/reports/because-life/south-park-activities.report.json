@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/because-life/south-park-activities",
+  "path": "because-life/south-park-activities",
+  "timestamp": "2026-10-07T13:26:13.789Z",
+  "title": "South Park Activities Near Pittsburgh PA",
+  "template": "campaign-landing",
+  "blocks": [
+    "hero-minimal-dark-withimg",
+    "cards-minimal-dark-withimg"
+  ]
+}

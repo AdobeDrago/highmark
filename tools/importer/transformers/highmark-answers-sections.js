@@ -21,10 +21,14 @@ const SECTION_MARKER_ATTR = 'data-excat-section-id';
 const SECTIONS = [
   { id: 'section-hero', selector: 'section.new-hmk-brand-fifteenpercent-splash' },
   { id: 'section-iconnav', selector: '.quick-link-list-container.bg-blue' },
-  { id: 'section-accordion', selector: '.accordianTable' },
-  { id: 'section-glossary', selector: '.one-card-one-col-panel.new-hmk-brand-darkblue', style: 'highlight' },
+  // the FAQ heading, intro, accordion and its CTA share one source section
+  { id: 'section-accordion', selector: 'section.container-fluid-fullwidth.section:has(.accordianTable)', fallback: '.accordianTable' },
+  // the navy glossary intercept becomes a hero-minimal-dark-withimg (intercept) block
+  // (import-tabbed-answers-landing.js), which carries its own colours
+  { id: 'section-glossary', selector: '.one-card-one-col-panel.new-hmk-brand-darkblue' },
   { id: 'section-cards', selector: '.newcardscomponent-variations .cards-variation' },
-  { id: 'section-promo', selector: '.side-card-panel.new-hmk-brand-blush-twnetyfive', style: 'accent' },
+  // the member-web promo panel is the blush band on the source
+  { id: 'section-promo', selector: '.side-card-panel.new-hmk-brand-blush-twnetyfive', style: 'highlight' },
   { id: 'section-community', selector: '.newcardscomponent-variations:last-of-type .side-card-panel' },
 ];
 
@@ -34,7 +38,8 @@ export default function transform(hookName, element, payload) {
     // the hero when it's the first content element). Reverse per selector so
     // insertions don't shift later matches.
     SECTIONS.forEach((section) => {
-      const matches = element.querySelectorAll(section.selector);
+      let matches = element.querySelectorAll(section.selector);
+      if (!matches.length && section.fallback) matches = element.querySelectorAll(section.fallback);
       for (let i = matches.length - 1; i >= 0; i -= 1) {
         const el = matches[i];
         const hr = document.createElement('hr');
