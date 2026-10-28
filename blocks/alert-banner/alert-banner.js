@@ -46,7 +46,8 @@ export default function decorate(block) {
   const title = document.createElement('p');
   title.className = 'alert-banner-title';
   title.id = 'alert-banner-title';
-  title.textContent = titleEl ? titleEl.textContent.trim() : '';
+  // title.textContent = titleEl ? titleEl.textContent.trim() : '';
+  title.textContent = ' Here is an example of a change'
   const body = document.createElement('div');
   body.className = 'alert-banner-body';
   body.append(...bodyEls);
