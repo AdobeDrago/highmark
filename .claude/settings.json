@@ -13,8 +13,5 @@
       "Bash(git show:*)",
       "WebSearch"
     ]
-  },
-  "enabledPlugins": {
-    "aem-project-management@adobe-skills": true
   }
 }

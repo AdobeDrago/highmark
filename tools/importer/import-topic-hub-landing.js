@@ -39,9 +39,6 @@ const PAGE_TEMPLATE = {
     'https://www.highmark.com/resources/mental-health-services/eating-disorders',
     'https://www.highmark.com/resources/spending-accounts',
   ],
-  // Blocks are found by what the component holds, not its position: the two pages
-  // have different runs of components. Section styles (the panels' brand colours)
-  // come from the sections transformer.
   blocks: [
     {
       name: 'hero-minimal-dark-withimg',
@@ -52,12 +49,22 @@ const PAGE_TEMPLATE = {
       instances: ['div.card-block.responsivegrid.section'],
     },
     {
+      name: 'section-glossary-highlight',
+      instances: ['div.onecard1colpanel.section'],
+      section: 'highlight',
+    },
+    {
+      name: 'section-columns-accent',
+      instances: ['div.newcardscomponent-variations.section:nth-of-type(4)'],
+      section: 'accent',
+    },
+    {
       name: 'columns-minimal-dark',
-      instances: ['div.newcardscomponent-variations.section:has(.side-card-panel)'],
+      instances: ['div.newcardscomponent-variations.section:nth-of-type(4)'],
     },
     {
       name: 'cards-minimal-dark-withimg-2',
-      instances: ['div.newcardscomponent-variations.section:has(.listWideImg)'],
+      instances: ['div.newcardscomponent-variations.section:nth-of-type(5)'],
     },
   ],
 };
@@ -126,11 +133,6 @@ export default {
 
     const main = document.body;
 
-    // Source breadcrumb label for this page, read before cleanup removes the
-    // breadcrumb row; pages without a source breadcrumb don't get one either.
-    const crumb = document.querySelector('ol.breadcrumb-list li.active');
-    const crumbLabel = (crumb?.textContent || '').replace(/\s+/g, ' ').trim();
-
     // 1. beforeTransform (initial cleanup)
     executeTransformers('beforeTransform', main, payload);
 
@@ -156,17 +158,9 @@ export default {
     executeTransformers('afterTransform', main, payload);
 
     // 5. WebImporter built-in rules
-    // Page metadata: source meta tags + breadcrumbs (with the source label) when the
-    // source has them; the breadcrumbs block brings the Print / Share actions.
     const hr = document.createElement('hr');
     main.appendChild(hr);
-    const meta = WebImporter.Blocks.getMetadata(document) || {};
-    meta.Template = 'topic-hub-landing';
-    if (crumb) {
-      meta.breadcrumbs = 'true';
-      if (crumbLabel) meta['Breadcrumb Title'] = crumbLabel;
-    }
-    main.append(WebImporter.Blocks.getMetadataBlock(document, meta));
+    WebImporter.rules.createMetadata(main, document);
     WebImporter.rules.transformBackgroundImages(main, document);
     WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
 

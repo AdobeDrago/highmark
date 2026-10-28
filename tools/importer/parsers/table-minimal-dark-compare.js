@@ -57,12 +57,6 @@ export default function parse(element, { document }) {
     cells.push(outRow);
   });
 
-  // Import scripts can request a variant (data-block-variant="data" -> "Table Minimal Dark
-  // Compare (data)" -> class .data): the spending-accounts data tables (FSA / commuter / HSA
-  // limits) use a different look from the HSA/HRA/FSA comparison table. Rows are unchanged:
-  // the first row holds the block name (+ variant), then one row per source table row.
-  const variant = element.getAttribute('data-block-variant');
-  const name = variant ? `table-minimal-dark-compare (${variant})` : 'table-minimal-dark-compare';
-  const block = WebImporter.Blocks.createBlock(document, { name, cells });
+  const block = WebImporter.Blocks.createBlock(document, { name: 'table-minimal-dark-compare', cells });
   element.replaceWith(block);
 }

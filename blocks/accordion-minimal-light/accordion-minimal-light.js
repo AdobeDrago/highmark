@@ -10,12 +10,7 @@
  */
 
 export default function decorate(block) {
-  // CHIP article accordions (template=chip -> body.chip), the answers landing's FAQ
-  // (template=answers-landing) and each group on the FAQ topic pages (template=faq)
-  // open the first item by default, matching the source; other sidebar pages keep
-  // all closed.
-  const openFirst = ['chip', 'answers-landing', 'faq'].some((t) => document.body.classList.contains(t));
-  [...block.children].forEach((row, index) => {
+  [...block.children].forEach((row) => {
     // decorate accordion item label
     const label = row.children[0];
     const summary = document.createElement('summary');
@@ -27,7 +22,6 @@ export default function decorate(block) {
     // decorate accordion item
     const details = document.createElement('details');
     details.className = 'accordion-minimal-light-item';
-    if (openFirst && index === 0) details.open = true;
     details.append(summary, body);
     row.replaceWith(details);
   });

@@ -1,4 +1,4 @@
-import { getMetadata, decorateIcons } from '../../scripts/aem.js';
+import { getMetadata } from '../../scripts/aem.js';
 
 // Desktop breakpoint — below this the header collapses to a hamburger drawer.
 const isDesktop = window.matchMedia('(min-width: 992px)');
@@ -11,14 +11,11 @@ const isDesktop = window.matchMedia('(min-width: 992px)');
  * resolves normally, so try/catch can't suppress it — the browser still logs
  * the failed request; the only fix is to not make the failing request).
  */
-const navPath = () => {
-  const navMeta = getMetadata('nav');
-  return navMeta ? new URL(navMeta, window.location).pathname : '/nav';
-};
-
-async function fetchNav(path = navPath()) {
+async function fetchNav() {
   try {
-    let resp = await fetch(`${path}.plain.html`);
+    const navMeta = getMetadata('nav');
+    const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
+    let resp = await fetch(`${navPath}.plain.html`);
     if (!resp.ok) {
       resp = await fetch('/content/nav.plain.html');
     }
@@ -32,36 +29,6 @@ async function fetchNav(path = navPath()) {
     console.error('Nav fragment failed to load', e);
     return null;
   }
-}
-
-/**
- * A menu section that opens with a link alone in a paragraph (e.g. /nav) uses that nav
- * fragment's menu, so a regional header (/member/fragments/<region>/nav) keeps the corporate
- * menu. Items listed after the link replace the shared menu's group of the same label with
- * their sub-list (Western NY: "CHIP - Highmark Healthy Kids" -> NY State Plans).
- */
-async function inheritMenu(section) {
-  const first = section.firstElementChild;
-  const link = first?.tagName === 'P' && first.children.length === 1 && first.querySelector(':scope > a[href]');
-  if (!link || link.textContent.trim() !== first.textContent.trim()) return;
-  const shared = await fetchNav(new URL(link.href, window.location).pathname);
-  const sharedMenu = shared && [...shared.children].filter((el) => el.tagName === 'DIV')[2];
-  if (!sharedMenu) return;
-  const overrides = [...section.querySelectorAll(':scope > ul > li')];
-  // an item's own label: its text without its sub-list
-  const label = (li) => {
-    const own = li.cloneNode(true);
-    own.querySelectorAll('ul').forEach((ul) => ul.remove());
-    return own.textContent.trim();
-  };
-  overrides.forEach((override) => {
-    sharedMenu.querySelectorAll('li:has(> ul)').forEach((group) => {
-      if (label(group) !== label(override)) return;
-      group.replaceWith(...override.querySelectorAll(':scope > ul > li'));
-    });
-  });
-  section.className = sharedMenu.className;
-  section.replaceChildren(...sharedMenu.childNodes);
 }
 
 /** Close every open megamenu panel. */
@@ -141,275 +108,15 @@ function decoratePrimaryNav(sectionEl) {
   return sectionEl;
 }
 
-/** Most suggestions the search box lists (as on highmark.com). */
-const MAX_SUGGESTIONS = 5;
-
-/**
- * What the box suggests before anything is typed, as highmark.com does (Careers,
- * Member Login, …): a DA sheet with a `Suggestion` column and an optional `Link`.
- */
-const SUGGESTIONS_SHEET = '/search-suggestions.json';
-
-/**
- * A suggestion's label: the parts that match what the visitor typed in regular
- * weight (<mark>), the rest bold, as in highmark.com's type-ahead.
- * @param {string} title page title
- * @param {string[]} terms query words, normalized by the search block (a-z, 0-9 only)
- * @returns {DocumentFragment}
- */
-function suggestionLabel(title, terms) {
-  const ranges = terms
-    .flatMap((term) => [...title.matchAll(new RegExp(`(^|[^\\p{L}\\p{N}])(${term})`, 'giu'))]
-      .map((m) => [m.index + m[1].length, m.index + m[0].length]))
-    .sort((a, b) => a[0] - b[0]);
-  const fragment = document.createDocumentFragment();
-  let at = 0;
-  ranges.forEach(([start, end]) => {
-    if (end <= at) return;
-    if (start > at) fragment.append(title.slice(at, start));
-    const mark = document.createElement('mark');
-    mark.textContent = title.slice(Math.max(start, at), end);
-    fragment.append(mark);
-    at = end;
-  });
-  if (at < title.length) fragment.append(title.slice(at));
-  return fragment;
-}
-
-/**
- * The brand row's icon links (Language Assistance, Contact Us, ...). The pipeline delivers each
- * item as two paragraphs, the linked icon and then its label, which stacked them. highmark.com
- * shows the icon and then the label as the link, on one line: rebuild each item that way. The
- * icon is decorative, since the label names the link.
- * @param {HTMLUListElement} ul
- */
-function decorateIconLinks(ul) {
-  [...ul.children].forEach((li) => {
-    const link = li.querySelector('a');
-    const picture = li.querySelector('picture');
-    const label = li.textContent.trim();
-    if (!link || !picture || !label) return;
-    picture.querySelector('img')?.setAttribute('alt', '');
-    link.textContent = label;
-    li.replaceChildren(picture, link);
-  });
-}
-
-/**
- * Type-ahead for the search box (highmark.com's): on focus, a "Suggestions" list of
- * authored searches (SUGGESTIONS_SHEET); from the third letter, matching page titles.
- * Arrow keys move through the list and Enter opens the highlighted item; otherwise the
- * form submits to the search page. Matching is the search block's, loaded the first
- * time the box is used.
- * @param {HTMLFormElement} form
- */
-function decorateSuggestions(form) {
-  const input = form.querySelector('input');
-  const popup = form.querySelector('.nav-search-suggestions');
-  const list = popup.querySelector('ul');
-  const empty = popup.querySelector('.nav-search-empty');
-  const status = form.querySelector('.nav-search-status');
-  let searchModule;
-  let authored;
-  let active = -1;
-  let run = 0;
-
-  const loadSearch = () => {
-    searchModule = searchModule || import('../search/search.js').catch((error) => {
-      searchModule = null; // try again next time
-      throw error;
-    });
-    return searchModule;
-  };
-  const loadAuthored = () => {
-    authored = authored || fetch(SUGGESTIONS_SHEET)
-      .then((resp) => (resp.ok ? resp.json() : {}))
-      .then(({ data = [] }) => data
-        .map((row) => ({ label: (row.Suggestion || '').trim(), link: (row.Link || '').trim() }))
-        .filter(({ label }) => label))
-      .catch(() => []);
-    return authored;
-  };
-  /** The site's results page for a query (the form's own action). */
-  const searchPage = (query) => {
-    const url = new URL(form.action);
-    url.searchParams.set('q', query);
-    return `${url.pathname}${url.search}`;
-  };
-  const options = () => [...list.children];
-
-  const setActive = (index) => {
-    active = index;
-    options().forEach((option, i) => option.classList.toggle('active', i === index));
-    if (index >= 0) input.setAttribute('aria-activedescendant', options()[index].id);
-    else input.removeAttribute('aria-activedescendant');
-  };
-
-  const close = () => {
-    run += 1; // drop any lookup still in flight
-    popup.hidden = true;
-    input.setAttribute('aria-expanded', 'false');
-    setActive(-1);
-  };
-
-  /**
-   * Opens the list with these items.
-   * @param {{label: string, href: string}[]} items
-   * @param {string[]} [terms] typed words to set in regular weight (typed suggestions only)
-   */
-  const show = (items, terms) => {
-    list.replaceChildren(...items.map(({ label, href }, i) => {
-      const option = document.createElement('li');
-      option.id = `nav-search-option-${i}`;
-      option.setAttribute('role', 'option');
-      const link = document.createElement('a');
-      link.href = href;
-      link.tabIndex = -1;
-      link.append(terms ? suggestionLabel(label, terms) : label);
-      option.append(link);
-      return option;
-    }));
-    // authored suggestions are plain text; typed ones are bold apart from the typed words
-    popup.classList.toggle('nav-search-authored', !terms);
-    empty.hidden = items.length > 0;
-    status.textContent = items.length
-      ? `${items.length} suggestion${items.length === 1 ? '' : 's'}, use the arrow keys to choose`
-      : 'No results found';
-    setActive(-1);
-    popup.hidden = false;
-    input.setAttribute('aria-expanded', 'true');
-  };
-
-  const update = async () => {
-    run += 1;
-    const current = run;
-    const search = await loadSearch();
-    const [rows, suggestions] = await Promise.all([search.loadIndex(), loadAuthored()]);
-    const query = input.value.trim();
-    if (current !== run) return; // the visitor kept typing
-
-    if (!query && suggestions.length) {
-      // each runs on this site's search page when the site has a match for it, else on
-      // highmark.com's (unless the sheet gives a link)
-      show(suggestions.slice(0, MAX_SUGGESTIONS).map(({ label, link }) => {
-        const here = search.searchIndex(rows, label).length > 0;
-        const href = link || (here ? searchPage(label) : search.fallbackSearchUrl(label));
-        return { label, href };
-      }));
-      return;
-    }
-    if (query.length < search.MIN_QUERY_LENGTH) {
-      close();
-      return;
-    }
-
-    // one suggestion per title (some pages share one), best match first
-    const titles = new Set();
-    const matches = search.searchIndex(rows, query).filter((row) => {
-      const key = search.pageTitle(row).toLowerCase();
-      if (titles.has(key)) return false;
-      titles.add(key);
-      return true;
-    }).slice(0, MAX_SUGGESTIONS);
-    show(
-      matches.map((row) => ({ label: search.pageTitle(row), href: row.path })),
-      search.queryTerms(query),
-    );
-  };
-
-  input.addEventListener('focus', update);
-  input.addEventListener('input', update);
-  input.addEventListener('keydown', (e) => {
-    const open = !popup.hidden;
-    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-      e.preventDefault();
-      if (!open) {
-        update();
-        return;
-      }
-      const count = options().length;
-      if (!count) return;
-      const step = e.key === 'ArrowDown' ? 1 : -1;
-      const start = e.key === 'ArrowDown' ? 0 : count - 1;
-      setActive(active < 0 ? start : (active + step + count) % count);
-    } else if (e.key === 'Enter' && open && active >= 0) {
-      e.preventDefault();
-      window.location.href = options()[active].querySelector('a').href;
-    } else if (e.key === 'Escape' && open) {
-      e.preventDefault(); // keep the text: close the list only
-      close();
-    }
-  });
-
-  // clicking a suggestion must not blur the box first (that would close the list)
-  popup.addEventListener('mousedown', (e) => e.preventDefault());
-  form.addEventListener('focusout', (e) => {
-    if (!form.contains(e.relatedTarget)) close();
-  });
-  form.addEventListener('submit', (e) => {
-    if (!input.value.trim()) {
-      e.preventDefault();
-      input.focus();
-      return;
-    }
-    close();
-  });
-}
-
-/**
- * Build the search form (controls are created in JS, per the DA contract).
- * It submits to the site's search page (blocks/search), with type-ahead suggestions.
- */
-/**
- * Where the search box searches, from the nav fragment's optional fourth section: one link,
- * whose text is the box's placeholder and whose URL is the results page (its query
- * parameters are sent along). The provider pages search providers.highmark.com this way.
- * @param {Element} [section]
- * @returns {{action: string, params: URLSearchParams, label: string}|null}
- */
-function searchTarget(section) {
-  const link = section?.querySelector('a[href]');
-  if (!link) return null;
-  const url = new URL(link.href, window.location.href);
-  return { action: `${url.origin}${url.pathname}`, params: url.searchParams, label: link.textContent.trim() };
-}
-
-function buildSearch(target) {
+/** Build the search form (controls are created in JS, per the DA contract). */
+function buildSearch() {
   const form = document.createElement('form');
-  form.id = 'nav-search';
   form.className = 'nav-search';
   form.setAttribute('role', 'search');
-  if (target) {
-    // another site's results page: a plain box, without this site's suggestions
-    form.action = target.action;
-    form.innerHTML = `
-      <input type="search" name="q" autocomplete="off" enterkeyhint="search">
-      <button type="submit" aria-label="Search"><span class="nav-search-icon" aria-hidden="true"></span><span class="nav-search-label" aria-hidden="true">Search</span></button>`;
-    const input = form.querySelector('input');
-    input.placeholder = target.label;
-    input.setAttribute('aria-label', target.label);
-    target.params.forEach((value, name) => {
-      const hidden = document.createElement('input');
-      hidden.type = 'hidden';
-      hidden.name = name;
-      hidden.value = value;
-      form.append(hidden);
-    });
-    return form;
-  }
   form.action = '/search';
   form.innerHTML = `
-    <input type="search" name="q" placeholder="Search Highmark" aria-label="Search Highmark"
-      role="combobox" aria-autocomplete="list" aria-expanded="false"
-      aria-controls="nav-search-listbox" autocomplete="off" enterkeyhint="search">
-    <button type="submit" aria-label="Search"><span class="nav-search-icon" aria-hidden="true"></span></button>
-    <div class="nav-search-suggestions" hidden>
-      <p class="nav-search-suggestions-heading" id="nav-search-heading">Suggestions</p>
-      <ul role="listbox" id="nav-search-listbox" aria-labelledby="nav-search-heading"></ul>
-      <p class="nav-search-empty" hidden>No results found</p>
-    </div>
-    <p class="nav-search-status" role="status"></p>`;
-  decorateSuggestions(form);
+    <input type="search" name="q" placeholder="Search Highmark" aria-label="Search Highmark">
+    <button type="submit" aria-label="Search"><span class="nav-search-icon" aria-hidden="true"></span></button>`;
   return form;
 }
 
@@ -419,19 +126,6 @@ function buildSearch(target) {
  */
 export default async function decorate(block) {
   const fragment = await fetchNav();
-
-  // A nav fragment whose sections are styled shop-* (shop-brand, shop-nav, ...) gets
-  // the shop header, laid out like ShopX (shop-header.js). The pipeline delivers a
-  // section's Style as classes on its div (or, unprocessed, as a section-metadata table).
-  const isShop = [...(fragment?.children || [])].some((section) => [...section.classList]
-    .some((name) => name.startsWith('shop-'))
-    || /\bshop-/.test(section.querySelector('.section-metadata')?.textContent || ''));
-  if (isShop) {
-    const { default: decorateShopHeader } = await import('./shop-header.js');
-    await decorateShopHeader(block, navPath());
-    return;
-  }
-
   block.textContent = '';
   if (!fragment) return;
 
@@ -440,34 +134,15 @@ export default async function decorate(block) {
   nav.setAttribute('aria-label', 'Main navigation');
 
   const sections = [...fragment.children].filter((el) => el.tagName === 'DIV');
-  // Source order: [0] utility links, [1] brand + icons, [2] primary nav, and optionally
-  // [3] the search target (another site's results page), which puts the box in its own row.
-  // A fragment of two sections has no utility bar: [0] brand, [1] primary nav (the regional
-  // member pages' headers).
-  const regional = sections.length === 2;
-  const [utilitySection, brandSection, primarySection, searchSection] = regional
-    ? [null, ...sections] : sections;
-  // its brand row: below 992px the menu button, the second (mobile) logo centred, search
-  if (regional) nav.classList.add('nav-regional');
-  if (primarySection) await inheritMenu(primarySection);
-  const target = searchTarget(searchSection);
-
-  // Below the desktop breakpoint highmark.com has no search box in its menu: a search icon
-  // in the brand row opens the box in place of the logo.
-  const search = buildSearch(target);
-  let searchToggle;
-  const setSearchOpen = (open) => {
-    nav.classList.toggle('nav-search-open', open);
-    searchToggle?.setAttribute('aria-expanded', open ? 'true' : 'false');
-  };
+  // Source order: [0] utility links, [1] brand + icons, [2] primary nav.
+  const [utilitySection, brandSection, primarySection] = sections;
 
   if (utilitySection) {
     utilitySection.className = 'nav-utility';
     nav.append(utilitySection);
   }
 
-  // Brand + tools row: the logo and the utility icons on desktop; below 992px the menu
-  // button, the logo and the search icon, in that order on screen and in the tab order.
+  // Brand + tools row (logo left, utility icons right, hamburger on mobile).
   const brandRow = document.createElement('div');
   brandRow.className = 'nav-brand-row';
   if (brandSection) {
@@ -486,94 +161,32 @@ export default async function decorate(block) {
     hamburger.setAttribute('aria-expanded', 'false');
     hamburger.innerHTML = '<span class="nav-hamburger-icon"></span>';
 
-    searchToggle = document.createElement('button');
-    searchToggle.type = 'button';
-    searchToggle.className = 'nav-search-toggle';
-    searchToggle.setAttribute('aria-label', 'Search');
-    searchToggle.setAttribute('aria-controls', search.id);
-    searchToggle.setAttribute('aria-expanded', 'false');
-    searchToggle.innerHTML = '<span class="nav-search-icon" aria-hidden="true"></span>';
-
     const tools = document.createElement('div');
     tools.className = 'nav-tools';
     if (iconsUl) {
       iconsUl.classList.add('nav-icons');
-      decorateIconLinks(iconsUl);
       tools.append(iconsUl);
     }
-    brandRow.prepend(hamburger);
-    brandRow.append(tools, searchToggle);
+    brandRow.append(tools, hamburger);
     nav.append(brandRow);
 
-    const setMenuOpen = (open) => {
-      nav.classList.toggle('nav-open', open);
+    hamburger.addEventListener('click', () => {
+      const open = nav.classList.toggle('nav-open');
       hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
       hamburger.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
       document.body.style.overflowY = open ? 'hidden' : '';
-    };
-    hamburger.addEventListener('click', () => {
-      setSearchOpen(false);
-      setMenuOpen(!nav.classList.contains('nav-open'));
-    });
-    searchToggle.addEventListener('click', () => {
-      setMenuOpen(false);
-      setSearchOpen(true);
-      search.querySelector('input').focus();
     });
   }
 
-  // Primary nav row (nav links + search on desktop).
+  // Primary nav row (nav links + search).
   const primaryRow = document.createElement('div');
   primaryRow.className = 'nav-primary-row';
   if (primarySection) {
-    // Style "full width": each panel spans the nav row, its columns divided by rules, as on
-    // providers.highmark.com. (Section metadata arrives as classes, or unprocessed locally.)
-    const meta = primarySection.querySelector('.section-metadata');
-    if (primarySection.classList.contains('full-width') || /full[ -]width/i.test(meta?.textContent || '')) {
-      nav.classList.add('nav-panels-full');
-    }
-    meta?.remove();
     primarySection.className = 'nav-sections';
     decoratePrimaryNav(primarySection);
-    // :lock: after a link marks a page that needs an Availity login
-    decorateIcons(primarySection);
-    primarySection.querySelectorAll('.icon-lock img').forEach((img) => { img.alt = 'Availity login required'; });
     primaryRow.append(primarySection);
   }
-
-  // With a search target the box has a row of its own under the nav row (desktop).
-  let searchRow;
-  if (target) {
-    searchRow = document.createElement('div');
-    searchRow.className = 'nav-search-row';
-  }
-
-  // The search box sits after the nav links on desktop and before the search icon below
-  // that, so the tab order follows the screen. It moves when the viewport crosses over.
-  const placeSearch = () => {
-    if (searchToggle && !isDesktop.matches) searchToggle.before(search);
-    else if (searchRow) searchRow.append(search);
-    else if (primarySection) primarySection.after(search);
-    else primaryRow.prepend(search);
-  };
-  placeSearch();
-  if (searchToggle) {
-    // The opened box closes on a tap outside it (as on highmark.com), when focus tabs out
-    // of it, or on Escape once its suggestion list is closed.
-    document.addEventListener('pointerdown', (e) => {
-      if (nav.classList.contains('nav-search-open') && !search.contains(e.target)) setSearchOpen(false);
-    });
-    search.addEventListener('focusout', (e) => {
-      if (e.relatedTarget && !search.contains(e.relatedTarget)) setSearchOpen(false);
-    });
-    search.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !e.defaultPrevented && nav.classList.contains('nav-search-open')) {
-        e.preventDefault(); // keep the text (a search input clears on Escape)
-        setSearchOpen(false);
-        searchToggle.focus();
-      }
-    });
-  }
+  primaryRow.append(buildSearch());
 
   // Mobile: relocate the utility links + icons into the drawer (they live in the
   // top bands on desktop; the source repeats them at the bottom of the drawer).
@@ -584,7 +197,7 @@ export default async function decorate(block) {
     primaryRow.append(utilClone);
   }
   if (brandSection) {
-    const iconsUl = nav.querySelector('.nav-tools .nav-icons'); // moved out of brandSection above
+    const iconsUl = brandSection.querySelector('.nav-icons');
     if (iconsUl) {
       const iconsClone = iconsUl.cloneNode(true);
       const wrap = document.createElement('div');
@@ -595,7 +208,6 @@ export default async function decorate(block) {
   }
 
   nav.append(primaryRow);
-  if (searchRow) nav.append(searchRow);
 
   // Close panels on Escape.
   window.addEventListener('keydown', (e) => {
@@ -616,8 +228,6 @@ export default async function decorate(block) {
     }
     const navList = nav.querySelector('.nav-primary');
     if (navList) closeAllPanels(navList);
-    setSearchOpen(false);
-    placeSearch();
   });
 
   const navWrapper = document.createElement('div');

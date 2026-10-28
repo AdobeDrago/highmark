@@ -1,32 +1,19 @@
-/* Block: cards-minimal-dark-withimg-icons -- round icon illustration on top, heading, copy, optional uppercase blue CTA */
+/* Block: cards-minimal-dark-withimg-icons -- image-top, heading, copy, uppercase blue CTA */
 
-/* Values extracted from https://www.highmark.com/plans/individual-families and https://www.highmark.com/
-   (.card-block .cardWrapper.ghostMode) computed styles.
-   Source layout: flex-wrap, centered rows, 370px cards (470px when the block has exactly 2 cards),
-   30px gap -> 3 per row at 1200px, 2 per row at ~1024px (odd last card centered), 1 column on mobile. */
-
-/* The .section.center style caps every wrapper at 760px; the card grid needs the full content width. */
-main .section.center > div.cards-minimal-dark-withimg-icons-wrapper {
-  max-width: 1200px;
-}
+/* Values extracted from https://www.highmark.com/resources card grid computed styles */
 
 .cards-minimal-dark-withimg-icons {
   padding: 0;
 }
 
-/* Mobile: single centered column, cards up to 400px (470px for the 2-card "wide" layout) */
 .cards-minimal-dark-withimg-icons > ul {
   list-style: none;
   margin: 0 auto;
   padding: 0;
   display: grid;
-  grid-template-columns: minmax(0, 400px);
-  justify-content: center;
+  grid-template-columns: 375px;
   gap: 30px;
-}
-
-.cards-minimal-dark-withimg-icons > ul:has(> li:nth-child(2):last-child) {
-  grid-template-columns: minmax(0, 470px);
+  justify-content: center;
 }
 
 .cards-minimal-dark-withimg-icons > ul > li {
@@ -35,27 +22,20 @@ main .section.center > div.cards-minimal-dark-withimg-icons-wrapper {
   background-color: var(--background-color);
   border-radius: 4px;
   overflow: hidden;
-  text-align: left;
 }
 
-/* Icon image -- the SVG canvas (370x200 / 470x200) already contains the round illustration,
-   so render it at full card width with its natural ratio. Never crop. */
+/* Image on top -- source ratio 370x200 (37/20) */
 .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-image {
   line-height: 0;
 }
 
-.cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-image picture {
-  display: block;
-}
-
 .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-image img {
-  display: block;
   width: 100%;
-  height: auto;
-  object-fit: fill;
+  aspect-ratio: 37 / 20;
+  object-fit: cover;
 }
 
-/* Body -- padding 20px */
+/* Body -- padding 20px, fills remaining height so CTA can sit at the bottom */
 .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body {
   display: flex;
   flex-direction: column;
@@ -67,91 +47,32 @@ main .section.center > div.cards-minimal-dark-withimg-icons-wrapper {
 .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
   margin: 0 0 10px;
   font-family: var(--heading-font-family);
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 600;
   line-height: 1.1;
-  letter-spacing: -0.4px;
+  letter-spacing: -0.72px;
   color: var(--text-color);
 }
 
-/* Copy: 15px/21px + 12.8px bottom margin on mobile (source < 768px) */
 .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p {
-  margin: 0 0 12.8px;
-  padding: 10px 0 4px;
+  margin: 0 0 16px;
   font-family: var(--body-font-family);
-  font-size: 15px;
-  font-weight: 300;
-  line-height: 21px;
-  letter-spacing: -0.2px;
+  font-size: 16px;
+  line-height: 24px;
   color: var(--text-body-color);
 }
 
-/* Mobile: source cards sit 45px from the viewport edge (30px container padding + 15px card margin)
-   -> 300px wide at 390. Same pattern on the home page and the plans page. */
-@media (width < 768px) {
-  main > .section > div.cards-minimal-dark-withimg-icons-wrapper {
-    padding-left: 30px;
-    padding-right: 30px;
-  }
-
-  .cards-minimal-dark-withimg-icons > ul {
-    padding: 0 15px;
-  }
-}
-
-/* Plans page (theme=shop), mobile + tablet: the source's 15px card margin also sits above the
-   first and below the last card (31px from the intro copy / CTA, 65px to the section bottom).
-   On the home page the block lives in its own section, so this is scoped to plans.
-   Padding (not margin) so it does not collapse into the neighbouring default-content margins. */
-@media (width < 900px) {
-  body.shop .cards-minimal-dark-withimg-icons > ul {
-    padding-top: 15px;
-    padding-bottom: 15px;
-  }
-}
-
-/* Footnote markers must not open up the line box (source: 11.25px, line-height 0, top -5.625px) */
-.cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body sup {
-  position: relative;
-  top: -0.5em;
-  font-size: 11.25px;
-  line-height: 0;
-  vertical-align: baseline;
-}
-
-/* Short blue accent rule under each H3 (source hr.titleUnderline).
-   On the source it appears on the icon grids without CTAs inside .center sections
-   ("ACA basics", "benefits built into every plan"); the CTA cards and the home-page grid have none.
-   Authors can also force it with the "underline" block option. */
-.cards-minimal-dark-withimg-icons.underline .cards-minimal-dark-withimg-icons-card-body h3,
-main .section.center .cards-minimal-dark-withimg-icons:not(:has(a)) .cards-minimal-dark-withimg-icons-card-body h3 {
-  margin-bottom: 0;
-}
-
-.cards-minimal-dark-withimg-icons.underline .cards-minimal-dark-withimg-icons-card-body h3::after,
-main .section.center .cards-minimal-dark-withimg-icons:not(:has(a)) .cards-minimal-dark-withimg-icons-card-body h3::after {
-  content: '';
-  display: block;
-  box-sizing: content-box;
-  width: 51px;
-  height: 4px;
-  margin-top: 10px;
-  border-top: 1px solid rgb(0 0 0 / 10%);
-  border-radius: 2px;
-  background-color: rgb(0 120 193);
-}
-
-/* CTA -- plain uppercase bold blue text link, left-aligned directly under the copy.
+/* CTA -- plain uppercase bold blue link, right-aligned at card bottom.
    EDS auto-decorates the standalone <p><a> into .button-container / a.button;
-   reset the global outlined button (and the .section.center centering) back to a text link. */
-main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p.button-container {
+   reset the global pill styling back to a text link. */
+.cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p.button-container {
   margin: 0;
-  padding: 0;
-  text-align: left;
+  margin-top: auto;
+  text-align: right;
 }
 
-main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:any-link {
-  display: block;
+.cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:any-link {
+  display: inline;
   margin: 0;
   padding: 0;
   border: none;
@@ -161,215 +82,23 @@ main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-bo
   font-family: var(--body-font-family);
   font-size: 16px;
   font-weight: 700;
-  line-height: 20px;
+  line-height: 1.5;
   letter-spacing: normal;
-  text-align: left;
   text-transform: uppercase;
   text-decoration: none;
   white-space: normal;
 }
 
-main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:hover,
-main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:focus {
+.cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:hover,
+.cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:focus {
   background-color: transparent;
-  color: var(--link-color);
+  color: var(--link-hover-color);
   text-decoration: underline;
 }
 
-/* Source bumps the card heading from 22px to 24px at tablet width */
-@media (width >= 768px) {
-  .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
-    font-size: 24px;
-    letter-spacing: -0.44px;
-  }
-
-  /* Tablet copy: 15px/19.5px, 16px bottom margin (source 768-991px) */
-  .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p {
-    margin-bottom: 16px;
-    line-height: 19.5px;
-    letter-spacing: -0.4px;
-  }
-}
-
-/* Desktop type: 16px/24px copy, tighter heading tracking (source >= 992px) */
-@media (width >= 992px) {
-  .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
-    letter-spacing: -0.72px;
-  }
-
-  .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p {
-    font-size: 16px;
-    line-height: 24px;
-    letter-spacing: -0.1px;
-  }
-}
-
-/* Desktop: centered wrapping rows of fixed-width cards (odd last card centered) */
+/* Responsive grid on desktop */
 @media (width >= 900px) {
   .cards-minimal-dark-withimg-icons > ul {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .cards-minimal-dark-withimg-icons > ul > li {
-    flex: 0 0 370px;
-    width: 370px;
-  }
-
-  .cards-minimal-dark-withimg-icons > ul:has(> li:nth-child(2):last-child) > li {
-    flex-basis: 470px;
-    width: 470px;
-  }
-}
-
-/* CHIP landing ("Get care with CHIP - Highmark Healthy Kids"): source component
-   .cards-variation li.listSmlImg (https://www.highmark.com/western-pennsylvania/chip).
-   Same icon-on-top card, but transparent, with no body padding: heading/copy/CTA sit flush with the
-   icon canvas. Single 400px column up to 991px (300px at 390), 370px cards 34px apart from 992px.
-   The topic sub-pages (template=topic-hub-subnav, "Relaxation techniques" on
-   /resources/mental-health-services/mental-health-resources) use the identical .cards-variation
-   li.listSmlImg markup and computed values, so they share these rules. */
-body.chip-landing .cards-minimal-dark-withimg-icons > ul > li,
-body.topic-hub-subnav .cards-minimal-dark-withimg-icons > ul > li {
-  background-color: transparent;
-  border-radius: 0;
-}
-
-body.chip-landing .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body,
-body.topic-hub-subnav .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body {
-  padding: 0;
-}
-
-/* h3.titleHead: margin 20px 0 13px (the heading never gets the underline rule here -- every card has a CTA) */
-/* stylelint-disable no-descending-specificity */
-body.chip-landing .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3,
-body.topic-hub-subnav .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
-  margin: 20px 0 13px;
-}
-/* stylelint-enable no-descending-specificity */
-
-/* span.cardsText p: no padding (margins as in the base rules) */
-body.chip-landing .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p,
-body.topic-hub-subnav .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p {
-  padding: 0;
-}
-
-/* .hmk-brand-buttons.mb-3: 16px below the CTA, CTA box shrinks to its text */
-body.chip-landing main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p.button-container,
-body.topic-hub-subnav main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body p.button-container {
-  margin: 0 0 16px;
-}
-
-body.chip-landing main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:any-link,
-body.topic-hub-subnav main .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body a.button:any-link {
-  width: fit-content;
-}
-
-/* Tablet (768-991px): heading 32px/35.2px + 3px bottom padding */
-@media (width >= 768px) and (width < 992px) {
-  body.chip-landing .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3,
-  body.topic-hub-subnav .cards-minimal-dark-withimg-icons .cards-minimal-dark-withimg-icons-card-body h3 {
-    padding-bottom: 3px;
-    font-size: 32px;
-    line-height: 35.2px;
-  }
-}
-
-/* 900-991px: the source keeps the single 400px column (the base block switches to rows at 900px) */
-@media (width >= 900px) and (width < 992px) {
-  body.chip-landing .cards-minimal-dark-withimg-icons > ul,
-  body.topic-hub-subnav .cards-minimal-dark-withimg-icons > ul {
-    display: grid;
-  }
-
-  body.chip-landing .cards-minimal-dark-withimg-icons > ul > li,
-  body.topic-hub-subnav .cards-minimal-dark-withimg-icons > ul > li {
-    width: auto;
-  }
-}
-
-/* >= 992px: 370px cards, 34px apart, 30px between rows, top-aligned (heights follow content) */
-@media (width >= 992px) {
-  body.chip-landing .cards-minimal-dark-withimg-icons > ul,
-  body.topic-hub-subnav .cards-minimal-dark-withimg-icons > ul {
-    gap: 30px 34px;
-    align-items: flex-start;
-  }
-}
-
-/* Topic sub-pages: "Relaxation techniques" intro above the cards (source div.container-sm-img
-   h2.cardsTitle + p.cardsPara, https://www.highmark.com/resources/mental-health-services/mental-health-resources).
-   Same values as the CHIP landing intro: 50/40 (60/50 from 576px) section padding -- the bottom
-   padding includes the source's 30px margin below the last card -- centered bold sofia-pro lead,
-   15px (2.5vw) gutters, 766px column from 992px. The source band butts against the crisis
-   callout above and the grey callout below (no 40px section margins). */
-body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-icons-container {
-  margin: 0;
-  padding: 50px 0 70px;
-}
-
-body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper {
-  max-width: none;
-  margin: 0 auto;
-  padding: 0 max(15px, 2.5vw);
-  text-align: center;
-}
-
-body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper h2 {
-  margin: 0 0 20px;
-  padding: 0;
-  font-size: 26px;
-  line-height: 28.6px;
-  letter-spacing: -0.72px;
-}
-
-body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper p {
-  margin: 0 0 30px;
-  color: var(--text-color);
-  font-family: var(--heading-font-family);
-  font-size: 17px;
-  font-weight: 600;
-  line-height: 23.8px;
-  letter-spacing: -0.2px;
-}
-
-@media (width >= 576px) {
-  body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-icons-container {
-    padding: 60px 0 80px;
-  }
-}
-
-@media (width >= 768px) {
-  body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper h2 {
-    font-size: 28px;
-    line-height: 30.8px;
-    letter-spacing: -0.78px;
-  }
-
-  body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper p {
-    font-size: 18px;
-    line-height: 23.4px;
-    letter-spacing: -0.4px;
-  }
-}
-
-@media (width >= 992px) {
-  body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper {
-    max-width: 766px;
-    padding: 0;
-  }
-
-  body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper h2 {
-    font-size: 34px;
-    line-height: 37.4px;
-    letter-spacing: -1.36px;
-  }
-
-  body.topic-hub-subnav main > .section.cards-minimal-dark-withimg-icons-container > .default-content-wrapper p {
-    margin-bottom: 40px;
-    font-size: 20px;
-    line-height: 30px;
-    letter-spacing: -0.3px;
+    grid-template-columns: repeat(auto-fill, minmax(375px, 375px));
   }
 }

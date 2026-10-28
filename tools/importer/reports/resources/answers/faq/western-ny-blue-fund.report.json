@@ -2,10 +2,11 @@
   "status": "success",
   "url": "https://www.highmark.com/resources/answers/faq/western-ny-blue-fund",
   "path": "resources/answers/faq/western-ny-blue-fund",
-  "timestamp": "2026-10-14T09:57:23.909Z",
+  "timestamp": "2026-08-18T00:34:50.945Z",
   "title": "Blue Fund Grants FAQ for Western New York Nonprofits",
-  "template": "faq-topic",
+  "template": "sidebar-grouped-faq",
   "blocks": [
+    "cards-minimal-light-sidenav",
     "cards-minimal-light-sidenav",
     "accordion-minimal-light",
     "accordion-minimal-light",

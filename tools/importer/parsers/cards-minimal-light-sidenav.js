@@ -53,40 +53,12 @@ export default function parse(element, { document }) {
 
   const cells = [];
 
-  // --- Shape 3: a flat list (National Business Pharmacy: Medical Plans | Pharmacy) ---
-  // Top-level items only, none of them a parent link or holding a sub-list: each is a
-  // sibling, the active one "current".
-  const topItems = Array.from(element.querySelectorAll('ul.sidenav-item-list > li'));
-  const flat = !element.querySelector('a.side-nav-item-parent') && topItems.length > 1
-    && topItems.every((li) => li.classList.contains('sidenav-item-level1') && !li.querySelector('ul'));
-  if (flat) {
-    topItems.forEach((li) => {
-      const a = li.querySelector('a[href]');
-      if (!a) return;
-      const isActive = a.classList.contains('active') || a.getAttribute('aria-current') === 'page';
-      cells.push(rowFor(isActive ? 'current' : 'sibling', a));
-    });
-    element.replaceWith(WebImporter.Blocks.createBlock(document, { name: 'cards-minimal-light-sidenav', cells }));
-    return;
-  }
-
   // --- Parent section link (level: parent) ---
   const parent = element.querySelector('a.side-nav-item-parent, .sidenav-item > a[href]:not(.active)');
   if (parent) cells.push(rowFor('parent', parent));
 
   // --- Shape 1: article/listing — children live in ul.subnavitem-list ---
-  // Only the current page's own child list counts: siblings with children carry a
-  // collapsed (not .show) ul.subnavitem-list that the source doesn't display
-  // (about/corporate-responsibility/* list Bright Blue Futures' 12 children there).
-  // Row structure is unchanged: [ level | link ].
-  const activeLink = element.querySelector('a.active');
-  const subnavList = element.querySelector('ul.subnavitem-list.show')
-    || (activeLink && activeLink.parentElement.querySelector(':scope > ul.subnavitem-list'))
-    || (!activeLink && element.querySelector('ul.subnavitem-list, .subnavitem-list'));
-  const inCollapsedList = (a) => {
-    const list = a.closest('ul.subnavitem-list');
-    return !!list && list !== subnavList && list.classList.contains('collapse') && !list.classList.contains('show');
-  };
+  const subnavList = element.querySelector('ul.subnavitem-list, .subnavitem-list');
   if (subnavList) {
     // Active / current item (level: current).
     const current = element.querySelector('a.active, a[aria-expanded="true"]');
@@ -103,7 +75,7 @@ export default function parse(element, { document }) {
     // the one carrying .active (or matching the current page) is "current".
     const siblingAnchors = Array.from(
       element.querySelectorAll('ul.sidenav-item-list ul a[href], .sidenav-item-list ul a[href], ul li ul a[href]'),
-    ).filter((a) => a !== parent && !inCollapsedList(a));
+    ).filter((a) => a !== parent);
 
     // De-duplicate while preserving DOM order.
     const seen = new Set();

@@ -43,61 +43,11 @@ var CustomImportScript = (() => {
 
   // tools/importer/parsers/hero-minimal-dark-withimg.js
   function parse(element, { document: document2 }) {
-    var _a;
-    const banner = element.querySelector(".secondaryBannerContent");
-    if (banner) {
-      const bannerImg = banner.querySelector("img.desktopImage") || banner.querySelector("picture img, img");
-      const wrapper = banner.querySelector(".contentWrapper") || banner;
-      const pick = (sel) => wrapper.querySelector(`${sel}.d-lg-block`) || wrapper.querySelector(sel);
-      const clean = (el) => {
-        if (!el) return null;
-        const h = document2.createElement(el.tagName.toLowerCase());
-        h.textContent = el.textContent.replace(/\s+/g, " ").trim();
-        return h;
-      };
-      const title = clean(pick("h1.bannerHeadingText") || wrapper.querySelector("h1"));
-      const sub = clean(pick(".bannerSubHeadingText"));
-      const ctas = Array.from(wrapper.querySelectorAll(".buttonGroup a[href]"));
-      if (!title && !sub && !bannerImg) {
-        element.replaceWith(...element.childNodes);
-        return;
-      }
-      const bannerCells = [];
-      if (bannerImg) bannerCells.push([bannerImg]);
-      bannerCells.push([[title, sub, ...ctas].filter(Boolean)]);
-      element.replaceWith(WebImporter.Blocks.createBlock(document2, { name: "hero-minimal-dark-withimg", cells: bannerCells }));
-      return;
-    }
     const bgImage = element.querySelector('picture img, img[class*="image"], img');
-    const heroWrapper = element.querySelector(".left-content.d-lg-block .content-wrapper") || element.querySelector(".left-content .content-wrapper") || element.querySelector(".content-wrapper");
-    const contentWrapper = heroWrapper || element.querySelector(".one-card-content-left-container") || element;
-    let heading = contentWrapper.querySelector('h1, h2, .banner-heading, [class*="banner-heading"]');
-    if (!heroWrapper && heading && /\bd-none\b|\bd-lg-none\b/.test(heading.className || "")) {
-      const cleanHeading = document2.createElement(heading.tagName.toLowerCase());
-      cleanHeading.append(...heading.childNodes);
-      heading = cleanHeading;
-    }
+    const contentWrapper = element.querySelector(".left-content.d-lg-block .content-wrapper") || element.querySelector(".left-content .content-wrapper") || element.querySelector(".content-wrapper") || element;
+    const heading = contentWrapper.querySelector('h1, h2, .banner-heading, [class*="banner-heading"]');
     const subheading = contentWrapper.querySelector('h2.banner-sub-heading-sub, h3.banner-sub-heading-sub, .banner-sub-heading-sub, [class*="sub-heading"]');
     const ctaLinks = Array.from(contentWrapper.querySelectorAll('a.button, a.cta, a[class*="cta"], a[class*="button"]'));
-    if (!heroWrapper && bgImage) {
-      const desktopSource = (_a = bgImage.closest("picture")) == null ? void 0 : _a.querySelector('source[media*="992"][srcset]');
-      const desktopSrc = desktopSource && desktopSource.getAttribute("srcset").split(",")[0].trim().split(/\s+/)[0];
-      if (desktopSrc) bgImage.setAttribute("src", desktopSrc);
-    }
-    const bodyParas = [];
-    if (!heroWrapper && !subheading) {
-      const bodyText = contentWrapper.querySelector(".body-text.d-lg-block") || contentWrapper.querySelector(".body-text");
-      if (bodyText) {
-        const paras = Array.from(bodyText.querySelectorAll(":scope > p"));
-        if (paras.length) {
-          bodyParas.push(...paras);
-        } else if (bodyText.textContent.trim()) {
-          const p = document2.createElement("p");
-          p.append(...bodyText.childNodes);
-          bodyParas.push(p);
-        }
-      }
-    }
     if (!heading && !subheading && !bgImage) {
       element.replaceWith(...element.childNodes);
       return;
@@ -109,18 +59,9 @@ var CustomImportScript = (() => {
     const contentCell = [];
     if (heading) contentCell.push(heading);
     if (subheading) contentCell.push(subheading);
-    contentCell.push(...bodyParas);
     contentCell.push(...ctaLinks);
     cells.push([contentCell]);
-    const subHero = element.matches(".sub-hero-sec") ? element : element.querySelector(".sub-hero-sec");
-    const options = [];
-    if (subHero) {
-      options.push("sub");
-      if (subHero.querySelector('.left-content.d-lg-none[class*="brand-togather"]')) options.push("navy");
-      if (subHero.querySelector('.left-content.d-lg-block [class*="white-text"]')) options.push("light");
-    }
-    const name = options.length ? `hero-minimal-dark-withimg (${options.join(", ")})` : "hero-minimal-dark-withimg";
-    const block = WebImporter.Blocks.createBlock(document2, { name, cells });
+    const block = WebImporter.Blocks.createBlock(document2, { name: "hero-minimal-dark-withimg", cells });
     element.replaceWith(block);
   }
 
@@ -134,45 +75,7 @@ var CustomImportScript = (() => {
       if (introHeading) introEls.push(introHeading);
       if (introDesc) introEls.push(introDesc);
     }
-    let cards = Array.from(element.querySelectorAll(".card.cardBlock, .cardBlock, .card"));
-    if (!cards.length) {
-      const people = Array.from(element.querySelectorAll("section.hmk-home_cardwrapper"));
-      if (people.length) {
-        const peopleCells = people.map((person) => {
-          const photo = person.querySelector("img");
-          const nameLink = person.querySelector(".hmk-cardwrapper_title a");
-          const h3 = document2.createElement("h3");
-          if (nameLink) {
-            const a = document2.createElement("a");
-            a.setAttribute("href", nameLink.getAttribute("href"));
-            a.textContent = nameLink.textContent.trim();
-            h3.append(a);
-          }
-          const text = [h3];
-          const desc = person.querySelector("p.hmk-homecarddesc");
-          if (desc) text.push(desc);
-          person.querySelectorAll(".hmk-brand-buttons a[href]").forEach((a) => {
-            const p = document2.createElement("p");
-            const link = document2.createElement("a");
-            link.setAttribute("href", a.getAttribute("href"));
-            link.textContent = a.querySelector(".fa-linkedin") ? "LinkedIn" : a.textContent.trim();
-            p.append(link);
-            text.push(p);
-          });
-          return [photo || "", text];
-        });
-        element.replaceWith(WebImporter.Blocks.createBlock(document2, { name: "cards-minimal-dark-withimg", cells: peopleCells }));
-        return;
-      }
-    }
-    if (!cards.length) {
-      cards = Array.from(element.querySelectorAll("li.cardThree")).filter((li) => li.querySelector("picture, img"));
-      if (cards.length) {
-        const introHeading = element.querySelector("h2.cardsTitle");
-        if (introHeading) introEls.push(introHeading);
-        introEls.push(...Array.from(element.querySelectorAll("p.cardsPara")));
-      }
-    }
+    const cards = Array.from(element.querySelectorAll(".card.cardBlock, .cardBlock, .card"));
     if (cards.length === 0) {
       element.replaceWith(...element.childNodes);
       return;
@@ -228,20 +131,11 @@ var CustomImportScript = (() => {
       const heading = card.querySelector('h1, h2, h3, h4, [class*="titleHead"]');
       unwrapDeadHeadingLinks(heading);
       const paragraphs = Array.from(card.querySelectorAll(".wideCardText p, .type2Txt p, p"));
-      const links = Array.from(card.querySelectorAll('a.textButton, a.button, a[class*="button"], a[href]')).filter((a) => !paragraphs.some((p) => p.contains(a)));
+      const links = Array.from(card.querySelectorAll('a.textButton, a.button, a[class*="button"], a[href]'));
       const contentCell = [];
       if (heading) contentCell.push(heading);
       contentCell.push(...paragraphs);
-      links.forEach((a) => {
-        const label = a.previousElementSibling;
-        if (label && label.matches("span.wideCardTextTwo") && label.textContent.trim()) {
-          const p = document2.createElement("p");
-          p.append(`${label.textContent.trim()} `, a);
-          contentCell.push(p);
-        } else {
-          contentCell.push(a);
-        }
-      });
+      contentCell.push(...links);
       cells.push([image || "", contentCell]);
     });
     const block = WebImporter.Blocks.createBlock(document2, { name: "cards-minimal-dark-withimg-2", cells });
@@ -249,59 +143,13 @@ var CustomImportScript = (() => {
   }
 
   // tools/importer/parsers/columns-minimal-dark.js
-  function parseBio(element, document2) {
-    const img = element.querySelector(".div-bio-images img, img");
-    const header = element.querySelector(".div-bio-header") || element;
-    const name = header.querySelector("h1, h2, h3, h4");
-    const title = header.querySelector("p");
-    const content = [];
-    if (name) {
-      const h1 = document2.createElement("h1");
-      h1.textContent = name.textContent.replace(/\s+/g, " ").trim();
-      content.push(h1);
-    }
-    if (title) {
-      const p = document2.createElement("p");
-      p.textContent = title.textContent.replace(/\s+/g, " ").trim();
-      content.push(p);
-    }
-    const linkPara = (href, text) => {
-      const p = document2.createElement("p");
-      const a = document2.createElement("a");
-      a.href = href;
-      a.textContent = text;
-      p.append(a);
-      return p;
-    };
-    header.querySelectorAll("a").forEach((a) => {
-      const raw = (a.getAttribute("href") || "").trim();
-      const href = raw.replace(/(%20|\s)+$/i, "");
-      const label = a.textContent.replace(/\s+/g, " ").trim();
-      if (/linkedin\.com/i.test(href) || a.querySelector(".fa-linkedin") || label === "LinkedIn") {
-        content.push(linkPara(href || "#", "LinkedIn"));
-      } else if (a.id === "bio-modal" || /request interview/i.test(label)) {
-        content.push(linkPara("/modals/request-interview", "Request Interview"));
-      } else if (/\.pdf$/i.test(href)) {
-        content.push(linkPara(href, "View as a PDF"));
-      } else if (href && href !== "#") {
-        content.push(linkPara(href, label || href));
-      }
-    });
-    const cells = [[img ? [img] : "", content]];
-    element.replaceWith(WebImporter.Blocks.createBlock(document2, { name: "columns-minimal-dark", cells }));
-  }
   function parse4(element, { document: document2 }) {
-    if (element.matches("section.flex-container") && element.querySelector(".div-bio-header")) {
-      parseBio(element, document2);
-      return;
-    }
     const textArea = element.querySelector(".text-area") || element;
     const imageArea = element.querySelector(".image-area") || element;
     const image = imageArea.querySelector("picture, img");
     const heading = textArea.querySelector("h1, h2, h3, h4");
     const bodyBlocks = Array.from(textArea.querySelectorAll(":scope > div"));
-    const isCta = (a) => a.matches('a.textButton, a.button, a[class*="button"]') || !!a.closest("b, strong");
-    const links = Array.from(textArea.querySelectorAll('a.textButton, a.button, a[class*="button"], a[href]')).filter((a) => (a.getAttribute("href") || "").trim()).filter((a) => isCta(a) || !bodyBlocks.some((b) => b.contains(a)));
+    const links = Array.from(textArea.querySelectorAll('a.textButton, a.button, a[class*="button"], a[href]'));
     if (!heading && bodyBlocks.length === 0 && !image) {
       element.replaceWith(...element.childNodes);
       return;
@@ -311,8 +159,7 @@ var CustomImportScript = (() => {
     contentCell.push(...bodyBlocks);
     contentCell.push(...links);
     const imageCell = image ? [image] : [""];
-    const imageLeft = !!element.querySelector(".image-area.left-content");
-    const cells = [imageLeft ? [imageCell, contentCell] : [contentCell, imageCell]];
+    const cells = [[contentCell, imageCell]];
     const block = WebImporter.Blocks.createBlock(document2, { name: "columns-minimal-dark", cells });
     element.replaceWith(block);
   }
@@ -326,10 +173,8 @@ var CustomImportScript = (() => {
         // Qualtrics website-feedback snippet (cleaned.html:2)
         ".mega-menu-overlay",
         // nav mega-menu overlay (cleaned.html:81)
-        "#modalIeDetect",
+        "#modalIeDetect"
         // legacy IE-detection modal (cleaned.html:1637)
-        "#onetrust-consent-sdk"
-        // OneTrust cookie banner + preference center (plans cleaned.html:2631)
       ]);
     }
     if (hookName === TransformHook.afterTransform) {
@@ -344,9 +189,6 @@ var CustomImportScript = (() => {
       WebImporter.DOMUtils.remove(element, [
         ".d-block.d-lg-none"
       ]);
-      element.querySelectorAll('a[href^="/content/dam/"]').forEach((a) => {
-        a.setAttribute("href", `https://www.highmark.com${a.getAttribute("href")}`);
-      });
       WebImporter.DOMUtils.remove(element, [
         "link",
         "noscript",
@@ -357,59 +199,40 @@ var CustomImportScript = (() => {
 
   // tools/importer/transformers/highmark-sections.js
   var SECTION_MARKER_ATTR = "data-excat-section-id";
-  var SECTION_STYLE_ATTR = "data-excat-section-style";
-  var COMPONENTS = [
-    "div.hero.responsivegrid.section",
-    "div.card-block.responsivegrid.section",
-    "div.onecard1colpanel.section",
-    "div.newcardscomponent-variations.section"
-  ].join(", ");
-  var BRAND_STYLES = [
-    ["new-hmk-brand-togatherblue", "dark, center"],
-    ["new-hmk-brand-blush-twnetyfive", "highlight"],
-    ["new-hmk-brand-polar", "accent"],
-    ["new-hmk-brand-fifteenpercent-splash", "light-blue"]
+  var SECTIONS = [
+    { id: "section-1", selector: "div.hero.responsivegrid.section" },
+    { id: "section-2", selector: "div.card-block.responsivegrid.section" },
+    { id: "section-3", selector: "div.onecard1colpanel.section", style: "highlight" },
+    { id: "section-4", selector: "div.newcardscomponent-variations.section:nth-of-type(4)", style: "accent" },
+    { id: "section-5", selector: "div.newcardscomponent-variations.section:nth-of-type(5)" }
   ];
-  function styleFor(component) {
-    if (component.matches("div.hero.section")) return component.querySelector(".hero-content-container") ? "hero-wide" : "";
-    const panel = component.querySelector(".one-card-one-col-panel, .side-card-panel") || component;
-    const own = (panel.className || "").toString();
-    const brand = BRAND_STYLES.find(([cls2]) => own.includes(cls2)) || BRAND_STYLES.find(([cls2]) => panel.querySelector(`.${cls2}`));
-    if (!brand) return "";
-    const [cls, style] = brand;
-    if (cls.includes("blush") && panel.matches(".one-card-one-col-panel") && panel.querySelector(".one-card-content-center-container")) return `${style}, text-band`;
-    if (cls.includes("blush") && panel.matches(".side-card-panel")) return `${style}, columns-band`;
-    return style;
-  }
   function transform2(hookName, element, payload) {
+    const sections = SECTIONS;
     if (hookName === "beforeTransform") {
-      element.querySelectorAll("a .hmk-visually-hidden").forEach((span) => span.remove());
-      const components = [...element.querySelectorAll(COMPONENTS)].filter((c) => !c.parentElement.closest(COMPONENTS));
-      components.forEach((component, i) => {
-        const style = styleFor(component);
-        if (i === 0 && !style) return;
-        const marker = document.createElement(i === 0 ? "div" : "hr");
-        if (style) {
-          marker.setAttribute(SECTION_MARKER_ATTR, `section-${i + 1}`);
-          marker.setAttribute(SECTION_STYLE_ATTR, style);
-        }
-        component.before(marker);
-      });
+      for (let i = sections.length - 1; i >= 0; i -= 1) {
+        const section = sections[i];
+        if (i === 0 && !section.style) continue;
+        const sectionEl = element.querySelector(section.selector);
+        if (!sectionEl) continue;
+        const hr = document.createElement("hr");
+        if (section.style) hr.setAttribute(SECTION_MARKER_ATTR, section.id);
+        sectionEl.before(hr);
+      }
     }
     if (hookName === "afterTransform") {
-      element.querySelectorAll(`[${SECTION_MARKER_ATTR}]`).forEach((marker) => {
+      for (let i = sections.length - 1; i >= 0; i -= 1) {
+        const section = sections[i];
+        if (!section.style) continue;
+        const marker = element.querySelector(`[${SECTION_MARKER_ATTR}="${section.id}"]`);
+        const anchor = marker || element.querySelector(section.selector);
+        if (!anchor) continue;
         const metadataBlock = WebImporter.Blocks.createBlock(document, {
           name: "Section Metadata",
-          cells: { style: marker.getAttribute(SECTION_STYLE_ATTR) }
+          cells: { style: section.style }
         });
-        if (marker.tagName === "DIV") {
-          marker.replaceWith(metadataBlock);
-          return;
-        }
-        marker.after(metadataBlock);
-        marker.removeAttribute(SECTION_MARKER_ATTR);
-        marker.removeAttribute(SECTION_STYLE_ATTR);
-      });
+        anchor.after(metadataBlock);
+        if (marker) marker.removeAttribute(SECTION_MARKER_ATTR);
+      }
     }
   }
 
@@ -435,9 +258,6 @@ var CustomImportScript = (() => {
       "https://www.highmark.com/resources/mental-health-services/eating-disorders",
       "https://www.highmark.com/resources/spending-accounts"
     ],
-    // Blocks are found by what the component holds, not its position: the two pages
-    // have different runs of components. Section styles (the panels' brand colours)
-    // come from the sections transformer.
     blocks: [
       {
         name: "hero-minimal-dark-withimg",
@@ -448,12 +268,22 @@ var CustomImportScript = (() => {
         instances: ["div.card-block.responsivegrid.section"]
       },
       {
+        name: "section-glossary-highlight",
+        instances: ["div.onecard1colpanel.section"],
+        section: "highlight"
+      },
+      {
+        name: "section-columns-accent",
+        instances: ["div.newcardscomponent-variations.section:nth-of-type(4)"],
+        section: "accent"
+      },
+      {
         name: "columns-minimal-dark",
-        instances: ["div.newcardscomponent-variations.section:has(.side-card-panel)"]
+        instances: ["div.newcardscomponent-variations.section:nth-of-type(4)"]
       },
       {
         name: "cards-minimal-dark-withimg-2",
-        instances: ["div.newcardscomponent-variations.section:has(.listWideImg)"]
+        instances: ["div.newcardscomponent-variations.section:nth-of-type(5)"]
       }
     ]
   };
@@ -500,8 +330,6 @@ var CustomImportScript = (() => {
         params
       } = payload;
       const main = document2.body;
-      const crumb = document2.querySelector("ol.breadcrumb-list li.active");
-      const crumbLabel = ((crumb == null ? void 0 : crumb.textContent) || "").replace(/\s+/g, " ").trim();
       executeTransformers("beforeTransform", main, payload);
       const pageBlocks = findBlocksOnPage(document2, PAGE_TEMPLATE);
       pageBlocks.forEach((block) => {
@@ -520,13 +348,7 @@ var CustomImportScript = (() => {
       executeTransformers("afterTransform", main, payload);
       const hr = document2.createElement("hr");
       main.appendChild(hr);
-      const meta = WebImporter.Blocks.getMetadata(document2) || {};
-      meta.Template = "topic-hub-landing";
-      if (crumb) {
-        meta.breadcrumbs = "true";
-        if (crumbLabel) meta["Breadcrumb Title"] = crumbLabel;
-      }
-      main.append(WebImporter.Blocks.getMetadataBlock(document2, meta));
+      WebImporter.rules.createMetadata(main, document2);
       WebImporter.rules.transformBackgroundImages(main, document2);
       WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
       const rawPath = new URL(params.originalURL).pathname.replace(/\/$/, "").replace(/\.html?$/, "");

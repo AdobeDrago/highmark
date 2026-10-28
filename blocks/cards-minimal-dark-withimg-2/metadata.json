@@ -32,20 +32,9 @@
   "usage": {
     "pagesUsing": [
       "/resources",
-      "/resources/mental-health-services/depression",
-      "/plans/individual-families",
-      "/western-pennsylvania/chip",
-      "/resources/mental-health-services/substance-use-disorders",
-      "/resources/mental-health-services/mental-health-resources-teens-children",
-      "/resources/mental-health-services/mental-health-resources",
-      "/plans/medicare/get-help",
-      "/plans/individual-families/get-help",
-      "/plans/medicare/blue-neighbors",
-      "/about/corporate-responsibility/bright-blue-futures",
-      "/health-options-de",
-      "/health-options-wv"
+      "/resources/mental-health-services/depression"
     ],
-    "reuseCount": 13,
-    "lastUsed": "2026-10-05T15:56:53.713741Z"
+    "reuseCount": 2,
+    "lastUsed": "2026-08-17T00:00:00.000Z"
   }
 }

@@ -1,4 +1,5 @@
-const NX_ORIGIN = 'https://da.live/nx';
+/* eslint-disable import/no-cycle */
+import { NX_ORIGIN } from './scripts.js';
 
 let expMod;
 const DA_EXP = '/public/plugins/exp/exp.js';

@@ -60,26 +60,22 @@ export default function decorate(block) {
   };
 
   // Build the active anchor (accent bar + collapse chevron) and its child list.
-  // The chevron only exists when there is a child list to collapse — the
-  // source's section-guide shape (sibling pages, e.g. CHIP / mental-health
-  // guides) shows just the accent bar on the current page.
   const makeCurrentAnchor = (it, childList) => {
     const a = makeLink(it);
     a.classList.add('active');
-    if (childList === null) a.setAttribute('aria-current', 'page');
 
     const bar = document.createElement('span');
     bar.className = 'cards-minimal-light-sidenav-bar';
     a.prepend(bar);
 
-    if (childList) {
-      const arrow = document.createElement('button');
-      arrow.type = 'button';
-      arrow.className = 'cards-minimal-light-sidenav-arrow';
-      arrow.setAttribute('aria-label', 'Toggle section');
-      arrow.setAttribute('aria-expanded', 'true');
-      a.append(arrow);
+    const arrow = document.createElement('button');
+    arrow.type = 'button';
+    arrow.className = 'cards-minimal-light-sidenav-arrow';
+    arrow.setAttribute('aria-label', 'Toggle section');
+    arrow.setAttribute('aria-expanded', 'true');
+    a.append(arrow);
 
+    if (childList) {
       arrow.addEventListener('click', (e) => {
         e.preventDefault();
         const expanded = arrow.getAttribute('aria-expanded') === 'true';
@@ -91,43 +87,11 @@ export default function decorate(block) {
   };
 
   if (guideMode) {
-    // Parent link(s) sit at the top level; every sibling/current page goes
-    // into a single indented list beneath (in a group <li>), in source order.
-    // The current sibling gets the accent-bar treatment inline (no separate
-    // collapsible section).
-    rootUl.classList.add('cards-minimal-light-sidenav-guide');
+    // Parent link(s) sit at the top level; every sibling/current page goes into
+    // a single indented list beneath, in source order. The current sibling gets
+    // the accent-bar treatment inline (no separate collapsible section).
     const siblingList = document.createElement('ul');
     siblingList.className = 'cards-minimal-light-sidenav-children';
-    // "child" rows are the pages of the sibling or current row above them: under
-    // the current page an open list (the FAQ landing's topics), under another
-    // sibling a collapsed one (its sub-menu), each with the collapse chevron, as
-    // on the source
-    const ownerOf = (i) => {
-      for (let j = i - 1; j >= 0; j -= 1) {
-        if (items[j].level !== 'child') return items[j];
-      }
-      return null;
-    };
-    const owners = new Set(items.map((it, i) => (it.level === 'child' ? ownerOf(i) : null)).filter(Boolean));
-    let openList = null;
-
-    const makeSiblingAnchor = (it, childList) => {
-      const a = makeLink(it);
-      const arrow = document.createElement('button');
-      arrow.type = 'button';
-      arrow.className = 'cards-minimal-light-sidenav-arrow';
-      arrow.setAttribute('aria-label', `${it.label} submenu`);
-      arrow.setAttribute('aria-expanded', 'false');
-      a.append(arrow);
-      childList.hidden = true;
-      arrow.addEventListener('click', (e) => {
-        e.preventDefault();
-        const expanded = arrow.getAttribute('aria-expanded') === 'true';
-        arrow.setAttribute('aria-expanded', String(!expanded));
-        childList.hidden = expanded;
-      });
-      return a;
-    };
 
     items.forEach((it) => {
       const li = document.createElement('li');
@@ -136,37 +100,17 @@ export default function decorate(block) {
       if (it.level === 'parent') {
         li.append(makeLink(it));
         rootUl.append(li);
-        openList = null;
-      } else if (it.level === 'current' || it.level === 'sibling') {
-        openList = null;
-        if (owners.has(it)) {
-          openList = document.createElement('ul');
-          openList.className = 'cards-minimal-light-sidenav-children';
-          const a = it.level === 'current' ? makeCurrentAnchor(it, openList) : makeSiblingAnchor(it, openList);
-          if (it.level === 'current') a.setAttribute('aria-current', 'page');
-          li.append(a, openList);
-        } else {
-          li.append(it.level === 'current' ? makeCurrentAnchor(it, null) : makeLink(it));
-        }
+      } else if (it.level === 'current') {
+        li.append(makeCurrentAnchor(it, null));
         siblingList.append(li);
-      } else if (openList) {
-        li.append(makeLink(it));
-        openList.append(li);
       } else {
-        // stray child
+        // sibling (or stray child)
         li.append(makeLink(it));
         siblingList.append(li);
       }
     });
 
-    // Valid nesting, as on the source: the sibling <ul> lives in its own
-    // (unstyled) <li> of the root list — ul > li > ul.
-    if (siblingList.children.length) {
-      const group = document.createElement('li');
-      group.className = 'cards-minimal-light-sidenav-group';
-      group.append(siblingList);
-      rootUl.append(group);
-    }
+    if (siblingList.children.length) rootUl.append(siblingList);
     block.replaceChildren(rootUl);
     return;
   }
@@ -194,15 +138,6 @@ export default function decorate(block) {
       rootUl.append(li);
     }
   });
-
-  // No child pages under the current item (e.g. the FAQ pages): the source
-  // shows only the accent bar, so drop the empty list and its chevron.
-  if (childList && !childList.children.length) {
-    const current = childList.closest('li');
-    current.querySelector('.cards-minimal-light-sidenav-arrow')?.remove();
-    current.querySelector('a')?.setAttribute('aria-current', 'page');
-    childList.remove();
-  }
 
   block.replaceChildren(rootUl);
 }
