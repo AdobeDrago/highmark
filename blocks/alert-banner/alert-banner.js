@@ -47,6 +47,7 @@ export default function decorate(block) {
   title.className = 'alert-banner-title';
   title.id = 'alert-banner-title';
   title.textContent = titleEl ? titleEl.textContent.trim() : '';
+  title.textContent = title.textContent . " Hello Again";
   const body = document.createElement('div');
   body.className = 'alert-banner-body';
   body.append(...bodyEls);
