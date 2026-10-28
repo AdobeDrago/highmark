@@ -46,12 +46,7 @@ export default function decorate(block) {
   const title = document.createElement('p');
   title.className = 'alert-banner-title';
   title.id = 'alert-banner-title';
-<<<<<<< HEAD
-  // title.textContent = titleEl ? titleEl.textContent.trim() : '';
-  title.textContent = 'This is a just to show that you can have a change in a branch with a full working site';
-=======
   title.textContent = titleEl ? titleEl.textContent.trim() : '';
->>>>>>> parent of 4592b63 (Revert "Merge branch 'main' of https://github.com/AdobeDrago/highmark")
   const body = document.createElement('div');
   body.className = 'alert-banner-body';
   body.append(...bodyEls);
