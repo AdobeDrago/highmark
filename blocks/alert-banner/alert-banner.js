@@ -46,8 +46,8 @@ export default function decorate(block) {
   const title = document.createElement('p');
   title.className = 'alert-banner-title';
   title.id = 'alert-banner-title';
-  title.textContent = titleEl ? titleEl.textContent.trim() : '';
-  title.textContent = title.textContent + " Hello Again";
+  //title.textContent = titleEl ? titleEl.textContent.trim() : '';
+  title.textContent = "This is a just to show that you can have a change in a branch with a full working site";
   const body = document.createElement('div');
   body.className = 'alert-banner-body';
   body.append(...bodyEls);
