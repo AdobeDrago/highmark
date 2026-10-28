@@ -2,11 +2,10 @@
   "status": "success",
   "url": "https://www.highmark.com/resources/answers/faq/member-account-login",
   "path": "resources/answers/faq/member-account-login",
-  "timestamp": "2026-08-17T21:43:15.365Z",
+  "timestamp": "2026-10-14T09:58:42.125Z",
   "title": "Member Account Login FAQ | Highmark",
-  "template": "sidebar-listing",
+  "template": "faq-topic",
   "blocks": [
-    "cards-minimal-light-sidenav",
     "cards-minimal-light-sidenav",
     "accordion-minimal-light"
   ]

@@ -1,0 +1,37 @@
+/*
+ * ZIP gate (template: zipcode-gate-login), matched to
+ * https://www.highmark.com/zipcode-gate-login at 390 / 780 / 1199 / 1280 / 1440:
+ * one centered column (AEM grid 10/12 below 992px, 6/12 from 992px) holding the
+ * centered H1, intro and employer note, and the one-item FAQ accordion at the
+ * column's full width with its question left-aligned.
+ */
+body.zipcode-gate-login main .section > .default-content-wrapper,
+body.zipcode-gate-login main .section > .accordion-minimal-light-wrapper {
+  box-sizing: border-box;
+  width: 83.333%;
+  max-width: none;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+}
+
+body.zipcode-gate-login main .section > .default-content-wrapper {
+  text-align: center;
+}
+
+body.zipcode-gate-login main .accordion-minimal-light {
+  margin-bottom: 60px;
+  text-align: left;
+}
+
+/* EDS wraps the question in a <p>; the source heading has no extra margin */
+body.zipcode-gate-login main .accordion-minimal-light .accordion-minimal-light-item-label p {
+  margin: 0;
+}
+
+@media (width >= 992px) {
+  body.zipcode-gate-login main .section > .default-content-wrapper,
+  body.zipcode-gate-login main .section > .accordion-minimal-light-wrapper {
+    width: 50%;
+  }
+}

@@ -8,6 +8,11 @@ export default function decorate(block) {
     while (row.firstElementChild) li.append(row.firstElementChild);
     [...li.children].forEach((div) => {
       div.className = 'cards-minimal-dark-list-card-body';
+      li.querySelectorAll('h3').forEach((h3) => {
+        const hr = document.createElement('hr');
+        hr.className = 'cards-minimal-dark-list-title-underline';
+        h3.after(hr);
+      });
     });
     ul.append(li);
   });

@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/resources/answers/faq/breast-cancer",
+  "path": "resources/answers/faq/breast-cancer",
+  "timestamp": "2026-10-14T09:57:33.725Z",
+  "title": "Breast Cancer",
+  "template": "faq-topic",
+  "blocks": [
+    "cards-minimal-light-sidenav",
+    "accordion-minimal-light"
+  ]
+}

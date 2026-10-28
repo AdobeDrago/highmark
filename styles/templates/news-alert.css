@@ -1,0 +1,143 @@
+/* Template "news-alert" (page metadata template=news-alert -> body.news-alert).
+   Loaded by scripts/scripts.js (TEMPLATE_STYLES) before the first section renders.
+
+   Values extracted via getComputedStyle from
+   https://www.highmark.com/newsroom/news-alert?zg=false at 390 / 768 / 800 /
+   992 / 1440 (source breakpoints: 768 tablet, 992 desktop).
+
+   EDS section: one section = default content (h1, intro paragraph, h5
+   "required fields" note) followed by the form-minimal-light block (styled
+   by the block itself, including its 20px top/bottom padding).
+
+   Source layout: main.container has 30px (< 768) / 64px (768-991) side
+   padding; at >= 992px it is min(1366px, 100%) wide with 83px padding and
+   the content sits in a col-lg-9 nested in a col-lg-9 (after an empty
+   col-lg-3 sidebar): offset 1/4 and 9/16 wide of min(1200px, 100% - 166px)
+   -> x 420 / 675px wide at 1440.
+   Between the intro and the note the source has an empty <p> (one line +
+   its bottom margin), folded here into the note's top margin. The form
+   container's 20px top/bottom padding is set by the form-minimal-light
+   block itself (on its <form>); the page ends 40px (< 768) / 60px
+   (>= 768) above the footer. Unlike media-contacts, the body copy keeps its
+   tablet values across 768-991.
+
+   Every rule targets a distinct element of this one template, so the
+   specificity ordering lint is off (same convention as the other templates). */
+
+/* stylelint-disable no-descending-specificity */
+
+/* ------------------------------------------------------------------
+ * Section + content column
+ * ------------------------------------------------------------------ */
+body.news-alert main > .section.form-minimal-light-container {
+  margin: 0 0 40px;
+}
+
+body.news-alert main > .section.form-minimal-light-container > div {
+  box-sizing: border-box;
+  max-width: none;
+  margin: 0;
+  padding: 0 30px;
+}
+
+/* ------------------------------------------------------------------
+ * Default content — title, intro, required-fields note
+ * ------------------------------------------------------------------ */
+body.news-alert main > .section.form-minimal-light-container > .default-content-wrapper h1 {
+  margin: 0 0 8px;
+  padding: 24px 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 35.2px;
+  letter-spacing: -1.28px;
+}
+
+body.news-alert main > .section.form-minimal-light-container > .default-content-wrapper p {
+  margin: 0 0 12.8px;
+  padding: 0;
+  color: var(--text-body-color);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+/* top margin = intro margin + empty source <p> (21px line + 12.8px margin) */
+body.news-alert main > .section.form-minimal-light-container > .default-content-wrapper h5 {
+  margin: 46.6px 0 12.8px;
+  padding: 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+/* ------------------------------------------------------------------
+ * Tablet (768-991)
+ * ------------------------------------------------------------------ */
+@media (width >= 768px) {
+  body.news-alert main > .section.form-minimal-light-container {
+    margin-bottom: 60px;
+  }
+
+  body.news-alert main > .section.form-minimal-light-container > div {
+    padding: 0 64px;
+  }
+
+  body.news-alert main > .section.form-minimal-light-container > .default-content-wrapper h1 {
+    padding: 28.8px 0;
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  body.news-alert main > .section.form-minimal-light-container > .default-content-wrapper p {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  /* 16px + empty <p> (19.5px line + 16px margin) */
+  body.news-alert main > .section.form-minimal-light-container > .default-content-wrapper h5 {
+    margin: 51.5px 0 16px;
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * Desktop (>= 992): offset 3/12, 9/12 of 9/12 of the 1200px row
+ * ------------------------------------------------------------------ */
+@media (width >= 992px) {
+  body.news-alert main > .section.form-minimal-light-container > div {
+    width: calc(min(1200px, 100% - 166px) * 9 / 16);
+    margin: 0 0 0 calc((100% - min(1200px, 100% - 166px)) / 2 + min(1200px, 100% - 166px) / 4);
+    padding: 0;
+  }
+
+  body.news-alert main > .section.form-minimal-light-container > .default-content-wrapper h1 {
+    font-size: var(--heading-size-xxl);
+    line-height: 61.6px;
+    letter-spacing: -2.8px;
+  }
+
+  body.news-alert main > .section.form-minimal-light-container > .default-content-wrapper p {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  /* 16px + empty <p> (24px line + 16px margin) */
+  body.news-alert main > .section.form-minimal-light-container > .default-content-wrapper h5 {
+    margin-top: 56px;
+    font-size: var(--heading-size-m);
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+}

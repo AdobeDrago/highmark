@@ -1,0 +1,11 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/newsroom/news-alert",
+  "path": "newsroom/news-alert",
+  "timestamp": "2026-10-06T08:21:04.109Z",
+  "title": "News Alert",
+  "template": "news-alert",
+  "blocks": [
+    "form-minimal-light"
+  ]
+}

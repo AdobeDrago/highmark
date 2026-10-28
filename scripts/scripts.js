@@ -1,5 +1,7 @@
 import {
   buildBlock,
+  decorateBlock,
+  loadBlock,
   loadHeader,
   loadFooter,
   decorateButtons,
@@ -54,6 +56,13 @@ function autolinkModals(doc) {
     const origin = e.target.closest('a');
     if (origin && origin.href && origin.href.includes('/modals/')) {
       e.preventDefault();
+      // The ZIP/county fragment opens in its own styled modal, same as when it auto-opens.
+      const { pathname } = new URL(origin.href);
+      if (pathname.startsWith('/modals/zip-county')) {
+        const { openZipModal } = await import(`${window.hlx.codeBasePath}/blocks/zip-modal/zip-modal.js`);
+        openZipModal(pathname);
+        return;
+      }
       const { openModal } = await import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`);
       openModal(origin.href);
     }
@@ -61,12 +70,20 @@ function autolinkModals(doc) {
 }
 
 /**
+ * Page templates whose leading image + h1 is inline content, not a hero
+ * (e.g. medicare-hra: a small illustration above the centered title; medicare-article:
+ * the banner image at the top of the article column).
+ */
+const NO_AUTO_HERO_TEMPLATES = ['medicare-hra', 'medicare-article', 'employer-article'];
+
+/**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
  */
 function buildAutoBlocks(main) {
   try {
-    if (!main.querySelector('.hero')) buildHeroBlock(main);
+    const noAutoHero = NO_AUTO_HERO_TEMPLATES.some((t) => document.body.classList.contains(t));
+    if (!noAutoHero && !main.querySelector('.hero')) buildHeroBlock(main);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
@@ -140,18 +157,245 @@ export function decorateMain(main) {
 }
 
 /**
+ * Page templates with their own stylesheet (styles/templates/<template>.css),
+ * selected by the page's `template` metadata.
+ */
+const TEMPLATE_STYLES = [
+  'state-plans', 'get-help', 'learn-about-medicare', 'blue-neighbors', 'find-care',
+  'employer-landing', 'employer-subpage', 'about-article', 'leadership', 'bright-blue-futures',
+  'media-contacts', 'capitol-hill-report', 'legal', 'contact', 'language-assistance',
+  'news-alert', 'content-landing', 'zipcode-gate-login', 'campaign-landing', 'subsidiary-home', 'events',
+  'home', 'shop-home', 'providers', 'shop-page', 'answers-landing', 'provider-content', 'leadership-bio',
+  'faq', 'member-regional', 'glossary', 'member-subpage', 'topic-hub-landing', 'spending-account',
+  'employer-plan', 'employer-plans-landing', 'medicare-article', 'employer-article', 'employer-tabs',
+];
+
+/**
+ * Shop home (template shop-home): links that leave highmark.com, or open a PDF, open
+ * in a new tab, as on ShopX (the marketplace and plan-brochure links). The page CSS
+ * gives them ShopX's new-tab icon. Links with ZIP tokens get the same rule from
+ * zip-tokens.js once they are filled.
+ * @param {Element} main The main element
+ */
+function decorateShopHomeLinks(main) {
+  if (!document.body.classList.contains('shop-home')) return;
+  main.querySelectorAll('a[href]').forEach((a) => {
+    if (a.getAttribute('href').includes('%7B%7B')) return;
+    const url = new URL(a.href, window.location.href);
+    const offSite = url.origin !== window.location.origin
+      && !/(^|\.)highmark\.com$/i.test(url.hostname);
+    if (offSite || /\.pdf$/i.test(url.pathname)) {
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.setAttribute('aria-description', 'opens in a new tab');
+    }
+  });
+}
+
+/**
+ * Provider content pages (template provider-content): the "Last Updated: <date>" line
+ * under the title gets the class last-updated, for the page CSS. A class, because CSS
+ * cannot tell an all-italic paragraph from one with a single italic phrase.
+ * @param {Element} main The main element
+ */
+function decorateProviderContent(main) {
+  if (!document.body.classList.contains('provider-content')) return;
+  const line = main.querySelector('h1 + p');
+  if (line && /^last updated\b/i.test(line.textContent.trim())) line.classList.add('last-updated');
+  // a news article's heading (see provider-content.css): its topic over the title, then the
+  // title's region badges, "Published Date: ..." and "For: ..."
+  const h1 = main.querySelector('h1');
+  let next = h1?.nextElementSibling;
+  const regions = next?.tagName === 'UL'
+    && [...next.children].every((li) => /^(WPA|NEPA|CPA|SEPA|DE|WV|WNY|NENY)(\/(NEPA|SEPA))?$/.test(li.textContent.trim()));
+  if (regions) next = next.nextElementSibling;
+  if (next?.tagName !== 'P' || !/^published date:/i.test(next.textContent.trim())) return;
+  h1.classList.add('article-title');
+  if (regions) h1.nextElementSibling.classList.add('article-regions');
+  next.classList.add('article-date');
+  const topic = h1.previousElementSibling;
+  if (topic?.tagName === 'P' && topic.querySelector('a')) topic.classList.add('article-topic');
+  const audience = next.nextElementSibling;
+  if (audience?.tagName === 'P' && /^for:/i.test(audience.textContent.trim())) audience.classList.add('article-for');
+}
+
+/**
+ * About articles (template about-article): a note starting with "*" (the Giving Guidelines'
+ * "*All requests must be received ...") gets the class footnote, for the source's grey
+ * text, which authored content can't carry.
+ * @param {Element} main The main element
+ */
+function decorateAboutArticle(main) {
+  if (!document.body.classList.contains('about-article')) return;
+  main.querySelectorAll('.default-content-wrapper > p').forEach((p) => {
+    if (p.textContent.trim().startsWith('*')) p.classList.add('footnote');
+    // the source's 20px spacer after a "Back to top" link (an empty paragraph, kept as a
+    // zero-width space by the importer)
+    if (p.textContent === '\u200b' && p.previousElementSibling?.querySelector(':scope > em > a[href="#top"]')) p.classList.add('spacer');
+  });
+}
+
+/**
+ * Leadership bios (template leadership-bio): paragraphs that get a class by their text,
+ * since authored content can't carry classes. Text -> class.
+ */
+const LEADERSHIP_BIO_CLASSES = {
+  'Controlling drug costs in health care': 'controlling_drug', // matthew-rhenish topic heading
+  'Creating Customer Value': 'creating_cust_value', // anthony-benevento topic heading
+  'High-Cost Drugs and Pharmacy Issues': 'pharmacy_issues', // sarah-marche topic heading
+  'Experience is Everything': 'experience_everything', // david-holmberg topic heading
+  'Interviews/Articles': 'interviews_articles', // david-holmberg section heading
+};
+
+/**
+ * Adds the LEADERSHIP_BIO_CLASSES classes to matching paragraphs of a leadership bio, and
+ * the class linkedin to the header's LinkedIn link, for its icon: two bios copy the
+ * source's links that aren't LinkedIn URLs, so the page CSS can't match them by href.
+ * @param {Element} main The main element
+ */
+function decorateLeadershipBio(main) {
+  if (!document.body.classList.contains('leadership-bio')) return;
+  main.querySelectorAll('.default-content-wrapper p').forEach((p) => {
+    const cls = LEADERSHIP_BIO_CLASSES[p.textContent.replace(/\s+/g, ' ').trim()];
+    if (cls) p.classList.add(cls);
+  });
+  main.querySelectorAll('.columns-minimal-dark a').forEach((a) => {
+    if (a.textContent.trim() === 'LinkedIn') a.classList.add('linkedin');
+  });
+}
+
+/**
+ * Legal pages (template legal): links that get a class by their text, as the bios'
+ * paragraphs do (LEADERSHIP_BIO_CLASSES). Text -> class.
+ */
+const LEGAL_LINK_CLASSES = {
+  // /cms-onc-interoperability-prior-authorization-rule: the four API names, each a PDF link
+  // opening its paragraph
+  '1. Patient Access API (Enhanced)': 'cms-onc-header-link',
+  '2. Provider Access API (NEW)': 'cms-onc-header-link',
+  '3. Payer-to-Payer API (NEW)': 'cms-onc-header-link',
+  '4. Prior Authorization API (NEW)': 'cms-onc-header-link',
+};
+
+/**
+ * Adds the LEGAL_LINK_CLASSES classes to matching links of a legal page.
+ * @param {Element} main The main element
+ */
+function decorateLegalLinks(main) {
+  if (!document.body.classList.contains('legal')) return;
+  main.querySelectorAll('.default-content-wrapper a').forEach((a) => {
+    const cls = LEGAL_LINK_CLASSES[a.textContent.replace(/\s+/g, ' ').trim()];
+    if (cls) a.classList.add(cls);
+  });
+}
+
+/**
+ * FAQ pages (template faq) and employer articles (employer-article): a link that ends
+ * with the :external-link: icon opens in a new tab, as on the source, where the icon
+ * marks exactly those links (others leaving highmark.com open in the same tab). The icon
+ * says so to screen readers, as the source's hidden text did.
+ * @param {Element} main The main element
+ */
+function decorateFaqLinks(main) {
+  if (!['faq', 'employer-article'].some((t) => document.body.classList.contains(t))) return;
+  main.querySelectorAll('a .icon-external-link').forEach((icon) => {
+    const a = icon.closest('a');
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    const img = icon.querySelector('img');
+    if (img) img.alt = 'opens a new tab or window';
+  });
+}
+
+/**
+ * Tabbed sections (Section Metadata Style: tab): each run of tab sections gets a tab bar
+ * before it, a tab for each section, labelled with the section's `Tab` metadata or its
+ * first heading (Onboarding: Stay Healthy, Tools, Find Care, Save Money). The first
+ * section shows; the others are hidden until their tab is chosen. The sections stay in
+ * place, so they load as any other.
+ * @param {Element} main The main element
+ */
+function decorateSectionTabs(main) {
+  const sections = [...main.querySelectorAll(':scope > .section.tab')];
+  const runs = [];
+  sections.forEach((section) => {
+    const run = runs[runs.length - 1];
+    if (run && run[run.length - 1].nextElementSibling === section) run.push(section);
+    else runs.push([section]);
+  });
+  runs.forEach((run, r) => {
+    const bar = document.createElement('div');
+    bar.className = 'section-tabs';
+    bar.setAttribute('role', 'tablist');
+    const tabs = run.map((section, i) => {
+      const label = section.dataset.tab || section.querySelector('h1, h2, h3')?.textContent || `Tab ${i + 1}`;
+      const id = `section-tab-${r}-${i}`;
+      section.id = section.id || `${id}-panel`;
+      section.setAttribute('role', 'tabpanel');
+      section.setAttribute('aria-labelledby', id);
+      const tab = document.createElement('button');
+      tab.type = 'button';
+      tab.id = id;
+      tab.className = 'section-tabs-tab';
+      tab.textContent = label.trim();
+      tab.setAttribute('role', 'tab');
+      tab.setAttribute('aria-controls', section.id);
+      bar.append(tab);
+      return tab;
+    });
+    const select = (index, focus) => {
+      tabs.forEach((tab, i) => {
+        tab.setAttribute('aria-selected', i === index);
+        tab.tabIndex = i === index ? 0 : -1;
+        run[i].setAttribute('aria-hidden', i !== index);
+      });
+      if (focus) tabs[index].focus();
+    };
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(i));
+      tab.addEventListener('keydown', (e) => {
+        const step = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+        if (!step) return;
+        e.preventDefault();
+        select((i + step + tabs.length) % tabs.length, true);
+      });
+    });
+    select(0);
+    run[0].before(bar);
+  });
+}
+
+/**
  * Loads everything needed to get to LCP.
  * @param {Element} doc The container element
  */
 async function loadEager(doc) {
   doc.documentElement.lang = 'en';
   decorateTemplateAndTheme();
+  // start the template stylesheets now; they must apply before the first section shows. A
+  // page may list several (Template: faq, member-subpage): each is a body class
+  // (decorateTemplateAndTheme), and their stylesheets load in that order.
+  const templates = getMetadata('template').split(',').map((t) => toClassName(t.trim()));
+  const templateStyles = Promise.all(templates.filter((t) => TEMPLATE_STYLES.includes(t))
+    .map((t) => loadCSS(`${window.hlx.codeBasePath}/styles/templates/${t}.css`)));
   if (getMetadata('breadcrumbs').toLowerCase() === 'true') {
     doc.body.dataset.breadcrumbs = true;
+    // reserve the row now so the page doesn't shift when the trail loads
+    const wrapper = doc.createElement('div');
+    wrapper.className = 'breadcrumbs-wrapper';
+    doc.querySelector('header')?.after(wrapper);
   }
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
+    decorateShopHomeLinks(main);
+    decorateProviderContent(main);
+    decorateAboutArticle(main);
+    decorateLeadershipBio(main);
+    decorateLegalLinks(main);
+    decorateFaqLinks(main);
+    decorateSectionTabs(main);
+    await templateStyles;
     doc.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);
   }
@@ -169,25 +413,27 @@ async function loadEager(doc) {
 }
 
 /**
- * Fills any {{region}}/{{zip}} tokens on the page from a stored selection, and
- * auto-opens the ZIP/county modal on any page whose `theme` metadata is `shop`.
- * The modal only actually opens when no ZIP is stored in localStorage. Token
- * substitution runs regardless so pages that only display the personalized
- * lines never show raw tokens.
+ * Fills any ZIP tokens ({{region}}, {{zip}}, {{county}}, ... in text or link
+ * URLs) on the page from a stored selection, and auto-opens the ZIP/county
+ * modal on any page whose `theme` metadata is `shop`. The modal only actually
+ * opens when no ZIP is stored in localStorage. Token substitution runs
+ * regardless so pages that only display the personalized lines never show
+ * raw tokens.
  */
 async function autoOpenShopZipModal() {
   // Enabled on any page whose `theme` metadata is `shop`. The modal itself is a
   // no-op when a ZIP is already stored (see autoOpenZipModal -> getStoredZip in
   // zip-modal.js).
   const modalEnabled = getMetadata('theme').toLowerCase() === 'shop';
-  const hasTokens = /\{\{\s*(region|zip)\s*\}\}/i.test(document.body.textContent);
+  const hasTokens = /\{\{\s*[a-z0-9-]+\s*\}\}/i.test(document.body.textContent)
+    || !!document.querySelector('main a[href*="%7B%7B"]');
   if (!modalEnabled && !hasTokens) return;
 
   try {
     // Fill tokens (hides token lines until a value exists) for every page that
     // has them or opts into the modal.
     const { default: applyZipTokens } = await import(`${window.hlx.codeBasePath}/blocks/zip-modal/zip-tokens.js`);
-    applyZipTokens();
+    await applyZipTokens();
 
     if (modalEnabled) {
       const { autoOpenZipModal } = await import(`${window.hlx.codeBasePath}/blocks/zip-modal/zip-modal.js`);
@@ -199,6 +445,18 @@ async function autoOpenShopZipModal() {
   }
 }
 
+/**
+ * Loads the breadcrumbs block into the row reserved in loadEager.
+ * @param {Element} wrapper the .breadcrumbs-wrapper element, if any
+ */
+async function loadBreadcrumbs(wrapper) {
+  if (!wrapper) return;
+  const block = buildBlock('breadcrumbs', '');
+  wrapper.append(block);
+  decorateBlock(block);
+  await loadBlock(block);
+}
+
 async function loadLazy(doc) {
   autolinkModals(doc);
 
@@ -206,10 +464,14 @@ async function loadLazy(doc) {
   await loadSections(main);
 
   const { hash } = window.location;
-  const element = hash ? doc.getElementById(hash.substring(1)) : false;
+  // ids of non-Latin headings (language-assistance: #中文) arrive percent-encoded
+  let id = hash.substring(1);
+  try { id = decodeURIComponent(id); } catch { /* malformed escape: use as is */ }
+  const element = hash ? doc.getElementById(id) : false;
   if (hash && element) element.scrollIntoView();
 
   loadHeader(doc.querySelector('header'));
+  loadBreadcrumbs(doc.querySelector('.breadcrumbs-wrapper'));
   loadFooter(doc.querySelector('footer'));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);

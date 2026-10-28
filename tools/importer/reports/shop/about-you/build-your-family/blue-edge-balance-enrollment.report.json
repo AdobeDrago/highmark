@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "url": "http://localhost:8765/shop/about-you/build-your-family/blue-edge-balance-enrollment.html",
+  "path": "shop/about-you/build-your-family/blue-edge-balance-enrollment",
+  "timestamp": "2026-10-08T09:24:26.632Z",
+  "title": "Shop | Blue Edge Balance Enrollment",
+  "template": "shop-page",
+  "kind": "enrollment",
+  "blocks": [
+    "enrollment-form"
+  ],
+  "captured": "2026-10-08T09:14:47.835Z; zip=15222; county=ALLEGHENY; region="
+}

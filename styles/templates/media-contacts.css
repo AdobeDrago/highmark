@@ -1,0 +1,218 @@
+/* Template "media-contacts" (page metadata template=media-contacts -> body.media-contacts).
+   Loaded by scripts/scripts.js (TEMPLATE_STYLES) before the first section renders.
+
+   Values extracted (getComputedStyle) from
+   https://www.highmark.com/newsroom/media-relations-contacts at 390 / 768 /
+   800 / 992 / 1200 / 1366 / 1440. Source breakpoints: < 768 (mobile, 30px
+   gutters), 768-991 (tablet, 64px gutters), >= 992 (desktop: 1366px
+   container with 83px gutters, article in a centred 8/12 column -> 800px
+   at >= 1366). The body copy has its tablet values only at exactly 768px.
+
+   Authored structure: one section = default content (h1, intro, region h2,
+   sub-region h3) interleaved with cards-minimal-dark-list blocks whose cards
+   are plain text (name / phone / mailto link). On the source the region
+   titles are h3-styled, the sub-region titles are bold body paragraphs, the
+   cards are un-chromed 2-up columns and regions after the first are split
+   by an <hr> (1px rgb(0 0 0 / 10%), 16px margins). */
+
+/* stylelint-disable no-descending-specificity */
+
+/* ------------------------------------------------------------------
+ * Section + content column
+ * ------------------------------------------------------------------ */
+body.media-contacts main > .section.cards-minimal-dark-list-container {
+  margin: 0 0 40px;
+}
+
+body.media-contacts main > .section.cards-minimal-dark-list-container > div {
+  box-sizing: border-box;
+  max-width: none;
+  margin: 0;
+  padding: 0 30px;
+}
+
+/* ------------------------------------------------------------------
+ * Default content — title, intro, region + sub-region titles
+ * ------------------------------------------------------------------ */
+body.media-contacts main > .section.cards-minimal-dark-list-container > .default-content-wrapper h1 {
+  margin: 0 0 8px;
+  padding: 24px 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 35.2px;
+  letter-spacing: -1.28px;
+}
+
+/* intro copy + sub-region titles (source: <p> / <p><b>) */
+body.media-contacts main > .section.cards-minimal-dark-list-container > .default-content-wrapper p,
+body.media-contacts main > .section.cards-minimal-dark-list-container > .default-content-wrapper h3 {
+  margin: 0 0 12.8px;
+  padding: 0;
+  color: var(--text-body-color);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+body.media-contacts main > .section.cards-minimal-dark-list-container > .default-content-wrapper h3 {
+  font-weight: 700;
+}
+
+/* region titles (source: h3) */
+body.media-contacts main > .section.cards-minimal-dark-list-container > .default-content-wrapper h2 {
+  margin: 0 0 8px;
+  padding: 16px 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 24.2px;
+  letter-spacing: -0.4px;
+}
+
+/* source <hr> between regions (dropped by the import): every region title
+   that is not in the first default-content block. hr margin 16px above,
+   1px rule, 16px below + the title's own 16px top padding. */
+body.media-contacts main > .section.cards-minimal-dark-list-container > .default-content-wrapper:not(:first-child) > h2:first-child {
+  margin-top: 16px;
+  padding-top: 32px;
+  border-top: 1px solid rgb(0 0 0 / 10%);
+}
+
+/* ------------------------------------------------------------------
+ * Contact cards — plain text columns, no card chrome
+ * ------------------------------------------------------------------ */
+body.media-contacts .cards-minimal-dark-list > ul {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+body.media-contacts .cards-minimal-dark-list > ul > li {
+  display: block;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+body.media-contacts .cards-minimal-dark-list .cards-minimal-dark-list-card-body {
+  display: block;
+  padding: 0 0 20px;
+}
+
+/* the source row for a single contact still carries an empty second column
+   (padding-bottom 20px) that stacks under it on mobile */
+body.media-contacts .cards-minimal-dark-list > ul:has(> li:only-child) {
+  padding-bottom: 20px;
+}
+
+body.media-contacts .cards-minimal-dark-list .cards-minimal-dark-list-card-body p {
+  margin: 0 0 12.8px;
+  color: var(--text-body-color);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+body.media-contacts .cards-minimal-dark-list .cards-minimal-dark-list-card-body a:any-link {
+  color: #0078c1;
+  font-weight: 300;
+  text-decoration: none;
+}
+
+body.media-contacts .cards-minimal-dark-list .cards-minimal-dark-list-card-body a:hover {
+  text-decoration: underline;
+}
+
+/* ------------------------------------------------------------------
+ * Tablet (768-991)
+ * ------------------------------------------------------------------ */
+@media (width >= 768px) {
+  body.media-contacts main > .section.cards-minimal-dark-list-container {
+    margin-bottom: 60px;
+  }
+
+  body.media-contacts main > .section.cards-minimal-dark-list-container > div {
+    padding: 0 64px;
+  }
+
+  body.media-contacts main > .section.cards-minimal-dark-list-container > .default-content-wrapper h1 {
+    padding: 28.8px 0;
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  body.media-contacts main > .section.cards-minimal-dark-list-container > .default-content-wrapper p,
+  body.media-contacts main > .section.cards-minimal-dark-list-container > .default-content-wrapper h3,
+  body.media-contacts .cards-minimal-dark-list .cards-minimal-dark-list-card-body p {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+
+  body.media-contacts main > .section.cards-minimal-dark-list-container > .default-content-wrapper h2 {
+    font-size: 24px;
+    line-height: 26.4px;
+    letter-spacing: -0.44px;
+  }
+
+  body.media-contacts .cards-minimal-dark-list > ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body.media-contacts .cards-minimal-dark-list > ul:has(> li:only-child) {
+    padding-bottom: 0;
+  }
+
+  body.media-contacts .cards-minimal-dark-list .cards-minimal-dark-list-card-body {
+    padding: 0 10px 25px;
+  }
+}
+
+/* source body copy switches to 16/24 just above 768px */
+@media (width > 768px) {
+  body.media-contacts main > .section.cards-minimal-dark-list-container > .default-content-wrapper p,
+  body.media-contacts main > .section.cards-minimal-dark-list-container > .default-content-wrapper h3,
+  body.media-contacts .cards-minimal-dark-list .cards-minimal-dark-list-card-body p {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: normal;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * Desktop (>= 992): 1366px container, 83px gutters, centred 2/3 column
+ * ------------------------------------------------------------------ */
+@media (width >= 992px) {
+  body.media-contacts main > .section.cards-minimal-dark-list-container > div {
+    max-width: 1366px;
+    margin: 0 auto;
+    padding: 0 calc(83px + (min(100%, 1366px) - 166px) / 6);
+  }
+
+  body.media-contacts main > .section.cards-minimal-dark-list-container > .default-content-wrapper h1 {
+    font-size: 56px;
+    line-height: 61.6px;
+    letter-spacing: -2.8px;
+  }
+
+  body.media-contacts main > .section.cards-minimal-dark-list-container > .default-content-wrapper p,
+  body.media-contacts main > .section.cards-minimal-dark-list-container > .default-content-wrapper h3,
+  body.media-contacts .cards-minimal-dark-list .cards-minimal-dark-list-card-body p {
+    letter-spacing: -0.1px;
+  }
+
+  body.media-contacts main > .section.cards-minimal-dark-list-container > .default-content-wrapper h2 {
+    letter-spacing: -0.72px;
+  }
+
+  body.media-contacts .cards-minimal-dark-list .cards-minimal-dark-list-card-body {
+    padding-bottom: 30px;
+  }
+}

@@ -1,0 +1,17 @@
+# hero-minimal-dark-withimg
+
+Custom **hero** block. Purpose: hero.
+
+## Authoring (Document Authoring)
+
+Model: `standalone`
+
+Single block table. Content: heading + image.
+
+## Supported variations
+
+No variations.
+
+## Universal Editor fields
+
+N/A (Document Authoring project)

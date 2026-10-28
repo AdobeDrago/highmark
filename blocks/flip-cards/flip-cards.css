@@ -1,0 +1,190 @@
+/* Flip cards, measured against ShopX's special-enrollment event selector
+   (shop.highmark.com/about-you/qualifying-life-events/landing.html) at 390 / 768 / 1024 /
+   1280: 350 x 400 cards (same proportions at every width) in one column, two per row
+   from 1200px; a 250px icon over a title bar; the arrow flips the card (0.8s, ShopX's
+   overshooting curve) to the description; an outlined pill Select button below. */
+
+.flip-cards .flip-cards-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 30px;
+  margin: 30px 0 15px;
+  padding: 0;
+  font-weight: 400;
+  list-style: none;
+}
+
+.flip-cards .flip-cards-item {
+  width: min(350px, 100%);
+  margin: 0 0 15px;
+  padding: 0;
+  perspective: 1500px;
+}
+
+.flip-cards .flip-cards-card {
+  position: relative;
+  aspect-ratio: 350 / 400;
+  border-radius: 16px;
+  box-shadow: -3px 3px 3px 0 rgb(0 48 77 / 30%);
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.flip-cards .flip-cards-card.flipped {
+  transform: rotateY(180deg);
+}
+
+.flip-cards .flip-cards-front,
+.flip-cards .flip-cards-back {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  border: 1px solid rgb(0 48 77 / 30%);
+  border-radius: 16px;
+  background-color: #fff;
+  color: #00304d;
+  backface-visibility: hidden;
+}
+
+.flip-cards .flip-cards-back {
+  transform: rotateY(180deg);
+}
+
+.flip-cards .flip-cards-image {
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: center;
+  min-height: 0;
+  padding: 30px 16px 0;
+}
+
+.flip-cards .flip-cards-image picture {
+  display: block;
+  height: 100%;
+  aspect-ratio: 1;
+  max-height: 250px;
+}
+
+.flip-cards .flip-cards-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.flip-cards .flip-cards-bar {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 15px;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 82px;
+  box-sizing: border-box;
+  padding: 15px 15px 15px 16px;
+}
+
+.flip-cards .flip-cards-title {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 22.5px;
+  letter-spacing: normal;
+}
+
+.flip-cards .flip-cards-flip {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #0078c1;
+  cursor: pointer;
+}
+
+.flip-cards .flip-cards-flip svg {
+  display: block;
+  width: 30px;
+  height: 30px;
+  fill: currentcolor;
+}
+
+.flip-cards .flip-cards-flip-back {
+  margin-left: auto;
+}
+
+.flip-cards .flip-cards-flip-back svg {
+  transform: scaleX(-1);
+}
+
+.flip-cards .flip-cards-flip:focus-visible {
+  outline: 2px solid #0078c1;
+  outline-offset: 2px;
+}
+
+.flip-cards .flip-cards-text {
+  flex: 1 1 auto;
+  padding: 28px 32px 0;
+  overflow: auto;
+  font-family: var(--body-font-family);
+  font-size: 17.17px;
+  line-height: 1.5;
+  letter-spacing: normal;
+}
+
+.flip-cards .flip-cards-text p {
+  margin: 0;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+.flip-cards .flip-cards-select-wrapper {
+  margin: 15px 0;
+  text-align: center;
+}
+
+.flip-cards a.flip-cards-select:any-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  height: 36px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0 15px;
+  border: 1px solid #0066b1;
+  border-radius: 9999px;
+  background: transparent;
+  color: #0066b1;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 22.5px;
+  letter-spacing: normal;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.flip-cards a.flip-cards-select:hover {
+  background-color: rgb(0 102 177 / 4%);
+}
+
+@media (width >= 1200px) {
+  .flip-cards .flip-cards-list {
+    max-width: calc(100% - 30px);
+  }
+
+  .flip-cards .flip-cards-item {
+    width: calc(50% - 15px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flip-cards .flip-cards-card {
+    transition: none;
+  }
+}

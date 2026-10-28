@@ -1,0 +1,92 @@
+/* Provider side navigation, as providers.highmark.com's: 15px Roboto links 10px apart in
+   #003963; the parent at the top, its children 33px in, the current page bold with a 3px
+   bar in the indent, its own children another 18px in; a chevron toggles a branch. */
+
+.provider-sidenav nav {
+  font-family: var(--body-font-family);
+}
+
+.provider-sidenav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.provider-sidenav a:any-link {
+  display: inline-block;
+  padding: 10px 30px 10px 0;
+  color: #003963;
+  font-size: 15px;
+  line-height: 17px;
+  text-decoration: none;
+}
+
+.provider-sidenav a:hover {
+  text-decoration: underline;
+}
+
+.provider-sidenav .provider-sidenav-root {
+  display: block;
+}
+
+.provider-sidenav .provider-sidenav-list {
+  padding-left: 33px;
+}
+
+.provider-sidenav li {
+  position: relative;
+  margin: 0 0 5px;
+}
+
+.provider-sidenav li > ul {
+  display: none;
+  padding-left: 18px;
+}
+
+.provider-sidenav li.open > ul {
+  display: block;
+}
+
+/* the current page: bold, with its bar in the indent */
+.provider-sidenav li.current > a:any-link {
+  margin-left: -15px;
+  border-left: 3px solid #0066b1;
+  padding-left: 12px;
+  font-weight: 700;
+}
+
+.provider-sidenav-toggle {
+  position: absolute;
+  top: 6px;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.provider-sidenav-toggle::before {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 8px;
+  margin: 6px auto 0;
+  border-right: 2px solid #003963;
+  border-bottom: 2px solid #003963;
+  transform: rotate(45deg);
+}
+
+.provider-sidenav li.open > .provider-sidenav-toggle::before {
+  margin-top: 10px;
+  transform: rotate(-135deg);
+}
+
+.provider-sidenav .icon-lock {
+  width: 18px;
+  height: 18px;
+  margin-left: -26px;
+  vertical-align: -3px;
+}

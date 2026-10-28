@@ -2,94 +2,39 @@
    Values extracted from source computed styles at https://www.highmark.com/resources.
    The light-blue band is provided by `main .section.accent` in styles.css — not here. */
 
+/* Text is left-aligned on the source even inside sections whose style centers
+   content (e.g. `light-blue`). */
 .columns-minimal-dark {
-  background-color: #f7fbfd;
+  text-align: left;
 }
 
-/* Highlight variant — use section background */
-.highlight .columns-minimal-dark {
-  background-color: transparent;
-}
-
-/* Row layout - image with content overlay */
+/* Row layout — stacks on mobile */
 .columns-minimal-dark > div {
-  position: relative;
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
-}
-
-/* Highlight variant — normal two-column layout */
-.highlight .columns-minimal-dark > div {
-  width: 100%;
-  margin-left: 0;
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-/* Image column - displays picture element */
-.columns-minimal-dark > div > .columns-minimal-dark-img-col {
-  width: 100%;
-}
-
-/* Content column - absolutely positioned overlay */
-.columns-minimal-dark > div > .columns-minimal-dark-content-col {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  z-index: 1;
-  padding: 0 15px;
-  text-align: left;
-}
-
-/* Highlight variant — content not positioned absolutely */
-.highlight .columns-minimal-dark > div > .columns-minimal-dark-content-col {
-  position: static;
-  width: 100%;
-  padding: 0;
-}
-
-/* Right-aligned variant */
-.columns-minimal-dark.columns-minimal-dark-right > div > .columns-minimal-dark-content-col {
-  left: auto;
-  right: 0;
+/* Content cell */
+.columns-minimal-dark > div > div {
+  order: 1;
 }
 
 .columns-minimal-dark h2 {
-  margin: 0 0 0.5rem;
-  padding: 1.2rem 0 0.5rem;
+  margin: 0 0 8px;
   font-family: var(--heading-font-family);
   font-weight: 600;
-  font-size: 34px;
   letter-spacing: -1.36px;
-  line-height: 1.2;
-  color: #004362;
-  text-align: left;
+  color: var(--text-color);
 }
 
 .columns-minimal-dark p {
   margin: 0;
-  font-family: sofia-pro, sans-serif;
+  font-family: var(--body-font-family);
   font-size: 16px;
   font-weight: 400;
-  letter-spacing: -0.25px;
-  line-height: 1.4;
-  color: #004362;
-}
-
-.columns-minimal-dark ul {
-  padding: 0;
-  margin: 0;
-}
-
-.columns-minimal-dark p + ul,
-.columns-minimal-dark p + p {
-  padding-top: 10px;
+  line-height: 24px;
+  color: var(--text-color);
 }
 
 /* CTA — source is a plain uppercase blue text link, not the bordered pill.
@@ -100,103 +45,518 @@
 
 main .columns-minimal-dark a.button:any-link {
   display: inline-block;
-  margin: 16px 0;
-  padding: 16px 24px;
-  border: 1px solid #003963;
-  border-radius: 5px;
-  background-color: transparent;
-  color: #003963;
-  font-family: roboto, sans-serif;
-  font-weight: bold;
-  font-size: 16px;
-  letter-spacing: normal;
-  line-height: 1.25;
-  text-align: center;
-  text-transform: uppercase;
-  white-space: normal;
-  text-decoration: none;
-}
-
-main .columns-minimal-dark a.button:hover,
-main .columns-minimal-dark a.button:focus {
-  background-color: #003963;
-  color: #fff;
-  text-decoration: none;
-}
-
-main .columns-minimal-dark a.button:active {
-  border: 1px solid #00223c;
-  background-color: #00223c;
-  color: #fff;
-  text-decoration: none;
-}
-
-/* Highlight variant — button-container as text link */
-.highlight .columns-minimal-dark .button-container a.button:any-link {
-  display: inline;
   margin: 0;
   padding: 0;
   border: none;
   border-radius: 0;
   background-color: transparent;
   color: var(--link-color);
-  font-weight: bold;
+  font-family: var(--body-font-family);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: normal;
+  line-height: 1.25;
+  text-align: left;
   text-transform: uppercase;
+  white-space: normal;
 }
 
-.highlight .columns-minimal-dark .button-container a.button:hover,
-.highlight .columns-minimal-dark .button-container a.button:focus {
+main .columns-minimal-dark a.button:hover,
+main .columns-minimal-dark a.button:focus {
   background-color: transparent;
-  color: var(--link-hover-color);
+  color: var(--link-color);
   text-decoration: underline;
+}
+
+/* Image cell */
+.columns-minimal-dark > div > .columns-minimal-dark-img-col {
+  order: 0;
 }
 
 .columns-minimal-dark img {
   display: block;
   width: 100%;
   height: auto;
+  border-radius: 0;
 }
 
-/* Tablet — heading sizing */
-@media (width >= 768px) and (width < 992px) {
-  .columns-minimal-dark h2 {
-    font-size: 28px;
-    letter-spacing: -0.78px;
-    line-height: 1.1;
-  }
+/* Video cell — a column holding only an .mp4 link (see decorateVideoColumn) */
+.columns-minimal-dark .columns-minimal-dark-video-col video {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
-/* Desktop — content with padding and max-width */
-@media (width >= 992px) {
-
-  .columns-minimal-dark > div > .columns-minimal-dark-content-col {
-    width: 480px;
-    padding: 0 0 0 80px;
-  }
-
-  .columns-minimal-dark h2 {
-    padding: 1.5rem 0 0;
-  }
-
-  .columns-minimal-dark.columns-minimal-dark-right > div > .columns-minimal-dark-content-col {
-    width: 480px;
-    padding: 0 80px 0 0;
-  }
-
-  .highlight .columns-minimal-dark > div {
+/* Desktop — side by side, vertically centered, near-equal columns */
+@media (width >= 900px) {
+  .columns-minimal-dark > div {
     flex-direction: row;
+    align-items: center;
     gap: 72px;
   }
 
-  .highlight .columns-minimal-dark > div > .columns-minimal-dark-content-col {
-    width: 50%;
+  .columns-minimal-dark > div > div {
+    flex: 1;
+    order: unset;
   }
 
-  .highlight .columns-minimal-dark > div > .columns-minimal-dark-img-col {
-    width: 50%;
+  .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    order: unset;
   }
 
-  .highlight .columns-minimal-dark.columns-minimal-dark-right > div {
-    flex-direction: row-reverse;
+}
+
+/* Blue variant — "Prepare for Open Enrollment" side panel (plans/individual-families).
+   Photo left | text right, inside the light-blue `.section.blue` band.
+   Values extracted from https://www.highmark.com/plans/individual-families
+   (.side-card-panel). Authored order is [content | image]; image moved first via order.
+   The JS only tags the picture cell (`.columns-minimal-dark-img-col`), so the text cell
+   is targeted as `div:not(.columns-minimal-dark-img-col)`. Source stacks below 992px. */
+.section.blue .columns-minimal-dark > div {
+  flex-direction: column;
+  gap: 0;
+}
+
+.section.blue .columns-minimal-dark > div > div {
+  flex: 0 1 auto;
+}
+
+.section.blue .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+  order: -1;
+}
+
+.section.blue .columns-minimal-dark h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  letter-spacing: -0.72px;
+  line-height: 1.1;
+  color: var(--text-color);
+}
+
+.section.blue .columns-minimal-dark p {
+  margin: 0 0 12.8px;
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 300;
+  letter-spacing: -0.2px;
+  line-height: 21px;
+  color: var(--text-body-color);
+}
+
+.section.blue .columns-minimal-dark ul {
+  margin: 0 0 16px 8px;
+  padding: 0;
+  list-style: disc outside;
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 100;
+  line-height: 22.5px;
+  color: var(--text-body-color);
+}
+
+.section.blue .columns-minimal-dark li {
+  margin: 0 0 0 8px;
+}
+
+.section.blue .columns-minimal-dark li strong {
+  font-weight: 700;
+}
+
+/* CTA — plain uppercase blue text link (overrides the filled `.section.blue` button).
+   The text cell is a block box, so the ul's 16px bottom margin supplies the gap. */
+.section.blue .columns-minimal-dark p.button-container {
+  margin: 0;
+}
+
+main .section.blue .columns-minimal-dark a.button:any-link {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--link-color);
+  font-family: var(--body-font-family);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: left;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+main .section.blue .columns-minimal-dark a.button:hover,
+main .section.blue .columns-minimal-dark a.button:focus {
+  border: 0;
+  background-color: transparent;
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+/* Blue variant — tablet: source container insets 64px from 768px; panel max 768px,
+   photo/text max 720px, centered (544–991px); larger heading and tighter paragraph. */
+@media (width >= 544px) and (width < 992px) {
+  /* Source band is 48px top/bottom here; `.section.blue` supplies 32px, the block the
+     remaining 16px (same split as desktop: 56px section + 24px block = 80px). */
+  .section.blue .columns-minimal-dark {
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 16px 0;
+  }
+
+  .section.blue .columns-minimal-dark > div > div {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+@media (width >= 768px) and (width < 992px) {
+  body main > .section.blue > div.columns-minimal-dark-wrapper {
+    padding: 0 64px;
+  }
+
+  .section.blue .columns-minimal-dark h2 {
+    font-size: 28px;
+    letter-spacing: -0.78px;
+    line-height: 30.8px;
+  }
+
+  .section.blue .columns-minimal-dark p {
+    margin: 0 0 16px;
+    letter-spacing: -0.4px;
+    line-height: 19.5px;
+  }
+}
+
+/* CHIP landing variant — "Enhanced Member Supports and Case Management" side panel
+   (western-pennsylvania/chip, body.chip-landing, `.section.light`).
+   Values extracted from https://www.highmark.com/western-pennsylvania/chip?zg=false
+   (.side-card-panel). Authored order is [content | image]:
+   mobile/tablet stacks photo above text; >= 992px text left | photo right.
+   The band background / vertical padding is owned by styles.css (`.section.light`). */
+body.chip-landing main > .section > .columns-minimal-dark-wrapper {
+  padding: 0 30px;
+}
+
+body.chip-landing main .section .columns-minimal-dark > div {
+  flex-direction: column;
+  gap: 0;
+}
+
+body.chip-landing main .section .columns-minimal-dark > div > div {
+  flex: 0 1 auto;
+}
+
+body.chip-landing main .section .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+  order: -1;
+}
+
+body.chip-landing main .section .columns-minimal-dark h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  letter-spacing: -0.72px;
+  line-height: 28.6px;
+}
+
+body.chip-landing main .section .columns-minimal-dark p.button-container {
+  display: flex;
+  margin: 0;
+}
+
+body.chip-landing main .section .columns-minimal-dark a.button:any-link {
+  display: block;
+  margin: 16px 0;
+  padding: 16px 24px;
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  color: var(--text-color);
+  line-height: 24px;
+  text-align: center;
+}
+
+body.chip-landing main .section .columns-minimal-dark a.button:hover,
+body.chip-landing main .section .columns-minimal-dark a.button:focus {
+  background-color: var(--text-color);
+  color: #fff;
+}
+
+@media (width >= 544px) and (width < 992px) {
+  body.chip-landing main .section .columns-minimal-dark {
+    max-width: 768px;
+    margin: 0 auto;
+  }
+
+  body.chip-landing main .section .columns-minimal-dark > div > div {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+@media (width >= 768px) {
+  body.chip-landing main > .section > .columns-minimal-dark-wrapper {
+    padding: 0 64px;
+  }
+
+  body.chip-landing main .section .columns-minimal-dark h2 {
+    font-size: 28px;
+    letter-spacing: -0.78px;
+    line-height: 30.8px;
+  }
+}
+
+@media (width >= 992px) {
+  /* Blue variant — desktop side-by-side: 555px photo | 550px text, centered.
+     Source container insets 83px (content max 1200px). */
+  .section.blue > .columns-minimal-dark-wrapper {
+    padding: 0 83px;
+  }
+
+  .section.blue .columns-minimal-dark {
+    padding: 24px 0;
+  }
+
+  .section.blue .columns-minimal-dark > div {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .section.blue .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    flex: 0 1 555px;
+    width: auto;
+    margin: 0 24px;
+  }
+
+  .section.blue .columns-minimal-dark > div > div:not(.columns-minimal-dark-img-col) {
+    flex: 0 1 550px;
+    box-sizing: border-box;
+    width: auto;
+    max-width: 720px;
+    margin: 0 0 0 24px;
+    padding: 0 24px;
+  }
+
+  .section.blue .columns-minimal-dark h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    letter-spacing: -1.36px;
+    line-height: 1.2;
+  }
+
+  .section.blue .columns-minimal-dark p {
+    margin: 0 0 16px;
+    font-size: 16px;
+    letter-spacing: -0.1px;
+    line-height: 24px;
+  }
+}
+
+/* CHIP landing — text left (550px) | photo right (555px), centered */
+@media (width >= 992px) {
+  body.chip-landing main > .section > .columns-minimal-dark-wrapper {
+    padding: 0 83px;
+  }
+
+  body.chip-landing main .section .columns-minimal-dark > div {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  body.chip-landing main .section .columns-minimal-dark > div > div:not(.columns-minimal-dark-img-col) {
+    flex: 0 1 550px;
+    box-sizing: border-box;
+    max-width: 720px;
+    margin: 0 auto 0 0;
+    padding: 0 24px;
+  }
+
+  body.chip-landing main .section .columns-minimal-dark > div > .columns-minimal-dark-img-col {
+    order: 0;
+    flex: 0 1 555px;
+    max-width: 555px;
+    margin: 0 24px;
+  }
+
+  body.chip-landing main .section .columns-minimal-dark h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    letter-spacing: -1.36px;
+    line-height: 40.8px;
+  }
+}
+
+/* Topic sub-pages variant — side card panel (body.topic-hub-subnav: mental-health topic
+   pages + /resources/spending-accounts). White (default) or polar (`.section.light`) band.
+   Values extracted from
+   https://www.highmark.com/resources/mental-health-services/substance-use-disorders and
+   https://www.highmark.com/resources/mental-health-services/mental-health-resources
+   (.side-card-panel). The block wrapper carries the band's vertical padding so trailing
+   default content (spending-accounts footnotes) sits outside the panel.
+   Rows are authored [content | image] (photo right) or [image | content] (photo left);
+   below 992px the photo stacks above the text. */
+body.topic-hub-subnav main > .section.columns-minimal-dark-container {
+  margin: 0;
+  padding: 0;
+}
+
+body.topic-hub-subnav main > .section > .columns-minimal-dark-wrapper {
+  padding: 32px 30px;
+}
+
+body.topic-hub-subnav main .section .columns-minimal-dark.block > div {
+  flex-direction: column;
+  gap: 0;
+}
+
+body.topic-hub-subnav main .section .columns-minimal-dark.block > div > div {
+  flex: 0 1 auto;
+}
+
+body.topic-hub-subnav main .section .columns-minimal-dark.block > div > .columns-minimal-dark-img-col {
+  order: -1;
+}
+
+body.topic-hub-subnav main .section .columns-minimal-dark.block h2 {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  letter-spacing: -0.72px;
+  line-height: 28.6px;
+}
+
+/* Rich-text bodies (paragraph + list, or several paragraphs) use the lighter body copy;
+   a single plain paragraph keeps the block's 16px / 400 navy text. */
+body.topic-hub-subnav main .section .columns-minimal-dark.block > div > div:has(> ul) > p:not(.button-container),
+body.topic-hub-subnav main .section .columns-minimal-dark.block > div > div:has(> p + p:not(.button-container)) > p:not(.button-container) {
+  margin: 0 0 12.8px;
+  font-size: 15px;
+  font-weight: 300;
+  letter-spacing: -0.2px;
+  line-height: 21px;
+  color: var(--text-body-color);
+}
+
+/* Footnote markers (spending-accounts "See disclaimer below¹") don't grow the line box */
+body.topic-hub-subnav main .section .columns-minimal-dark.block sub,
+body.topic-hub-subnav main .section .columns-minimal-dark.block sup {
+  font-size: 75%;
+  line-height: 0;
+}
+
+/* the "WATCH VIDEO" link at the start of that paragraph is the source's #0078c1 */
+body.topic-hub-subnav main .section .columns-minimal-dark.block p:has(> sub) strong > a:any-link {
+  color: #0078c1;
+}
+
+body.topic-hub-subnav main .section .columns-minimal-dark.block ul {
+  margin: 0 0 16px 8px;
+  padding: 0;
+  list-style: disc outside;
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 100;
+  line-height: 22.5px;
+  color: var(--text-body-color);
+}
+
+body.topic-hub-subnav main .section .columns-minimal-dark.block li {
+  margin: 0 0 0 8px;
+}
+
+body.topic-hub-subnav main .section .columns-minimal-dark.block li strong {
+  font-weight: 700;
+}
+
+body.topic-hub-subnav main .section .columns-minimal-dark.block p.button-container {
+  margin: 16px 0 0;
+}
+
+@media (width >= 544px) {
+  body.topic-hub-subnav main > .section > .columns-minimal-dark-wrapper {
+    padding: 48px 30px;
+  }
+}
+
+@media (width >= 544px) and (width < 992px) {
+  body.topic-hub-subnav main .section .columns-minimal-dark.block {
+    max-width: 768px;
+    margin: 0 auto;
+  }
+
+  body.topic-hub-subnav main .section .columns-minimal-dark.block > div > div {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+@media (width >= 768px) {
+  body.topic-hub-subnav main > .section > .columns-minimal-dark-wrapper {
+    padding: 48px 64px;
+  }
+
+  body.topic-hub-subnav main .section .columns-minimal-dark.block h2 {
+    font-size: 28px;
+    letter-spacing: -0.78px;
+    line-height: 30.8px;
+  }
+
+  body.topic-hub-subnav main .section .columns-minimal-dark.block > div > div:has(> ul) > p:not(.button-container),
+  body.topic-hub-subnav main .section .columns-minimal-dark.block > div > div:has(> p + p:not(.button-container)) > p:not(.button-container) {
+    margin: 0 0 16px;
+    letter-spacing: -0.4px;
+    line-height: 19.5px;
+  }
+}
+
+/* Topic sub-pages — desktop side by side: 550px text | 555px photo, centered in a
+   1200px row (container insets 83px). Photo-right rows push the photo to the edge. */
+@media (width >= 992px) {
+  body.topic-hub-subnav main > .section > .columns-minimal-dark-wrapper {
+    padding: 80px 83px;
+  }
+
+  body.topic-hub-subnav main .section .columns-minimal-dark.block > div {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  body.topic-hub-subnav main .section .columns-minimal-dark.block > div > div:not(.columns-minimal-dark-img-col) {
+    flex: 0 1 550px;
+    box-sizing: border-box;
+    max-width: 720px;
+    margin: 0 auto 0 0;
+    padding: 0 24px;
+  }
+
+  body.topic-hub-subnav main .section .columns-minimal-dark.block > div > .columns-minimal-dark-img-col + div {
+    margin: 0 0 0 24px;
+  }
+
+  body.topic-hub-subnav main .section .columns-minimal-dark.block > div > .columns-minimal-dark-img-col {
+    order: 0;
+    flex: 0 1 555px;
+    max-width: 555px;
+    margin: 0 24px;
+  }
+
+  body.topic-hub-subnav main .section .columns-minimal-dark.block h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    letter-spacing: -1.36px;
+    line-height: 40.8px;
+  }
+
+  body.topic-hub-subnav main .section .columns-minimal-dark.block > div > div:has(> ul) > p:not(.button-container),
+  body.topic-hub-subnav main .section .columns-minimal-dark.block > div > div:has(> p + p:not(.button-container)) > p:not(.button-container) {
+    font-size: 16px;
+    letter-spacing: -0.1px;
+    line-height: 24px;
   }
 }

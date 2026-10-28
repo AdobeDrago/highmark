@@ -18,6 +18,7 @@ export default function transform(hookName, element, payload) {
       '#ZN_bmb74MCuuQ38dlc',   // Qualtrics website-feedback snippet (cleaned.html:2)
       '.mega-menu-overlay',    // nav mega-menu overlay (cleaned.html:81)
       '#modalIeDetect',        // legacy IE-detection modal (cleaned.html:1637)
+      '#onetrust-consent-sdk', // OneTrust cookie banner + preference center (plans cleaned.html:2631)
     ]);
   }
 
@@ -37,6 +38,12 @@ export default function transform(hookName, element, payload) {
     WebImporter.DOMUtils.remove(element, [
       '.d-block.d-lg-none',
     ]);
+
+    // Documents (PDFs etc.) stay on the Highmark DAM; a relative /content/dam/ link
+    // would 404 on the EDS site, so point it at www.highmark.com.
+    element.querySelectorAll('a[href^="/content/dam/"]').forEach((a) => {
+      a.setAttribute('href', `https://www.highmark.com${a.getAttribute('href')}`);
+    });
 
     // Leftover non-content elements.
     WebImporter.DOMUtils.remove(element, [

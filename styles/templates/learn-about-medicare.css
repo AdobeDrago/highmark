@@ -1,0 +1,296 @@
+/* Template "learn-about-medicare" (page metadata template=learn-about-medicare -> body.learn-about-medicare).
+   Loaded by scripts/scripts.js (TEMPLATE_STYLES) before the first section renders.
+
+   Values extracted via getComputedStyle from
+   https://www.highmark.com/plans/medicare/learn-about-medicare?zg=false
+   at 390 / 768 / 1440 (source breakpoints: 768 tablet, 992 desktop, 1024 for
+   the CTA copy column). Source sections butt against each other, so the
+   default 40px section margins are removed throughout. */
+
+/* ---------- Intro hero: light-blue band, centered h1 (6/12 cols) + lead (8/12 cols) ---------- */
+
+body.learn-about-medicare main > .section.hero-minimal-light-container {
+  margin: 0;
+}
+
+body.learn-about-medicare main .hero-minimal-light {
+  padding: 40px 0;
+}
+
+body.learn-about-medicare main .hero-minimal-light h1 {
+  width: 50%;
+  margin: 0 auto 8px;
+  padding: 24px 0;
+  font-size: 32px;
+  line-height: 35.2px;
+  letter-spacing: -1.28px;
+}
+
+body.learn-about-medicare main .hero-minimal-light p {
+  width: 66.667%;
+  max-width: none;
+  margin: 0 auto 12.8px;
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+  color: var(--text-color);
+}
+
+/* ---------- Article cards: 300px (mobile) / 400px (tablet) single column,
+   370px auto-fill with 34px gutters on desktop (3-up at >= 1180px).
+   Natural card heights, square corners, 0.16 shadow, 30px under each card. ---------- */
+
+body.learn-about-medicare main > .section.cards-minimal-dark-withimg-container {
+  margin: 0;
+  padding: 50px 0 40px;
+}
+
+body.learn-about-medicare main .cards-minimal-dark-withimg > ul {
+  grid-template-columns: 300px;
+  gap: 0;
+  align-items: start;
+  padding: 0;
+}
+
+body.learn-about-medicare main .cards-minimal-dark-withimg > ul > li {
+  margin: 0 0 30px;
+  border-radius: 0;
+  box-shadow: rgb(0 0 0 / 16%) 0 3px 6px 0;
+}
+
+/* source images render at 370x200 / 400x216 / 300x162 */
+body.learn-about-medicare main .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-image img {
+  aspect-ratio: 37 / 20;
+}
+
+body.learn-about-medicare main .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body {
+  padding: 0 20px;
+}
+
+body.learn-about-medicare main .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body h3 {
+  margin: 20px 0 13px;
+  font-size: 22px;
+  line-height: 24.2px;
+  letter-spacing: -0.4px;
+}
+
+body.learn-about-medicare main .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body p.button-container {
+  margin: 0 0 16px;
+  padding: 0;
+  justify-content: flex-start;
+}
+
+/* ---------- "Understand your Medicare options" blush CTA band ---------- */
+
+body.learn-about-medicare main > .section.highlight {
+  padding: 0 0 20px;
+}
+
+body.learn-about-medicare main > .section.highlight > .default-content-wrapper {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+body.learn-about-medicare main > .section.highlight h2 {
+  width: 83.333%;
+  margin: 0 auto 8px;
+  padding: 19.2px 0;
+  font-size: 26px;
+  line-height: 28.6px;
+  letter-spacing: -0.72px;
+}
+
+body.learn-about-medicare main > .section.highlight p:not(.button-container) {
+  width: 83.333%;
+  margin: 0 auto 12.8px;
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+  color: var(--text-color);
+}
+
+body.learn-about-medicare main > .section.highlight p.button-container {
+  margin: 0;
+}
+
+body.learn-about-medicare main > .section.highlight a.button:any-link {
+  margin: 16px 0;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+/* ---------- Small-print disclaimers (<sup> paragraphs + job code) ---------- */
+
+body.learn-about-medicare main > .section:has(> .default-content-wrapper > p > sup) {
+  display: flow-root;
+  margin: 0;
+  padding: 20px 0 0;
+}
+
+body.learn-about-medicare main > .section:has(> .default-content-wrapper > p > sup) > .default-content-wrapper {
+  max-width: none;
+  padding: 0 30px;
+}
+
+body.learn-about-medicare main > .section:has(> .default-content-wrapper > p > sup) > .default-content-wrapper > p {
+  margin: 0 0 12.8px;
+  font-size: 15px;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+/* source sup: 0.75em with line-height 0, so each line box is the paragraph's
+   line-height. Keep the sup on the paragraph line-height (and lift it with
+   relative positioning) so the line box never collapses, even without a strut. */
+body.learn-about-medicare main > .section:has(> .default-content-wrapper > p > sup) sup {
+  position: relative;
+  top: -0.4em;
+  font-size: 75%;
+  line-height: inherit;
+  vertical-align: baseline;
+}
+
+/* the two legal paragraphs wrap their text in a span with letter-spacing -0.1px */
+body.learn-about-medicare main > .section:has(> .default-content-wrapper > p > sup) p:not(:first-child) > sup {
+  letter-spacing: -0.1px;
+}
+
+/* ---------- Tablet (source 768-991) ---------- */
+@media (width >= 768px) {
+  body.learn-about-medicare main .hero-minimal-light h1 {
+    padding: 28.8px 0;
+    font-size: 36px;
+    line-height: 39.6px;
+    letter-spacing: -1.44px;
+  }
+
+  body.learn-about-medicare main .hero-minimal-light p {
+    margin-bottom: 16px;
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  body.learn-about-medicare main > .section.cards-minimal-dark-withimg-container {
+    padding: 60px 0 50px;
+  }
+
+  body.learn-about-medicare main .cards-minimal-dark-withimg > ul {
+    grid-template-columns: 400px;
+  }
+
+  body.learn-about-medicare main .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body h3 {
+    padding-bottom: 3px;
+    font-size: 32px;
+    line-height: 35.2px;
+    letter-spacing: -0.44px;
+  }
+
+  body.learn-about-medicare main > .section.highlight h2 {
+    width: auto;
+    font-size: 28px;
+    line-height: 30.8px;
+    letter-spacing: -0.78px;
+  }
+
+  body.learn-about-medicare main > .section.highlight p:not(.button-container) {
+    margin-bottom: 16px;
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  body.learn-about-medicare main > .section:has(> .default-content-wrapper > p > sup) > .default-content-wrapper {
+    padding: 0 64px;
+  }
+
+  body.learn-about-medicare main > .section:has(> .default-content-wrapper > p > sup) > .default-content-wrapper > p {
+    margin-bottom: 16px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+}
+
+/* ---------- Desktop (source >= 992) ---------- */
+@media (width >= 992px) {
+  body.learn-about-medicare main .hero-minimal-light {
+    padding: 60px 0;
+  }
+
+  body.learn-about-medicare main .hero-minimal-light h1 {
+    font-size: 56px;
+    line-height: 61.6px;
+    letter-spacing: -2.8px;
+  }
+
+  body.learn-about-medicare main .hero-minimal-light p {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  body.learn-about-medicare main .cards-minimal-dark-withimg-container > .cards-minimal-dark-withimg-wrapper {
+    max-width: 1180px;
+    padding: 0;
+  }
+
+  body.learn-about-medicare main .cards-minimal-dark-withimg > ul {
+    grid-template-columns: repeat(auto-fill, 370px);
+    column-gap: 34px;
+  }
+
+  body.learn-about-medicare main .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body {
+    padding: 0 30px;
+  }
+
+  body.learn-about-medicare main .cards-minimal-dark-withimg .cards-minimal-dark-withimg-card-body h3 {
+    padding-bottom: 0;
+    font-size: 24px;
+    line-height: 26.4px;
+    letter-spacing: -0.72px;
+  }
+
+  body.learn-about-medicare main > .section.highlight {
+    padding: 20px 0 40px;
+  }
+
+  body.learn-about-medicare main > .section.highlight h2 {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 40.8px;
+    letter-spacing: -1.36px;
+  }
+
+  body.learn-about-medicare main > .section.highlight p:not(.button-container) {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  body.learn-about-medicare main > .section:has(> .default-content-wrapper > p > sup) {
+    padding: 40px 0 20px;
+  }
+
+  body.learn-about-medicare main > .section:has(> .default-content-wrapper > p > sup) > .default-content-wrapper {
+    box-sizing: border-box;
+    max-width: 1366px;
+    padding: 0 83px;
+  }
+
+  body.learn-about-medicare main > .section:has(> .default-content-wrapper > p > sup) > .default-content-wrapper > p {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+}
+
+@media (width >= 1024px) {
+  body.learn-about-medicare main > .section.highlight p:not(.button-container) {
+    width: 50%;
+  }
+}

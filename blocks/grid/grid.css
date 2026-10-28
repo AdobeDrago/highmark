@@ -1,0 +1,56 @@
+/* Grid: the source's grid control (gridcontrol > aem-hmk-row > hmk-col-*): equal columns
+   side by side from 768px, padded 0 10px 25px (30px below from 992), stacked on phones
+   with 20px below each. Measured at 1440, 768 and 390 on the Western NY Blue Fund page
+   and Corporate Giving Contact; the text inside keeps the page template's type. */
+main .grid {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--grid-space-mobile, var(--grid-space, 0));
+  padding-top: var(--grid-pad-mobile, var(--grid-pad, 0));
+}
+
+main .grid .grid-cell {
+  display: flow-root;
+  padding: 0 0 20px;
+}
+
+/* grey (global-grey_garden, #f2f5f7) */
+main .grid.grey {
+  background-color: #f2f5f7;
+}
+
+main .grid.pad-20 { --grid-pad: 20px; }
+main .grid.pad-40 { --grid-pad: 40px; }
+main .grid.pad-tablet-20 { --grid-pad-tablet: 20px; }
+main .grid.pad-tablet-40 { --grid-pad-tablet: 40px; }
+main .grid.pad-mobile-20 { --grid-pad-mobile: 20px; }
+main .grid.pad-mobile-40 { --grid-pad-mobile: 40px; }
+main .grid.space-20 { --grid-space: 20px; }
+main .grid.space-40 { --grid-space: 40px; }
+main .grid.space-tablet-20 { --grid-space-tablet: 20px; }
+main .grid.space-mobile-20 { --grid-space-mobile: 20px; }
+
+@media (width >= 768px) {
+  main .grid {
+    flex-direction: row;
+    margin-top: var(--grid-space-tablet, var(--grid-space, 0));
+    padding-top: var(--grid-pad-tablet, var(--grid-pad, 0));
+  }
+
+  main .grid .grid-cell {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0 10px 25px;
+  }
+}
+
+@media (width >= 992px) {
+  main .grid {
+    margin-top: var(--grid-space, 0);
+    padding-top: var(--grid-pad, 0);
+  }
+
+  main .grid .grid-cell {
+    padding-bottom: 30px;
+  }
+}

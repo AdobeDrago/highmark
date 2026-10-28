@@ -1,0 +1,367 @@
+/* Forms library: the search panel beside the forms, by category. Values measured from
+   highmark.com's /member/bcbswny/forms at 1440 / 1024 / 768 / 390. The page layout
+   (the panel and the forms as the section's two columns) is in the template's CSS
+   (styles/templates/member-subpage.css). */
+
+.forms-library p {
+  margin: 0;
+}
+
+/* ---- Filter button (phones) ---- */
+.forms-library .forms-library-toggle {
+  display: flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 45px;
+  letter-spacing: normal;
+  text-transform: none;
+  cursor: pointer;
+}
+
+.forms-library .forms-library-toggle .icon {
+  width: 35px;
+  height: 35px;
+}
+
+.forms-library .forms-library-toggle .icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.forms-library .forms-library-panel {
+  display: none;
+  padding: 16px 15px 0;
+}
+
+.forms-library .forms-library-panel.open {
+  display: block;
+}
+
+/* ---- search ---- */
+.forms-library .forms-library-search-title {
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.forms-library .forms-library-search-field {
+  position: relative;
+  margin-top: 16px;
+  padding-bottom: 35px;
+}
+
+.forms-library .forms-library-search input {
+  box-sizing: border-box;
+  width: calc(100% + 32px);
+  max-width: calc(100vw - 60px);
+  height: 59px;
+  margin: 0;
+  padding: 0 0 10px 32px;
+  border: 0;
+  border-bottom: 1px solid var(--text-color);
+  border-radius: 0;
+  background: none;
+  color: #000;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.forms-library .forms-library-search input::placeholder {
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.forms-library .forms-library-search input:focus {
+  outline: none;
+  border-bottom-width: 2px;
+}
+
+.forms-library .forms-library-search input:focus-visible {
+  outline: 2px solid var(--link-color, #0078c1);
+  outline-offset: 2px;
+}
+
+.forms-library .forms-library-search-submit {
+  position: absolute;
+  top: 29px;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.forms-library .forms-library-search-submit .icon,
+.forms-library .forms-library-search-submit .icon img {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+/* ---- category filter ---- */
+.forms-library .forms-library-filter-title {
+  margin-bottom: 16px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23.8px;
+  letter-spacing: -0.2px;
+}
+
+.forms-library .forms-library-category-label {
+  color: #66717d;
+  font-family: var(--body-font-family);
+  font-size: 12px;
+  line-height: 24px;
+}
+
+.forms-library .forms-library-categories {
+  margin: 0;
+  padding: 10px;
+  border: 1px solid #e8e8e8;
+  list-style: none;
+}
+
+.forms-library .forms-library-category-button {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 5px 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: normal;
+  text-transform: none;
+  text-align: start;
+  cursor: pointer;
+}
+
+.forms-library .forms-library-category-button[aria-pressed='true'] {
+  font-weight: 700;
+}
+
+.forms-library .forms-library-category-button:hover {
+  text-decoration: underline;
+}
+
+/* ---- the forms ---- */
+.forms-library .forms-library-results {
+  padding: 0 15px;
+}
+
+.forms-library .forms-library-group {
+  margin-bottom: 13px;
+}
+
+.forms-library .forms-library-group-name {
+  margin: 0 0 8px;
+  padding: 19.2px 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.72px;
+}
+
+.forms-library .forms-library-group-description {
+  margin-bottom: 12.8px;
+  color: var(--text-body-color, #001446);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+}
+
+.forms-library .forms-library-forms {
+  display: flow-root;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* a category without a description: the gap its (empty) description leaves on the source */
+.forms-library .forms-library-group-name + .forms-library-forms {
+  margin-top: 12.8px;
+}
+
+.forms-library .forms-library-form {
+  display: flow-root;
+  margin: 0 0 13px;
+  padding: 30px 0 0;
+  border-top: 1px solid #e8e8e8;
+}
+
+.forms-library .forms-library-form-name {
+  margin: 0 0 12.8px;
+  padding: 0;
+  color: var(--text-body-color, #001446);
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.forms-library .forms-library-form-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 0 0 16px;
+}
+
+.forms-library a.forms-library-link:any-link {
+  display: inline-flex;
+  align-items: center;
+  color: #0066b1;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.forms-library a.forms-library-link:hover {
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+.forms-library a.forms-library-link .icon-pdf {
+  width: 20px;
+  height: 20px;
+  padding-right: 10px;
+}
+
+.forms-library a.forms-library-link .icon-pdf img {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.forms-library a.forms-library-link-pdf:any-link {
+  line-height: 22px;
+}
+
+.forms-library .forms-library-no-results {
+  margin: 16px 0;
+  color: var(--text-body-color, #001446);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+}
+
+.forms-library .forms-library-reset {
+  margin: 0;
+  text-transform: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #0066b1;
+  font: inherit;
+  cursor: pointer;
+}
+
+.forms-library .forms-library-reset:hover {
+  text-decoration: underline;
+}
+
+.forms-library [hidden] {
+  display: none;
+}
+
+@media (width >= 768px) {
+  .forms-library .forms-library-toggle {
+    display: none;
+  }
+
+  .forms-library .forms-library-panel {
+    display: block;
+    width: 80%;
+    padding: 0;
+  }
+
+  .forms-library .forms-library-search input {
+    max-width: none;
+  }
+
+  .forms-library .forms-library-filter-title {
+    font-size: 18px;
+    line-height: 23.4px;
+    letter-spacing: -0.4px;
+  }
+
+  .forms-library .forms-library-group-name {
+    font-size: 28px;
+    letter-spacing: -0.78px;
+  }
+
+  .forms-library .forms-library-group-name + .forms-library-forms {
+    margin-top: 16px;
+  }
+
+  .forms-library .forms-library-form-name {
+    margin-bottom: 16px;
+  }
+
+  .forms-library .forms-library-group-description {
+    margin-bottom: 16px;
+    font-size: 15px;
+    line-height: 19.5px;
+    letter-spacing: -0.4px;
+  }
+}
+
+@media (width >= 992px) {
+  .forms-library .forms-library-filter-title {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.3px;
+  }
+
+  .forms-library .forms-library-group-name {
+    padding: 24px 0;
+    font-size: 34px;
+    line-height: 1.2;
+    letter-spacing: -1.36px;
+  }
+
+  .forms-library .forms-library-group-description {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+  }
+
+  .forms-library .forms-library-group {
+    margin-bottom: 16px;
+  }
+
+  .forms-library .forms-library-form {
+    margin-bottom: 15px;
+  }
+}

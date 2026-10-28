@@ -1,0 +1,15 @@
+{
+  "status": "success",
+  "url": "https://www.highmark.com/member/bcbs",
+  "path": "member/bcbs",
+  "timestamp": "2026-10-15T12:50:59.580Z",
+  "title": "Member Resources | Highmark Blue Cross Blue Shield",
+  "template": "member-regional",
+  "blocks": [
+    "hero-minimal-dark-withimg",
+    "cards-minimal-dark-iconnav",
+    "cards-minimal-dark-withimg-icons",
+    "columns-minimal-dark",
+    "columns-minimal-dark"
+  ]
+}
