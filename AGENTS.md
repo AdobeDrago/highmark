@@ -271,6 +271,14 @@ Imported (#150) and published on 2026-10-26, with 4 `/redirects` rows for the pa
   - **Cards.** On the source the middle card of three has no bottom margin, so a row ends 30px under its tallest card unless that is the middle one; the CSS does the same.
   - **Links.** Tools' "LOG IN OR REGISTER" has no link on the source; here it goes to the member login, as the footer's Member Login does.
 
+## Figma-built pages (`template: highmark`)
+
+`/edge-delivery-services`, from the "Landing Page Medium Density - EDS Test" frame in Figma (file `16MD7O7P5uYdxbL5gavHeG`, node `1:3857`). `styles/templates/highmark.css` (2026-11-06) matches the frame at 1366px, the width its Highmark header measures at (the frame is drawn at about 25% scale). Figma has the desktop only; below 992px the bands stack in the site's 30 / 64px gutters.
+
+- **Sections.** `hero` (400px photo, white title 150px in) | `accent`: `Columns (intercept)`, the #bfe2f4 splash band, text (480px) then image from 992px, a one-cell row is a quote | `secondary, center`: heading, lead and `Cards (pack)`, 369px shadowed cards on the polar band, centred on each other | `Cards (takeaway)`: a 198px image beside a shadowed text box | `accent`: a `table` with a navy header row (not in the frame).
+- **Chrome.** The site's header and footer (the page's `nav` / `footer` rows, which named fragments that don't exist, were removed on 2026-11-06).
+- **Differs.** Figma's hero photo is a wider crop (about 3.4:1, the hiker small on the right) than the page's 1560 × 800 file. The POC band holds the timeline image where Figma has a placeholder, and the EDS takeaway card needs 227px where Figma's box is 198px.
+
 ## Breadcrumbs on imported pages
 
 Every `/resources` page has the source's trail (2026-10-16). `tools/breadcrumbs/add-breadcrumbs.mjs [--apply] path ...` turns it on for pages imported without it: it sets `Breadcrumbs: true` and the source's active crumb as `Breadcrumb Title` in the DA metadata block and previews the page; nothing else changes (on the 11 pages it was run on, the `.plain.html` stayed byte-identical). The other crumbs come from the published ancestors, so compare the trail with the source's first. The sidebar article, guide-article and listing importers now add both rows when the source has a trail, as the topic-hub and tabbed-answers importers do.
