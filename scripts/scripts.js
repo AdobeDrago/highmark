@@ -168,6 +168,7 @@ const TEMPLATE_STYLES = [
   'home', 'shop-home', 'providers', 'shop-page', 'answers-landing', 'provider-content', 'leadership-bio',
   'faq', 'member-regional', 'glossary', 'member-subpage', 'topic-hub-landing', 'spending-account',
   'employer-plan', 'employer-plans-landing', 'medicare-article', 'employer-article', 'employer-tabs',
+  'highmark',
 ];
 
 /**

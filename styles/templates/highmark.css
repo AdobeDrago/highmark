@@ -1,0 +1,363 @@
+/* Template "highmark" (page metadata template=highmark -> body.highmark).
+   Loaded by scripts/scripts.js (TEMPLATE_STYLES) before the first section renders.
+
+   Pages built from the Highmark design system in Figma: /edge-delivery-services, from the
+   "Landing Page Medium Density - EDS Test" frame (file 16MD7O7P5uYdxbL5gavHeG, node 1:3857).
+   The frame is drawn at about 25% scale; the sizes here are its values at 1366px, the width
+   its Highmark header measures at (the 44 / 88 / 60px header rows). Figma has the desktop
+   only: below 992px the bands stack in the site's 30px (64px from 768px) gutters.
+
+   EDS sections:
+   1. `hero`: the Page Banner, a 400px photo with the white title and subheading over its
+      left side (150px in, 560px wide);
+   2. `accent`: `columns (intercept)`, the Intercept Banner: the splash band, text (480px)
+      then the image, 180px in at 1366; a one-cell row is a quote;
+   3. `secondary, center`: the Card Pack: polar band, centred heading and lead (579px), then
+      `cards (pack)`: 369px cards 30px apart, centred on each other, as in Figma;
+   4. `cards (takeaway)`: the Takeaway Card Pack: white band, 198px image beside a 321px
+      shadowed text box;
+   5. `accent`: a `table` (not in the frame), on the splash band with a navy header row. */
+
+/* stylelint-disable no-descending-specificity */
+
+body.highmark {
+  --hm-splash: #bfe2f4;
+  --hm-polar: var(--accent-color);
+  --hm-image-bg: var(--light-blue-color);
+  --hm-text: var(--text-color);
+  --hm-ink: #0b0e0e;
+  --hm-shadow: 0 3px 3px rgb(0 0 0 / 15%);
+}
+
+body.highmark main > .section {
+  margin: 0;
+  padding: 60px 0;
+}
+
+/* the metadata block's section, empty once the metadata is read */
+body.highmark main > .section:empty {
+  display: none;
+}
+
+body.highmark main > .section > div {
+  max-width: 1170px;
+  padding: 0 30px;
+}
+
+body.highmark main .section.secondary {
+  background-color: var(--hm-polar);
+}
+
+body.highmark main .section.accent {
+  background-color: var(--hm-splash);
+}
+
+/* section headings and lead: Sofia Pro, navy */
+body.highmark main h2 {
+  margin: 0;
+  color: var(--hm-text);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 34px;
+  letter-spacing: -1.12px;
+}
+
+body.highmark main h3 {
+  margin: 0 0 10px;
+  color: var(--hm-text);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+  letter-spacing: -0.72px;
+}
+
+/* card text: Roboto 16px bullets */
+body.highmark main .cards ul ul {
+  margin: 0;
+  padding-left: 24px;
+  color: var(--hm-text);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  list-style: disc;
+}
+
+body.highmark main .cards ul ul li + li {
+  margin-top: 2px;
+}
+
+/* 1. hero */
+body.highmark main > .section.hero-container {
+  padding: 0;
+}
+
+body.highmark main > .section.hero-container > div {
+  max-width: none;
+  padding: 0;
+}
+
+body.highmark .hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 300px;
+  padding: 40px 30px;
+}
+
+/* the photo's mountains behind the title, as in Figma (whose photo is a wider crop) */
+body.highmark .hero img {
+  object-position: 50% 25%;
+}
+
+body.highmark .hero h1 {
+  max-width: 560px;
+  margin: 0;
+  color: #fff;
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 40px;
+  letter-spacing: -0.72px;
+}
+
+body.highmark .hero h1 + p {
+  max-width: 560px;
+  margin: 16px 0 0;
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+}
+
+/* 2. intercept band */
+body.highmark main > .section:has(.columns-intercept) > div {
+  max-width: 1006px;
+}
+
+body.highmark .columns-intercept > div {
+  gap: 24px;
+}
+
+body.highmark .columns-intercept h2 {
+  margin-bottom: 8px;
+}
+
+body.highmark .columns-intercept p {
+  margin: 0;
+  color: var(--hm-text);
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: -0.4px;
+}
+
+/* the quote's attribution */
+body.highmark .columns-intercept p + p {
+  margin-top: 16px;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+/* 3. card pack */
+body.highmark main .section.center > .default-content-wrapper {
+  max-width: 579px;
+  margin-bottom: 40px;
+}
+
+body.highmark main .section.center > .default-content-wrapper p {
+  margin: 20px 0 0;
+  color: var(--hm-text);
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 28px;
+  letter-spacing: -0.38px;
+}
+
+body.highmark main .section.center > .cards-wrapper {
+  max-width: 1170px;
+}
+
+body.highmark .cards-pack > ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+body.highmark .cards-pack > ul > li {
+  flex: 0 1 369px;
+  border: 0;
+  box-shadow: var(--hm-shadow);
+}
+
+body.highmark .cards-pack .cards-card-image {
+  background-color: var(--hm-image-bg);
+}
+
+body.highmark .cards-pack > ul > li img {
+  aspect-ratio: 369 / 198;
+}
+
+body.highmark .cards-pack .cards-card-body {
+  margin: 0;
+  padding: 20px 30px 24px;
+}
+
+/* 4. takeaway cards */
+body.highmark main > .section:has(.cards-takeaway) {
+  padding: 60px 0;
+}
+
+body.highmark .cards-takeaway > ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+body.highmark .cards-takeaway > ul > li {
+  display: flex;
+  flex: 0 1 519px;
+  border: 0;
+  background-color: transparent;
+}
+
+body.highmark .cards-takeaway .cards-card-image {
+  flex: 0 0 120px;
+  align-self: center;
+}
+
+body.highmark .cards-takeaway > ul > li img {
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+body.highmark .cards-takeaway .cards-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 198px;
+  margin: 0;
+  padding: 15px;
+  background-color: #fff;
+  box-shadow: var(--hm-shadow);
+}
+
+body.highmark .cards-takeaway h3 {
+  margin-bottom: 9px;
+}
+
+body.highmark main .cards-takeaway ul ul {
+  color: var(--hm-ink);
+  line-height: 24px;
+}
+
+body.highmark main .cards-takeaway ul ul li + li {
+  margin-top: 4px;
+}
+
+/* 5. table */
+body.highmark .table table {
+  background-color: #fff;
+  color: var(--hm-text);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+body.highmark .table table thead tr {
+  border: 0;
+  background-color: var(--hm-text);
+  color: #fff;
+}
+
+body.highmark .table table tbody tr {
+  border-bottom: 1px solid var(--hm-splash);
+}
+
+body.highmark .table table th,
+body.highmark .table table td {
+  padding: 16px;
+  vertical-align: top;
+}
+
+body.highmark .table table th {
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  line-height: 24px;
+}
+
+body.highmark .table table td:first-child {
+  font-weight: 700;
+}
+
+@media (width >= 768px) {
+  body.highmark main > .section > div {
+    padding: 0 64px;
+  }
+
+  body.highmark .hero {
+    padding: 40px 64px;
+  }
+
+  body.highmark .cards-takeaway .cards-card-image {
+    flex-basis: 198px;
+  }
+}
+
+@media (width >= 992px) {
+  body.highmark main h2 {
+    font-size: 34px;
+    line-height: 40px;
+    letter-spacing: -1.36px;
+  }
+
+  body.highmark .hero {
+    min-height: 400px;
+    padding: 60px 150px;
+  }
+
+  body.highmark .hero h1 {
+    font-size: 56px;
+    line-height: 60px;
+    letter-spacing: -1.12px;
+  }
+
+  body.highmark .hero h1 + p {
+    margin-top: 20px;
+    font-size: 28px;
+    line-height: 40px;
+  }
+
+  body.highmark main > .section:has(.columns-intercept) {
+    padding: 64px 0;
+  }
+
+  body.highmark .columns-intercept > div {
+    gap: 48px;
+  }
+
+  /* text first, as in Figma (the image comes first in the document, for phones) */
+  body.highmark .columns-intercept.columns-2-cols > div > div {
+    flex: 1;
+    order: 1;
+  }
+
+  body.highmark .columns-intercept.columns-2-cols > div > div:not(.columns-img-col) {
+    flex: 0 1 480px;
+    order: 0;
+  }
+
+  body.highmark main > .section:has(.cards-takeaway) {
+    padding: 90px 0;
+  }
+}
