@@ -168,6 +168,7 @@ const TEMPLATE_STYLES = [
   'home', 'shop-home', 'providers', 'shop-page', 'answers-landing', 'provider-content', 'leadership-bio',
   'faq', 'member-regional', 'glossary', 'member-subpage', 'topic-hub-landing', 'spending-account',
   'employer-plan', 'employer-plans-landing', 'medicare-article', 'employer-article', 'employer-tabs',
+  'docs',
 ];
 
 /**
@@ -470,9 +471,11 @@ async function loadLazy(doc) {
   const element = hash ? doc.getElementById(id) : false;
   if (hash && element) element.scrollIntoView();
 
-  loadHeader(doc.querySelector('header'));
+  // the docs template (author, developer and admin guides) has no site header or footer
+  const isDocs = doc.body.classList.contains('docs');
+  if (!isDocs) loadHeader(doc.querySelector('header'));
   loadBreadcrumbs(doc.querySelector('.breadcrumbs-wrapper'));
-  loadFooter(doc.querySelector('footer'));
+  if (!isDocs) loadFooter(doc.querySelector('footer'));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
