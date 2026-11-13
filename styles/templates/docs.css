@@ -1,0 +1,5 @@
+/* Template: docs. The author, developer and admin guides under /docs/: no site header or footer. */
+body.docs header,
+body.docs footer {
+  display: none;
+}
