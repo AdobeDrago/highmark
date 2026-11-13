@@ -72,11 +72,14 @@ export default function decorateDocs(main) {
     tabs.append(a);
   });
 
-  const menu = el('details', { class: 'docs-menu' }, el('summary', {}, 'Contents'), list);
-  const wide = window.matchMedia('(width >= 1024px)');
-  const sync = () => { menu.open = wide.matches; };
-  sync();
-  wide.addEventListener('change', sync);
+  // the guides landing page has no page list, only the tabs
+  const menu = pages.length ? el('details', { class: 'docs-menu' }, el('summary', {}, 'Contents'), list) : '';
+  if (menu) {
+    const wide = window.matchMedia('(width >= 1024px)');
+    const sync = () => { menu.open = wide.matches; };
+    sync();
+    wide.addEventListener('change', sync);
+  }
 
   const aside = el(
     'aside',
