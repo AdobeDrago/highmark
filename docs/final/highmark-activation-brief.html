@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activation Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#0328D1; --primary-hover:#1E56FA; --primary-container:#E7EFFF; --on-primary-container:#041753;
+  --secondary:#2F98F7; --secondary-container:#E3F0FF; --on-secondary-container:#00203E;
+  --tertiary:#6311CB; --tertiary-container:#EFECFF; --on-tertiary-container:#240D4D;
+  --body:#FCFCFC; --low:#F7F7F7; --mid:#EEEEEE; --high:#E4E4E4;
+  --on:#1F1F1F; --on-subtle:#505050; --border-subtle:#E4E4E4; --success:#25DA53;
+  --shadow-card:0 0.5px 0.7px rgba(31,31,31,.18), 0 2px 8px rgba(31,31,31,.07);
+  --shadow-high:0 2px 4px rgba(31,31,31,.12), 0 12px 24px rgba(31,31,31,.14), 0 32px 56px rgba(31,31,31,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{font-family:'Work Sans',sans-serif;background:var(--body);color:var(--on);font-size:14px;line-height:1.5}
+.num,.tnum{font-variant-numeric:tabular-nums}
+
+.layout{display:grid;grid-template-columns:224px minmax(0,1fr);min-height:100vh}
+
+/* Sidebar */
+.side{position:sticky;top:0;height:100vh;background:var(--low);padding:28px 16px;display:flex;flex-direction:column;gap:28px}
+.brand{padding:0 10px}
+.brand .bug{display:block;width:140px;height:auto}
+.brand-sub{margin-top:12px;font-size:11.5px;font-weight:600;color:var(--on);line-height:1.35}
+.side h4{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);padding:0 10px;margin-bottom:8px}
+.side nav a{display:block;padding:8px 10px;margin-bottom:2px;font-size:13px;color:var(--on-subtle);text-decoration:none;border-radius:8px;transition:background .15s,color .15s}
+.side nav a:hover{background:var(--mid);color:var(--on)}
+.side nav a.active{background:var(--primary-container);color:var(--primary);font-weight:600}
+.side .meta{margin-top:auto;padding:0 10px;font-size:11.5px;color:var(--on-subtle);line-height:1.5}
+
+/* Page */
+main{padding:24px 40px 96px}
+.page{max-width:920px;margin:0 auto}
+
+/* Hero */
+.hero{border-radius:16px;padding:40px 44px;color:#fff;background:linear-gradient(120deg,#041753 0%,#0328D1 68%,#1E56FA 100%);box-shadow:0 2px 6px rgba(3,40,209,.25),0 14px 36px rgba(3,40,209,.28)}
+.hero .eyebrow{color:#fff;opacity:.9}
+.hero .eyebrow::before{background:#fff}
+.hero h1{font-size:40px;line-height:1.15;letter-spacing:-.02em;margin:10px 0 12px;font-weight:700}
+.hero p{max-width:620px;font-size:14.5px;opacity:.92}
+.hero .pills{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.hero .pills span{background:rgba(255,255,255,.14);border-radius:999px;padding:6px 14px;font-size:12px;font-weight:600}
+
+/* Section scaffolding */
+section{margin-top:72px}
+.eyebrow{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--primary)}
+.eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--primary)}
+h2{font-size:28px;line-height:1.2;letter-spacing:-.02em;font-weight:700;margin:6px 0 12px}
+.lead{max-width:660px;color:var(--on-subtle);font-size:14px}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.stat{background:#fff;border-radius:8px;padding:20px;box-shadow:var(--shadow-card)}
+.stat .big{font-size:34px;font-weight:700;color:var(--primary);letter-spacing:-.02em;line-height:1.1;font-variant-numeric:tabular-nums}
+.stat b{display:block;margin-top:8px;font-size:13.5px}
+.stat span{display:block;margin-top:2px;font-size:12.5px;color:var(--on-subtle)}
+
+/* Legend + chips */
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin:24px 0 14px}
+.legend div{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--on-subtle)}
+.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.t-agent{background:var(--tertiary);color:#fff}
+.t-cap{background:var(--primary);color:#fff}
+.t-dev{background:var(--secondary);color:var(--on-secondary-container)}
+.t-value{background:#041753;color:#fff}
+.t-optimize{background:#0E7490;color:#fff}
+.t-road{background:#1B8A3A;color:#fff}
+.t-feature{background:#1E56FA;color:#fff}
+.t-workflow{background:#B45309;color:#fff}
+.t-poc{background:#BE185D;color:#fff}
+.t-modern{background:#475569;color:#fff}
+.t-fix{background:#B91C1C;color:#fff}
+.chip{display:inline-block;border-radius:4px;padding:2px 8px;font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.chip.t-agent{background:var(--tertiary-container);color:var(--on-tertiary-container)}
+.chip.t-cap{background:var(--primary-container);color:var(--on-primary-container)}
+.chip.t-dev{background:var(--secondary-container);color:var(--on-secondary-container)}
+.chip.t-value{background:#E1E6F5;color:#041753}
+.chip.t-optimize{background:#DDF3F6;color:#0A4A5C}
+.chip.t-road{background:#DFF6E5;color:#0F4D20}
+.chip.t-feature{background:#E3EBFF;color:#0B2A8F}
+.chip.t-workflow{background:#FDEBD3;color:#6B3305}
+.chip.t-poc{background:#FCE4EF;color:#6E0F37}
+.chip.t-modern{background:#E6E9EE;color:#283241}
+.chip.t-fix{background:#FBE3E3;color:#6B1010}
+
+/* Gantt */
+.gantt{background:#fff;border-radius:16px;box-shadow:var(--shadow-card);padding:24px;overflow-x:auto}
+.g-inner{min-width:780px}
+.g-row{display:grid;grid-template-columns:220px 1fr;align-items:stretch}
+.g-label{padding:8px 12px 8px 4px;display:flex;flex-direction:column;justify-content:center;gap:1px}
+.g-name{font-size:13px;font-weight:600}
+.g-type{font-size:11px;color:var(--on-subtle)}
+.g-track{display:grid;grid-template-columns:repeat(var(--cols),1fr);align-items:center;padding:7px 0;
+  background-image:linear-gradient(to right,var(--border-subtle) 1px,transparent 1px);background-size:calc(100% / var(--cols)) 100%;
+  border-right:1px solid var(--border-subtle)}
+.g-head .g-track{background-image:none;padding:0 0 6px}
+.g-head .wk{font-size:10.5px;color:var(--on-subtle);text-align:center;font-variant-numeric:tabular-nums}
+.g-head .g-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--on-subtle)}
+.g-group{display:flex;align-items:center;gap:10px;background:var(--mid);border-radius:6px;padding:7px 12px;margin:14px 0 4px;font-size:12.5px;font-weight:700}
+.g-group .n{width:22px;height:22px;border-radius:50%;background:var(--primary);color:#fff;font-size:11.5px;display:flex;align-items:center;justify-content:center}
+.g-group .w{margin-left:auto;font-weight:500;color:var(--on-subtle);font-size:12px;font-variant-numeric:tabular-nums}
+.g-bar{border:0;border-radius:6px;height:26px;margin:0 2px;font:600 11px 'Work Sans',sans-serif;cursor:pointer;font-variant-numeric:tabular-nums;transition:filter .15s,transform .15s,box-shadow .15s}
+.g-bar:hover,.g-bar:focus-visible{filter:brightness(1.12);transform:translateY(-1px);box-shadow:0 4px 10px rgba(31,31,31,.25);outline:none}
+.g-foot{margin-top:14px;font-size:12px;color:var(--on-subtle)}
+
+/* Timeline plan */
+.tl{position:relative;padding-left:64px;margin-top:28px}
+.tl::before{content:"";position:absolute;left:19px;top:24px;bottom:40px;width:2px;background:var(--high)}
+.step{position:relative;margin-bottom:24px}
+.circle{position:absolute;left:-64px;top:6px;width:40px;height:40px;border-radius:50%;background:var(--primary);color:#fff;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 6px var(--body)}
+.card{background:var(--low);border-radius:8px;padding:22px 24px;box-shadow:var(--shadow-card)}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.card-head h3{font-size:18px;letter-spacing:-.01em}
+.pill{display:inline-block;background:var(--primary-container);color:var(--on-primary-container);border-radius:999px;padding:3px 11px;font-size:11.5px;font-weight:500;margin-left:6px;font-variant-numeric:tabular-nums}
+.card ul{margin:0 0 14px 18px;font-size:13.5px}
+.card li{margin-bottom:5px}
+.inner{background:#fff;border-radius:4px;padding:14px 16px 8px}
+.inner .lbl{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--primary-hover);margin-bottom:6px}
+.act{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;background:none;border:0;border-top:1px solid var(--border-subtle);padding:9px 4px;text-align:left;font:inherit;font-size:13px;cursor:pointer;color:var(--on);border-radius:0}
+.act:first-of-type{border-top:0}
+.act:hover{background:var(--low)}
+.act .r{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.act .wk{font-size:12px;color:var(--on-subtle);min-width:76px;text-align:right;font-variant-numeric:tabular-nums}
+
+/* Agents */
+.callout{background:var(--primary-container);border-radius:16px;padding:24px 28px;box-shadow:var(--shadow-card);margin-top:28px}
+.callout h3{font-size:17px;color:var(--on-primary-container);margin-bottom:6px}
+.callout p{font-size:13.5px;color:var(--on-primary-container);max-width:700px}
+.agents{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:16px}
+.agent{background:#fff;border-radius:8px;padding:20px;box-shadow:var(--shadow-card);display:flex;flex-direction:column;gap:8px}
+.agent h4{font-size:16px;letter-spacing:-.01em}
+.agent p{font-size:13px;color:var(--on-subtle)}
+.agent .m{font-size:12px;color:var(--on-subtle);margin-top:auto;padding-top:10px;border-top:1px solid var(--border-subtle);line-height:1.6}
+.agent .m b{color:var(--on);font-weight:600}
+.tag{align-self:flex-start;border-radius:4px;padding:2px 8px;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.tag.new{background:var(--tertiary-container);color:var(--on-tertiary-container)}
+.tag.old{background:var(--secondary-container);color:var(--on-secondary-container)}
+
+.frame{background:var(--primary-container);border-radius:16px;padding:26px 28px 28px;box-shadow:var(--shadow-card);margin-top:28px}
+.frame > h3{font-size:19px;letter-spacing:-.01em;margin-bottom:6px}
+.frame > p{font-size:13.5px;color:var(--on-primary-container);max-width:760px}
+.frame-label{margin:24px 0 12px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--on-primary-container)}
+.groups{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.g-cards{display:flex;flex-direction:column;gap:12px}
+
+/* Activation types */
+.types{display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:16px;margin-top:28px}
+.type{background:#fff;border-radius:8px;padding:20px;box-shadow:var(--shadow-card);display:flex;flex-direction:column;gap:10px}
+.type h4{font-size:15px}
+.type p{font-size:13px;color:var(--on-subtle)}
+.type .m{margin-top:auto;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
+
+/* Tables */
+.tbl{width:100%;border-collapse:collapse;margin-top:24px;font-size:13px;font-variant-numeric:tabular-nums}
+.tbl th{background:var(--mid);text-align:left;font-size:12px;font-weight:700;padding:10px 14px}
+.tbl td{padding:12px 14px;border-bottom:1px solid var(--border-subtle)}
+.tbl td:first-child{font-weight:600}
+.tbl .r{text-align:right}
+.tbl tfoot td{font-weight:700;border-bottom:0;border-top:2px solid var(--primary);font-size:14px}
+.split{display:flex;height:14px;border-radius:7px;overflow:hidden;margin-top:28px}
+.split div{height:100%}
+.split-key{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--on-subtle)}
+.split-key i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px}
+.note{margin-top:18px;font-size:12.5px;color:var(--on-subtle);max-width:700px}
+.foot{margin-top:64px;padding-top:16px;border-top:1px solid var(--border-subtle);font-size:12px;color:var(--on-subtle)}
+
+/* Modal */
+.overlay{position:fixed;inset:0;background:rgba(31,31,31,.5);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+.overlay.open{display:flex}
+.modal{background:#fff;border-radius:16px;box-shadow:var(--shadow-high);width:100%;max-width:580px;max-height:86vh;overflow-y:auto;padding:32px}
+.modal-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:6px}
+.modal h3{font-size:22px;letter-spacing:-.01em;line-height:1.25;margin-top:10px}
+.x{background:none;border:0;font-size:26px;line-height:1;color:var(--on-subtle);cursor:pointer;border-radius:8px;width:32px;height:32px}
+.x:hover{background:var(--mid);color:var(--on)}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
+.fact{background:var(--low);border-radius:8px;padding:12px 14px}
+.fact .k{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--on-subtle)}
+.fact .v{font-size:15px;font-weight:700;margin-top:2px;font-variant-numeric:tabular-nums}
+.modal .lbl{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);margin:18px 0 6px}
+.modal p{font-size:13.5px;color:var(--on-subtle)}
+.modal li{list-style:none;position:relative;padding:5px 0 5px 22px;font-size:13.5px}
+.modal li::before{content:"";position:absolute;left:2px;top:11px;width:10px;height:6px;border-left:2px solid #12A63A;border-bottom:2px solid #12A63A;transform:rotate(-45deg)}
+
+@media (max-width:960px){
+  .layout{grid-template-columns:1fr}
+  .side{display:none}
+  main{padding:20px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .agents,.types,.groups{grid-template-columns:1fr}
+  .hero{padding:28px}.hero h1{font-size:30px}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="side">
+    <div class="brand">
+      <svg class="bug" viewBox="0 0 664 83" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Merkle">
+        <path d="M45.5287 37.2773H0L45.5287 82.8063V37.2773Z" fill="#F23A1D"/>
+        <path d="M151.272 83H133.663V33.68L107.229 60.114L80.7936 33.68V83H63.1865V0H72.5426L107.469 34.9264L141.916 0H151.272V83Z" fill="#12295D"/>
+        <path d="M255.004 82.7517H174.494V0H251.641V17.0313H192.198V30.7043H231.203V47.3047H192.198V66.16H255.047V82.7517H255.004Z" fill="#12295D"/>
+        <path d="M363.809 82.7583H344.092L322.359 49.0783H293.569V82.7583H276.156V0.430664H331.425C339.582 0.430664 345.907 2.44601 350.906 6.3319C356.328 10.6419 359.063 16.7431 359.063 24.6597C359.084 29.8358 357.509 34.8926 354.553 39.1412C351.448 43.396 347.085 46.5681 342.08 48.2095L363.809 82.7583ZM341.164 24.6597C341.226 23.6438 341.056 22.6272 340.665 21.6875C340.274 20.7478 339.673 19.9098 338.909 19.2377C336.587 17.8847 333.915 17.2505 331.232 17.4155H293.62V32.5763H331.234C334.88 32.5763 337.327 31.9039 338.911 30.5609C340.325 28.9157 341.122 26.8289 341.164 24.6597Z" fill="#12295D"/>
+        <path d="M469.115 82.7583H448.486L417.876 41.5945L405.408 52.2453V82.76H387.651V0.430664H405.355V31.1833L441.865 0.430664H466.38L430.542 30.7523L469.115 82.7583Z" fill="#12295D"/>
+        <path d="M563.918 82.7517H489.603V0H507.258V66.16H563.87L563.918 82.7604V82.7517Z" fill="#12295D"/>
+        <path d="M663.467 82.7517H582.916V0H660.063V17.0313H600.428V30.7043H639.433V47.3047H600.428V66.16H663.469L663.467 82.7517Z" fill="#12295D"/>
+      </svg>
+      <div class="brand-sub" data-t="meta.sidebarLabel"></div>
+    </div>
+    <div>
+      <h4>On this page</h4>
+      <nav id="nav"></nav>
+    </div>
+    <div class="meta" id="metaLine"></div>
+  </aside>
+
+  <main>
+  <div class="page">
+
+    <header class="hero" id="top">
+      <div class="eyebrow" data-t="hero.eyebrow"></div>
+      <h1 data-t="hero.title"></h1>
+      <p data-t="hero.body"></p>
+      <div class="pills" id="pills"></div>
+    </header>
+
+    <section id="problem">
+      <div class="eyebrow" data-t="problem.eyebrow"></div>
+      <h2 data-t="problem.heading"></h2>
+      <p class="lead" data-t="problem.lead"></p>
+      <div class="types" id="problem-grid"></div>
+    </section>
+
+    <section id="overview">
+      <div class="eyebrow" data-t="overview.eyebrow"></div>
+      <h2 data-t="overview.heading"></h2>
+      <p class="lead" data-t="overview.lead"></p>
+      <div class="stats" id="stats"></div>
+    </section>
+
+    <section id="objective">
+      <div class="eyebrow" data-t="objective.eyebrow"></div>
+      <h2 data-t="objective.heading"></h2>
+      <p class="lead" data-t="objective.lead"></p>
+      <div class="frame">
+        <h3 data-t="objective.frame.heading"></h3>
+        <p data-t="objective.frame.body"></p>
+        <div class="frame-label" data-t="objective.frame.label"></div>
+        <div class="groups" id="agent-cols"></div>
+      </div>
+    </section>
+
+    <section id="types">
+      <div class="eyebrow" data-t="types.eyebrow"></div>
+      <h2 data-t="types.heading"></h2>
+      <p class="lead" data-t="types.lead"></p>
+      <div class="types" id="types-grid"></div>
+    </section>
+
+    <section id="roadmap">
+      <div class="eyebrow" data-t="roadmap.eyebrow"></div>
+      <h2 data-t="roadmap.heading"></h2>
+      <p class="lead" data-t="roadmap.lead"></p>
+      <div class="legend" id="legend"></div>
+      <div class="gantt"><div class="g-inner" id="gantt"></div></div>
+    </section>
+
+    <section id="plan">
+      <div class="eyebrow" data-t="plan.eyebrow"></div>
+      <h2 data-t="plan.heading"></h2>
+      <p class="lead" data-t="plan.lead"></p>
+      <div class="tl" id="tl"></div>
+    </section>
+
+    <section id="cost">
+      <div class="eyebrow" data-t="cost.eyebrow"></div>
+      <h2 data-t="cost.heading"></h2>
+      <p class="lead" data-t="cost.lead"></p>
+      <div class="split" id="split"></div>
+      <div class="split-key" id="splitKey"></div>
+      <table class="tbl">
+        <thead><tr><th>Workstream</th><th>Activation type</th><th>Window</th><th class="r">Weeks</th><th class="r">Cost</th><th class="r">Cumulative</th></tr></thead>
+        <tbody id="costBody"></tbody>
+        <tfoot id="costFoot"></tfoot>
+      </table>
+      <p class="note" data-t="cost.note"></p>
+    </section>
+
+    <div class="foot" data-t="footer"></div>
+
+  </div>
+  </main>
+</div>
+
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="modal" id="modal"></div>
+</div>
+<script>
+/*BRIEF_CONFIG_START*/
+const BRIEF = {
+  "meta": {
+    "pageTitle": "Highmark Health Edge Migration | Activation Proposal",
+    "sidebarLabel": "Highmark | Activation Proposal",
+    "createdBy": "Art Golk",
+    "createdDate": "Oct 22nd, 2026"
+  },
+  "hero": {
+    "eyebrow": "Integrated Services Brief for Highmark Health",
+    "title": "Highmark Public Site and Shop Migration to Edge Delivery Services",
+    "body": "Move highmark.com and the shop.highmark.com plan-shopping flow onto Edge Delivery Services with one shared set of standard blocks. The work covers the highmark.com migration, a native rebuild of the shop flow, regional branding by zip code and county, and on-site search. Delivered in three workstreams: Migrate, Shop Flow Rebuild, and Regional Branding and Search.",
+    "pills": [
+      "{weeks} week activation plan",
+      "{workstreamCount} workstreams",
+      "highmark.com and shop.highmark.com"
+    ]
+  },
+  "problem": {
+    "eyebrow": "Problem statement",
+    "heading": "Highmark's public sites rely on one-off components and two separate stacks, which slows every change",
+    "lead": "highmark.com is built from highly custom components, and the plan-shopping flow on shop.highmark.com runs on a separate Angular and Redux implementation. Each page change takes manual effort, and the two experiences do not share a look or behavior. Until the sites run on one standard platform, change stays slow and the personalization roadmap stays blocked.",
+    "points": [
+      {
+        "title": "Components are one-off",
+        "body": "Current components are custom to individual pages, so standardizing and changing them takes more effort than it should."
+      },
+      {
+        "title": "Two stacks, two experiences",
+        "body": "The plan-shopping flow is built separately from highmark.com, so the two sites do not look or behave consistently."
+      },
+      {
+        "title": "Regional logic is hard to maintain",
+        "body": "Brand, plan cards, and plan documents depend on zip code and county logic that must be rebuilt before it can be governed on the new platform."
+      }
+    ]
+  },
+  "overview": {
+    "eyebrow": "Overview",
+    "heading": "What this program delivers",
+    "lead": "The public front door and the plan-shopping flow move to Edge Delivery Services on a shared set of standard blocks. highmark.com is migrated, shop.highmark.com is rebuilt natively on Edge, and the zip code and county branding and on-site search are carried over. Each workstream is its own activation and runs between 4 and 12 weeks.",
+    "stats": [
+      {
+        "big": "{weeks}",
+        "label": "Weeks end to end",
+        "sub": "Migration, shop rebuild, and regional branding run back to back."
+      },
+      {
+        "big": "{workstreamCount}",
+        "label": "Workstreams",
+        "sub": "{workstreamSummary}."
+      },
+      {
+        "big": "{cost}",
+        "label": "Total investment",
+        "sub": "{weeks} weeks at {rate} per week."
+      }
+    ]
+  },
+  "types": {
+    "eyebrow": "Activation types",
+    "heading": "How the work is classified",
+    "lead": "Activations are rapid, 4 to 12 week, hands-on engagements led by Adobe experts to activate specific use cases. Each activation is delivered one at a time for focused execution and measurable impact. These are the activation types we assume will deliver best for this work, and we look to Adobe to confirm the best fit."
+  },
+  "roadmap": {
+    "eyebrow": "Roadmap",
+    "heading": "Phased Roadmap",
+    "lead": "Every activity plotted by week. The three workstreams run one after another. Select any bar for scope, deliverables, and timing."
+  },
+  "plan": {
+    "eyebrow": "Activation plan",
+    "heading": "Three workstreams, one path to launch",
+    "lead": "Each workstream builds on the one before it. Select any activation to open its details."
+  },
+  "cost": {
+    "eyebrow": "Cost projection",
+    "heading": "Investment by workstream",
+    "lead": "{weeks} weeks at {rate} per week comes to {cost}. Shop Flow Rebuild carries the largest share because it is the only native build of a full transactional flow.",
+    "rate": 17500,
+    "note": "Planning estimate. Assumes a flat rate of $17,500 per calendar week of the program. Activities that run in parallel share the same weeks, so they do not add cost."
+  },
+  "footer": "Prepared for Adobe Integrated Services planning. Timeline and cost are working assumptions, not a commitment.",
+  "workstreams": [
+    {
+      "name": "Migrate",
+      "type": "modern",
+      "objective": [
+        "Migrate highmark.com to Edge Delivery Services and replace one-off custom components with standard blocks.",
+        "Establish the header, hero, and card blocks that the shop flow will reuse."
+      ],
+      "acts": [
+        {
+          "id": "assess",
+          "name": "Migration Readiness and Content Inventory",
+          "weeks": 2,
+          "desc": "Confirm the highmark.com page inventory across plans, employer, member, and regional-brand sections, and set the migration order. Map current custom components to standard blocks.",
+          "del": [
+            "Page and component inventory",
+            "Component-to-block mapping",
+            "Migration sequence and cutover plan"
+          ]
+        },
+        {
+          "id": "bulk",
+          "name": "Bulk Page Migration",
+          "weeks": 3,
+          "desc": "Migrate highmark.com pages to Edge Delivery Services using the Experience Modernization Agent, then review and correct the output page by page.",
+          "del": [
+            "Migrated pre-login pages on Edge",
+            "Migration review log",
+            "Authoring guidance for migrated templates"
+          ]
+        },
+        {
+          "id": "std",
+          "name": "Standardize Header, Hero, and Card Blocks",
+          "weeks": 2,
+          "par": true,
+          "desc": "Build the standard header, hero, and card blocks used across highmark.com and shop.highmark.com, and apply them to the migrated pages.",
+          "del": [
+            "Standard header, hero, and card blocks",
+            "Block usage and authoring guide"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Shop Flow Rebuild",
+      "type": "cap",
+      "objective": [
+        "Rebuild the shop.highmark.com plan-shopping flow natively on Edge Delivery Services in place of the Angular and Redux implementation.",
+        "Reuse the highmark.com blocks so both sites look and behave consistently."
+      ],
+      "acts": [
+        {
+          "id": "arch",
+          "name": "Requirements and Architecture",
+          "type": "dev",
+          "weeks": 2,
+          "desc": "Document the plan-shopping flow requirements and define how each step maps to Edge Delivery Services components and the shared blocks.",
+          "del": [
+            "Flow requirements specification",
+            "Edge component architecture",
+            "Build plan and sequencing"
+          ]
+        },
+        {
+          "id": "build",
+          "name": "Build Native Shop Flow on Edge",
+          "weeks": 4,
+          "desc": "Build the plan-shopping flow natively on Edge Delivery Services, reusing the standard blocks from the Migrate workstream.",
+          "del": [
+            "Plan-shopping flow built on Edge",
+            "Shared block integration",
+            "Build and configuration notes"
+          ]
+        },
+        {
+          "id": "qa",
+          "name": "Flow Testing and Cutover Readiness",
+          "weeks": 2,
+          "desc": "Test the full plan-shopping flow end to end, then prepare cutover and the handoff to the Highmark team.",
+          "del": [
+            "Executed test scenarios",
+            "Defect and remediation log",
+            "Cutover readiness checklist"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Regional Branding and Search",
+      "type": "cap",
+      "objective": [
+        "Rebuild zip code and county regional branding as an Edge-native component that drives brand, plan cards, and plan documents.",
+        "Replicate on-site search on the Edge build."
+      ],
+      "acts": [
+        {
+          "id": "zip",
+          "name": "Zip and County Branding Component",
+          "weeks": 3,
+          "desc": "Rebuild the zip code and county regional branding and plan-document logic as an Edge-native component. Starts once Highmark supplies the full zip and county list.",
+          "del": [
+            "Edge-native regional branding component",
+            "Zip and county mapping",
+            "Plan card and plan document routing rules"
+          ]
+        },
+        {
+          "id": "search",
+          "name": "On-Site Search Replication",
+          "weeks": 3,
+          "par": true,
+          "desc": "Replicate highmark.com's on-site search on the Edge build, building on the pages already indexed in the first pass.",
+          "del": [
+            "Working on-site search on the Edge build",
+            "Indexing and relevance review"
+          ]
+        },
+        {
+          "id": "regqa",
+          "name": "Regional and Search Testing",
+          "weeks": 2,
+          "desc": "Test regional branding and search across zip codes, counties, and migrated pages before handoff.",
+          "del": [
+            "Regional branding test results",
+            "Search test results",
+            "Handoff and sign-off"
+          ]
+        }
+      ]
+    }
+  ]
+};
+/*BRIEF_CONFIG_END*/
+
+/* ================= engine: do not edit per brief, edit BRIEF above ================= */
+const TYPE_DEFAULTS = {
+  value:    {label:'Value Framework',         cls:'t-value',    def:'Conduct maturity assessments, competitive analysis, plan impactful KPIs, and build frameworks with a focus on business value.'},
+  optimize: {label:'Optimization Assessment', cls:'t-optimize', def:'Analyze long-standing implementations and identify technical areas of optimization.'},
+  road:     {label:'Roadmap Development',     cls:'t-road',     def:'MarTech roadmap development: define, prioritize, and document use cases for activation.'},
+  feature:  {label:'Feature Configuration',   cls:'t-feature',  def:'New product initial setup and feature configuration. This includes activating popular native integrations.'},
+  cap:      {label:'Capability Deployment',   cls:'t-cap',      def:'Configure and activate a new use case using existing technology, features, data flows, and skillsets.'},
+  workflow: {label:'Workflow Tune-Up',        cls:'t-workflow', def:'Technical validation to optimize workflow, tool training, job aids, and runbook with current technologies.'},
+  agent:    {label:'Agent Deployment',        cls:'t-agent',    def:'Design and implement an agent within Adobe products by connecting relevant data sources, defining inputs and workflows, and tuning outputs to align with business goals and deliver measurable outcomes.'},
+  dev:      {label:'Development Validation',  cls:'t-dev',      def:'Build technical requirements, architecture, and plan to implement or configure application.'},
+  poc:      {label:'Proof of Concept',        cls:'t-poc',      def:'Fast MVP product setup and configuration for initial launch or proof of concept. Ideal for early test and learn before scaled implementation.'},
+  modern:   {label:'Modernization',           cls:'t-modern',   def:'Existing technology assessment, data reviews, product upgrades, and migration preparation.'},
+  fix:      {label:'Targeted Fix',            cls:'t-fix',      def:'Provide hands-on and custom code fixes identified from troubleshooting with the Ultimate Success team.'}
+};
+const TYPE_ORDER = ['value','optimize','road','feature','cap','workflow','agent','dev','poc','modern','fix'];
+const TYPES = {};
+TYPE_ORDER.forEach(k => {
+  const o = (BRIEF.types && BRIEF.types.items && BRIEF.types.items[k]) || {};
+  TYPES[k] = {cls:TYPE_DEFAULTS[k].cls, label:o.label || TYPE_DEFAULTS[k].label, def:o.def || TYPE_DEFAULTS[k].def};
+});
+const PALETTE = ['#2F98F7','#0328D1','#041753','#6311CB','#25DA53'];
+const DEFAULT_RATE = 17500;   // standard Merkle IS weekly rate
+const RATE = BRIEF.cost.rate || DEFAULT_RATE;
+const WS = BRIEF.workstreams;
+const hidden = new Set(BRIEF.hideSections || []);
+
+const esc = t => String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const fmt = n => '$' + n.toLocaleString('en-US');
+const wk = (s,n) => n===1 ? `Week ${s}` : `Weeks ${s} to ${s+n-1}`;
+const get = (o,path) => path.split('.').reduce((a,k) => (a==null ? a : a[k]), o);
+
+/* ---------- derive schedule (par:true runs alongside the previous activity) ---------- */
+let cursor = 1;
+const ALL = {};
+WS.forEach((w,i) => {
+  w.n = i+1; w.start = cursor; w.color = w.color || PALETTE[i % PALETTE.length];
+  w.type = w.type || (w.acts[0] && w.acts[0].type) || 'cap';   // the activation type of this workstream
+  let prevStart = cursor;
+  w.acts.forEach(a => {
+    a.type = a.type || w.type;   // activities inherit the workstream's activation type unless set
+    a.start = a.par ? prevStart : cursor;
+    prevStart = a.start;
+    a.end = a.start + a.weeks - 1;
+    a.ws = w; ALL[a.id] = a;
+    cursor = Math.max(cursor, a.end + 1);
+  });
+  w.end = cursor-1; w.weeks = w.end - w.start + 1;
+  w.cost = w.weeks * RATE;   // cost follows calendar weeks, so parallel work adds no cost
+  w.acts.forEach(a => { a.with = w.acts.filter(b => b !== a && b.start <= a.end && b.end >= a.start); });
+});
+const TOTAL = cursor-1;
+const TOTAL_COST = TOTAL * RATE;
+const AGENT_COUNT = ((BRIEF.objective && BRIEF.objective.columns) || []).reduce((n,c) => n + c.length, 0);
+const USED_TYPES = TYPE_ORDER.filter(k => Object.values(ALL).some(a => a.type === k) || WS.some(w => w.type === k));
+if (!AGENT_COUNT) hidden.add('objective');   // agents are optional: no agents, no agent frame
+
+const TOKENS = {
+  weeks: TOTAL, cost: fmt(TOTAL_COST), rate: fmt(RATE),
+  workstreamCount: WS.length, agentCount: AGENT_COUNT, typeCount: USED_TYPES.length,
+  workstreamSummary: WS.map(w => `${w.name} (${w.weeks}w)`).join(', ')
+};
+const fill = t => String(t).replace(/\{(\w+)\}/g, (m,k) => (k in TOKENS ? TOKENS[k] : m));
+
+/* ---------- static text binding ---------- */
+document.title = BRIEF.meta.pageTitle;
+document.querySelectorAll('[data-t]').forEach(el => { const v = get(BRIEF, el.dataset.t); el.textContent = v == null ? '' : fill(v); });
+document.getElementById('metaLine').innerHTML = `Created by ${esc(BRIEF.meta.createdBy)}<br>${esc(BRIEF.meta.createdDate)}`;
+document.getElementById('pills').innerHTML = (BRIEF.hero.pills || []).map(p => `<span>${esc(fill(p))}</span>`).join('');
+
+/* ---------- stats ---------- */
+document.getElementById('stats').innerHTML = (BRIEF.overview.stats || []).map(s =>
+  `<div class="stat"><div class="big">${esc(fill(s.big))}</div><b>${esc(fill(s.label))}</b><span>${esc(fill(s.sub))}</span></div>`).join('');
+
+/* ---------- agents inside the template ---------- */
+document.getElementById('agent-cols').innerHTML = ((BRIEF.objective && BRIEF.objective.columns) || []).map(col =>
+  `<div class="group"><div class="g-cards">` + col.map(ag =>
+    `<div class="agent"><span class="tag ${ag.status === 'new' ? 'new' : 'old'}">${esc(ag.tag)}</span><h4>${esc(ag.name)}</h4><p>${esc(ag.desc)}</p></div>`).join('') + `</div></div>`).join('');
+
+/* ---------- problem statement ---------- */
+(function(){
+  const pts = (BRIEF.problem && BRIEF.problem.points) || [];
+  const g = document.getElementById('problem-grid');
+  if (!g) return;
+  g.style.setProperty('--n', Math.min(3, Math.max(1, pts.length)));
+  g.innerHTML = pts.map(p => `<div class="type"><h4>${esc(fill(p.title))}</h4><p>${esc(fill(p.body))}</p></div>`).join('');
+})();
+
+/* ---------- activation types (only the types this plan uses) ---------- */
+document.getElementById('types-grid').style.setProperty('--n', Math.min(3, Math.max(1, USED_TYPES.length)));
+document.getElementById('types-grid').innerHTML = USED_TYPES.map(k => {
+  const list = Object.values(ALL).filter(a => a.type === k);
+  const covered = new Set();
+  list.forEach(a => { for (let i = a.start; i <= a.end; i++) covered.add(i); });
+  return `<div class="type"><span class="chip ${TYPES[k].cls}" style="align-self:flex-start">${esc(TYPES[k].label)}</span>
+    <p>${esc(TYPES[k].def)}</p><div class="m">${covered.size} calendar weeks across ${list.length} activities</div></div>`;
+}).join('');
+
+/* ---------- legend + gantt ---------- */
+document.getElementById('legend').innerHTML = USED_TYPES.map(k => `<div><i class="${TYPES[k].cls}"></i>${esc(TYPES[k].label)}</div>`).join('');
+(function(){
+  const g = document.getElementById('gantt');
+  g.style.setProperty('--cols', TOTAL);
+  let html = `<div class="g-row g-head"><div class="g-label">Activity</div><div class="g-track" style="--cols:${TOTAL}">` +
+    Array.from({length:TOTAL},(_,i)=>`<div class="wk">${i+1}</div>`).join('') + `</div></div>`;
+  WS.forEach(w => {
+    html += `<div class="g-group"><span class="n">${w.n}</span>${esc(w.name)}<span class="w">${wk(w.start,w.weeks)}</span></div>`;
+    w.acts.forEach(a => {
+      html += `<div class="g-row"><div class="g-label"><span class="g-name">${esc(a.name)}</span><span class="g-type">${esc(TYPES[a.type].label)}${a.with.length ? ', in parallel' : ''}</span></div>
+        <div class="g-track" style="--cols:${TOTAL}"><button class="g-bar ${TYPES[a.type].cls}" data-id="${esc(a.id)}"
+        style="grid-column:${a.start} / span ${a.weeks}" title="${esc(a.name)}: ${wk(a.start,a.weeks)}, ${esc(TYPES[a.type].label)}">${a.weeks}w</button></div></div>`;
+    });
+  });
+  g.innerHTML = html;
+})();
+
+/* ---------- activation plan ---------- */
+document.getElementById('tl').innerHTML = WS.map(w => `
+  <div class="step">
+    <div class="circle">${w.n}</div>
+    <div class="card">
+      <div class="card-head"><div><h3>${esc(w.name)}</h3><span class="chip ${TYPES[w.type].cls}" style="margin-top:6px">${esc(TYPES[w.type].label)}</span></div>
+        <div><span class="pill">${wk(w.start,w.weeks)}</span><span class="pill">${w.weeks} weeks</span><span class="pill">${fmt(w.cost)}</span></div></div>
+      <ul>${(w.objective || []).map(o => `<li>${esc(o)}</li>`).join('')}</ul>
+      <div class="inner"><div class="lbl">Activations</div>
+        ${w.acts.map(a => `<button class="act" data-id="${esc(a.id)}"><span>${esc(a.name)}</span>
+          <span class="r"><span class="chip ${TYPES[a.type].cls}">${esc(TYPES[a.type].label)}</span><span class="wk">${wk(a.start,a.weeks)}</span></span></button>`).join('')}
+      </div>
+    </div>
+  </div>`).join('');
+
+/* ---------- cost ---------- */
+document.getElementById('split').innerHTML = WS.map(w => `<div style="width:${w.weeks/TOTAL*100}%;background:${w.color}"></div>`).join('');
+document.getElementById('splitKey').innerHTML = WS.map(w =>
+  `<span><i style="background:${w.color}"></i>${esc(w.name)}: ${Math.round(w.weeks/TOTAL*100)}% of spend</span>`).join('');
+let cum = 0;
+document.getElementById('costBody').innerHTML = WS.map(w => {
+  cum += w.cost;
+  return `<tr><td>${w.n}. ${esc(w.name)}</td><td><span class="chip ${TYPES[w.type].cls}">${esc(TYPES[w.type].label)}</span></td><td>${wk(w.start,w.weeks)}</td><td class="r">${w.weeks}</td><td class="r">${fmt(w.cost)}</td><td class="r">${fmt(cum)}</td></tr>`;
+}).join('');
+document.getElementById('costFoot').innerHTML =
+  `<tr><td>Total</td><td></td><td>${wk(1,TOTAL)}</td><td class="r">${TOTAL}</td><td class="r">${fmt(TOTAL_COST)}</td><td class="r">${fmt(TOTAL_COST)}</td></tr>`;
+
+/* ---------- optional hidden sections ---------- */
+hidden.forEach(id => { const el = document.getElementById(id); if (el) el.remove(); });
+
+/* ---------- left nav (built from the sections that remain) ---------- */
+const NAV_IDS = ['problem','overview','objective','types','roadmap','plan','cost'].filter(id => document.getElementById(id));
+document.getElementById('nav').innerHTML = NAV_IDS.map((id,i) =>
+  `<a href="#${id}"${i === 0 ? ' class="active"' : ''}>${esc(fill((BRIEF[id] && (BRIEF[id].nav || BRIEF[id].eyebrow)) || id))}</a>`).join('');
+
+/* ---------- modal ---------- */
+const overlay = document.getElementById('overlay');
+function openAct(id){
+  const a = ALL[id]; if (!a) return;
+  document.getElementById('modal').innerHTML = `
+    <div class="modal-top"><div><span class="chip ${TYPES[a.type].cls}">${esc(TYPES[a.type].label)}</span><h3 id="mTitle">${esc(a.name)}</h3></div>
+      <button class="x" aria-label="Close" onclick="closeAct()">&times;</button></div>
+    <div class="facts">
+      <div class="fact"><div class="k">Timing</div><div class="v">${wk(a.start,a.weeks)}</div></div>
+      <div class="fact"><div class="k">Duration</div><div class="v">${a.weeks} ${a.weeks===1?'week':'weeks'}</div></div>
+      <div class="fact"><div class="k">Sequencing</div><div class="v">${a.with.length ? 'In parallel' : 'Sequential'}</div></div>
+    </div>
+    <div class="lbl">Workstream</div><p>${a.ws.n}. ${esc(a.ws.name)}</p>
+    ${a.with.length ? `<div class="lbl">Runs alongside</div><p>${a.with.map(b => esc(b.name)).join(', ')}</p>` : ''}
+    <div class="lbl">Scope</div><p>${esc(a.desc)}</p>
+    <div class="lbl">Deliverables</div><ul>${(a.del || []).map(d => `<li>${esc(d)}</li>`).join('')}</ul>`;
+  overlay.classList.add('open');
+}
+function closeAct(){ overlay.classList.remove('open'); }
+overlay.addEventListener('click', e => { if (e.target === overlay) closeAct(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAct(); });
+document.addEventListener('click', e => { const t = e.target.closest('[data-id]'); if (t) openAct(t.dataset.id); });
+
+/* ---------- scroll spy ---------- */
+const links = [...document.querySelectorAll('#nav a')];
+const secs = links.map(a => document.querySelector(a.getAttribute('href')));
+const io = new IntersectionObserver(es => {
+  es.forEach(en => { if (en.isIntersecting) links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + en.target.id)); });
+}, {rootMargin:'-15% 0px -75% 0px'});
+secs.forEach(s => io.observe(s));
+</script>
+</body>
+</html>

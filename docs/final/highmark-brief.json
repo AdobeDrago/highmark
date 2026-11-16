@@ -1,0 +1,214 @@
+{
+  "meta": {
+    "pageTitle": "Highmark Health Edge Migration | Activation Proposal",
+    "sidebarLabel": "Highmark | Activation Proposal",
+    "createdBy": "Art Golk",
+    "createdDate": "Oct 22nd, 2026"
+  },
+  "hero": {
+    "eyebrow": "Integrated Services Brief for Highmark Health",
+    "title": "Highmark Public Site and Shop Migration to Edge Delivery Services",
+    "body": "Move highmark.com and the shop.highmark.com plan-shopping flow onto Edge Delivery Services with one shared set of standard blocks. The work covers the highmark.com migration, a native rebuild of the shop flow, regional branding by zip code and county, and on-site search. Delivered in three workstreams: Migrate, Shop Flow Rebuild, and Regional Branding and Search.",
+    "pills": [
+      "{weeks} week activation plan",
+      "{workstreamCount} workstreams",
+      "highmark.com and shop.highmark.com"
+    ]
+  },
+  "problem": {
+    "eyebrow": "Problem statement",
+    "heading": "Highmark's public sites rely on one-off components and two separate stacks, which slows every change",
+    "lead": "highmark.com is built from highly custom components, and the plan-shopping flow on shop.highmark.com runs on a separate Angular and Redux implementation. Each page change takes manual effort, and the two experiences do not share a look or behavior. Until the sites run on one standard platform, change stays slow and the personalization roadmap stays blocked.",
+    "points": [
+      {
+        "title": "Components are one-off",
+        "body": "Current components are custom to individual pages, so standardizing and changing them takes more effort than it should."
+      },
+      {
+        "title": "Two stacks, two experiences",
+        "body": "The plan-shopping flow is built separately from highmark.com, so the two sites do not look or behave consistently."
+      },
+      {
+        "title": "Regional logic is hard to maintain",
+        "body": "Brand, plan cards, and plan documents depend on zip code and county logic that must be rebuilt before it can be governed on the new platform."
+      }
+    ]
+  },
+  "overview": {
+    "eyebrow": "Overview",
+    "heading": "What this program delivers",
+    "lead": "The public front door and the plan-shopping flow move to Edge Delivery Services on a shared set of standard blocks. highmark.com is migrated, shop.highmark.com is rebuilt natively on Edge, and the zip code and county branding and on-site search are carried over. Each workstream is its own activation and runs between 4 and 12 weeks.",
+    "stats": [
+      {
+        "big": "{weeks}",
+        "label": "Weeks end to end",
+        "sub": "Migration, shop rebuild, and regional branding run back to back."
+      },
+      {
+        "big": "{workstreamCount}",
+        "label": "Workstreams",
+        "sub": "{workstreamSummary}."
+      },
+      {
+        "big": "{cost}",
+        "label": "Total investment",
+        "sub": "{weeks} weeks at {rate} per week."
+      }
+    ]
+  },
+  "types": {
+    "eyebrow": "Activation types",
+    "heading": "How the work is classified",
+    "lead": "Activations are rapid, 4 to 12 week, hands-on engagements led by Adobe experts to activate specific use cases. Each activation is delivered one at a time for focused execution and measurable impact. These are the activation types we assume will deliver best for this work, and we look to Adobe to confirm the best fit."
+  },
+  "roadmap": {
+    "eyebrow": "Roadmap",
+    "heading": "Phased Roadmap",
+    "lead": "Every activity plotted by week. The three workstreams run one after another. Select any bar for scope, deliverables, and timing."
+  },
+  "plan": {
+    "eyebrow": "Activation plan",
+    "heading": "Three workstreams, one path to launch",
+    "lead": "Each workstream builds on the one before it. Select any activation to open its details."
+  },
+  "cost": {
+    "eyebrow": "Cost projection",
+    "heading": "Investment by workstream",
+    "lead": "{weeks} weeks at {rate} per week comes to {cost}. Shop Flow Rebuild carries the largest share because it is the only native build of a full transactional flow.",
+    "rate": 17500,
+    "note": "Planning estimate. Assumes a flat rate of $17,500 per calendar week of the program. Activities that run in parallel share the same weeks, so they do not add cost."
+  },
+  "footer": "Prepared for Adobe Integrated Services planning. Timeline and cost are working assumptions, not a commitment.",
+  "workstreams": [
+    {
+      "name": "Migrate",
+      "type": "modern",
+      "objective": [
+        "Migrate highmark.com to Edge Delivery Services and replace one-off custom components with standard blocks.",
+        "Establish the header, hero, and card blocks that the shop flow will reuse."
+      ],
+      "acts": [
+        {
+          "id": "assess",
+          "name": "Migration Readiness and Content Inventory",
+          "weeks": 2,
+          "desc": "Confirm the highmark.com page inventory across plans, employer, member, and regional-brand sections, and set the migration order. Map current custom components to standard blocks.",
+          "del": [
+            "Page and component inventory",
+            "Component-to-block mapping",
+            "Migration sequence and cutover plan"
+          ]
+        },
+        {
+          "id": "bulk",
+          "name": "Bulk Page Migration",
+          "weeks": 3,
+          "desc": "Migrate highmark.com pages to Edge Delivery Services using the Experience Modernization Agent, then review and correct the output page by page.",
+          "del": [
+            "Migrated pre-login pages on Edge",
+            "Migration review log",
+            "Authoring guidance for migrated templates"
+          ]
+        },
+        {
+          "id": "std",
+          "name": "Standardize Header, Hero, and Card Blocks",
+          "weeks": 2,
+          "par": true,
+          "desc": "Build the standard header, hero, and card blocks used across highmark.com and shop.highmark.com, and apply them to the migrated pages.",
+          "del": [
+            "Standard header, hero, and card blocks",
+            "Block usage and authoring guide"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Shop Flow Rebuild",
+      "type": "cap",
+      "objective": [
+        "Rebuild the shop.highmark.com plan-shopping flow natively on Edge Delivery Services in place of the Angular and Redux implementation.",
+        "Reuse the highmark.com blocks so both sites look and behave consistently."
+      ],
+      "acts": [
+        {
+          "id": "arch",
+          "name": "Requirements and Architecture",
+          "type": "dev",
+          "weeks": 2,
+          "desc": "Document the plan-shopping flow requirements and define how each step maps to Edge Delivery Services components and the shared blocks.",
+          "del": [
+            "Flow requirements specification",
+            "Edge component architecture",
+            "Build plan and sequencing"
+          ]
+        },
+        {
+          "id": "build",
+          "name": "Build Native Shop Flow on Edge",
+          "weeks": 4,
+          "desc": "Build the plan-shopping flow natively on Edge Delivery Services, reusing the standard blocks from the Migrate workstream.",
+          "del": [
+            "Plan-shopping flow built on Edge",
+            "Shared block integration",
+            "Build and configuration notes"
+          ]
+        },
+        {
+          "id": "qa",
+          "name": "Flow Testing and Cutover Readiness",
+          "weeks": 2,
+          "desc": "Test the full plan-shopping flow end to end, then prepare cutover and the handoff to the Highmark team.",
+          "del": [
+            "Executed test scenarios",
+            "Defect and remediation log",
+            "Cutover readiness checklist"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Regional Branding and Search",
+      "type": "cap",
+      "objective": [
+        "Rebuild zip code and county regional branding as an Edge-native component that drives brand, plan cards, and plan documents.",
+        "Replicate on-site search on the Edge build."
+      ],
+      "acts": [
+        {
+          "id": "zip",
+          "name": "Zip and County Branding Component",
+          "weeks": 3,
+          "desc": "Rebuild the zip code and county regional branding and plan-document logic as an Edge-native component. Starts once Highmark supplies the full zip and county list.",
+          "del": [
+            "Edge-native regional branding component",
+            "Zip and county mapping",
+            "Plan card and plan document routing rules"
+          ]
+        },
+        {
+          "id": "search",
+          "name": "On-Site Search Replication",
+          "weeks": 3,
+          "par": true,
+          "desc": "Replicate highmark.com's on-site search on the Edge build, building on the pages already indexed in the first pass.",
+          "del": [
+            "Working on-site search on the Edge build",
+            "Indexing and relevance review"
+          ]
+        },
+        {
+          "id": "regqa",
+          "name": "Regional and Search Testing",
+          "weeks": 2,
+          "desc": "Test regional branding and search across zip codes, counties, and migrated pages before handoff.",
+          "del": [
+            "Regional branding test results",
+            "Search test results",
+            "Handoff and sign-off"
+          ]
+        }
+      ]
+    }
+  ]
+}
