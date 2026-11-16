@@ -195,6 +195,19 @@ h2{font-size:28px;line-height:1.2;letter-spacing:-.02em;font-weight:700;margin:6
   .agents,.types,.groups{grid-template-columns:1fr}
   .hero{padding:28px}.hero h1{font-size:30px}
 }
+
+/* Collapsible shared topics */
+.shared details{border-top:1px solid var(--border-subtle);padding:14px 0}
+.shared details:last-child{border-bottom:1px solid var(--border-subtle)}
+.shared summary{cursor:pointer;font-weight:600;color:var(--primary);font-size:15px;list-style:none}
+.shared summary::-webkit-details-marker{display:none}
+.shared summary::before{content:'+';display:inline-block;width:18px;font-weight:700}
+.shared details[open] summary::before{content:'-'}
+.shared details > *:not(summary){margin-top:12px}
+#developer h3,#author h3{font-size:18px;color:var(--on);margin-top:32px;margin-bottom:8px}
+#developer ul,#author ul{padding-left:20px;margin-top:8px}
+#developer li,#author li{margin-bottom:8px;line-height:1.55}
+#developer code,#author code{font-size:12.5px;background:var(--mid);padding:1px 5px;border-radius:4px}
 </style>
 </head>
 <body>
@@ -237,11 +250,230 @@ h2{font-size:28px;line-height:1.2;letter-spacing:-.02em;font-weight:700;margin:6
       <div class="types" id="problem-grid"></div>
     </section>
 
-    <section id="overview">
-      <div class="eyebrow" data-t="overview.eyebrow"></div>
-      <h2 data-t="overview.heading"></h2>
-      <p class="lead" data-t="overview.lead"></p>
-      <div class="stats" id="stats"></div>
+    <section id="developer">
+      <div class="eyebrow">Developer guide</div>
+      <h2>Code, architecture and tooling of the AEM Edge Delivery Services site</h2>
+      <p class="lead">The developer guide covers the code that maintains and extends the Highmark website on AEM Edge Delivery Services: the content structures the code depends on, and the tooling that builds generated content. Dated October 21, 2026.</p>
+
+      <h3>Architecture overview</h3>
+      <ul>
+        <li><strong>Tech stack:</strong> vanilla JavaScript (ES modules) and CSS with custom properties. No build step, no framework, no runtime dependencies. Content comes from Document Authoring (DA) and is rendered by the Edge Delivery Services pipeline into semantic HTML that the code decorates.</li>
+        <li><strong>Project structure:</strong> 40 block folders (29 project blocks, 11 untouched boilerplate), core scripts in <code>scripts/</code> (<code>aem.js</code>, <code>scripts.js</code>, <code>delayed.js</code>), 34 page-template stylesheets in <code>styles/templates/</code>, 14 SVG icons, and CI in <code>.github/workflows/main.yaml</code> that lints on every push.</li>
+        <li><strong>Loading phases:</strong> head (CSP, Adobe Fonts kit, <code>aem.js</code>, <code>scripts.js</code>, <code>styles.css</code>); eager (template classes and stylesheets, decorators, first section); lazy (modal links, remaining sections, header, breadcrumbs, footer, ZIP tokens); delayed (<code>delayed.js</code> after 3 seconds, the only place for third-party scripts).</li>
+        <li><strong>Content Security Policy:</strong> set in <code>head.html</code> as an HTTP header. A script tag added directly to <code>head.html</code> needs <code>nonce="aem"</code>.</li>
+        <li><strong>Templates:</strong> each Template value in page metadata becomes a body class. Listed stylesheets come from <code>TEMPLATE_STYLES</code> in <code>scripts.js</code>. Adding a template needs a file in <code>styles/templates/</code> and an entry in that list.</li>
+        <li><strong>Client storage and URL state:</strong> <code>localStorage</code> key <code>shop-zip-county</code> holds the visitor's ZIP selection; the <code>zip-county-submit</code> event carries it; search and press release filters use URL parameters.</li>
+      </ul>
+
+      <h3>Local development</h3>
+      <ul>
+        <li><strong>Prerequisites:</strong> Node.js 20 (CI uses 20; the tools need at least 18), AEM CLI (<code>npm install -g @adobe/aem-cli</code>), and Git with LF line endings.</li>
+        <li><strong>Setup:</strong> clone <code>AdobeDrago/highmark</code>, run <code>npm install</code>, then <code>aem up</code> to serve on http://localhost:3000 with preview content.</li>
+        <li><strong>Linting:</strong> <code>npm run lint</code> runs ESLint (airbnb-base) and Stylelint. CI runs the same command on every push.</li>
+        <li><strong>Credentials:</strong> nothing is stored in the repo. Preview and publish use the AEM Sidekick or the DA editor with your Adobe account.</li>
+      </ul>
+
+      <h3>Design system</h3>
+      <ul>
+        <li><strong>Tokens:</strong> brand tokens live in <code>styles/brand.css</code>: Sofia Pro for headings, Roboto for body, Highmark navy (#003963) for headings, Highmark blue (#0066B1) for links, and section tints for light, blush, splash, and paper grey.</li>
+        <li><strong>Breakpoints:</strong> phone below 768px, tablet from 768px (64px gutters), desktop from 992px, and wide from 1200px and 1366px. Use 768 and 992 for new work.</li>
+        <li><strong>Fonts:</strong> Sofia Pro and Roboto come from the Adobe Fonts kit. The kit stylesheet is render-blocking, kept on purpose to match highmark.com's font metrics.</li>
+        <li><strong>Pixel matching:</strong> most page layouts carry the source site's measured values directly in template and block CSS. Keep unitless line heights unitless.</li>
+      </ul>
+
+      <h3>Blocks</h3>
+      <ul>
+        <li><strong>Project blocks:</strong> 29 blocks, including hero-minimal-dark-withimg (the largest block CSS, restyled by 13 templates), cards variants, columns variants, accordion, table compare, breadcrumbs, search, press-release-list, provider-list, provider-panel, provider-sidenav, forms-library, form-minimal-light, zip-county-form, zip-modal, enrollment-form, and flip-cards.</li>
+        <li><strong>Boilerplate:</strong> 11 blocks from the AEM Block Collection are untouched. Only columns, table, fragment, and modal are used live, and each is restyled by templates or used through links.</li>
+        <li><strong>Adding a block:</strong> create <code>blocks/&lt;name&gt;/&lt;name&gt;.js</code> and <code>.css</code>, build a test page in DA, check at 390, 768, 992, and 1280, add a Library entry under <code>/docs/library/blocks/</code>, then lint and open a PR.</li>
+        <li><strong>Cross-block dependencies:</strong> <code>loadFragment</code> is used by modal, zip-modal, and the shop header and footer. <code>zip-store</code> and <code>zip-tokens</code> are used by the shop header and footer and zip-county-form. When you change a block's base CSS, search <code>styles/templates/</code> for its class.</li>
+      </ul>
+
+      <h3>Header, footer and the ZIP and region layer</h3>
+      <ul>
+        <li><strong>Layout detection:</strong> header and footer pick a layout from the shape of the fragment named in <code>nav</code> or <code>footer</code> metadata. Sections are read by position, not by name, so reordering a fragment's sections breaks its layout.</li>
+        <li><strong>Header height:</strong> <code>styles.css</code> reserves header height before load, keyed on the literal nav value. A new header fragment path needs a rule there, or the page shifts when the header loads.</li>
+        <li><strong>ZIP flow:</strong> <code>/modals/zip-county</code> hosts zip-county-form, which reads the shop sheets and writes <code>localStorage</code>. <code>applyZipTokens</code> fills <code>{{token}}</code> values in links and text, shows regional sections only for matching region codes, and writes the location line.</li>
+        <li><strong>ZIP data:</strong> interim, built from Census 2020 ZIP-to-county data with county-to-region tables hard-coded from Highmark's service-area map. Replace it with the enGen list when it arrives, keeping the same columns.</li>
+      </ul>
+
+      <h3>Generated content and tooling</h3>
+      <ul>
+        <li><strong>Read-only by default:</strong> tools under <code>tools/</code> are Node ESM scripts run as <code>node tools/&lt;dir&gt;/&lt;script&gt;.mjs</code>. Writes happen only with <code>--upload</code> or <code>--apply</code>, and they write to DA and preview, never publish (except provider-import live).</li>
+        <li><strong>Redirects (critical):</strong> <code>build-redirects.mjs</code> crawls live pages and fragments, finds links that 404 on live, and writes the <code>/redirects</code> sheet. Any path with a DA document gets no row, so an unpublished draft 404s once the regenerated sheet is published. Never hand-edit the sheet.</li>
+        <li><strong>Refresh steps:</strong> provider lists (re-run, publish the five sheets, rebuild and publish redirects); press releases and events; ZIP data (check the shop on preview, then publish both sheets); after publishing new pages, regenerate redirects and re-index pages published while redirected.</li>
+        <li><strong>Migration tooling:</strong> importers for about 40 templates, 20 block parsers, and provider-import with Playwright. Keep until the remaining highmark.com and provider pages are migrated. <code>sync-sidenav.mjs</code> overwrites hand edits and should be retired at cut-over.</li>
+      </ul>
+
+      <h3>Testing, CI and git workflow</h3>
+      <ul>
+        <li><strong>CI:</strong> lint only, on Ubuntu with Node 20. No tests run in CI and there is no deploy step. Code reaches preview and live through the AEM Code Sync app when a branch is pushed.</li>
+        <li><strong>Test suites:</strong> Playwright scripts in <code>tools/tests/</code>, covering regression at 1280 and 390, search, ZIP and region behavior, provider pages and lists, link checks, and axe-core accessibility (WCAG 2.1 A/AA). Run them against <code>aem up --port 3100</code>.</li>
+        <li><strong>Workflow:</strong> branch off <code>main</code>, run lint and the relevant suites, open a PR with branch preview URLs, then squash-merge. Code goes live on merge; content needs its own preview and publish.</li>
+      </ul>
+
+      <h3>Common developer tasks</h3>
+      <ul>
+        <li><strong>Add a template:</strong> create <code>styles/templates/&lt;name&gt;.css</code> with every rule scoped to <code>body.&lt;name&gt;</code>, add the name to <code>TEMPLATE_STYLES</code>, and add a body-class decorator in <code>loadEager</code> only if JS is needed.</li>
+        <li><strong>Add a section style:</strong> add <code>.section.&lt;style&gt;</code> rules to <code>styles.css</code> (global) or the template file (scoped), then document the value for authors.</li>
+        <li><strong>Add analytics or a marketing tool:</strong> load it from <code>scripts/delayed.js</code> only, and check it under the CSP.</li>
+        <li><strong>Debug a block:</strong> check the console and Network tab for 404s on <code>/blocks/&lt;name&gt;/&lt;name&gt;.{js,css}</code>, compare the block's <code>.plain.html</code> with what the JS expects, and check <code>data-block-status</code>.</li>
+      </ul>
+
+      <h3>Known issues</h3>
+      <ul>
+        <li><strong>Forms cannot submit:</strong> form-minimal-light POSTs to a highmark.com endpoint that returns no CORS header and expects a reCAPTCHA token. Failures are logged to the console only, so visitors see no message.</li>
+        <li><strong>Universal Editor branch:</strong> <code>scripts.js</code> top-level-awaits <code>/ue/scripts/ue.js</code> on <code>*.ue.da.live</code> hosts, but <code>ue/</code> was deleted, so page load fails there.</li>
+        <li><strong>Shop header heights:</strong> the dental and blue-edge-balance shop headers do not match the <code>/shopx-header</code> height rule, so the page shifts on load.</li>
+        <li><strong>Silent truncation:</strong> hard-coded sheet limits cut data quietly: ZIP sheet at 10,000 rows, search and query indexes at 5,000, press releases at 1,000.</li>
+        <li><strong>Fragile coupling:</strong> many template rules are keyed on heading IDs, and some code classes content by matching authored text. Rewording those headings changes the layout.</li>
+        <li><strong>Performance:</strong> breadcrumbs make N+1 requests, the search index is downloaded whole (about 280 KB compressed for about 285 pages), and a full migration of about 1,400 pages would need a search service.</li>
+      </ul>
+    </section>
+
+    <section id="author">
+      <div class="eyebrow">Author guide</div>
+      <h2>Authoring highmark.com, Shop and Providers in Document Authoring</h2>
+      <p class="lead">The author guide covers how content is written and published. Pages are edited as documents in DA. Layouts, blocks, and styles are code, maintained by the development team. Dated October 21, 2026.</p>
+
+      <h3>Who changes what</h3>
+      <ul>
+        <li><strong>Authors edit in DA:</strong> page text, images, blocks, and metadata; FAQ answers; glossary terms; search suggestions; shop ZIP form labels; form field sheets; modal pages under <code>/modals/</code>.</li>
+        <li><strong>Development team owns:</strong> the <code>/redirects</code> sheet, corporate, shop, and provider headers and footers, ZIP and region sheets, shared provider fragments, provider list and press release sheets, new blocks and templates, form submission addresses, and the search index setup.</li>
+      </ul>
+
+      <h3>Getting started</h3>
+      <ul>
+        <li><strong>Access:</strong> Document Authoring access to the adobedrago/highmark site, and a role for preview and publish. Ask the site administrator. The AEM Sidekick extension is optional.</li>
+        <li><strong>How a page is built:</strong> a DA document is one page, and its path is its URL. Sections are split by horizontal rules. Blocks are tables whose first row names the block. Section Metadata and Page Metadata are small tables.</li>
+        <li><strong>First page:</strong> copy a live page of the same kind, which brings the right blocks, sections, and metadata. Edit text and images, keep one H1, check Title, Description, and Template, then Preview and Publish.</li>
+      </ul>
+
+      <h3>Sections and page metadata</h3>
+      <ul>
+        <li><strong>Section styles:</strong> light, accent, light-blue, blue, highlight, dark, grey, and center. Styles are typed in lowercase with hyphens. An unknown style does nothing.</li>
+        <li><strong>Template-only styles:</strong> for example faq right-rail, spacers, glossary-letters, provider notice and spotlight, and topic-hub-landing hero-wide. Use them as the example pages do.</li>
+        <li><strong>Page metadata:</strong> Title and Description are required. Template is usually required. Breadcrumbs: true turns on the breadcrumb trail. Breadcrumb Title sets the short label. Theme: shop turns on the ZIP modal and region links.</li>
+      </ul>
+
+      <h3>Blocks</h3>
+      <ul>
+        <li><strong>Inserting:</strong> use the Blocks entry in the DA Library panel. Each Highmark block lists real example variants. Do not use the starter blocks from the AEM Block Collection (Accordion, Carousel, Embed, Form, Hero, Quote, Tabs, Video); use Accordion Minimal Light, Hero Minimal Dark Withimg, and Form Minimal Light instead.</li>
+        <li><strong>Heroes:</strong> Hero Minimal Dark Withimg takes one image, or three in order desktop, tablet, mobile. Only the first image's alt text is used. Hero Minimal Light is a light blue title band with a centered H1 and intro.</li>
+        <li><strong>Cards:</strong> Cards Minimal Dark Withimg (image, heading, text, CTA), Cards Minimal Dark Withimg 2 (two wide promo cards), Cards Minimal Dark Withimg Icons, Cards Minimal Dark List (text-only cards), and Cards Minimal Dark Iconnav (navy quick-link bar).</li>
+        <li><strong>Columns and accordions:</strong> Columns Minimal Dark (text beside a photo), Columns Minimal Dark Overlay (text over a full-width photo), Accordion Minimal Light (FAQ question and answer rows), and Table Minimal Dark Compare for comparison tables.</li>
+        <li><strong>Navigation and panels:</strong> Cards Minimal Light Sidenav (left-hand section menu), Provider Sidenav, Provider Panel, Provider List, and Press Release List. Search and Forms Library render the results and form lists.</li>
+        <li><strong>Forms:</strong> Form Minimal Light holds a field sheet with ten columns: Name, Type, Label, Placeholder, Value, Options, Mandatory, Style, Id, Fieldset. A missing column breaks the form. Do not change the submit address.</li>
+        <li><strong>Other:</strong> Fragment (shared content by path), Alert Banner (one per page, at the top of the first section), and modals (create <code>/modals/&lt;name&gt;</code> and link to it; the link opens as a pop-up).</li>
+      </ul>
+
+      <h3>Links, icons and headings</h3>
+      <ul>
+        <li><strong>Buttons:</strong> a link alone in its paragraph becomes a button. Bold is the filled button on most pages. Lists of links go in one paragraph with Shift+Enter line breaks.</li>
+        <li><strong>Relative links:</strong> link to pages on this site with relative paths. An absolute highmark.com link leaves the site even when the page exists here.</li>
+        <li><strong>Icons:</strong> <code>:pdf:</code> after PDF links, <code>:lock:</code> after items behind the Availity login, <code>:external-link:</code> on FAQ links that should open a new tab.</li>
+        <li><strong>Headings:</strong> each heading gets an ID from its text, so link with <code>#</code> plus the ID. Some layouts are keyed to heading text. Ask the development team before renaming those headings.</li>
+      </ul>
+
+      <h3>Publishing</h3>
+      <ul>
+        <li><strong>Preview, then publish:</strong> saving in DA changes neither preview nor live. Preview checks your change on aem.page, and Publish puts it on aem.live.</li>
+        <li><strong>Fragments and sheets:</strong> publishing a page does not publish the fragments, modal pages, or sheets it uses. Publish each one you changed. Sheet URLs end in <code>.json</code>.</li>
+        <li><strong>Shared documents:</strong> <code>/index</code>, <code>/nav</code>, and <code>/footer</code> are used by every visitor. Preview each one and compare it with live before publishing. If it holds changes you did not make, check version history and ask the team.</li>
+        <li><strong>Bulk:</strong> paste many URLs into the bulk tool at da.live/apps/bulk to preview or publish them together.</li>
+        <li><strong>Redirects:</strong> a redirect row hides a page at the same path. Ask the development team to regenerate and publish <code>/redirects</code> with any new page. Deleting or moving a page needs a redirect from the old URL first.</li>
+      </ul>
+
+      <h3>Shop pages and the ZIP modal</h3>
+      <ul>
+        <li><strong>ZIP modal:</strong> on every page with Theme: shop, the modal opens until the visitor chooses a ZIP code and county. The choice is saved in the browser. Any link to <code>/modals/zip-county</code> opens it again.</li>
+        <li><strong>Regions:</strong> eight regions (WPA, CPA, SEPA, NEPA, DE, WV, WNY, NENY). Add a Regions row to Section Metadata with region codes to show a section only to those visitors. Use <code>none</code> for visitors who have not chosen a ZIP.</li>
+        <li><strong>Region tokens:</strong> use <code>{{zip}}</code>, <code>{{county}}</code>, <code>{{region-code}}</code>, <code>{{brand}}</code>, <code>{{brochure}}</code>, and similar in link URLs only. A line with an empty token stays hidden for that region.</li>
+        <li><strong>Shop page templates:</strong> shop-home (plan cards, location line, learn-more), shop-page (info pages and enrollment forms), and flip-cards for life-event pages.</li>
+      </ul>
+
+      <h3>Providers and page templates</h3>
+      <ul>
+        <li><strong>Provider pages:</strong> landing pages use Template: providers. Content, manual, and news pages use Template: provider-content, with a Provider Sidenav block first, then the article, then an optional rail. News articles start with a topic link, the H1, region codes, and a Published Date line.</li>
+        <li><strong>Corporate templates:</strong> home, about-article, leadership, leadership-bio, topic-hub-landing, topic-hub-subnav, spending-account, faq, glossary, legal, contact, media-contacts, and employer and campaign templates. Copy the example page for each.</li>
+        <li><strong>Regional member pages:</strong> Template: member-regional, with nav and footer set to that region's fragments. Sub-pages use faq or legal with member-subpage as the second value.</li>
+        <li><strong>Default layout:</strong> pages with no template get the site's default layout.</li>
+      </ul>
+
+      <h3>Configuration sheets</h3>
+      <ul>
+        <li><strong>Authors update:</strong> <code>/metadata</code> (bulk metadata by URL pattern, only after checking with the team), <code>/search-suggestions</code> (suggestion and link), <code>/shop/zip-county-form</code> (labels and button text, keeping the field names), and form field sheets.</li>
+        <li><strong>Development team generates:</strong> <code>/redirects</code>, <code>/shop/regions</code>, <code>/shop/zip-counties</code>, provider list sheets, press release and event sheets, and <code>/docs/library/blocks</code>.</li>
+      </ul>
+
+      <h3>Images and media</h3>
+      <ul>
+        <li><strong>Adding images:</strong> drag into the DA editor, or replace in place. Images are stored in the page's dot-folder. Always add alt text.</li>
+        <li><strong>Sizes:</strong> Cards Minimal Dark Withimg uses 470 by 200 for two across and 370 by 200 for three across. Cards Minimal Dark Withimg 2 crops to fill, so keep the subject centered. SVG files over 40 KB are rejected.</li>
+        <li><strong>Share image:</strong> if you set Image in metadata, it must load on preview or the share image breaks. Leave the row out to use the first image.</li>
+        <li><strong>Video:</strong> a link to an <code>.mp4</code> alone in a Columns Minimal Dark cell plays inline. YouTube and Vimeo embeds are not styled yet.</li>
+      </ul>
+    </section>
+
+    <section id="shared" class="shared">
+      <div class="eyebrow">Shared reference</div>
+      <h2>Common to both guides</h2>
+      <p class="lead">These topics appear in both guides. They are collapsed here so they are not repeated. Expand any topic to read it.</p>
+
+      <details>
+        <summary>Project URLs and environments</summary>
+        <table class="tbl">
+          <thead><tr><th>Resource</th><th>URL</th></tr></thead>
+          <tbody>
+            <tr><td>Code repository</td><td>https://github.com/AdobeDrago/highmark (branch main)</td></tr>
+            <tr><td>Preview</td><td>https://main--highmark--adobedrago.aem.page/</td></tr>
+            <tr><td>Live</td><td>https://main--highmark--adobedrago.aem.live/</td></tr>
+            <tr><td>Branch preview</td><td>https://branch--highmark--adobedrago.aem.page/</td></tr>
+            <tr><td>Local development</td><td>http://localhost:3000/ (aem up)</td></tr>
+            <tr><td>Document Authoring</td><td>https://da.live/#/adobedrago/highmark/</td></tr>
+            <tr><td>Admin API</td><td>https://admin.hlx.page/</td></tr>
+            <tr><td>DA Source API</td><td>https://admin.da.live/</td></tr>
+          </tbody>
+        </table>
+        <p>The site is one standard site, adobedrago / highmark, with no production CDN configured yet; aem.live is the production host. Site configuration lives in the Config Service, not in the repo.</p>
+      </details>
+
+      <details>
+        <summary>Access and sign-in</summary>
+        <ul>
+          <li>Preview and publish require sign-in. Your account needs a role in the site's access config. Ask the site administrator.</li>
+          <li>Admin API calls use an <code>x-auth-token</code> from the admin login. DA Source API and tool calls use an IMS token, which expires in about 24 hours.</li>
+          <li>Nothing is stored in the repo.</li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Troubleshooting</summary>
+        <table class="tbl">
+          <thead><tr><th>Issue</th><th>What to check</th></tr></thead>
+          <tbody>
+            <tr><td>Published page still goes to highmark.com</td><td>A <code>/redirects</code> row covers its path. Ask the development team to regenerate and publish the sheet.</td></tr>
+            <tr><td>Page not updating after publish</td><td>Confirm you published, not only previewed. Wait a minute or two, then hard refresh.</td></tr>
+            <tr><td>Header, footer, or side nav change not showing</td><td>Fragments are published separately. Publish the fragment.</td></tr>
+            <tr><td>Page missing from search or breadcrumbs</td><td>It was published while a redirect covered its path. Ask for a re-index.</td></tr>
+            <tr><td>Shop region links missing</td><td>No ZIP chosen yet, or no value for that region in the regions sheet.</td></tr>
+            <tr><td>Layout changed after a heading rename</td><td>Some layouts are keyed to heading text. Restore the heading or ask the team.</td></tr>
+          </tbody>
+        </table>
+      </details>
+
+      <details>
+        <summary>Resources and support contacts</summary>
+        <ul>
+          <li>AEM Edge Delivery Services documentation: https://www.aem.live/docs/</li>
+          <li>Document Authoring documentation: https://docs.da.live/</li>
+          <li>Authoring on AEM Edge Delivery Services: https://www.aem.live/docs/authoring</li>
+          <li>AEM Sidekick: https://www.aem.live/docs/sidekick</li>
+          <li>Redirects and bulk metadata: https://www.aem.live/docs/redirects and https://www.aem.live/docs/bulk-metadata</li>
+          <li>Site access, redirects, generated sheets, and code questions: contacts to be confirmed by the site administrator and development lead.</li>
+          <li>Adobe support: contact to be confirmed through the Adobe account team.</li>
+        </ul>
+      </details>
     </section>
 
     <section id="objective">
@@ -304,6 +536,7 @@ h2{font-size:28px;line-height:1.2;letter-spacing:-.02em;font-weight:700;margin:6
 <script>
 /*BRIEF_CONFIG_START*/
 const BRIEF = {
+  "hideSections": ["types","roadmap","plan","cost"],
   "meta": {
     "pageTitle": "Highmark Health Edge Migration | Activation Proposal",
     "sidebarLabel": "Highmark | Activation Proposal",
@@ -589,7 +822,7 @@ document.getElementById('metaLine').innerHTML = `Created by ${esc(BRIEF.meta.cre
 document.getElementById('pills').innerHTML = (BRIEF.hero.pills || []).map(p => `<span>${esc(fill(p))}</span>`).join('');
 
 /* ---------- stats ---------- */
-document.getElementById('stats').innerHTML = (BRIEF.overview.stats || []).map(s =>
+if (document.getElementById('stats')) document.getElementById('stats').innerHTML = (BRIEF.overview.stats || []).map(s =>
   `<div class="stat"><div class="big">${esc(fill(s.big))}</div><b>${esc(fill(s.label))}</b><span>${esc(fill(s.sub))}</span></div>`).join('');
 
 /* ---------- agents inside the template ---------- */
@@ -665,9 +898,9 @@ document.getElementById('costFoot').innerHTML =
 hidden.forEach(id => { const el = document.getElementById(id); if (el) el.remove(); });
 
 /* ---------- left nav (built from the sections that remain) ---------- */
-const NAV_IDS = ['problem','overview','objective','types','roadmap','plan','cost'].filter(id => document.getElementById(id));
+const NAV_IDS = ['problem','developer','author','shared','objective','types','roadmap','plan','cost'].filter(id => document.getElementById(id));
 document.getElementById('nav').innerHTML = NAV_IDS.map((id,i) =>
-  `<a href="#${id}"${i === 0 ? ' class="active"' : ''}>${esc(fill((BRIEF[id] && (BRIEF[id].nav || BRIEF[id].eyebrow)) || id))}</a>`).join('');
+  `<a href="#${id}"${i === 0 ? ' class="active"' : ''}>${esc({developer:'Developer guide', author:'Author guide', shared:'Shared reference'}[id] || fill((BRIEF[id] && (BRIEF[id].nav || BRIEF[id].eyebrow)) || id))}</a>`).join('');
 
 /* ---------- modal ---------- */
 const overlay = document.getElementById('overlay');
