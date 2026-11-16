@@ -396,6 +396,11 @@ async function loadEager(doc) {
     decorateLegalLinks(main);
     decorateFaqLinks(main);
     decorateSectionTabs(main);
+    // the guides under /docs/guides/ get a documentation layout: sidebar, contents, framed examples
+    if (doc.body.classList.contains('docs')) {
+      const { default: decorateDocs } = await import('./docs.js');
+      decorateDocs(main);
+    }
     await templateStyles;
     doc.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);

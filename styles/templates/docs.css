@@ -1,5 +1,298 @@
-/* Template: docs. The author, developer and admin guides under /docs/: no site header or footer. */
+/* Template: docs. The author, developer and admin guides under /docs/guides/. */
+body.docs {
+  --docs-navy: var(--dark-color, #003963);
+  --docs-tint: #d9ebf6;
+  --docs-wash: var(--light-color, #f7fbfd);
+  --docs-line: #d5dee6;
+  --docs-muted: #4b5b6b;
+  --docs-sidebar: 280px;
+  --docs-measure: 72ch;
+  --docs-gutter: clamp(20px, 4vw, 56px);
+
+  background: #fff;
+}
+
 body.docs header,
-body.docs footer {
+body.docs footer,
+body.docs .breadcrumbs-wrapper {
   display: none;
+}
+
+body.docs main a {
+  overflow-wrap: anywhere;
+}
+
+/* sidebar */
+body.docs .docs-sidebar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+  padding: 12px var(--docs-gutter);
+  background: #fff;
+  border-bottom: 1px solid var(--docs-line);
+  font-size: 15px;
+}
+
+body.docs .docs-brand {
+  color: var(--docs-navy);
+  font-family: sofia-pro, 'Helvetica Neue', helvetica, arial, sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+body.docs .docs-brand span {
+  font-weight: 400;
+}
+
+body.docs .docs-switch {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--docs-wash);
+  border: 1px solid var(--docs-line);
+}
+
+body.docs .docs-switch a {
+  padding: 4px 14px;
+  border-radius: 999px;
+  color: var(--docs-navy);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+body.docs .docs-switch a[aria-current] {
+  background: var(--docs-navy);
+  color: #fff;
+}
+
+body.docs .docs-menu {
+  flex-basis: 100%;
+}
+
+body.docs .docs-menu summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--docs-navy);
+}
+
+body.docs .docs-pages,
+body.docs .docs-toc {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+body.docs .docs-pages {
+  padding: 8px 0 4px;
+}
+
+body.docs .docs-pages a {
+  display: block;
+  padding: 6px 12px;
+  border-left: 3px solid transparent;
+  color: var(--docs-navy);
+  text-decoration: none;
+  line-height: 1.35;
+}
+
+body.docs .docs-toc a {
+  padding: 4px 12px;
+  font-size: 14px;
+  color: var(--docs-muted);
+}
+
+body.docs .docs-toc a[aria-current] {
+  color: var(--docs-navy);
+  font-weight: 700;
+}
+
+body.docs .docs-pages a:hover {
+  background: var(--docs-wash);
+}
+
+body.docs .docs-pages > li > a[aria-current] {
+  border-left-color: var(--docs-navy);
+  background: var(--docs-tint);
+  font-weight: 700;
+}
+
+body.docs .docs-toc {
+  margin: 2px 0 8px 12px;
+  border-left: 1px solid var(--docs-line);
+}
+
+@media (width >= 1024px) {
+  body.docs .docs-sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: var(--docs-sidebar);
+    flex-flow: column nowrap;
+    align-items: stretch;
+    gap: 16px;
+    padding: 28px 16px 28px 20px;
+    overflow-y: auto;
+    border-bottom: 0;
+    border-right: 1px solid var(--docs-line);
+    background: var(--docs-wash);
+  }
+
+  body.docs .docs-switch {
+    align-self: flex-start;
+  }
+
+  body.docs .docs-menu summary {
+    display: none;
+  }
+
+  body.docs main {
+    margin-left: var(--docs-sidebar);
+  }
+}
+
+/* content column */
+body.docs main > .section:not(.docs-example) {
+  padding: 0 var(--docs-gutter);
+  background: none;
+}
+
+body.docs main > .section:not(.docs-example) > div {
+  max-width: 1080px;
+  margin: 0;
+  padding: 0;
+}
+
+body.docs main .default-content-wrapper > :is(p, ul, ol, h2, h3, h4):not(.docs-example-label) {
+  max-width: var(--docs-measure);
+}
+
+body.docs main h2 {
+  margin: 48px 0 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--docs-line);
+  font-size: 28px;
+  scroll-margin-top: 80px;
+}
+
+body.docs main h3 {
+  margin: 28px 0 8px;
+  font-size: 20px;
+  scroll-margin-top: 80px;
+}
+
+body.docs main p,
+body.docs main li {
+  line-height: 1.6;
+}
+
+/* compact title */
+body.docs .docs-title .hero-minimal-light {
+  padding: 0;
+  background: none;
+}
+
+body.docs .docs-title .hero-minimal-light,
+body.docs .docs-title .hero-minimal-light * {
+  text-align: left;
+}
+
+body.docs main .docs-title .hero-minimal-light > div,
+body.docs main .docs-title .hero-minimal-light > div > div {
+  max-width: var(--docs-measure);
+  margin: 0;
+  padding: 0;
+}
+
+body.docs .docs-title .hero-minimal-light h1 {
+  margin: 0 0 8px;
+  font-size: clamp(32px, 4vw, 44px);
+  line-height: 1.1;
+}
+
+body.docs .docs-title .hero-minimal-light p {
+  margin: 0;
+  color: var(--docs-muted);
+  font-size: 18px;
+}
+
+/* code: wrap inline, scroll blocks */
+body.docs main code {
+  overflow-wrap: anywhere;
+}
+
+body.docs main pre {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 14px 16px;
+  border: 1px solid var(--docs-line);
+  border-radius: 6px;
+  background: var(--docs-wash);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+body.docs main pre code {
+  overflow-wrap: normal;
+}
+
+/* tables */
+body.docs main .table-wrapper {
+  overflow-x: auto;
+}
+
+body.docs main .table table {
+  font-size: 15px;
+}
+
+/* live examples: framed specimens, not part of the guide's flow */
+body.docs main > .docs-example {
+  position: relative;
+  margin: 8px var(--docs-gutter) 32px;
+  max-width: 1080px;
+  border: 1px solid var(--docs-line);
+  border-radius: 10px;
+  overflow: clip;
+  background: #fff;
+  box-shadow: 0 1px 2px rgb(0 57 99 / 6%);
+}
+
+body.docs main > .docs-example > .default-content-wrapper {
+  margin: 0;
+  max-width: none;
+  padding: 0;
+}
+
+body.docs .docs-example-label {
+  max-width: none;
+  margin: 0;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--docs-line);
+  background: var(--docs-wash);
+  color: var(--docs-muted);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+body.docs .docs-example-label::before {
+  content: 'Live example · ';
+  color: var(--docs-navy);
+}
+
+/* page foot */
+body.docs main > .docs-pagefoot {
+  margin-top: 56px;
+  padding-top: 20px;
+  padding-bottom: 48px;
+  border-top: 1px solid var(--docs-line);
+  color: var(--docs-muted);
+  font-size: 14px;
+}
+
+body.docs main > .docs-pagefoot em {
+  font-style: normal;
 }
